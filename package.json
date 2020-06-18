@@ -1,0 +1,141 @@
+{
+  "name": "frontend",
+  "version": "1.2.1",
+  "private": true,
+  "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^17.0.0",
+    "@ckeditor/ckeditor5-react": "^2.1.0",
+    "@emotion/core": "^10.0.5",
+    "@emotion/styled": "^10.0.5",
+    "@formatjs/intl-relativetimeformat": "^4.5.11",
+    "@fortawesome/fontawesome-svg-core": "^1.2.27",
+    "@fortawesome/free-brands-svg-icons": "^5.12.1",
+    "@fortawesome/free-regular-svg-icons": "^5.13.0",
+    "@fortawesome/free-solid-svg-icons": "5.12.1",
+    "@fortawesome/react-fontawesome": "0.1.9",
+    "@popperjs/core": "^2.2.2",
+    "@sentry/browser": "^5.15.5",
+    "@tanem/react-nprogress": "^3.0.22",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@zeit/next-source-maps": "^0.0.3",
+    "autoprefixer": "7.1.6",
+    "axios": "^0.18.1",
+    "bulma": "^0.7.2",
+    "classnames": "^2.2.6",
+    "color": "^3.1.2",
+    "css-loader": "0.28.7",
+    "dotenv": "4.0.0",
+    "emotion": "^10.0.27",
+    "emotion-server": "^10.0.27",
+    "emotion-theming": "^10.0.27",
+    "filesize": "^6.0.1",
+    "final-form": "^4.18.6",
+    "intl": "^1.2.5",
+    "jwt-decode": "^2.2.0",
+    "lodash": "^4.17.13",
+    "mousetrap": "^1.6.5",
+    "negotiator": "^0.6.2",
+    "next": "^9.3.3",
+    "normalizr": "^3.3.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-final-form": "^6.3.3",
+    "react-helmet": "^5.2.1",
+    "react-input-mask": "^2.0.4",
+    "react-intl": "^3.9.1",
+    "react-popper": "^2.2.2",
+    "react-router": "5.1.2",
+    "react-router-dom": "5.1.2",
+    "react-spinners": "^0.5.1",
+    "react-transition-group": "^2.5.2",
+    "universal-cookie": "^4.0.3",
+    "yup": "^0.26.6"
+  },
+  "devDependencies": {
+    "@types/classnames": "^2.2.7",
+    "@types/color": "^3.0.1",
+    "@types/jest": "^24.0.0",
+    "@types/jwt-decode": "^2.2.1",
+    "@types/lodash": "^4.14.120",
+    "@types/mousetrap": "^1.6.3",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-helmet": "^5.0.15",
+    "@types/react-input-mask": "^2.0.5",
+    "@types/react-router": "5.1.2",
+    "@types/react-router-dom": "5.1.2",
+    "@types/react-transition-group": "^2.0.15",
+    "@types/yup": "^0.26.4",
+    "@typescript-eslint/eslint-plugin": "2.x",
+    "@typescript-eslint/parser": "2.x",
+    "@welldone-software/why-did-you-render": "^3.5.0",
+    "babel-eslint": "10.x",
+    "babel-plugin-emotion": "^10.0.5",
+    "eslint": "6.x",
+    "eslint-config-react-app": "^5.2.1",
+    "eslint-plugin-flowtype": "4.x",
+    "eslint-plugin-import": "2.x",
+    "eslint-plugin-jsx-a11y": "6.x",
+    "eslint-plugin-react": "7.x",
+    "eslint-plugin-react-hooks": "2.x",
+    "fast-deep-equal": "^3.1.1",
+    "glob": "^7.1.4",
+    "prettier": "^1.19.1",
+    "typescript": "~3.7.2"
+  },
+  "scripts": {
+    "pretty": "prettier --write \"./src/**/*.{ts,tsx,js,jsx,json}\"",
+    "lint": "eslint \"./src/**/*.{ts,tsx,js,jsx}\"",
+    "dev": "node server.js",
+    "start": "env NODE_ENV=production node server.js",
+    "build": "next build"
+  },
+  "eslintConfig": {
+    "extends": "react-app",
+    "plugins": [
+      "import"
+    ],
+    "rules": {
+      "import/order": [
+        "error",
+        {
+          "pathGroups": [
+            {
+              "pattern": "~(src|.)/**",
+              "group": "builtin",
+              "position": "after"
+            },
+            {
+              "pattern": "src/**",
+              "group": "external",
+              "position": "after"
+            }
+          ],
+          "pathGroupsExcludedImportTypes": [
+            "builtin"
+          ],
+          "newlines-between": "always",
+          "alphabetize": {
+            "order": "asc",
+            "caseInsensitive": true
+          }
+        }
+      ]
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

@@ -1,0 +1,2 @@
+#!/bin/bash
+docker build -t $IMAGE_NAME --build-arg SENTRY_DSN=$SENTRY_DSN --build-arg YM_ACCOUNT_ID=$YM_ACCOUNT_ID -f $DOCKERFILE_PATH .

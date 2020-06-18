@@ -1,0 +1,92 @@
+import * as React from 'react';
+
+import { IProductForProductTypeResponseItem } from 'src/api/ProductAPI';
+import { IProductTypeDetailResponseItem } from 'src/api/ProductTypeAPI';
+import { IProductService } from 'src/services/ProductService';
+import { IProductTypeService } from 'src/services/ProductTypeService';
+
+export interface IProps {
+  View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
+  productTypeService: IProductTypeService;
+  productService: IProductService;
+  id?: number;
+  actionText: string;
+  action?: (product: IProductForProductTypeResponseItem) => void;
+  initialProps?: {
+    productType: IProductTypeDetailResponseItem | null;
+    products: IProductForProductTypeResponseItem[];
+    error?: string;
+  };
+}
+
+export interface IViewProps {
+  productType: IProductTypeDetailResponseItem | null;
+  products: IProductForProductTypeResponseItem[];
+  error: string | undefined;
+  isLoading: boolean;
+  action: IProps['action'];
+  actionText: IProps['actionText'];
+}
+
+export const ProductTypePagePresenter: React.FC<IProps> = ({
+  View,
+  productService,
+  productTypeService,
+  id,
+  action,
+  actionText,
+  initialProps,
+}) => {
+  const [error, setError] = React.useState<string | undefined>(initialProps ? initialProps.error : undefined);
+  const [isLoading, setLoading] = React.useState<boolean>(initialProps ? false : true);
+  const [productType, setProductType] = React.useState<null | IProductTypeDetailResponseItem>(
+    initialProps ? initialProps.productType : null,
+  );
+  const [products, setProducts] = React.useState<IProductForProductTypeResponseItem[]>(
+    initialProps ? initialProps.products : [],
+  );
+
+  React.useEffect(() => {
+    if (initialProps && !initialProps.productType) {
+      setError('ProductPage.notFound');
+    } else if (id && !initialProps) {
+      (async () => {
+        try {
+          const productType = await productTypeService.getByID(id);
+          if (productType) {
+            const products = await productService.getForProductType(productType.id);
+            setProductType(productType);
+            setProducts(products);
+          } else {
+            setError('ProductPage.notFound');
+          }
+        } catch (e) {
+          setError('errors.common');
+        } finally {
+          setLoading(false);
+        }
+      })();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  // When searching on product type page initialProps are changing and needed to be set to state
+  React.useEffect(() => {
+    if (initialProps) {
+      setError(initialProps.error);
+      setProductType(initialProps.productType);
+      setProducts(initialProps.products);
+    }
+  }, [initialProps]);
+
+  return (
+    <View
+      actionText={actionText}
+      action={action}
+      isLoading={isLoading}
+      productType={productType}
+      products={products}
+      error={error}
+    />
+  );
+};

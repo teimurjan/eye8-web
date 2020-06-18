@@ -1,0 +1,297 @@
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
+import { useTheme } from 'emotion-theming';
+import uniqBy from 'lodash/uniqBy';
+import Head from 'next/head';
+import * as React from 'react';
+import { useIntl } from 'react-intl';
+
+import { Container } from 'src/components/admin-ui/Container/Container';
+import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
+import { Button } from 'src/components/client-ui/Button/Button';
+import { ErrorLayout } from 'src/components/client-ui/ErrorLayout/ErrorLayout';
+import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout';
+import { Select } from 'src/components/client-ui/Select/Select';
+import { Subtitle } from 'src/components/client-ui/Subtitle/Subtitle';
+import { Title } from 'src/components/client-ui/Title/Title';
+import { PriceCrossedText } from 'src/components/Client/Price/Price';
+import { ProductTypeImageCarousel } from 'src/components/Client/ProductType/ProductTypeImageCarousel/ProductTypeImageCarousel';
+import { IViewProps as IProps } from 'src/components/Client/ProductTypePage/ProductTypePagePresenter';
+import { NotFoundView } from 'src/components/common-ui/NotFound/NotFoundView';
+import { fadeInFromLeft, fadeInFromRight, fadeInFromBottom } from 'src/styles/keyframes';
+import { mediaQueries } from 'src/styles/media';
+import { easeOutCubic } from 'src/styles/timing-functions';
+import { formatMediaURL } from 'src/utils/url';
+
+const getAllFeatureValuesGroupedByType = (
+  products: IProps['products'],
+  allFeatureTypes: Array<IProps['products'][0]['feature_values'][0]['feature_type']>,
+) =>
+  allFeatureTypes.reduce<{ [key: string]: IProps['products'][0]['feature_values'] }>(
+    (acc, featureType) => ({
+      ...acc,
+      [featureType.id]: products.reduce(
+        (acc, product) =>
+          uniqBy(
+            [...acc, ...product.feature_values.filter(featureValue => featureValue.feature_type.id === featureType.id)],
+            'id',
+          ),
+        [] as IProps['products'][0]['feature_values'],
+      ),
+    }),
+    {},
+  );
+
+export const ProductTypePageView = ({ productType, products, error, isLoading, action, actionText }: IProps) => {
+  const intl = useIntl();
+  const theme = useTheme<ClientUITheme>();
+  const [activeImageIndex, setActiveImageIndex] = React.useState(0);
+
+  const allImages = products
+    .reduce((acc, product) => [...acc, ...product.images], [...(productType ? [productType.image] : [])])
+    .map(formatMediaURL);
+
+  const allFeatureTypes =
+    products.length > 0 ? products[0].feature_values.map(featureValue => featureValue.feature_type) : [];
+
+  const allFeatureValuesGroupedByFeatureType = getAllFeatureValuesGroupedByType(products, allFeatureTypes);
+  const initialFeatureValues = React.useMemo(
+    () =>
+      Object.keys(allFeatureValuesGroupedByFeatureType).reduce((acc, featureTypeId) => {
+        const featueValues = allFeatureValuesGroupedByFeatureType[featureTypeId];
+        return { ...acc, [featureTypeId]: featueValues.length > 0 ? featueValues[0].id : undefined };
+      }, {}),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [...Object.keys(allFeatureValuesGroupedByFeatureType), productType?.id],
+  );
+  const [chosenFeatureValues, setChosenFeatureValues] = React.useState<{ [key: string]: number }>(initialFeatureValues);
+
+  React.useEffect(() => {
+    setChosenFeatureValues(initialFeatureValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialFeatureValues]);
+
+  const matchingProduct = products.find(product =>
+    product.feature_values.every(featureValue => chosenFeatureValues[featureValue.feature_type.id] === featureValue.id),
+  );
+
+  const autoChangeImage = React.useCallback(() => {
+    const activeImage = allImages[activeImageIndex];
+    if (matchingProduct && matchingProduct.images.indexOf(activeImage) === -1) {
+      if (matchingProduct.images[0]) {
+        setActiveImageIndex(allImages.indexOf(matchingProduct.images[0]));
+      }
+    }
+  }, [activeImageIndex, allImages, matchingProduct]);
+
+  const onFeatureValueChange = React.useCallback(
+    (featureTypeId: number, featureValueId?: number) => {
+      setChosenFeatureValues({ ...chosenFeatureValues, [featureTypeId]: featureValueId });
+      autoChangeImage();
+    },
+    [autoChangeImage, chosenFeatureValues],
+  );
+
+  const onActionClick = React.useCallback(() => {
+    if (matchingProduct && action) {
+      action(matchingProduct);
+    }
+  }, [action, matchingProduct]);
+
+  if (isLoading) {
+    return <LoaderLayout />;
+  }
+
+  if (error) {
+    return <ErrorLayout>{intl.formatMessage({ id: error })}</ErrorLayout>;
+  }
+
+  const getOptions = (featureType: IProps['products'][0]['feature_values'][0]['feature_type']) =>
+    allFeatureValuesGroupedByFeatureType[featureType.id].map(featureValue => ({
+      title: featureValue.name,
+      value: featureValue.id.toString(),
+    }));
+
+  return productType ? (
+    <div
+      css={css`
+        margin-top: 20px;
+      `}
+    >
+      <Container>
+        <Head>
+          <title>{productType.name}</title>
+          <meta name="description" content={productType.short_description} />
+          <meta property="og:title" content={productType.name} />
+          <meta property="og:description" content={productType.short_description} />
+          <meta property="og:type" content="og:product" />
+          {matchingProduct && <meta property="product:price:amount" content={matchingProduct.price.toString()} />}
+          {matchingProduct && <meta property="product:price:currency" content="USD" />}
+          <meta property="og:image" content={productType.image} />
+          <meta name="twitter:title" content={productType.name} />
+          <meta name="twitter:description" content={productType.short_description} />
+          <meta name="twitter:image:src" content={productType.image} />
+        </Head>
+        <div
+          css={css`
+            align-items: center;
+            margin-bottom: 1.5rem;
+            display: flex;
+
+            @media ${mediaQueries.maxWidth768} {
+              flex-direction: column;
+            }
+          `}
+        >
+          <div
+            css={css`
+              display: flex;
+              justify-content: flex-start;
+              width: 30vw;
+              animation: ${fadeInFromLeft} 700ms ${easeOutCubic};
+
+              @media ${mediaQueries.maxWidth768} {
+                width: 100%;
+                animation: ${fadeInFromBottom} 500ms ${easeOutCubic};
+              }
+            `}
+          >
+            <ProductTypeImageCarousel
+              images={allImages}
+              activeImageIndex={activeImageIndex}
+              setActiveImageIndex={setActiveImageIndex}
+            />
+          </div>
+          <div
+            css={css`
+              display: flex;
+              padding: 0 0 7.5vw 50px;
+              flex-direction: column;
+              width: calc(100% - 30vw);
+              animation: ${fadeInFromRight} 700ms ${easeOutCubic};
+
+              @media ${mediaQueries.maxWidth768} {
+                padding: 25px 0 0 0;
+                width: 100%;
+                animation: ${fadeInFromBottom} 700ms ${easeOutCubic};
+              }
+            `}
+          >
+            <div
+              css={css`
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+              `}
+            >
+              <Title
+                css={css`
+                  flex: 0 0 60%;
+                `}
+                size={2}
+              >
+                {productType.name}
+              </Title>
+              {matchingProduct && matchingProduct.quantity > 0 && (
+                <Subtitle
+                  css={css`
+                    color: ${theme.textColor};
+
+                    del {
+                      color: ${theme.textSecondaryColor};
+                      font-size: 18px;
+                    }
+                  `}
+                  size={3}
+                >
+                  <PriceCrossedText price={matchingProduct.price} discount={matchingProduct.discount} />
+                </Subtitle>
+              )}
+              {matchingProduct && matchingProduct.quantity === 0 && (
+                <Subtitle size={3}>{intl.formatMessage({ id: 'ProductPage.sold' })}</Subtitle>
+              )}
+              {products.length === 0 && (
+                <Subtitle size={3}>{intl.formatMessage({ id: 'ProductPage.notInStock' })}</Subtitle>
+              )}
+            </div>
+            {allFeatureTypes.map(featureType => {
+              const chosenFeatureValue = chosenFeatureValues[featureType.id];
+              return (
+                <Select
+                  css={css`
+                    margin-bottom: 20px;
+                  `}
+                  key={featureType.id}
+                  value={chosenFeatureValue ? chosenFeatureValue.toString() : undefined}
+                  onChange={value => onFeatureValueChange(featureType.id, value ? parseInt(value, 10) : undefined)}
+                  placeholder={featureType.name}
+                >
+                  {getOptions(featureType).map(option => (
+                    <Select.Option key={option.value} value={option.value}>
+                      {option.title}
+                    </Select.Option>
+                  ))}
+                </Select>
+              );
+            })}
+            <Subtitle
+              css={css`
+                width: 100%;
+              `}
+              size={6}
+            >
+              {productType.short_description}
+            </Subtitle>
+            {matchingProduct && matchingProduct.quantity > 0 && (
+              <Button
+                color="dark"
+                onClick={onActionClick}
+                css={css`
+                  margin-top: 20px;
+                `}
+              >
+                {actionText}
+              </Button>
+            )}
+            <Anchor
+              css={css`
+                padding-top: 15px;
+                margin-top: 15px;
+                border-top: 1px solid ${theme.borderColor};
+              `}
+              primary
+              href="/categories/[id]/products"
+              asPath={`/categories/${productType.category.slug}/products`}
+            >
+              &gt;{' '}
+              {intl.formatMessage({ id: 'ProductTypePage.findMoreForCategory' }, { value: productType.category.name })}
+            </Anchor>
+            <Anchor primary href="/how-it-works">
+              &gt; {intl.formatMessage({ id: 'HowItWorks.help' })}
+            </Anchor>
+          </div>
+        </div>
+      </Container>
+      <div
+        css={css`
+          background-color: ${theme.backgroundSecondaryColor};
+          padding: 30px 0;
+          border-top: 1px solid ${theme.borderColor};
+          border-bottom: 1px solid ${theme.borderColor};
+        `}
+      >
+        <Container>
+          <div
+            css={css`
+              animation: ${fadeInFromBottom} 700ms ${easeOutCubic};
+            `}
+            className="content"
+            dangerouslySetInnerHTML={{ __html: productType.description }}
+          />
+        </Container>
+      </div>
+    </div>
+  ) : (
+    <NotFoundView />
+  );
+};
