@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "private": true,
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^17.0.0",
@@ -88,7 +88,7 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "pretty": "prettier --write \"./src/**/*.{ts,tsx,js,jsx,json}\"",
+    "pretty": "prettier --loglevel=silent --write \"./src/**/*.{ts,tsx,js,jsx,json}\"",
     "lint": "eslint \"./src/**/*.{ts,tsx,js,jsx}\"",
     "dev": "node server.js",
     "start": "env NODE_ENV=production node server.js",
