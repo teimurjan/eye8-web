@@ -25,6 +25,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params = {}, req,
       },
     };
   } catch (e) {
+    console.error(e);
     return {
       props: {
         error: 'errors.common',

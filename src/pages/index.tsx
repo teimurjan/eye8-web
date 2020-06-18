@@ -35,6 +35,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
     return { props: { banners, bannersOrder, productTypes, productTypesOrder } };
   } catch (e) {
+    console.error(e);
     return {
       props: { error: 'errors.common', banners: {}, productTypes: {}, bannersOrder: [], productTypesOrder: [] },
     };

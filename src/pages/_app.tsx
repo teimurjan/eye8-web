@@ -95,7 +95,7 @@ const getComponentsInitialProps = async (args: IDependenciesFactoryArgs) => {
       ratesState: { rates },
     };
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return {
       categoriesState: { categories: {}, categoriesOrder: [], error: 'errors.common' },
       intlState: { availableLocales: [], error: 'errors.common' },
