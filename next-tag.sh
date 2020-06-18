@@ -3,5 +3,6 @@ version=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $
 
 if [ "$version" != "" ]; then
     git tag -a "v$version" -m "`git log -1 --format=%s`"
-    echo "Created a new tag, v$version"
+    git push --tags
+    echo "Tag v$version pushed"
 fi
