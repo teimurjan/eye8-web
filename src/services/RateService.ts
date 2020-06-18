@@ -79,7 +79,7 @@ export class RateService implements IRateService {
       return true;
     } catch (e) {
       if (e instanceof ratesAPI.errors.RateNotFound) {
-        return false
+        return false;
       }
       throw e;
     }

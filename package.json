@@ -97,7 +97,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "yarn pretty && yarn lint",
-      "post-commit": "yarn pretty && yarn lint && ./next-tag.sh"
+      "post-commit": "./next-tag.sh"
     }
   },
   "browserslist": {

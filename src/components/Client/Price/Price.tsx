@@ -33,7 +33,7 @@ const useRateOnDate = ({ date, name }: { date?: Date; name: string }) => {
   return { rate, error };
 };
 
-export const KGS_TO_USD_RATE_NAME = 'kgs_to_usd'
+export const KGS_TO_USD_RATE_NAME = 'kgs_to_usd';
 
 const useFormattedPrice = ({ price, discount, date, forceLocale }: IPriceProps) => {
   const {

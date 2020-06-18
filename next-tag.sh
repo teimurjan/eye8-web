@@ -1,5 +1,5 @@
 #! /bin/bash
-version=`git diff HEAD^..HEAD -- "$(git rev-parse --show-toplevel)"/package.json | grep '^\+.*version' | sed -s 's/[^0-9\.]//g'`
+version=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')
 
 if [ "$version" != "" ]; then
     git tag -a "v$version" -m "`git log -1 --format=%s`"

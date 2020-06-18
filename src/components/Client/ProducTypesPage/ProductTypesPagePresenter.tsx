@@ -135,7 +135,7 @@ export const ProductTypesPagePresenter = ({
   ]);
 
   return (
-  <ListView
+    <ListView
       filter={
         <Filter
           css={css`

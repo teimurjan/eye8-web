@@ -1,7 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import * as React from 'react';
 
-
 export class SentryErrorBoundary extends React.Component {
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     Sentry.withScope(scope => {

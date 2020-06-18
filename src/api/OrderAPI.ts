@@ -37,10 +37,10 @@ export interface IOrderListResponseItem {
 }
 
 export interface IOrderListResponseMeta {
-  count: number,
-  pages_count: number,
-  limit: number,
-  page: number,
+  count: number;
+  pages_count: number;
+  limit: number;
+  page: number;
 }
 
 export interface IOrderListResponseData {

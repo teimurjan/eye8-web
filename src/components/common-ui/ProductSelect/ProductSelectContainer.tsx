@@ -1,6 +1,9 @@
 import * as React from 'react';
 
-import { ProductSelectPresenter, IProps as IPresenterProps } from 'src/components/common-ui/ProductSelect/ProductSelectPresenter';
+import {
+  ProductSelectPresenter,
+  IProps as IPresenterProps,
+} from 'src/components/common-ui/ProductSelect/ProductSelectPresenter';
 import { ProductSelectView } from 'src/components/common-ui/ProductSelect/ProductSelectView';
 import { useDependencies } from 'src/DI/DI';
 

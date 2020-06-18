@@ -30,7 +30,6 @@ const mobileFontSizes = {
   6: 16,
 };
 
-
 export const Title = ({ children, size, className }: IProps) => {
   const theme = useTheme<ClientUITheme>();
 

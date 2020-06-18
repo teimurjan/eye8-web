@@ -5,14 +5,7 @@ import { ModalForm } from 'src/components/Admin/ModalForm';
 import { IViewProps as IProps } from 'src/components/Admin/Rates/Create/AdminRatesCreatePresenter';
 import { Fields } from 'src/components/Admin/Rates/Create/Fields';
 
-export const AdminRatesCreateView = ({
-  isOpen,
-  create,
-  close,
-  error,
-  validate,
-  isCreating,
-}: IProps) => {
+export const AdminRatesCreateView = ({ isOpen, create, close, error, validate, isCreating }: IProps) => {
   const intl = useIntl();
   return (
     <ModalForm
