@@ -25,8 +25,10 @@ declare interface ClientUITheme {
   buttonDarkBackgroundHoverColor: string;
   anchorColor: string;
   backgroundPrimaryColor: string;
+  backgroundDangerColor: string;
   backgroundSecondaryColor: string;
   textColor: string;
+  textOnDangerColor: string;
   textFadedColor: string;
   textSecondaryColor: string;
   primaryColor: string;

@@ -16,7 +16,9 @@ export class WatchingValue<T> {
 
   public watch = (listener: (value: T) => void) => {
     this.watchers.add(listener);
-    return () => this.watchers.delete(listener);
+    return () => {
+      this.watchers.delete(listener);
+    };
   };
 
   public watchPromise = (shouldResolve: (value: T) => boolean, shouldReject?: (value: T) => boolean) =>

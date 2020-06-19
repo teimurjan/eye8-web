@@ -1,5 +1,5 @@
 import { Storage } from 'ttypes/storage';
-import Cookies, { CookieSetOptions } from 'universal-cookie';
+import Cookies, { CookieSetOptions, CookieGetOptions } from 'universal-cookie';
 
 import { getCookieDomain } from 'src/utils/url';
 
@@ -8,7 +8,7 @@ const cookies = new Cookies();
 export interface ICookieStorage extends Storage {
   length: number;
   clear(): void;
-  getItem(key: string): string | null;
+  getItem(key: string, options?: CookieGetOptions): string | null;
   key(index: number): string | null;
   removeItem(key: string, options?: CookieSetOptions): void;
   setItem(key: string, value: string, options?: CookieSetOptions): void;
@@ -32,8 +32,8 @@ export class CookieStorage implements ICookieStorage {
     Object.keys(cookies.getAll()).forEach(key => this.removeItem(key));
   };
 
-  getItem = (key: string) => {
-    const item = cookies.get(key);
+  getItem = (key: string, options?: CookieGetOptions) => {
+    const item = cookies.get(key, options);
     return item ? item : null;
   };
 

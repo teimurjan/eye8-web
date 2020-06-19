@@ -12,6 +12,7 @@ import { LoadingOverlay } from 'src/_app/LoadingOverlay';
 import { SentryErrorBoundary } from 'src/_app/SentryErrorBoundary';
 import { CacheBuster } from 'src/components/CacheBuster';
 import { PageProgressBar } from 'src/components/common-ui/PageProgressBar/PageProgressBar';
+import { ToastContainer } from 'src/components/Toast/Toast';
 import { dependenciesFactory, IDependenciesFactoryArgs } from 'src/DI/DependenciesContainer';
 import { DIProvider } from 'src/DI/DI';
 import { AppStateProvider } from 'src/state/AppState';
@@ -65,6 +66,7 @@ const CustomNextApp = ({
                             <PageProgressBar />
                             <Component {...pageProps} />
                             <LoadingOverlay />
+                            <ToastContainer />
                           </>
                         </EntryPoint>
                       </CategoriesStateProvider>

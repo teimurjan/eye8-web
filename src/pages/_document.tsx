@@ -38,6 +38,7 @@ class CustomNextDocument extends Document<{ locale: string; localeDataScript: st
           />
           <NextScript />
           <div id="modalRoot"></div>
+          <div id="toastRoot"></div>
           <div id="popoverRoot"></div>
           <div id="drawerRoot"></div>
         </body>
