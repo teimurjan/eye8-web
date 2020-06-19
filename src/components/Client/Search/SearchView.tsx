@@ -73,7 +73,7 @@ export const SearchView: React.FC<IProps> = ({
       return <LoaderLayout />;
     }
     if (error) {
-      return intl.formatMessage({ id: error });
+      return <Popover.Item Component="div">{intl.formatMessage({ id: error })}</Popover.Item>;
     }
 
     return (

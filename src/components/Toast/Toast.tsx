@@ -5,6 +5,7 @@ import * as ReactDOM from 'react-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import { Message, IProps as IMessageProps } from 'src/components/client-ui/Message/Message';
+import { useLazyInitialization } from 'src/hooks/useLazyInitialization';
 import { easeOutCubic } from 'src/styles/timing-functions';
 import { safeDocument } from 'src/utils/dom';
 import { WatchingValue } from 'src/utils/watching-value';
@@ -53,7 +54,10 @@ export const ToastContainer = () => {
     return () => Object.values(timeoutIds).forEach(clearTimeout);
   }, []);
 
-  const toastRoot = safeDocument(d => d.getElementById('toastRoot'), null);
+  const toastRoot = useLazyInitialization(
+    safeDocument(d => d.getElementById('toastRoot'), null),
+    null,
+  ).value;
 
   return toastRoot
     ? ReactDOM.createPortal(
