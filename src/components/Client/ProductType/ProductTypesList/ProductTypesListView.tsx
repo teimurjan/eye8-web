@@ -46,7 +46,7 @@ export const ProductTypesListView = ({ filter, isLoading, error, productTypes, m
         {isLoading ? (
           <LoaderLayout />
         ) : (
-          <>
+          <div>
             <Columns
               css={css`
                 width: 100%;
@@ -70,9 +70,16 @@ export const ProductTypesListView = ({ filter, isLoading, error, productTypes, m
               ))}
             </Columns>
             {meta && meta.pages_count > 1 && (
-              <Pagination length={meta.pages_count} page={meta.page} onChange={onPageChange} />
+              <Pagination
+                css={css`
+                  margin-top: 20px;
+                `}
+                length={meta.pages_count}
+                page={meta.page}
+                onChange={onPageChange}
+              />
             )}
-          </>
+          </div>
         )}
       </div>
     </Container>
