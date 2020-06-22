@@ -1,4 +1,4 @@
-import { CacheProvider } from '@emotion/core';
+import { CacheProvider, ClassNames } from '@emotion/core';
 import { cache } from 'emotion';
 import { ThemeProvider } from 'emotion-theming';
 import { AppProps, AppContext } from 'next/app';
@@ -12,7 +12,8 @@ import { LoadingOverlay } from 'src/_app/LoadingOverlay';
 import { SentryErrorBoundary } from 'src/_app/SentryErrorBoundary';
 import { CacheBuster } from 'src/components/CacheBuster';
 import { PageProgressBar } from 'src/components/common-ui/PageProgressBar/PageProgressBar';
-import { ToastContainer } from 'src/components/Toast/Toast';
+import { MessageToast } from 'src/components/Toast/MessageToast';
+import { ToastContainer } from 'src/components/Toast/ToastContainer';
 import { dependenciesFactory, IDependenciesFactoryArgs } from 'src/DI/DependenciesContainer';
 import { DIProvider } from 'src/DI/DI';
 import { AppStateProvider } from 'src/state/AppState';
@@ -20,6 +21,7 @@ import { CategoriesStateProvider } from 'src/state/CategoriesState';
 import { IntlStateProvider } from 'src/state/IntlState';
 import { RatesStateProvider } from 'src/state/RatesState';
 import { UserStateProvider } from 'src/state/UserState';
+import { mediaQueries } from 'src/styles/media';
 import { defaultTheme } from 'src/themes';
 
 import 'bulma/css/bulma.css';
@@ -66,7 +68,25 @@ const CustomNextApp = ({
                             <PageProgressBar />
                             <Component {...pageProps} />
                             <LoadingOverlay />
-                            <ToastContainer />
+                            <ClassNames>
+                              {({ css: css_ }) => (
+                                <ToastContainer
+                                  className={css_`
+                                    position: fixed;
+                                    top: 0;
+                                    right: 0;
+                                    padding: 10px 20px;
+                                    z-index: 200;
+
+                                    @media ${mediaQueries.maxWidth768} {
+                                      width: 100%;
+                                      padding: 10px;
+                                    }
+                                  `}
+                                  Component={MessageToast}
+                                />
+                              )}
+                            </ClassNames>
                           </>
                         </EntryPoint>
                       </CategoriesStateProvider>

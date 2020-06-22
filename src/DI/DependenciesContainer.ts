@@ -14,7 +14,8 @@ import * as productTypeAPI from 'src/api/ProductTypeAPI';
 import * as promoCodeAPI from 'src/api/PromoCodeAPI';
 import * as rateAPI from 'src/api/RateAPI';
 import * as searchAPI from 'src/api/SearchAPI';
-import { toast, ToastId } from 'src/components/Toast/Toast';
+import { ToastId } from 'src/components/Toast/ids';
+import { toast } from 'src/components/Toast/ToastContainer';
 import { HeadersManager } from 'src/manager/HeadersManager';
 import * as authService from 'src/services/AuthService';
 import * as bannerService from 'src/services/BannerService';
@@ -95,7 +96,7 @@ const makeResponseErrorInterceptor = (
   headersManager: HeadersManager,
 ) => async (error: { response?: AxiosResponse; config: AxiosRequestConfig }) => {
   if (error.response && error.response.status === 429) {
-    toast({ id: ToastId.TooManyRequests, text: '429: Too many requests error.', color: 'error' });
+    toast({ id: ToastId.TooManyRequests, children: '429: Too many requests error.', type: 'error' });
   }
 
   if (error.response && error.response.status === 401) {

@@ -12,6 +12,13 @@ export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   onCloseClick?: React.MouseEventHandler;
 }
 
+export const getBorderColorThemeKey = (color: IProps['color']) =>
+  ({
+    default: 'borderColor',
+    primary: 'primaryColor',
+    error: 'dangerColor',
+  }[color as string]);
+
 export const Message: React.FC<IProps> = ({
   color = 'default',
   size = 'default',
@@ -28,27 +35,22 @@ export const Message: React.FC<IProps> = ({
       css={css`
         padding: 10px 15px;
         position: relative;
+        max-width: 100%;
+        min-width: 300px;
 
-        &.large {
-          max-width: 100%;
-          min-width: 300px;
-          padding: 15px;
-        }
+        border-left: 2.5px solid ${theme[getBorderColorThemeKey(color)]};
 
         &.default {
-          border-left: 5px solid ${theme.borderColor};
           color: ${theme.textColor};
           background: ${theme.backgroundPrimaryColor};
         }
 
         &.primary {
-          border-left: 5px solid ${theme.primaryColor};
           color: ${theme.textColor};
           background: ${theme.backgroundPrimaryColor};
         }
 
         &.error {
-          border-left: 5px solid ${theme.dangerColor};
           color: ${theme.textOnDangerColor};
           background: ${theme.backgroundDangerColor};
         }
