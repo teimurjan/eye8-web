@@ -4,8 +4,9 @@ import classNames from 'classnames';
 import React from 'react';
 import InstagramEmbed from 'react-instagram-embed';
 
-import { useMedia } from 'src/hooks/useMedia';
+import { useDimensions, defaultGetElementDimensions } from 'src/hooks/useDimensions';
 import { mediaQueries } from 'src/styles/media';
+import { safeDocument } from 'src/utils/dom';
 
 interface Response {
   thumbnail_width: number;
@@ -20,28 +21,39 @@ interface IProps {
 }
 
 export const InstagramPost: React.FC<IProps> = ({ className, url, id, wide }) => {
-  const isMobile = useMedia([mediaQueries.maxWidth768], [true], false);
   const [response, setResponse] = React.useState<Response | undefined>(undefined);
   const [isRendered, setRendered] = React.useState(false);
 
-  React.useEffect(() => {
+  const getIframe = React.useCallback(
+    () => document.querySelector<HTMLIFrameElement>(`.instagram-embed-${id} iframe`),
+    [id],
+  );
+  const adaptHeight = React.useCallback(() => {
     if (isRendered && response) {
+      const iframe = getIframe();
       const el = document.querySelector(`.instagram-embed-${id}`);
-      const iframe = document.querySelector(`.instagram-embed-${id} iframe`);
-      if (el) {
+      if (el && iframe) {
         const currentWidth = el.clientWidth;
         const delta = currentWidth / response.thumbnail_width;
         const currentThumbnailHeight = response.thumbnail_height * delta;
-        (iframe as HTMLElement).style.height = `${currentThumbnailHeight + (isMobile ? 230 : 200)}px`;
+        iframe.style.height = `${currentThumbnailHeight + 205}px`;
       }
     }
-  }, [isRendered, response, id, isMobile]);
+  }, [isRendered, response, id, getIframe]);
+
+  React.useEffect(() => {
+    adaptHeight();
+  }, [adaptHeight]);
+
+  useDimensions({ current: safeDocument(d => d.body, null) }, defaultGetElementDimensions, adaptHeight);
 
   return (
     <InstagramEmbed
       css={css`
         width: 360px !important;
         @media ${mediaQueries.maxWidth768} {
+          width: 100% !important;
+
           iframe {
             min-width: calc(100vw - 80px) !important;
           }

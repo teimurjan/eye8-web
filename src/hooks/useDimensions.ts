@@ -4,9 +4,12 @@ import { safeWindow } from 'src/utils/dom';
 
 export const triggerDimensionsCorrect = () => safeWindow(w => w.dispatchEvent(new Event('resize')), undefined);
 
+export const defaultGetElementDimensions = (el: HTMLElement) => el.getBoundingClientRect();
+
 export const useDimensions = <T extends HTMLElement = HTMLElement>(
-  ref: React.RefObject<T>,
-  getElementDimensions: (el: T) => { width: number; height: number } = el => el.getBoundingClientRect(),
+  ref: React.RefObject<T | null>,
+  getElementDimensions: (el: T) => { width: number; height: number } = defaultGetElementDimensions,
+  cb?: () => void,
 ) => {
   const [dimensions, setDimensions] = React.useState<{ width: number; height: number } | undefined>(undefined);
 
@@ -15,9 +18,10 @@ export const useDimensions = <T extends HTMLElement = HTMLElement>(
       const { width, height } = getElementDimensions(ref.current);
       if (!dimensions || width !== dimensions.width || height !== dimensions.height) {
         setDimensions({ width, height });
+        cb && cb();
       }
     }
-  }, [ref, getElementDimensions, dimensions]);
+  }, [ref, getElementDimensions, dimensions, cb]);
 
   React.useLayoutEffect(() => {
     if (ref.current) {
