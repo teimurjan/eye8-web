@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { injectIntl } from 'react-intl';
 import { useHistory, useParams } from 'react-router';
 
 import { AdminProductTypesEditPresenter } from 'src/components/Admin/ProductTypes/Edit/AdminProductTypesEditPresenter';
@@ -24,7 +23,7 @@ export const AdminProductTypesEditContainer = () => {
     <AdminProductTypesEditPresenter
       productTypeId={parseInt(params.id, 10)}
       history={history}
-      View={injectIntl(AdminProductTypesEditView)}
+      View={AdminProductTypesEditView}
       service={dependencies.services.productType}
       intlState={intlState}
       adminProductTypesState={adminProductTypesState}

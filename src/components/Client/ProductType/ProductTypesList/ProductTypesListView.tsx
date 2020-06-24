@@ -46,13 +46,16 @@ export const ProductTypesListView = ({ filter, isLoading, error, productTypes, m
         {isLoading ? (
           <LoaderLayout />
         ) : (
-          <div>
+          <div
+            css={css`
+              width: 100%;
+            `}
+          >
             <Columns
               css={css`
                 width: 100%;
                 flex-wrap: wrap;
                 border-radius: 40px;
-                margin-top: 10px !important;
               `}
               className="is-mobile"
             >

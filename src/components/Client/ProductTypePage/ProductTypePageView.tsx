@@ -4,6 +4,7 @@ import { useTheme } from 'emotion-theming';
 import uniqBy from 'lodash/uniqBy';
 import Head from 'next/head';
 import * as React from 'react';
+import InstagramEmbed from 'react-instagram-embed';
 import { useIntl } from 'react-intl';
 
 import { Container } from 'src/components/admin-ui/Container/Container';
@@ -290,6 +291,60 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
           />
         </Container>
       </div>
+      {productType.instagram_links.length > 0 && (
+        <div
+          css={css`
+            margin-top: 20px;
+          `}
+        >
+          <Container>
+            <Title
+              css={css`
+                padding-bottom: 20px;
+              `}
+              size={3}
+            >
+              {intl.formatMessage({ id: 'ProductTypePageView.instagram' })}
+            </Title>
+            <div
+              css={css`
+                display: flex;
+                width: 100%;
+                overflow: auto;
+                position: relative;
+              `}
+            >
+              {productType.instagram_links.map(({ id, link }) => (
+                <InstagramEmbed
+                  key={id}
+                  css={css`
+                    margin-right: 20px;
+
+                    &:last-child {
+                      margin-right: 0;
+                    }
+
+                    iframe {
+                      min-height: 610px;
+                    }
+
+                    @media ${mediaQueries.maxWidth768} {
+                      iframe {
+                        min-height: 590px;
+                      }
+                    }
+                  `}
+                  url={link}
+                  maxWidth={320}
+                  hideCaption={true}
+                  protocol=""
+                  injectScript
+                />
+              ))}
+            </div>
+          </Container>
+        </div>
+      )}
     </div>
   ) : (
     <NotFoundView />

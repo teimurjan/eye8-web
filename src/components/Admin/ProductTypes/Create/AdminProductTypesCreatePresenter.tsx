@@ -30,6 +30,7 @@ interface IFormValues {
   names: { [key: string]: string };
   descriptions: { [key: string]: string };
   short_descriptions: { [key: string]: string };
+  instagram_links: string[];
   feature_types: string[];
   category_id?: string;
   image: string;
@@ -144,6 +145,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
           names: {},
           descriptions: {},
           short_descriptions: {},
+          instagram_links: values.instagram_links,
           category_id: parseInt(values.category_id as string, 10),
           feature_types: values.feature_types.map(id => parseInt(id, 10)),
           image: values.image,

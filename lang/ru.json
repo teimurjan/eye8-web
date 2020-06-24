@@ -287,5 +287,7 @@
   "AdminRates.notFound.cta": "Создать курс валют",
   "AdminRates.errors.hasOrders": "Этот курс валют не может быть удален, так как есть заказы, связанные с ним",
   "AdminRates.create.title": "Создание курса валют",
-  "AdminPromoCodes.errors.hasOrders": "Промокод, связанный с заказами не может быть изменен или удален"
+  "AdminPromoCodes.errors.hasOrders": "Промокод, связанный с заказами не может быть изменен или удален",
+  "ProductTypePageView.instagram": "Смотреть в Instagram",
+  "AdminProductTypes.errors.invalidInstagramLinks": "Данное поле должно содержать ссылки на Instagram публикации, разделенные запятой"
 }

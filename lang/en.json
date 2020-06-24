@@ -287,5 +287,7 @@
   "AdminRates.notFound.cta": "Create currency rate",
   "AdminRates.errors.hasOrders": "This rate cannot be deleted as it has connected orders",
   "AdminRates.create.title": "Create currency rate",
-  "AdminPromoCodes.errors.hasOrders": "Promo code connected with orders can't be deleted or edited"
+  "AdminPromoCodes.errors.hasOrders": "Promo code connected with orders can't be deleted or edited",
+  "ProductTypePageView.instagram": "Check out on Instagram",
+  "AdminProductTypes.errors.invalidInstagramLinks": "This fields should contain instagram posts links separated by comma"
 }

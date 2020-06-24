@@ -35,6 +35,7 @@ export interface IViewProps {
     names: { [key: string]: string };
     descriptions: { [key: string]: string };
     short_descriptions: { [key: string]: string };
+    instagram_links: string[];
     feature_types: string[];
     category_id?: string;
     image: string;
@@ -88,6 +89,12 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
                 .required('common.errors.field.empty'),
             }),
             {
+              instagram_links: yup
+                .array()
+                .test('areLinksValid', 'AdminProductTypes.errors.invalidInstagramLinks', (value: string[] = []) => {
+                  console.log(value);
+                  return value.every(link => link.match(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/));
+                }),
               category_id: yup.number().required('common.errors.field.empty'),
               feature_types: yup
                 .array()
@@ -155,6 +162,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
           names: {},
           descriptions: {},
           short_descriptions: {},
+          instagram_links: values.instagram_links,
           category_id: parseInt(values.category_id as string, 10),
           feature_types: values.feature_types.map(id => parseInt(id, 10)),
           image: values.image,
@@ -186,6 +194,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
           }),
           {},
         ),
+        instagram_links: productType.instagram_links.map(({ link }) => link),
         category_id: productType.category.id,
         feature_types: productType.feature_types,
         image: productType.image,

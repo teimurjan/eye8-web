@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Field, FieldRenderProps } from 'react-final-form';
-import { IntlShape, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { IIntlListResponseItem } from 'src/api/IntlAPI';
 import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextField';
@@ -20,7 +20,6 @@ interface IIntlFieldRendererProps {
   label: string;
   placeholder: string;
   locale: IIntlListResponseItem;
-  intl: IntlShape;
   defaultValue?: string;
 }
 
@@ -29,17 +28,12 @@ export interface IProps {
   label: string;
   placeholder: string;
   locales: IIntlListResponseItem[];
-  render?: (props: FieldRenderProps<string> & IIntlFieldRendererProps) => React.ReactNode;
+  component?: React.SFC<FieldRenderProps<string> & IIntlFieldRendererProps>;
 }
 
-const renderIntlField = ({
-  input,
-  meta,
-  label,
-  placeholder,
-  locale,
-  intl,
-}: FieldRenderProps<string> & IIntlFieldRendererProps) => {
+const IntlField_: IProps['component'] = ({ input, meta, label, placeholder, locale }) => {
+  const intl = useIntl();
+
   const showError = meta.touched && meta.error;
 
   return (
@@ -65,20 +59,19 @@ const renderIntlField = ({
   );
 };
 
-export const IntlField = injectIntl(
-  ({ render, intl, label, locales, placeholder, key_ }: IProps & { intl: IntlShape }) => (
+export const IntlField = ({ component, label, locales, placeholder, key_ }: IProps) => {
+  return (
     <>
       {locales.map(locale => (
         <Field
           key={locale.id}
           name={getFieldName(key_, locale)}
-          render={render ? render : renderIntlField}
-          intl={intl}
           label={label}
           locale={locale}
           placeholder={placeholder}
+          component={component ? component : IntlField_}
         />
       ))}
     </>
-  ),
-);
+  );
+};

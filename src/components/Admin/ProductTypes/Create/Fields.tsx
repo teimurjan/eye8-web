@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
-import { IntlShape, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { Field } from 'src/components/admin-ui/Field/Field';
 import { FileInput } from 'src/components/admin-ui/FileInput/FileInput';
@@ -10,6 +10,7 @@ import { HelpText } from 'src/components/admin-ui/HelpText/HelpText';
 import { Label } from 'src/components/admin-ui/Label/Label';
 import { getMultipleValuesFromChangeEvent } from 'src/components/admin-ui/NativeSelect/NativeSelect';
 import { Tag } from 'src/components/admin-ui/Tag/Tag';
+import { Textarea } from 'src/components/admin-ui/Textarea/Textarea';
 import { IntlField, IProps as IIntlFieldProps } from 'src/components/Admin/IntlField';
 import { WYSIWYG } from 'src/components/client-ui/WYSIWYG/WYSIWYG';
 import { IContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
@@ -21,49 +22,48 @@ interface IFeatureTypesSelectProps extends FieldRenderProps<string[]> {
   featureTypes: AdminFeatureTypesStateContextValue['adminFeatureTypesState']['featureTypes'];
 }
 
-const FeatureTypesSelect = injectIntl(
-  ({ featureTypes, intl, input, meta }: IFeatureTypesSelectProps & { intl: IntlShape }) => {
-    const showError = meta.touched && meta.error;
+const FeatureTypesSelect = ({ featureTypes, input, meta }: IFeatureTypesSelectProps) => {
+  const intl = useIntl();
+  const showError = meta.touched && meta.error;
 
-    const { onChange: _, value, ...inputPropsToPass } = input;
+  const { onChange: _, value, ...inputPropsToPass } = input;
 
-    const onChange = React.useCallback(
-      (e: React.SyntheticEvent<HTMLSelectElement>) => {
-        input.onChange(getMultipleValuesFromChangeEvent(e));
-      },
-      [input],
-    );
+  const onChange = React.useCallback(
+    (e: React.SyntheticEvent<HTMLSelectElement>) => {
+      input.onChange(getMultipleValuesFromChangeEvent(e));
+    },
+    [input],
+  );
 
-    return (
-      <FormNativeSelectField
-        labelProps={{
-          children: (
-            <>
-              {intl.formatMessage({
-                id: 'AdminProductTypes.featureTypesSelect.label',
-              })}
-            </>
-          ),
-        }}
-        selectProps={{
-          ...inputPropsToPass,
-          isMultiple: true,
-          onChange,
-          options: featureTypes.map(({ id, name }) => ({
-            checked: value instanceof Array ? value.indexOf(id.toString()) !== -1 : false,
-            title: name[intl.locale],
-            value: id.toString(),
-          })),
-          value,
-        }}
-        helpTextProps={{
-          children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
-          type: 'is-danger',
-        }}
-      />
-    );
-  },
-);
+  return (
+    <FormNativeSelectField
+      labelProps={{
+        children: (
+          <>
+            {intl.formatMessage({
+              id: 'AdminProductTypes.featureTypesSelect.label',
+            })}
+          </>
+        ),
+      }}
+      selectProps={{
+        ...inputPropsToPass,
+        isMultiple: true,
+        onChange,
+        options: featureTypes.map(({ id, name }) => ({
+          checked: value instanceof Array ? value.indexOf(id.toString()) !== -1 : false,
+          title: name[intl.locale],
+          value: id.toString(),
+        })),
+        value,
+      }}
+      helpTextProps={{
+        children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
+        type: 'is-danger',
+      }}
+    />
+  );
+};
 
 const getFeatureTypesSelectRenderer = (
   featureTypes: AdminFeatureTypesStateContextValue['adminFeatureTypesState']['featureTypes'],
@@ -75,7 +75,9 @@ interface ICategorySelectProps extends FieldRenderProps<string> {
   categories: AdminCategoriesStateContextValue['adminCategoriesState']['categories'];
 }
 
-const CategorySelect = injectIntl(({ categories, intl, input, meta }: ICategorySelectProps & { intl: IntlShape }) => {
+const CategorySelect = ({ categories, input, meta }: ICategorySelectProps) => {
+  const intl = useIntl();
+
   const showError = meta.touched && meta.error;
 
   return (
@@ -107,32 +109,34 @@ const CategorySelect = injectIntl(({ categories, intl, input, meta }: ICategoryS
       }}
     />
   );
-});
+};
 
 const getCategorySelectRenderer = (
   categories: AdminCategoriesStateContextValue['adminCategoriesState']['categories'],
 ) => (fieldRenderProps: FieldRenderProps<string>) => <CategorySelect categories={categories} {...fieldRenderProps} />;
 
-const getImageFieldRenderer = () =>
-  injectIntl(({ input, meta, intl }: FieldRenderProps<File> & { intl: IntlShape }) => {
-    const showError = meta.touched && meta.error;
+const ImageField = ({ input, meta }: FieldRenderProps<File>) => {
+  const intl = useIntl();
 
-    return (
-      <Field>
-        <Label>{intl.formatMessage({ id: 'AdminProductTypes.image' })}</Label>
-        <FileInput
-          {...input}
-          accept="image/*"
-          placeholder={intl.formatMessage({
-            id: 'common.chooseImage',
-          })}
-        />
-        <HelpText type="is-danger">{showError ? intl.formatMessage({ id: meta.error }) : undefined}</HelpText>
-      </Field>
-    );
-  });
+  const showError = meta.touched && meta.error;
 
-const renderDescriptionField: IIntlFieldProps['render'] = ({ input, meta, label, placeholder, locale, intl }) => {
+  return (
+    <Field>
+      <Label>{intl.formatMessage({ id: 'AdminProductTypes.image' })}</Label>
+      <FileInput
+        {...input}
+        accept="image/*"
+        placeholder={intl.formatMessage({
+          id: 'common.chooseImage',
+        })}
+      />
+      <HelpText type="is-danger">{showError ? intl.formatMessage({ id: meta.error }) : undefined}</HelpText>
+    </Field>
+  );
+};
+
+const DescriptionField: IIntlFieldProps['component'] = ({ input, meta, label, placeholder, locale }) => {
+  const intl = useIntl();
   const showError = meta.touched && meta.error;
 
   return (
@@ -162,6 +166,38 @@ const renderDescriptionField: IIntlFieldProps['render'] = ({ input, meta, label,
   );
 };
 
+const InstagramLinksField = ({ input, meta, label, placeholder }: FieldRenderProps<string[]>) => {
+  const intl = useIntl();
+  const showError = meta.touched && meta.error;
+  const onChange: React.ChangeEventHandler<HTMLTextAreaElement> = React.useCallback(
+    e => {
+      const { value } = e.currentTarget;
+      input.onChange(value ? value.split(',') : []);
+    },
+    [input],
+  );
+
+  return (
+    <FormTextField
+      labelProps={{ children: label }}
+      renderInput={() => (
+        <Textarea
+          value={Array.isArray(input.value) ? input.value.join(',') : input.value}
+          placeholder={placeholder}
+          onChange={onChange}
+          onBlur={input.onBlur}
+          onFocus={input.onFocus}
+          isDanger={showError}
+        />
+      )}
+      helpTextProps={{
+        children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
+        type: 'is-danger',
+      }}
+    />
+  );
+};
+
 export interface IFieldsProps {
   availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   categories: AdminCategoriesStateContextValue['adminCategoriesState']['categories'];
@@ -171,22 +207,11 @@ export interface IFieldsProps {
   shortDescriptionFieldKey: string;
 }
 
-export const Fields: React.SFC<IFieldsProps> = injectIntl<
-  'intl',
-  IFieldsProps & {
-    intl: IntlShape;
-  }
->(
-  React.memo(
-    ({
-      availableLocales,
-      categories,
-      featureTypes,
-      intl,
-      nameFieldKey,
-      descriptionFieldKey,
-      shortDescriptionFieldKey,
-    }) => (
+export const Fields: React.SFC<IFieldsProps> = React.memo(
+  ({ availableLocales, categories, featureTypes, nameFieldKey, descriptionFieldKey, shortDescriptionFieldKey }) => {
+    const intl = useIntl();
+
+    return (
       <>
         <IntlField
           key_={nameFieldKey}
@@ -207,7 +232,7 @@ export const Fields: React.SFC<IFieldsProps> = injectIntl<
           placeholder={intl.formatMessage({
             id: 'AdminProductTypes.descriptionInput.placeholder',
           })}
-          render={renderDescriptionField}
+          component={DescriptionField}
         />
         <IntlField
           key_={shortDescriptionFieldKey}
@@ -219,19 +244,20 @@ export const Fields: React.SFC<IFieldsProps> = injectIntl<
             id: 'AdminProductTypes.shortDescriptionInput.placeholder',
           })}
         />
+        <FinalFormField key="instagram_links" name="instagram_links" component={InstagramLinksField} />
         <FinalFormField key="category_id" name="category_id" render={getCategorySelectRenderer(categories)} />
         <FinalFormField key="feature_types" name="feature_types" render={getFeatureTypesSelectRenderer(featureTypes)} />
-        <FinalFormField key="image" name="image" render={getImageFieldRenderer()} />
+        <FinalFormField key="image" name="image" component={ImageField} />
       </>
-    ),
-    (prevProps, nextProps) =>
-      arePropsEqual(prevProps, nextProps, [
-        'nameFieldKey',
-        'descriptionFieldKey',
-        'shortDescriptionFieldKey',
-        { key: 'availableLocales', compare: lengthCompare },
-        { key: 'categories', compare: lengthCompare },
-        { key: 'featureTypes', compare: lengthCompare },
-      ]),
-  ),
+    );
+  },
+  (prevProps, nextProps) =>
+    arePropsEqual(prevProps, nextProps, [
+      'nameFieldKey',
+      'descriptionFieldKey',
+      'shortDescriptionFieldKey',
+      { key: 'availableLocales', compare: lengthCompare },
+      { key: 'categories', compare: lengthCompare },
+      { key: 'featureTypes', compare: lengthCompare },
+    ]),
 );

@@ -16,6 +16,7 @@ export interface IProductTypeListResponseItem {
   name: string;
   description: string;
   short_description: string;
+  instagram_links: Array<{ id: number; link: string }>;
   image: string;
   category: number;
   slug: string;
@@ -43,6 +44,7 @@ export interface IProductTypeDetailResponseItem {
   name: string;
   description: string;
   short_description: string;
+  instagram_links: Array<{ id: number; link: string }>;
   image: string;
   category: { id: number; name: string; slug: string };
   slug: string;
@@ -69,6 +71,7 @@ export interface IProductTypeListRawIntlResponseItem {
   name: { [key: string]: string };
   description: { [key: string]: string };
   short_description: { [key: string]: string };
+  instagram_links: Array<{ id: number; link: string }>;
   image: string;
   category: number;
   feature_types: number[];
@@ -89,6 +92,7 @@ export interface IProductTypeDetailRawIntlResponseItem {
   name: { [key: string]: string };
   description: { [key: string]: string };
   short_description: { [key: string]: string };
+  instagram_links: Array<{ id: number; link: string }>;
   image: string;
   category: { id: number };
   feature_types: number[];
@@ -128,6 +132,7 @@ export interface IProductTypeCreatePayload {
   image: string;
   category_id: number;
   feature_types: number[];
+  instagram_links: string[];
 }
 
 export type IProductTypeEditPayload = IProductTypeCreatePayload;

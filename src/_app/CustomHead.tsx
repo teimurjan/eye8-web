@@ -32,6 +32,7 @@ export const CustomHead = () => {
   return (
     <Head>
       <script type="text/javascript" dangerouslySetInnerHTML={{ __html: YM_SCRIPT }} />
+      <script async src="//www.instagram.com/embed.js"></script>
       <noscript>
         <div>
           <img src="https://mc.yandex.ru/watch/62615554" style={{ position: 'absolute', left: '-9999px' }} alt="" />

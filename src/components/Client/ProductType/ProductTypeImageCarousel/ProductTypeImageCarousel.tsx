@@ -8,6 +8,7 @@ import { mediaQueries } from 'src/styles/media';
 
 const CONTROL_IMAGE_SIZE = '8vw';
 const CONTROL_IMAGE_MOBILE_SIZE = '25vw';
+const MAX_CONTROL_IMAGE_SIZE = '150px';
 
 interface IProps {
   images: string[];
@@ -47,6 +48,7 @@ export const ProductTypeImageCarousel: React.FC<IProps> = ({ images, activeImage
       <div
         css={css`
           height: ${CONTROL_IMAGE_SIZE};
+          max-height: ${MAX_CONTROL_IMAGE_SIZE};
           overflow: auto;
           display: flex;
           width: 30vw;
@@ -71,6 +73,8 @@ export const ProductTypeImageCarousel: React.FC<IProps> = ({ images, activeImage
                 cursor: pointer;
                 height: ${CONTROL_IMAGE_SIZE};
                 width: ${CONTROL_IMAGE_SIZE};
+                max-height: ${MAX_CONTROL_IMAGE_SIZE};
+                max-width: ${MAX_CONTROL_IMAGE_SIZE};
                 border: ${isActive ? `5px solid ${theme.primaryColor}` : 'unset'};
                 display: flex;
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IntlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { ModalForm } from 'src/components/Admin/ModalForm';
 import {
@@ -16,7 +16,6 @@ export const AdminProductTypesCreateView = ({
   close,
   isLoading,
   error,
-  intl,
   availableLocales,
   validate,
   categories,
@@ -25,30 +24,33 @@ export const AdminProductTypesCreateView = ({
   featureTypes,
   onChange,
   initialValues,
-}: IProps & { intl: IntlShape }) => (
-  <ModalForm
-    formID="adminProductTypesCreateForm"
-    isOpen={isOpen}
-    onSubmit={create}
-    onClose={close}
-    isLoading={isCreating}
-    isPreloading={isLoading}
-    preloadingError={preloadingError}
-    globalError={error}
-    title={intl.formatMessage({ id: 'AdminProductTypes.create.title' })}
-    fields={
-      <Fields
-        availableLocales={availableLocales}
-        categories={categories}
-        featureTypes={featureTypes}
-        nameFieldKey={PRODUCT_TYPE_NAME_FIELD_KEY}
-        descriptionFieldKey={PRODUCT_TYPE_DESCRIPTION_FIELD_KEY}
-        shortDescriptionFieldKey={PRODUCT_TYPE_SHORT_DESCRIPTION_FIELD_KEY}
-      />
-    }
-    onChange={onChange}
-    validate={validate}
-    initialValues={initialValues}
-    wide
-  />
-);
+}: IProps) => {
+  const intl = useIntl();
+  return (
+    <ModalForm
+      formID="adminProductTypesCreateForm"
+      isOpen={isOpen}
+      onSubmit={create}
+      onClose={close}
+      isLoading={isCreating}
+      isPreloading={isLoading}
+      preloadingError={preloadingError}
+      globalError={error}
+      title={intl.formatMessage({ id: 'AdminProductTypes.create.title' })}
+      fields={
+        <Fields
+          availableLocales={availableLocales}
+          categories={categories}
+          featureTypes={featureTypes}
+          nameFieldKey={PRODUCT_TYPE_NAME_FIELD_KEY}
+          descriptionFieldKey={PRODUCT_TYPE_DESCRIPTION_FIELD_KEY}
+          shortDescriptionFieldKey={PRODUCT_TYPE_SHORT_DESCRIPTION_FIELD_KEY}
+        />
+      }
+      onChange={onChange}
+      validate={validate}
+      initialValues={initialValues}
+      wide
+    />
+  );
+};

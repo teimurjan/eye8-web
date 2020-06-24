@@ -114,7 +114,8 @@ const getOffsetFieldRenderer = (label: string, placeholder: string) => ({ input,
   );
 };
 
-const renderTextField: IIntlFieldProps['render'] = ({ input, meta, label, placeholder, locale, intl }) => {
+const TextField: IIntlFieldProps['component'] = ({ input, meta, label, placeholder, locale }) => {
+  const intl = useIntl();
   const showError = meta.touched && meta.error;
 
   return (
@@ -156,7 +157,7 @@ export const Fields = injectIntl(
         placeholder={intl.formatMessage({
           id: 'AdminBanners.textInput.placeholder',
         })}
-        render={renderTextField}
+        component={TextField}
       />
       <IntlField
         key_={linkTextFieldKey}

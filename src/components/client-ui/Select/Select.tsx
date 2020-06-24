@@ -8,6 +8,7 @@ import { useTheme } from 'emotion-theming';
 import * as React from 'react';
 
 import { Popover, RenderTrigger } from 'src/components/client-ui/Popover/Popover';
+import { mediaQueries } from 'src/styles/media';
 
 const VERTICAL_PADDING_PX = 7.5;
 const HORIZONTAL_PADDING_PX = 2.5;
@@ -114,6 +115,10 @@ export const Select = ({ children, onChange, className, value, placeholder }: IP
         align-items: center;
         width: 300px;
         max-width: 100%;
+
+        @media ${mediaQueries.maxWidth768} {
+          width: 100%;
+        }
       `}
     >
       <div
