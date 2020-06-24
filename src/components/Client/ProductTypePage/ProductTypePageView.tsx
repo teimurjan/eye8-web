@@ -4,7 +4,6 @@ import { useTheme } from 'emotion-theming';
 import uniqBy from 'lodash/uniqBy';
 import Head from 'next/head';
 import * as React from 'react';
-import InstagramEmbed from 'react-instagram-embed';
 import { useIntl } from 'react-intl';
 
 import { Container } from 'src/components/admin-ui/Container/Container';
@@ -15,6 +14,7 @@ import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout
 import { Select } from 'src/components/client-ui/Select/Select';
 import { Subtitle } from 'src/components/client-ui/Subtitle/Subtitle';
 import { Title } from 'src/components/client-ui/Title/Title';
+import { InstagramPost } from 'src/components/Client/InstagramPost/InstagramPost';
 import { PriceCrossedText } from 'src/components/Client/Price/Price';
 import { ProductTypeImageCarousel } from 'src/components/Client/ProductType/ProductTypeImageCarousel/ProductTypeImageCarousel';
 import { IViewProps as IProps } from 'src/components/Client/ProductTypePage/ProductTypePagePresenter';
@@ -315,7 +315,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
               `}
             >
               {productType.instagram_links.map(({ id, link }) => (
-                <InstagramEmbed
+                <InstagramPost
                   key={id}
                   css={css`
                     margin-right: 20px;
@@ -323,22 +323,10 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                     &:last-child {
                       margin-right: 0;
                     }
-
-                    iframe {
-                      min-height: 610px;
-                    }
-
-                    @media ${mediaQueries.maxWidth768} {
-                      iframe {
-                        min-height: 590px;
-                      }
-                    }
                   `}
+                  wide={productType.instagram_links.length === 1}
+                  id={id}
                   url={link}
-                  maxWidth={320}
-                  hideCaption={true}
-                  protocol=""
-                  injectScript
                 />
               ))}
             </div>

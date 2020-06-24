@@ -92,7 +92,6 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
               instagram_links: yup
                 .array()
                 .test('areLinksValid', 'AdminProductTypes.errors.invalidInstagramLinks', (value: string[] = []) => {
-                  console.log(value);
                   return value.every(link => link.match(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/));
                 }),
               category_id: yup.number().required('common.errors.field.empty'),
