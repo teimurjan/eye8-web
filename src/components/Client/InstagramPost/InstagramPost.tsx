@@ -7,6 +7,7 @@ import InstagramEmbed from 'react-instagram-embed';
 import { useDimensions, defaultGetElementDimensions } from 'src/hooks/useDimensions';
 import { mediaQueries } from 'src/styles/media';
 import { safeDocument } from 'src/utils/dom';
+import { logInfo } from 'src/utils/log';
 
 interface Response {
   thumbnail_width: number;
@@ -20,6 +21,8 @@ interface IProps {
   wide?: boolean;
 }
 
+const IFRAME_HEIGHT_OFFSET_PX = 95;
+
 export const InstagramPost: React.FC<IProps> = ({ className, url, id, wide }) => {
   const [response, setResponse] = React.useState<Response | undefined>(undefined);
   const [isRendered, setRendered] = React.useState(false);
@@ -30,20 +33,37 @@ export const InstagramPost: React.FC<IProps> = ({ className, url, id, wide }) =>
   );
   const adaptHeight = React.useCallback(() => {
     if (isRendered && response) {
-      const iframe = getIframe();
-      const el = document.querySelector(`.instagram-embed-${id}`);
-      if (el && iframe) {
+      const el = document.querySelector(`.instagram-embed-${id}`) as HTMLElement;
+      if (el) {
         const currentWidth = el.clientWidth;
         const delta = currentWidth / response.thumbnail_width;
         const currentThumbnailHeight = response.thumbnail_height * delta;
-        iframe.style.height = `${currentThumbnailHeight + 205}px`;
+        el.style.height = `${currentThumbnailHeight + IFRAME_HEIGHT_OFFSET_PX}px`;
       }
     }
-  }, [isRendered, response, id, getIframe]);
+  }, [isRendered, response, id]);
 
   React.useEffect(() => {
-    adaptHeight();
-  }, [adaptHeight]);
+    const intervalID = setInterval(() => {
+      const next = () => {
+        adaptHeight();
+        clearInterval(intervalID);
+      };
+
+      try {
+        const iframe = getIframe();
+        if (iframe && !iframe.contentDocument) {
+          logInfo('iframe is loaded');
+          next();
+        }
+      } catch (e) {
+        logInfo("iframe's contentWindow is blocked by CORS");
+        next();
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalID);
+  }, [adaptHeight, getIframe]);
 
   useDimensions({ current: safeDocument(d => d.body, null) }, defaultGetElementDimensions, adaptHeight);
 
@@ -51,6 +71,14 @@ export const InstagramPost: React.FC<IProps> = ({ className, url, id, wide }) =>
     <InstagramEmbed
       css={css`
         width: 360px !important;
+        transition: height 300ms;
+        height: 0px;
+
+        iframe {
+          height: 100%;
+          padding-bottom: 1px !important;
+        }
+
         @media ${mediaQueries.maxWidth768} {
           width: 100% !important;
 

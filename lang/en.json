@@ -289,5 +289,8 @@
   "AdminRates.create.title": "Create currency rate",
   "AdminPromoCodes.errors.hasOrders": "Promo code connected with orders can't be deleted or edited",
   "ProductTypePageView.instagram": "Check out on Instagram",
-  "AdminProductTypes.errors.invalidInstagramLinks": "This fields should contain instagram posts links separated by comma"
+  "AdminProductTypes.errors.invalidInstagramLinks": "This fields should contain instagram posts links separated by comma",
+  "AdminProductTypes.instagramLinks": "Instagram links",
+  "AdminProductTypes.instagramLinks.placeholder": "https://www.instagram.com/p/CBxH4cfHlk4/,https://www.instagram.com/p/CBvUxOrHLdR/",
+  "common.separateWithComma": "Values should be separated with comma"
 }

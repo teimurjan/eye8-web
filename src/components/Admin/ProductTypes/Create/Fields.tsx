@@ -166,7 +166,7 @@ const DescriptionField: IIntlFieldProps['component'] = ({ input, meta, label, pl
   );
 };
 
-const InstagramLinksField = ({ input, meta, label, placeholder }: FieldRenderProps<string[]>) => {
+const InstagramLinksField = ({ input, meta }: FieldRenderProps<string[]>) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
   const onChange: React.ChangeEventHandler<HTMLTextAreaElement> = React.useCallback(
@@ -179,11 +179,11 @@ const InstagramLinksField = ({ input, meta, label, placeholder }: FieldRenderPro
 
   return (
     <FormTextField
-      labelProps={{ children: label }}
+      labelProps={{ children: intl.formatMessage({ id: 'AdminProductTypes.instagramLinks' }) }}
       renderInput={() => (
         <Textarea
           value={Array.isArray(input.value) ? input.value.join(',') : input.value}
-          placeholder={placeholder}
+          placeholder={intl.formatMessage({ id: 'AdminProductTypes.instagramLinks.placeholder' })}
           onChange={onChange}
           onBlur={input.onBlur}
           onFocus={input.onFocus}
@@ -191,8 +191,8 @@ const InstagramLinksField = ({ input, meta, label, placeholder }: FieldRenderPro
         />
       )}
       helpTextProps={{
-        children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
-        type: 'is-danger',
+        children: intl.formatMessage({ id: showError ? meta.error : 'common.separateWithComma' }),
+        type: showError ? 'is-danger' : undefined,
       }}
     />
   );

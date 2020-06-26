@@ -310,7 +310,8 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
               css={css`
                 display: flex;
                 width: 100%;
-                overflow: auto;
+                overflow-x: auto;
+                overflow-y: hidden;
                 position: relative;
               `}
             >
