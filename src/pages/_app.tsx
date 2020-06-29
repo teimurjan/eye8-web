@@ -1,4 +1,5 @@
 import { CacheProvider, ClassNames } from '@emotion/core';
+import * as Sentry from '@sentry/browser';
 import { cache } from 'emotion';
 import { ThemeProvider } from 'emotion-theming';
 import { AppProps, AppContext } from 'next/app';
@@ -28,6 +29,30 @@ import 'bulma/css/bulma.css';
 
 const intlCache = createIntlCache();
 const dependencies = dependenciesFactory();
+
+Sentry.init({ dsn: process.env.SENTRY_DSN });
+
+const Toaster = () => (
+  <ClassNames>
+    {({ css: css_ }) => (
+      <ToastContainer
+        className={css_`
+          position: fixed;
+          top: 0;
+          right: 0;
+          padding: 10px 20px;
+          z-index: 200;
+
+          @media ${mediaQueries.maxWidth768} {
+            width: 100%;
+            padding: 10px;
+          }
+        `}
+        Component={MessageToast}
+      />
+    )}
+  </ClassNames>
+);
 
 const CustomNextApp = ({
   Component,
@@ -68,25 +93,7 @@ const CustomNextApp = ({
                             <PageProgressBar />
                             <Component {...pageProps} />
                             <LoadingOverlay />
-                            <ClassNames>
-                              {({ css: css_ }) => (
-                                <ToastContainer
-                                  className={css_`
-                                    position: fixed;
-                                    top: 0;
-                                    right: 0;
-                                    padding: 10px 20px;
-                                    z-index: 200;
-
-                                    @media ${mediaQueries.maxWidth768} {
-                                      width: 100%;
-                                      padding: 10px;
-                                    }
-                                  `}
-                                  Component={MessageToast}
-                                />
-                              )}
-                            </ClassNames>
+                            <Toaster />
                           </>
                         </EntryPoint>
                       </CategoriesStateProvider>
