@@ -1,5 +1,4 @@
 /** @jsx jsx */
-
 import { css, jsx } from '@emotion/core';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from 'emotion-theming';
@@ -8,11 +7,11 @@ import { useIntl } from 'react-intl';
 
 import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
 import { Drawer } from 'src/components/client-ui/Drawer/Drawer';
+import { UnderlinedInput } from 'src/components/client-ui/Form/UnderlinedInput/UnderlinedInput';
 import { LinkPassingProps } from 'src/components/client-ui/LinkPassingProps/LinkPassingProps';
 import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout';
 import { Popover } from 'src/components/client-ui/Popover/Popover';
 import { Tag } from 'src/components/client-ui/Tag/Tag';
-import { UnderlinedInput } from 'src/components/client-ui/UnderlinedInput/UnderlinedInput';
 import { WithIcon } from 'src/components/client-ui/WithIcon/WithIcon';
 import { IViewProps as IProps } from 'src/components/Client/Search/SearchPresenter';
 import { useBoolean } from 'src/hooks/useBoolean';
@@ -156,7 +155,7 @@ export const SearchView: React.FC<IProps> = ({
             forceClose={searchValue === '' || !drawerOpened}
             renderTrigger={({ ref, open }) => (
               <UnderlinedInput
-                autoFocus
+                autoFocusDelay={500}
                 css={inputCSS}
                 containerRef={ref}
                 onFocus={open}

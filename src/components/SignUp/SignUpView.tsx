@@ -12,10 +12,11 @@ import { useIntl } from 'react-intl';
 
 import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
 import { Button } from 'src/components/client-ui/Button/Button';
+import { PasswordUnderlinedInput } from 'src/components/client-ui/Form/PasswordInput/PasswordInput';
+import { UnderlinedInput } from 'src/components/client-ui/Form/UnderlinedInput/UnderlinedInput';
 import { HelpText } from 'src/components/client-ui/HelpText/HelpText';
 import { Message } from 'src/components/client-ui/Message/Message';
 import { Title } from 'src/components/client-ui/Title/Title';
-import { UnderlinedInput } from 'src/components/client-ui/UnderlinedInput/UnderlinedInput';
 import { authButtonsContainerCSS } from 'src/components/Login/LoginView';
 import { IViewProps as IProps, IFormValues } from 'src/components/SignUp/SignUpPresenter';
 
@@ -24,7 +25,7 @@ const NameField = ({ input, meta }: FieldRenderProps<string>) => {
   const showError = meta.touched && meta.error && meta.submitFailed;
   return (
     <UnderlinedInput
-      autoFocus
+      autoFocusDelay={500}
       placeholder={intl.formatMessage({ id: 'SignUpForm.nameInput.label' })}
       error={showError ? intl.formatMessage({ id: meta.error }) : undefined}
       {...input}
@@ -48,10 +49,9 @@ const PasswordField = ({ input, meta }: FieldRenderProps<string>) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error && meta.submitFailed;
   return (
-    <UnderlinedInput
+    <PasswordUnderlinedInput
       placeholder={intl.formatMessage({ id: 'SignUpForm.passwordInput.label' })}
       error={showError ? intl.formatMessage({ id: meta.error }) : undefined}
-      type="password"
       {...input}
     />
   );

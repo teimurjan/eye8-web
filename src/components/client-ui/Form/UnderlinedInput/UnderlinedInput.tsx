@@ -7,6 +7,7 @@ import InputMask from 'react-input-mask';
 import { HelpText } from 'src/components/client-ui/HelpText/HelpText';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useDebounce } from 'src/hooks/useDebounce';
+import { useMultipleRefs } from 'src/hooks/useMultipleRefs';
 
 export interface IProps {
   error?: string;
@@ -19,7 +20,7 @@ export interface IProps {
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
   value?: string;
   disabled?: boolean;
-  autoFocus?: boolean;
+  autoFocusDelay?: number;
   mask?: string;
   containerRef?: React.Ref<HTMLDivElement>;
   append?: React.ReactNode;
@@ -29,7 +30,11 @@ const VERTICAL_PADDING_PX = 7.5;
 const HORIZONTAL_PADDING_PX = 2.5;
 
 export const UnderlinedInput = React.forwardRef<HTMLInputElement, IProps>(
-  ({ containerRef, className, error, placeholder, onFocus, autoFocus, onBlur, mask = '', append, ...props }, ref) => {
+  (
+    { containerRef, className, error, placeholder, onFocus, autoFocusDelay, onBlur, mask = '', append, ...props },
+    ref,
+  ) => {
+    const innerRef = React.useRef<HTMLInputElement>(null);
     const theme = useTheme<ClientUITheme>();
     const { value: isFocused, setNegative: blur, setPositive: focus } = useBoolean();
 
@@ -50,6 +55,19 @@ export const UnderlinedInput = React.forwardRef<HTMLInputElement, IProps>(
       },
       [blur, onBlur],
     );
+
+    const ref_ = useMultipleRefs(ref, innerRef);
+
+    React.useEffect(() => {
+      let timeoutId: NodeJS.Timeout;
+      if (autoFocusDelay && innerRef) {
+        timeoutId = setTimeout(() => {
+          innerRef.current && innerRef.current.focus();
+        }, autoFocusDelay);
+      }
+
+      return () => clearTimeout(timeoutId);
+    }, [innerRef, autoFocusDelay]);
 
     return (
       <div
@@ -90,7 +108,6 @@ export const UnderlinedInput = React.forwardRef<HTMLInputElement, IProps>(
           <InputMask
             disabled={false}
             mask={mask}
-            autoFocus={autoFocus}
             css={css`
               border: none;
               padding: ${VERTICAL_PADDING_PX + 15}px ${HORIZONTAL_PADDING_PX}px ${VERTICAL_PADDING_PX}px
@@ -105,7 +122,7 @@ export const UnderlinedInput = React.forwardRef<HTMLInputElement, IProps>(
             `}
             onFocus={onFocus_}
             onBlur={onBlur_}
-            inputRef={ref}
+            inputRef={ref_}
             {...props}
           />
           <span
