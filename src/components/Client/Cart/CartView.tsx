@@ -168,7 +168,7 @@ const FirstStep: React.FC<IProps> = ({
 
 const NameField = ({ input, meta }: FieldRenderProps<string>) => {
   const intl = useIntl();
-  const showError = meta.touched && meta.error;
+  const showError = meta.touched && meta.error && meta.submitFailed;
   return (
     <UnderlinedInput
       placeholder={intl.formatMessage({ id: 'Cart.nameInput.label' })}
@@ -180,7 +180,7 @@ const NameField = ({ input, meta }: FieldRenderProps<string>) => {
 
 const AddressField = ({ input, meta }: FieldRenderProps<string>) => {
   const intl = useIntl();
-  const showError = meta.touched && meta.error;
+  const showError = meta.touched && meta.error && meta.submitFailed;
   return (
     <UnderlinedInput
       placeholder={intl.formatMessage({ id: 'Cart.addressInput.label' })}
@@ -192,7 +192,7 @@ const AddressField = ({ input, meta }: FieldRenderProps<string>) => {
 
 const PhoneField = ({ input, meta }: FieldRenderProps<string>) => {
   const intl = useIntl();
-  const showError = meta.touched && meta.error;
+  const showError = meta.touched && meta.error && meta.submitFailed;
   return (
     <UnderlinedInput
       mask="+\9\96 (999) 99-99-99"

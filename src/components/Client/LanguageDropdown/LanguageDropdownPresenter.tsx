@@ -30,8 +30,10 @@ export const LanguageDropdownPresenter = ({
 }: IProps) => {
   const changeLocale = React.useCallback(
     (newLocale: string) => {
-      intlService.setLocale(newLocale);
-      safeWindow(w => w.location.reload(), undefined);
+      if (intlService.getLocale() !== newLocale) {
+        intlService.setLocale(newLocale);
+        safeWindow(w => w.location.reload(), undefined);
+      }
     },
     [intlService],
   );

@@ -1,6 +1,6 @@
 {
   "errors.common": "Something went wrong",
-  "LoginPage.title": "Hello!",
+  "LoginPage.title": "Sign in to account",
   "LoginForm.emailInput.label": "Email",
   "LoginForm.emailInput.placeholder": "Enter email",
   "LoginForm.passwordInput.label": "Password",
@@ -11,7 +11,7 @@
   "LoginForm.errors.email.empty": "Email is required",
   "LoginForm.errors.password.empty": "Password is required",
   "LoginForm.errors.invalidCredentials": "Email or/and password are incorrect.",
-  "SignUpPage.title": "Welcome!",
+  "SignUpPage.title": "Create account",
   "SignUpForm.errors.name.empty": "Name is required",
   "SignUpForm.errors.email.format": "Invalid email format",
   "SignUpForm.errors.email.empty": "Email is required",
@@ -292,5 +292,7 @@
   "AdminProductTypes.errors.invalidInstagramLinks": "This fields should contain instagram posts links separated by comma",
   "AdminProductTypes.instagramLinks": "Instagram links",
   "AdminProductTypes.instagramLinks.placeholder": "https://www.instagram.com/p/CBxH4cfHlk4/,https://www.instagram.com/p/CBvUxOrHLdR/",
-  "common.separateWithComma": "Values should be separated with comma"
+  "common.separateWithComma": "Values should be separated with comma",
+  "Login.success": "You've been successfully logged in",
+  "Logout.success": "You've been successfully logged out"
 }

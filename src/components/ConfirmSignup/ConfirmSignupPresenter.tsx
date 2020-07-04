@@ -27,7 +27,7 @@ export const ConfirmSignupPresenter = ({ View, service, router }: IProps) => {
 
         if (token) {
           await service.confirmSignup(typeof token === 'string' ? token : token[0]);
-          redirectTimeout = setTimeout(() => router.push('/login'), 3000);
+          redirectTimeout = setTimeout(() => router.push('/', '/login'), 3000);
         } else {
           setError('ConfirmSignup.invalidToken');
         }

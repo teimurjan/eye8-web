@@ -1,6 +1,6 @@
 {
   "errors.common": "Что-то пошло не так.",
-  "LoginPage.title": "Привет!",
+  "LoginPage.title": "Войти в аккаунт",
   "LoginForm.emailInput.label": "Email",
   "LoginForm.emailInput.placeholder": "Введите email",
   "LoginForm.passwordInput.label": "Пароль",
@@ -11,7 +11,7 @@
   "LoginForm.errors.email.empty": "Обязательное поле",
   "LoginForm.errors.password.empty": "Обязательное поле",
   "LoginForm.errors.invalidCredentials": "Неверный email и/или пароль",
-  "SignUpPage.title": "Добро пожаловать!",
+  "SignUpPage.title": "Создать аккаунт",
   "SignUpForm.errors.name.empty": "Имя не может быть пустым",
   "SignUpForm.errors.email.format": "Неверный формат почты",
   "SignUpForm.errors.email.empty": "Обязательное поле",
@@ -292,5 +292,7 @@
   "AdminProductTypes.errors.invalidInstagramLinks": "Данное поле должно содержать ссылки на Instagram публикации, разделенные запятой",
   "AdminProductTypes.instagramLinks": "Instagram ссылки",
   "AdminProductTypes.instagramLinks.placeholder": "https://www.instagram.com/p/CBxH4cfHlk4/,https://www.instagram.com/p/CBvUxOrHLdR/",
-  "common.separateWithComma": "Значения должны быть разделены запятыми (без пробелов)"
+  "common.separateWithComma": "Значения должны быть разделены запятыми (без пробелов)",
+  "Login.success": "Вы успешно вошли в аккаунт",
+  "Logout.success": "Вы вышли из аккаунта"
 }

@@ -9,9 +9,8 @@ export interface IProps extends UserStateContextValue, AppStateContextValue {
 
 export interface IViewProps {
   user: User;
-  onLogOutClick: () => void;
 }
 
 export const HeaderPresenter: React.FC<IProps> = ({ View, userState: { user, clearUser }, ...viewProps }) => (
-  <View user={user} onLogOutClick={clearUser} {...viewProps} />
+  <View user={user} {...viewProps} />
 );

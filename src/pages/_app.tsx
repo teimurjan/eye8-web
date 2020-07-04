@@ -12,12 +12,17 @@ import { GlobalStyles } from 'src/_app/GlobalStyle';
 import { LoadingOverlay } from 'src/_app/LoadingOverlay';
 import { SentryErrorBoundary } from 'src/_app/SentryErrorBoundary';
 import { CacheBuster } from 'src/components/CacheBuster';
+import { Modal } from 'src/components/client-ui/Modal/Modal';
 import { PageProgressBar } from 'src/components/common-ui/PageProgressBar/PageProgressBar';
+import { LoginContainer } from 'src/components/Login/LoginContainer';
+import { SignUpContainer } from 'src/components/SignUp/SignUpContainer';
 import { MessageToast } from 'src/components/Toast/MessageToast';
 import { ToastContainer } from 'src/components/Toast/ToastContainer';
 import { dependenciesFactory, IDependenciesFactoryArgs } from 'src/DI/DependenciesContainer';
 import { DIProvider } from 'src/DI/DI';
+import { useLazyInitialization } from 'src/hooks/useLazyInitialization';
 import { AppStateProvider } from 'src/state/AppState';
+import { AuthModalStateProvider, useAuthModalState } from 'src/state/AuthModalState';
 import { CategoriesStateProvider } from 'src/state/CategoriesState';
 import { IntlStateProvider } from 'src/state/IntlState';
 import { RatesStateProvider } from 'src/state/RatesState';
@@ -54,6 +59,29 @@ const Toaster = () => (
   </ClassNames>
 );
 
+const AuthModal = () => {
+  const { authModalState } = useAuthModalState();
+
+  const isLoginOpen = authModalState.modalType === 'login';
+  const isSignUpOpen = authModalState.modalType === 'signup';
+  const { value: isOpen } = useLazyInitialization(isLoginOpen || isSignUpOpen, false);
+
+  const children = React.useMemo(() => {
+    if (isLoginOpen) {
+      return <LoginContainer />;
+    }
+    if (isSignUpOpen) {
+      return <SignUpContainer />;
+    }
+  }, [isLoginOpen, isSignUpOpen]);
+
+  return (
+    <Modal isOpen={isOpen} close={authModalState.close} fixed backdrop debounceChildrenOnClose>
+      {children}
+    </Modal>
+  );
+};
+
 const CustomNextApp = ({
   Component,
   pageProps,
@@ -86,16 +114,19 @@ const CustomNextApp = ({
                   <RatesStateProvider initialProps={componentsInitialProps.ratesState}>
                     <UserStateProvider>
                       <CategoriesStateProvider initialProps={componentsInitialProps.categoriesState}>
-                        <EntryPoint>
-                          <>
-                            <CustomHead />
-                            <GlobalStyles />
-                            <PageProgressBar />
-                            <Component {...pageProps} />
-                            <LoadingOverlay />
-                            <Toaster />
-                          </>
-                        </EntryPoint>
+                        <AuthModalStateProvider>
+                          <EntryPoint>
+                            <>
+                              <CustomHead />
+                              <GlobalStyles />
+                              <PageProgressBar />
+                              <Component {...pageProps} />
+                              <LoadingOverlay />
+                              <Toaster />
+                              <AuthModal />
+                            </>
+                          </EntryPoint>
+                        </AuthModalStateProvider>
                       </CategoriesStateProvider>
                     </UserStateProvider>
                   </RatesStateProvider>

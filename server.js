@@ -34,7 +34,7 @@ const getMessages = locale => {
   return require(`./lang/${locale}.json`);
 };
 
-const detectLocale = (req) => {
+const detectLocale = req => {
   const cookieLocale = cookie.parse(req.headers.cookie || '').locale;
   if (cookieLocale) {
     const supportedCookieLocale = supportedLanguages.find(l => l === cookieLocale);
@@ -49,6 +49,21 @@ const detectLocale = (req) => {
   return negotiatedLanguage || 'ru';
 };
 
+const routesMappings = [
+  {
+    matches: pathname => pathname.startsWith('/admin'),
+    route: '/admin',
+  },
+  {
+    matches: pathname => pathname.startsWith('/profile'),
+    route: '/profile',
+  },
+  {
+    matches: pathname => pathname.startsWith('/login') || pathname.startsWith('/signup'),
+    route: '/',
+  },
+];
+
 app.prepare().then(() => {
   createServer((req, res) => {
     const detectedLocale = detectLocale(req);
@@ -59,10 +74,9 @@ app.prepare().then(() => {
     const parsedUrl = parse(req.url, true);
     const { pathname, query } = parsedUrl;
 
-    if (pathname.startsWith('/admin')) {
-      app.render(req, res, '/admin', query);
-    } else if (pathname.startsWith('/profile')) {
-      app.render(req, res, '/profile', query);
+    const routeMapping = routesMappings.find(mapping => mapping.matches(pathname));
+    if (routeMapping) {
+      app.render(req, res, routeMapping.route, query);
     } else {
       handle(req, res, parsedUrl);
     }

@@ -77,6 +77,7 @@ export interface IProps<T> {
   refsToInclude?: React.RefObject<HTMLElement>[];
   arrowClassName?: string;
   delay?: number;
+  closeOnClick?: boolean;
 }
 
 export const Popover = <T extends HTMLElement>({
@@ -93,6 +94,7 @@ export const Popover = <T extends HTMLElement>({
   offset = [0, 10],
   arrowClassName,
   delay = 0,
+  closeOnClick = false,
 }: IProps<T>) => {
   const popoverRoot = safeDocument(d => d.getElementById('popoverRoot'), null);
 
@@ -185,6 +187,7 @@ export const Popover = <T extends HTMLElement>({
 
                     ${poppingCSS};
                   `}
+                  onClick={closeOnClick ? close : undefined}
                 >
                   {typeof children === 'function'
                     ? children({ open, close, isOpen, toggle, update: popper.update })
@@ -264,7 +267,7 @@ export interface IPopoverItemProps<T> {
   Component: React.ComponentType<T> | 'div';
 }
 
-const PopoverItem = <T extends any = {}>({ className, Component, ...props }: IPopoverItemProps<T> & T) => {
+const PopoverItem = <T extends object = {}>({ className, Component, ...props }: IPopoverItemProps<T> & T) => {
   const theme = useTheme<ClientUITheme>();
 
   return (
@@ -283,7 +286,8 @@ const PopoverItem = <T extends any = {}>({ className, Component, ...props }: IPo
             }
           `,
           )}
-          {...props}
+          /* TODO: Get rid of any */
+          {...(props as any)}
         />
       )}
     </ClassNames>

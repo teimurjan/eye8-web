@@ -82,7 +82,8 @@ const getSlidingCSS = (from: FromSide) => {
   const { permanent, initial, final } = cssOfSide[from];
 
   const drawerContentCSS = css`
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15), 0 8px 8px 0 rgba(0, 0, 0, 0.05);
+
+
     transition: transform 300ms ease-in-out, opacity 175ms ease-in-out;
     position: absolute;
     z-index: 99;
@@ -109,7 +110,7 @@ const getSlidingCSS = (from: FromSide) => {
     }
   `;
 
-  const modalBackgroundCSS = css`
+  const backdropCSS = css`
     opacity: 0;
     z-index: 98;
     transition: opacity 175ms ease-in-out;
@@ -162,7 +163,7 @@ const getSlidingCSS = (from: FromSide) => {
 
   return {
     drawerContentCSS,
-    modalBackgroundCSS,
+    backdropCSS,
     modalCloseCSS,
     drawerCSS,
   };
@@ -214,7 +215,7 @@ export const Drawer = ({
   useMousetrap('esc', closeIfOpen);
 
   const drawerRoot = safeDocument(d => d.getElementById('drawerRoot'), null);
-  const { drawerContentCSS, modalBackgroundCSS, modalCloseCSS, drawerCSS } = getSlidingCSS(fromSide);
+  const { drawerContentCSS, backdropCSS, modalCloseCSS, drawerCSS } = getSlidingCSS(fromSide);
 
   return drawerRoot
     ? ReactDOM.createPortal(
@@ -243,7 +244,7 @@ export const Drawer = ({
                 onClick={close}
               />
             )}
-            {backdrop && <ModalBackground className={classNames({ fixed })} css={modalBackgroundCSS}></ModalBackground>}
+            {backdrop && <ModalBackground className={classNames({ fixed })} css={backdropCSS}></ModalBackground>}
           </div>
         </CSSTransition>,
         drawerRoot,

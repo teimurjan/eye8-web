@@ -3,6 +3,7 @@ import { css, jsx } from '@emotion/core';
 import classNames from 'classnames';
 import { useTheme } from 'emotion-theming';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import * as React from 'react';
 
 import { useIsTouch } from 'src/hooks/useIsTouch';
@@ -22,6 +23,8 @@ interface IProps {
   target?: string;
   plain?: boolean;
   noHoverOnTouch?: boolean;
+  shallow?: boolean;
+  silent?: boolean;
 }
 
 export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
@@ -40,10 +43,13 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
       plain,
       primary,
       noHoverOnTouch,
+      shallow,
+      silent,
     },
     ref,
   ) => {
     const theme = useTheme<ClientUITheme>();
+    const router = useRouter();
 
     const modifiedOnClick = React.useCallback(
       e => {
@@ -51,9 +57,14 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
           e.preventDefault();
         }
 
+        if (href && shallow) {
+          e.preventDefault();
+          router.push(href, asPath, { shallow: true });
+        }
+
         onClick && onClick(e);
       },
-      [href, onClick],
+      [href, onClick, shallow, router, asPath],
     );
 
     const isTouch = useIsTouch();

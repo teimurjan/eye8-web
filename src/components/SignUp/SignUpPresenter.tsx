@@ -3,8 +3,9 @@ import * as yup from 'yup';
 
 import * as schemaValidator from 'src/components/SchemaValidator';
 import * as authService from 'src/services/AuthService';
+import { IContextValue as AuthModalStateContextValue } from 'src/state/AuthModalState';
 
-export interface IProps {
+export interface IProps extends AuthModalStateContextValue {
   service: authService.IAuthService;
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
 }
@@ -20,6 +21,7 @@ export interface IViewProps {
   globalError: string | undefined;
   validate: (values: IFormValues) => object | Promise<object>;
   isSuccess: boolean;
+  openLogin: () => void;
 }
 
 interface IState {
@@ -28,7 +30,7 @@ interface IState {
   isSuccess: boolean;
 }
 
-export class SignUpFormPresenter extends React.Component<IProps, IState> {
+export class SignUpPresenter extends React.Component<IProps, IState> {
   public state = {
     error: undefined,
     isLoading: false,
@@ -58,9 +60,22 @@ export class SignUpFormPresenter extends React.Component<IProps, IState> {
     const { error, isSuccess } = this.state;
     const { View } = this.props;
     return (
-      <View isSuccess={isSuccess} onSubmit={this.onSubmit} globalError={error} validate={this.validator.validate} />
+      <View
+        isSuccess={isSuccess}
+        onSubmit={this.onSubmit}
+        globalError={error}
+        validate={this.validator.validate}
+        openLogin={this.openLogin}
+      />
     );
   }
+
+  private openLogin = () => {
+    const {
+      authModalState: { open: openAuthModal },
+    } = this.props;
+    openAuthModal('login');
+  };
 
   private onSubmit = async (values: IFormValues) => {
     this.startLoading();

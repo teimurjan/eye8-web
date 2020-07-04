@@ -126,6 +126,7 @@ export const HeaderView = () => {
                 close={closeMobileMenu}
                 onClick={closeMobileMenu}
                 backdrop
+                fixed
               >
                 <MobileNav />
               </Drawer>

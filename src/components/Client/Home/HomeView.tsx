@@ -54,7 +54,10 @@ export interface IBannerButtonProps {
   onMouseEnter: React.MouseEventHandler;
 }
 
-export const HomeView: React.FC<IProps> = ({ banners, productTypes }) => {
+export const HomeView: React.FC<IProps> = ({
+  banners,
+  productTypes,
+}) => {
   const intl = useIntl();
   const theme = useTheme<ClientUITheme>();
   const isMobile = useMedia([mediaQueries.maxWidth768], [true], false);

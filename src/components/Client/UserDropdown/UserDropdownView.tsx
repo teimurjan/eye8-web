@@ -22,7 +22,7 @@ const Trigger = React.forwardRef<HTMLAnchorElement, PopoverTriggerProps>((props,
   );
 });
 
-export const UserDropdownView = ({ user, onLogoutClick }: IProps) => {
+export const UserDropdownView = ({ user, onLogoutClick, openAuthModal }: IProps) => {
   const intl = useIntl();
   const languageDropdownRef = React.useRef<HTMLDivElement>(null);
 
@@ -38,10 +38,10 @@ export const UserDropdownView = ({ user, onLogoutClick }: IProps) => {
 
   if (!isUserAuthorized(user)) {
     items.push(
-      <Anchor key="logIn" href="/login" thin>
+      <Anchor key="logIn" onClick={() => openAuthModal('login')} shallow thin>
         {intl.formatMessage({ id: 'Header.logIn' })}
       </Anchor>,
-      <Anchor key="signUp" href="/signup" thin>
+      <Anchor key="signUp" onClick={() => openAuthModal('signup')} shallow thin>
         {intl.formatMessage({ id: 'Header.signUp' })}
       </Anchor>,
     );
@@ -63,7 +63,7 @@ export const UserDropdownView = ({ user, onLogoutClick }: IProps) => {
   );
 
   return (
-    <Popover refsToInclude={[languageDropdownRef]} TriggerComponent={Trigger} openOnHover>
+    <Popover refsToInclude={[languageDropdownRef]} TriggerComponent={Trigger} openOnHover closeOnClick>
       <Popover.Content>{items}</Popover.Content>
     </Popover>
   );

@@ -12,26 +12,34 @@ const DEFAULT_TRANSITION_CLASSNAME = 'toast';
 
 let toastKey = 0;
 
-type Toast = { id: number | string; children: React.ReactNode; type: string; duration?: number };
+type Toast = { id: number | string; children: React.ReactNode; type: string; duration?: number; delay?: number };
 type KeyedToast = Toast & { key: number };
 
 const toastsWV = new WatchingValue<{ [key: string]: KeyedToast }>({});
 
-const timeoutIds: { [key: string]: NodeJS.Timeout } = {};
+const durationTimeoutIds: { [key: string]: NodeJS.Timeout } = {};
+const delayTimeoutIds: { [key: string]: NodeJS.Timeout } = {};
 const setClearToastTimeout = (toast_: Toast) => {
-  timeoutIds[toast_.id] = setTimeout(() => {
+  durationTimeoutIds[toast_.id] = setTimeout(() => {
     clearToast(toast_);
-    delete timeoutIds[toast_.id];
-  }, toast_.duration || DEFAULT_TOAST_DURATION);
+    delete durationTimeoutIds[toast_.id];
+  }, (toast_.duration || DEFAULT_TOAST_DURATION) + (toast_.delay || 0));
 };
 export const toast = (toast_: Toast) => {
   if (toastsWV.get()[toast_.id]) {
-    clearTimeout(timeoutIds[toast_.id]);
+    clearTimeout(durationTimeoutIds[toast_.id]);
   }
   if (toast_.duration) {
     setClearToastTimeout(toast_);
   }
-  toastsWV.set({ ...toastsWV.get(), [toast_.id]: { ...toast_, key: toastKey++ } });
+
+  const addToast = () => toastsWV.set({ ...toastsWV.get(), [toast_.id]: { ...toast_, key: toastKey++ } });
+  if (toast_.delay) {
+    const delayTimeoutId = setTimeout(addToast, toast_.delay);
+    delayTimeoutIds[toast_.id] = delayTimeoutId;
+  } else {
+    addToast();
+  }
 };
 
 const clearToast = (toast_: Toast) => {
@@ -75,7 +83,10 @@ export const ToastContainer: React.FC<IToastContainerProps> = ({
   }, []);
 
   React.useEffect(() => {
-    return () => Object.values(timeoutIds).forEach(clearTimeout);
+    return () =>
+      [durationTimeoutIds, delayTimeoutIds].forEach(timeoutIds => {
+        Object.values(timeoutIds).forEach(clearTimeout);
+      });
   }, []);
 
   const toastRoot = useLazyInitialization(
