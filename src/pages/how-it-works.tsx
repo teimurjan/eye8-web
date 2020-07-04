@@ -11,7 +11,7 @@ const HowItWorks = () => {
     <Layout>
       <Story
         type={Story.SourceType.Video}
-        src="/static/video/making-order.mov"
+        src="/video/making-order.mov"
         title={<Story.Title>{intl.formatMessage({ id: 'HowItWorks.makingOrder.title' })}</Story.Title>}
         description={
           <Story.Description>
@@ -25,7 +25,7 @@ const HowItWorks = () => {
         }
       />
       <Story
-        src="/static/img/delievery.jpg"
+        src="/img/delievery.jpg"
         title={<Story.Title>{intl.formatMessage({ id: 'HowItWorks.delievery.title' })}</Story.Title>}
         description={
           <Story.Description>{intl.formatMessage({ id: 'HowItWorks.delievery.description' })}</Story.Description>
@@ -33,7 +33,7 @@ const HowItWorks = () => {
         rtl
       />
       <Story
-        src="/static/img/fitting.jpg"
+        src="/img/fitting.jpg"
         title={<Story.Title>{intl.formatMessage({ id: 'HowItWorks.fitting.title' })}</Story.Title>}
         description={
           <Story.Description>{intl.formatMessage({ id: 'HowItWorks.fitting.description' })}</Story.Description>
