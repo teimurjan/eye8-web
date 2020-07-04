@@ -60,9 +60,10 @@ export const UnderlinedInput = React.forwardRef<HTMLInputElement, IProps>(
 
     React.useEffect(() => {
       let timeoutId: NodeJS.Timeout;
-      if (autoFocusDelay && innerRef) {
+      if (autoFocusDelay && innerRef && innerRef.current) {
         timeoutId = setTimeout(() => {
-          innerRef.current && innerRef.current.focus();
+          innerRef.current!.click();
+          innerRef.current!.focus();
         }, autoFocusDelay);
       }
 
