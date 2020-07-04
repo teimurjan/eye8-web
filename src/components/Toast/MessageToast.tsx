@@ -70,7 +70,10 @@ export const MessageToast = ({
       <div
         css={css`
           display: block;
-          ${duration && css`animation: ${expandHorizontally} ${duration}ms linear;`}
+          ${duration &&
+            css`
+              animation: ${expandHorizontally} ${duration}ms linear;
+            `}
           animation-fill-mode: forwards;
           transform-origin: 100% 0;
           height: 2.5px;

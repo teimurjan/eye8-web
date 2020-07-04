@@ -82,8 +82,6 @@ const getSlidingCSS = (from: FromSide) => {
   const { permanent, initial, final } = cssOfSide[from];
 
   const drawerContentCSS = css`
-
-
     transition: transform 300ms ease-in-out, opacity 175ms ease-in-out;
     position: absolute;
     z-index: 99;

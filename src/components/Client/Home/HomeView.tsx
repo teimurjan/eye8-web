@@ -1,5 +1,4 @@
 /** @jsx jsx */
-
 import { css, jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
@@ -54,10 +53,7 @@ export interface IBannerButtonProps {
   onMouseEnter: React.MouseEventHandler;
 }
 
-export const HomeView: React.FC<IProps> = ({
-  banners,
-  productTypes,
-}) => {
+export const HomeView: React.FC<IProps> = ({ banners, productTypes }) => {
   const intl = useIntl();
   const theme = useTheme<ClientUITheme>();
   const isMobile = useMedia([mediaQueries.maxWidth768], [true], false);
