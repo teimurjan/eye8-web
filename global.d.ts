@@ -5,6 +5,7 @@ declare interface AdminUITheme {
   dark: string;
   danger: string;
   greyLight: string;
+  greyDark: string;
   info: string;
   success: string;
   warning: string;

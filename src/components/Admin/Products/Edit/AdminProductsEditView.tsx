@@ -18,6 +18,8 @@ export const AdminProductsEditView = ({
   isUpdating,
   featureValues,
   initialValues,
+  LoadMoreProductTypes,
+  productTypesLoading,
 }: IProps & { intl: IntlShape }) => (
   <ModalForm
     formID="adminProductsEditForm"
@@ -29,7 +31,14 @@ export const AdminProductsEditView = ({
     preloadingError={preloadingError}
     globalError={error}
     title={intl.formatMessage({ id: 'AdminProducts.edit.title' })}
-    fields={<Fields productTypes={productTypes} featureValues={featureValues} />}
+    fields={
+      <Fields
+        productTypesLoading={productTypesLoading}
+        LoadMoreProductTypes={LoadMoreProductTypes}
+        productTypes={productTypes}
+        featureValues={featureValues}
+      />
+    }
     validate={validate}
     initialValues={initialValues}
     wide

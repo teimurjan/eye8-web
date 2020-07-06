@@ -131,10 +131,6 @@ const InnerForm = <T extends {}>({
   );
 };
 
-const getInnerFormRenderer = <T extends {}>(props: IInnerFormProps<T> & { className?: string }) => (
-  formRenderProps: FormRenderProps<T>,
-) => <InnerForm {...{ ...formRenderProps, ...props }} />;
-
 export const ModalForm = <T extends {}>(props: IProps<T>) => {
   const intl = useIntl();
 
@@ -152,7 +148,7 @@ export const ModalForm = <T extends {}>(props: IProps<T>) => {
     `,
   );
 
-  const { isOpen, onClose, preloadingError, validate, onSubmit, initialValues } = props;
+  const { isOpen, onClose, preloadingError, validate } = props;
 
   return (
     <Modal isOpen={isOpen}>
@@ -170,9 +166,9 @@ export const ModalForm = <T extends {}>(props: IProps<T>) => {
           <Form<T>
             css={props.wide ? modalCSS : undefined}
             validate={validate}
-            onSubmit={onSubmit}
-            render={getInnerFormRenderer(props)}
-            initialValues={initialValues as T}
+            component={InnerForm as React.FC<FormRenderProps<T>>}
+            {...props}
+            initialValues={props.initialValues as T}
           />
         )}
       </ModalContent>

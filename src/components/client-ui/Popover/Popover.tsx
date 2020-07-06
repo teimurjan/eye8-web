@@ -78,6 +78,8 @@ export interface IProps<T> {
   arrowClassName?: string;
   delay?: number;
   closeOnClick?: boolean;
+  onEnter?: () => void;
+  onEntered?: () => void;
 }
 
 export const Popover = <T extends HTMLElement>({
@@ -95,6 +97,8 @@ export const Popover = <T extends HTMLElement>({
   arrowClassName,
   delay = 0,
   closeOnClick = false,
+  onEnter,
+  onEntered,
 }: IProps<T>) => {
   const popoverRoot = safeDocument(d => d.getElementById('popoverRoot'), null);
 
@@ -123,7 +127,8 @@ export const Popover = <T extends HTMLElement>({
     triggerRef,
     refsToInclude,
   ]);
-  useClickOutside(outsideRefs, close);
+
+  useClickOutside(outsideRefs, close, isOpenMemoized);
   useMouseOutside(outsideRefs, close, shouldOpenOnHover && isOpenMemoized);
 
   const modifiers = React.useMemo(() => {
@@ -172,7 +177,15 @@ export const Popover = <T extends HTMLElement>({
 
       {popoverRoot
         ? ReactDOM.createPortal(
-            <CSSTransition in={isOpenMemoized} timeout={300} classNames="popping" unmountOnExit>
+            <CSSTransition
+              in={isOpenMemoized}
+              timeout={300}
+              classNames="popping"
+              onEnter={onEnter}
+              onEntered={onEntered}
+              mountOnEnter
+              unmountOnExit
+            >
               <div
                 css={css`
                   z-index: 100;

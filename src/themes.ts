@@ -8,6 +8,7 @@ export const defaultTheme: AdminUITheme & ClientUITheme = {
   success: 'hsl(141, 71%,  48%)',
   warning: 'hsl(48,  100%, 67%)',
   white: '#fff',
+  greyDark: 'hsl(0, 0%, 29%)',
   greyLight: 'hsl(0, 0%, 71%)',
   light: 'hsl(0, 0%, 96%)',
   // V2

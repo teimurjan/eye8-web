@@ -6,8 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
+import { useIntl } from 'react-intl';
 
 import { Popover, RenderTrigger } from 'src/components/client-ui/Popover/Popover';
+import { useForceUpdate } from 'src/hooks/useForceUpdate';
+import { useScrollPosition } from 'src/hooks/useScrollPosition';
 import { mediaQueries } from 'src/styles/media';
 
 const VERTICAL_PADDING_PX = 7.5;
@@ -20,14 +23,14 @@ interface IOptionProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const SelectOption = (props: IOptionProps) => <Popover.Item Component="div" {...props} />;
 
-interface ISelectTriggerProps {
+export interface ISelectTriggerProps {
   title?: React.ReactNode;
   placeholder: string;
   onClick: React.MouseEventHandler;
   isOpen: boolean;
 }
 
-const SelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProps>(
+export const SelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProps>(
   ({ title, onClick, isOpen, placeholder }, ref) => {
     const theme = useTheme<ClientUITheme>();
 
@@ -77,23 +80,33 @@ const SelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProps>(
   },
 );
 
-const getSelectTriggerRenderer = (
+type ITriggerComponentType<T extends HTMLElement> = React.ComponentType<ISelectTriggerProps & React.RefAttributes<T>>;
+
+const getSelectTriggerRenderer = <T extends HTMLElement>(
+  TriggerComponent: ITriggerComponentType<T>,
   props: Omit<ISelectTriggerProps, 'onClick' | 'isOpen'>,
-): RenderTrigger<HTMLDivElement> => ({ isOpen, open, ref }) => (
-  <SelectTrigger ref={ref} isOpen={isOpen} onClick={open} {...props} />
-);
+): RenderTrigger<T> => ({ toggle, ref, isOpen }) =>
+  React.createElement(TriggerComponent, {
+    ref,
+    onClick: toggle,
+    isOpen,
+    ...props,
+  });
 
 type OptionChild = React.ReactElement<IOptionProps>;
 
-export interface IProps {
+export interface IProps<T extends HTMLElement> {
   children: Array<OptionChild>;
   className?: string;
   value?: string;
   onChange?: (value?: string) => void;
   placeholder: string;
+  TriggerComponent: ITriggerComponentType<T>;
+  onLoadMore?: () => void;
+  isLoading?: boolean;
 }
 
-const getSelectedOptionChild = ({ children, value }: Pick<IProps, 'children' | 'value'>) => {
+const getSelectedOptionChild = <T extends HTMLElement>({ children, value }: Pick<IProps<T>, 'children' | 'value'>) => {
   let selectedOptionChild: OptionChild | undefined;
   React.Children.forEach(children, child => {
     if (child.props.value === value) {
@@ -104,8 +117,39 @@ const getSelectedOptionChild = ({ children, value }: Pick<IProps, 'children' | '
   return selectedOptionChild;
 };
 
-export const Select = ({ children, onChange, className, value, placeholder }: IProps) => {
-  const selectedOptionChild = getSelectedOptionChild({ children, value });
+const LOAD_MORE_SCROLL_OFFSET = 100;
+const hasScrolledToLoad = (el: HTMLElement, scrollTop: number) => {
+  const { scrollHeight, clientHeight } = el;
+  return scrollHeight - scrollTop - LOAD_MORE_SCROLL_OFFSET <= clientHeight;
+};
+
+export const Select = <T extends HTMLElement>({
+  children,
+  onChange,
+  className,
+  value,
+  placeholder,
+  TriggerComponent,
+  onLoadMore,
+  isLoading,
+}: IProps<T>) => {
+  const intl = useIntl();
+  const popoverContentRef = React.useRef<HTMLDivElement>(null);
+  const selectedOptionChild = getSelectedOptionChild<T>({ children, value });
+  const { update, dep } = useForceUpdate();
+
+  const scrollPos = useScrollPosition(popoverContentRef);
+
+  React.useEffect(() => {
+    if (
+      popoverContentRef.current &&
+      hasScrolledToLoad(popoverContentRef.current, scrollPos.top) &&
+      onLoadMore &&
+      !isLoading
+    ) {
+      onLoadMore();
+    }
+  }, [popoverContentRef, isLoading, onLoadMore, scrollPos, dep]);
 
   return (
     <div
@@ -129,30 +173,41 @@ export const Select = ({ children, onChange, className, value, placeholder }: IP
         <Popover
           placement="bottom-start"
           offset={[0, 1]}
-          renderTrigger={getSelectTriggerRenderer({
+          /* In order to popoverContentRef be set */
+          onEnter={update}
+          renderTrigger={getSelectTriggerRenderer(TriggerComponent, {
             title: selectedOptionChild ? selectedOptionChild.props.children : undefined,
             placeholder,
           })}
+          closeOnClick
         >
-          {({ close }) => (
-            <Popover.Content
-              css={css`
-                padding: 0;
-                max-height: 300px;
-                overflow: auto;
-              `}
-            >
-              {React.Children.map(children, child =>
-                React.cloneElement(child, {
-                  ...child.props,
-                  onClick: () => {
-                    onChange && onChange(child.props.value as string | undefined);
-                    close();
-                  },
-                }),
-              )}
-            </Popover.Content>
-          )}
+          <Popover.Content
+            ref={popoverContentRef}
+            css={css`
+              padding: 0;
+              max-height: 300px;
+              overflow: auto;
+              width: 300px;
+              max-width: 100%;
+            `}
+          >
+            {React.Children.map(children, child =>
+              React.cloneElement(child, {
+                ...child.props,
+                onClick: () => {
+                  onChange && onChange(child.props.value as string | undefined);
+                },
+              }),
+            )}
+            {isLoading && (
+              <Select.Option>
+                {intl.formatMessage({ id: 'common.loading' })}{' '}
+                <span role="img" aria-label="...">
+                  ⌛
+                </span>
+              </Select.Option>
+            )}
+          </Popover.Content>
         </Popover>
       </div>
     </div>

@@ -117,6 +117,7 @@ export interface IProductTypeListRawIntlMinifiedResponseItem {
 
 export interface IProductTypeListRawIntlMinifiedResponseData {
   data: IProductTypeListRawIntlMinifiedResponseItem[];
+  meta: IProductTypeListResponseMeta;
 }
 
 export interface IProductTypeCreatePayload {
@@ -171,7 +172,7 @@ export interface IProductTypeAPI {
   getNewest(): Promise<IProductTypeListResponseData>;
   getByID(id: number): Promise<IProductTypeDetailResponseItemData>;
   getBySlug(slug: string): Promise<IProductTypeDetailResponseItemData>;
-  getAllRawIntlMinified(): Promise<IProductTypeListRawIntlMinifiedResponseData>;
+  getAllRawIntlMinified(page?: number): Promise<IProductTypeListRawIntlMinifiedResponseData>;
   getAllRawIntl(page: number): Promise<IProductTypeListRawIntlResponseData>;
   delete(id: number): Promise<{}>;
   create(payload: IProductTypeCreatePayload): Promise<IProductTypeRawIntlResponseData>;
@@ -214,6 +215,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
         `/api/categories/${categoryIdOrSlug}/product_types${buildQueryString({
           page,
           sort_by: queryValueOfSortingType[sortBy],
+          products: 1,
         })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -246,6 +248,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
           page: 1,
           sort_by: queryValueOfSortingType[ProductTypeSortingType.RECENT],
           limit: 8,
+          products: 1,
           available: 1,
         })}`,
         {
@@ -286,10 +289,15 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   }
 
-  public async getAllRawIntlMinified() {
+  public async getAllRawIntlMinified(page?: number) {
     try {
       const response = await this.client.get<IProductTypeListRawIntlMinifiedResponseData>(
-        `/api/product_types${buildQueryString({ fields: ['id', 'name', 'feature_types'], raw_intl: 1 })}`,
+        `/api/product_types${buildQueryString({
+          fields: ['id', 'name', 'feature_types'],
+          raw_intl: 1,
+          page,
+          limit: typeof page !== 'undefined' ? 5 : undefined,
+        })}`,
         {
           headers: this.headersManager.getHeaders(),
         },

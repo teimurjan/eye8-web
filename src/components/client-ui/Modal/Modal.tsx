@@ -195,14 +195,8 @@ export const Modal = ({
 
   const ref = React.useRef<HTMLDivElement>(null);
 
-  const closeIfOpen = React.useCallback(() => {
-    if (isOpen) {
-      close();
-    }
-  }, [isOpen, close]);
-
-  useClickOutside([ref], closeIfOpen);
-  useMousetrap('esc', closeIfOpen);
+  useClickOutside([ref], close, isOpen);
+  useMousetrap('esc', close);
 
   const modalRoot = safeDocument(d => d.getElementById('modalRoot'), null);
 

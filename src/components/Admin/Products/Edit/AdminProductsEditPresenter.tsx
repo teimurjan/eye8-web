@@ -42,6 +42,8 @@ export interface IViewProps {
   featureValues: AdminFeatureValuesStateContextValue['adminFeatureValuesState']['featureValues'];
   productTypes: IProductTypeListRawIntlMinifiedResponseItem[];
   initialValues?: IFormValues;
+  LoadMoreProductTypes: () => void;
+  productTypesLoading: boolean;
 }
 
 export const AdminProductsEditPresenter: React.FC<IProps> = ({
@@ -58,11 +60,16 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(true);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
-  const { productTypes, isLoading: productTypesLoading, error: productTypesError } = useSelectProductTypes({
+  const {
+    productTypes,
+    isLoading: productTypesLoading,
+    error: productTypesError,
+    loadMore: LoadMoreProductTypes,
+  } = useSelectProductTypes({
     productTypeService,
   });
 
-  const isLoadingDebounced = useDebounce(featureValuesLoading || productTypesLoading || isLoading, 500);
+  const isLoadingDebounced = useDebounce(featureValuesLoading || isLoading, 500);
 
   const validator = new schemaValidator.SchemaValidator(
     yup.object().shape({
@@ -136,6 +143,8 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
 
   return (
     <View
+      productTypesLoading={productTypesLoading}
+      LoadMoreProductTypes={LoadMoreProductTypes}
       productTypes={productTypes}
       featureValues={featureValues}
       isOpen={true}

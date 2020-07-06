@@ -88,11 +88,11 @@ export const CartPresenter: React.FC<IProps> = ({
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [products, setProducts] = React.useState<{ [key: number]: IProductListResponseItem }>({});
   const [productsOrder, setProductsOrder] = React.useState<number[]>([]);
-  const forceUpdate = useForceUpdate();
+  const { update } = useForceUpdate();
 
   useMousetrap('shift+c', open);
 
-  React.useEffect(() => storage.addChangeListener(() => forceUpdate()), [forceUpdate, storage]);
+  React.useEffect(() => storage.addChangeListener(() => update()), [update, storage]);
 
   React.useEffect(() => {
     if (!isOpen) {

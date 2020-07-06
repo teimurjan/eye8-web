@@ -5,6 +5,7 @@ import { safeDocument } from 'src/utils/dom';
 export const useClickOutside = (
   refs: React.RefObject<HTMLElement> | Array<React.RefObject<HTMLElement>>,
   callback: () => void,
+  attachHandler: boolean,
 ) => {
   React.useEffect(
     () =>
@@ -26,14 +27,20 @@ export const useClickOutside = (
               }
             }
           };
-          d.addEventListener('click', handleClick);
+
+          if (attachHandler) {
+            d.addEventListener('click', handleClick);
+          } else {
+            d.removeEventListener('click', handleClick);
+          }
+
           return () => {
             d.removeEventListener('click', handleClick);
           };
         },
         () => {},
       ),
-    [callback, refs],
+    [callback, refs, attachHandler],
   );
 };
 

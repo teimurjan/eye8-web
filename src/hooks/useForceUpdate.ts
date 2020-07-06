@@ -1,5 +1,11 @@
 import * as React from 'react';
 
-export const useForceUpdate = (): (() => void) => {
-  return React.useReducer(() => ({}), {})[1] as () => void;
+export const useForceUpdate = () => {
+  const [dep, setDep] = React.useState({});
+
+  const update = React.useCallback(() => {
+    setDep({});
+  }, []);
+
+  return { dep, update };
 };

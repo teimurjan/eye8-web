@@ -42,11 +42,7 @@ export const Dropdown = ({
   const triggerRef = React.useRef(null);
   const contentRef = React.useRef(null);
 
-  useClickOutside([contentRef, triggerRef], () => {
-    if (isOpen) {
-      close();
-    }
-  });
+  useClickOutside([contentRef, triggerRef], close, isOpen);
 
   const trigger = React.useMemo(() => {
     if (TriggerComponent) {

@@ -17,19 +17,30 @@ export const AdminProductsCreateView = ({
   isCreating,
   featureValues,
   productTypes,
-}: IProps & { intl: IntlShape }) => (
-  <ModalForm
-    formID="adminProductsCreateForm"
-    isOpen={isOpen}
-    onSubmit={create}
-    onClose={close}
-    isLoading={isCreating}
-    isPreloading={isLoading}
-    preloadingError={preloadingError}
-    globalError={error}
-    title={intl.formatMessage({ id: 'AdminProducts.create.title' })}
-    fields={<Fields productTypes={productTypes} featureValues={featureValues} />}
-    validate={validate}
-    wide
-  />
-);
+  LoadMoreProductTypes,
+  productTypesLoading,
+}: IProps & { intl: IntlShape }) => {
+  return (
+    <ModalForm
+      formID="adminProductsCreateForm"
+      isOpen={isOpen}
+      onSubmit={create}
+      onClose={close}
+      isLoading={isCreating}
+      isPreloading={isLoading}
+      preloadingError={preloadingError}
+      globalError={error}
+      title={intl.formatMessage({ id: 'AdminProducts.create.title' })}
+      fields={
+        <Fields
+          productTypes={productTypes}
+          featureValues={featureValues}
+          LoadMoreProductTypes={LoadMoreProductTypes}
+          productTypesLoading={productTypesLoading}
+        />
+      }
+      validate={validate}
+      wide
+    />
+  );
+};
