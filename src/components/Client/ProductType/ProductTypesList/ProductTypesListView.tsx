@@ -51,14 +51,7 @@ export const ProductTypesListView = ({ filter, isLoading, error, productTypes, m
               width: 100%;
             `}
           >
-            <Columns
-              css={css`
-                width: 100%;
-                flex-wrap: wrap;
-                border-radius: 40px;
-              `}
-              className="is-mobile"
-            >
+            <Columns className="is-multiline is-mobile">
               {productTypes.map(productType => (
                 <Column
                   key={productType.id}
