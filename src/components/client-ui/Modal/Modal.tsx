@@ -14,6 +14,7 @@ import useClickOutside from 'src/hooks/useClickOutside';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { useModalScrollLock } from 'src/hooks/useModalScrollLock';
 import { useMousetrap } from 'src/hooks/useMousetrap';
+import { mediaQueries } from 'src/styles/media';
 import { safeDocument } from 'src/utils/dom';
 
 interface IModalCloseProps extends React.HTMLProps<HTMLOrSVGElement> {}
@@ -44,6 +45,27 @@ export const ModalClose: React.FC<IModalCloseProps> = ({ className, onClick }) =
     </Tooltip>
   );
 };
+
+const getFullScreenStyles = (
+  styles: string,
+  getSelector: (className: string) => string = className => `&.${className}`,
+) => css`
+  @media ${mediaQueries.maxWidth768} {
+    ${getSelector('mobileFullScreen')} {
+      ${styles}
+    }
+  }
+
+  @media ${mediaQueries.minWidth768} {
+    ${getSelector('desktopFullScreen')} {
+      ${styles}
+    }
+  }
+
+  ${getSelector('fullScreen')} {
+    ${styles}
+  }
+`;
 
 const modalContentCSS = css`
   transition: transform 500ms ease-in-out, opacity 175ms ease-in-out;
@@ -84,6 +106,8 @@ const modalContentCSS = css`
   &.fixed {
     position: fixed;
   }
+
+  ${getFullScreenStyles('width: 100%;height:100%;')}
 `;
 
 const backdropCSS = css`
@@ -115,7 +139,7 @@ const modalCloseCSS = css`
   opacity: 0;
   z-index: 100;
   transition: opacity 175ms ease-in-out;
-  color: white !important;
+  color: white;
 
   .popping-enter & {
     opacity: 0;
@@ -146,6 +170,7 @@ export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   fixed?: boolean;
   showClose?: boolean;
   debounceChildrenOnClose?: boolean;
+  fullScreen?: 'desktop' | 'always' | 'mobile';
 }
 
 export const Modal = ({
@@ -162,6 +187,7 @@ export const Modal = ({
   showClose = true,
   fixed,
   debounceChildrenOnClose = false,
+  fullScreen,
   ...props
 }: IProps) => {
   const theme = useTheme<ClientUITheme>();
@@ -201,7 +227,12 @@ export const Modal = ({
                 background: ${theme.backgroundPrimaryColor};
                 ${modalContentCSS};
               `}
-              className={classNames(className, { fixed })}
+              className={classNames(className, {
+                fixed,
+                fullScreen: fullScreen === 'always',
+                mobileFullScreen: fullScreen === 'mobile',
+                desktopFullScreen: fullScreen === 'desktop',
+              })}
               ref={ref}
               {...props}
             >
@@ -214,7 +245,7 @@ export const Modal = ({
                   position: absolute;
                   ${modalCloseCSS};
 
-                  color: ${theme.textColor};
+                  ${getFullScreenStyles(`color: ${theme.textColor};`, className => `.${className} + & `)}
 
                   &.fixed {
                     position: fixed;

@@ -5,6 +5,10 @@ const FONT_FAMILY = 'Jost';
 export const GlobalStyles = () => (
   <Global
     styles={css`
+      html {
+        overflow: auto;
+      }
+
       body {
         @import url('https://fonts.googleapis.com/css2?family=${FONT_FAMILY.replace(
           ' ',

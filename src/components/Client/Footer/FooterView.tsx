@@ -7,6 +7,19 @@ import { Container } from 'src/components/admin-ui/Container/Container';
 import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
 import { WithIcon } from 'src/components/client-ui/WithIcon/WithIcon';
 import { mediaQueries } from 'src/styles/media';
+import { safeDocument } from 'src/utils/dom';
+
+export const FOOTER_DESKTOP_VERTICAL_PADDING_PX = 35;
+export const FOOTER_MOBILE_VERTICAL_PADDING_PX = 15;
+
+export const getFooterHeight = () => {
+  return safeDocument(d => {
+    const footer = d.querySelector('footer');
+    if (footer) {
+      return footer.clientHeight;
+    }
+  }, 0);
+};
 
 export const FooterView = () => {
   const intl = useIntl();
@@ -14,12 +27,11 @@ export const FooterView = () => {
   return (
     <footer
       css={css`
-        margin-top: 1rem;
-        padding: 15px 0 !important;
-        box-sizing: content-box;
+        padding: ${FOOTER_DESKTOP_VERTICAL_PADDING_PX}px 0 15px 0;
+        box-sizing: border-box;
 
         @media ${mediaQueries.maxWidth768} {
-          padding: 15px 10px;
+          padding: ${FOOTER_MOBILE_VERTICAL_PADDING_PX}px 10px;
         }
       `}
     >
