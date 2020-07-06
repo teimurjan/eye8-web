@@ -320,7 +320,6 @@ export const CartView: React.FC<IProps> = props => {
         fromSide="right"
         isOpen={isOpen}
         close={close}
-        lockScroll={false}
         backdrop
         fixed
       >

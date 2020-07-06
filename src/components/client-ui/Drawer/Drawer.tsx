@@ -154,16 +154,10 @@ const getSlidingCSS = (from: FromSide) => {
     }
   `;
 
-  const drawerCSS = css`
-    width: 100vw;
-    height: 100vh;
-  `;
-
   return {
     drawerContentCSS,
     backdropCSS,
     modalCloseCSS,
-    drawerCSS,
   };
 };
 
@@ -213,7 +207,7 @@ export const Drawer = ({
   useMousetrap('esc', closeIfOpen);
 
   const drawerRoot = safeDocument(d => d.getElementById('drawerRoot'), null);
-  const { drawerContentCSS, backdropCSS, modalCloseCSS, drawerCSS } = getSlidingCSS(fromSide);
+  const { drawerContentCSS, backdropCSS, modalCloseCSS } = getSlidingCSS(fromSide);
 
   return drawerRoot
     ? ReactDOM.createPortal(
@@ -227,7 +221,7 @@ export const Drawer = ({
           onExit={onExit}
           onExited={onExited}
         >
-          <div css={drawerCSS}>
+          <div>
             <div css={drawerContentCSS} className={classNames(className, { fixed })} ref={ref} {...props}>
               {children}
             </div>

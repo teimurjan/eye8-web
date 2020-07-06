@@ -11,15 +11,15 @@ export const useModalScrollLock = (...conditions: boolean[]) => {
             return;
           }
 
-          const prevOverflow = d.body.style.overflow;
-          const prevMaxHeight = d.body.style.maxHeight;
+          const prevOverflow = d.documentElement.style.overflow;
+          const prevMaxHeight = d.documentElement.style.maxHeight;
 
-          d.body.style.overflow = 'hidden';
-          d.body.style.maxHeight = '100vh';
+          d.documentElement.style.overflow = 'hidden';
+          d.documentElement.style.maxHeight = '100vh';
 
           return () => {
-            d.body.style.overflow = prevOverflow;
-            d.body.style.maxHeight = prevMaxHeight;
+            d.documentElement.style.overflow = prevOverflow;
+            d.documentElement.style.maxHeight = prevMaxHeight;
           };
         },
         () => {},

@@ -133,11 +133,6 @@ const modalCloseCSS = css`
   }
 `;
 
-const modalCSS = css`
-  width: 100vw;
-  height: 100vh;
-`;
-
 export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   isOpen: boolean;
@@ -200,7 +195,7 @@ export const Modal = ({
           onExited={onExited}
           appear
         >
-          <div css={modalCSS}>
+          <div>
             <div
               css={css`
                 background: ${theme.backgroundPrimaryColor};

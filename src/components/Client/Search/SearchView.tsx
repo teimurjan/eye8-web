@@ -155,6 +155,7 @@ export const SearchView: React.FC<IProps> = ({
             forceClose={searchValue === '' || !drawerOpened}
             renderTrigger={({ ref, open }) => (
               <UnderlinedInput
+                autoFocus
                 autoFocusDelay={500}
                 css={inputCSS}
                 containerRef={ref}

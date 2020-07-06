@@ -8,6 +8,7 @@ import { HelpText } from 'src/components/client-ui/HelpText/HelpText';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { useMultipleRefs } from 'src/hooks/useMultipleRefs';
+import { isIOS } from 'src/utils/platform';
 
 export interface IProps {
   error?: string;
@@ -20,7 +21,8 @@ export interface IProps {
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
   value?: string;
   disabled?: boolean;
-  autoFocusDelay?: number;
+  autoFocusDelay?: number; // Works only for non-ios as ios devices do not open keyboard on programatical focus
+  autoFocus?: boolean; // Works only for non-ios as ios devices do not open keyboard on programatical focus
   mask?: string;
   containerRef?: React.Ref<HTMLDivElement>;
   append?: React.ReactNode;
@@ -31,7 +33,19 @@ const HORIZONTAL_PADDING_PX = 2.5;
 
 export const UnderlinedInput = React.forwardRef<HTMLInputElement, IProps>(
   (
-    { containerRef, className, error, placeholder, onFocus, autoFocusDelay, onBlur, mask = '', append, ...props },
+    {
+      containerRef,
+      className,
+      error,
+      placeholder,
+      onFocus,
+      autoFocusDelay,
+      onBlur,
+      mask = '',
+      append,
+      autoFocus,
+      ...props
+    },
     ref,
   ) => {
     const innerRef = React.useRef<HTMLInputElement>(null);
@@ -58,17 +72,21 @@ export const UnderlinedInput = React.forwardRef<HTMLInputElement, IProps>(
 
     const ref_ = useMultipleRefs(ref, innerRef);
 
+    const isAutoFocusDelayEnabled = !isIOS() && autoFocusDelay;
     React.useEffect(() => {
+      if (!isAutoFocusDelayEnabled) {
+        return;
+      }
+
       let timeoutId: NodeJS.Timeout;
       if (autoFocusDelay && innerRef && innerRef.current) {
         timeoutId = setTimeout(() => {
-          innerRef.current!.click();
           innerRef.current!.focus();
         }, autoFocusDelay);
       }
 
       return () => clearTimeout(timeoutId);
-    }, [innerRef, autoFocusDelay]);
+    }, [innerRef, autoFocusDelay, isAutoFocusDelayEnabled]);
 
     return (
       <div
@@ -124,6 +142,7 @@ export const UnderlinedInput = React.forwardRef<HTMLInputElement, IProps>(
             onFocus={onFocus_}
             onBlur={onBlur_}
             inputRef={ref_}
+            autoFocus={isAutoFocusDelayEnabled ? false : autoFocus}
             {...props}
           />
           <span

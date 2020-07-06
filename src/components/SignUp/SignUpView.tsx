@@ -25,6 +25,7 @@ const NameField = ({ input, meta }: FieldRenderProps<string>) => {
   const showError = meta.touched && meta.error && meta.submitFailed;
   return (
     <UnderlinedInput
+      autoFocus
       autoFocusDelay={500}
       placeholder={intl.formatMessage({ id: 'SignUpForm.nameInput.label' })}
       error={showError ? intl.formatMessage({ id: meta.error }) : undefined}
