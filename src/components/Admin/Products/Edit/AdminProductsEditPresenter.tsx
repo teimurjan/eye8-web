@@ -67,6 +67,7 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
     loadMore: LoadMoreProductTypes,
   } = useSelectProductTypes({
     productTypeService,
+    mandatoryProductTypeId: product?.product_type.id,
   });
 
   const isLoadingDebounced = useDebounce(featureValuesLoading || isLoading, 500);

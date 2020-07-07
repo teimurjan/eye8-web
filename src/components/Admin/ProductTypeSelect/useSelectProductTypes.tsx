@@ -8,9 +8,10 @@ import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 interface IArgs {
   productTypeService: IProductTypeService;
+  mandatoryProductTypeId?: number;
 }
 
-export const useSelectProductTypes = ({ productTypeService }: IArgs) => {
+export const useSelectProductTypes = ({ productTypeService, mandatoryProductTypeId }: IArgs) => {
   const {
     intlState: { availableLocales },
   } = useIntlState();
@@ -48,6 +49,26 @@ export const useSelectProductTypes = ({ productTypeService }: IArgs) => {
     getProductTypes(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  React.useEffect(() => {
+    (async () => {
+      if (mandatoryProductTypeId && !productTypes[mandatoryProductTypeId] && !isLoading) {
+        try {
+          setLoading(true);
+          const productType = await productTypeService.getOneRawIntl(mandatoryProductTypeId);
+          if (productType) {
+            setProductTypes({ ...productTypes, [productType.id]: productType });
+            setProductTypesOrder([...productTypesOrder, productType.id]);
+          }
+        } catch (e) {
+          setError('errors.common');
+        } finally {
+          setLoading(false);
+        }
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mandatoryProductTypeId]);
 
   const loadMore = React.useCallback(() => {
     if (meta.page < meta.pages_count && !isLoading) {

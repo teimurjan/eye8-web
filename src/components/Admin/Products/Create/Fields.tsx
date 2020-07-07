@@ -4,7 +4,7 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import difference from 'lodash/difference';
 import * as React from 'react';
-import { Field as FinalFormField, FieldRenderProps, useFormState } from 'react-final-form';
+import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
 import { IFeatureTypeListRawIntlResponseItem } from 'src/api/FeatureTypeAPI';
@@ -129,10 +129,8 @@ const PriceField = ({ input, meta }: FieldRenderProps<string>) => {
 };
 
 const useGroupedFeatureValuesByFeatureType = (featureValues: IFieldsProps['featureValues']) => {
-  const intl = useIntl();
-
   return featureValues.reduce((acc, featureValue) => {
-    const existingFeatureValues = acc[featureValue.feature_type.name[intl.locale]]?.featureValues || [];
+    const existingFeatureValues = acc[featureValue.feature_type.id]?.featureValues || [];
     return {
       ...acc,
       [featureValue.feature_type.id]: {
@@ -279,12 +277,6 @@ export interface IFieldsProps {
 
 export const Fields: React.SFC<IFieldsProps> = React.memo(
   ({ productTypes, featureValues, LoadMoreProductTypes, productTypesLoading }) => {
-    const {
-      values: { product_type_id: productTypeID },
-    } = useFormState();
-
-    const productType = productTypes.find(({ id }) => parseInt(productTypeID, 10) === id);
-
     return (
       <React.Fragment>
         <FinalFormField key="price" name="price" component={PriceField} />
@@ -303,9 +295,7 @@ export const Fields: React.SFC<IFieldsProps> = React.memo(
           key="feature_values"
           name="feature_values"
           component={FeatureValuesSelect}
-          featureValues={featureValues.filter(({ feature_type: { id: featureTypeID } }) =>
-            productType ? productType.feature_types.indexOf(featureTypeID) !== -1 : false,
-          )}
+          featureValues={featureValues}
         />
         <FinalFormField key="images" name="images" component={ImagesInput} />
       </React.Fragment>

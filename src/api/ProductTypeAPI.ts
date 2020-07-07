@@ -296,7 +296,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
           fields: ['id', 'name', 'feature_types'],
           raw_intl: 1,
           page,
-          limit: typeof page !== 'undefined' ? 5 : undefined,
+          limit: typeof page !== 'undefined' ? 10 : undefined,
         })}`,
         {
           headers: this.headersManager.getHeaders(),
