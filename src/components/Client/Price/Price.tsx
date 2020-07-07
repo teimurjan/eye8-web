@@ -68,20 +68,29 @@ const usePriceRange = ({ range }: IPriceRangeTextProps) => {
     })
     .filter(discount => discount !== 0);
 
-  const biggestFormattedPrice = useFormattedPrice({ price: Math.max(...calculatedRange), discount: 0 });
-  const lowestFormattedPrice = useFormattedPrice({ price: Math.min(...calculatedRange), discount: 0 });
+  const biggestPrice = Math.max(...calculatedRange);
+  const lowestPrice = Math.min(...calculatedRange);
+  const biggestFormattedPrice = useFormattedPrice({ price: biggestPrice, discount: 0 });
+  const lowestFormattedPrice = useFormattedPrice({ price: lowestPrice, discount: 0 });
 
-  return { calculatedRange, discounts, biggestFormattedPrice, lowestFormattedPrice };
+  return { calculatedRange, discounts, biggestFormattedPrice, lowestFormattedPrice, biggestPrice, lowestPrice };
 };
 
 export const usePriceRangeText = ({ range }: IPriceRangeTextProps) => {
   const intl = useIntl();
 
-  const { calculatedRange, discounts, biggestFormattedPrice, lowestFormattedPrice } = usePriceRange({ range });
+  const {
+    calculatedRange,
+    discounts,
+    biggestFormattedPrice,
+    lowestFormattedPrice,
+    biggestPrice,
+    lowestPrice,
+  } = usePriceRange({ range });
 
   const price = React.useMemo(() => {
     const isOnlyOnePrice = range.length === 1;
-    const arePricesTheSame = biggestFormattedPrice === lowestFormattedPrice;
+    const arePricesTheSame = biggestPrice === lowestPrice;
 
     if (isOnlyOnePrice || arePricesTheSame) {
       return <PriceCrossedText price={range[0].price} discount={range[0].discount} />;
@@ -96,7 +105,7 @@ export const usePriceRangeText = ({ range }: IPriceRangeTextProps) => {
     }
 
     return null;
-  }, [lowestFormattedPrice, biggestFormattedPrice, calculatedRange, range]);
+  }, [lowestFormattedPrice, biggestFormattedPrice, calculatedRange, range, lowestPrice, biggestPrice]);
 
   const discount = React.useMemo(() => {
     if (range.length === 1 && discounts.length === 1) {
