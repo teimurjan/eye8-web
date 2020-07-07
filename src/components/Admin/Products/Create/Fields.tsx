@@ -20,6 +20,7 @@ import { Label } from 'src/components/admin-ui/Label/Label';
 import { SelectTrigger } from 'src/components/admin-ui/Select/Select';
 import { ColorDecoration } from 'src/components/Admin/FeatureTypes/Decorations/Color';
 import { AdminFeatureValuesCreateContainer } from 'src/components/Admin/FeatureValues/Create/AdminFeatureValuesCreateContainer';
+import { useFeatureValuesOfProductType } from 'src/components/Admin/Products/Create/useFeatureValuesOfProductType';
 import { ProductTypeSelectView } from 'src/components/Admin/ProductTypeSelect/ProductTypeSelectView';
 import { Popover } from 'src/components/client-ui/Popover/Popover';
 import { IContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
@@ -294,6 +295,7 @@ export interface IFieldsProps {
 
 export const Fields: React.SFC<IFieldsProps> = React.memo(
   ({ productTypes, featureValues, LoadMoreProductTypes, productTypesLoading, featureValuesLoading }) => {
+    const featureValuesOfProductType = useFeatureValuesOfProductType({ productTypes, featureValues });
     return (
       <React.Fragment>
         <FinalFormField key="price" name="price" component={PriceField} />
@@ -312,7 +314,7 @@ export const Fields: React.SFC<IFieldsProps> = React.memo(
           key="feature_values"
           name="feature_values"
           component={FeatureValuesSelect}
-          featureValues={featureValues}
+          featureValues={featureValuesOfProductType}
           featureValuesLoading={featureValuesLoading}
         />
         <FinalFormField key="images" name="images" component={ImagesInput} />
