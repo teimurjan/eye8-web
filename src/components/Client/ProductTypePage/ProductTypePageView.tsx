@@ -149,11 +149,11 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
             css={css`
               display: flex;
               justify-content: flex-start;
-              width: 30vw;
+              flex: 0 0 30vw;
               animation: ${fadeInFromLeft} 700ms ${easeOutCubic};
 
               @media ${mediaQueries.maxWidth768} {
-                width: 100%;
+                flex: 0 0 100%;
                 animation: ${fadeInFromBottom} 500ms ${easeOutCubic};
               }
             `}
@@ -169,13 +169,14 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
               display: flex;
               padding: 0 0 7.5vw 50px;
               flex-direction: column;
-              width: calc(100% - 30vw);
+              flex: 1;
               animation: ${fadeInFromRight} 700ms ${easeOutCubic};
+              position: relative;
 
               @media ${mediaQueries.maxWidth768} {
                 padding: 25px 0 0 0;
-                width: 100%;
                 animation: ${fadeInFromBottom} 700ms ${easeOutCubic};
+                width: 100%;
               }
             `}
           >
@@ -212,9 +213,10 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
               {matchingProduct && matchingProduct.quantity === 0 && (
                 <Subtitle size={3}>{intl.formatMessage({ id: 'ProductPage.sold' })}</Subtitle>
               )}
-              {products.length === 0 && (
-                <Subtitle size={3}>{intl.formatMessage({ id: 'ProductPage.notInStock' })}</Subtitle>
-              )}
+              {products.length === 0 ||
+                (!matchingProduct && (
+                  <Subtitle size={3}>{intl.formatMessage({ id: 'ProductPage.notInStock' })}</Subtitle>
+                ))}
             </div>
             {allFeatureTypes.map(featureType => {
               const chosenFeatureValue = chosenFeatureValues[featureType.id];
@@ -237,20 +239,31 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                 </Select>
               );
             })}
-            <Subtitle
-              css={css`
-                width: 100%;
-              `}
-              size={6}
-            >
-              {productType.short_description}
-            </Subtitle>
+            {productType.short_description && (
+              <Subtitle
+                css={css`
+                  width: 100%;
+                  margin-top: 10px;
+                `}
+                size={5}
+              >
+                {productType.short_description}
+              </Subtitle>
+            )}
             {matchingProduct && matchingProduct.quantity > 0 && (
               <Button
                 color="dark"
                 onClick={onActionClick}
                 css={css`
-                  margin-top: 20px;
+                  position: absolute;
+                  right: 0;
+                  top: 65px;
+
+                  @media ${mediaQueries.maxWidth768} {
+                    position: static;
+                    margin-top: 20px;
+                    width: 100%;
+                  }
                 `}
               >
                 {actionText}
@@ -258,9 +271,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
             )}
             <Anchor
               css={css`
-                padding-top: 15px;
-                margin-top: 15px;
-                border-top: 1px solid ${theme.borderColor};
+                margin-top: 20px;
               `}
               primary
               href="/categories/[id]/products"

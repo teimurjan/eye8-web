@@ -1,9 +1,9 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
 import * as React from 'react';
 
+import { Divider } from 'src/components/client-ui/Divider/Divider';
 import { mediaQueries } from 'src/styles/media';
 
 export interface IProps {
@@ -72,24 +72,6 @@ export interface IMenuItemProps extends React.HTMLAttributes<HTMLLIElement> {
 }
 
 const Item = ({ children, className }: IMenuItemProps) => <li className={className}>{children}</li>;
-
-export interface IMenuDividerProps extends React.HTMLAttributes<HTMLHRElement> {
-  className?: string;
-}
-
-const Divider = ({ className }: IMenuDividerProps) => {
-  const theme = useTheme<ClientUITheme>();
-  return (
-    <hr
-      css={css`
-        margin: 10px 0;
-        background: ${theme.borderColor};
-        height: 1px;
-      `}
-      className={className}
-    />
-  );
-};
 
 Menu.Item = Item;
 Menu.Divider = Divider;

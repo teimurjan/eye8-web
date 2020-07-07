@@ -85,6 +85,7 @@ const getSlidingCSS = (from: FromSide) => {
     transition: transform 300ms ease-in-out, opacity 175ms ease-in-out;
     position: absolute;
     z-index: 99;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15), 0 8px 8px 0 rgba(0, 0, 0, 0.05);
     ${permanent};
     ${initial}
 

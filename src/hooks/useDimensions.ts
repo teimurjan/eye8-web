@@ -23,7 +23,7 @@ export const useDimensions = <T extends HTMLElement = HTMLElement>(
     }
   }, [ref, getElementDimensions, dimensions, cb]);
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (ref.current) {
       correctDimensions();
 

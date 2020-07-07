@@ -80,7 +80,10 @@ export const usePriceRangeText = ({ range }: IPriceRangeTextProps) => {
   const { calculatedRange, discounts, biggestFormattedPrice, lowestFormattedPrice } = usePriceRange({ range });
 
   const price = React.useMemo(() => {
-    if (range.length === 1) {
+    const isOnlyOnePrice = range.length === 1;
+    const arePricesTheSame = biggestFormattedPrice === lowestFormattedPrice;
+
+    if (isOnlyOnePrice || arePricesTheSame) {
       return <PriceCrossedText price={range[0].price} discount={range[0].discount} />;
     }
 

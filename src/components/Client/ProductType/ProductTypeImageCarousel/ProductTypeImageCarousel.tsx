@@ -33,7 +33,7 @@ export const ProductTypeImageCarousel: React.FC<IProps> = ({ images, activeImage
                 margin: auto;
                 display: flex;
                 height: 30vw;
-                width: 30vw;
+                width: 100%;
 
                 @media ${mediaQueries.maxWidth768} {
                   width: 100%;
@@ -47,17 +47,11 @@ export const ProductTypeImageCarousel: React.FC<IProps> = ({ images, activeImage
       </Carousel>
       <div
         css={css`
-          height: ${CONTROL_IMAGE_SIZE};
-          max-height: ${MAX_CONTROL_IMAGE_SIZE};
           overflow: auto;
           display: flex;
-          width: 30vw;
+          flex: 1 0 0;
           margin: auto;
-
-          @media ${mediaQueries.maxWidth768} {
-            height: ${CONTROL_IMAGE_MOBILE_SIZE};
-            width: 100%;
-          }
+          margin-top: 5px;
         `}
       >
         {images.map(image => {
@@ -66,25 +60,47 @@ export const ProductTypeImageCarousel: React.FC<IProps> = ({ images, activeImage
           const onImageClick = () => setActiveImageIndex(currentImageIndex);
 
           return (
-            <img
+            <div
               key={image}
               onClick={onImageClick}
+              className={isActive ? 'active' : undefined}
               css={css`
                 cursor: pointer;
+                margin: 2.5px;
+                border: 1px solid transparent;
+
+                &.active,
+                &:hover {
+                  border-color: ${theme.borderColor};
+                }
+
+                &:first-child {
+                  margin-left: 0;
+                }
+
+                &:last-child {
+                  margin-right: 0;
+                }
+
                 height: ${CONTROL_IMAGE_SIZE};
                 width: ${CONTROL_IMAGE_SIZE};
                 max-height: ${MAX_CONTROL_IMAGE_SIZE};
                 max-width: ${MAX_CONTROL_IMAGE_SIZE};
-                border: ${isActive ? `5px solid ${theme.primaryColor}` : 'unset'};
-                display: flex;
 
                 @media ${mediaQueries.maxWidth768} {
                   height: ${CONTROL_IMAGE_MOBILE_SIZE};
                   width: ${CONTROL_IMAGE_MOBILE_SIZE};
                 }
               `}
-              {...{ src: image, alt: image }}
-            />
+            >
+              <img
+                css={css`
+                  width: 100%;
+                  height: 100%;
+                `}
+                {...{ src: image, alt: image }}
+              />
+            </div>
           );
         })}
       </div>
