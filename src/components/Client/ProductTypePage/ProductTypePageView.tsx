@@ -48,9 +48,9 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
   const theme = useTheme<ClientUITheme>();
   const [activeImageIndex, setActiveImageIndex] = React.useState(0);
 
-  const allImages = products
-    .reduce((acc, product) => [...acc, ...product.images], [...(productType ? [productType.image] : [])])
-    .map(formatMediaURL);
+  const allImages = products.reduce((acc, product) => [...acc, ...product.images], [
+    ...(productType ? [productType.image] : []),
+  ]);
 
   const allFeatureTypes =
     products.length > 0 ? products[0].feature_values.map(featureValue => featureValue.feature_type) : [];
@@ -76,21 +76,22 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
     product.feature_values.every(featureValue => chosenFeatureValues[featureValue.feature_type.id] === featureValue.id),
   );
 
-  const autoChangeImage = React.useCallback(() => {
-    const activeImage = allImages[activeImageIndex];
-    if (matchingProduct && matchingProduct.images.indexOf(activeImage) === -1) {
+  React.useEffect(() => {
+    if (matchingProduct) {
       if (matchingProduct.images[0]) {
         setActiveImageIndex(allImages.indexOf(matchingProduct.images[0]));
+      } else {
+        setActiveImageIndex(0);
       }
     }
-  }, [activeImageIndex, allImages, matchingProduct]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [matchingProduct?.id]);
 
   const onFeatureValueChange = React.useCallback(
     (featureTypeId: number, featureValueId?: number) => {
       setChosenFeatureValues({ ...chosenFeatureValues, [featureTypeId]: featureValueId });
-      autoChangeImage();
     },
-    [autoChangeImage, chosenFeatureValues],
+    [chosenFeatureValues],
   );
 
   const onActionClick = React.useCallback(() => {
@@ -158,7 +159,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
             `}
           >
             <ProductTypeImageCarousel
-              images={allImages}
+              images={allImages.map(formatMediaURL)}
               activeImageIndex={activeImageIndex}
               setActiveImageIndex={setActiveImageIndex}
             />
