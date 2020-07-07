@@ -6,15 +6,11 @@ import { AdminBannersListView } from 'src/components/Admin/Banners/List/AdminBan
 import { useAdminBannersState } from 'src/state/AdminBannersState';
 import { useIntlState } from 'src/state/IntlState';
 
+const View = injectIntl(AdminBannersListView);
+
 export const AdminBannersListContainer = () => {
   const { intlState } = useIntlState();
   const { adminBannersState } = useAdminBannersState();
 
-  return (
-    <AdminBannersListPresenter
-      View={injectIntl(AdminBannersListView)}
-      adminBannersState={adminBannersState}
-      intlState={intlState}
-    />
-  );
+  return <AdminBannersListPresenter View={View} adminBannersState={adminBannersState} intlState={intlState} />;
 };

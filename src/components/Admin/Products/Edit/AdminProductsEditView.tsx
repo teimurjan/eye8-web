@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IntlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { ModalForm } from 'src/components/Admin/ModalForm';
 import { Fields } from 'src/components/Admin/Products/Create/Fields';
@@ -11,7 +11,6 @@ export const AdminProductsEditView = ({
   close,
   isLoading,
   error,
-  intl,
   validate,
   productTypes,
   preloadingError,
@@ -20,27 +19,33 @@ export const AdminProductsEditView = ({
   initialValues,
   LoadMoreProductTypes,
   productTypesLoading,
-}: IProps & { intl: IntlShape }) => (
-  <ModalForm
-    formID="adminProductsEditForm"
-    isOpen={isOpen}
-    onSubmit={edit}
-    onClose={close}
-    isLoading={isUpdating}
-    isPreloading={isLoading}
-    preloadingError={preloadingError}
-    globalError={error}
-    title={intl.formatMessage({ id: 'AdminProducts.edit.title' })}
-    fields={
-      <Fields
-        productTypesLoading={productTypesLoading}
-        LoadMoreProductTypes={LoadMoreProductTypes}
-        productTypes={productTypes}
-        featureValues={featureValues}
-      />
-    }
-    validate={validate}
-    initialValues={initialValues}
-    wide
-  />
-);
+  featureValuesLoading,
+}: IProps) => {
+  const intl = useIntl();
+
+  return (
+    <ModalForm
+      formID="adminProductsEditForm"
+      isOpen={isOpen}
+      onSubmit={edit}
+      onClose={close}
+      isLoading={isUpdating}
+      isPreloading={isLoading}
+      preloadingError={preloadingError}
+      globalError={error}
+      title={intl.formatMessage({ id: 'AdminProducts.edit.title' })}
+      fields={
+        <Fields
+          productTypesLoading={productTypesLoading}
+          featureValuesLoading={featureValuesLoading}
+          LoadMoreProductTypes={LoadMoreProductTypes}
+          productTypes={productTypes}
+          featureValues={featureValues}
+        />
+      }
+      validate={validate}
+      initialValues={initialValues}
+      wide
+    />
+  );
+};

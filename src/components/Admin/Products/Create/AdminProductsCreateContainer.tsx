@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { injectIntl } from 'react-intl';
 import { useHistory } from 'react-router';
 
 import { AdminProductsCreatePresenter } from 'src/components/Admin/Products/Create/AdminProductsCreatePresenter';
@@ -18,7 +17,7 @@ export const AdminProductsCreateContainer = () => {
   return (
     <AdminProductsCreatePresenter
       history={history}
-      View={injectIntl(AdminProductsCreateView)}
+      View={AdminProductsCreateView}
       productService={dependencies.services.product}
       productTypeService={dependencies.services.productType}
       adminProductsState={adminProductsState}

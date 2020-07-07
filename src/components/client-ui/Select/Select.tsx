@@ -21,7 +21,7 @@ interface IOptionProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-const SelectOption = (props: IOptionProps) => <Popover.Item Component="div" {...props} />;
+const SelectOption = ({ color, ...props }: IOptionProps) => <Popover.Item Component="div" {...props} />;
 
 export interface ISelectTriggerProps {
   title?: React.ReactNode;
@@ -104,6 +104,7 @@ export interface IProps<T extends HTMLElement> {
   TriggerComponent: ITriggerComponentType<T>;
   onLoadMore?: () => void;
   isLoading?: boolean;
+  append?: React.ReactNode;
 }
 
 const getSelectedOptionChild = <T extends HTMLElement>({ children, value }: Pick<IProps<T>, 'children' | 'value'>) => {
@@ -132,6 +133,7 @@ export const Select = <T extends HTMLElement>({
   TriggerComponent,
   onLoadMore,
   isLoading,
+  append,
 }: IProps<T>) => {
   const intl = useIntl();
   const popoverContentRef = React.useRef<HTMLDivElement>(null);
@@ -189,6 +191,7 @@ export const Select = <T extends HTMLElement>({
               overflow: auto;
               width: 300px;
               max-width: 100%;
+              position: relative;
             `}
           >
             {React.Children.map(children, child =>
@@ -208,6 +211,7 @@ export const Select = <T extends HTMLElement>({
               </Select.Option>
             )}
           </Popover.Content>
+          {append}
         </Popover>
       </div>
     </div>

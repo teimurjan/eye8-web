@@ -8,6 +8,8 @@ import { useDependencies } from 'src/DI/DI';
 import { useAdminCategoriesState } from 'src/state/AdminCategoriesState';
 import { useIntlState } from 'src/state/IntlState';
 
+const View = injectIntl(AdminCategoriesCreateView);
+
 export const AdminCategoriesCreateContainer = () => {
   const history = useHistory();
 
@@ -18,7 +20,7 @@ export const AdminCategoriesCreateContainer = () => {
   return (
     <AdminCategoriesCreatePresenter
       history={history}
-      View={injectIntl(AdminCategoriesCreateView)}
+      View={View}
       service={dependencies.services.category}
       intlState={intlState}
       adminCategoriesState={adminCategoriesState}

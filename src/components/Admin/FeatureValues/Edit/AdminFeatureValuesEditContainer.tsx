@@ -9,6 +9,8 @@ import { useAdminFeatureTypesState } from 'src/state/AdminFeatureTypesState';
 import { useAdminFeatureValuesState } from 'src/state/AdminFeatureValuesState';
 import { useIntlState } from 'src/state/IntlState';
 
+const View = injectIntl(AdminFeatureValuesEditView);
+
 export const AdminFeatureValuesEditContainer = () => {
   const history = useHistory();
   const params = useParams<{ id: string }>();
@@ -22,7 +24,7 @@ export const AdminFeatureValuesEditContainer = () => {
     <AdminFeatureValuesEditPresenter
       featureValueId={parseInt(params.id, 10)}
       history={history}
-      View={injectIntl(AdminFeatureValuesEditView)}
+      View={View}
       service={dependencies.services.featureValue}
       intlState={intlState}
       adminFeatureTypesState={adminFeatureTypesState}

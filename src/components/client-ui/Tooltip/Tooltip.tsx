@@ -20,7 +20,7 @@ const TooltipContent = React.forwardRef<HTMLDivElement, ITooltipContentProps>(({
         background: ${theme.tooltipBackgroundColor};
         padding: 5px 10px;
         max-width: 200px;
-        color: ${theme.textOnPrimaryColor};
+        color: ${theme.textBrightColor};
 
         @media ${mediaQueries.maxWidth768} {
           display: none;

@@ -92,7 +92,7 @@ export const Button = React.forwardRef<HTMLButtonElement, IProps>(
           }
 
           &.primary {
-            color: ${theme.textOnPrimaryColor};
+            color: ${theme.textBrightColor};
             border: none;
             background: ${theme.primaryColor};
 

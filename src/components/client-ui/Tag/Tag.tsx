@@ -18,7 +18,7 @@ export const Tag = React.forwardRef<HTMLSpanElement, IProps>(({ children, classN
       css={css`
         font-size: 12px;
         background: ${theme.primaryColor};
-        color: ${theme.textOnPrimaryColor};
+        color: ${theme.textBrightColor};
         padding: 2.5px 5px;
         font-weight: bold;
         text-transform: uppercase;

@@ -1,4 +1,3 @@
-import { History } from 'history';
 import * as React from 'react';
 import * as yup from 'yup';
 
@@ -17,7 +16,7 @@ export interface IProps
     IntlStateContextValue {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IFeatureValueService;
-  history: History;
+  close: () => void;
 }
 
 export interface IViewProps {
@@ -39,8 +38,8 @@ export const AdminFeatureValuesCreatePresenter: React.FC<IProps> = ({
   adminFeatureTypesState: { getFeatureTypes, isListLoading: featureTypesLoading, featureTypes },
   adminFeatureValuesState: { addFeatureValue },
   View,
-  history,
   service,
+  close,
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isCreating, setCreating] = React.useState(false);
@@ -73,8 +72,6 @@ export const AdminFeatureValuesCreatePresenter: React.FC<IProps> = ({
     make: makeValidator,
     trigger: availableLocales.length,
   });
-
-  const close = React.useCallback(() => history.push('/admin/featureValues'), [history]);
 
   const create: IViewProps['create'] = React.useCallback(
     async values => {

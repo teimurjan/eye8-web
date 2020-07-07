@@ -29,12 +29,14 @@ export const defaultTheme: AdminUITheme & ClientUITheme = {
   backgroundPrimaryHoverColor: color('#fff')
     .darken(0.05)
     .hex(),
+  backgroundDarkColor: '#000',
+  backgroundDarkHoverColor: '#222',
   backgroundSecondaryColor: '#f0ebe3',
   textColor: '#1e1e1c',
   textFadedColor: '#b9b9b9',
   textSecondaryColor: '#606060',
   primaryColor: '#76bdae',
-  textOnPrimaryColor: '#fff',
+  textBrightColor: '#fff',
   dangerColor: '#e71d36',
   textOnDangerColor: color('#e71d36')
     .darken(0.2)

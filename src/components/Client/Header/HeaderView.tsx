@@ -118,7 +118,7 @@ export const HeaderView = () => {
               <Drawer
                 css={css`
                   & ~ span > .fa-times {
-                    color: ${theme.textOnPrimaryColor};
+                    color: ${theme.textBrightColor};
                   }
                 `}
                 isOpen={isMobileNavOpen}

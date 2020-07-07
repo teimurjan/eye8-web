@@ -8,6 +8,8 @@ import { useDependencies } from 'src/DI/DI';
 import { useAdminFeatureTypesState } from 'src/state/AdminFeatureTypesState';
 import { useIntlState } from 'src/state/IntlState';
 
+const View = injectIntl(AdminFeatureTypesCreateView);
+
 export const AdminFeatureTypesCreateContainer = () => {
   const history = useHistory();
 
@@ -18,7 +20,7 @@ export const AdminFeatureTypesCreateContainer = () => {
   return (
     <AdminFeatureTypesCreatePresenter
       history={history}
-      View={injectIntl(AdminFeatureTypesCreateView)}
+      View={View}
       service={dependencies.services.featureType}
       intlState={intlState}
       adminFeatureTypesState={adminFeatureTypesState}

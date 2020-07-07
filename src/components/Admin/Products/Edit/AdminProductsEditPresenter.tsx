@@ -44,6 +44,7 @@ export interface IViewProps {
   initialValues?: IFormValues;
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
+  featureValuesLoading: boolean;
 }
 
 export const AdminProductsEditPresenter: React.FC<IProps> = ({
@@ -70,7 +71,7 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
     mandatoryProductTypeId: product?.product_type.id,
   });
 
-  const isLoadingDebounced = useDebounce(featureValuesLoading || isLoading, 500);
+  const isLoadingDebounced = useDebounce(isLoading, 500);
 
   const validator = new schemaValidator.SchemaValidator(
     yup.object().shape({
@@ -145,6 +146,7 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
   return (
     <View
       productTypesLoading={productTypesLoading}
+      featureValuesLoading={featureValuesLoading}
       LoadMoreProductTypes={LoadMoreProductTypes}
       productTypes={productTypes}
       featureValues={featureValues}

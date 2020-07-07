@@ -19,7 +19,9 @@ import { HelpText } from 'src/components/admin-ui/HelpText/HelpText';
 import { Label } from 'src/components/admin-ui/Label/Label';
 import { SelectTrigger } from 'src/components/admin-ui/Select/Select';
 import { ColorDecoration } from 'src/components/Admin/FeatureTypes/Decorations/Color';
+import { AdminFeatureValuesCreateContainer } from 'src/components/Admin/FeatureValues/Create/AdminFeatureValuesCreateContainer';
 import { ProductTypeSelectView } from 'src/components/Admin/ProductTypeSelect/ProductTypeSelectView';
+import { Popover } from 'src/components/client-ui/Popover/Popover';
 import { IContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
 import { Accept } from 'src/utils/accept';
 import { isAllowedForNumberInput } from 'src/utils/number';
@@ -143,12 +145,13 @@ const useGroupedFeatureValuesByFeatureType = (featureValues: IFieldsProps['featu
 
 interface IFeatureValuesSelectProps extends FieldRenderProps<string[]> {
   featureValues: IFieldsProps['featureValues'];
+  featureValuesLoading: boolean;
 }
 
-const FeatureValuesSelect = ({ featureValues, input, meta }: IFeatureValuesSelectProps) => {
+const FeatureValuesSelect = ({ featureValues, featureValuesLoading, input, meta }: IFeatureValuesSelectProps) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
-
+  const [isAddingFeatureValue, setAddingFeatureValue] = React.useState(false);
   const groupedFeatureValues = useGroupedFeatureValuesByFeatureType(featureValues);
 
   return (
@@ -174,6 +177,18 @@ const FeatureValuesSelect = ({ featureValues, input, meta }: IFeatureValuesSelec
               ),
             }}
             selectProps={{
+              isLoading: featureValuesLoading,
+              append: (
+                <Popover.Item
+                  Component="div"
+                  onClick={() => {
+                    setAddingFeatureValue(true);
+                  }}
+                  color={Popover.Item.Color.Dark}
+                >
+                  {intl.formatMessage({ id: 'common.add' })}
+                </Popover.Item>
+              ),
               value: Array.isArray(input.value)
                 ? input.value.find(idStr =>
                     groupedFeatureValues[featureTypeId].featureValues.some(({ id }) => id.toString() === idStr),
@@ -199,6 +214,7 @@ const FeatureValuesSelect = ({ featureValues, input, meta }: IFeatureValuesSelec
           />
         );
       })}
+      {isAddingFeatureValue && <AdminFeatureValuesCreateContainer close={() => setAddingFeatureValue(false)} />}
       <HelpText type="is-danger">{showError ? intl.formatMessage({ id: meta.error }) : undefined}</HelpText>
     </React.Fragment>
   );
@@ -273,10 +289,11 @@ export interface IFieldsProps {
   featureValues: AdminFeatureValuesStateContextValue['adminFeatureValuesState']['featureValues'];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
+  featureValuesLoading: boolean;
 }
 
 export const Fields: React.SFC<IFieldsProps> = React.memo(
-  ({ productTypes, featureValues, LoadMoreProductTypes, productTypesLoading }) => {
+  ({ productTypes, featureValues, LoadMoreProductTypes, productTypesLoading, featureValuesLoading }) => {
     return (
       <React.Fragment>
         <FinalFormField key="price" name="price" component={PriceField} />
@@ -296,6 +313,7 @@ export const Fields: React.SFC<IFieldsProps> = React.memo(
           name="feature_values"
           component={FeatureValuesSelect}
           featureValues={featureValues}
+          featureValuesLoading={featureValuesLoading}
         />
         <FinalFormField key="images" name="images" component={ImagesInput} />
       </React.Fragment>

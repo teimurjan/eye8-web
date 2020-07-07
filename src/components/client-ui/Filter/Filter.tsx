@@ -73,7 +73,7 @@ export const Filter = ({ className, title, children }: IProps) => {
           padding: 10px 20px;
 
           & ~ span > .fa-times {
-            color: ${theme.textOnPrimaryColor};
+            color: ${theme.textBrightColor};
           }
         `}
         backdrop

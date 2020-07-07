@@ -8,6 +8,8 @@ import { useDependencies } from 'src/DI/DI';
 import { useAdminBannersState } from 'src/state/AdminBannersState';
 import { useIntlState } from 'src/state/IntlState';
 
+const View = injectIntl(AdminBannersCreateView);
+
 export const AdminBannersCreateContainer = () => {
   const history = useHistory();
 
@@ -18,7 +20,7 @@ export const AdminBannersCreateContainer = () => {
   return (
     <AdminBannersCreatePresenter
       history={history}
-      View={injectIntl(AdminBannersCreateView)}
+      View={View}
       service={dependencies.services.banner}
       intlState={intlState}
       adminBannersState={adminBannersState}

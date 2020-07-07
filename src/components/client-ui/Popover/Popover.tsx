@@ -274,13 +274,24 @@ const PopoverContent = React.forwardRef<HTMLDivElement, IPopoverContentProps>(({
 
 Popover.Content = PopoverContent;
 
+enum Color {
+  Default = 'default',
+  Dark = 'dark',
+}
+
 export interface IPopoverItemProps<T> {
   className?: string;
   children?: React.ReactNode;
   Component: React.ComponentType<T> | 'div';
+  color?: Color;
 }
 
-const PopoverItem = <T extends object = {}>({ className, Component, ...props }: IPopoverItemProps<T> & T) => {
+const PopoverItem = <T extends object = {}>({
+  className,
+  Component,
+  color = Color.Default,
+  ...props
+}: IPopoverItemProps<T> & T) => {
   const theme = useTheme<ClientUITheme>();
 
   return (
@@ -290,14 +301,25 @@ const PopoverItem = <T extends object = {}>({ className, Component, ...props }: 
           className={classNames(
             className,
             css_`
-            cursor: pointer;
-            padding: 10px 20px;
-            color: ${theme.textColor};
+              cursor: pointer;
+              padding: 10px 20px;
+              color: ${theme.textColor};
+              background: ${theme.backgroundPrimaryColor};
 
-            &:hover {
-              background: ${theme.backgroundPrimaryHoverColor};
-            }
-          `,
+              &:hover {
+                background: ${theme.backgroundPrimaryHoverColor};
+              }
+
+              &.dark {
+                color: ${theme.textBrightColor};
+                background: ${theme.backgroundDarkColor};
+
+                &:hover {
+                  background: ${theme.backgroundDarkHoverColor};
+                } 
+              }
+            `,
+            color,
           )}
           /* TODO: Get rid of any */
           {...(props as any)}
@@ -306,5 +328,7 @@ const PopoverItem = <T extends object = {}>({ className, Component, ...props }: 
     </ClassNames>
   );
 };
+
+PopoverItem.Color = Color;
 
 Popover.Item = PopoverItem;

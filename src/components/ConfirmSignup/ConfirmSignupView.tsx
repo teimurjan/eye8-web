@@ -50,7 +50,7 @@ export const ConfirmSignupView = ({ isLoading, error }: IProps) => {
       <Container>
         <Title
           css={css`
-            color: ${theme.textOnPrimaryColor};
+            color: ${theme.textBrightColor};
           `}
           size={2}
         >

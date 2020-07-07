@@ -7,6 +7,8 @@ import { DeleteModalView } from 'src/components/Admin/DeleteModal/DeleteModalVie
 
 const ConnectedDeleteModalPresenter = withRouter(DeleteModalPresenter);
 
+const View = injectIntl(DeleteModalView);
+
 export const DeleteModalContainer = (props: Omit<IPresenterProps, 'View'>) => (
-  <ConnectedDeleteModalPresenter View={injectIntl(DeleteModalView)} {...props} />
+  <ConnectedDeleteModalPresenter View={View} {...props} />
 );

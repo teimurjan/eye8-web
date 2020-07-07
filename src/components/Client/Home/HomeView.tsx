@@ -101,7 +101,7 @@ export const HomeView: React.FC<IProps> = ({ banners, productTypes }) => {
                   css={css`
                     position: absolute;
                     max-width: 33vw;
-                    color: ${banner.text_color || theme.textOnPrimaryColor} !important;
+                    color: ${banner.text_color || theme.textBrightColor} !important;
                     ${getTextPositioningCSS(banner)};
 
                     @media ${mediaQueries.maxWidth768} {

@@ -5,7 +5,6 @@ import * as yup from 'yup';
 import { IProductTypeListRawIntlMinifiedResponseItem } from 'src/api/ProductTypeAPI';
 import { useSelectProductTypes } from 'src/components/Admin/ProductTypeSelect/useSelectProductTypes';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useDebounce } from 'src/hooks/useDebounce';
 import { IProductService } from 'src/services/ProductService';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { IContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
@@ -28,7 +27,6 @@ export interface IViewProps {
     product_type_id: string;
     images?: Array<string | File>;
   }) => void;
-  isLoading: boolean;
   isCreating: boolean;
   error?: string;
   preloadingError?: string;
@@ -38,6 +36,7 @@ export interface IViewProps {
   productTypes: IProductTypeListRawIntlMinifiedResponseItem[];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
+  featureValuesLoading: boolean;
 }
 
 export const AdminProductsCreatePresenter: React.FC<IProps> = ({
@@ -59,8 +58,6 @@ export const AdminProductsCreatePresenter: React.FC<IProps> = ({
   } = useSelectProductTypes({
     productTypeService,
   });
-
-  const isLoadingDebounced = useDebounce(featureValuesLoading, 500);
 
   const validator = new schemaValidator.SchemaValidator(
     yup.object().shape({
@@ -132,7 +129,7 @@ export const AdminProductsCreatePresenter: React.FC<IProps> = ({
       isOpen={true}
       create={create}
       error={error ? error : productTypesError}
-      isLoading={isLoadingDebounced}
+      featureValuesLoading={featureValuesLoading}
       isCreating={isCreating}
       close={close}
       validate={(validator || { validate: undefined }).validate}

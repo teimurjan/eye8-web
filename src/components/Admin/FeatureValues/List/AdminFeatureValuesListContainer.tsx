@@ -6,13 +6,15 @@ import { AdminFeatureValuesListView } from 'src/components/Admin/FeatureValues/L
 import { useAdminFeatureValuesState } from 'src/state/AdminFeatureValuesState';
 import { useIntlState } from 'src/state/IntlState';
 
+const View = injectIntl(AdminFeatureValuesListView);
+
 export const AdminFeatureValuesListContainer = () => {
   const { intlState } = useIntlState();
   const { adminFeatureValuesState } = useAdminFeatureValuesState();
 
   return (
     <AdminFeatureValuesListPresenter
-      View={injectIntl(AdminFeatureValuesListView)}
+      View={View}
       adminFeatureValuesState={adminFeatureValuesState}
       intlState={intlState}
     />

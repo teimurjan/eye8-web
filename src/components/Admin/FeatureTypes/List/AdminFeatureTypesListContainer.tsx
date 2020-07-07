@@ -6,15 +6,13 @@ import { AdminFeatureTypesListView } from 'src/components/Admin/FeatureTypes/Lis
 import { useAdminFeatureTypesState } from 'src/state/AdminFeatureTypesState';
 import { useIntlState } from 'src/state/IntlState';
 
+const View = injectIntl(AdminFeatureTypesListView);
+
 export const AdminFeatureTypesListContainer = () => {
   const { adminFeatureTypesState } = useAdminFeatureTypesState();
   const { intlState } = useIntlState();
 
   return (
-    <AdminFeatureTypesListPresenter
-      View={injectIntl(AdminFeatureTypesListView)}
-      adminFeatureTypesState={adminFeatureTypesState}
-      intlState={intlState}
-    />
+    <AdminFeatureTypesListPresenter View={View} adminFeatureTypesState={adminFeatureTypesState} intlState={intlState} />
   );
 };

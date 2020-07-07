@@ -6,15 +6,11 @@ import { AdminProductsListView } from 'src/components/Admin/Products/List/AdminP
 import { useAdminProductsState } from 'src/state/AdminProductsState';
 import { useIntlState } from 'src/state/IntlState';
 
+const View = injectIntl(AdminProductsListView);
+
 export const AdminProductsListContainer = () => {
   const { intlState } = useIntlState();
   const { adminProductsState } = useAdminProductsState();
 
-  return (
-    <AdminProductsListPresenter
-      View={injectIntl(AdminProductsListView)}
-      adminProductsState={adminProductsState}
-      intlState={intlState}
-    />
-  );
+  return <AdminProductsListPresenter View={View} adminProductsState={adminProductsState} intlState={intlState} />;
 };

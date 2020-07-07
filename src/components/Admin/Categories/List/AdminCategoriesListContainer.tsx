@@ -6,15 +6,11 @@ import { AdminCategoriesListView } from 'src/components/Admin/Categories/List/Ad
 import { useAdminCategoriesState } from 'src/state/AdminCategoriesState';
 import { useIntlState } from 'src/state/IntlState';
 
+const View = injectIntl(AdminCategoriesListView);
+
 export const AdminCategoriesListContainer = () => {
   const { intlState } = useIntlState();
   const { adminCategoriesState } = useAdminCategoriesState();
 
-  return (
-    <AdminCategoriesListPresenter
-      View={injectIntl(AdminCategoriesListView)}
-      adminCategoriesState={adminCategoriesState}
-      intlState={intlState}
-    />
-  );
+  return <AdminCategoriesListPresenter View={View} adminCategoriesState={adminCategoriesState} intlState={intlState} />;
 };

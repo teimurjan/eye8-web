@@ -298,7 +298,7 @@ export const CartView: React.FC<IProps> = props => {
               font-size: 10px;
               top: -7.5px;
               right: -12.5px;
-              color: ${theme.textOnPrimaryColor};
+              color: ${theme.textBrightColor};
               background: ${theme.primaryColor};
               border-radius: 50%;
             `}

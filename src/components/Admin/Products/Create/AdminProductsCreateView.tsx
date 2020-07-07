@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IntlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { ModalForm } from 'src/components/Admin/ModalForm';
 import { IViewProps as IProps } from 'src/components/Admin/Products/Create/AdminProductsCreatePresenter';
@@ -9,9 +9,8 @@ export const AdminProductsCreateView = ({
   isOpen,
   create,
   close,
-  isLoading,
+  featureValuesLoading,
   error,
-  intl,
   validate,
   preloadingError,
   isCreating,
@@ -19,7 +18,8 @@ export const AdminProductsCreateView = ({
   productTypes,
   LoadMoreProductTypes,
   productTypesLoading,
-}: IProps & { intl: IntlShape }) => {
+}: IProps) => {
+  const intl = useIntl();
   return (
     <ModalForm
       formID="adminProductsCreateForm"
@@ -27,7 +27,6 @@ export const AdminProductsCreateView = ({
       onSubmit={create}
       onClose={close}
       isLoading={isCreating}
-      isPreloading={isLoading}
       preloadingError={preloadingError}
       globalError={error}
       title={intl.formatMessage({ id: 'AdminProducts.create.title' })}
@@ -37,6 +36,7 @@ export const AdminProductsCreateView = ({
           featureValues={featureValues}
           LoadMoreProductTypes={LoadMoreProductTypes}
           productTypesLoading={productTypesLoading}
+          featureValuesLoading={featureValuesLoading}
         />
       }
       validate={validate}

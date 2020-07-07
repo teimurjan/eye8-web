@@ -8,6 +8,8 @@ import { useDependencies } from 'src/DI/DI';
 import { useAdminCategoriesState } from 'src/state/AdminCategoriesState';
 import { useIntlState } from 'src/state/IntlState';
 
+const View = injectIntl(AdminCategoriesEditView);
+
 export const AdminCategoriesEditContainer = () => {
   const history = useHistory();
   const params = useParams<{ id: string }>();
@@ -20,7 +22,7 @@ export const AdminCategoriesEditContainer = () => {
     <AdminCategoriesEditPresenter
       categoryId={parseInt(params.id, 10)}
       history={history}
-      View={injectIntl(AdminCategoriesEditView)}
+      View={View}
       service={dependencies.services.category}
       intlState={intlState}
       adminCategoriesState={adminCategoriesState}
