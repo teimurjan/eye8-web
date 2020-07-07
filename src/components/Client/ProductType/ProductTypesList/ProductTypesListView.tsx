@@ -48,6 +48,7 @@ export const ProductTypesListView = ({ filter, isLoading, error, productTypes, m
         ) : (
           <div
             css={css`
+              margin-top: 10px;
               width: 100%;
             `}
           >
