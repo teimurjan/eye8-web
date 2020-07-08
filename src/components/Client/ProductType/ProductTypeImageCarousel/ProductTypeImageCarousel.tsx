@@ -37,7 +37,7 @@ export const ProductTypeImageCarousel: React.FC<IProps> = ({ images, activeImage
                 justify-content: center;
 
                 .magnifying-glass {
-                  border: 1px solid ${theme.primaryColor};
+                  border: 1px solid ${theme.borderColor};
                 }
               `}
               src={image}
