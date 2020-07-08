@@ -145,7 +145,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
           names: {},
           descriptions: {},
           short_descriptions: {},
-          instagram_links: values.instagram_links,
+          instagram_links: Array.isArray(values.instagram_links) ? values.instagram_links : [],
           category_id: parseInt(values.category_id as string, 10),
           feature_types: values.feature_types.map(id => parseInt(id, 10)),
           image: values.image,

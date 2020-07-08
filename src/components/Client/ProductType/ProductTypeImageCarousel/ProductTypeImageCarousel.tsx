@@ -2,7 +2,6 @@
 import { css, jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
-import Magnifier from 'react-magnifier';
 
 import { Carousel, CarouselItem } from 'src/components/client-ui/Carousel/Carousel';
 import { mediaQueries } from 'src/styles/media';
@@ -28,22 +27,22 @@ export const ProductTypeImageCarousel: React.FC<IProps> = ({ images, activeImage
       <Carousel activeIndex={activeImageIndex}>
         {images.map(image => (
           <CarouselItem key={image}>
-            <Magnifier
+            <div
               css={css`
                 display: flex !important;
-                width: 100%;
-                height: 100% !important;
                 align-items: center;
                 justify-content: center;
+                width: 100%;
+                height: 100%;
 
-                .magnifying-glass {
-                  border: 1px solid ${theme.borderColor};
+                img {
+                  width: 100%;
+                  height: 100%;
                 }
               `}
-              src={image}
-              mgShape="square"
-              zoomFactor={1.25}
-            />
+            >
+              <img src={image} alt={image} />
+            </div>
           </CarouselItem>
         ))}
       </Carousel>
