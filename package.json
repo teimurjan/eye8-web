@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "1.4.16",
+  "version": "1.4.17",
   "private": true,
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^17.0.0",

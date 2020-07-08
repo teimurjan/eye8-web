@@ -7,9 +7,9 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { IntlShape } from 'react-intl';
 
+import { ControlledPagination } from 'src/components/admin-ui/ControlledPagination/ControlledPagination';
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
 import { Table } from 'src/components/admin-ui/Table/Table';
-import { UncontrolledPagination } from 'src/components/admin-ui/UncontrolledPagination/UncontrolledPagination';
 import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout';
 import { mediaQueries } from 'src/styles/media';
 import { formatMediaURL } from 'src/utils/url';
@@ -210,12 +210,12 @@ export const AdminTable = <T extends { id: number }>({
       </Table>
 
       {[pagesCount, currentPage].every(i => typeof i !== 'undefined') && (
-        <UncontrolledPagination
+        <ControlledPagination
           css={css`
             margin-bottom: 0.25rem;
           `}
-          length={pagesCount as number}
-          initialPage={currentPage}
+          length={pagesCount!}
+          page={currentPage!}
           onPageChange={onPageChange}
         />
       )}
