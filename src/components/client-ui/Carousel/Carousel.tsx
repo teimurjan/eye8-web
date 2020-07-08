@@ -82,7 +82,7 @@ export const Carousel: React.FC<IProps> = ({
         css={css`
           display: flex;
           width: ${width};
-          transform: translateX(-${activeIndex * 100}%);
+          transform: translateX(-${activeIndex * 101}%);
           transition: transform 500ms ease-in-out;
         `}
         className="carousel"

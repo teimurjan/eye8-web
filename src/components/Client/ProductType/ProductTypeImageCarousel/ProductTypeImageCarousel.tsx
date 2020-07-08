@@ -2,13 +2,14 @@
 import { css, jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
+import Magnifier from 'react-magnifier';
 
 import { Carousel, CarouselItem } from 'src/components/client-ui/Carousel/Carousel';
 import { mediaQueries } from 'src/styles/media';
 
 const CONTROL_IMAGE_SIZE = '8vw';
 const CONTROL_IMAGE_MOBILE_SIZE = '25vw';
-const MAX_CONTROL_IMAGE_SIZE = '150px';
+const MAX_CONTROL_IMAGE_SIZE = '100px';
 
 interface IProps {
   images: string[];
@@ -18,7 +19,6 @@ interface IProps {
 
 export const ProductTypeImageCarousel: React.FC<IProps> = ({ images, activeImageIndex, setActiveImageIndex }) => {
   const theme = useTheme<ClientUITheme>();
-
   return (
     <div
       css={css`
@@ -28,19 +28,21 @@ export const ProductTypeImageCarousel: React.FC<IProps> = ({ images, activeImage
       <Carousel activeIndex={activeImageIndex}>
         {images.map(image => (
           <CarouselItem key={image}>
-            <img
+            <Magnifier
               css={css`
-                margin: auto;
-                display: flex;
-                height: 30vw;
+                display: flex !important;
                 width: 100%;
+                height: 100% !important;
+                align-items: center;
+                justify-content: center;
 
-                @media ${mediaQueries.maxWidth768} {
-                  width: 100%;
-                  height: 100%;
+                .magnifying-glass {
+                  border: 1px solid ${theme.primaryColor};
                 }
               `}
-              {...{ src: image, alt: image }}
+              src={image}
+              mgShape="square"
+              zoomFactor={1.25}
             />
           </CarouselItem>
         ))}

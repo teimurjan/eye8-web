@@ -149,11 +149,11 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
             css={css`
               display: flex;
               justify-content: flex-start;
-              flex: 0 0 30vw;
+              flex: 0 0 40%;
               animation: ${fadeInFromLeft} 700ms ${easeOutCubic};
 
               @media ${mediaQueries.maxWidth768} {
-                flex: 0 0 100%;
+                width: 100%;
                 animation: ${fadeInFromBottom} 500ms ${easeOutCubic};
               }
             `}
@@ -167,7 +167,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
           <div
             css={css`
               display: flex;
-              padding: 0 0 7.5vw 50px;
+              padding: 0 0 7.5px 50px;
               flex-direction: column;
               flex: 1;
               animation: ${fadeInFromRight} 700ms ${easeOutCubic};
@@ -191,7 +191,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                 css={css`
                   flex: 0 0 60%;
                 `}
-                size={2}
+                size={3}
               >
                 {productType.name}
               </Title>
@@ -257,11 +257,14 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                 css={css`
                   position: absolute;
                   right: 0;
-                  top: 65px;
+                  top: 50px;
 
-                  @media ${mediaQueries.maxWidth768} {
+                  @media ${mediaQueries.maxWidth768}, ${mediaQueries.maxWidth1024} {
                     position: static;
                     margin-top: 20px;
+                  }
+
+                  @media ${mediaQueries.maxWidth768} {
                     width: 100%;
                   }
                 `}
