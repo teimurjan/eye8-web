@@ -91,7 +91,8 @@
   },
   "scripts": {
     "prettier": "prettier --loglevel=silent --write \"./src/**/*.{ts,tsx,js,jsx,json}\"",
-    "lint:fix": "eslint \"./src/**/*.{ts,tsx,js,jsx}\" --fix-dry-run",
+    "lint:fix": "eslint \"./src/**/*.{ts,tsx,js,jsx}\" --fix",
+    "lint": "eslint \"./src/**/*.{ts,tsx,js,jsx}\"",
     "dev": "node server.js",
     "start": "env NODE_ENV=production node server.js",
     "build": "next build"
@@ -105,7 +106,9 @@
   "lint-staged": {
     "./src/*.{js,jsx,ts,tsx}": [
       "npm run prettier",
-      "npm run lint:fix"
+      "npm run lint:fix",
+      "npm run lint",
+      "git add"
     ]
   },
   "browserslist": {
