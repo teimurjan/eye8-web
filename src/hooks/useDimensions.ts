@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { safeWindow } from 'src/utils/dom';
+import { safeWindow, safeWindowOperation } from 'src/utils/dom';
 
-export const triggerDimensionsCorrect = () => safeWindow(w => w.dispatchEvent(new Event('resize')), undefined);
+export const triggerDimensionsCorrect = () => safeWindowOperation(w => w.dispatchEvent(new Event('resize')));
 
 export const defaultGetElementDimensions = (el: HTMLElement) => el.getBoundingClientRect();
 
@@ -23,17 +23,21 @@ export const useDimensions = <T extends HTMLElement = HTMLElement>(
     }
   }, [ref, getElementDimensions, dimensions, cb]);
 
-  React.useEffect(() => {
-    if (ref.current) {
-      correctDimensions();
+  React.useEffect(
+    () =>
+      safeWindow(w => {
+        if (ref.current) {
+          correctDimensions();
 
-      safeWindow(w => w.addEventListener('resize', correctDimensions), undefined);
+          w.addEventListener('resize', correctDimensions);
 
-      return () => safeWindow(w => w.removeEventListener('resize', correctDimensions), undefined);
-    }
+          return () => w.removeEventListener('resize', correctDimensions);
+        }
 
-    return undefined;
-  }, [ref, correctDimensions, dimensions]);
+        return undefined;
+      }, undefined),
+    [ref, correctDimensions, dimensions],
+  );
 
   return dimensions;
 };

@@ -15,6 +15,14 @@ const nameOfLocale = {
 const Trigger = React.forwardRef<HTMLDivElement, PopoverTriggerProps>((props, ref) => {
   const intl = useIntl();
 
+  const onClick: React.MouseEventHandler<HTMLDivElement> = React.useCallback(
+    e => {
+      e.stopPropagation();
+      props.onClick(e);
+    },
+    [props],
+  );
+
   return (
     <div
       css={css`
@@ -22,6 +30,7 @@ const Trigger = React.forwardRef<HTMLDivElement, PopoverTriggerProps>((props, re
       `}
       ref={ref}
       {...props}
+      onClick={onClick}
     >
       {intl.formatMessage({ id: 'AdminMenu.changeLangaugeLinkText' })}
     </div>

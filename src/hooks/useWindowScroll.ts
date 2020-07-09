@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { safeWindow } from 'src/utils/dom';
+import { safeWindow, safeWindowOperation } from 'src/utils/dom';
 
 export interface State {
   x: number;
@@ -21,18 +21,14 @@ export const useWindowScroll = (): State => {
       });
     };
 
-    safeWindow(
-      w =>
-        w.addEventListener('scroll', handler, {
-          capture: false,
-          passive: true,
-        }),
-      undefined,
+    safeWindowOperation(w =>
+      w.addEventListener('scroll', handler, {
+        capture: false,
+        passive: true,
+      }),
     );
 
-    return () => {
-      safeWindow(w => w.removeEventListener('scroll', handler), undefined);
-    };
+    return () => safeWindow(w => w.removeEventListener('scroll', handler), undefined);
   }, []);
 
   return state;

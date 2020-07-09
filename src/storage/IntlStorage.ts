@@ -23,6 +23,6 @@ export class IntlStorage implements IIntlStorage {
   }
 
   public clearLocale() {
-    this.storage.removeItem('locale');
+    this.storage.removeItem('locale', { path: '/' });
   }
 }

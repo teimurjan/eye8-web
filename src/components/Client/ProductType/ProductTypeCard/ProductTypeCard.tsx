@@ -6,10 +6,9 @@ import * as React from 'react';
 import { useIntl } from 'react-intl';
 
 import { IProductTypeListResponseItem } from 'src/api/ProductTypeAPI';
-import { Image } from 'src/components/admin-ui/Image/Image';
 import { Button } from 'src/components/client-ui/Button/Button';
+import { Image } from 'src/components/client-ui/Image/Image';
 import { LinkPassingProps } from 'src/components/client-ui/LinkPassingProps/LinkPassingProps';
-import { Subtitle } from 'src/components/client-ui/Subtitle/Subtitle';
 import { Tag } from 'src/components/client-ui/Tag/Tag';
 import { Title } from 'src/components/client-ui/Title/Title';
 import { usePriceRangeText } from 'src/components/Client/Price/Price';
@@ -51,13 +50,17 @@ export const ProductTypeCard = ({ productType }: IProps) => {
         height: 100%;
         display: flex;
         flex-direction: column;
+
+        &.not-in-stock {
+          opacity: 0.7;
+        }
       `}
       className={classNames({ 'not-in-stock': !productInStock, 'price-unknown': !price })}
       href="/products/[slug]"
       as={asPath}
       passHref
     >
-      <Image className="image is-square" imgProps={{ src: formatMediaURL(productType.image), alt: productType.name }} />
+      <Image src={formatMediaURL(productType.image)} alt={productType.name} />
       <div
         css={css`
           display: flex;
@@ -68,23 +71,12 @@ export const ProductTypeCard = ({ productType }: IProps) => {
       >
         <Title
           css={css`
-            margin-top: 10px;
+            margin: 10px 0;
           `}
           size={6}
         >
           {productType.name}
         </Title>
-        <Subtitle
-          css={css`
-            margin-bottom: 20px;
-            @media ${mediaQueries.maxWidth768} {
-              margin-bottom: 10px;
-            }
-          `}
-          size={6}
-        >
-          {productType.short_description}
-        </Subtitle>
       </div>
       <Button
         css={css`

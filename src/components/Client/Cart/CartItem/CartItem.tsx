@@ -5,8 +5,8 @@ import { useIntl } from 'react-intl';
 
 import { IProductListResponseItem } from 'src/api/ProductAPI';
 import { IPromoCodeDetailResponseItem } from 'src/api/PromoCodeAPI';
-import { Image } from 'src/components/admin-ui/Image/Image';
 import { HelpText } from 'src/components/client-ui/HelpText/HelpText';
+import { Image } from 'src/components/client-ui/Image/Image';
 import { Subtitle } from 'src/components/client-ui/Subtitle/Subtitle';
 import { Title } from 'src/components/client-ui/Title/Title';
 import { Quantity } from 'src/components/Client/Cart/CartItem/Quantity';
@@ -45,15 +45,12 @@ export const CartItem = ({ product, count, onRemoveClick, onAddClick, promoCode 
             height: 50px;
             flex: 0 0 50px;
           `}
-          imgProps={{
-            src: product.images[0] || product.product_type.image,
-            style: { margin: 'auto' },
-            alt: product.product_type.name,
-          }}
+          src={product.images[0] || product.product_type.image}
+          alt={product.product_type.name}
         />
         <div
           css={css`
-            padding-left: 2rem;
+            padding-left: 15px;
           `}
         >
           <Title size={6}>{product.product_type.name}</Title>

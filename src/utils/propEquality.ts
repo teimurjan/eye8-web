@@ -1,27 +1,29 @@
-export const arePropsEqual = <T extends { [key: string]: any }>(
+type PickedProps<T> = Partial<
+  {
+    [P in keyof T]: (prev: T[P], next: T[P]) => boolean;
+  }
+>;
+
+export const arePropsEqual = <T extends { [K in keyof T]: T[K] }>(
   prevProps: T,
   nextProps: T,
-  pickedProps: Array<keyof T | { key: keyof T; compare: (prev: T[keyof T], next: T[keyof T]) => boolean }>,
+  pickedProps?: PickedProps<T>,
 ) => {
-  const deepEqual = require('fast-deep-equal/es6/react');
-
-  return pickedProps.every(pickedProp => {
-    const key = typeof pickedProp === 'object' ? pickedProp.key : pickedProp;
-
+  return Object.keys(pickedProps || prevProps).every(pickedPropKey => {
     const compare = (prev: T[keyof T], next: T[keyof T]) => {
-      if (typeof pickedProp === 'object') {
-        pickedProp.compare(prev, next);
-      }
-
-      if (typeof prevProps[key] === 'object') {
-        return deepEqual(prev, next);
-      }
-
-      return prev === next;
+      return pickedProps ? pickedProps[pickedPropKey](prev, next) : defaultCompare(prev, next);
     };
 
-    return compare(prevProps[key], nextProps[key]);
+    return compare(prevProps[pickedPropKey], nextProps[pickedPropKey]);
   });
 };
 
-export const lengthCompare = (prev: any, next: any) => prev.length === next.length;
+export const defaultCompare = <T>(prev: T, next: T) => {
+  if (typeof prev === typeof next && typeof prev === 'object') {
+    const deepEqual = require('fast-deep-equal/es6/react');
+    return deepEqual(prev, next);
+  }
+
+  return prev === next;
+};
+export const lengthCompare = <T>(prev: T[], next: T[]) => prev.length === next.length;

@@ -2,7 +2,7 @@ import pkgJSON from 'package.json';
 import * as React from 'react';
 
 import { useDependencies } from 'src/DI/DI';
-import { safeWindow } from 'src/utils/dom';
+import { safeWindowOperation } from 'src/utils/dom';
 import { isInAppSafari } from 'src/utils/platform';
 
 export const CacheBuster = () => {
@@ -17,15 +17,17 @@ export const CacheBuster = () => {
       return;
     }
 
-    safeWindow(w => {
+    safeWindowOperation(w => {
       const currentVersion = versionStorage.getVersion();
       const newVersion = pkgJSON.version;
 
-      if (currentVersion !== newVersion) {
+      if (!currentVersion) {
+        versionStorage.setVersion(newVersion);
+      } else if (currentVersion !== newVersion) {
         versionStorage.setVersion(newVersion);
         w.location.reload(true);
       }
-    }, undefined);
+    });
   }, [versionStorage]);
 
   return null;

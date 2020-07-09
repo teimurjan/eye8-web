@@ -33,7 +33,9 @@ export const defaultTheme: AdminUITheme & ClientUITheme = {
   backgroundDarkHoverColor: '#222',
   backgroundSecondaryColor: '#f0ebe3',
   textColor: '#1e1e1c',
-  textFadedColor: '#b9b9b9',
+  textFadedColor: color('#e5e5e5')
+    .darken(0.1)
+    .hex(),
   textSecondaryColor: '#606060',
   primaryColor: '#76bdae',
   textBrightColor: '#fff',
@@ -49,4 +51,5 @@ export const defaultTheme: AdminUITheme & ClientUITheme = {
   backgroundDangerColor: color('#e71d36')
     .lighten(0.8)
     .hex(),
+  backgroundGrayColor: '#e5e5e5',
 };

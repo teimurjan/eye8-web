@@ -1,9 +1,10 @@
 import { CacheProvider } from '@emotion/core';
 import * as Sentry from '@sentry/browser';
+import whyDidYouRender from '@welldone-software/why-did-you-render';
 import { cache } from 'emotion';
 import { ThemeProvider } from 'emotion-theming';
 import { AppProps, AppContext } from 'next/app';
-import * as React from 'react';
+import React from 'react';
 import { createIntl, createIntlCache } from 'react-intl';
 
 import { AuthModal } from 'src/_app/AuthModal';
@@ -24,11 +25,20 @@ import { IntlStateProvider } from 'src/state/IntlState';
 import { RatesStateProvider } from 'src/state/RatesState';
 import { UserStateProvider } from 'src/state/UserState';
 import { defaultTheme } from 'src/themes';
+import { safeWindowOperation, isWindowDefined } from 'src/utils/dom';
 
 import 'bulma/css/bulma.css';
 
+if (isWindowDefined() && process.env.NODE_ENV === 'development') {
+  whyDidYouRender(React, { collapseGroups: true });
+}
+
 const intlCache = createIntlCache();
 const dependencies = dependenciesFactory();
+
+safeWindowOperation(w => {
+  w.history.scrollRestoration = 'manual';
+});
 
 Sentry.init({ dsn: process.env.SENTRY_DSN });
 

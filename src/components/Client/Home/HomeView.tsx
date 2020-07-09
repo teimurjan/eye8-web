@@ -7,12 +7,14 @@ import { useIntl } from 'react-intl';
 import { Container } from 'src/components/admin-ui/Container/Container';
 import { LinkButton } from 'src/components/client-ui/Button/Button';
 import { Carousel, CarouselItem } from 'src/components/client-ui/Carousel/Carousel';
+import { Image } from 'src/components/client-ui/Image/Image';
 import { Title } from 'src/components/client-ui/Title/Title';
 import { IViewProps as IProps } from 'src/components/Client/Home/HomePresenter';
 import { ProductTypesListView } from 'src/components/Client/ProductType/ProductTypesList/ProductTypesListView';
 import { useLazyInitialization } from 'src/hooks/useLazyInitialization';
 import { useMedia } from 'src/hooks/useMedia';
 import { mediaQueries } from 'src/styles/media';
+import { arePropsEqual, defaultCompare } from 'src/utils/propEquality';
 
 const getTextPositioningCSS = (banner: IProps['banners'][0]) => {
   const horizontalRule = banner.text_left_offset
@@ -53,22 +55,11 @@ export interface IBannerButtonProps {
   onMouseEnter: React.MouseEventHandler;
 }
 
-export const HomeView: React.FC<IProps> = ({ banners, productTypes }) => {
+const HomeView = ({ banners, productTypes, activeBannerIndex }: IProps) => {
   const intl = useIntl();
   const theme = useTheme<ClientUITheme>();
   const isMobile = useMedia([mediaQueries.maxWidth768], [true], false);
   const { value: lazyIsMobile } = useLazyInitialization(isMobile, false);
-  const [activeBannerIndex, setActiveBannerIndex] = React.useState(0);
-
-  React.useEffect(() => {
-    const intervalID = setInterval(() => {
-      const nextBannerIndex = activeBannerIndex < banners.length - 1 ? activeBannerIndex + 1 : 0;
-      setActiveBannerIndex(nextBannerIndex);
-    }, 5000);
-
-    return () => clearInterval(intervalID);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeBannerIndex, banners.length]);
 
   return (
     <div>
@@ -79,7 +70,7 @@ export const HomeView: React.FC<IProps> = ({ banners, productTypes }) => {
         activeIndex={activeBannerIndex}
         fullWidth
       >
-        {banners.map((banner, i) => {
+        {banners.map(banner => {
           return (
             <CarouselItem
               key={banner.id}
@@ -88,14 +79,7 @@ export const HomeView: React.FC<IProps> = ({ banners, productTypes }) => {
                 overflow: hidden;
               `}
             >
-              <img
-                alt={banner.text}
-                css={css`
-                  width: 100%;
-                  display: block;
-                `}
-                src={banner.image}
-              />
+              <Image alt={banner.text} src={banner.image} squared={false} />
               {banner.text && (
                 <div
                   css={css`
@@ -175,3 +159,13 @@ export const HomeView: React.FC<IProps> = ({ banners, productTypes }) => {
     </div>
   );
 };
+
+const MemoizedHomeView = React.memo<IProps>(HomeView, (prevProps, nextProps) =>
+  arePropsEqual(prevProps, nextProps, {
+    activeBannerIndex: defaultCompare,
+    banners: (prev, next) => prev.map(({ id }) => id).join('') === next.map(({ id }) => id).join(''),
+    productTypes: (prev, next) => prev.map(({ id }) => id).join('') === next.map(({ id }) => id).join(''),
+  }),
+);
+
+export { MemoizedHomeView as HomeView };

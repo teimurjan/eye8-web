@@ -16,7 +16,7 @@ import { WYSIWYG } from 'src/components/client-ui/WYSIWYG/WYSIWYG';
 import { IContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
 import { IContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
-import { arePropsEqual, lengthCompare } from 'src/utils/propEquality';
+import { arePropsEqual, lengthCompare, defaultCompare } from 'src/utils/propEquality';
 
 interface IFeatureTypesSelectProps extends FieldRenderProps<string[]> {
   featureTypes: AdminFeatureTypesStateContextValue['adminFeatureTypesState']['featureTypes'];
@@ -252,12 +252,16 @@ export const Fields: React.SFC<IFieldsProps> = React.memo(
     );
   },
   (prevProps, nextProps) =>
-    arePropsEqual(prevProps, nextProps, [
-      'nameFieldKey',
-      'descriptionFieldKey',
-      'shortDescriptionFieldKey',
-      { key: 'availableLocales', compare: lengthCompare },
-      { key: 'categories', compare: lengthCompare },
-      { key: 'featureTypes', compare: lengthCompare },
-    ]),
+    arePropsEqual(
+      prevProps,
+      nextProps,
+      {
+        nameFieldKey: defaultCompare,
+        descriptionFieldKey: defaultCompare,
+        shortDescriptionFieldKey: defaultCompare,
+        availableLocales: lengthCompare,
+        categories: lengthCompare,
+        featureTypes: lengthCompare,
+      },
+    ),
 );

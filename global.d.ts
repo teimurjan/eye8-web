@@ -41,6 +41,7 @@ declare interface ClientUITheme {
   backgroundPrimaryHoverColor: string;
   backgroundDarkColor: string;
   backgroundDarkHoverColor: string;
+  backgroundGrayColor: string;
 }
 
 declare type Then<T> = T extends PromiseLike<infer U> ? U : T;

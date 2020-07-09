@@ -294,5 +294,6 @@
   "AdminProductTypes.instagramLinks.placeholder": "https://www.instagram.com/p/CBxH4cfHlk4/,https://www.instagram.com/p/CBvUxOrHLdR/",
   "common.separateWithComma": "Значения должны быть разделены запятыми (без пробелов)",
   "Login.success": "Вы успешно вошли в аккаунт",
-  "Logout.success": "Вы вышли из аккаунта"
+  "Logout.success": "Вы вышли из аккаунта",
+  "errors.brokenImage": "Картинка недоступна"
 }

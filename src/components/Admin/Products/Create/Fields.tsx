@@ -26,7 +26,7 @@ import { Popover } from 'src/components/client-ui/Popover/Popover';
 import { IContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
 import { Accept } from 'src/utils/accept';
 import { isAllowedForNumberInput } from 'src/utils/number';
-import { arePropsEqual, lengthCompare } from 'src/utils/propEquality';
+import { arePropsEqual, lengthCompare, defaultCompare } from 'src/utils/propEquality';
 
 const QuantityField = ({ input, meta }: FieldRenderProps<string>) => {
   const intl = useIntl();
@@ -282,7 +282,7 @@ const ImagesInput = React.memo<FieldRenderProps<Array<File | undefined>>>(
       </Field>
     );
   },
-  (prevProps, nextProps) => arePropsEqual(prevProps, nextProps, ['input']),
+  (prevProps, nextProps) => arePropsEqual(prevProps, nextProps, { input: defaultCompare }),
 );
 
 export interface IFieldsProps {
@@ -322,9 +322,9 @@ export const Fields: React.SFC<IFieldsProps> = React.memo(
     );
   },
   (prevProps, nextProps) =>
-    arePropsEqual(prevProps, nextProps, [
-      { key: 'productTypes' as keyof IFieldsProps, compare: lengthCompare },
-      { key: 'featureValues' as keyof IFieldsProps, compare: lengthCompare },
-      'productTypesLoading',
-    ]),
+    arePropsEqual(prevProps, nextProps, {
+      productTypes: lengthCompare,
+      featureValues: lengthCompare,
+      productTypesLoading: defaultCompare,
+    }),
 );

@@ -15,7 +15,7 @@ import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout
 import { useDebounce } from 'src/hooks/useDebounce';
 import { useMedia } from 'src/hooks/useMedia';
 import { mediaQueries } from 'src/styles/media';
-import { arePropsEqual } from 'src/utils/propEquality';
+import { arePropsEqual, defaultCompare } from 'src/utils/propEquality';
 
 export interface IProps<T> {
   isOpen: boolean;
@@ -60,12 +60,9 @@ const MemoizedForm = React.memo(
       </form>
     );
   },
-  (prevProps, nextProps) => arePropsEqual(prevProps, nextProps, ['id', 'globalError', 'fields']),
+  (prevProps, nextProps) =>
+    arePropsEqual(prevProps, nextProps, { id: defaultCompare, globalError: defaultCompare, fields: defaultCompare }),
 );
-
-(MemoizedForm as any).whyDidYouRender = {
-  customName: 'ModalForm.MemoizedForm',
-};
 
 interface IInnerFormProps<T> {
   title: IProps<T>['title'];

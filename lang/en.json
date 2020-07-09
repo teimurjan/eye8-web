@@ -294,5 +294,6 @@
   "AdminProductTypes.instagramLinks.placeholder": "https://www.instagram.com/p/CBxH4cfHlk4/,https://www.instagram.com/p/CBvUxOrHLdR/",
   "common.separateWithComma": "Values should be separated with comma",
   "Login.success": "You've been successfully logged in",
-  "Logout.success": "You've been successfully logged out"
+  "Logout.success": "You've been successfully logged out",
+  "errors.brokenImage": "No image avaiable"
 }

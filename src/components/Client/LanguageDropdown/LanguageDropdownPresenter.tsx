@@ -4,7 +4,7 @@ import { PopperProps } from 'react-popper';
 import { TriggerClickProps as PopoverTriggerProps } from 'src/components/client-ui/Popover/Popover';
 import { IIntlService } from 'src/services/IntlService';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
-import { safeWindow } from 'src/utils/dom';
+import { safeWindowOperation } from 'src/utils/dom';
 
 interface IProps extends IntlStateContextValue {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
@@ -32,7 +32,7 @@ export const LanguageDropdownPresenter = ({
     (newLocale: string) => {
       if (intlService.getLocale() !== newLocale) {
         intlService.setLocale(newLocale);
-        safeWindow(w => w.location.reload(), undefined);
+        safeWindowOperation(w => w.location.reload());
       }
     },
     [intlService],
