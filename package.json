@@ -85,21 +85,28 @@
     "fast-deep-equal": "^3.1.1",
     "glob": "^7.1.4",
     "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
     "prettier": "^1.19.1",
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "pretty": "prettier --loglevel=silent --write \"./src/**/*.{ts,tsx,js,jsx,json}\"",
-    "lint": "eslint \"./src/**/*.{ts,tsx,js,jsx}\"",
+    "prettier": "prettier --loglevel=silent --write \"./src/**/*.{ts,tsx,js,jsx,json}\"",
+    "lint:fix": "eslint \"./src/**/*.{ts,tsx,js,jsx}\" --fix-dry-run",
     "dev": "node server.js",
     "start": "env NODE_ENV=production node server.js",
     "build": "next build"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn pretty && yarn lint",
+      "pre-commit": "lint-staged",
       "post-commit": "./next-tag.sh"
     }
+  },
+  "lint-staged": {
+    "./src/*.{js,jsx,ts,tsx}": [
+      "npm run prettier",
+      "npm run lint:fix"
+    ]
   },
   "browserslist": {
     "production": [
