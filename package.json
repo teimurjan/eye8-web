@@ -90,7 +90,7 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "prettier": "prettier --loglevel=silent --write \"./src/**/*.{ts,tsx,js,jsx,json}\"",
+    "prettier": "prettier --write \"./src/**/*.{ts,tsx,js,jsx,json}\"",
     "lint:fix": "eslint \"./src/**/*.{ts,tsx,js,jsx}\" --fix",
     "lint": "eslint \"./src/**/*.{ts,tsx,js,jsx}\"",
     "dev": "node server.js",
@@ -104,11 +104,12 @@
     }
   },
   "lint-staged": {
-    "./src/*.{js,jsx,ts,tsx}": [
-      "npm run prettier",
+    "./**/*.{ts,tsx,js,jsx,json}": [
+      "npm run prettier"
+    ],
+    "./src/**/*.{ts,tsx,js,jsx": [
       "npm run lint:fix",
-      "npm run lint",
-      "git add"
+      "npm run lint"
     ]
   },
   "browserslist": {
