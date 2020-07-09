@@ -252,16 +252,12 @@ export const Fields: React.SFC<IFieldsProps> = React.memo(
     );
   },
   (prevProps, nextProps) =>
-    arePropsEqual(
-      prevProps,
-      nextProps,
-      {
-        nameFieldKey: defaultCompare,
-        descriptionFieldKey: defaultCompare,
-        shortDescriptionFieldKey: defaultCompare,
-        availableLocales: lengthCompare,
-        categories: lengthCompare,
-        featureTypes: lengthCompare,
-      },
-    ),
+    arePropsEqual(prevProps, nextProps, {
+      nameFieldKey: defaultCompare,
+      descriptionFieldKey: defaultCompare,
+      shortDescriptionFieldKey: defaultCompare,
+      availableLocales: lengthCompare,
+      categories: lengthCompare,
+      featureTypes: lengthCompare,
+    }),
 );
