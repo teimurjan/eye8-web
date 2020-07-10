@@ -59,6 +59,7 @@ export type TriggerClickProps = {
 };
 export type TriggerHoverProps = {
   onMouseEnter: React.MouseEventHandler;
+  onClick: React.MouseEventHandler;
 };
 type TriggerClickComponent<T> = React.ComponentType<TriggerClickProps & React.RefAttributes<T>>;
 type TriggerHoverComponent<T> = React.ComponentType<TriggerHoverProps & React.RefAttributes<T>>;
@@ -164,6 +165,7 @@ export const Popover = <T extends HTMLElement>({
         ? React.createElement(TriggerComponent as TriggerHoverComponent<T>, {
             ref: triggerRef,
             onMouseEnter: open,
+            onClick: open,
           })
         : React.createElement(TriggerComponent as TriggerClickComponent<T>, { ref: triggerRef, onClick: open });
     }

@@ -30,7 +30,7 @@ import { safeWindowOperation, isWindowDefined } from 'src/utils/dom';
 import 'bulma/css/bulma.css';
 
 if (isWindowDefined() && process.env.NODE_ENV === 'development') {
-  whyDidYouRender(React, { collapseGroups: true });
+  whyDidYouRender(React, { trackAllPureComponents: true });
 }
 
 const intlCache = createIntlCache();

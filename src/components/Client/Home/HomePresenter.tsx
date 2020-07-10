@@ -24,7 +24,6 @@ export interface IViewProps {
   banners: IBannerListResponseItem[];
   productTypes: IProductTypeListResponseItem[];
   error?: string;
-  activeBannerIndex: number;
 }
 
 export const HomePresenter: React.FC<IProps> = ({
@@ -45,7 +44,6 @@ export const HomePresenter: React.FC<IProps> = ({
     initialProps ? initialProps.productTypesOrder : [],
   );
   const [error, setError] = React.useState<string | undefined>(initialProps ? initialProps.error : undefined);
-  const [activeBannerIndex, setActiveBannerIndex] = React.useState(0);
 
   React.useEffect(() => {
     if (initialProps) {
@@ -76,21 +74,10 @@ export const HomePresenter: React.FC<IProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  React.useEffect(() => {
-    const intervalID = setInterval(() => {
-      const nextBannerIndex = activeBannerIndex < bannersOrder.length - 1 ? activeBannerIndex + 1 : 0;
-      setActiveBannerIndex(nextBannerIndex);
-    }, 5000);
-
-    return () => clearInterval(intervalID);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeBannerIndex, bannersOrder.length]);
-
   return (
     <View
       banners={agregateOrderedMapToArray(banners, bannersOrder)}
       productTypes={agregateOrderedMapToArray(productTypes, productTypesOrder)}
-      activeBannerIndex={activeBannerIndex}
       error={error}
     />
   );

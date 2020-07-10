@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 
 import { Container } from 'src/components/admin-ui/Container/Container';
 import { LinkButton } from 'src/components/client-ui/Button/Button';
-import { Carousel, CarouselItem } from 'src/components/client-ui/Carousel/Carousel';
+import { InfiniteCarousel, CarouselItem, Carousel } from 'src/components/client-ui/Carousel/Carousel';
 import { Image } from 'src/components/client-ui/Image/Image';
 import { Title } from 'src/components/client-ui/Title/Title';
 import { IViewProps as IProps } from 'src/components/Client/Home/HomePresenter';
@@ -14,7 +14,7 @@ import { ProductTypesListView } from 'src/components/Client/ProductType/ProductT
 import { useLazyInitialization } from 'src/hooks/useLazyInitialization';
 import { useMedia } from 'src/hooks/useMedia';
 import { mediaQueries } from 'src/styles/media';
-import { arePropsEqual, defaultCompare } from 'src/utils/propEquality';
+import { arePropsEqual } from 'src/utils/propEquality';
 
 const getTextPositioningCSS = (banner: IProps['banners'][0]) => {
   const horizontalRule = banner.text_left_offset
@@ -50,99 +50,111 @@ const getTextPositioningCSS = (banner: IProps['banners'][0]) => {
   `;
 };
 
+interface IBannerCarouselItemProps {
+  banner: IProps['banners'][0];
+  isMobile: boolean;
+  dataKey?: string;
+}
+
+const BannerCarouselItem = ({ banner, isMobile, dataKey }: IBannerCarouselItemProps) => {
+  const theme = useTheme<ClientUITheme>();
+  return (
+    <CarouselItem
+      css={css`
+        width: 100%;
+        overflow: hidden;
+      `}
+    >
+      <Image alt={banner.text} src={banner.image} squared={false} />
+      {banner.text && (
+        <div
+          data-key={dataKey}
+          css={css`
+            position: absolute;
+            max-width: 33vw;
+            color: ${banner.text_color || theme.textBrightColor} !important;
+            ${getTextPositioningCSS(banner)};
+
+            @media ${mediaQueries.maxWidth768} {
+              max-width: 50vw;
+            }
+          `}
+        >
+          <div
+            css={css`
+              color: inherit;
+              text-align: inherit;
+
+              h1 {
+                line-height: 1.35;
+                font-size: 40px;
+              }
+              h2 {
+                line-height: 1.25;
+                font-size: 30px;
+              }
+              h3 {
+                line-height: 1.15;
+                font-size: 24px;
+              }
+
+              @media ${mediaQueries.maxWidth768} {
+                h1 {
+                  font-size: 24px;
+                }
+                h2 {
+                  font-size: 18px;
+                }
+                h3 {
+                  font-size: 16px;
+                }
+              }
+            `}
+            dangerouslySetInnerHTML={{ __html: banner.text }}
+          ></div>
+          {banner.link && banner.link_text && (
+            <LinkButton
+              css={css`
+                margin-top: 10px;
+              `}
+              color="primary"
+              size={isMobile ? 'small' : 'default'}
+              href={banner.link}
+            >
+              <b>{banner.link_text}</b>
+            </LinkButton>
+          )}
+        </div>
+      )}
+    </CarouselItem>
+  );
+};
+
 export interface IBannerButtonProps {
   banner: IProps['banners'][0];
   onMouseEnter: React.MouseEventHandler;
 }
 
-const HomeView = ({ banners, productTypes, activeBannerIndex }: IProps) => {
+const HomeView = ({ banners, productTypes }: IProps) => {
   const intl = useIntl();
-  const theme = useTheme<ClientUITheme>();
   const isMobile = useMedia([mediaQueries.maxWidth768], [true], false);
   const { value: lazyIsMobile } = useLazyInitialization(isMobile, false);
 
   return (
     <div>
-      <Carousel
+      <InfiniteCarousel
+        delay={10000}
         css={css`
           text-align: center;
         `}
-        activeIndex={activeBannerIndex}
+        controls={<Carousel.Controls />}
         fullWidth
+        swipeable
       >
-        {banners.map(banner => {
-          return (
-            <CarouselItem
-              key={banner.id}
-              css={css`
-                width: 100%;
-                overflow: hidden;
-              `}
-            >
-              <Image alt={banner.text} src={banner.image} squared={false} />
-              {banner.text && (
-                <div
-                  css={css`
-                    position: absolute;
-                    max-width: 33vw;
-                    color: ${banner.text_color || theme.textBrightColor} !important;
-                    ${getTextPositioningCSS(banner)};
-
-                    @media ${mediaQueries.maxWidth768} {
-                      max-width: 50vw;
-                    }
-                  `}
-                >
-                  <div
-                    css={css`
-                      color: inherit;
-                      text-align: inherit;
-
-                      h1 {
-                        line-height: 1.35;
-                        font-size: 40px;
-                      }
-                      h2 {
-                        line-height: 1.25;
-                        font-size: 30px;
-                      }
-                      h3 {
-                        line-height: 1.15;
-                        font-size: 24px;
-                      }
-
-                      @media ${mediaQueries.maxWidth768} {
-                        h1 {
-                          font-size: 24px;
-                        }
-                        h2 {
-                          font-size: 18px;
-                        }
-                        h3 {
-                          font-size: 16px;
-                        }
-                      }
-                    `}
-                    dangerouslySetInnerHTML={{ __html: banner.text }}
-                  ></div>
-                  {banner.link && banner.link_text && (
-                    <LinkButton
-                      css={css`
-                        margin-top: 10px;
-                      `}
-                      color="primary"
-                      size={lazyIsMobile ? 'small' : 'default'}
-                      href={banner.link}
-                    >
-                      <b>{banner.link_text}</b>
-                    </LinkButton>
-                  )}
-                </div>
-              )}
-            </CarouselItem>
-          );
-        })}
-      </Carousel>
+        {banners.map(banner => (
+          <BannerCarouselItem key={banner.id} banner={banner} isMobile={lazyIsMobile} />
+        ))}
+      </InfiniteCarousel>
 
       <Container>
         <Title
@@ -162,7 +174,6 @@ const HomeView = ({ banners, productTypes, activeBannerIndex }: IProps) => {
 
 const MemoizedHomeView = React.memo<IProps>(HomeView, (prevProps, nextProps) =>
   arePropsEqual(prevProps, nextProps, {
-    activeBannerIndex: defaultCompare,
     banners: (prev, next) => prev.map(({ id }) => id).join('') === next.map(({ id }) => id).join(''),
     productTypes: (prev, next) => prev.map(({ id }) => id).join('') === next.map(({ id }) => id).join(''),
   }),
