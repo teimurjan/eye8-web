@@ -153,7 +153,7 @@ export const InfiniteCarousel = ({
   }, [activeIndex, isTransitioning]);
 
   const onPrevClick = React.useCallback(() => {
-    if (!isTransitioning && activeIndex % childrenCount == 0) {
+    if (!isTransitioning && activeIndex % childrenCount !== 0) {
       setActiveIndex(activeIndex - 1);
     }
   }, [activeIndex, isTransitioning, childrenCount]);
