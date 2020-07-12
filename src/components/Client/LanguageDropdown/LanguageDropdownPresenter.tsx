@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { PopperProps } from 'react-popper';
 
+import { PopoverPlacement } from 'src/components/client-ui/Popover/Popover';
 import { TriggerClickProps as PopoverTriggerProps } from 'src/components/client-ui/Popover/Popover';
 import { IIntlService } from 'src/services/IntlService';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
@@ -18,7 +18,7 @@ export interface IViewProps {
   TriggerComponent?: React.ComponentType<PopoverTriggerProps>;
   className?: string;
   openOnHover?: boolean;
-  placement?: PopperProps['placement'];
+  placement?: PopoverPlacement;
   offset?: number[];
 }
 

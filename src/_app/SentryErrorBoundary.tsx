@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/node';
 import * as React from 'react';
 
 export class SentryErrorBoundary extends React.Component {

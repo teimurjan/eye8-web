@@ -1,10 +1,11 @@
 /** @jsx jsx */
 import { css, jsx, ClassNames } from '@emotion/core';
+import { Placement } from '@popperjs/core';
 import classNames from 'classnames';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { usePopper, PopperProps } from 'react-popper';
+import { usePopper } from 'react-popper';
 import { CSSTransition } from 'react-transition-group';
 
 import { useBoolean } from 'src/hooks/useBoolean';
@@ -64,6 +65,8 @@ export type TriggerHoverProps = {
 type TriggerClickComponent<T> = React.ComponentType<TriggerClickProps & React.RefAttributes<T>>;
 type TriggerHoverComponent<T> = React.ComponentType<TriggerHoverProps & React.RefAttributes<T>>;
 
+export type PopoverPlacement = Placement;
+
 export interface IProps<T> {
   TriggerComponent?: TriggerClickComponent<T> | TriggerHoverComponent<T>;
   renderTrigger?: RenderTrigger<T>;
@@ -73,7 +76,7 @@ export interface IProps<T> {
   forceOpen?: boolean;
   preventOverflow?: boolean;
   openOnHover?: boolean;
-  placement?: PopperProps['placement'];
+  placement?: PopoverPlacement;
   offset?: number[];
   refsToInclude?: React.RefObject<HTMLElement>[];
   arrowClassName?: string;
