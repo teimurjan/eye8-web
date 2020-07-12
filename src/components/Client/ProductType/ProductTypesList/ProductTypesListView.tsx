@@ -3,6 +3,7 @@ import { jsx, css } from '@emotion/core';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 
+import { ICategoryListResponseItem } from 'src/api/CategoryAPI';
 import { IProductTypeListResponseItem, IProductTypeListResponseMeta } from 'src/api/ProductTypeAPI';
 import { Column } from 'src/components/admin-ui/Column/Column';
 import { Columns } from 'src/components/admin-ui/Columns/Columns';
@@ -16,7 +17,7 @@ import { mediaQueries } from 'src/styles/media';
 
 export interface IProps {
   productTypes: IProductTypeListResponseItem[];
-  category?: IProductTypeListResponseItem['categories'][0];
+  category?: ICategoryListResponseItem;
   meta?: IProductTypeListResponseMeta;
   error?: string;
   isLoading: boolean;

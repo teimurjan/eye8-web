@@ -18,7 +18,7 @@ export interface IProductTypeListResponseItem {
   short_description: string;
   instagram_links: Array<{ id: number; link: string }>;
   image: string;
-  categories: Array<{ id: number; slug: string; name: string }>;
+  categories: number[];
   slug: string;
   feature_types: number[];
   products?: Array<{

@@ -1,2 +1,10 @@
 #!/bin/bash
-docker build --build-arg SENTRY_DSN=$SENTRY_DSN --build-arg YM_ACCOUNT_ID=$YM_ACCOUNT_ID -f $DOCKERFILE_PATH -t $IMAGE_NAME .
+docker build \
+--build-arg SENTRY_DSN=$SENTRY_DSN \
+--build-arg SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN \
+--build-arg SENTRY_ORG=$SENTRY_ORG \
+--build-arg SENTRY_PROJECT=$SENTRY_PROJECT \
+--build-arg YM_ACCOUNT_ID=$YM_ACCOUNT_ID \
+--build-arg RELEASE_VERSION=$DOCKER_TAG \
+-f $DOCKERFILE_PATH \
+-t $IMAGE_NAME .

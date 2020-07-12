@@ -1,5 +1,5 @@
 import { CacheProvider } from '@emotion/core';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/node';
 import whyDidYouRender from '@welldone-software/why-did-you-render';
 import { cache } from 'emotion';
 import { ThemeProvider } from 'emotion-theming';
@@ -40,7 +40,7 @@ safeWindowOperation(w => {
   w.history.scrollRestoration = 'manual';
 });
 
-Sentry.init({ dsn: process.env.SENTRY_DSN });
+Sentry.init({ dsn: process.env.SENTRY_DSN, enabled: process.env.NODE_ENV === 'production' });
 
 const CustomNextApp = ({
   Component,
