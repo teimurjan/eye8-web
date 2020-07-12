@@ -50,9 +50,10 @@ export const ProductTypeCard = ({ productType }: IProps) => {
         height: 100%;
         display: flex;
         flex-direction: column;
+        transition: box-shadow 300ms;
 
         &.not-in-stock {
-          opacity: 0.7;
+          opacity: 0.5;
         }
       `}
       className={classNames({ 'not-in-stock': !productInStock, 'price-unknown': !price })}

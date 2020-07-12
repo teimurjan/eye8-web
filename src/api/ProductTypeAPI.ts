@@ -18,7 +18,7 @@ export interface IProductTypeListResponseItem {
   short_description: string;
   instagram_links: Array<{ id: number; link: string }>;
   image: string;
-  category: number;
+  categories: Array<{ id: number; slug: string; name: string }>;
   slug: string;
   feature_types: number[];
   products?: Array<{
@@ -46,7 +46,7 @@ export interface IProductTypeDetailResponseItem {
   short_description: string;
   instagram_links: Array<{ id: number; link: string }>;
   image: string;
-  category: { id: number; name: string; slug: string };
+  categories: Array<{ id: number; name: string; slug: string }>;
   slug: string;
   feature_types: number[];
   products?: Array<{
@@ -73,7 +73,7 @@ export interface IProductTypeListRawIntlResponseItem {
   short_description: { [key: string]: string };
   instagram_links: Array<{ id: number; link: string }>;
   image: string;
-  category: number;
+  categories: Array<{ id: number }>;
   feature_types: number[];
   slug: string;
   created_on: string;
@@ -94,7 +94,7 @@ export interface IProductTypeDetailRawIntlResponseItem {
   short_description: { [key: string]: string };
   instagram_links: Array<{ id: number; link: string }>;
   image: string;
-  category: { id: number };
+  categories: Array<{ id: number }>;
   feature_types: number[];
   slug: string;
   created_on: string;
@@ -131,7 +131,7 @@ export interface IProductTypeCreatePayload {
     [key: string]: string;
   };
   image: string;
-  category_id: number;
+  categories: number[];
   feature_types: number[];
   instagram_links: string[];
 }

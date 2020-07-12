@@ -9,6 +9,7 @@ import { mediaQueries } from 'src/styles/media';
 export interface IProps {
   children?: React.ReactNode | string;
   size: 1 | 2 | 3 | 4 | 5 | 6;
+  tag?: 1 | 2 | 3 | 4 | 5 | 6;
   className?: string;
 }
 
@@ -30,14 +31,14 @@ const mobileFontSizes = {
   6: 16,
 };
 
-export const Title = ({ children, size, className }: IProps) => {
+export const Title = ({ children, size, tag = size, className }: IProps) => {
   const theme = useTheme<ClientUITheme>();
 
   return (
     <ClassNames>
       {({ css }) =>
         React.createElement(
-          `h${size}`,
+          `h${tag}`,
           {
             className: classNames(
               className,

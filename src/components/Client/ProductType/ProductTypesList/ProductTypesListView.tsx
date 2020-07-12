@@ -10,11 +10,13 @@ import { Container } from 'src/components/admin-ui/Container/Container';
 import { ErrorLayout } from 'src/components/client-ui/ErrorLayout/ErrorLayout';
 import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout';
 import { Pagination } from 'src/components/client-ui/Pagination/Pagination';
+import { Title } from 'src/components/client-ui/Title/Title';
 import { ProductTypeCard } from 'src/components/Client/ProductType/ProductTypeCard/ProductTypeCard';
 import { mediaQueries } from 'src/styles/media';
 
 export interface IProps {
   productTypes: IProductTypeListResponseItem[];
+  category?: IProductTypeListResponseItem['categories'][0];
   meta?: IProductTypeListResponseMeta;
   error?: string;
   isLoading: boolean;
@@ -22,7 +24,15 @@ export interface IProps {
   filter?: React.ReactNode;
 }
 
-export const ProductTypesListView = ({ filter, isLoading, error, productTypes, meta, onPageChange }: IProps) => {
+export const ProductTypesListView = ({
+  filter,
+  isLoading,
+  error,
+  productTypes,
+  meta,
+  onPageChange,
+  category,
+}: IProps) => {
   const intl = useIntl();
 
   if (error) {
@@ -31,6 +41,18 @@ export const ProductTypesListView = ({ filter, isLoading, error, productTypes, m
 
   return (
     <Container>
+      {category && (
+        <Title
+          css={css`
+            margin: 20px 0 10px;
+          `}
+          size={3}
+          tag={1}
+        >
+          {category.name}
+        </Title>
+      )}
+
       <div
         css={css`
           display: flex;

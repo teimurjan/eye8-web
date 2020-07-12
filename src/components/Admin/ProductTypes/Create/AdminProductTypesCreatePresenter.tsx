@@ -32,7 +32,7 @@ interface IFormValues {
   short_descriptions: { [key: string]: string };
   instagram_links: string[];
   feature_types: string[];
-  category_id?: string;
+  categories?: string[];
   image: string;
 }
 
@@ -90,7 +90,11 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
                 .required('common.errors.field.empty'),
             }),
             {
-              category_id: yup.number().required('common.errors.field.empty'),
+              categories: yup
+                .array()
+                .of(yup.number())
+                .required('AdminProductTypes.errors.noCategories')
+                .min(1, 'AdminProductTypes.errors.noCategories'),
               feature_types: yup
                 .array()
                 .of(yup.number())
@@ -146,7 +150,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
           descriptions: {},
           short_descriptions: {},
           instagram_links: Array.isArray(values.instagram_links) ? values.instagram_links : [],
-          category_id: parseInt(values.category_id as string, 10),
+          categories: values.categories ? values.categories.map(category => parseInt(category as string, 10)) : [],
           feature_types: values.feature_types.map(id => parseInt(id, 10)),
           image: values.image,
         },
@@ -167,14 +171,17 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
 
   const onChange: IViewProps['onChange'] = React.useCallback(
     values => {
-      // Filter if cached feature type does not exist anymore
+      // Filter if cached feature type and category does not exist anymore
       values.feature_types = values.feature_types
         ? values.feature_types.filter((idStr: string) => featureTypes.some(({ id }) => id.toString() === idStr))
+        : undefined;
+      values.categories = values.categories
+        ? values.categories.filter((idStr: string) => categories.some(({ id }) => id.toString() === idStr))
         : undefined;
 
       stateCacheStorage.set(STATE_CACHE_KEY, objectWithout(values, 'image'), { expireIn: 3600 });
     },
-    [featureTypes, stateCacheStorage],
+    [featureTypes, categories, stateCacheStorage],
   );
 
   return (

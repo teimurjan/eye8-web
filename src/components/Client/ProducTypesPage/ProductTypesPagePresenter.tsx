@@ -4,6 +4,7 @@ import { NextRouter } from 'next/router';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 
+import { ICategoryListResponseItem } from 'src/api/CategoryAPI';
 import {
   IProductTypeListResponseItem,
   IProductTypeListResponseMeta,
@@ -25,6 +26,7 @@ export interface IProps {
   initialProps?: {
     productTypes: { [key: string]: IProductTypeListResponseItem };
     productTypesMeta: IProductTypeListResponseMeta;
+    category?: ICategoryListResponseItem;
     productTypesOrder: number[];
     error?: string;
   };
@@ -41,6 +43,7 @@ export const ProductTypesPagePresenter = ({
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isLoading, setLoading] = React.useState(false);
   const [productTypes, setProductTypes] = React.useState<{ [key: string]: IProductTypeListResponseItem }>({});
+  const [category, setCategory] = React.useState<ICategoryListResponseItem | undefined>(undefined);
   const [productTypesMeta, setProductTypesMeta] = React.useState<IProductTypeListResponseMeta>({
     count: 0,
     pages_count: 0,
@@ -98,6 +101,7 @@ export const ProductTypesPagePresenter = ({
   React.useEffect(() => {
     if (initialProps) {
       setError(initialProps.error);
+      setCategory(initialProps.category);
       setProductTypes(initialProps.productTypes);
       setProductTypesMeta(initialProps.productTypesMeta);
       setProductTypesOrder(initialProps.productTypesOrder);
@@ -166,6 +170,7 @@ export const ProductTypesPagePresenter = ({
         </Filter>
       }
       productTypes={agregateOrderedMapToArray(productTypes, productTypesOrder)}
+      category={category}
       meta={productTypesMeta}
       isLoading={isLoading}
       error={error}

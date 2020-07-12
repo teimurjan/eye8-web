@@ -111,6 +111,7 @@ const StoryTitle: React.FC = ({ children }) => (
       margin-bottom: 15px;
     `}
     size={3}
+    tag={1}
   >
     {children}
   </Title>

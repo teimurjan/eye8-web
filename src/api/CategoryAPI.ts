@@ -27,6 +27,10 @@ export interface ICategoryListResponseData {
   data: ICategoryListResponseItem[];
 }
 
+export interface ICategoryDetailResponseData {
+  data: ICategoryListResponseItem;
+}
+
 export interface ICategoryListRawIntlResponseData {
   data: ICategoryListRawIntlResponseItem[];
 }
@@ -50,6 +54,7 @@ export interface ICategoryAPI {
   edit(id: number, payload: ICategoryCreatePayload): Promise<ICategoryRawIntlResponseData>;
   status(id: number): Promise<{}>;
   getOneRawIntl(id: number): Promise<ICategoryRawIntlResponseData>;
+  getOne(idOrSlug: number | string): Promise<ICategoryDetailResponseData>;
 }
 
 export const errors = {
@@ -179,6 +184,20 @@ export class CategoryAPI implements ICategoryAPI {
           headers: this.headersManager.getHeaders(),
         },
       );
+      return response.data;
+    } catch (e) {
+      if (e.response && e.response.status === 404) {
+        throw new errors.CategoryNotFound();
+      }
+      throw e;
+    }
+  }
+
+  public async getOne(idOrSlug: number | string) {
+    try {
+      const response = await this.client.get<ICategoryDetailResponseData>(`/api/categories/${idOrSlug}`, {
+        headers: this.headersManager.getHeaders(),
+      });
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {

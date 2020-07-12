@@ -11,10 +11,11 @@ export default ({
   productTypes,
   productTypesOrder,
   productTypesMeta,
+  category,
   error,
 }: Then<ReturnType<typeof getServerSideProps>>['props']) => (
   <Layout>
-    <ProductTypesPageContainer initialProps={{ productTypes, productTypesOrder, productTypesMeta, error }} />
+    <ProductTypesPageContainer initialProps={{ productTypes, productTypesOrder, productTypesMeta, category, error }} />
   </Layout>
 );
 
@@ -27,17 +28,20 @@ export const getServerSideProps: GetServerSideProps = async ({
   const dependencies = dependenciesFactory({ req, res });
 
   try {
+    const categoryIdOrSLug = paramToIDOrSlug(params.id as string);
     const { entities, meta, result } = await dependencies.services.productType.getForCategory(
-      paramToIDOrSlug(params.id as string),
+      categoryIdOrSLug,
       parseInt(page as string, 10),
       sortingTypeOfQueryValue[sortBy as string],
     );
+    const category = await dependencies.services.category.getOne(categoryIdOrSLug);
 
     return {
       props: {
         productTypes: entities.productTypes || {},
         productTypesMeta: meta,
         productTypesOrder: result,
+        category,
       },
     };
   } catch (e) {

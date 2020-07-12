@@ -37,7 +37,7 @@ export interface IViewProps {
     short_descriptions: { [key: string]: string };
     instagram_links: string[];
     feature_types: string[];
-    category_id?: string;
+    categories?: string[];
     image: string;
   }) => void;
   isLoading: boolean;
@@ -94,7 +94,11 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
                 .test('areLinksValid', 'AdminProductTypes.errors.invalidInstagramLinks', (value: string[] = []) => {
                   return value.every(link => link.match(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/));
                 }),
-              category_id: yup.number().required('common.errors.field.empty'),
+              categories: yup
+                .array()
+                .of(yup.number())
+                .required('AdminProductTypes.errors.noCategories')
+                .min(1, 'AdminProductTypes.errors.noCategories'),
               feature_types: yup
                 .array()
                 .of(yup.number())
@@ -162,7 +166,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
           descriptions: {},
           short_descriptions: {},
           instagram_links: values.instagram_links,
-          category_id: parseInt(values.category_id as string, 10),
+          categories: values.categories ? values.categories.map(category => parseInt(category, 10)) : [],
           feature_types: values.feature_types.map(id => parseInt(id, 10)),
           image: values.image,
         },
@@ -170,7 +174,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
 
       try {
         const productType = await service.edit(productTypeId, formattedValues);
-        setProductTypeToState({ ...productType, category: productType.category.id });
+        setProductTypeToState(productType);
         setUpdating(false);
         close();
       } catch (e) {
@@ -194,7 +198,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
           {},
         ),
         instagram_links: productType.instagram_links.map(({ link }) => link),
-        category_id: productType.category.id,
+        categories: productType.categories.map(({ id }) => id),
         feature_types: productType.feature_types,
         image: productType.image,
       };

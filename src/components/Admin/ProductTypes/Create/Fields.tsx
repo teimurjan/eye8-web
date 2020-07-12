@@ -71,14 +71,22 @@ const getFeatureTypesSelectRenderer = (
   <FeatureTypesSelect featureTypes={featureTypes} {...fieldRenderProps} />
 );
 
-interface ICategorySelectProps extends FieldRenderProps<string> {
+interface ICategoriesSelectProps extends FieldRenderProps<string[]> {
   categories: AdminCategoriesStateContextValue['adminCategoriesState']['categories'];
 }
 
-const CategorySelect = ({ categories, input, meta }: ICategorySelectProps) => {
+const CategoriesSelect = ({ categories, input, meta }: ICategoriesSelectProps) => {
   const intl = useIntl();
-
   const showError = meta.touched && meta.error;
+
+  const { onChange: _, value, ...inputPropsToPass } = input;
+
+  const onChange = React.useCallback(
+    (e: React.SyntheticEvent<HTMLSelectElement>) => {
+      input.onChange(getMultipleValuesFromChangeEvent(e));
+    },
+    [input],
+  );
 
   return (
     <FormNativeSelectField
@@ -86,22 +94,21 @@ const CategorySelect = ({ categories, input, meta }: ICategorySelectProps) => {
         children: (
           <>
             {intl.formatMessage({
-              id: 'common.category',
+              id: 'AdminProductTypes.categoriesSelect.label',
             })}
           </>
         ),
       }}
       selectProps={{
-        ...input,
-        defaultOption: {
-          title: intl.formatMessage({
-            id: 'AdminProductTypes.categorySelect.defaultOption.title',
-          }),
-        },
+        ...inputPropsToPass,
+        isMultiple: true,
+        onChange,
         options: categories.map(({ id, name }) => ({
+          checked: value instanceof Array ? value.indexOf(id.toString()) !== -1 : false,
           title: name[intl.locale],
-          value: `${id}`,
+          value: id.toString(),
         })),
+        value,
       }}
       helpTextProps={{
         children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
@@ -111,9 +118,11 @@ const CategorySelect = ({ categories, input, meta }: ICategorySelectProps) => {
   );
 };
 
-const getCategorySelectRenderer = (
+const getCategoriesSelectRenderer = (
   categories: AdminCategoriesStateContextValue['adminCategoriesState']['categories'],
-) => (fieldRenderProps: FieldRenderProps<string>) => <CategorySelect categories={categories} {...fieldRenderProps} />;
+) => (fieldRenderProps: FieldRenderProps<string[]>) => (
+  <CategoriesSelect categories={categories} {...fieldRenderProps} />
+);
 
 const ImageField = ({ input, meta }: FieldRenderProps<File>) => {
   const intl = useIntl();
@@ -245,7 +254,7 @@ export const Fields: React.SFC<IFieldsProps> = React.memo(
           })}
         />
         <FinalFormField key="instagram_links" name="instagram_links" component={InstagramLinksField} />
-        <FinalFormField key="category_id" name="category_id" render={getCategorySelectRenderer(categories)} />
+        <FinalFormField key="categories" name="categories" render={getCategoriesSelectRenderer(categories)} />
         <FinalFormField key="feature_types" name="feature_types" render={getFeatureTypesSelectRenderer(featureTypes)} />
         <FinalFormField key="image" name="image" component={ImageField} />
       </>

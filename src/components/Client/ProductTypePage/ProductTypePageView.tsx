@@ -10,9 +10,11 @@ import { Container } from 'src/components/admin-ui/Container/Container';
 import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
 import { Button } from 'src/components/client-ui/Button/Button';
 import { ErrorLayout } from 'src/components/client-ui/ErrorLayout/ErrorLayout';
+import { LinkPassingProps } from 'src/components/client-ui/LinkPassingProps/LinkPassingProps';
 import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout';
 import { Select, SelectTrigger } from 'src/components/client-ui/Select/Select';
 import { Subtitle } from 'src/components/client-ui/Subtitle/Subtitle';
+import { Tag } from 'src/components/client-ui/Tag/Tag';
 import { Title } from 'src/components/client-ui/Title/Title';
 import { InstagramPost } from 'src/components/Client/InstagramPost/InstagramPost';
 import { PriceCrossedText } from 'src/components/Client/Price/Price';
@@ -168,6 +170,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
             css={css`
               display: flex;
               padding: 0 0 7.5px 50px;
+              margin-top: -100px;
               flex-direction: column;
               flex: 1;
               animation: ${fadeInFromRight} 700ms ${easeOutCubic};
@@ -177,6 +180,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                 padding: 25px 0 0 0;
                 animation: ${fadeInFromBottom} 700ms ${easeOutCubic};
                 width: 100%;
+                margin-top: 0;
               }
             `}
           >
@@ -192,6 +196,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                   flex: 0 0 60%;
                 `}
                 size={3}
+                tag={1}
               >
                 {productType.name}
               </Title>
@@ -246,6 +251,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                   margin-top: 10px;
                 `}
                 size={5}
+                tag={2}
               >
                 {productType.short_description}
               </Subtitle>
@@ -272,19 +278,37 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                 {actionText}
               </Button>
             )}
-            <Anchor
-              css={css`
-                margin-top: 20px;
-              `}
-              primary
-              href="/categories/[id]/products"
-              asPath={`/categories/${productType.category.slug}/products`}
-            >
-              &gt;{' '}
-              {intl.formatMessage({ id: 'ProductTypePage.findMoreForCategory' }, { value: productType.category.name })}
-            </Anchor>
+            {productType.categories.length && (
+              <div
+                css={css`
+                  margin-top: 20px;
+                `}
+              >
+                <span
+                  css={css`
+                    margin-right: 10px;
+                    font-weight: bold;
+                    color: ${theme.textColor};
+                  `}
+                >
+                  {intl.formatMessage({ id: 'ProductTypePage.findMoreForCategory' })}
+                </span>
+                {productType.categories.map(category => (
+                  <LinkPassingProps href="/categories/[id]/products" as={`/categories/${category.slug}/products`}>
+                    <Tag
+                      css={css`
+                        margin-right: 10px;
+                      `}
+                      color="default"
+                    >
+                      {category.name}
+                    </Tag>
+                  </LinkPassingProps>
+                ))}
+              </div>
+            )}
             <Anchor primary href="/how-it-works">
-              &gt; {intl.formatMessage({ id: 'HowItWorks.help' })}
+              {intl.formatMessage({ id: 'HowItWorks.help' })}
             </Anchor>
           </div>
         </div>

@@ -162,6 +162,7 @@ const HomeView = ({ banners, productTypes }: IProps) => {
             margin-top: 1rem;
           `}
           size={3}
+          tag={1}
         >
           {intl.formatMessage({ id: 'common.newest' })}
         </Title>
