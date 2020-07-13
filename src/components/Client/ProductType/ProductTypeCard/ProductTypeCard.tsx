@@ -22,7 +22,7 @@ export interface IProps {
 export const ProductTypeCard = ({ productType }: IProps) => {
   const theme = useTheme<ClientUITheme>();
   const intl = useIntl();
-  const asPath = `/products/${productType.slug}`;
+  const as = `/products/${productType.slug}`;
   const ref = React.useRef<HTMLAnchorElement>(null);
   const { price, discount } = usePriceRangeText({ range: productType.products || [] });
 
@@ -58,7 +58,7 @@ export const ProductTypeCard = ({ productType }: IProps) => {
       `}
       className={classNames({ 'not-in-stock': !productInStock, 'price-unknown': !price })}
       href="/products/[slug]"
-      as={asPath}
+      as={as}
       passHref
     >
       <Image src={formatMediaURL(productType.image)} alt={productType.name} />

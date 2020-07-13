@@ -13,20 +13,14 @@ import { mediaQueries } from 'src/styles/media';
 
 interface ICategoryMenuItemProps {
   active: boolean;
-  asPath: string;
+  as: string;
   renderChildren: (renderProps: { collapsed: boolean }) => React.ReactNode;
   defaultCollpsed?: boolean;
   name: string;
   className?: string;
 }
 
-const CategoryMenuItem = ({
-  className,
-  asPath,
-  renderChildren,
-  name,
-  defaultCollpsed = false,
-}: ICategoryMenuItemProps) => {
+const CategoryMenuItem = ({ className, as, renderChildren, name, defaultCollpsed = false }: ICategoryMenuItemProps) => {
   const { value: collapsed, toggle } = useBoolean(defaultCollpsed);
   const intl = useIntl();
 
@@ -51,7 +45,7 @@ const CategoryMenuItem = ({
           padding-right: 0.25rem !important;
           width: 100%;
         `}
-        asPath={asPath}
+        as={as}
         href="/categories/[id]/products"
         primary
       >
@@ -97,7 +91,7 @@ const renderCategoryMenuList = ({
   return (
     <Menu.List collapsed={collapsed} direction="row">
       {parentCategories.map((parentCategory, i) => {
-        const asPath = `/categories/${parentCategory.slug}/products`;
+        const as = `/categories/${parentCategory.slug}/products`;
         return (
           <CategoryMenuItem
             css={css`
@@ -107,8 +101,8 @@ const renderCategoryMenuList = ({
               }
             `}
             key={parentCategory.id}
-            active={router.asPath === asPath}
-            asPath={asPath}
+            active={router.asPath === as}
+            as={as}
             name={parentCategory.name}
             defaultCollpsed={level > 1}
             renderChildren={({ collapsed: collapsed_ }) =>

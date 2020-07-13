@@ -14,37 +14,35 @@ import { mediaQueries } from 'src/styles/media';
 interface ICarouselItemProps {
   className?: string;
   children: React.ReactNode;
-  asPath?: string | null;
+  as?: string | null;
 }
 
-export const CarouselItem = React.forwardRef<HTMLDivElement, ICarouselItemProps>(
-  ({ children, className, asPath }, ref) => {
-    const item = (
-      <div
-        className={classNames(className, { link: typeof asPath === 'string' })}
-        ref={ref}
-        css={css`
-          flex: 0 0 100%;
-          position: relative;
+export const CarouselItem = React.forwardRef<HTMLDivElement, ICarouselItemProps>(({ children, className, as }, ref) => {
+  const item = (
+    <div
+      className={classNames(className, { link: typeof as === 'string' })}
+      ref={ref}
+      css={css`
+        flex: 0 0 100%;
+        position: relative;
 
-          &.link {
-            cursor: pointer;
-          }
-        `}
-      >
-        {children}
-      </div>
-    );
+        &.link {
+          cursor: pointer;
+        }
+      `}
+    >
+      {children}
+    </div>
+  );
 
-    return asPath ? (
-      <Link as={asPath} href={getPageHref(asPath)}>
-        {item}
-      </Link>
-    ) : (
-      item
-    );
-  },
-);
+  return as ? (
+    <Link as={as} href={getPageHref(as)}>
+      {item}
+    </Link>
+  ) : (
+    item
+  );
+});
 
 interface IProps {
   activeIndex: number;

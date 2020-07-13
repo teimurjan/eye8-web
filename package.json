@@ -1,7 +1,18 @@
 {
-  "name": "frontend",
-  "version": "1.4.25",
+  "name": "eye8-web",
+  "version": "1.4.26",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teimurjan/eye8-web.git"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Teimur Gasanov",
+    "email": "teymurgg321@gmail.com",
+    "url": "https://teimurjan.github.io"
+  },
+  "homepage": "https://eye8.kg",
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^17.0.0",
     "@ckeditor/ckeditor5-react": "^2.1.0",
@@ -90,7 +101,8 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
     "prettier": "^1.19.1",
-    "typescript": "~3.7.2"
+    "typescript": "~3.7.2",
+    "@next/bundle-analyzer": "^9.4.4"
   },
   "scripts": {
     "prettier": "prettier --write \"./src/**/*.{ts,tsx,js,jsx,json}\"",

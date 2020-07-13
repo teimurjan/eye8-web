@@ -296,5 +296,6 @@
   "common.separateWithComma": "Values should be separated with comma",
   "Login.success": "You've been successfully logged in",
   "Logout.success": "You've been successfully logged out",
-  "errors.brokenImage": "No image avaiable"
+  "errors.brokenImage": "No image avaiable",
+  "cacheBuster.refresh": "The new version of Eye8 is available. Click here to refresh."
 }

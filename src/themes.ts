@@ -12,19 +12,33 @@ export const defaultTheme: AdminUITheme & ClientUITheme = {
   greyLight: 'hsl(0, 0%, 71%)',
   light: 'hsl(0, 0%, 96%)',
   // V2
-  headerBackgroundColor: '#fff',
+  primaryColor: '#76bdae',
+  successColor: '#73a942',
+  infoColor: '#0077b6',
+  dangerColor: '#e71d36',
   borderColor: '#1e1e1c',
+  // - buttons
+  // -- default
   buttonDefaultColor: '#1e1e1c',
   buttonDefaultBorderColor: '#1e1e1c',
   buttonDefaultHoverColor: '#fff',
   buttonDefaultBackgroundColor: '#fff',
   buttonDefaultBackgroundHoverColor: '#1e1e1c',
+  // -- dark
   buttonDarkColor: '#fff',
   buttonDarkBorderColor: '#1e1e1c',
   buttonDarkHoverColor: '#1e1e1c',
   buttonDarkBackgroundColor: '#1e1e1c',
   buttonDarkBackgroundHoverColor: '#fff',
-  anchorColor: '#1e1e1c',
+  // -- primary
+  buttonPrimaryBackgroundHoverColor: color('#76bdae')
+    .darken(0.15)
+    .hex(),
+  // -- info
+  buttonInfoBackgroundHoverColor: color('#0077b6')
+    .darken(0.15)
+    .hex(),
+  // - backgrounds
   backgroundPrimaryColor: '#fff',
   backgroundPrimaryHoverColor: color('#fff')
     .darken(0.05)
@@ -32,24 +46,21 @@ export const defaultTheme: AdminUITheme & ClientUITheme = {
   backgroundDarkColor: '#000',
   backgroundDarkHoverColor: '#222',
   backgroundSecondaryColor: '#f0ebe3',
+  backgroundDangerColor: color('#e71d36')
+    .lighten(0.8)
+    .hex(),
+  backgroundGrayColor: '#e5e5e5',
+  // - texts
+  headerBackgroundColor: '#fff',
   textColor: '#1e1e1c',
   textFadedColor: color('#e5e5e5')
     .darken(0.1)
     .hex(),
   textSecondaryColor: '#606060',
-  primaryColor: '#76bdae',
   textBrightColor: '#fff',
-  dangerColor: '#e71d36',
   textOnDangerColor: color('#e71d36')
     .darken(0.2)
     .hex(),
-  successColor: '#73a942',
+  anchorColor: '#1e1e1c',
   tooltipBackgroundColor: '#111',
-  buttonPrimaryBackgroundHoverColor: color('#76bdae')
-    .darken(0.15)
-    .hex(),
-  backgroundDangerColor: color('#e71d36')
-    .lighten(0.8)
-    .hex(),
-  backgroundGrayColor: '#e5e5e5',
 };

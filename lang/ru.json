@@ -295,5 +295,6 @@
   "common.separateWithComma": "Значения должны быть разделены запятыми (без пробелов)",
   "Login.success": "Вы успешно вошли в аккаунт",
   "Logout.success": "Вы вышли из аккаунта",
-  "errors.brokenImage": "Картинка недоступна"
+  "errors.brokenImage": "Картинка недоступна",
+  "cacheBuster.refresh": "Доступна новая версия Eye8. Нажмите, чтобы обновить."
 }

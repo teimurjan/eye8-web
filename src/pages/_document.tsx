@@ -41,6 +41,7 @@ class CustomNextDocument extends Document<{ locale: string; localeDataScript: st
           <div id="toastRoot"></div>
           <div id="popoverRoot"></div>
           <div id="drawerRoot"></div>
+          <div id="cacheBusterRoot"></div>
         </body>
       </html>
     );

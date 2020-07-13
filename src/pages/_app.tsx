@@ -12,7 +12,6 @@ import { CustomHead } from 'src/_app/CustomHead';
 import { EntryPoint } from 'src/_app/EntryPoint';
 import { GlobalStyles } from 'src/_app/GlobalStyle';
 import { LoadingOverlay } from 'src/_app/LoadingOverlay';
-import { SentryErrorBoundary } from 'src/_app/SentryErrorBoundary';
 import { Toaster } from 'src/_app/Toaster';
 import { CacheBuster } from 'src/components/CacheBuster';
 import { PageProgressBar } from 'src/components/common-ui/PageProgressBar/PageProgressBar';
@@ -40,7 +39,11 @@ safeWindowOperation(w => {
   w.history.scrollRestoration = 'manual';
 });
 
-Sentry.init({ dsn: process.env.SENTRY_DSN, enabled: process.env.NODE_ENV === 'production' });
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  enabled: process.env.NODE_ENV === 'production',
+  release: process.env.RELEASE_VERSION,
+});
 
 const CustomNextApp = ({
   Component,
@@ -58,46 +61,42 @@ const CustomNextApp = ({
   );
 
   return (
-    <SentryErrorBoundary>
-      <CacheProvider value={cache}>
-        <DIProvider value={{ dependencies }}>
-          <>
-            <ThemeProvider theme={defaultTheme}>
-              <AppStateProvider>
-                <IntlStateProvider
-                  initialProps={{
-                    availableLocales: componentsInitialProps.intlState.availableLocales,
-                    error: componentsInitialProps.intlState.error,
-                  }}
-                  intl={intl}
-                >
-                  <RatesStateProvider initialProps={componentsInitialProps.ratesState}>
-                    <UserStateProvider>
-                      <CategoriesStateProvider initialProps={componentsInitialProps.categoriesState}>
-                        <AuthModalStateProvider>
-                          <EntryPoint>
-                            <>
-                              <CustomHead />
-                              <GlobalStyles />
-                              <PageProgressBar />
-                              <Component {...pageProps} />
-                              <LoadingOverlay />
-                              <Toaster />
-                              <AuthModal />
-                            </>
-                          </EntryPoint>
-                        </AuthModalStateProvider>
-                      </CategoriesStateProvider>
-                    </UserStateProvider>
-                  </RatesStateProvider>
-                </IntlStateProvider>
-              </AppStateProvider>
-            </ThemeProvider>
-            <CacheBuster />
-          </>
-        </DIProvider>
-      </CacheProvider>
-    </SentryErrorBoundary>
+    <CacheProvider value={cache}>
+      <DIProvider value={{ dependencies }}>
+        <ThemeProvider theme={defaultTheme}>
+          <AppStateProvider>
+            <IntlStateProvider
+              initialProps={{
+                availableLocales: componentsInitialProps.intlState.availableLocales,
+                error: componentsInitialProps.intlState.error,
+              }}
+              intl={intl}
+            >
+              <RatesStateProvider initialProps={componentsInitialProps.ratesState}>
+                <UserStateProvider>
+                  <CategoriesStateProvider initialProps={componentsInitialProps.categoriesState}>
+                    <AuthModalStateProvider>
+                      <EntryPoint>
+                        <>
+                          <CustomHead />
+                          <GlobalStyles />
+                          <PageProgressBar />
+                          <Component {...pageProps} />
+                          <LoadingOverlay />
+                          <Toaster />
+                          <AuthModal />
+                          <CacheBuster />
+                        </>
+                      </EntryPoint>
+                    </AuthModalStateProvider>
+                  </CategoriesStateProvider>
+                </UserStateProvider>
+              </RatesStateProvider>
+            </IntlStateProvider>
+          </AppStateProvider>
+        </ThemeProvider>
+      </DIProvider>
+    </CacheProvider>
   );
 };
 

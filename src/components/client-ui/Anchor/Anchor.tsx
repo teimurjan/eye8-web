@@ -13,7 +13,7 @@ interface IProps {
   className?: string;
   primary?: boolean;
   href?: string;
-  asPath?: string;
+  as?: string;
   onClick?: React.MouseEventHandler;
   onMouseEnter?: React.MouseEventHandler;
   active?: boolean;
@@ -33,7 +33,7 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
       className,
       children,
       href,
-      asPath,
+      as,
       onClick,
       onMouseEnter,
       active,
@@ -59,12 +59,12 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
 
         if (href && shallow) {
           e.preventDefault();
-          router.push(href, asPath, { shallow: true });
+          router.push(href, as, { shallow: true });
         }
 
         onClick && onClick(e);
       },
-      [href, onClick, shallow, router, asPath],
+      [href, onClick, shallow, router, as],
     );
 
     const isTouch = useIsTouch();
@@ -78,7 +78,7 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
         rel={rel}
         target={target}
         className={classNames(className, { thin })}
-        href={href || '#'}
+        href={as || '#'}
         onClick={modifiedOnClick}
         onMouseEnter={onMouseEnter}
         data-active={active}
@@ -134,7 +134,7 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
         `}
       >
         {href && !plain ? (
-          <Link href={href} as={asPath}>
+          <Link href={href} as={as}>
             {anchor}
           </Link>
         ) : (

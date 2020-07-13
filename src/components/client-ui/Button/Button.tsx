@@ -8,7 +8,7 @@ import * as React from 'react';
 import { mediaQueries } from 'src/styles/media';
 
 export interface IProps {
-  color?: 'default' | 'dark' | 'primary';
+  color?: 'default' | 'dark' | 'primary' | 'info';
   size?: 'default' | 'mini' | 'large' | 'small';
   loading?: boolean;
   disabled?: boolean;
@@ -99,6 +99,17 @@ export const Button = React.forwardRef<HTMLButtonElement, IProps>(
             &:hover,
             &[data-active='true'] {
               background: ${theme.buttonPrimaryBackgroundHoverColor};
+            }
+          }
+
+          &.info {
+            color: ${theme.textBrightColor};
+            border: none;
+            background: ${theme.infoColor};
+
+            &:hover,
+            &[data-active='true'] {
+              background: ${theme.buttonInfoBackgroundHoverColor};
             }
           }
 
