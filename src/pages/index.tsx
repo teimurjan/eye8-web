@@ -20,18 +20,24 @@ const Index = ({
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const dependencies = dependenciesFactory({ req, res });
+  const {
+    services: { banner: bannerService, productType: productTypeService },
+  } = dependenciesFactory({ req, res });
 
   try {
-    const {
-      entities: { banners },
-      result: bannersOrder,
-    } = await dependencies.services.banner.getAll();
+    const bannersPromise = bannerService.getAll();
+    const productTypesPromise = productTypeService.getNewest();
 
-    const {
-      entities: { productTypes },
-      result: productTypesOrder,
-    } = await dependencies.services.productType.getNewest();
+    const [
+      {
+        entities: { banners },
+        result: bannersOrder,
+      },
+      {
+        entities: { productTypes },
+        result: productTypesOrder,
+      },
+    ] = await Promise.all([bannersPromise, productTypesPromise]);
 
     return { props: { banners, bannersOrder, productTypes, productTypesOrder } };
   } catch (e) {

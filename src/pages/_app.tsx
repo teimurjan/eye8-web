@@ -112,9 +112,14 @@ const getComponentsInitialProps = async (args: IDependenciesFactoryArgs) => {
     services: { category: categoryService, intl: intlService, rate: rateService },
   } = dependenciesFactory(args);
   try {
-    const { entities, result } = await categoryService.getAll();
-    const availableLocales = await intlService.getAvailableLocales();
-    const rates = await rateService.getAllGrouped();
+    const categoriesPromise = categoryService.getAll();
+    const availableLocalesPromise = intlService.getAvailableLocales();
+    const ratesPromise = await rateService.getAllGrouped();
+    const [{ entities, result }, availableLocales, rates] = await Promise.all([
+      categoriesPromise,
+      availableLocalesPromise,
+      ratesPromise,
+    ]);
     return {
       categoriesState: { categories: entities.categories, categoriesOrder: result },
       intlState: { availableLocales },
