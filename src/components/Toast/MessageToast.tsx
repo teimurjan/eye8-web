@@ -1,9 +1,8 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
 import * as React from 'react';
 
-import { Message, getBorderColorThemeKey } from 'src/components/client-ui/Message/Message';
+import { Message } from 'src/components/client-ui/Message/Message';
 import { IToastComponentProps } from 'src/components/Toast/ToastContainer';
 import { expandHorizontally } from 'src/styles/keyframes';
 import { mediaQueries } from 'src/styles/media';
@@ -18,8 +17,6 @@ export const MessageToast = ({
   transitionDuration,
   transitionClassName,
 }: IToastComponentProps) => {
-  const theme = useTheme<ClientUITheme>();
-
   const color = React.useMemo(() => {
     if (type === 'error') {
       return 'error';
@@ -76,12 +73,13 @@ export const MessageToast = ({
             `}
           animation-fill-mode: forwards;
           transform-origin: 100% 0;
-          height: 2.5px;
-          background: ${theme[getBorderColorThemeKey(color)]};
+          height: 7px;
           position: absolute;
           bottom: 0;
           right: 0;
           width: 100%;
+
+          background: rgba(255, 255, 255, 0.7);
         `}
       ></div>
     </Message>

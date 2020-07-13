@@ -12,13 +12,6 @@ export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   onCloseClick?: React.MouseEventHandler;
 }
 
-export const getBorderColorThemeKey = (color: IProps['color']) =>
-  ({
-    default: 'borderColor',
-    primary: 'primaryColor',
-    error: 'dangerColor',
-  }[color as string]);
-
 export const Message: React.FC<IProps> = ({
   color = 'default',
   size = 'default',
@@ -38,21 +31,19 @@ export const Message: React.FC<IProps> = ({
         max-width: 100%;
         min-width: 300px;
 
-        border-left: 2.5px solid ${theme[getBorderColorThemeKey(color)]};
-
         &.default {
-          color: ${theme.textColor};
-          background: ${theme.backgroundPrimaryColor};
+          color: ${theme.messageDefaultTextColor};
+          background: ${theme.messageDefaultBackgroundColor};
         }
 
         &.primary {
-          color: ${theme.textColor};
-          background: ${theme.backgroundPrimaryColor};
+          color: ${theme.messagePrimaryTextColor};
+          background: ${theme.messagePrimaryBackgroundColor};
         }
 
         &.error {
-          color: ${theme.textOnDangerColor};
-          background: ${theme.backgroundDangerColor};
+          color: ${theme.messageDangerTextColor};
+          background: ${theme.messageDangerBackgroundColor};
         }
       `}
       {...props}
@@ -64,12 +55,22 @@ export const Message: React.FC<IProps> = ({
             position: absolute;
             top: 0;
             right: 5px;
-            padding: 2.5px;
+            padding: 2.5px 5px;
             cursor: pointer;
             color: inherit;
+
+            .default > & {
+              color: ${theme.messageDefaultTextColor};
+            }
+            .primary > & {
+              color: ${theme.messagePrimaryTextColor};
+            }
+            .error > & {
+              color: ${theme.messageDangerTextColor};
+            }
           `}
         >
-          <FontAwesomeIcon icon={faTimes} onClick={onCloseClick} />
+          <FontAwesomeIcon size="sm" icon={faTimes} onClick={onCloseClick} />
         </span>
       )}
     </div>

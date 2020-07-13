@@ -12,7 +12,14 @@ const DEFAULT_TRANSITION_CLASSNAME = 'toast';
 
 let toastKey = 0;
 
-type Toast = { id: number | string; children: React.ReactNode; type: string; duration?: number; delay?: number };
+type Toast = {
+  id: number | string;
+  children: React.ReactNode;
+  type: string;
+  duration?: number;
+  delay?: number;
+  onDismiss?: () => void;
+};
 type KeyedToast = Toast & { key: number };
 
 const toastsWV = new WatchingValue<{ [key: string]: KeyedToast }>({});
@@ -103,7 +110,10 @@ export const ToastContainer: React.FC<IToastContainerProps> = ({
                 const props = {
                   componentKey: toast_.key.toString(),
                   status,
-                  close: () => clearToast(toast_),
+                  close: () => {
+                    toast_.onDismiss && toast_.onDismiss();
+                    clearToast(toast_);
+                  },
                   children: toast_.children,
                   type: toast_.type,
                   duration: toast_.duration,
