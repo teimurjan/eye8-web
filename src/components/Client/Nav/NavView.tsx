@@ -54,7 +54,7 @@ const CategoryMenuItem = ({
           width: 100%;
         `}
         as={as}
-        href="/categories/[id]/products"
+        href="/categories/[slug]/products"
         primary
       >
         {name}

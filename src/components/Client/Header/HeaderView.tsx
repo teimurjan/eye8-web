@@ -150,7 +150,7 @@ export const HeaderView = () => {
                     padding-top: 0;
                   }
                 `}
-                src={withPublicURL('icons/images/icons/icon-192x192.png')}
+                src={withPublicURL('img/icons/icon-192x192.png')}
               />
             </a>
           </Link>

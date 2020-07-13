@@ -30,11 +30,11 @@ export const CustomHead = () => {
           <img src="https://mc.yandex.ru/watch/62615554" style={{ position: 'absolute', left: '-9999px' }} alt="" />
         </div>
       </noscript>
-      <link rel="apple-touch-icon" sizes="152x152" href={withPublicURL('icons/icon-152x152.png')} />
-      <link rel="icon" type="image/png" sizes="32x32" href={withPublicURL('icons/favicon-32x32.png')} />
-      <link rel="icon" type="image/png" sizes="16x16" href={withPublicURL('icons/favicon-16x16.png')} />
-      <link rel="shortcut icon" href={withPublicURL('icons/favicon.ico')} />
-      <link rel="manifest" href={withPublicURL('icons/manifest.json')} />
+      <link rel="apple-touch-icon" sizes="152x152" href={withPublicURL('img/icons/icon-152x152.png')} />
+      <link rel="icon" type="image/png" sizes="32x32" href={withPublicURL('favicon-32x32.png')} />
+      <link rel="icon" type="image/png" sizes="16x16" href={withPublicURL('favicon-16x16.png')} />
+      <link rel="shortcut icon" href={withPublicURL('favicon.ico')} />
+      <link rel="manifest" href={withPublicURL('manifest.json')} />
       <title>{intl.formatMessage({ id: 'Meta.title' })}</title>
       <meta name="description" content={intl.formatMessage({ id: 'Meta.description' })} />
       <meta name="keywords" content={intl.formatMessage({ id: 'Meta.keywords' })} />

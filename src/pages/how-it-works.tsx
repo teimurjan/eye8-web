@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 
 import { Story } from 'src/components/client-ui/Story/Story';
 import { Layout } from 'src/components/Client/Layout';
+import { withPublicURL } from 'src/utils/url';
 
 const HowItWorks = () => {
   const intl = useIntl();
@@ -11,7 +12,7 @@ const HowItWorks = () => {
     <Layout>
       <Story
         type={Story.SourceType.Video}
-        src="/video/making-order.mov"
+        src={withPublicURL('/video/making-order.mov')}
         title={<Story.Title>{intl.formatMessage({ id: 'HowItWorks.makingOrder.title' })}</Story.Title>}
         description={
           <Story.Description>
@@ -25,7 +26,7 @@ const HowItWorks = () => {
         }
       />
       <Story
-        src="/img/delievery.jpg"
+        src={withPublicURL('/img/delievery.jpg')}
         title={<Story.Title>{intl.formatMessage({ id: 'HowItWorks.delievery.title' })}</Story.Title>}
         description={
           <Story.Description>{intl.formatMessage({ id: 'HowItWorks.delievery.description' })}</Story.Description>
@@ -33,7 +34,7 @@ const HowItWorks = () => {
         rtl
       />
       <Story
-        src="/img/fitting.jpg"
+        src={withPublicURL('/img/fitting.jpg')}
         title={<Story.Title>{intl.formatMessage({ id: 'HowItWorks.fitting.title' })}</Story.Title>}
         description={
           <Story.Description>{intl.formatMessage({ id: 'HowItWorks.fitting.description' })}</Story.Description>
