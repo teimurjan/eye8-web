@@ -1,6 +1,6 @@
 {
   "name": "eye8-web",
-  "version": "1.4.27",
+  "version": "1.5.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -51,6 +51,7 @@
     "mousetrap": "^1.6.5",
     "negotiator": "^0.6.2",
     "next": "^9.3.3",
+    "next-pwa": "^3.0.3",
     "normalizr": "^3.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -69,6 +70,7 @@
     "yup": "^0.26.6"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^9.4.4",
     "@types/classnames": "^2.2.7",
     "@types/color": "^3.0.1",
     "@types/jest": "^24.0.0",
@@ -101,8 +103,7 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
     "prettier": "^1.19.1",
-    "typescript": "~3.7.2",
-    "@next/bundle-analyzer": "^9.4.4"
+    "typescript": "~3.7.2"
   },
   "scripts": {
     "prettier": "prettier --write \"./src/**/*.{ts,tsx,js,jsx,json}\"",

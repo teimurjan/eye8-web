@@ -23,11 +23,7 @@ export const CustomHead = () => {
   const intl = useIntl();
   const router = useRouter();
 
-  const { iconFolder, manifestName } = useMedia(
-    [mediaQueries.darkMode],
-    [{ iconFolder: 'dark-icon', manifestName: 'dark-manifest.json' }],
-    { iconFolder: 'icon', manifestName: 'manifest.json' },
-  );
+  const iconsFolder = useMedia([mediaQueries.darkMode], ['dark-icons'], 'icons');
 
   return (
     <Head>
@@ -38,11 +34,11 @@ export const CustomHead = () => {
           <img src="https://mc.yandex.ru/watch/62615554" style={{ position: 'absolute', left: '-9999px' }} alt="" />
         </div>
       </noscript>
-      <link rel="apple-touch-icon" sizes="180x180" href={withPublicURL(`${iconFolder}/apple-touch-icon.png`)} />
-      <link rel="icon" type="image/png" sizes="32x32" href={withPublicURL(`${iconFolder}/favicon-32x32.png`)} />
-      <link rel="icon" type="image/png" sizes="16x16" href={withPublicURL(`${iconFolder}/favicon-16x16.png`)} />
-      <link rel="shortcut icon" href={withPublicURL(`${iconFolder}/favicon.ico`)} />
-      <link rel="manifest" href={withPublicURL(manifestName)} />
+      <link rel="apple-touch-icon" sizes="152x152" href={withPublicURL(`${iconsFolder}/icon-152x152.png`)} />
+      <link rel="icon" type="image/png" sizes="32x32" href={withPublicURL(`${iconsFolder}/favicon-32x32.png`)} />
+      <link rel="icon" type="image/png" sizes="16x16" href={withPublicURL(`${iconsFolder}/favicon-16x16.png`)} />
+      <link rel="shortcut icon" href={withPublicURL(`${iconsFolder}/favicon.ico`)} />
+      <link rel="manifest" href={withPublicURL(`${iconsFolder}/manifest.json`)} />
       <title>{intl.formatMessage({ id: 'Meta.title' })}</title>
       <meta name="description" content={intl.formatMessage({ id: 'Meta.description' })} />
       <meta name="keywords" content={intl.formatMessage({ id: 'Meta.keywords' })} />

@@ -9,6 +9,7 @@ import { useIntl } from 'react-intl';
 
 import { Button } from 'src/components/client-ui/Button/Button';
 import { useDependencies } from 'src/DI/DI';
+import { useLazyInitialization } from 'src/hooks/useLazyInitialization';
 import { pulse } from 'src/styles/keyframes';
 import { mediaQueries } from 'src/styles/media';
 import { safeWindowOperation, safeDocument } from 'src/utils/dom';
@@ -30,14 +31,16 @@ const CacheBusterButton = ({ onClick }: { onClick: React.MouseEventHandler }) =>
               .array(),
           )}
           2000ms infinite;
+        width: 250px;
+        z-index: 1000;
 
         @media ${mediaQueries.maxWidth768} {
-          right: 50%;
-          transform: translateX(-50%);
+          right: 15px;
+          width: calc(100% - 30px);
         }
       `}
     >
-      <small>{intl.formatMessage({ id: 'cacheBuster.refresh' })}</small>
+      {intl.formatMessage({ id: 'cacheBuster.refresh' })}
     </Button>
   );
 };
@@ -51,7 +54,7 @@ export const CacheBuster = () => {
 
   const currentVersion = versionStorage.getVersion();
   const newVersion = pkgJSON.version;
-  const isNewVersionAvailable = currentVersion !== newVersion;
+  const { value: isNewVersionAvailable } = useLazyInitialization(currentVersion === newVersion, false);
 
   const bust = React.useCallback(() => {
     safeWindowOperation(w => {

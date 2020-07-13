@@ -129,8 +129,12 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
           <meta property="og:title" content={productType.name} />
           <meta property="og:description" content={productType.short_description} />
           <meta property="og:type" content="og:product" />
+          <meta property="product:condition" content="new" />
           {matchingProduct && <meta property="product:price:amount" content={matchingProduct.price.toString()} />}
           {matchingProduct && <meta property="product:price:currency" content="USD" />}
+          {matchingProduct && (
+            <meta property="product:availability" content={matchingProduct.quantity > 0 ? 'instock' : 'oos'}></meta>
+          )}
           <meta property="og:image" content={productType.image} />
           <meta name="twitter:title" content={productType.name} />
           <meta name="twitter:description" content={productType.short_description} />
