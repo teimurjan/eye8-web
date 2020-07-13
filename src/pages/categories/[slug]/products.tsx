@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   const dependencies = dependenciesFactory({ req, res });
 
   try {
-    const categoryIdOrSLug = paramToIDOrSlug(params.id as string);
+    const categoryIdOrSLug = paramToIDOrSlug(params.slug as string);
     const { entities, meta, result } = await dependencies.services.productType.getForCategory(
       categoryIdOrSLug,
       parseInt(page as string, 10),

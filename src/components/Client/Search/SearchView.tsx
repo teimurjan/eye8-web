@@ -83,7 +83,7 @@ export const SearchView: React.FC<IProps> = ({
               Component={LinkPassingProps}
               key={category.id}
               as={`/categories/${category.slug}/products`}
-              href="/categories/[id]/products"
+              href="/categories/[slug]/products"
               passHref
               css={css`
                 display: block;

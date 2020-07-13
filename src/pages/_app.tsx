@@ -45,17 +45,24 @@ Sentry.init({
   release: process.env.RELEASE_VERSION,
 });
 
+const getMessages = (locale: string) => {
+  if (isWindowDefined()) {
+    return (window as any).INTL_MESSAGES;
+  } else {
+    return require(`../../lang/${locale}.json`);
+  }
+};
+
 const CustomNextApp = ({
   Component,
   pageProps,
   locale,
-  messages,
   componentsInitialProps,
 }: AppProps & Then<ReturnType<typeof getInitialProps>>) => {
   const intl = createIntl(
     {
       locale,
-      messages,
+      messages: getMessages(locale),
     },
     intlCache,
   );
@@ -127,12 +134,11 @@ const getInitialProps = async ({ Component, ctx }: AppContext) => {
   const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
 
   const { req, res } = ctx;
-  const { locale, messages } = req || (window as any).__NEXT_DATA__.props;
+  const { locale } = req || (window as any).__NEXT_DATA__.props;
 
   return {
     pageProps,
     locale,
-    messages,
     componentsInitialProps: await getComponentsInitialProps({ req, res }),
   };
 };

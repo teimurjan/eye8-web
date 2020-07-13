@@ -23,7 +23,7 @@ interface IProviderProps {
   };
 }
 
-export const IntlStateProvider: React.SFC<IProviderProps> = ({ children, intl, initialProps }) => {
+export const IntlStateProvider = ({ children, intl, initialProps }: IProviderProps) => {
   const {
     dependencies: {
       services: { intl: service },

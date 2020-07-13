@@ -298,7 +298,11 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                   {intl.formatMessage({ id: 'ProductTypePage.findMoreForCategory' })}
                 </span>
                 {productType.categories.map(category => (
-                  <LinkPassingProps href="/categories/[id]/products" as={`/categories/${category.slug}/products`}>
+                  <LinkPassingProps
+                    key={category.id}
+                    href="/categories/[slug]/products"
+                    as={`/categories/${category.slug}/products`}
+                  >
                     <Tag
                       css={css`
                         margin-right: 10px;

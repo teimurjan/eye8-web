@@ -30,10 +30,6 @@ const getLocaleDataScript = locale => {
   return localeDataCache.get(lang);
 };
 
-const getMessages = locale => {
-  return require(`./lang/${locale}.json`);
-};
-
 const detectLocale = req => {
   const cookieLocale = cookie.parse(req.headers.cookie || '').locale;
   if (cookieLocale) {
@@ -69,7 +65,6 @@ app.prepare().then(() => {
     const detectedLocale = detectLocale(req);
     req.locale = detectedLocale;
     req.localeDataScript = getLocaleDataScript(detectedLocale);
-    req.messages = getMessages(detectedLocale);
 
     const parsedUrl = parse(req.url, true);
     const { pathname, query } = parsedUrl;

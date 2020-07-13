@@ -9,17 +9,20 @@ class CustomNextDocument extends Document<{ locale: string; localeDataScript: st
     const page = await context.renderPage();
     const styles = extractCritical(page.html);
 
+    const { locale, localeDataScript } = context.req as any;
+    const messages = require(`../../lang/${locale}.json`);
+
     return {
       ...props,
       ...page,
       ...styles,
-      locale: (context.req as any).locale,
-      localeDataScript: (context.req as any).localeDataScript,
+      localeDataScript,
+      messages,
     };
   }
 
   render() {
-    const { ids, css } = this.props as any;
+    const { ids, css, messages, localeDataScript } = this.props as any;
 
     const polyfill = `https://cdn.polyfill.io/v3/polyfill.min.js?features=Intl.~locale.${this.props.locale}`;
 
@@ -33,9 +36,10 @@ class CustomNextDocument extends Document<{ locale: string; localeDataScript: st
           <script src={polyfill} />
           <script
             dangerouslySetInnerHTML={{
-              __html: this.props.localeDataScript,
+              __html: localeDataScript,
             }}
           />
+          <script dangerouslySetInnerHTML={{ __html: `window.INTL_MESSAGES=${JSON.stringify(messages)};` }} />
           <NextScript />
           <div id="modalRoot"></div>
           <div id="toastRoot"></div>
