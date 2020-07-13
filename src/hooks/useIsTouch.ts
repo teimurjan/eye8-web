@@ -11,7 +11,7 @@ export const useIsTouch = () => {
         setIsTouch(true);
         w.removeEventListener('touchstart', onTouchStart, false);
       };
-      w.addEventListener('touchstart', onTouchStart, false);
+      w.addEventListener('touchstart', onTouchStart, { passive: true });
 
       return () => w.removeEventListener('touchstart', onTouchStart, false);
     }, undefined),

@@ -10,7 +10,7 @@ export const useScrollPosition = <T extends HTMLElement>(ref: React.RefObject<T>
         const { scrollTop, scrollLeft } = el;
         setPosition({ top: scrollTop, left: scrollLeft });
       };
-      el.addEventListener('scroll', handleScroll);
+      el.addEventListener('scroll', handleScroll, { passive: true });
       return () => el.removeEventListener('scroll', handleScroll);
     }
   }, [el]);

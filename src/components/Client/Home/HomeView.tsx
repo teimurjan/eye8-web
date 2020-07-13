@@ -11,6 +11,7 @@ import { Image } from 'src/components/client-ui/Image/Image';
 import { Title } from 'src/components/client-ui/Title/Title';
 import { IViewProps as IProps } from 'src/components/Client/Home/HomePresenter';
 import { ProductTypesListView } from 'src/components/Client/ProductType/ProductTypesList/ProductTypesListView';
+import { getPageHref } from 'src/helpers/link';
 import { useLazyInitialization } from 'src/hooks/useLazyInitialization';
 import { useMedia } from 'src/hooks/useMedia';
 import { mediaQueries } from 'src/styles/media';
@@ -119,7 +120,8 @@ const BannerCarouselItem = ({ banner, isMobile, dataKey }: IBannerCarouselItemPr
               `}
               color="primary"
               size={isMobile ? 'small' : 'default'}
-              href={banner.link}
+              as={banner.link}
+              href={getPageHref(banner.link)}
             >
               <b>{banner.link_text}</b>
             </LinkButton>

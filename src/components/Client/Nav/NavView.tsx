@@ -20,7 +20,14 @@ interface ICategoryMenuItemProps {
   className?: string;
 }
 
-const CategoryMenuItem = ({ className, as, renderChildren, name, defaultCollpsed = false }: ICategoryMenuItemProps) => {
+const CategoryMenuItem = ({
+  className,
+  as,
+  renderChildren,
+  name,
+  active,
+  defaultCollpsed = false,
+}: ICategoryMenuItemProps) => {
   const { value: collapsed, toggle } = useBoolean(defaultCollpsed);
   const intl = useIntl();
 
@@ -38,6 +45,7 @@ const CategoryMenuItem = ({ className, as, renderChildren, name, defaultCollpsed
   return (
     <Menu.Item className={className}>
       <Anchor
+        active={active}
         css={css`
           display: flex !important;
           align-items: center;

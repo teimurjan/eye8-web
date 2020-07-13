@@ -3,45 +3,32 @@ import { css, jsx } from '@emotion/core';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-import Link from 'next/link';
 import React from 'react';
 import { useSwipeable, SwipeableOptions } from 'react-swipeable';
 
 import { Button } from 'src/components/client-ui/Button/Button';
-import { getPageHref } from 'src/helpers/link';
 import { mediaQueries } from 'src/styles/media';
 
 interface ICarouselItemProps {
   className?: string;
   children: React.ReactNode;
-  as?: string | null;
 }
 
-export const CarouselItem = React.forwardRef<HTMLDivElement, ICarouselItemProps>(({ children, className, as }, ref) => {
+export const CarouselItem = React.forwardRef<HTMLDivElement, ICarouselItemProps>(({ children, className }, ref) => {
   const item = (
     <div
-      className={classNames(className, { link: typeof as === 'string' })}
+      className={classNames(className)}
       ref={ref}
       css={css`
         flex: 0 0 100%;
         position: relative;
-
-        &.link {
-          cursor: pointer;
-        }
       `}
     >
       {children}
     </div>
   );
 
-  return as ? (
-    <Link as={as} href={getPageHref(as)}>
-      {item}
-    </Link>
-  ) : (
-    item
-  );
+  return item;
 });
 
 interface IProps {
