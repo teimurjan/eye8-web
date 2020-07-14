@@ -47,7 +47,7 @@ export const UserDropdownView = ({ user, onLogoutClick, openAuthModal }: IProps)
     );
   } else {
     items.push(
-      <Anchor key="orders" href="/profile/orders" thin>
+      <Anchor key="orders" href="/profile/orders" as="/profile" thin>
         {intl.formatMessage({ id: 'Header.orders' })}
       </Anchor>,
       <Anchor key="logOut" onClick={onLogoutClick} thin>
