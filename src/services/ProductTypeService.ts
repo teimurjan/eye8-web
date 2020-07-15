@@ -19,7 +19,7 @@ export const errors = {
 
 export interface IProductTypeService {
   getForCategory(
-    categoryIdOrSlug: number | string,
+    categorySlug: string,
     page: number,
     sortBy?: productTypeAPI.ProductTypeSortingType,
   ): Promise<{
@@ -92,11 +92,11 @@ export class ProductTypeService implements IProductTypeService {
   }
 
   public getForCategory: IProductTypeService['getForCategory'] = async (
-    categoryIdOrSlug: number | string,
+    categorySlug: string,
     page: number,
     sortBy?: productTypeAPI.ProductTypeSortingType,
   ) => {
-    const productTypes = await this.API.getForCategory(categoryIdOrSlug, page, sortBy);
+    const productTypes = await this.API.getForCategory(categorySlug, page, sortBy);
     return {
       ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
       meta: productTypes.meta,

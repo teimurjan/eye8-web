@@ -54,7 +54,8 @@ export interface ICategoryAPI {
   edit(id: number, payload: ICategoryCreatePayload): Promise<ICategoryRawIntlResponseData>;
   status(id: number): Promise<{}>;
   getOneRawIntl(id: number): Promise<ICategoryRawIntlResponseData>;
-  getOne(idOrSlug: number | string): Promise<ICategoryDetailResponseData>;
+  getOne(id: number): Promise<ICategoryDetailResponseData>;
+  getOneBySlug(slug: string): Promise<ICategoryDetailResponseData>;
 }
 
 export const errors = {
@@ -193,9 +194,9 @@ export class CategoryAPI implements ICategoryAPI {
     }
   }
 
-  public async getOne(idOrSlug: number | string) {
+  public async getOneBySlug(slug: string) {
     try {
-      const response = await this.client.get<ICategoryDetailResponseData>(`/api/categories/${idOrSlug}`, {
+      const response = await this.client.get<ICategoryDetailResponseData>(`/api/categories/${slug}`, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -205,5 +206,9 @@ export class CategoryAPI implements ICategoryAPI {
       }
       throw e;
     }
+  }
+
+  public async getOne(id: number) {
+    return this.getOneBySlug(id.toString());
   }
 }

@@ -21,7 +21,8 @@ export interface ICategoryService {
   create(payload: categoryAPI.ICategoryCreatePayload): Promise<categoryAPI.ICategoryListRawIntlResponseItem>;
   exists(id: number): Promise<boolean>;
   getOneRawIntl(id: number): Promise<categoryAPI.ICategoryListRawIntlResponseItem | undefined>;
-  getOne(idOrSlug: number | string): Promise<categoryAPI.ICategoryListResponseItem | undefined>;
+  getOne(id: number): Promise<categoryAPI.ICategoryListResponseItem | undefined>;
+  getOneBySlug(slug: string): Promise<categoryAPI.ICategoryListResponseItem | undefined>;
   edit(id: number, payload: categoryAPI.ICategoryCreatePayload): Promise<categoryAPI.ICategoryListRawIntlResponseItem>;
 }
 
@@ -121,9 +122,21 @@ export class CategoryService implements ICategoryService {
     }
   };
 
-  public getOne: ICategoryService['getOne'] = async idOrSlug => {
+  public getOne: ICategoryService['getOne'] = async id => {
     try {
-      return (await this.API.getOne(idOrSlug)).data;
+      return (await this.API.getOne(id)).data;
+    } catch (e) {
+      if (e instanceof categoryAPI.errors.CategoryNotFound) {
+        return undefined;
+      }
+
+      throw e;
+    }
+  };
+
+  public getOneBySlug: ICategoryService['getOneBySlug'] = async slug => {
+    try {
+      return (await this.API.getOneBySlug(slug)).data;
     } catch (e) {
       if (e instanceof categoryAPI.errors.CategoryNotFound) {
         return undefined;

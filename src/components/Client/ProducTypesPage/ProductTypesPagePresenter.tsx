@@ -21,7 +21,7 @@ import { agregateOrderedMapToArray } from 'src/utils/agregate';
 export interface IProps {
   ListView: React.ComponentClass<IListViewProps> | React.SFC<IListViewProps>;
   productTypeService: IProductTypeService;
-  categoryIdOrSlug?: number | string;
+  categorySlug?: string;
   router: NextRouter;
   initialProps?: {
     productTypes: { [key: string]: IProductTypeListResponseItem };
@@ -34,7 +34,7 @@ export interface IProps {
 
 export const ProductTypesPagePresenter = ({
   ListView,
-  categoryIdOrSlug,
+  categorySlug,
   productTypeService,
   initialProps,
   router,
@@ -67,7 +67,7 @@ export const ProductTypesPagePresenter = ({
       setLoading(true);
       try {
         const { entities, result, meta } = await productTypeService.getForCategory(
-          categoryIdOrSlug!,
+          categorySlug!,
           page,
           typeof newSortingType === 'undefined' ? sortingType : newSortingType,
         );
@@ -80,7 +80,7 @@ export const ProductTypesPagePresenter = ({
         setLoading(false);
       }
     },
-    [categoryIdOrSlug, productTypeService, sortingType],
+    [categorySlug, productTypeService, sortingType],
   );
 
   const getNextURL = React.useCallback(
@@ -113,11 +113,11 @@ export const ProductTypesPagePresenter = ({
   }, [initialProps]);
 
   React.useEffect(() => {
-    if (categoryIdOrSlug && !initialProps) {
+    if (categorySlug && !initialProps) {
       loadProductTypes(1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryIdOrSlug]);
+  }, [categorySlug]);
 
   const setSortingTypeAndLoad = React.useCallback(
     (newSortingType: ProductTypeSortingType) => {

@@ -164,7 +164,7 @@ export const sortingTypeOfQueryValue = {
 
 export interface IProductTypeAPI {
   getForCategory(
-    categoryIdOrSlug: number | string,
+    categorySlug: string,
     page: number,
     sortBy?: ProductTypeSortingType,
   ): Promise<IProductTypeListResponseData>;
@@ -206,13 +206,13 @@ export class ProductTypeAPI implements IProductTypeAPI {
   }
 
   public async getForCategory(
-    categoryIdOrSlug: number | string,
+    categorySlug: string,
     page: number,
     sortBy: ProductTypeSortingType = ProductTypeSortingType.RECENT,
   ) {
     try {
       const response = await this.client.get<IProductTypeListResponseData>(
-        `/api/categories/${categoryIdOrSlug}/product_types${buildQueryString({
+        `/api/categories/${categorySlug}/product_types${buildQueryString({
           page,
           sort_by: queryValueOfSortingType[sortBy],
           products: 1,

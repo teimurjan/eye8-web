@@ -7,7 +7,6 @@ import {
   IProps as IPresenterProps,
 } from 'src/components/Client/ProducTypesPage/ProductTypesPagePresenter';
 import { useDependencies } from 'src/DI/DI';
-import { paramToIDOrSlug } from 'src/utils/params';
 
 interface IProps {
   initialProps?: IPresenterProps['initialProps'];
@@ -20,7 +19,7 @@ export const ProductTypesPageContainer = ({ initialProps }: IProps) => {
   return (
     <ProductTypesPagePresenter
       router={router}
-      categoryIdOrSlug={paramToIDOrSlug(router.query.id as string)}
+      categorySlug={router.query.slug as string}
       productTypeService={dependencies.services.productType}
       ListView={ProductTypesListView}
       initialProps={initialProps}
