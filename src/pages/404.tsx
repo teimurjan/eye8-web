@@ -1,10 +1,15 @@
+import { useTheme } from 'emotion-theming';
 import * as React from 'react';
 
-import { Layout } from 'src/components/Client/Layout';
-import { NotFoundView } from 'src/components/common-ui/NotFound/NotFoundView';
+import { LinkButton } from 'src/components/client-ui/Button/Button';
+import { FullSizePage } from 'src/components/common-ui/FullSizePage/FullSizePage';
 
-export default () => (
-  <Layout>
-    <NotFoundView />
-  </Layout>
-);
+export default () => {
+  const theme = useTheme<ClientUITheme>();
+
+  return (
+    <FullSizePage title="404 - NOT FOUND" color={theme.textColor} background={theme.backgroundGrayColor} centered>
+      <LinkButton href="/">Home</LinkButton>
+    </FullSizePage>
+  );
+};

@@ -4,8 +4,7 @@ import { useTheme } from 'emotion-theming';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Container } from 'src/components/admin-ui/Container/Container';
-import { Title } from 'src/components/client-ui/Title/Title';
+import { FullSizePage } from 'src/components/common-ui/FullSizePage/FullSizePage';
 import { IViewProps as IProps } from 'src/components/ConfirmSignup/ConfirmSignupPresenter';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { PAGE_LOADER_ID } from 'src/utils/dom';
@@ -30,16 +29,7 @@ export const ConfirmSignupView = ({ isLoading, error }: IProps) => {
   const debouncedColor = useDebounce(color, 500);
 
   return (
-    <div
-      style={{ background: debouncedColor }}
-      css={css`
-        height: 100vh;
-        width: 100vw;
-        transition: background 500ms;
-        display: flex;
-        align-items: center;
-      `}
-    >
+    <FullSizePage title={debouncedContent} background={debouncedColor}>
       <Global
         styles={css`
           #${PAGE_LOADER_ID} {
@@ -47,16 +37,6 @@ export const ConfirmSignupView = ({ isLoading, error }: IProps) => {
           }
         `}
       />
-      <Container>
-        <Title
-          css={css`
-            color: ${theme.textBrightColor};
-          `}
-          size={2}
-        >
-          {debouncedContent}
-        </Title>
-      </Container>
-    </div>
+    </FullSizePage>
   );
 };

@@ -24,7 +24,6 @@ interface IProps {
   plain?: boolean;
   noHoverOnTouch?: boolean;
   shallow?: boolean;
-  silent?: boolean;
 }
 
 export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
@@ -44,7 +43,6 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
       primary,
       noHoverOnTouch,
       shallow,
-      silent,
     },
     ref,
   ) => {

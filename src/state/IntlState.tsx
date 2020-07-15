@@ -14,7 +14,7 @@ export interface IContextValue {
 
 const Context = React.createContext<IContextValue | null>(null);
 
-interface IProviderProps {
+export interface IProviderProps {
   children: React.ReactNode;
   intl: IntlShape;
   initialProps?: {

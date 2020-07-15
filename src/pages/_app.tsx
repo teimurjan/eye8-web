@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/node';
 import whyDidYouRender from '@welldone-software/why-did-you-render';
 import { cache } from 'emotion';
 import { ThemeProvider } from 'emotion-theming';
-import { AppProps, AppContext } from 'next/app';
+import { AppProps } from 'next/app';
 import React from 'react';
 import { createIntl, createIntlCache } from 'react-intl';
 
@@ -15,16 +15,17 @@ import { LoadingOverlay } from 'src/_app/LoadingOverlay';
 import { Toaster } from 'src/_app/Toaster';
 import { CacheBuster } from 'src/components/CacheBuster';
 import { PageProgressBar } from 'src/components/common-ui/PageProgressBar/PageProgressBar';
-import { dependenciesFactory, IDependenciesFactoryArgs } from 'src/DI/DependenciesContainer';
+import { dependenciesFactory } from 'src/DI/DependenciesContainer';
 import { DIProvider } from 'src/DI/DI';
 import { AppStateProvider } from 'src/state/AppState';
 import { AuthModalStateProvider } from 'src/state/AuthModalState';
-import { CategoriesStateProvider } from 'src/state/CategoriesState';
-import { IntlStateProvider } from 'src/state/IntlState';
-import { RatesStateProvider } from 'src/state/RatesState';
+import { CategoriesStateProvider, IProviderProps as ICategoriesStateProviderProps } from 'src/state/CategoriesState';
+import { IntlStateProvider, IProviderProps as IIntlStateProviderProps } from 'src/state/IntlState';
+import { RatesStateProvider, IProviderProps as IRatesStateProviderProps } from 'src/state/RatesState';
 import { UserStateProvider } from 'src/state/UserState';
 import { defaultTheme } from 'src/themes';
 import { safeWindowOperation, isWindowDefined } from 'src/utils/dom';
+import { getGlobal } from 'src/utils/global';
 
 import 'bulma/css/bulma.css';
 
@@ -45,24 +46,13 @@ Sentry.init({
   release: process.env.RELEASE_VERSION,
 });
 
-const getMessages = (locale: string) => {
-  if (isWindowDefined()) {
-    return (window as any).INTL_MESSAGES;
-  } else {
-    return require(`../../lang/${locale}.json`);
-  }
-};
+const CustomNextApp = ({ Component, pageProps }: AppProps) => {
+  const customData = getGlobal('__CUSTOM_DATA__') as Window['__CUSTOM_DATA__'];
 
-const CustomNextApp = ({
-  Component,
-  pageProps,
-  locale,
-  componentsInitialProps,
-}: AppProps & Then<ReturnType<typeof getInitialProps>>) => {
   const intl = createIntl(
     {
-      locale,
-      messages: getMessages(locale),
+      locale: customData.intl.locale,
+      messages: customData.intl.messages,
     },
     intlCache,
   );
@@ -73,15 +63,18 @@ const CustomNextApp = ({
         <ThemeProvider theme={defaultTheme}>
           <AppStateProvider>
             <IntlStateProvider
-              initialProps={{
-                availableLocales: componentsInitialProps.intlState.availableLocales,
-                error: componentsInitialProps.intlState.error,
-              }}
+              initialProps={customData.states.initialProps.intl as IIntlStateProviderProps['initialProps']}
               intl={intl}
             >
-              <RatesStateProvider initialProps={componentsInitialProps.ratesState}>
+              <RatesStateProvider
+                initialProps={customData.states.initialProps.rates as IRatesStateProviderProps['initialProps']}
+              >
                 <UserStateProvider>
-                  <CategoriesStateProvider initialProps={componentsInitialProps.categoriesState}>
+                  <CategoriesStateProvider
+                    initialProps={
+                      customData.states.initialProps.categories as ICategoriesStateProviderProps['initialProps']
+                    }
+                  >
                     <AuthModalStateProvider>
                       <EntryPoint>
                         <>
@@ -106,48 +99,5 @@ const CustomNextApp = ({
     </CacheProvider>
   );
 };
-
-const getComponentsInitialProps = async (args: IDependenciesFactoryArgs) => {
-  const {
-    services: { category: categoryService, intl: intlService, rate: rateService },
-  } = dependenciesFactory(args);
-  try {
-    const categoriesPromise = categoryService.getAll();
-    const availableLocalesPromise = intlService.getAvailableLocales();
-    const ratesPromise = await rateService.getAllGrouped();
-    const [{ entities, result }, availableLocales, rates] = await Promise.all([
-      categoriesPromise,
-      availableLocalesPromise,
-      ratesPromise,
-    ]);
-    return {
-      categoriesState: { categories: entities.categories, categoriesOrder: result },
-      intlState: { availableLocales },
-      ratesState: { rates },
-    };
-  } catch (e) {
-    console.error(e);
-    return {
-      categoriesState: { categories: {}, categoriesOrder: [], error: 'errors.common' },
-      intlState: { availableLocales: [], error: 'errors.common' },
-      ratesState: { rates: {}, error: 'errors.common' },
-    };
-  }
-};
-
-const getInitialProps = async ({ Component, ctx }: AppContext) => {
-  const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
-
-  const { req, res } = ctx;
-  const { locale } = req || (window as any).__NEXT_DATA__.props;
-
-  return {
-    pageProps,
-    locale,
-    componentsInitialProps: await getComponentsInitialProps({ req, res }),
-  };
-};
-
-CustomNextApp.getInitialProps = getInitialProps;
 
 export default CustomNextApp;

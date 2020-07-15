@@ -40,17 +40,21 @@ export const ProductTypesPagePresenter = ({
   router,
 }: IProps) => {
   const intl = useIntl();
-  const [error, setError] = React.useState<string | undefined>(undefined);
+  const [error, setError] = React.useState<string | undefined>(initialProps?.error);
   const [isLoading, setLoading] = React.useState(false);
-  const [productTypes, setProductTypes] = React.useState<{ [key: string]: IProductTypeListResponseItem }>({});
-  const [category, setCategory] = React.useState<ICategoryListResponseItem | undefined>(undefined);
-  const [productTypesMeta, setProductTypesMeta] = React.useState<IProductTypeListResponseMeta>({
-    count: 0,
-    pages_count: 0,
-    limit: 0,
-    page: 0,
-  });
-  const [productTypesOrder, setProductTypesOrder] = React.useState<number[]>([]);
+  const [productTypes, setProductTypes] = React.useState<{ [key: string]: IProductTypeListResponseItem }>(
+    initialProps?.productTypes ?? {},
+  );
+  const [category, setCategory] = React.useState<ICategoryListResponseItem | undefined>(initialProps?.category);
+  const [productTypesMeta, setProductTypesMeta] = React.useState<IProductTypeListResponseMeta>(
+    initialProps?.productTypesMeta ?? {
+      count: 0,
+      pages_count: 0,
+      limit: 0,
+      page: 0,
+    },
+  );
+  const [productTypesOrder, setProductTypesOrder] = React.useState<number[]>(initialProps?.productTypesOrder ?? []);
   const sortByQuery = (router.query.sort_by || '') as string;
   const [sortingType, setSortingType] = React.useState<ProductTypeSortingType>(
     typeof sortingTypeOfQueryValue[sortByQuery] === 'undefined'

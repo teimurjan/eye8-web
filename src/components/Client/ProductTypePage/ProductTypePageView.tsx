@@ -12,6 +12,7 @@ import { Button } from 'src/components/client-ui/Button/Button';
 import { ErrorLayout } from 'src/components/client-ui/ErrorLayout/ErrorLayout';
 import { LinkPassingProps } from 'src/components/client-ui/LinkPassingProps/LinkPassingProps';
 import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout';
+import { NotFound } from 'src/components/client-ui/NotFound/NotFound';
 import { Select, SelectTrigger } from 'src/components/client-ui/Select/Select';
 import { Subtitle } from 'src/components/client-ui/Subtitle/Subtitle';
 import { Tag } from 'src/components/client-ui/Tag/Tag';
@@ -20,7 +21,6 @@ import { InstagramPost } from 'src/components/Client/InstagramPost/InstagramPost
 import { PriceCrossedText } from 'src/components/Client/Price/Price';
 import { ProductTypeImageCarousel } from 'src/components/Client/ProductType/ProductTypeImageCarousel/ProductTypeImageCarousel';
 import { IViewProps as IProps } from 'src/components/Client/ProductTypePage/ProductTypePagePresenter';
-import { NotFoundView } from 'src/components/common-ui/NotFound/NotFoundView';
 import { fadeInFromLeft, fadeInFromRight, fadeInFromBottom } from 'src/styles/keyframes';
 import { mediaQueries } from 'src/styles/media';
 import { easeOutCubic } from 'src/styles/timing-functions';
@@ -384,6 +384,6 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
       )}
     </div>
   ) : (
-    <NotFoundView />
+    <NotFound />
   );
 };

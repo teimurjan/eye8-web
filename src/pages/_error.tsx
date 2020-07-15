@@ -3,11 +3,7 @@ import { NextPageContext } from 'next';
 import NextErrorComponent from 'next/error';
 import * as React from 'react';
 
-export const CustomError = ({
-  statusCode,
-  hasGetInitialPropsRun,
-  err,
-}: Partial<Then<ReturnType<typeof getInitialProps>>>) => {
+const CustomError = ({ statusCode, hasGetInitialPropsRun, err }: Partial<Then<ReturnType<typeof getInitialProps>>>) => {
   if (!hasGetInitialPropsRun && err) {
     // getInitialProps is not called in case of
     // https://github.com/vercel/next.js/issues/8592. As a workaround, we pass
@@ -59,3 +55,5 @@ const getInitialProps = async (pageContext: NextPageContext) => {
 };
 
 CustomError.getInitialProps = getInitialProps;
+
+export default CustomError;

@@ -30,7 +30,7 @@ export const PageProgressBar = () => {
               position: fixed;
               top: 0;
               left: 0;
-              height: 2px;
+              height: 4px;
               width: 100%;
               z-index: 1000;
             `}
