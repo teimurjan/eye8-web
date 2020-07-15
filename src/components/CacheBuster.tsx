@@ -28,7 +28,7 @@ export const CacheBuster = () => {
         w.location.reload(true);
       });
 
-    if (currentVersion !== newVersion) {
+    if (currentVersion && currentVersion !== newVersion) {
       toast({
         id: ToastId.CacheBuster,
         children: (
