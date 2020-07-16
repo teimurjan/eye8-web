@@ -4,6 +4,7 @@ import * as React from 'react';
 import { HomeContainer } from 'src/components/Client/Home/HomeContainer';
 import { Layout } from 'src/components/Client/Layout';
 import { dependenciesFactory } from 'src/DI/DependenciesContainer';
+import { logTimeStart, logTimeFinish } from 'src/utils/log';
 
 const Index = ({
   banners,
@@ -20,6 +21,8 @@ const Index = ({
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  logTimeStart('Index.getServerSideProps');
+
   const {
     services: { banner: bannerService, productType: productTypeService },
   } = dependenciesFactory({ req, res });
@@ -38,6 +41,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
         result: productTypesOrder,
       },
     ] = await Promise.all([bannersPromise, productTypesPromise]);
+
+    logTimeFinish('Index.getServerSideProps');
 
     return { props: { banners, bannersOrder, productTypes, productTypesOrder } };
   } catch (e) {

@@ -3,6 +3,17 @@ import { NextPageContext } from 'next';
 import NextErrorComponent from 'next/error';
 import * as React from 'react';
 
+import { NotFound } from 'src/components/client-ui/NotFound/NotFound';
+import { Layout } from 'src/components/Client/Layout';
+
+const NextNotFoundComponent = () => {
+  return (
+    <Layout>
+      <NotFound />
+    </Layout>
+  );
+};
+
 const CustomError = ({ statusCode, hasGetInitialPropsRun, err }: Partial<Then<ReturnType<typeof getInitialProps>>>) => {
   if (!hasGetInitialPropsRun && err) {
     // getInitialProps is not called in case of
@@ -11,7 +22,7 @@ const CustomError = ({ statusCode, hasGetInitialPropsRun, err }: Partial<Then<Re
     Sentry.captureException(err);
   }
 
-  return <NextErrorComponent statusCode={statusCode!} />;
+  return statusCode === 404 ? <NextNotFoundComponent /> : <NextErrorComponent statusCode={statusCode!} />;
 };
 
 const getInitialProps = async (pageContext: NextPageContext) => {

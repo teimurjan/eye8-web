@@ -10,28 +10,86 @@ enum BackgroundColor {
   Blue = '#e0fbfc',
 }
 
+enum Icon {
+  Info = '🔵',
+  Performance = '⏱️',
+  Error = '🆘',
+  Success = '✅',
+}
+
+type FormatSpecifier = '%s' | '%d' | '%f' | '%o' | '%O';
+
+type LogOptions = {
+  format?: FormatSpecifier;
+};
+
 const CONSTANT_STYLES = 'padding: 2.5px 5px; font-size: 14px;';
 
-export const log = ({
+const logsEnabled = () => process.env.NODE_ENV !== 'production';
+
+export const log = <T>({
+  icon,
   message,
   style: { backgroundColor, fontColor },
+  format = '%O',
 }: {
-  message: any;
+  icon: Icon;
+  message: T;
   style: { backgroundColor?: BackgroundColor; fontColor?: FontColor };
-}) => {
-  if (process.env.NODE_ENV !== 'production') {
-    console.log(`%c${message}`, `background: ${backgroundColor}; color: ${fontColor}; ${CONSTANT_STYLES}`);
+} & LogOptions) => {
+  if (logsEnabled()) {
+    console.log(
+      `%c ${icon} ${format}`,
+      `background: ${backgroundColor}; color: ${fontColor}; ${CONSTANT_STYLES}`,
+      message,
+    );
   }
 };
 
-export const logInfo = (message: any) => {
-  log({ message: `🔵 ${message}`, style: { backgroundColor: BackgroundColor.Blue, fontColor: FontColor.Blue } });
+export const logInfo = <T>(message: T, options: LogOptions = {}) => {
+  log({
+    icon: Icon.Info,
+    message,
+    style: { backgroundColor: BackgroundColor.Blue, fontColor: FontColor.Blue },
+    ...options,
+  });
 };
 
-export const logError = (message: any) => {
-  log({ message: `🆘 ${message}`, style: { backgroundColor: BackgroundColor.Red, fontColor: FontColor.Red } });
+export const logPerformance = <T>(message: T, options: LogOptions = {}) => {
+  log({
+    icon: Icon.Performance,
+    message,
+    style: { backgroundColor: BackgroundColor.Blue, fontColor: FontColor.Blue },
+    ...options,
+  });
 };
 
-export const logSuccess = (message: any) => {
-  log({ message: `✅ ${message}`, style: { backgroundColor: BackgroundColor.Green, fontColor: FontColor.Green } });
+export const logError = <T>(message: T, options: LogOptions = {}) => {
+  log({
+    icon: Icon.Error,
+    message,
+    style: { backgroundColor: BackgroundColor.Red, fontColor: FontColor.Red },
+    ...options,
+  });
+};
+
+export const logSuccess = <T>(message: T, options: LogOptions = {}) => {
+  log({
+    icon: Icon.Success,
+    message,
+    style: { backgroundColor: BackgroundColor.Green, fontColor: FontColor.Green },
+    ...options,
+  });
+};
+
+export const logTimeStart = (key: string) => {
+  if (logsEnabled()) {
+    console.time(key);
+  }
+};
+
+export const logTimeFinish = (key: string) => {
+  if (logsEnabled()) {
+    console.timeEnd(key);
+  }
 };

@@ -66,11 +66,6 @@ app.prepare().then(() => {
     req.locale = detectedLocale;
     req.localeDataScript = getLocaleDataScript(detectedLocale);
 
-    if (res.statusCode === 404) {
-      app.render(req, res, '/notfound');
-      return;
-    }
-
     const parsedUrl = parse(req.url, true);
     const { pathname, query } = parsedUrl;
 

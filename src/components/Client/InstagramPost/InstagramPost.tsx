@@ -53,11 +53,11 @@ export const InstagramPost: React.FC<IProps> = ({ className, url, id, wide }) =>
       try {
         const iframe = getIframe();
         if (iframe && !iframe.contentDocument) {
-          logInfo('iframe is loaded');
+          logInfo('iframe is loaded', { format: '%s' });
           next();
         }
       } catch (e) {
-        logInfo("iframe's contentWindow is blocked by CORS");
+        logInfo("iframe's contentWindow is blocked by CORS", { format: '%s' });
         next();
       }
     }, 1000);

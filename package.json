@@ -1,6 +1,6 @@
 {
   "name": "eye8-web",
-  "version": "1.5.10",
+  "version": "1.5.11",
   "private": true,
   "repository": {
     "type": "git",
@@ -50,7 +50,7 @@
     "lodash": "^4.17.13",
     "mousetrap": "^1.6.5",
     "negotiator": "^0.6.2",
-    "next": "^9.3.3",
+    "next": "9.4.4",
     "next-manifest": "^3.0.1",
     "next-pwa": "^3.0.3",
     "normalizr": "^3.3.0",

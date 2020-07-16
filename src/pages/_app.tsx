@@ -26,8 +26,13 @@ import { UserStateProvider } from 'src/state/UserState';
 import { defaultTheme } from 'src/themes';
 import { safeWindowOperation, isWindowDefined } from 'src/utils/dom';
 import { getGlobal } from 'src/utils/global';
+import { logPerformance } from 'src/utils/log';
 
 import 'bulma/css/bulma.css';
+
+export function reportWebVitals(metric: object) {
+  logPerformance(metric);
+}
 
 if (isWindowDefined() && process.env.NODE_ENV === 'development') {
   whyDidYouRender(React, { trackAllPureComponents: true });
