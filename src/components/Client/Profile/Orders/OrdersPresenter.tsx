@@ -1,7 +1,7 @@
 import { History, Location } from 'history';
 import React from 'react';
 
-import { IOrderForUserResponseItem, IOrderListResponseMeta } from 'src/api/OrderAPI';
+import { IOrderDetailResponseItem, IOrderListResponseMeta, IOrderForUserResponseItem } from 'src/api/OrderAPI';
 import { isUserAuthorized } from 'src/helpers/user';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { IOrderService } from 'src/services/OrderService';
@@ -9,7 +9,7 @@ import { AuthorizedUser } from 'src/state/UserState';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 export interface IViewProps {
-  orders: IOrderForUserResponseItem[];
+  orders: IOrderDetailResponseItem[];
   isLoading?: boolean;
   error?: string;
   currentPage: number;

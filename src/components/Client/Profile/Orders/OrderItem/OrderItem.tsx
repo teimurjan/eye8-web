@@ -6,21 +6,20 @@ import { useTheme } from 'emotion-theming';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { IOrderForUserResponseItem } from 'src/api/OrderAPI';
+import { IOrderDetailResponseItem } from 'src/api/OrderAPI';
 import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
 import { Tag } from 'src/components/client-ui/Tag/Tag';
 import { Tooltip } from 'src/components/client-ui/Tooltip/Tooltip';
 import { PriceText } from 'src/components/Client/Price/Price';
 import { useIntlState } from 'src/state/IntlState';
-import { calculateDiscountedPrice } from 'src/utils/number';
-import { isPromoCodeApplicableForProduct } from 'src/utils/promoCode';
+import { getOrderTotalPrice } from 'src/utils/order';
 
 interface IProps {
-  order: IOrderForUserResponseItem;
+  order: IOrderDetailResponseItem;
   className?: string;
 }
 
-const OrderStatus = ({ status }: { status: IOrderForUserResponseItem['status'] }) => {
+const OrderStatus = ({ status }: { status: IOrderDetailResponseItem['status'] }) => {
   const intl = useIntl();
 
   return status === 'rejected' || status === 'completed' ? (
@@ -59,18 +58,7 @@ export const OrderItem: React.FC<IProps> = ({ order, className }) => {
   const {
     intlState: { locale },
   } = useIntlState();
-  const total = order.items.reduce((acc, item) => {
-    return (
-      acc +
-      calculateDiscountedPrice(item.product_price_per_item, [
-        item.product_discount,
-        order.promo_code && item.product && isPromoCodeApplicableForProduct(order.promo_code, item.product)
-          ? order.promo_code.discount || 0
-          : 0,
-      ]) *
-        item.quantity
-    );
-  }, 0);
+  const total = getOrderTotalPrice(order.items, order.promo_code);
 
   const orderCreatedOnDate = new Date(order.created_on);
 
@@ -126,7 +114,7 @@ export const OrderItem: React.FC<IProps> = ({ order, className }) => {
         <div>
           {order.items.map(item =>
             item.product ? (
-              <Anchor key={item.id} href={`/products/${item.product.product_type.slug}`}>
+              <Anchor key={item.id} href="products/[slug]" as={`/products/${item.product.product_type.slug}`}>
                 {item.product.product_type.name}{' '}
                 <FontAwesomeIcon
                   size="sm"

@@ -267,7 +267,7 @@
   "AdminOrders.errors.promoCodeInvalid": "Неверный промо-код",
   "Cart.promoCodeInput.label": "Промокод",
   "common.apply": "Применить",
-  "Cart.promoCodeApplied": "Дополнительная скидка {discount}% с промо-кодом {value}",
+  "Cart.promoCodeApplied": "Дополнительная скидка <discount></discount> с промо-кодом {value}",
   "Cart.promoCodeNotApplicable": "Промокод {value} не может быть применен к этому продукту",
   "Cart.invalidPromoCode": "Неверный промо-код",
   "Order.orderPlaced": "Заказ #{id}",
@@ -297,5 +297,6 @@
   "Logout.success": "Вы вышли из аккаунта",
   "errors.brokenImage": "Картинка недоступна",
   "cacheBuster.refresh": "Доступна новая версия Eye8!",
-  "cacheBuster.refresh.action": "Обновить"
+  "cacheBuster.refresh.action": "Обновить",
+  "AdminPromoCodes.amount": "Сумма"
 }

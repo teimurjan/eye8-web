@@ -42,6 +42,7 @@ export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded }:
         <AdminTable.Col<PromoCode> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
         <AdminTable.Col<PromoCode> key_="value" title={intl.formatMessage({ id: 'AdminPromoCodes.value' })} />
         <AdminTable.Col<PromoCode> key_="discount" title={intl.formatMessage({ id: 'AdminPromoCodes.discount' })} />
+        <AdminTable.Col<PromoCode> key_="amount" title={intl.formatMessage({ id: 'AdminPromoCodes.amount' })} />
         <AdminTable.Col<PromoCode>
           key_="is_active"
           title={intl.formatMessage({ id: 'AdminPromoCodes.active' })}

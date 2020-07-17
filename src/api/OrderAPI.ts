@@ -3,6 +3,23 @@ import { Client } from 'ttypes/http';
 import { IHeadersManager } from 'src/manager/HeadersManager';
 import { buildQueryString } from 'src/utils/queryString';
 
+export interface IOrderItem {
+  id: number;
+  quantity: number;
+  product_price_per_item: number;
+  product_discount: number;
+  product_upc?: string;
+  product?: {
+    id: number;
+    quantity: number;
+    product_type: {
+      id: number;
+      name: string;
+      slug: string;
+    };
+  };
+}
+
 // LIST
 export interface IOrderListResponseItem {
   id: number;
@@ -12,27 +29,13 @@ export interface IOrderListResponseItem {
   created_on: string;
   updated_on: string;
   is_deleted: boolean | null;
-  items: Array<{
-    id: number;
-    quantity: number;
-    product_price_per_item: number;
-    product_discount: number;
-    product_upc?: string;
-    product?: {
-      id: number;
-      quantity: number;
-      product_type: {
-        id: number;
-        name: string;
-        slug: string;
-      };
-    };
-  }>;
+  items: IOrderItem[];
   status: 'idle' | 'completed' | 'approved' | 'rejected';
   promo_code?: {
     id: number;
     value: string;
-    discount?: number;
+    discount: number;
+    amount?: number;
   };
 }
 
@@ -48,29 +51,35 @@ export interface IOrderListResponseData {
   meta: IOrderListResponseMeta;
 }
 
-// FOR USER
-export interface IOrderForUserResponseItem extends IOrderListResponseItem {
-  promo_code: IOrderListResponseItem['promo_code'] & {
-    products?: Array<{
-      product_type: {
-        id: number;
-        name: string;
-      };
-      discount: number;
-      id: number;
-      price: number;
-      quantity: number;
-    }>;
+// DETAIL
+export type IOrderDetailResponseItem = IOrderListResponseItem & {
+  promo_code?: {
+    id: number;
+    value: string;
+    discount: number;
+    amount?: number;
+    products?: Array<{ id: number; price: number; quantity: number; discount?: number }>;
   };
+};
+
+export interface IOrderResponseData {
+  data: IOrderDetailResponseItem;
 }
+
+// FOR USER
+export type IOrderForUserResponseItem = IOrderListResponseItem & {
+  promo_code?: {
+    id: number;
+    value: string;
+    discount: number;
+    amount?: number;
+    products?: number[];
+  };
+};
 
 export interface IOrderForUserResponseData {
   data: IOrderForUserResponseItem[];
-}
-
-// DETAIL
-export interface IOrderResponseData {
-  data: IOrderListResponseItem;
+  meta: IOrderListResponseMeta;
 }
 
 // PAYLOADS
@@ -100,13 +109,14 @@ export interface IOrderEditPayload {
   promo_code?: {
     id: number;
     value: string;
-    discount?: number;
+    discount: number;
+    amount: number;
   };
 }
 
 export interface IOrderAPI {
   getAll(): Promise<IOrderListResponseData>;
-  getForUser(userID: number, page: number): Promise<IOrderListResponseData>;
+  getForUser(userID: number, page: number): Promise<IOrderForUserResponseData>;
   create(payload: IOrderCreatePayload): Promise<IOrderResponseData>;
   edit(orderID: number, payload: IOrderEditPayload): Promise<IOrderResponseData>;
   getOne(orderID: number): Promise<IOrderResponseData>;
@@ -182,7 +192,7 @@ export class OrderAPI implements IOrderAPI {
 
   public async getForUser(userID: number, page: number) {
     try {
-      const response = await this.client.get<IOrderListResponseData>(
+      const response = await this.client.get<IOrderForUserResponseData>(
         `/api/users/${userID}/orders${buildQueryString({ page, limit: 10 })}`,
         {
           headers: this.headersManager.getHeaders(),

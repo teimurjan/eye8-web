@@ -10,7 +10,7 @@ import { Image } from 'src/components/client-ui/Image/Image';
 import { Subtitle } from 'src/components/client-ui/Subtitle/Subtitle';
 import { Title } from 'src/components/client-ui/Title/Title';
 import { Quantity } from 'src/components/Client/Cart/CartItem/Quantity';
-import { PriceCrossedText } from 'src/components/Client/Price/Price';
+import { PriceCrossedText, PriceText } from 'src/components/Client/Price/Price';
 import { isPromoCodeApplicableForProduct } from 'src/utils/promoCode';
 
 interface IProps {
@@ -75,7 +75,15 @@ export const CartItem = ({ product, count, onRemoveClick, onAddClick, promoCode 
         <HelpText color="success">
           {intl.formatMessage(
             { id: 'Cart.promoCodeApplied' },
-            { value: promoCode.value.toUpperCase(), discount: promoCode.discount },
+            {
+              value: promoCode.value.toUpperCase(),
+              discount: () =>
+                promoCode.amount ? (
+                  <PriceText key={promoCode.id} price={promoCode.amount} />
+                ) : (
+                  <>{promoCode.discount}%</>
+                ),
+            },
           )}
         </HelpText>
       )}

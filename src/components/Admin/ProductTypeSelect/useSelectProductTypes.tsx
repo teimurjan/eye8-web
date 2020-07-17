@@ -1,6 +1,10 @@
 import * as React from 'react';
 
-import { IProductTypeListRawIntlMinifiedResponseItem, IProductTypeListResponseMeta } from 'src/api/ProductTypeAPI';
+import {
+  IProductTypeListRawIntlMinifiedResponseItem,
+  IProductTypeListResponseMeta,
+  ProductTypeSortingType,
+} from 'src/api/ProductTypeAPI';
 import { extendIntlTextWithLocaleNames } from 'src/helpers/intl';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { useIntlState } from 'src/state/IntlState';
@@ -32,7 +36,10 @@ export const useSelectProductTypes = ({ productTypeService, mandatoryProductType
     async (page: number) => {
       try {
         setLoading(true);
-        const { entities, result, meta } = await productTypeService.getAllRawIntlMinified(page);
+        const { entities, result, meta } = await productTypeService.getAllRawIntlMinified(
+          page,
+          ProductTypeSortingType.RECENT,
+        );
         setProductTypes({ ...productTypes, ...entities.productTypes });
         setProductTypesOrder([...productTypesOrder, ...result]);
         setMeta(meta);

@@ -1,12 +1,15 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
+import { Link } from 'react-router-dom';
 
-import { IOrderListResponseItem } from 'src/api/OrderAPI';
+import { IOrderDetailResponseItem } from 'src/api/OrderAPI';
+import { Box } from 'src/components/admin-ui/Box/Box';
 import { Field } from 'src/components/admin-ui/Field/Field';
 import { FormNativeSelectField } from 'src/components/admin-ui/FormNativeSelectField/FormNativeSelectField';
 import { FormPhoneField } from 'src/components/admin-ui/FormPhoneField/FormPhoneField';
@@ -17,7 +20,7 @@ import { Subtitle } from 'src/components/admin-ui/Subtitle/Subtitle';
 import { Quantity } from 'src/components/Client/Cart/CartItem/Quantity';
 import { PriceText } from 'src/components/Client/Price/Price';
 import { ProductSelectContainer } from 'src/components/common-ui/ProductSelect/ProductSelectContainer';
-import { calculateDiscountedPrice } from 'src/utils/number';
+import { getOrderTotalPrice } from 'src/utils/order';
 import { parsePhoneNumber } from 'src/utils/phone';
 
 const UserNameField = ({ input, meta }: FieldRenderProps<string>) => {
@@ -127,29 +130,31 @@ const StatusSelectField = ({ input, meta }: FieldRenderProps<string>) => {
   );
 };
 
-const OrderItemsField = ({ input, meta }: FieldRenderProps<IOrderListResponseItem['items']>) => {
+const OrderItemsField = ({
+  input,
+  meta,
+  promoCode,
+}: FieldRenderProps<IOrderDetailResponseItem['items']> & Pick<IFieldsProps, 'promoCode'>) => {
   const intl = useIntl();
-
-  const theme = useTheme<AdminUITheme>();
 
   const showError = meta.touched && meta.error;
 
   const setOrderItem = React.useCallback(
-    (id: number, orderItem: IOrderListResponseItem['items'][0]) => {
+    (id: number, orderItem: IOrderDetailResponseItem['items'][0]) => {
       input.onChange(input.value.map(orderItem_ => (orderItem_.id === id ? orderItem : orderItem_)));
     },
     [input],
   );
 
   const removeOrderItem = React.useCallback(
-    (orderItem: IOrderListResponseItem['items'][0]) => {
+    (orderItem: IOrderDetailResponseItem['items'][0]) => {
       input.onChange(input.value.filter(orderItem_ => orderItem_.id !== orderItem.id));
     },
     [input],
   );
 
   const addOrderItem = React.useCallback(
-    (orderItem: IOrderListResponseItem['items'][0]) => {
+    (orderItem: IOrderDetailResponseItem['items'][0]) => {
       const itemWithProduct = input.value.find(
         orderItem_ => orderItem_.product && orderItem.product && orderItem_.product.id === orderItem.product.id,
       );
@@ -163,36 +168,53 @@ const OrderItemsField = ({ input, meta }: FieldRenderProps<IOrderListResponseIte
     [setOrderItem, input],
   );
 
-  const totalPrice = input.value
-    ? input.value.reduce(
-        (acc, orderItem) =>
-          acc +
-          calculateDiscountedPrice(orderItem.product_price_per_item, orderItem.product_discount) * orderItem.quantity,
-        0,
-      )
-    : 0;
+  const totalPrice = input.value ? getOrderTotalPrice(input.value, promoCode) : 0;
 
   return (
     <Field>
       <Label>{intl.formatMessage({ id: 'AdminOrders.items' })}</Label>
-      {input.value
-        ? input.value.map(orderItem => (
-            <div
+      {input.value ? (
+        <div
+          css={css`
+            display: flex;
+          `}
+        >
+          {input.value.map(orderItem => (
+            <Box
               css={css`
-                margin: 10px 0;
+                margin-bottom: 0 !important;
+                margin-right: 10px;
                 padding: 10px;
-                background: ${theme.greyLight};
-                border-radius: 10px;
+                flex: 0 0 25%;
+
+                &:last-child {
+                  margin-right: 0;
+                }
               `}
               key={orderItem.id}
             >
               <div
                 css={css`
                   display: flex;
-                  justify-content: space-between;
+                  flex-direction: column;
                 `}
               >
-                {orderItem.product && <Subtitle size={4}>{orderItem.product.product_type.name}</Subtitle>}
+                {orderItem.product && (
+                  <Subtitle size={4}>
+                    {orderItem.product.product_type.name}{' '}
+                    <Link to={`/admin/products/edit/${orderItem.product.product_type.id}`}>
+                      <FontAwesomeIcon
+                        size="sm"
+                        css={css`
+                          margin-left: 5px;
+                          display: inline-block;
+                          vertical-align: baseline;
+                        `}
+                        icon={faExternalLinkAlt}
+                      />
+                    </Link>
+                  </Subtitle>
+                )}
                 <ProductSelectContainer
                   placeholder={intl.formatMessage({ id: 'AdminOrders.anotherProduct.placeholder' })}
                   onChange={product => {
@@ -217,9 +239,10 @@ const OrderItemsField = ({ input, meta }: FieldRenderProps<IOrderListResponseIte
                     : setOrderItem(orderItem.id, { ...orderItem, quantity: orderItem.quantity - 1 })
                 }
               />
-            </div>
-          ))
-        : null}
+            </Box>
+          ))}
+        </div>
+      ) : null}
       <ProductSelectContainer
         css={css`
           margin: 10px 0;
@@ -244,7 +267,11 @@ const OrderItemsField = ({ input, meta }: FieldRenderProps<IOrderListResponseIte
   );
 };
 
-export const Fields: React.SFC<{}> = () => {
+interface IFieldsProps {
+  promoCode: IOrderDetailResponseItem['promo_code'];
+}
+
+export const Fields = ({ promoCode }: IFieldsProps) => {
   const intl = useIntl();
 
   return (
@@ -258,7 +285,7 @@ export const Fields: React.SFC<{}> = () => {
         label={intl.formatMessage({ id: 'AdminOrders.userPhoneNumber' })}
       />
       <FinalFormField key="user_address" name="user_address" component={UserAddressField} />
-      <FinalFormField key="items" name="items" render={OrderItemsField} />
+      <FinalFormField key="items" name="items" render={OrderItemsField} promoCode={promoCode} />
       <FinalFormField key="promo_code" name="promo_code" component={PromoCodeField} />
       <FinalFormField key="status" name="status" component={StatusSelectField} />
     </React.Fragment>

@@ -22,7 +22,7 @@ import { IViewProps as IProps, IFormValues } from 'src/components/Client/Cart/Ca
 import { PriceText } from 'src/components/Client/Price/Price';
 import { bounce, fadeInFromRight, fadeInFromLeft, expand } from 'src/styles/keyframes';
 import { easeOutCubic } from 'src/styles/timing-functions';
-import { calculateDiscountedPrice } from 'src/utils/number';
+import { getCartTotalPrice } from 'src/utils/order';
 import { parsePhoneNumber } from 'src/utils/phone';
 
 const buttonCSS = css`
@@ -47,13 +47,7 @@ const Total: React.FC<Pick<IProps, 'getProductCount' | 'products' | 'promoCode'>
 }) => {
   const intl = useIntl();
 
-  const totalPrice = products.reduce((acc, product) => {
-    const discountedPrice = calculateDiscountedPrice(product.price, [
-      product.discount,
-      promoCode ? promoCode.discount : 0,
-    ]);
-    return acc + discountedPrice * getProductCount(product.id);
-  }, 0);
+  const totalPrice = getCartTotalPrice(products, getProductCount, promoCode);
 
   return (
     <Title
@@ -62,7 +56,7 @@ const Total: React.FC<Pick<IProps, 'getProductCount' | 'products' | 'promoCode'>
       `}
       size={5}
     >
-      {intl.formatMessage({ id: 'Cart.total' })}: <PriceText price={totalPrice} />
+      {intl.formatMessage({ id: 'Cart.total' })}: <PriceText price={totalPrice >= 0 ? totalPrice : 0} />
     </Title>
   );
 };

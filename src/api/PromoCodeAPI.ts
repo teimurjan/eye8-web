@@ -5,6 +5,7 @@ import { IHeadersManager } from 'src/manager/HeadersManager';
 export interface IPromoCodeListResponseItem {
   id: number;
   discount: number;
+  amount?: number;
   value: string;
   is_active: boolean;
   disable_on_use: boolean;
@@ -21,6 +22,7 @@ export interface IPromoCodeListResponseData {
 export interface IPromoCodeDetailResponseItem {
   id: number;
   discount: number;
+  amount?: number;
   value: string;
   is_active: boolean;
   disable_on_use: boolean;
@@ -45,6 +47,7 @@ export interface IPromoCodeDetailResponseData {
 
 export interface IPromoCodeCreatePayload {
   discount: number;
+  amount?: number;
   value: string;
   is_active: boolean;
   disable_on_use: boolean;

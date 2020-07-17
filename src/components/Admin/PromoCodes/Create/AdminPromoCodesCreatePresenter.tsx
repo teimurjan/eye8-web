@@ -18,6 +18,7 @@ export interface IViewProps {
   isOpen: boolean;
   create: (values: {
     discount: string;
+    amount?: string;
     value: string;
     isActive: boolean;
     disableOnUse: boolean;
@@ -32,6 +33,7 @@ export interface IViewProps {
 const validator = new schemaValidator.SchemaValidator(
   yup.object().shape({
     discount: yup.number().required('common.errors.field.empty'),
+    amount: yup.number(),
     value: yup
       .string()
       .required('common.errors.field.empty')
@@ -68,6 +70,7 @@ export const AdminPromoCodesCreatePresenter: React.FC<IProps> = ({
       const formattedValues = {
         value: values.value,
         discount: parseInt(values.discount, 10),
+        amount: values.amount ? parseInt(values.amount, 10) : undefined,
         is_active: values.isActive,
         disable_on_use: values.disableOnUse,
         products: (values.products || []).map(product => product.id),

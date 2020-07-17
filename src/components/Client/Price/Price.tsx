@@ -26,9 +26,8 @@ const useRateOnDate = ({ date, name }: { date?: Date; name: string }) => {
     return {};
   }
 
-  const rate = date
-    ? rates[name].find(rate => new Date(rate.created_on).getTime() > date.getTime())
-    : rates[name][rates[name].length - 1];
+  const matchingRate = date ? rates[name].find(rate => new Date(rate.created_on).getTime() <= date.getTime()) : date;
+  const rate = matchingRate ?? rates[name][rates[name].length - 1];
 
   return { rate, error };
 };

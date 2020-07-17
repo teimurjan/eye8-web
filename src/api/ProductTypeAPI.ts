@@ -172,7 +172,10 @@ export interface IProductTypeAPI {
   getNewest(): Promise<IProductTypeListResponseData>;
   getByID(id: number): Promise<IProductTypeDetailResponseItemData>;
   getBySlug(slug: string): Promise<IProductTypeDetailResponseItemData>;
-  getAllRawIntlMinified(page?: number): Promise<IProductTypeListRawIntlMinifiedResponseData>;
+  getAllRawIntlMinified(
+    page?: number,
+    sortBy?: ProductTypeSortingType,
+  ): Promise<IProductTypeListRawIntlMinifiedResponseData>;
   getAllRawIntl(page: number): Promise<IProductTypeListRawIntlResponseData>;
   delete(id: number): Promise<{}>;
   create(payload: IProductTypeCreatePayload): Promise<IProductTypeRawIntlResponseData>;
@@ -289,7 +292,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   }
 
-  public async getAllRawIntlMinified(page?: number) {
+  public async getAllRawIntlMinified(page?: number, sortBy?: ProductTypeSortingType) {
     try {
       const response = await this.client.get<IProductTypeListRawIntlMinifiedResponseData>(
         `/api/product_types${buildQueryString({
@@ -297,6 +300,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
           raw_intl: 1,
           page,
           limit: typeof page !== 'undefined' ? 10 : undefined,
+          sort_by: sortBy ? queryValueOfSortingType[sortBy] : undefined,
         })}`,
         {
           headers: this.headersManager.getHeaders(),

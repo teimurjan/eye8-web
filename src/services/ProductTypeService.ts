@@ -64,6 +64,7 @@ export interface IProductTypeService {
   }>;
   getAllRawIntlMinified(
     page?: number,
+    sortBy?: productTypeAPI.ProductTypeSortingType,
   ): Promise<{
     entities: {
       productTypes: {
@@ -111,8 +112,8 @@ export class ProductTypeService implements IProductTypeService {
     };
   };
 
-  public getAllRawIntlMinified: IProductTypeService['getAllRawIntlMinified'] = async page => {
-    const productTypes = await this.API.getAllRawIntlMinified(page);
+  public getAllRawIntlMinified: IProductTypeService['getAllRawIntlMinified'] = async (page, sortBy) => {
+    const productTypes = await this.API.getAllRawIntlMinified(page, sortBy);
     return {
       ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
       meta: productTypes.meta,

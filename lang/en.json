@@ -268,7 +268,7 @@
   "AdminOrders.errors.promoCodeInvalid": "Invalid promo code",
   "Cart.promoCodeInput.label": "Promo code",
   "common.apply": "Apply",
-  "Cart.promoCodeApplied": "Extra {discount}% off with promo code {value}",
+  "Cart.promoCodeApplied": "Extra <discount></discount> off with promo code {value}",
   "Cart.promoCodeNotApplicable": "Promo code {value} is not applicable to this product",
   "Cart.invalidPromoCode": "Invalid promo code",
   "Order.orderPlaced": "Order #{id}",
@@ -298,5 +298,6 @@
   "Logout.success": "You've been successfully logged out",
   "errors.brokenImage": "No image avaiable",
   "cacheBuster.refresh": "The new version of Eye8 is available!",
-  "cacheBuster.refresh.action": "Update"
+  "cacheBuster.refresh.action": "Update",
+  "AdminPromoCodes.amount": "Amount"
 }

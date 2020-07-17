@@ -41,6 +41,29 @@ const DiscountField = ({ input, meta, disabled }: FieldRenderProps<string>) => {
   );
 };
 
+const AmountField = ({ input, meta, disabled }: FieldRenderProps<string>) => {
+  const intl = useIntl();
+
+  const showError = meta.touched && meta.error;
+
+  return (
+    <FormTextField
+      labelProps={{
+        children: intl.formatMessage({ id: 'AdminPromoCodes.amount' }),
+      }}
+      inputProps={{
+        ...input,
+        isDanger: showError,
+        disabled: disabled,
+      }}
+      helpTextProps={{
+        children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
+        type: 'is-danger',
+      }}
+    />
+  );
+};
+
 const ValueField = ({ input, meta, disabled }: FieldRenderProps<string>) => {
   const intl = useIntl();
 
@@ -208,6 +231,7 @@ export const Fields: React.SFC<IProps> = ({ isEdit }) => {
     <React.Fragment>
       <FinalFormField key="value" name="value" component={ValueField} disabled={isEdit} />
       <FinalFormField key="discount" name="discount" component={DiscountField} disabled={isEdit} />
+      <FinalFormField key="amount" name="amount" component={AmountField} disabled={isEdit} />
       <FinalFormField key="disableOnUse" name="disableOnUse" component={DisableOnUseField} />
       <FinalFormField key="isActive" name="isActive" component={IsActiveField} />
       <FinalFormField key="products" name="products" render={ProductsField} />
