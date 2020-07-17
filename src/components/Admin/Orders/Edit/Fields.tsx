@@ -202,7 +202,7 @@ const OrderItemsField = ({
                 {orderItem.product && (
                   <Subtitle size={4}>
                     {orderItem.product.product_type.name}{' '}
-                    <Link to={`/admin/products/edit/${orderItem.product.product_type.id}`}>
+                    <Link to={`/admin/products/edit/${orderItem.product.id}`}>
                       <FontAwesomeIcon
                         size="sm"
                         css={css`
