@@ -78,11 +78,11 @@ export const ProductTypeImageCarousel = <T extends any = string>({
               css={css`
                 cursor: pointer;
                 margin: 2.5px;
-                border: 5px solid transparent;
+                border: 1px solid transparent;
 
                 &.active,
                 &:hover {
-                  border-color: ${theme.primaryColor};
+                  border-color: ${theme.borderColor};
                 }
 
                 &:first-child {

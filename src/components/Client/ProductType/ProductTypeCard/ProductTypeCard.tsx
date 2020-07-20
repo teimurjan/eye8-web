@@ -80,15 +80,15 @@ export const ProductTypeCard = ({ productType }: IProps) => {
         >
           {productType.name}
         </Title>
-        {productType.products && productType.products.length > 1 && (
-          <HelpText
-            css={css`
-              margin: 0 0 10px 0;
-            `}
-          >
-            {intl.formatMessage({ id: 'ProductType.someOptionsAvailable' })}
-          </HelpText>
-        )}
+        <HelpText
+          css={css`
+            margin: 0 0 10px 0;
+          `}
+        >
+          {productType.products && productType.products.length > 1
+            ? intl.formatMessage({ id: 'ProductType.someOptionsAvailable' })
+            : null}
+        </HelpText>
       </div>
       <Button
         css={css`
