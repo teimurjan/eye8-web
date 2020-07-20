@@ -7,13 +7,14 @@ import * as schemaValidator from 'src/components/SchemaValidator';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { useLazy } from 'src/hooks/useLazy';
 import { ICategoryService } from 'src/services/CategoryService';
-import { IContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
+import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
-export interface IProps extends AdminCategoriesStateContextValue, IntlStateContextValue {
+export interface IProps extends IntlStateContextValue {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: ICategoryService;
   history: History;
+  adminCategoriesState: AdminCategoriesStateContextValue['state'];
 }
 
 export interface IViewProps {
@@ -26,7 +27,7 @@ export interface IViewProps {
   close: () => void;
   availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   validate?: (values: object) => object | Promise<object>;
-  categories: AdminCategoriesStateContextValue['adminCategoriesState']['categories'];
+  categories: AdminCategoriesStateContextValue['state']['entities'];
 }
 
 export const CATEGORY_NAME_FIELD_KEY = 'name';
@@ -34,7 +35,12 @@ export const CATEGORY_NAME_FIELD_KEY = 'name';
 export const AdminCategoriesCreatePresenter: React.FC<IProps> = ({
   intlState,
   history,
-  adminCategoriesState: { getCategories, categories, addCategory, isListLoading: categoriesLoading },
+  adminCategoriesState: {
+    get: getCategories,
+    entities: categories,
+    add: addCategory,
+    isListLoading: categoriesLoading,
+  },
   service,
   View,
 }) => {

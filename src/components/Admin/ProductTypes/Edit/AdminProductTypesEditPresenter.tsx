@@ -13,20 +13,20 @@ import * as schemaValidator from 'src/components/SchemaValidator';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { useLazy } from 'src/hooks/useLazy';
 import { IProductTypeService } from 'src/services/ProductTypeService';
-import { IContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
+import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
 import { IContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
 import { IContextValue as AdminProductTypesStateContextValue } from 'src/state/AdminProductTypesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
 export interface IProps
-  extends AdminCategoriesStateContextValue,
-    AdminProductTypesStateContextValue,
+  extends AdminProductTypesStateContextValue,
     AdminFeatureTypesStateContextValue,
     IntlStateContextValue {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IProductTypeService;
   history: History;
   productTypeId: number;
+  adminCategoriesState: AdminCategoriesStateContextValue['state'];
 }
 
 export interface IViewProps {
@@ -47,7 +47,7 @@ export interface IViewProps {
   close: () => void;
   availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   validate?: (values: object) => object | Promise<object>;
-  categories: AdminCategoriesStateContextValue['adminCategoriesState']['categories'];
+  categories: AdminCategoriesStateContextValue['state']['entities'];
   featureTypes: AdminFeatureTypesStateContextValue['adminFeatureTypesState']['featureTypes'];
   initialValues: object;
 }
@@ -57,7 +57,7 @@ export const CATEGORY_NAME_FIELD_KEY = 'name';
 export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
   intlState,
   history,
-  adminCategoriesState: { getCategories, categories, isListLoading: categoriesLoading },
+  adminCategoriesState: { get: getCategories, entities: categories, isListLoading: categoriesLoading },
   adminFeatureTypesState: { getFeatureTypes, featureTypes, isListLoading: featureTypesLoading },
   adminProductTypesState: { setProductType: setProductTypeToState },
   intlState: { availableLocales },

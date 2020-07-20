@@ -19,7 +19,7 @@ const getErrorMessageID = (e: Error) => {
 export const AdminCategoriesDeleteContainer = () => {
   const { dependencies } = useDependencies();
   const {
-    adminCategoriesState: { deleteCategory },
+    state: { remove: deleteCategory },
   } = useAdminCategoriesState();
 
   const deleteEntity = React.useCallback(

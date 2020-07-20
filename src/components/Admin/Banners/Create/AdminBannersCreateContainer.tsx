@@ -14,7 +14,7 @@ export const AdminBannersCreateContainer = () => {
   const history = useHistory();
 
   const { dependencies } = useDependencies();
-  const { adminBannersState } = useAdminBannersState();
+  const { state: adminBannersState } = useAdminBannersState();
   const { intlState } = useIntlState();
 
   return (

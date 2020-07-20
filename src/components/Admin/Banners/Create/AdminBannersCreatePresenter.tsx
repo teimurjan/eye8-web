@@ -6,13 +6,14 @@ import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { useLazy } from 'src/hooks/useLazy';
 import { IBannerService } from 'src/services/BannerService';
-import { IContextValue as AdminBannersStateContextValue } from 'src/state/AdminBannersState';
+import { ContextValue as AdminBannersStateContextValue } from 'src/state/AdminBannersState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
-export interface IProps extends AdminBannersStateContextValue, IntlStateContextValue {
+export interface IProps extends IntlStateContextValue {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IBannerService;
   history: History;
+  adminBannersState: AdminBannersStateContextValue['state'];
 }
 
 export interface IViewProps {
@@ -45,7 +46,7 @@ export const BANNER_LINK_TEXT_FIELD_KEY = 'link_text';
 export const AdminBannersCreatePresenter: React.FC<IProps> = ({
   intlState,
   history,
-  adminBannersState: { addBanner },
+  adminBannersState: { add: addBanner },
   service,
   View,
 }) => {

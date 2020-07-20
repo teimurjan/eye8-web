@@ -8,14 +8,15 @@ import * as schemaValidator from 'src/components/SchemaValidator';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { useLazy } from 'src/hooks/useLazy';
 import { IBannerService } from 'src/services/BannerService';
-import { IContextValue as AdminBannersStateContextValue } from 'src/state/AdminBannersState';
+import { ContextValue as AdminBannersStateContextValue } from 'src/state/AdminBannersState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
-export interface IProps extends AdminBannersStateContextValue, IntlStateContextValue {
+export interface IProps extends IntlStateContextValue {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IBannerService;
   history: History;
   bannerId: number;
+  adminBannersState: AdminBannersStateContextValue['state'];
 }
 
 interface IFormValues {
@@ -53,7 +54,7 @@ export const BANNER_LINK_TEXT_FIELD_KEY = 'link_text';
 export const AdminBannersEditPresenter: React.FC<IProps> = ({
   intlState,
   history,
-  adminBannersState: { setBanner: setBannerToState },
+  adminBannersState: { set: setBannerToState },
   intlState: { availableLocales },
   service,
   View,

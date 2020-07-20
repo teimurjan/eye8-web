@@ -1,15 +1,16 @@
 import * as React from 'react';
 
 import { useDebounce } from 'src/hooks/useDebounce';
-import { IContextValue as AdminBannersContextValue } from 'src/state/AdminBannersState';
+import { ContextValue as AdminBannersStateContextValue } from 'src/state/AdminBannersState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
-export interface IProps {
+export interface IProps extends IntlStateContextValue {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
+  adminBannersState: AdminBannersStateContextValue['state'];
 }
 
 export interface IViewProps {
-  banners: AdminBannersContextValue['adminBannersState']['banners'];
+  banners: AdminBannersStateContextValue['state']['entities'];
   isDataLoaded: boolean;
   isLoading: boolean;
   locales: string[];
@@ -17,9 +18,9 @@ export interface IViewProps {
 
 export const AdminBannersListPresenter = ({
   View,
-  adminBannersState: { isListLoading, banners, getBanners, hasListLoaded },
+  adminBannersState: { isListLoading, entities: banners, get: getBanners, hasListLoaded },
   intlState: { availableLocales },
-}: IProps & AdminBannersContextValue & IntlStateContextValue) => {
+}: IProps) => {
   const isLoadingDebounced = useDebounce(isListLoading, 1000);
 
   React.useEffect(() => {

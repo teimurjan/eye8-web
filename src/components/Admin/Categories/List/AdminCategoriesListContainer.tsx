@@ -10,7 +10,7 @@ const View = injectIntl(AdminCategoriesListView);
 
 export const AdminCategoriesListContainer = () => {
   const { intlState } = useIntlState();
-  const { adminCategoriesState } = useAdminCategoriesState();
+  const { state: adminCategoriesState } = useAdminCategoriesState();
 
   return <AdminCategoriesListPresenter View={View} adminCategoriesState={adminCategoriesState} intlState={intlState} />;
 };

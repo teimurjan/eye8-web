@@ -10,7 +10,7 @@ const View = injectIntl(AdminBannersListView);
 
 export const AdminBannersListContainer = () => {
   const { intlState } = useIntlState();
-  const { adminBannersState } = useAdminBannersState();
+  const { state: adminBannersState } = useAdminBannersState();
 
   return <AdminBannersListPresenter View={View} adminBannersState={adminBannersState} intlState={intlState} />;
 };

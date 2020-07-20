@@ -7,7 +7,7 @@ import { useAdminBannersState } from 'src/state/AdminBannersState';
 export const AdminBannersDeleteContainer = () => {
   const { dependencies } = useDependencies();
   const {
-    adminBannersState: { deleteBanner },
+    state: { remove: deleteBanner },
   } = useAdminBannersState();
 
   const deleteEntity = React.useCallback(

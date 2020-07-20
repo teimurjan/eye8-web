@@ -14,7 +14,7 @@ export const AdminProductTypesEditContainer = () => {
   const params = useParams<{ id: string }>();
 
   const { dependencies } = useDependencies();
-  const { adminCategoriesState } = useAdminCategoriesState();
+  const { state: adminCategoriesState } = useAdminCategoriesState();
   const { adminFeatureTypesState } = useAdminFeatureTypesState();
   const { adminProductTypesState } = useAdminProductTypesState();
   const { intlState } = useIntlState();

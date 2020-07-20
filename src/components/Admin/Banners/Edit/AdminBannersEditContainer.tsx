@@ -12,7 +12,7 @@ export const AdminBannersEditContainer = () => {
   const params = useParams<{ id: string }>();
 
   const { dependencies } = useDependencies();
-  const { adminBannersState } = useAdminBannersState();
+  const { state: adminBannersState } = useAdminBannersState();
   const { intlState } = useIntlState();
 
   return (

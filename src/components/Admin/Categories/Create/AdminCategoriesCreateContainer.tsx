@@ -14,7 +14,7 @@ export const AdminCategoriesCreateContainer = () => {
   const history = useHistory();
 
   const { dependencies } = useDependencies();
-  const { adminCategoriesState } = useAdminCategoriesState();
+  const { state: adminCategoriesState } = useAdminCategoriesState();
   const { intlState } = useIntlState();
 
   return (
