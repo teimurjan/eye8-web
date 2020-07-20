@@ -47,7 +47,7 @@ export const Quantity = ({ count, allowedCount, onAddClick, onRemoveClick }: IPr
         </Button>
       </div>
       {count > allowedCount && (
-        <HelpText color="danger">
+        <HelpText color={HelpText.Color.Danger}>
           {intl.formatMessage({ id: 'Cart.onlySomeAvailable' }, { quantity: allowedCount })}
         </HelpText>
       )}

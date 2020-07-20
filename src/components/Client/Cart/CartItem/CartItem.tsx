@@ -72,7 +72,7 @@ export const CartItem = ({ product, count, onRemoveClick, onAddClick, promoCode 
       </div>
       <Quantity count={count} allowedCount={product.quantity} onAddClick={onAddClick} onRemoveClick={onRemoveClick} />
       {promoCode && promoCodeApplicable && (
-        <HelpText color="success">
+        <HelpText color={HelpText.Color.Success}>
           {intl.formatMessage(
             { id: 'Cart.promoCodeApplied' },
             {
@@ -88,7 +88,7 @@ export const CartItem = ({ product, count, onRemoveClick, onAddClick, promoCode 
         </HelpText>
       )}
       {promoCode && !promoCodeApplicable && (
-        <HelpText color="danger">
+        <HelpText color={HelpText.Color.Danger}>
           {intl.formatMessage({ id: 'Cart.promoCodeNotApplicable' }, { value: promoCode.value.toUpperCase() })}
         </HelpText>
       )}

@@ -9,6 +9,12 @@ import * as React from 'react';
 import { useIsTouch } from 'src/hooks/useIsTouch';
 import { useLazyInitialization } from 'src/hooks/useLazyInitialization';
 
+enum Weight {
+  Thin = 'thin',
+  Normal = 'normal',
+  Bold = 'bold',
+}
+
 interface IProps {
   className?: string;
   primary?: boolean;
@@ -17,13 +23,18 @@ interface IProps {
   onClick?: React.MouseEventHandler;
   onMouseEnter?: React.MouseEventHandler;
   active?: boolean;
-  thin?: boolean;
+  weight?: Weight;
   children: React.ReactNode;
   rel?: string;
   target?: string;
   plain?: boolean;
   noHoverOnTouch?: boolean;
   shallow?: boolean;
+}
+
+export interface AnchorComponent
+  extends React.ForwardRefExoticComponent<React.PropsWithoutRef<IProps> & React.RefAttributes<HTMLAnchorElement>> {
+  Weight: typeof Weight;
 }
 
 export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
@@ -36,7 +47,7 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
       onClick,
       onMouseEnter,
       active,
-      thin,
+      weight,
       rel,
       target,
       plain,
@@ -75,7 +86,7 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
         ref={ref}
         rel={rel}
         target={target}
-        className={classNames(className, { thin })}
+        className={classNames(className, weight)}
         href={as ? as : href || '#'}
         onClick={modifiedOnClick}
         onMouseEnter={onMouseEnter}
@@ -86,7 +97,6 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
           transition: color 300ms;
           position: relative;
           display: inline-block;
-          font-weight: bold;
 
           &:hover {
             color: ${hoverColor} !important;
@@ -114,7 +124,15 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
           }
 
           &.thin {
+            font-weight: 400;
+          }
+
+          &.normal {
             font-weight: 500;
+          }
+
+          &.bold {
+            font-weight: 600;
           }
         `}
       >
@@ -141,4 +159,6 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
       </div>
     );
   },
-);
+) as AnchorComponent;
+
+Anchor.Weight = Weight;

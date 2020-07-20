@@ -7,6 +7,7 @@ import { useIntl } from 'react-intl';
 
 import { IProductTypeListResponseItem } from 'src/api/ProductTypeAPI';
 import { Button } from 'src/components/client-ui/Button/Button';
+import { HelpText } from 'src/components/client-ui/HelpText/HelpText';
 import { Image } from 'src/components/client-ui/Image/Image';
 import { LinkPassingProps } from 'src/components/client-ui/LinkPassingProps/LinkPassingProps';
 import { Tag } from 'src/components/client-ui/Tag/Tag';
@@ -72,12 +73,22 @@ export const ProductTypeCard = ({ productType }: IProps) => {
       >
         <Title
           css={css`
-            margin: 10px 0;
+            margin: 10px 0 0 0;
           `}
           size={6}
+          tag={3}
         >
           {productType.name}
         </Title>
+        {productType.products && productType.products.length > 1 && (
+          <HelpText
+            css={css`
+              margin: 0 0 10px 0;
+            `}
+          >
+            {intl.formatMessage({ id: 'ProductType.someOptionsAvailable' })}
+          </HelpText>
+        )}
       </div>
       <Button
         css={css`

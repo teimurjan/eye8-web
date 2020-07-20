@@ -30,7 +30,17 @@ const getLocaleDataScript = locale => {
   return localeDataCache.get(lang);
 };
 
+// Use this function if you need locale detection base on the browser's language
+// eslint-disable-next-line no-unused-vars
 const detectLocale = req => {
+  const negotiator = new Negotiator(req);
+  const negotiatedLanguage = negotiator.language(supportedLanguages);
+
+  return negotiatedLanguage || DEFAULT_LOCALE;
+};
+
+const DEFAULT_LOCALE = 'ru';
+const getRequestLocale = req => {
   const cookieLocale = cookie.parse(req.headers.cookie || '').locale;
   if (cookieLocale) {
     const supportedCookieLocale = supportedLanguages.find(l => l === cookieLocale);
@@ -39,10 +49,7 @@ const detectLocale = req => {
     }
   }
 
-  const negotiator = new Negotiator(req);
-  const negotiatedLanguage = negotiator.language(supportedLanguages);
-
-  return negotiatedLanguage || 'ru';
+  return DEFAULT_LOCALE;
 };
 
 const routesMappings = [
@@ -62,7 +69,7 @@ const routesMappings = [
 
 app.prepare().then(() => {
   createServer((req, res) => {
-    const detectedLocale = detectLocale(req);
+    const detectedLocale = getRequestLocale(req);
     req.locale = detectedLocale;
     req.localeDataScript = getLocaleDataScript(detectedLocale);
 

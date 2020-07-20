@@ -1,5 +1,8 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import { faGlobe, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTheme } from 'emotion-theming';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 
@@ -33,6 +36,14 @@ const Trigger = React.forwardRef<HTMLDivElement, PopoverTriggerProps>((props, re
       onClick={onClick}
     >
       {intl.formatMessage({ id: 'AdminMenu.changeLangaugeLinkText' })}
+      <span
+        css={css`
+          margin-left: 7.5px;
+          line-height: 1;
+        `}
+      >
+        <FontAwesomeIcon icon={faGlobe} />
+      </span>
     </div>
   );
 });
@@ -41,23 +52,36 @@ export const LanguageDropdownView = React.forwardRef<HTMLDivElement, IProps>(
   (
     { className, locales, changeLocale, currentLocale, TriggerComponent = Trigger, openOnHover, placement, offset },
     ref,
-  ) => (
-    <Popover<HTMLDivElement>
-      TriggerComponent={TriggerComponent}
-      openOnHover={openOnHover}
-      placement={placement}
-      offset={offset}
-    >
-      <Popover.Content ref={ref} className={className}>
-        {locales.map(locale => {
-          const onClick = () => changeLocale(locale);
-          return (
-            <Anchor key={locale} active={locale === currentLocale} onClick={onClick} thin>
-              {nameOfLocale[locale] || locale}
-            </Anchor>
-          );
-        })}
-      </Popover.Content>
-    </Popover>
-  ),
+  ) => {
+    const theme = useTheme<ClientUITheme>();
+    return (
+      <Popover<HTMLDivElement>
+        TriggerComponent={TriggerComponent}
+        openOnHover={openOnHover}
+        placement={placement}
+        offset={offset}
+      >
+        <Popover.Content ref={ref} className={className}>
+          {locales.map(locale => {
+            const onClick = () => changeLocale(locale);
+            return (
+              <Anchor key={locale} onClick={onClick} weight={Anchor.Weight.Thin}>
+                {nameOfLocale[locale] || locale}
+                {locale === currentLocale && (
+                  <span
+                    css={css`
+                      margin-left: 7.5px;
+                      color: ${theme.successColor};
+                    `}
+                  >
+                    <FontAwesomeIcon icon={faCheck} />
+                  </span>
+                )}
+              </Anchor>
+            );
+          })}
+        </Popover.Content>
+      </Popover>
+    );
+  },
 );

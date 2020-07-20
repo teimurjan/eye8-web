@@ -55,6 +55,7 @@ const CategoryMenuItem = ({
         `}
         as={as}
         href="/categories/[slug]/products"
+        weight={Anchor.Weight.Thin}
         primary
       >
         {name}

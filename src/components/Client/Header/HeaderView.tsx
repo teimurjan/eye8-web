@@ -9,12 +9,15 @@ import { useIntl } from 'react-intl';
 
 import { Container } from 'src/components/admin-ui/Container/Container';
 import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
+import { Divider } from 'src/components/client-ui/Divider/Divider';
 import { Drawer } from 'src/components/client-ui/Drawer/Drawer';
+import { HelpText } from 'src/components/client-ui/HelpText/HelpText';
 import { Menu } from 'src/components/client-ui/Menu/Menu';
 import { Navbar } from 'src/components/client-ui/Navbar/Navbar';
 import { Popover } from 'src/components/client-ui/Popover/Popover';
 import { TriggerHoverProps as PopoverTriggerProps } from 'src/components/client-ui/Popover/Popover';
 import { CartContainer } from 'src/components/Client/Cart/CartContainer';
+import { LanguageDropdownContainer as LanguageDropdown } from 'src/components/Client/LanguageDropdown/LanguageDropdownContainer';
 import { NavContainer } from 'src/components/Client/Nav/NavContainer';
 import { SearchContainer } from 'src/components/Client/Search/SearchContainer';
 import { UserDropdownContainer as UserDropdown } from 'src/components/Client/UserDropdown/UserDropdownContainer';
@@ -27,7 +30,7 @@ import { withPublicURL } from 'src/utils/url';
 const CategoriesTrigger = React.forwardRef<HTMLAnchorElement, PopoverTriggerProps>((props, ref) => {
   const intl = useIntl();
   return (
-    <Anchor ref={ref} {...props}>
+    <Anchor ref={ref} weight={Anchor.Weight.Bold} {...props}>
       {intl.formatMessage({ id: 'Nav.categories.title' })}
     </Anchor>
   );
@@ -39,13 +42,18 @@ const DesktopNav = () => {
 
   return (
     <>
-      <Popover TriggerComponent={CategoriesTrigger} offset={[0, 24]} openOnHover>
+      <Popover
+        css={css`
+          box-shadow: none;
+        `}
+        TriggerComponent={CategoriesTrigger}
+        offset={[0, 22]}
+        openOnHover
+      >
         <Popover.Content
           css={css`
             width: 100vw;
             background: ${theme.backgroundSecondaryColor};
-            border-bottom: 1px solid ${theme.borderColor};
-            box-shadow: none;
           `}
         >
           <Container>
@@ -53,7 +61,9 @@ const DesktopNav = () => {
           </Container>
         </Popover.Content>
       </Popover>
-      <Anchor href="/how-it-works">{intl.formatMessage({ id: 'HowItWorks.title' })}</Anchor>
+      <Anchor href="/how-it-works" weight={Anchor.Weight.Bold}>
+        {intl.formatMessage({ id: 'HowItWorks.title' })}
+      </Anchor>
     </>
   );
 };
@@ -76,12 +86,30 @@ const MobileNav = () => {
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item>
-          <Anchor href="/how-it-works" primary>
+          <Anchor href="/how-it-works" primary weight={Anchor.Weight.Bold}>
             {intl.formatMessage({ id: 'HowItWorks.title' })}
           </Anchor>
         </Menu.Item>
       </Menu.List>
     </Menu>
+  );
+};
+
+const PreHeader = () => {
+  return (
+    <Container>
+      <div
+        css={css`
+          display: flex;
+          justify-content: flex-end;
+          padding: 5px 0;
+        `}
+      >
+        <HelpText color={HelpText.Color.Gray}>
+          <LanguageDropdown openOnHover placement="bottom-end" offset={[0, 0]} />
+        </HelpText>
+      </div>
+    </Container>
   );
 };
 
@@ -96,82 +124,94 @@ export const HeaderView = () => {
 
   return (
     <Navbar>
-      <Container>
-        <div
+      <div
+        css={css`
+          flex: 1;
+        `}
+      >
+        <PreHeader />
+        <Divider
           css={css`
-            display: flex;
-            width: 100%;
+            margin: 0;
           `}
-        >
-          {lazyIsMobile && isInitialized && (
-            <>
-              <span
-                onClick={openMobileMenu}
+          color={Divider.Color.lightGray}
+        />
+        <Container>
+          <div
+            css={css`
+              display: flex;
+            `}
+          >
+            {lazyIsMobile && isInitialized && (
+              <>
+                <span
+                  onClick={openMobileMenu}
+                  css={css`
+                    padding: 20px 10px;
+                    margin-left: -10px;
+                    align-self: center;
+                  `}
+                >
+                  <FontAwesomeIcon icon={faBars} />
+                </span>
+                <Drawer
+                  css={css`
+                    & ~ span > .fa-times {
+                      color: ${theme.textBrightColor};
+                    }
+                  `}
+                  isOpen={isMobileNavOpen}
+                  fromSide="left"
+                  close={closeMobileMenu}
+                  onClick={closeMobileMenu}
+                  backdrop
+                  fixed
+                >
+                  <MobileNav />
+                </Drawer>
+              </>
+            )}
+            <Link href="/">
+              <a
                 css={css`
-                  padding: 20px 10px;
-                  margin-left: -10px;
-                  align-self: center;
+                  background: transparent !important;
                 `}
+                href="/"
+                className="navbar-item"
               >
-                <FontAwesomeIcon icon={faBars} />
-              </span>
-              <Drawer
-                css={css`
-                  & ~ span > .fa-times {
-                    color: ${theme.textBrightColor};
-                  }
-                `}
-                isOpen={isMobileNavOpen}
-                fromSide="left"
-                close={closeMobileMenu}
-                onClick={closeMobileMenu}
-                backdrop
-                fixed
-              >
-                <MobileNav />
-              </Drawer>
-            </>
-          )}
-          <Link href="/">
-            <a
-              css={css`
-                background: transparent !important;
-              `}
-              href="/"
-              className="navbar-item"
-            >
-              <img
-                alt={intl.formatMessage({ id: 'common.logo' })}
-                css={css`
-                  max-height: 3.5rem !important;
+                <img
+                  alt={intl.formatMessage({ id: 'common.logo' })}
+                  css={css`
+                    max-height: 50px !important;
 
-                  @media ${mediaQueries.maxWidth768} {
-                    max-height: 2.5rem !important;
-                    padding-top: 0;
-                  }
-                `}
-                src={withPublicURL('img/icons/icon-192x192.png')}
-              />
-            </a>
-          </Link>
-          <Navbar.Section
-            css={css`
-              margin-left: 10px;
-            `}
-          >
-            {!lazyIsMobile && isInitialized && <DesktopNav />}
-          </Navbar.Section>
-          <Navbar.Section
-            css={css`
-              margin-left: auto;
-            `}
-          >
-            <SearchContainer />
-            <UserDropdown />
-            <CartContainer />
-          </Navbar.Section>
-        </div>
-      </Container>
+                    @media ${mediaQueries.maxWidth768} {
+                      max-height: 2.5rem !important;
+                      padding-top: 0;
+                    }
+                  `}
+                  src={withPublicURL('img/icons/icon-192x192.png')}
+                />
+              </a>
+            </Link>
+            <Navbar.Section
+              css={css`
+                margin-left: 10px;
+              `}
+            >
+              {!lazyIsMobile && isInitialized && <DesktopNav />}
+            </Navbar.Section>
+            <Navbar.Section
+              css={css`
+                margin-left: auto;
+              `}
+            >
+              <SearchContainer />
+              <UserDropdown />
+              <CartContainer />
+            </Navbar.Section>
+          </div>
+        </Container>
+      </div>
     </Navbar>
   );
 };

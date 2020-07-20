@@ -155,7 +155,7 @@ const FirstStep: React.FC<IProps> = ({
       <Button color="dark" css={buttonCSS} disabled={isAnyProductCountNotAllowed} onClick={goToNextStep}>
         {intl.formatMessage({ id: 'Cart.order' })}
       </Button>
-      {error && <HelpText color="danger">{intl.formatMessage({ id: error })}</HelpText>}
+      {error && <HelpText color={HelpText.Color.Danger}>{intl.formatMessage({ id: error })}</HelpText>}
     </div>
   );
 };
@@ -221,7 +221,7 @@ const InnerForm = ({
           text-align: center;
         `}
       >
-        {error && <HelpText color="danger">{intl.formatMessage({ id: error })}</HelpText>}
+        {error && <HelpText color={HelpText.Color.Danger}>{intl.formatMessage({ id: error })}</HelpText>}
       </div>
     </form>
   );
@@ -300,7 +300,7 @@ export const CartView: React.FC<IProps> = props => {
             {cartItemsCount}
           </span>
         )}
-        <Anchor onClick={open} noHoverOnTouch>
+        <Anchor onClick={open} noHoverOnTouch weight={Anchor.Weight.Bold}>
           <CartTrigger />
         </Anchor>
       </div>

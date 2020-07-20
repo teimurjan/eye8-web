@@ -173,7 +173,7 @@ export const UnderlinedInput = React.forwardRef<HTMLInputElement, IProps>(
           {append}
         </div>
         <HelpText
-          color="danger"
+          color={HelpText.Color.Danger}
           css={css`
             display: block;
             max-height: 1px;

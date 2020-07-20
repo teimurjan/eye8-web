@@ -71,14 +71,16 @@ const InnerForm = ({
         <Button css={authSubmitButtonCSS} color="primary" loading={submitting} type="submit">
           {intl.formatMessage({ id: 'LoginForm.submitButton.text' })}
         </Button>
-        <Anchor onClick={openSignup}>{intl.formatMessage({ id: 'LoginForm.signUpLink' })}</Anchor>
+        <Anchor onClick={openSignup} weight={Anchor.Weight.Normal}>
+          {intl.formatMessage({ id: 'LoginForm.signUpLink' })}
+        </Anchor>
       </div>
       <div
         css={css`
           text-align: center;
         `}
       >
-        {globalError && <HelpText color="danger">{intl.formatMessage({ id: globalError })}</HelpText>}
+        {globalError && <HelpText color={HelpText.Color.Danger}>{intl.formatMessage({ id: globalError })}</HelpText>}
       </div>
     </form>
   );

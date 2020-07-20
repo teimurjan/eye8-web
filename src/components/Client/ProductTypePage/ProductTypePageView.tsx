@@ -50,9 +50,13 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
   const theme = useTheme<ClientUITheme>();
   const [activeImageIndex, setActiveImageIndex] = React.useState(0);
 
-  const allImages = products.reduce((acc, product) => [...acc, ...product.images], [
-    ...(productType ? [productType.image] : []),
-  ]);
+  const allImages = products.reduce(
+    (acc, product) => {
+      const productImages = product.images.map(image => ({ productId: product.id, image }));
+      return [...acc, ...productImages];
+    },
+    [...(productType ? [{ productId: NaN, image: productType.image }] : [])],
+  );
 
   const allFeatureTypes =
     products.length > 0 ? products[0].feature_values.map(featureValue => featureValue.feature_type) : [];
@@ -81,13 +85,35 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
   React.useEffect(() => {
     if (matchingProduct) {
       if (matchingProduct.images[0]) {
-        setActiveImageIndex(allImages.indexOf(matchingProduct.images[0]));
+        setActiveImageIndex(allImages.findIndex(image => image.productId === matchingProduct.id));
       } else {
         setActiveImageIndex(0);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matchingProduct?.id]);
+
+  const onImageChange = React.useCallback(
+    (i: number) => {
+      setActiveImageIndex(i);
+      if (allImages[i]) {
+        const { productId } = allImages[i];
+        const product = products.find(({ id }) => id === productId) ?? products[0];
+
+        if (product) {
+          const chosenFeatureValues = product.feature_values.reduce((acc, featureValue) => {
+            return {
+              ...acc,
+              [featureValue.feature_type.id]: featureValue.id,
+            };
+          }, {});
+
+          setChosenFeatureValues(chosenFeatureValues);
+        }
+      }
+    },
+    [allImages, products],
+  );
 
   const onFeatureValueChange = React.useCallback(
     (featureTypeId: number, featureValueId?: number) => {
@@ -165,9 +191,10 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
             `}
           >
             <ProductTypeImageCarousel
-              images={allImages.map(formatMediaURL)}
+              images={allImages}
+              getImageProps={image => ({ src: formatMediaURL(image.image), alt: image.productId.toString() })}
               activeImageIndex={activeImageIndex}
-              setActiveImageIndex={setActiveImageIndex}
+              onChange={onImageChange}
             />
           </div>
           <div
@@ -315,7 +342,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                 ))}
               </div>
             )}
-            <Anchor primary href="/how-it-works">
+            <Anchor primary href="/how-it-works" weight={Anchor.Weight.Bold}>
               {intl.formatMessage({ id: 'HowItWorks.help' })}
             </Anchor>
           </div>

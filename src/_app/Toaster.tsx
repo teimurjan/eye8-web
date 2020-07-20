@@ -10,15 +10,21 @@ export const Toaster = () => (
     {({ css: css_ }) => (
       <ToastContainer
         className={css_`
+          &:not(:empty) {
+            padding: 10px 20px;
+          }
+
           position: fixed;
           top: 0;
           right: 0;
-          padding: 10px 20px;
           z-index: 200;
 
           @media ${mediaQueries.maxWidth768} {
             width: 100%;
-            padding: 10px;
+
+            &:not(:empty) {
+              padding: 10px;
+            }
           }
         `}
         Component={MessageToast}

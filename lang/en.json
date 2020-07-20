@@ -299,5 +299,6 @@
   "errors.brokenImage": "No image avaiable",
   "cacheBuster.refresh": "The new version of Eye8 is available!",
   "cacheBuster.refresh.action": "Update",
-  "AdminPromoCodes.amount": "Amount"
+  "AdminPromoCodes.amount": "Amount",
+  "ProductType.someOptionsAvailable": "Other options available"
 }

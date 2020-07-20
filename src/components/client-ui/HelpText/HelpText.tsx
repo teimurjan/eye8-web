@@ -4,11 +4,17 @@ import classNames from 'classnames';
 import { useTheme } from 'emotion-theming';
 import React from 'react';
 
-export interface IProps extends React.HTMLAttributes<HTMLSpanElement> {
-  color?: 'default' | 'danger' | 'success';
+enum Color {
+  Danger = 'danger',
+  Success = 'success',
+  Gray = 'gray',
 }
 
-export const HelpText: React.FC<IProps> = ({ children, className, color, ...props }) => {
+export interface IProps extends React.HTMLAttributes<HTMLSpanElement> {
+  color?: Color;
+}
+
+export const HelpText = ({ children, className, color, ...props }: IProps) => {
   const theme = useTheme<ClientUITheme>();
   return (
     <small
@@ -20,6 +26,10 @@ export const HelpText: React.FC<IProps> = ({ children, className, color, ...prop
         &.success {
           color: ${theme.successColor};
         }
+
+        &.gray {
+          color: ${theme.textSecondaryColor};
+        }
       `}
       className={classNames(className, color)}
       {...props}
@@ -28,3 +38,5 @@ export const HelpText: React.FC<IProps> = ({ children, className, color, ...prop
     </small>
   );
 };
+
+HelpText.Color = Color;

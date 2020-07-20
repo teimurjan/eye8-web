@@ -84,6 +84,7 @@ export interface IProps<T> {
   closeOnClick?: boolean;
   onEnter?: () => void;
   onEntered?: () => void;
+  className?: string;
 }
 
 export const Popover = <T extends HTMLElement>({
@@ -103,6 +104,7 @@ export const Popover = <T extends HTMLElement>({
   closeOnClick = false,
   onEnter,
   onEntered,
+  className,
 }: IProps<T>) => {
   const popoverRoot = safeDocument(d => d.getElementById('popoverRoot'), null);
 
@@ -200,6 +202,7 @@ export const Popover = <T extends HTMLElement>({
                 {...popper.attributes.popper}
               >
                 <div
+                  className={className}
                   css={css`
                     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15), 0 8px 8px 0 rgba(0, 0, 0, 0.05);
 

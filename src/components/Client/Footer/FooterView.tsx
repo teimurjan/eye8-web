@@ -57,7 +57,13 @@ export const FooterView = () => {
               display: flex;
             `}
           >
-            <Anchor plain href="https://www.instagram.com/eye8_collection/" rel="noopener noreferrer" target="_blank">
+            <Anchor
+              plain
+              href="https://www.instagram.com/eye8_collection/"
+              rel="noopener noreferrer"
+              target="_blank"
+              weight={Anchor.Weight.Bold}
+            >
               <WithIcon icon={faInstagram}>Instagram</WithIcon>
             </Anchor>
           </div>

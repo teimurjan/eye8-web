@@ -14,6 +14,7 @@ declare interface AdminUITheme {
 declare interface ClientUITheme {
   headerBackgroundColor: string;
   borderColor: string;
+  borderLightGrayColor: string;
   buttonDefaultColor: string;
   buttonDefaultBorderColor: string;
   buttonDefaultHoverColor: string;

@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
-import * as React from 'react';
 
 import { Carousel, CarouselItem } from 'src/components/client-ui/Carousel/Carousel';
 import { mediaQueries } from 'src/styles/media';
@@ -10,13 +9,19 @@ const CONTROL_IMAGE_SIZE = '8vw';
 const CONTROL_IMAGE_MOBILE_SIZE = '25vw';
 const MAX_CONTROL_IMAGE_SIZE = '100px';
 
-interface IProps {
-  images: string[];
+interface IProps<T> {
+  images: T[];
+  getImageProps: (image: T) => { src: string; alt: string };
   activeImageIndex: number;
-  setActiveImageIndex: (index: number) => void;
+  onChange: (index: number) => void;
 }
 
-export const ProductTypeImageCarousel: React.FC<IProps> = ({ images, activeImageIndex, setActiveImageIndex }) => {
+export const ProductTypeImageCarousel = <T extends any = string>({
+  images,
+  activeImageIndex,
+  onChange,
+  getImageProps,
+}: IProps<T>) => {
   const theme = useTheme<ClientUITheme>();
   return (
     <div
@@ -25,26 +30,29 @@ export const ProductTypeImageCarousel: React.FC<IProps> = ({ images, activeImage
       `}
     >
       <Carousel activeIndex={activeImageIndex}>
-        {images.map(image => (
-          <CarouselItem key={image}>
-            <div
-              css={css`
-                display: flex !important;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
-                height: 100%;
-
-                img {
+        {images.map(image => {
+          const { src, alt } = getImageProps(image);
+          return (
+            <CarouselItem key={src}>
+              <div
+                css={css`
+                  display: flex !important;
+                  align-items: center;
+                  justify-content: center;
                   width: 100%;
                   height: 100%;
-                }
-              `}
-            >
-              <img src={image} alt={image} />
-            </div>
-          </CarouselItem>
-        ))}
+
+                  img {
+                    width: 100%;
+                    height: 100%;
+                  }
+                `}
+              >
+                <img src={src} alt={alt} />
+              </div>
+            </CarouselItem>
+          );
+        })}
       </Carousel>
       <div
         css={css`
@@ -56,23 +64,25 @@ export const ProductTypeImageCarousel: React.FC<IProps> = ({ images, activeImage
         `}
       >
         {images.map(image => {
+          const { src, alt } = getImageProps(image);
+
           const currentImageIndex = images.indexOf(image);
           const isActive = currentImageIndex === activeImageIndex;
-          const onImageClick = () => setActiveImageIndex(currentImageIndex);
+          const onImageClick = () => onChange(currentImageIndex);
 
           return (
             <div
-              key={image}
+              key={src}
               onClick={onImageClick}
               className={isActive ? 'active' : undefined}
               css={css`
                 cursor: pointer;
                 margin: 2.5px;
-                border: 1px solid transparent;
+                border: 5px solid transparent;
 
                 &.active,
                 &:hover {
-                  border-color: ${theme.borderColor};
+                  border-color: ${theme.primaryColor};
                 }
 
                 &:first-child {
@@ -99,7 +109,8 @@ export const ProductTypeImageCarousel: React.FC<IProps> = ({ images, activeImage
                   width: 100%;
                   height: 100%;
                 `}
-                {...{ src: image, alt: image }}
+                src={src}
+                alt={alt}
               />
             </div>
           );

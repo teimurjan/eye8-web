@@ -298,5 +298,6 @@
   "errors.brokenImage": "Картинка недоступна",
   "cacheBuster.refresh": "Доступна новая версия Eye8!",
   "cacheBuster.refresh.action": "Обновить",
-  "AdminPromoCodes.amount": "Сумма"
+  "AdminPromoCodes.amount": "Сумма",
+  "ProductType.someOptionsAvailable": "Доступно несколько вариантов"
 }

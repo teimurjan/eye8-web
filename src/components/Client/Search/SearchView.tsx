@@ -127,7 +127,7 @@ export const SearchView: React.FC<IProps> = ({
 
   return (
     <>
-      <Anchor onClick={open} noHoverOnTouch>
+      <Anchor onClick={open} noHoverOnTouch weight={Anchor.Weight.Bold}>
         <SearchTrigger />
       </Anchor>
       <Drawer

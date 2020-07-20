@@ -16,7 +16,10 @@ class DefaultTheme implements AdminUITheme, ClientUITheme {
   public successColor = '#73a942';
   public infoColor = '#0077b6';
   public dangerColor = '#e71d36';
+  public lightGrayColor = '#e5e5e5';
+  // - border
   public borderColor = '#1e1e1c';
+  public borderLightGrayColor = this.lightGrayColor;
   // - button
   // -- default
   public buttonDefaultColor = '#1e1e1c';
@@ -46,14 +49,14 @@ class DefaultTheme implements AdminUITheme, ClientUITheme {
   public backgroundDarkColor = '#000';
   public backgroundDarkHoverColor = '#222';
   public backgroundSecondaryColor = '#f0ebe3';
-  public backgroundGrayColor = '#e5e5e5';
+  public backgroundGrayColor = this.lightGrayColor;
   public backgroundDarkGrayColor = color(this.backgroundGrayColor)
     .darken(0.2)
     .hex();
   // - text
   public headerBackgroundColor = '#fff';
   public textColor = '#1e1e1c';
-  public textFadedColor = color('#e5e5e5')
+  public textFadedColor = color(this.lightGrayColor)
     .darken(0.1)
     .hex();
   public textSecondaryColor = '#606060';

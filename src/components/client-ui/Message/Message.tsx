@@ -53,9 +53,9 @@ export const Message: React.FC<IProps> = ({
         <span
           css={css`
             position: absolute;
-            top: 0;
-            right: 5px;
-            padding: 2.5px 5px;
+            top: -2.5px;
+            right: 0;
+            padding: 5px 10px;
             cursor: pointer;
             color: inherit;
 
