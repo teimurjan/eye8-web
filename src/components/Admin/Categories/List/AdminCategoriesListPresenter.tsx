@@ -1,15 +1,16 @@
 import * as React from 'react';
 
 import { useDebounce } from 'src/hooks/useDebounce';
-import { IContextValue as AdminCategoriesContextValue } from 'src/state/AdminCategoriesState';
+import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
+  adminCategoriesState: AdminCategoriesStateContextValue['state'];
 }
 
 export interface IViewProps {
-  categories: AdminCategoriesContextValue['adminCategoriesState']['categories'];
+  categories: AdminCategoriesStateContextValue['state']['entities'];
   isDataLoaded: boolean;
   isLoading: boolean;
   locales: string[];
@@ -17,21 +18,21 @@ export interface IViewProps {
 
 export const AdminCategoriesListPresenter = ({
   View,
-  adminCategoriesState: { isListLoading, categories, getCategories, hasListLoaded },
+  adminCategoriesState: { isListLoading, entities, get, hasListLoaded },
   intlState: { availableLocales },
-}: IProps & AdminCategoriesContextValue & IntlStateContextValue) => {
+}: IProps & IntlStateContextValue) => {
   const isLoadingDebounced = useDebounce(isListLoading, 1000);
 
   React.useEffect(() => {
-    getCategories();
-  }, [getCategories]);
+    get();
+  }, [get]);
 
   return (
     <View
       isDataLoaded={hasListLoaded}
       isLoading={isLoadingDebounced}
       locales={availableLocales.map(({ name }) => name)}
-      categories={categories}
+      categories={entities}
     />
   );
 };

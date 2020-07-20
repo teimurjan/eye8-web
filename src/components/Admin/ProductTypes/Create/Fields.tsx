@@ -13,7 +13,7 @@ import { Tag } from 'src/components/admin-ui/Tag/Tag';
 import { Textarea } from 'src/components/admin-ui/Textarea/Textarea';
 import { IntlField, IProps as IIntlFieldProps } from 'src/components/Admin/IntlField';
 import { WYSIWYG } from 'src/components/client-ui/WYSIWYG/WYSIWYG';
-import { IContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
+import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
 import { IContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 import { arePropsEqual, lengthCompare, defaultCompare } from 'src/utils/propEquality';
@@ -72,7 +72,7 @@ const getFeatureTypesSelectRenderer = (
 );
 
 interface ICategoriesSelectProps extends FieldRenderProps<string[]> {
-  categories: AdminCategoriesStateContextValue['adminCategoriesState']['categories'];
+  categories: AdminCategoriesStateContextValue['state']['entities'];
 }
 
 const CategoriesSelect = ({ categories, input, meta }: ICategoriesSelectProps) => {
@@ -118,11 +118,9 @@ const CategoriesSelect = ({ categories, input, meta }: ICategoriesSelectProps) =
   );
 };
 
-const getCategoriesSelectRenderer = (
-  categories: AdminCategoriesStateContextValue['adminCategoriesState']['categories'],
-) => (fieldRenderProps: FieldRenderProps<string[]>) => (
-  <CategoriesSelect categories={categories} {...fieldRenderProps} />
-);
+const getCategoriesSelectRenderer = (categories: AdminCategoriesStateContextValue['state']['entities']) => (
+  fieldRenderProps: FieldRenderProps<string[]>,
+) => <CategoriesSelect categories={categories} {...fieldRenderProps} />;
 
 const ImageField = ({ input, meta }: FieldRenderProps<File>) => {
   const intl = useIntl();
@@ -209,7 +207,7 @@ const InstagramLinksField = ({ input, meta }: FieldRenderProps<string[]>) => {
 
 export interface IFieldsProps {
   availableLocales: IntlStateContextValue['intlState']['availableLocales'];
-  categories: AdminCategoriesStateContextValue['adminCategoriesState']['categories'];
+  categories: AdminCategoriesStateContextValue['state']['entities'];
   featureTypes: AdminFeatureTypesStateContextValue['adminFeatureTypesState']['featureTypes'];
   nameFieldKey: string;
   descriptionFieldKey: string;

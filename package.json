@@ -1,6 +1,6 @@
 {
   "name": "eye8-web",
-  "version": "1.5.13",
+  "version": "1.5.14",
   "private": true,
   "repository": {
     "type": "git",
@@ -116,7 +116,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
+      "pre-commit": "tsc && lint-staged",
       "post-commit": "./next-tag.sh"
     }
   },
@@ -124,7 +124,7 @@
     "./**/*.{ts,tsx,js,jsx,json}": [
       "npm run prettier"
     ],
-    "./src/**/*.{ts,tsx,js,jsx": [
+    "./src/**/*.{ts,tsx,js,jsx}": [
       "npm run lint:fix",
       "npm run lint"
     ]
