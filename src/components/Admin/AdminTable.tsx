@@ -8,9 +8,13 @@ import * as React from 'react';
 import { IntlShape } from 'react-intl';
 
 import { ControlledPagination } from 'src/components/admin-ui/ControlledPagination/ControlledPagination';
+import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextField';
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
 import { Table } from 'src/components/admin-ui/Table/Table';
+import { Title } from 'src/components/admin-ui/Title/Title';
 import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout';
+import { useBoolean } from 'src/hooks/useBoolean';
+import { useDebounce } from 'src/hooks/useDebounce';
 import { mediaQueries } from 'src/styles/media';
 import { formatMediaURL } from 'src/utils/url';
 
@@ -109,6 +113,7 @@ interface IProps<T> {
   hideSubheader?: boolean;
   hideDelete?: boolean;
   hideEdit?: boolean;
+  search?: (query: string) => Promise<T[]>;
 }
 
 const defaultRenderer = new DefaultRenderer();
@@ -127,99 +132,147 @@ export const AdminTable = <T extends { id: number }>({
   hideSubheader = false,
   hideDelete = false,
   hideEdit = false,
+  search,
 }: IProps<T> & { intl: IntlShape }) => {
-  if (isLoading) {
-    return <LoaderLayout />;
-  }
+  const { value: isSearching, setPositive: setSearching, setNegative: setIdle } = useBoolean();
+  const [error, setError] = React.useState<string | undefined>(undefined);
+  const [searchValue, setSearchValue] = React.useState('');
+  const debouncedSearchValue = useDebounce(searchValue, 500);
+  const onSearchChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
+    e => setSearchValue(e.currentTarget.value),
+    [],
+  );
+  const [searchResults, setSearchResults] = React.useState<T[]>([]);
 
-  if (entities.length === 0 && isDataLoaded) {
-    return renderNoData();
-  }
+  React.useEffect(() => {
+    (async () => {
+      if (search && debouncedSearchValue.length > 0) {
+        try {
+          setSearching();
+          setSearchResults(await search(debouncedSearchValue));
+        } catch (e) {
+          setError('errors.common');
+        } finally {
+          setIdle();
+        }
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearchValue]);
 
-  return (
-    <React.Fragment>
-      <Table className={classNames('is-bordered', 'is-striped', 'is-narrow', 'is-hoverable', 'is-fullwidth')}>
-        <Table.Head>
-          <Table.Row>
-            {React.Children.map(children, ({ props: { title, key_, renderer } }) =>
-              (renderer || defaultRenderer).renderHeader(title, {
-                colKey: key_ as string,
-                componentKey: `head-cell-${key_}`,
-              }),
-            )}
-            <Table.HeadCell key="head-cell-actions">{intl.formatMessage({ id: 'common.actions' })}</Table.HeadCell>
-          </Table.Row>
-          {!hideSubheader && (
+  const renderContent = () => {
+    if (isLoading || isSearching) {
+      return <LoaderLayout />;
+    }
+
+    const isEmpty = entities.length === 0 && isDataLoaded;
+    const isSearchResultsEmpty = debouncedSearchValue.length > 0 && !isSearching && searchResults.length === 0;
+    if (isEmpty || isSearchResultsEmpty) {
+      return renderNoData();
+    }
+
+    if (error) {
+      return <Title size={4}>{intl.formatMessage({ id: error })}</Title>;
+    }
+
+    return (
+      <>
+        <Table className={classNames('is-bordered', 'is-striped', 'is-narrow', 'is-hoverable', 'is-fullwidth')}>
+          <Table.Head>
             <Table.Row>
-              {React.Children.map(children, ({ props: { key_, renderer } }) =>
-                (renderer || defaultRenderer).renderSubheader({
+              {React.Children.map(children, ({ props: { title, key_, renderer } }) =>
+                (renderer || defaultRenderer).renderHeader(title, {
                   colKey: key_ as string,
-                  componentKey: `sub-head-cell-${key_}`,
+                  componentKey: `head-cell-${key_}`,
                 }),
               )}
-              <Table.HeadCell key="sub-head-cell-actions" />
+              <Table.HeadCell key="head-cell-actions">{intl.formatMessage({ id: 'common.actions' })}</Table.HeadCell>
             </Table.Row>
-          )}
-        </Table.Head>
-        <Table.Body>
-          {entities.map(entity => (
-            <Table.Row key={entity.id}>
-              {React.Children.map(children, ({ props: { key_, renderer, render } }) =>
-                render ? (
-                  <Table.Cell key={key_ as string}>{render(entity)}</Table.Cell>
-                ) : (
-                  (renderer || defaultRenderer).renderEntity(entity, {
+            {!hideSubheader && (
+              <Table.Row>
+                {React.Children.map(children, ({ props: { key_, renderer } }) =>
+                  (renderer || defaultRenderer).renderSubheader({
                     colKey: key_ as string,
-                    componentKey: `table-cell-${key_}-${entity.id}`,
-                  })
-                ),
-              )}
-
-              <Table.Cell
-                key={`table-cell-${entity.id}`}
-                css={css`
-                  text-align: center;
-                  width: 15%;
-                `}
-              >
-                {!hideEdit && (
-                  <ReactRouterLinkButton
-                    to={`${pathPrefix}/edit/${entity.id}`}
-                    css={css`
-                      margin-right: 0.5rem;
-
-                      @media ${mediaQueries.maxWidth768} {
-                        margin-right: 0;
-                        margin-bottom: 0.25rem;
-                      }
-                    `}
-                    color="is-primary"
-                  >
-                    <FontAwesomeIcon icon={faPencilAlt} />
-                  </ReactRouterLinkButton>
+                    componentKey: `sub-head-cell-${key_}`,
+                  }),
                 )}
-                {!hideDelete && (
-                  <ReactRouterLinkButton to={`${pathPrefix}/delete/${entity.id}`} color="is-danger">
-                    <FontAwesomeIcon icon={faTrashAlt} />
-                  </ReactRouterLinkButton>
+                <Table.HeadCell key="sub-head-cell-actions" />
+              </Table.Row>
+            )}
+          </Table.Head>
+          <Table.Body>
+            {(debouncedSearchValue.length > 0 ? searchResults : entities).map(entity => (
+              <Table.Row key={entity.id}>
+                {React.Children.map(children, ({ props: { key_, renderer, render } }) =>
+                  render ? (
+                    <Table.Cell key={key_ as string}>{render(entity)}</Table.Cell>
+                  ) : (
+                    (renderer || defaultRenderer).renderEntity(entity, {
+                      colKey: key_ as string,
+                      componentKey: `table-cell-${key_}-${entity.id}`,
+                    })
+                  ),
                 )}
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
 
-      {[pagesCount, currentPage].every(i => typeof i !== 'undefined') && (
-        <ControlledPagination
-          css={css`
-            margin-bottom: 0.25rem;
-          `}
-          length={pagesCount!}
-          page={currentPage!}
-          onPageChange={onPageChange}
+                <Table.Cell
+                  key={`table-cell-${entity.id}`}
+                  css={css`
+                    text-align: center;
+                    width: 15%;
+                  `}
+                >
+                  {!hideEdit && (
+                    <ReactRouterLinkButton
+                      to={`${pathPrefix}/edit/${entity.id}`}
+                      css={css`
+                        margin-right: 0.5rem;
+
+                        @media ${mediaQueries.maxWidth768} {
+                          margin-right: 0;
+                          margin-bottom: 0.25rem;
+                        }
+                      `}
+                      color="is-primary"
+                    >
+                      <FontAwesomeIcon icon={faPencilAlt} />
+                    </ReactRouterLinkButton>
+                  )}
+                  {!hideDelete && (
+                    <ReactRouterLinkButton to={`${pathPrefix}/delete/${entity.id}`} color="is-danger">
+                      <FontAwesomeIcon icon={faTrashAlt} />
+                    </ReactRouterLinkButton>
+                  )}
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+
+        {[pagesCount, currentPage].every(i => typeof i !== 'undefined') && debouncedSearchValue.length === 0 && (
+          <ControlledPagination
+            css={css`
+              margin-bottom: 0.25rem;
+            `}
+            length={pagesCount!}
+            page={currentPage!}
+            onPageChange={onPageChange}
+          />
+        )}
+      </>
+    );
+  };
+
+  return (
+    <>
+      {search && (
+        <FormTextField
+          labelProps={{ children: intl.formatMessage({ id: 'common.search' }) }}
+          inputProps={{ onChange: onSearchChange, value: searchValue }}
         />
       )}
-    </React.Fragment>
+
+      {renderContent()}
+    </>
   );
 };
 

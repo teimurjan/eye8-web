@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { IIntlListResponseItem } from 'src/api/IntlAPI';
 import { IProductTypeListRawIntlResponseItem, IProductTypeListResponseMeta } from 'src/api/ProductTypeAPI';
 import { useDependencies } from 'src/DI/DI';
 import { extendIntlTextWithLocaleNames } from 'src/helpers/intl';
@@ -27,6 +28,18 @@ const Context = React.createContext<IContextValue | null>(null);
 interface IProviderProps {
   children?: React.ReactNode;
 }
+
+export const agregateProductTypesForState = (
+  productTypes: { [key: string]: IProductTypeListRawIntlResponseItem },
+  productTypesOrder: number[],
+  availableLocales: IIntlListResponseItem[],
+) =>
+  agregateOrderedMapToArray(productTypes, productTypesOrder, productType => ({
+    ...productType,
+    name: extendIntlTextWithLocaleNames(productType.name, availableLocales),
+    description: extendIntlTextWithLocaleNames(productType.description, availableLocales),
+    short_description: extendIntlTextWithLocaleNames(productType.short_description, availableLocales),
+  }));
 
 export const AdminProductTypesStateProvider: React.SFC<IProviderProps> = ({ children }) => {
   const {
@@ -109,12 +122,7 @@ export const AdminProductTypesStateProvider: React.SFC<IProviderProps> = ({ chil
           meta,
           addProductType,
           deleteProductType,
-          productTypes: agregateOrderedMapToArray(productTypes, productTypesOrder, productType => ({
-            ...productType,
-            name: extendIntlTextWithLocaleNames(productType.name, availableLocales),
-            description: extendIntlTextWithLocaleNames(productType.description, availableLocales),
-            short_description: extendIntlTextWithLocaleNames(productType.short_description, availableLocales),
-          })),
+          productTypes: agregateProductTypesForState(productTypes, productTypesOrder, availableLocales),
           getProductTypes,
           hasListLoaded,
           isListLoading,

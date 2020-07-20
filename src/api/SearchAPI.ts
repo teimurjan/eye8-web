@@ -1,15 +1,24 @@
 import { Client } from 'ttypes/http';
 
-import { ICategoryListResponseItem } from 'src/api/CategoryAPI';
-import { IProductTypeListResponseItem } from 'src/api/ProductTypeAPI';
+import { ICategoryListResponseItem, ICategoryListRawIntlResponseItem } from 'src/api/CategoryAPI';
+import { IProductTypeListResponseItem, IProductTypeListRawIntlResponseItem } from 'src/api/ProductTypeAPI';
 import { IHeadersManager } from 'src/manager/HeadersManager';
+import { buildQueryString } from 'src/utils/queryString';
+
+export type SearchProductTypeResponseItem = Omit<IProductTypeListResponseItem, 'description'>;
+export type SearchProductTypeRawIntlResponseItem = Omit<IProductTypeListRawIntlResponseItem, 'description'>;
 
 export interface ISearchResponseData {
-  data: { categories: ICategoryListResponseItem[]; product_types: IProductTypeListResponseItem[] };
+  data: { categories: ICategoryListResponseItem[]; product_types: SearchProductTypeResponseItem[] };
+}
+
+export interface ISearchRawIntlResponseData {
+  data: { categories: ICategoryListRawIntlResponseItem[]; product_types: SearchProductTypeRawIntlResponseItem[] };
 }
 
 export interface ISearchAPI {
   search(query: string): Promise<ISearchResponseData>;
+  searchRawIntl(query: string): Promise<ISearchRawIntlResponseData>;
 }
 
 export class SearchAPI implements ISearchAPI {
@@ -26,6 +35,20 @@ export class SearchAPI implements ISearchAPI {
       const response = await this.client.get<ISearchResponseData>(`/api/search/${query}`, {
         headers: this.headersManager.getHeaders(),
       });
+      return response.data;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  public async searchRawIntl(query: string) {
+    try {
+      const response = await this.client.get<ISearchRawIntlResponseData>(
+        `/api/search/${query}${buildQueryString({ raw_intl: 1 })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       throw e;

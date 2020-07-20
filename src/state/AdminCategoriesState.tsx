@@ -14,7 +14,7 @@ export const AdminCategoriesStateProvider = makeEntityState(
   'categories',
   (category, { availableLocales }) => ({
     ...category,
-    text: extendIntlTextWithLocaleNames(category.name, availableLocales),
+    name: extendIntlTextWithLocaleNames(category.name, availableLocales),
   }),
 );
 

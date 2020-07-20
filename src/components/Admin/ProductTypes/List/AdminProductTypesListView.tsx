@@ -36,6 +36,7 @@ export const AdminProductTypesListView = ({
   isDataLoaded,
   meta,
   onPageChange,
+  search,
 }: IProps & { intl: IntlShape }) => (
   <Section
     css={css`
@@ -52,6 +53,7 @@ export const AdminProductTypesListView = ({
       currentPage={meta.page}
       pagesCount={meta.pages_count}
       onPageChange={onPageChange}
+      search={search}
     >
       <AdminTable.Col<ProductType> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
       <AdminTable.Col<ProductType>

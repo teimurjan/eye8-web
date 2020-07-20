@@ -17,6 +17,18 @@ export interface ISearchService {
       productTypes: number[];
     };
   }>;
+  searchRawIntl(
+    query: string,
+  ): Promise<{
+    entities: {
+      categories: { [key: string]: categoryAPI.ICategoryListRawIntlResponseItem };
+      productTypes: { [key: string]: searchAPI.SearchProductTypeRawIntlResponseItem };
+    };
+    result: {
+      categories: number[];
+      productTypes: number[];
+    };
+  }>;
 }
 
 export class SearchService implements ISearchService {
@@ -40,6 +52,28 @@ export class SearchService implements ISearchService {
 
     return {
       entities: { ...categoriesEntities, ...productTypesEntities },
+      result: { categories: categoriesResult, productTypes: productTypesResult },
+    };
+  };
+
+  public searchRawIntl: ISearchService['searchRawIntl'] = async query => {
+    const { data } = await this.API.searchRawIntl(query);
+
+    const { entities: categoriesEntities, result: categoriesResult } = normalize(data.categories, [
+      new schema.Entity('categories'),
+    ]) as {
+      entities: { categories: { [key: string]: categoryAPI.ICategoryListRawIntlResponseItem } };
+      result: number[];
+    };
+    const { entities: productTypesEntities, result: productTypesResult } = normalize(data.product_types, [
+      new schema.Entity('productTypes'),
+    ]) as {
+      entities: { productTypes: { [key: string]: searchAPI.SearchProductTypeRawIntlResponseItem } };
+      result: number[];
+    };
+
+    return {
+      entities: { ...categoriesEntities, productTypes: productTypesEntities.productTypes },
       result: { categories: categoriesResult, productTypes: productTypesResult },
     };
   };
