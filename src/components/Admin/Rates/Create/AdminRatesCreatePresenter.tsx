@@ -5,12 +5,13 @@ import * as yup from 'yup';
 import { KGS_TO_USD_RATE_NAME } from 'src/components/Client/Price/Price';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import * as rateService from 'src/services/RateService';
-import { IContextValue as AdminRatesStateContextValue } from 'src/state/AdminRatesState';
+import { ContextValue as AdminRatesStateContextValue } from 'src/state/AdminRatesState';
 
-export interface IProps extends AdminRatesStateContextValue {
+export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: rateService.IRateService;
   history: History;
+  adminRatesState: AdminRatesStateContextValue['state'];
 }
 
 export interface IViewProps {
@@ -42,7 +43,7 @@ export const getErrorMessageID = (e: Error) => {
 
 export const AdminRatesCreatePresenter: React.FC<IProps> = ({
   history,
-  adminRatesState: { getRates },
+  adminRatesState: { get: getRates },
   service,
   View,
 }) => {

@@ -8,14 +8,15 @@ import * as schemaValidator from 'src/components/SchemaValidator';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { useLazy } from 'src/hooks/useLazy';
 import { IFeatureTypeService } from 'src/services/FeatureTypeService';
-import { IContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
+import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
-export interface IProps extends AdminFeatureTypesStateContextValue, IntlStateContextValue {
+export interface IProps extends IntlStateContextValue {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IFeatureTypeService;
   featureTypeId: number;
   history: History;
+  adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
 }
 
 export interface IViewProps {
@@ -38,7 +39,7 @@ export const AdminFeatureTypesEditPresenter: React.FC<IProps> = ({
   View,
   history,
   service,
-  adminFeatureTypesState: { setFeatureType: setFeatureTypeToState },
+  adminFeatureTypesState: { set: setFeatureTypeToState },
   featureTypeId,
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);

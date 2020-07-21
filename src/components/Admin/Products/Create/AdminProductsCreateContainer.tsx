@@ -11,8 +11,8 @@ export const AdminProductsCreateContainer = () => {
   const history = useHistory();
 
   const { dependencies } = useDependencies();
-  const { adminFeatureValuesState } = useAdminFeatureValuesState();
-  const { adminProductsState } = useAdminProductsState();
+  const { state: adminFeatureValuesState } = useAdminFeatureValuesState();
+  const { state: adminProductsState } = useAdminProductsState();
 
   return (
     <AdminProductsCreatePresenter

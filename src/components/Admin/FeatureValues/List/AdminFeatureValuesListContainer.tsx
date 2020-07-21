@@ -10,7 +10,7 @@ const View = injectIntl(AdminFeatureValuesListView);
 
 export const AdminFeatureValuesListContainer = () => {
   const { intlState } = useIntlState();
-  const { adminFeatureValuesState } = useAdminFeatureValuesState();
+  const { state: adminFeatureValuesState } = useAdminFeatureValuesState();
 
   return (
     <AdminFeatureValuesListPresenter

@@ -5,13 +5,14 @@ import { IPromoCodeDetailResponseItem } from 'src/api/PromoCodeAPI';
 import { getErrorMessageID } from 'src/components/Admin/PromoCodes/Create/AdminPromoCodesCreatePresenter';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { IPromoCodeService } from 'src/services/PromoCodeService';
-import { IContextValue as AdminPromoCodesStateContextValue } from 'src/state/AdminPromoCodesState';
+import { ContextValue as AdminPromoCodesStateContextValue } from 'src/state/AdminPromoCodesState';
 
-export interface IProps extends AdminPromoCodesStateContextValue {
+export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IPromoCodeService;
   history: History;
   promoCodeId: number;
+  adminPromoCodesState: AdminPromoCodesStateContextValue['state'];
 }
 
 export interface IViewProps {
@@ -31,7 +32,7 @@ export interface IViewProps {
 
 export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
   history,
-  adminPromoCodesState: { getPromoCodes },
+  adminPromoCodesState: { get: getPromoCodes },
   service,
   View,
   promoCodeId,

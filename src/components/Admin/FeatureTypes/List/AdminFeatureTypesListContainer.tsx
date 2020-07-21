@@ -9,7 +9,7 @@ import { useIntlState } from 'src/state/IntlState';
 const View = injectIntl(AdminFeatureTypesListView);
 
 export const AdminFeatureTypesListContainer = () => {
-  const { adminFeatureTypesState } = useAdminFeatureTypesState();
+  const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
   const { intlState } = useIntlState();
 
   return (

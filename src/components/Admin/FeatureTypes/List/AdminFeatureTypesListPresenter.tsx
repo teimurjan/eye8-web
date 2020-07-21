@@ -1,15 +1,16 @@
 import * as React from 'react';
 
 import { useDebounce } from 'src/hooks/useDebounce';
-import { IContextValue as AdminFeatureTypesContextValue } from 'src/state/AdminFeatureTypesState';
+import { ContextValue as AdminFeatureTypesContextValue } from 'src/state/AdminFeatureTypesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
-export interface IProps extends AdminFeatureTypesContextValue, IntlStateContextValue {
+export interface IProps extends IntlStateContextValue {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
+  adminFeatureTypesState: AdminFeatureTypesContextValue['state'];
 }
 
 export interface IViewProps {
-  featureTypes: AdminFeatureTypesContextValue['adminFeatureTypesState']['featureTypes'];
+  featureTypes: AdminFeatureTypesContextValue['state']['entities'];
   isDataLoaded: boolean;
   isLoading: boolean;
   locales: string[];
@@ -17,7 +18,7 @@ export interface IViewProps {
 
 export const AdminFeatureTypesListPresenter = ({
   View,
-  adminFeatureTypesState: { isListLoading, featureTypes, getFeatureTypes, hasListLoaded },
+  adminFeatureTypesState: { isListLoading, entities: featureTypes, get: getFeatureTypes, hasListLoaded },
   intlState: { availableLocales },
 }: IProps) => {
   const isLoadingDebounced = useDebounce(isListLoading, 1000);

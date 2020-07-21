@@ -10,7 +10,7 @@ export const AdminRatesCreateContainer = () => {
   const history = useHistory();
 
   const { dependencies } = useDependencies();
-  const { adminRatesState } = useAdminRatesState();
+  const { state: adminRatesState } = useAdminRatesState();
 
   return (
     <AdminRatesCreatePresenter

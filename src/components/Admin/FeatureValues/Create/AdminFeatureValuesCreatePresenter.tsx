@@ -6,17 +6,16 @@ import * as schemaValidator from 'src/components/SchemaValidator';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { useLazy } from 'src/hooks/useLazy';
 import { IFeatureValueService } from 'src/services/FeatureValueService';
-import { IContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
-import { IContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
+import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
+import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
-export interface IProps
-  extends AdminFeatureValuesStateContextValue,
-    AdminFeatureTypesStateContextValue,
-    IntlStateContextValue {
+export interface IProps extends IntlStateContextValue {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IFeatureValueService;
   close: () => void;
+  adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
+  adminFeatureValuesState: AdminFeatureValuesStateContextValue['state'];
 }
 
 export interface IViewProps {
@@ -27,7 +26,7 @@ export interface IViewProps {
   error: string | undefined;
   close: () => void;
   availableLocales: IntlStateContextValue['intlState']['availableLocales'];
-  featureTypes: AdminFeatureTypesStateContextValue['adminFeatureTypesState']['featureTypes'];
+  featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
   validate?: (values: object) => object | Promise<object>;
 }
 
@@ -35,8 +34,8 @@ export const FEATURE_VALUE_NAME_FIELD_KEY = 'name';
 
 export const AdminFeatureValuesCreatePresenter: React.FC<IProps> = ({
   intlState: { availableLocales },
-  adminFeatureTypesState: { getFeatureTypes, isListLoading: featureTypesLoading, featureTypes },
-  adminFeatureValuesState: { addFeatureValue },
+  adminFeatureTypesState: { get: getFeatureTypes, isListLoading: featureTypesLoading, entities: featureTypes },
+  adminFeatureValuesState: { add: addFeatureValue },
   View,
   service,
   close,

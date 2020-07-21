@@ -23,7 +23,7 @@ import { AdminFeatureValuesCreateContainer } from 'src/components/Admin/FeatureV
 import { useFeatureValuesOfProductType } from 'src/components/Admin/Products/Create/useFeatureValuesOfProductType';
 import { ProductTypeSelectView } from 'src/components/Admin/ProductTypeSelect/ProductTypeSelectView';
 import { Popover } from 'src/components/client-ui/Popover/Popover';
-import { IContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
+import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
 import { Accept } from 'src/utils/accept';
 import { isAllowedForNumberInput } from 'src/utils/number';
 import { arePropsEqual, lengthCompare, defaultCompare } from 'src/utils/propEquality';
@@ -287,7 +287,7 @@ const ImagesInput = React.memo<FieldRenderProps<Array<File | undefined>>>(
 
 export interface IFieldsProps {
   productTypes: IProductTypeListRawIntlMinifiedResponseItem[];
-  featureValues: AdminFeatureValuesStateContextValue['adminFeatureValuesState']['featureValues'];
+  featureValues: AdminFeatureValuesStateContextValue['state']['entities'];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
   featureValuesLoading: boolean;

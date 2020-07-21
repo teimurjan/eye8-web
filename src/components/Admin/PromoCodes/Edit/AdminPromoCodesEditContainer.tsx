@@ -11,7 +11,7 @@ export const AdminPromoCodesEditContainer = () => {
   const params = useParams<{ id: string }>();
 
   const { dependencies } = useDependencies();
-  const { adminPromoCodesState } = useAdminPromoCodesState();
+  const { state: adminPromoCodesState } = useAdminPromoCodesState();
 
   return (
     <AdminPromoCodesEditPresenter

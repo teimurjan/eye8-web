@@ -8,15 +8,15 @@ import {
   IViewProps as IProps,
 } from 'src/components/Admin/FeatureValues/Create/AdminFeatureValuesCreatePresenter';
 import { IntlField } from 'src/components/Admin/IntlField';
-import { IContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
+import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
 
 export interface IFieldsProps {
   availableLocales: IProps['availableLocales'];
-  featureTypes: AdminFeatureTypesStateContextValue['adminFeatureTypesState']['featureTypes'];
+  featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
 }
 
 interface IFeatureTypeSelectProps extends FieldRenderProps<string> {
-  featureTypes: AdminFeatureTypesStateContextValue['adminFeatureTypesState']['featureTypes'];
+  featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
 }
 
 const FeatureTypeSelect = injectIntl(
@@ -55,11 +55,9 @@ const FeatureTypeSelect = injectIntl(
   },
 );
 
-const getFeatureTypeSelectRenderer = (
-  featureTypes: AdminFeatureTypesStateContextValue['adminFeatureTypesState']['featureTypes'],
-) => (fieldRenderProps: FieldRenderProps<string>) => (
-  <FeatureTypeSelect featureTypes={featureTypes} {...fieldRenderProps} />
-);
+const getFeatureTypeSelectRenderer = (featureTypes: AdminFeatureTypesStateContextValue['state']['entities']) => (
+  fieldRenderProps: FieldRenderProps<string>,
+) => <FeatureTypeSelect featureTypes={featureTypes} {...fieldRenderProps} />;
 
 export const Fields = injectIntl(({ availableLocales, intl, featureTypes }: IFieldsProps & { intl: IntlShape }) => (
   <>

@@ -7,7 +7,7 @@ import { useIntlState } from 'src/state/IntlState';
 
 export const AdminRatesListContainer = () => {
   const { intlState } = useIntlState();
-  const { adminRatesState } = useAdminRatesState();
+  const { state: adminRatesState } = useAdminRatesState();
 
   return <AdminRatesListPresenter View={AdminRatesListView} adminRatesState={adminRatesState} intlState={intlState} />;
 };

@@ -14,8 +14,8 @@ export const AdminProductTypesCreateContainer = () => {
 
   const { dependencies } = useDependencies();
   const { state: adminCategoriesState } = useAdminCategoriesState();
-  const { adminFeatureTypesState } = useAdminFeatureTypesState();
-  const { adminProductTypesState } = useAdminProductTypesState();
+  const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
+  const { state: adminProductTypesState } = useAdminProductTypesState();
   const { intlState } = useIntlState();
 
   return (

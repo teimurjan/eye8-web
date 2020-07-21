@@ -50,8 +50,8 @@ export const AdminProductTypesListView = ({
       entities={productTypes}
       renderNoData={renderNoData}
       intl={intl}
-      currentPage={meta.page}
-      pagesCount={meta.pages_count}
+      currentPage={meta?.page}
+      pagesCount={meta?.pages_count}
       onPageChange={onPageChange}
       search={search}
     >

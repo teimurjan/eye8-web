@@ -9,21 +9,20 @@ import { useDebounce } from 'src/hooks/useDebounce';
 import { useLazy } from 'src/hooks/useLazy';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
-import { IContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
-import { IContextValue as AdminProductTypesStateContextValue } from 'src/state/AdminProductTypesState';
+import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
+import { ContextValue as AdminProductTypesStateContextValue } from 'src/state/AdminProductTypesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 import { IStateCacheStorage } from 'src/storage/StateCacheStorage';
 import { objectWithout } from 'src/utils/object';
 
-export interface IProps
-  extends AdminFeatureTypesStateContextValue,
-    AdminProductTypesStateContextValue,
-    IntlStateContextValue {
+export interface IProps extends IntlStateContextValue {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IProductTypeService;
   history: History;
   stateCacheStorage: IStateCacheStorage;
   adminCategoriesState: AdminCategoriesStateContextValue['state'];
+  adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
+  adminProductTypesState: AdminProductTypesStateContextValue['state'];
 }
 
 interface IFormValues {
@@ -47,7 +46,7 @@ export interface IViewProps {
   availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   validate?: (values: object) => object | Promise<object>;
   categories: AdminCategoriesStateContextValue['state']['entities'];
-  featureTypes: AdminFeatureTypesStateContextValue['adminFeatureTypesState']['featureTypes'];
+  featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
   onChange: IModalFormProps<IFormValues>['onChange'];
   initialValues: object;
 }
@@ -62,8 +61,8 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
   intlState,
   history,
   adminCategoriesState: { get: getCategories, entities: categories, isListLoading: categoriesLoading },
-  adminFeatureTypesState: { getFeatureTypes, featureTypes, isListLoading: featureTypesLoading },
-  adminProductTypesState: { getProductTypes },
+  adminFeatureTypesState: { get: getFeatureTypes, entities: featureTypes, isListLoading: featureTypesLoading },
+  adminProductTypesState: { get: getProductTypes },
   service,
   View,
   stateCacheStorage,

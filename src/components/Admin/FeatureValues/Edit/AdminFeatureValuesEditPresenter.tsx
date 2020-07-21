@@ -8,18 +8,17 @@ import * as schemaValidator from 'src/components/SchemaValidator';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { useLazy } from 'src/hooks/useLazy';
 import { IFeatureValueService } from 'src/services/FeatureValueService';
-import { IContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
-import { IContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
+import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
+import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
-export interface IProps
-  extends AdminFeatureTypesStateContextValue,
-    AdminFeatureValuesStateContextValue,
-    IntlStateContextValue {
+export interface IProps extends IntlStateContextValue {
   featureValueId: number;
   history: History;
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IFeatureValueService;
+  adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
+  adminFeatureValuesState: AdminFeatureValuesStateContextValue['state'];
 }
 
 export interface IViewProps {
@@ -30,7 +29,7 @@ export interface IViewProps {
   error: string | undefined;
   close: () => void;
   availableLocales: IntlStateContextValue['intlState']['availableLocales'];
-  featureTypes: AdminFeatureTypesStateContextValue['adminFeatureTypesState']['featureTypes'];
+  featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
   validate?: (values: object) => object | Promise<object>;
   initialValues: object;
   preloadingError?: string;
@@ -42,9 +41,9 @@ export const AdminFeatureValuesEditPresenter: React.FC<IProps> = ({
   featureValueId,
   intlState: { availableLocales },
   service,
-  adminFeatureTypesState: { getFeatureTypes, isListLoading: featureTypesLoading, featureTypes },
+  adminFeatureTypesState: { get: getFeatureTypes, isListLoading: featureTypesLoading, entities: featureTypes },
   history,
-  adminFeatureValuesState: { setFeatureValue: setFeatureValueToState },
+  adminFeatureValuesState: { set: setFeatureValueToState },
   View,
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);

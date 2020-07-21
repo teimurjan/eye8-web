@@ -6,12 +6,13 @@ import { IPromoCodeDetailResponseItem } from 'src/api/PromoCodeAPI';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { IPromoCodeService } from 'src/services/PromoCodeService';
 import * as promoCodeService from 'src/services/PromoCodeService';
-import { IContextValue as AdminPromoCodesStateContextValue } from 'src/state/AdminPromoCodesState';
+import { ContextValue as AdminPromoCodesStateContextValue } from 'src/state/AdminPromoCodesState';
 
-export interface IProps extends AdminPromoCodesStateContextValue {
+export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IPromoCodeService;
   history: History;
+  adminPromoCodesState: AdminPromoCodesStateContextValue['state'];
 }
 
 export interface IViewProps {
@@ -55,7 +56,7 @@ export const getErrorMessageID = (e: Error) => {
 
 export const AdminPromoCodesCreatePresenter: React.FC<IProps> = ({
   history,
-  adminPromoCodesState: { getPromoCodes },
+  adminPromoCodesState: { get: getPromoCodes },
   service,
   View,
 }) => {

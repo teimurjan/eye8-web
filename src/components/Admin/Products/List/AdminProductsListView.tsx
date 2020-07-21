@@ -53,8 +53,8 @@ export const AdminProductsListView = ({
       entities={products}
       renderNoData={renderNoData}
       intl={intl}
-      currentPage={meta.page}
-      pagesCount={meta.pages_count}
+      currentPage={meta?.page}
+      pagesCount={meta?.pages_count}
       onPageChange={onPageChange}
     >
       <AdminTable.Col<Product> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />

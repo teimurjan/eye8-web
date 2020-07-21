@@ -14,12 +14,12 @@ import { Textarea } from 'src/components/admin-ui/Textarea/Textarea';
 import { IntlField, IProps as IIntlFieldProps } from 'src/components/Admin/IntlField';
 import { WYSIWYG } from 'src/components/client-ui/WYSIWYG/WYSIWYG';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
-import { IContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
+import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 import { arePropsEqual, lengthCompare, defaultCompare } from 'src/utils/propEquality';
 
 interface IFeatureTypesSelectProps extends FieldRenderProps<string[]> {
-  featureTypes: AdminFeatureTypesStateContextValue['adminFeatureTypesState']['featureTypes'];
+  featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
 }
 
 const FeatureTypesSelect = ({ featureTypes, input, meta }: IFeatureTypesSelectProps) => {
@@ -65,11 +65,9 @@ const FeatureTypesSelect = ({ featureTypes, input, meta }: IFeatureTypesSelectPr
   );
 };
 
-const getFeatureTypesSelectRenderer = (
-  featureTypes: AdminFeatureTypesStateContextValue['adminFeatureTypesState']['featureTypes'],
-) => (fieldRenderProps: FieldRenderProps<string[]>) => (
-  <FeatureTypesSelect featureTypes={featureTypes} {...fieldRenderProps} />
-);
+const getFeatureTypesSelectRenderer = (featureTypes: AdminFeatureTypesStateContextValue['state']['entities']) => (
+  fieldRenderProps: FieldRenderProps<string[]>,
+) => <FeatureTypesSelect featureTypes={featureTypes} {...fieldRenderProps} />;
 
 interface ICategoriesSelectProps extends FieldRenderProps<string[]> {
   categories: AdminCategoriesStateContextValue['state']['entities'];
@@ -210,7 +208,7 @@ const InstagramLinksField = ({ input, meta }: FieldRenderProps<string[]>) => {
 export interface IFieldsProps {
   availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   categories: AdminCategoriesStateContextValue['state']['entities'];
-  featureTypes: AdminFeatureTypesStateContextValue['adminFeatureTypesState']['featureTypes'];
+  featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
   nameFieldKey: string;
   descriptionFieldKey: string;
   shortDescriptionFieldKey: string;

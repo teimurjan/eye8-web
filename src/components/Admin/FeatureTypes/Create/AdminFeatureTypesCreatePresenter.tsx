@@ -6,13 +6,14 @@ import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { useLazy } from 'src/hooks/useLazy';
 import { IFeatureTypeService } from 'src/services/FeatureTypeService';
-import { IContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
+import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
-export interface IProps extends AdminFeatureTypesStateContextValue, IntlStateContextValue {
+export interface IProps extends IntlStateContextValue {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IFeatureTypeService;
   history: History;
+  adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
 }
 
 export interface IViewProps {
@@ -32,7 +33,7 @@ export const AdminFeatureTypesCreatePresenter: React.FC<IProps> = ({
   View,
   history,
   service,
-  adminFeatureTypesState: { addFeatureType },
+  adminFeatureTypesState: { add: addFeatureType },
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isCreating, setCreating] = React.useState(false);

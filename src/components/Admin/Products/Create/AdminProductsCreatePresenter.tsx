@@ -7,14 +7,16 @@ import { useSelectProductTypes } from 'src/components/Admin/ProductTypeSelect/us
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { IProductService } from 'src/services/ProductService';
 import { IProductTypeService } from 'src/services/ProductTypeService';
-import { IContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
-import { IContextValue as AdminProductsStateContextValue } from 'src/state/AdminProductsState';
+import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
+import { ContextValue as AdminProductsStateContextValue } from 'src/state/AdminProductsState';
 
-export interface IProps extends AdminFeatureValuesStateContextValue, AdminProductsStateContextValue {
+export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   productService: IProductService;
   productTypeService: IProductTypeService;
   history: History;
+  adminProductsState: AdminProductsStateContextValue['state'];
+  adminFeatureValuesState: AdminFeatureValuesStateContextValue['state'];
 }
 
 export interface IViewProps {
@@ -32,7 +34,7 @@ export interface IViewProps {
   preloadingError?: string;
   close: () => void;
   validate?: (values: object) => object | Promise<object>;
-  featureValues: AdminFeatureValuesStateContextValue['adminFeatureValuesState']['featureValues'];
+  featureValues: AdminFeatureValuesStateContextValue['state']['entities'];
   productTypes: IProductTypeListRawIntlMinifiedResponseItem[];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
@@ -41,8 +43,8 @@ export interface IViewProps {
 
 export const AdminProductsCreatePresenter: React.FC<IProps> = ({
   history,
-  adminFeatureValuesState: { getFeatureValues, featureValues, isListLoading: featureValuesLoading },
-  adminProductsState: { getProducts },
+  adminFeatureValuesState: { get: getFeatureValues, entities: featureValues, isListLoading: featureValuesLoading },
+  adminProductsState: { get: getProducts },
   productService,
   productTypeService,
   View,

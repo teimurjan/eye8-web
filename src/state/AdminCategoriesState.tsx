@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import { ICategoryListRawIntlResponseItem } from 'src/api/CategoryAPI';
 import { extendIntlTextWithLocaleNames } from 'src/helpers/intl';
-import { makeEntityState, IContextValue } from 'src/state/AdminEntityState';
+import { makeEntityState, IContextValue } from 'src/state/makeEntityState';
 
-export type ContextValue = IContextValue<ICategoryListRawIntlResponseItem, undefined, ICategoryListRawIntlResponseItem>;
+export type ContextValue = IContextValue<ICategoryListRawIntlResponseItem, ICategoryListRawIntlResponseItem>;
 
 const Context = React.createContext<ContextValue | null>(null);
 

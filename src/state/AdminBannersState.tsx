@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import { IBannerListRawIntlResponseItem } from 'src/api/BannerAPI';
 import { extendIntlTextWithLocaleNames } from 'src/helpers/intl';
-import { makeEntityState, IContextValue } from 'src/state/AdminEntityState';
+import { makeEntityState, IContextValue } from 'src/state/makeEntityState';
 
-export type ContextValue = IContextValue<IBannerListRawIntlResponseItem, undefined, IBannerListRawIntlResponseItem>;
+export type ContextValue = IContextValue<IBannerListRawIntlResponseItem, IBannerListRawIntlResponseItem>;
 
 const Context = React.createContext<ContextValue | null>(null);
 

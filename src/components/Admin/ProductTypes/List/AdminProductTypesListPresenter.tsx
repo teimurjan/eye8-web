@@ -4,18 +4,19 @@ import { IProductTypeListRawIntlResponseItem } from 'src/api/ProductTypeAPI';
 import { extendIntlTextWithLocaleNames } from 'src/helpers/intl';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { ISearchService } from 'src/services/SearchService';
-import { IContextValue as AdminProductTypesContextValue } from 'src/state/AdminProductTypesState';
+import { ContextValue as AdminProductTypesStateContextValue } from 'src/state/AdminProductTypesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   searchService: ISearchService;
+  adminProductTypesState: AdminProductTypesStateContextValue['state'];
 }
 
 export interface IViewProps {
-  productTypes: AdminProductTypesContextValue['adminProductTypesState']['productTypes'];
-  meta: AdminProductTypesContextValue['adminProductTypesState']['meta'];
+  productTypes: AdminProductTypesStateContextValue['state']['entities'];
+  meta: AdminProductTypesStateContextValue['state']['meta'];
   isDataLoaded: boolean;
   isLoading: boolean;
   locales: string[];
@@ -25,10 +26,10 @@ export interface IViewProps {
 
 export const AdminProductTypesListPresenter = ({
   View,
-  adminProductTypesState: { isListLoading, productTypes, getProductTypes, hasListLoaded, meta },
+  adminProductTypesState: { isListLoading, entities: productTypes, get: getProductTypes, hasListLoaded, meta },
   intlState: { availableLocales },
   searchService,
-}: IProps & AdminProductTypesContextValue & IntlStateContextValue) => {
+}: IProps & IntlStateContextValue) => {
   const isLoadingDebounced = useDebounce(isListLoading, 1000);
 
   React.useEffect(() => {

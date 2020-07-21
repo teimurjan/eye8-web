@@ -7,7 +7,7 @@ import { useAdminFeatureValuesState } from 'src/state/AdminFeatureValuesState';
 export const AdminFeatureValuesDeleteContainer = () => {
   const { dependencies } = useDependencies();
   const {
-    adminFeatureValuesState: { deleteFeatureValue },
+    state: { remove: deleteFeatureValue },
   } = useAdminFeatureValuesState();
 
   const deleteEntity = React.useCallback(

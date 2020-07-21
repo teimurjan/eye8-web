@@ -5,21 +5,17 @@ import { useDependencies, IContextValue as IDependenciesContextValue } from 'src
 import { useIntlState } from 'src/state/IntlState';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
-interface IGetterParams {
-  page?: number;
-}
-
-export interface IContextValue<T, M, A> {
+export interface IContextValue<Entity, AgregatedEntity, Meta = undefined, Params = {}> {
   state: {
-    entities: A[];
+    entities: AgregatedEntity[];
     isListLoading: boolean;
     hasListLoaded: boolean;
     listError: undefined | string;
-    get: (params?: IGetterParams) => Promise<void>;
+    get: (params?: Params) => Promise<void>;
     remove: (id: number) => void;
-    add: (entity: T) => void;
-    set: (entity: T) => void;
-    meta: M | undefined;
+    add: (entity: Entity) => void;
+    set: (entity: Entity) => void;
+    meta?: Meta;
   };
 }
 
@@ -27,34 +23,41 @@ interface IProviderProps {
   children?: React.ReactNode;
 }
 
-export const makeEntityState = <T extends { id: number }, M, K extends string, A>(
-  Context: React.Context<IContextValue<T, M, A> | null>,
+export const makeEntityState = <
+  Entity extends { id: number },
+  Key extends string,
+  AgregatedEntity,
+  Meta = undefined,
+  Params = {}
+>(
+  Context: React.Context<IContextValue<Entity, AgregatedEntity, Meta, Params> | null>,
   getter: (
     d: IDependenciesContextValue,
-    params?: IGetterParams,
-  ) => Promise<{ entities: { [key in K]: { [key: string]: T } }; result: number[]; meta?: M }>,
-  key: K,
-  agregate?: (entity: T, helpers: { availableLocales: IIntlListResponseItem[] }) => A,
+    params?: Params,
+  ) => Promise<{ entities: { [key in Key]: { [key: string]: Entity } }; result: number[]; meta?: Meta }>,
+  key: Key,
+  agregate?: (entity: Entity, helpers: { availableLocales: IIntlListResponseItem[] }) => AgregatedEntity,
 ): React.SFC<IProviderProps> => ({ children }) => {
   const {
     intlState: { availableLocales },
   } = useIntlState();
   const dependenciesContextValue = useDependencies();
 
-  const [meta, setMeta] = React.useState<M | undefined>(undefined);
-  const [entities, setEntities] = React.useState<{ [key: string]: T }>({});
-  const [entitiesOrder, setEntitiesOrder] = React.useState<number[]>([]);
+  const [meta, setMeta] = React.useState<Meta | undefined>(undefined);
+  const [data, setData] = React.useState<{ entities: { [key: string]: Entity }; order: number[] }>({
+    entities: {},
+    order: [],
+  });
   const [isListLoading, setListLoading] = React.useState(false);
   const [listError, setListError] = React.useState<undefined | string>(undefined);
   const [hasListLoaded, setListLoaded] = React.useState(false);
 
   const get = React.useCallback(
-    async (params: IGetterParams = {}) => {
+    async (params?: Params) => {
       setListLoading(true);
       try {
         const { entities, result, meta } = await getter(dependenciesContextValue, params);
-        setEntities(entities[key]);
-        setEntitiesOrder(result);
+        setData({ entities: entities[key], order: result });
         setMeta(meta);
       } catch (e) {
         setListError('errors.common');
@@ -67,42 +70,45 @@ export const makeEntityState = <T extends { id: number }, M, K extends string, A
   );
 
   const add = React.useCallback(
-    (entity: T) => {
-      const newEntities = {
-        ...entities,
-        [entity.id]: entity,
+    (entity: Entity) => {
+      const newData = {
+        entities: {
+          ...data.entities,
+          [entity.id]: entity,
+        },
+        order: [...data.order, entity.id],
       };
 
-      const newOrder = [...entitiesOrder, entity.id];
-
-      setEntities(newEntities);
-      setEntitiesOrder(newOrder);
+      setData(newData);
     },
-    [entities, entitiesOrder],
+    [data],
   );
 
   const set = React.useCallback(
-    (entity: T) => {
-      const newEntities = {
-        ...entities,
-        [entity.id]: entity,
+    (entity: Entity) => {
+      const newData = {
+        entities: {
+          ...data.entities,
+          [entity.id]: entity,
+        },
+        order: data.order,
       };
 
-      setEntities(newEntities);
+      setData(newData);
     },
-    [entities],
+    [data],
   );
 
   const remove = React.useCallback(
     (id: number) => {
-      const newEntities = { ...entities };
+      const newEntities = { ...data.entities };
       delete newEntities[id];
 
-      const newEntitiesOrder = entitiesOrder.filter(idFromOrder => idFromOrder !== id);
-      setEntitiesOrder(newEntitiesOrder);
-      setEntities(newEntities);
+      const newOrder = data.order.filter(idFromOrder => idFromOrder !== id);
+
+      setData({ entities: newEntities, order: newOrder });
     },
-    [entities, entitiesOrder],
+    [data],
   );
 
   return (
@@ -113,10 +119,10 @@ export const makeEntityState = <T extends { id: number }, M, K extends string, A
           add,
           remove,
           entities: agregateOrderedMapToArray(
-            entities,
-            entitiesOrder,
+            data.entities,
+            data.order,
             agregate ? e => agregate(e, { availableLocales }) : undefined,
-          ) as A[],
+          ) as AgregatedEntity[],
           get,
           hasListLoaded,
           isListLoading,

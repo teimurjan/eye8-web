@@ -11,7 +11,7 @@ export const AdminOrdersEditContainer = () => {
   const params = useParams<{ id: string }>();
 
   const { dependencies } = useDependencies();
-  const { adminOrdersState } = useAdminOrdersState();
+  const { state: adminOrdersState } = useAdminOrdersState();
 
   return (
     <AdminOrdersEditPresenter

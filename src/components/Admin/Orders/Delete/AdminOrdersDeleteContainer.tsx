@@ -7,7 +7,7 @@ import { useAdminOrdersState } from 'src/state/AdminOrdersState';
 export const AdminOrdersDeleteContainer = () => {
   const { dependencies } = useDependencies();
   const {
-    adminOrdersState: { getOrders, deleteOrder },
+    state: { get: getOrders, remove: deleteOrder },
   } = useAdminOrdersState();
 
   const deleteEntity = React.useCallback(

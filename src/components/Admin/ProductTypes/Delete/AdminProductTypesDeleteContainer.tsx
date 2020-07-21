@@ -16,7 +16,7 @@ const getErrorMessageID = (e: Error) => {
 export const AdminProductTypesDeleteContainer = () => {
   const { dependencies } = useDependencies();
   const {
-    adminProductTypesState: { getProductTypes, deleteProductType },
+    state: { get: getProductTypes, remove: deleteProductType },
   } = useAdminProductTypesState();
 
   const deleteEntity = React.useCallback(

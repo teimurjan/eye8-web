@@ -16,7 +16,7 @@ const getErrorMessageID = (e: Error) => {
 export const AdminPromoCodesDeleteContainer = () => {
   const { dependencies } = useDependencies();
   const {
-    adminPromoCodesState: { getPromoCodes, deletePromoCode },
+    state: { get: getPromoCodes, remove: deletePromoCode },
   } = useAdminPromoCodesState();
 
   const deleteEntity = React.useCallback(

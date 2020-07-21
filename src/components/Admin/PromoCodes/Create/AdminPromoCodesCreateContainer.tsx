@@ -10,7 +10,7 @@ export const AdminPromoCodesCreateContainer = () => {
   const history = useHistory();
 
   const { dependencies } = useDependencies();
-  const { adminPromoCodesState } = useAdminPromoCodesState();
+  const { state: adminPromoCodesState } = useAdminPromoCodesState();
 
   return (
     <AdminPromoCodesCreatePresenter

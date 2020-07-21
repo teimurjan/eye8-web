@@ -19,8 +19,8 @@ export const AdminFeatureValuesCreateContainer = ({ close }: Partial<Pick<IPrese
   const defaultClose = React.useCallback(() => history.push('/admin/featureValues'), [history]);
 
   const { dependencies } = useDependencies();
-  const { adminFeatureTypesState } = useAdminFeatureTypesState();
-  const { adminFeatureValuesState } = useAdminFeatureValuesState();
+  const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
+  const { state: adminFeatureValuesState } = useAdminFeatureValuesState();
   const { intlState } = useIntlState();
 
   return (

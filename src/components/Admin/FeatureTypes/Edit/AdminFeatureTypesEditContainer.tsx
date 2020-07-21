@@ -15,7 +15,7 @@ export const AdminFeatureTypesEditContainer = () => {
   const params = useParams<{ id: string }>();
 
   const { dependencies } = useDependencies();
-  const { adminFeatureTypesState } = useAdminFeatureTypesState();
+  const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
   const { intlState } = useIntlState();
 
   return (

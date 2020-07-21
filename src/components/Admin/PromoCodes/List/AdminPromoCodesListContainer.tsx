@@ -7,7 +7,7 @@ import { useIntlState } from 'src/state/IntlState';
 
 export const AdminPromoCodesListContainer = () => {
   const { intlState } = useIntlState();
-  const { adminPromoCodesState } = useAdminPromoCodesState();
+  const { state: adminPromoCodesState } = useAdminPromoCodesState();
 
   return (
     <AdminPromoCodesListPresenter

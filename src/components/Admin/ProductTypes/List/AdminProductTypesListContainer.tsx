@@ -11,7 +11,7 @@ const View = injectIntl(AdminProductTypesListView);
 
 export const AdminProductTypesListContainer = () => {
   const { intlState } = useIntlState();
-  const { adminProductTypesState } = useAdminProductTypesState();
+  const { state: adminProductTypesState } = useAdminProductTypesState();
   const {
     dependencies: {
       services: { search: searchService },

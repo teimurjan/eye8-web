@@ -7,14 +7,15 @@ import * as schemaValidator from 'src/components/SchemaValidator';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { IOrderService } from 'src/services/OrderService';
 import * as orderService from 'src/services/OrderService';
-import { IContextValue as AdminOrdersStateContextValue } from 'src/state/AdminOrdersState';
+import { ContextValue as AdminOrdersStateContextValue } from 'src/state/AdminOrdersState';
 import { PHONE_REGEX } from 'src/utils/phone';
 
-export interface IProps extends AdminOrdersStateContextValue {
+export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IOrderService;
   history: History;
   orderId: number;
+  adminOrdersState: AdminOrdersStateContextValue['state'];
 }
 
 export interface IViewProps {
@@ -63,7 +64,7 @@ export const getErrorMessageID = (e: Error) => {
 
 export const AdminOrdersEditPresenter: React.FC<IProps> = ({
   history,
-  adminOrdersState: { getOrders },
+  adminOrdersState: { get: getOrders },
   service,
   View,
   orderId,

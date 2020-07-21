@@ -14,7 +14,7 @@ export const AdminFeatureTypesCreateContainer = () => {
   const history = useHistory();
 
   const { dependencies } = useDependencies();
-  const { adminFeatureTypesState } = useAdminFeatureTypesState();
+  const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
   const { intlState } = useIntlState();
 
   return (
