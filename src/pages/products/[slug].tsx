@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Layout } from 'src/components/Client/Layout';
 import { ProductTypePageContainer } from 'src/components/Client/ProductTypePage/ProductTypePageContainer';
 import { dependenciesFactory } from 'src/DI/DependenciesContainer';
+import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 export default ({ productType, products, error }: Then<ReturnType<typeof getServerSideProps>>['props']) => (
   <Layout>
@@ -16,12 +17,17 @@ export const getServerSideProps: GetServerSideProps = async ({ params = {}, req,
 
   try {
     const productType = await dependencies.services.productType.getBySlug(params.slug as string);
-    const products = productType ? await dependencies.services.product.getForProductType(productType.id) : [];
+    const {
+      entities: { products },
+      result,
+    } = productType
+      ? await dependencies.services.product.getForProductType(productType.id)
+      : { entities: { products: {} }, result: [] };
 
     return {
       props: {
         productType,
-        products,
+        products: agregateOrderedMapToArray(products, result),
       },
     };
   } catch (e) {
