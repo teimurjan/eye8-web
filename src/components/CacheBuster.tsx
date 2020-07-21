@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import pkgJSON from 'package.json';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
@@ -9,6 +8,9 @@ import { ToastId } from 'src/components/Toast/ids';
 import { toast } from 'src/components/Toast/ToastContainer';
 import { useDependencies } from 'src/DI/DI';
 import { safeWindowOperation } from 'src/utils/dom';
+
+const CACHE_DATE = new Date(21, 7, 2020);
+const CACHE_VERSION = CACHE_DATE.getTime().toString();
 
 export const CacheBuster = () => {
   const intl = useIntl();
@@ -21,14 +23,13 @@ export const CacheBuster = () => {
 
   React.useEffect(() => {
     const currentVersion = versionStorage.getVersion();
-    const newVersion = pkgJSON.version;
     const bust = () =>
       safeWindowOperation(w => {
-        versionStorage.setVersion(newVersion);
+        versionStorage.setVersion(CACHE_VERSION);
         w.location.reload(true);
       });
 
-    if (currentVersion && currentVersion !== newVersion) {
+    if (currentVersion && currentVersion !== CACHE_VERSION) {
       toast({
         id: ToastId.CacheBuster,
         children: (
@@ -49,7 +50,7 @@ export const CacheBuster = () => {
         ),
         type: 'primary',
         onDismiss: () => {
-          versionStorage.setVersion(newVersion);
+          versionStorage.setVersion(CACHE_VERSION);
         },
       });
     }

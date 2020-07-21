@@ -12,10 +12,10 @@ export class VersionStorage implements IVersionStorage {
   }
 
   public getVersion() {
-    return this.storage.getItem('appVersion');
+    return this.storage.getItem('cacheVersion');
   }
 
   public setVersion(version: string) {
-    return this.storage.setItem('appVersion', version);
+    return this.storage.setItem('cacheVersion', version);
   }
 }
