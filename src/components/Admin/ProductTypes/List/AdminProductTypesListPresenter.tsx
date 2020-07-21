@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { IProductTypeListRawIntlResponseItem } from 'src/api/ProductTypeAPI';
 import { extendIntlTextWithLocaleNames } from 'src/helpers/intl';
-import { useDebounce } from 'src/hooks/useDebounce';
 import { ISearchService } from 'src/services/SearchService';
 import { ContextValue as AdminProductTypesStateContextValue } from 'src/state/AdminProductTypesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
@@ -30,8 +29,6 @@ export const AdminProductTypesListPresenter = ({
   intlState: { availableLocales },
   searchService,
 }: IProps & IntlStateContextValue) => {
-  const isLoadingDebounced = useDebounce(isListLoading, 1000);
-
   React.useEffect(() => {
     getProductTypes();
   }, [getProductTypes]);
@@ -64,7 +61,7 @@ export const AdminProductTypesListPresenter = ({
     <View
       meta={meta}
       isDataLoaded={hasListLoaded}
-      isLoading={isLoadingDebounced}
+      isLoading={isListLoading}
       locales={availableLocales.map(({ name }) => name)}
       productTypes={productTypes}
       onPageChange={onPageChange}

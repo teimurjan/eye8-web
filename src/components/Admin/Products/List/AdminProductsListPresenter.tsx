@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import { useDebounce } from 'src/hooks/useDebounce';
 import { ContextValue as AdminProductsStateContextValue } from 'src/state/AdminProductsState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   adminProductsState: AdminProductsStateContextValue['state'];
+  productTypeId?: string;
 }
 
 export interface IViewProps {
@@ -15,17 +15,19 @@ export interface IViewProps {
   isDataLoaded: boolean;
   isLoading: boolean;
   onPageChange: (page: number) => void;
+  hasProductTypeFilter: boolean;
 }
 
 export const AdminProductsListPresenter = ({
   View,
   adminProductsState: { isListLoading, entities: products, get: getProducts, hasListLoaded, meta },
+  productTypeId,
 }: IProps & IntlStateContextValue) => {
-  const isLoadingDebounced = useDebounce(isListLoading, 1000);
-
+  const hasProductTypeFilter = typeof productTypeId !== 'undefined';
   React.useEffect(() => {
-    getProducts();
-  }, [getProducts]);
+    getProducts(hasProductTypeFilter ? { productTypeId: parseInt(productTypeId!, 10), page: 1 } : undefined);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasProductTypeFilter]);
 
   const onPageChange = React.useCallback(
     (page: number) => {
@@ -36,9 +38,10 @@ export const AdminProductsListPresenter = ({
 
   return (
     <View
+      hasProductTypeFilter={hasProductTypeFilter}
       meta={meta}
       isDataLoaded={hasListLoaded}
-      isLoading={isLoadingDebounced}
+      isLoading={isListLoading}
       products={products}
       onPageChange={onPageChange}
     />

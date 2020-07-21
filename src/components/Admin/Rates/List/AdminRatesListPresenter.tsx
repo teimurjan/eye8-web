@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { useDebounce } from 'src/hooks/useDebounce';
 import { ContextValue as AdminRatesContextValue } from 'src/state/AdminRatesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
@@ -19,11 +18,9 @@ export const AdminRatesListPresenter = ({
   View,
   adminRatesState: { isListLoading, entities: rates, get: getRates, hasListLoaded },
 }: IProps & IntlStateContextValue) => {
-  const isLoadingDebounced = useDebounce(isListLoading, 1000);
-
   React.useEffect(() => {
     getRates();
   }, [getRates]);
 
-  return <View isDataLoaded={hasListLoaded} isLoading={isLoadingDebounced} rates={rates} />;
+  return <View isDataLoaded={hasListLoaded} isLoading={isListLoading} rates={rates} />;
 };

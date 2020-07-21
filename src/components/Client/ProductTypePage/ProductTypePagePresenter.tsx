@@ -4,6 +4,7 @@ import { IProductForProductTypeResponseItem } from 'src/api/ProductAPI';
 import { IProductTypeDetailResponseItem } from 'src/api/ProductTypeAPI';
 import { IProductService } from 'src/services/ProductService';
 import { IProductTypeService } from 'src/services/ProductTypeService';
+import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
@@ -54,9 +55,12 @@ export const ProductTypePagePresenter: React.FC<IProps> = ({
         try {
           const productType = await productTypeService.getByID(id);
           if (productType) {
-            const products = await productService.getForProductType(productType.id);
+            const {
+              entities: { products },
+              result: productsOrder,
+            } = await productService.getForProductType(productType.id);
             setProductType(productType);
-            setProducts(products);
+            setProducts(agregateOrderedMapToArray(products, productsOrder));
           } else {
             setError('ProductPage.notFound');
           }

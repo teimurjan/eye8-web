@@ -72,6 +72,7 @@ export interface IProductForProductTypeResponseItem {
     id: number;
     name: string;
     slug: string;
+    image: string;
   };
   quantity: number;
   upc?: string;

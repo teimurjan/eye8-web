@@ -4,7 +4,6 @@ import * as yup from 'yup';
 
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useDebounce } from 'src/hooks/useDebounce';
 import { useLazy } from 'src/hooks/useLazy';
 import { ICategoryService } from 'src/services/CategoryService';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
@@ -47,8 +46,6 @@ export const AdminCategoriesCreatePresenter: React.FC<IProps> = ({
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isCreating, setCreating] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
-
-  const isLoadingDebounced = useDebounce(categoriesLoading, 500);
 
   const makeValidator = React.useCallback(
     () =>
@@ -123,7 +120,7 @@ export const AdminCategoriesCreatePresenter: React.FC<IProps> = ({
       isOpen={true}
       create={create}
       error={error}
-      isLoading={isLoadingDebounced}
+      isLoading={categoriesLoading}
       isCreating={isCreating}
       close={close}
       availableLocales={intlState.availableLocales}

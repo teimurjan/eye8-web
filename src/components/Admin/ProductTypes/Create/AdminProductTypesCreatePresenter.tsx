@@ -5,7 +5,6 @@ import * as yup from 'yup';
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import { IProps as IModalFormProps } from 'src/components/Admin/ModalForm';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useDebounce } from 'src/hooks/useDebounce';
 import { useLazy } from 'src/hooks/useLazy';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
@@ -71,7 +70,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
   const [isCreating, setCreating] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
 
-  const isLoadingDebounced = useDebounce(categoriesLoading && featureTypesLoading, 500);
+  const isLoading = categoriesLoading && featureTypesLoading;
 
   const makeValidator = React.useCallback(
     () =>
@@ -190,7 +189,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
       isOpen={true}
       create={create}
       error={error}
-      isLoading={isLoadingDebounced}
+      isLoading={isLoading}
       isCreating={isCreating}
       close={close}
       availableLocales={intlState.availableLocales}

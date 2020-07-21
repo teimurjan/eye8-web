@@ -299,5 +299,8 @@
   "cacheBuster.refresh": "Доступна новая версия Eye8!",
   "cacheBuster.refresh.action": "Обновить",
   "AdminPromoCodes.amount": "Сумма",
-  "ProductType.someOptionsAvailable": "Доступно несколько вариантов"
+  "ProductType.someOptionsAvailable": "Доступно несколько вариантов",
+  "AdminProductTypes.productsLink": "Показать продукты",
+  "AdminProducts.productTypeFilter": "Показаны продукты для {productType}",
+  "common.showAll": "Показать все"
 }

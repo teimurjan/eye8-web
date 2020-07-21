@@ -10,7 +10,6 @@ import {
   PRODUCT_TYPE_SHORT_DESCRIPTION_FIELD_KEY,
 } from 'src/components/Admin/ProductTypes/Create/AdminProductTypesCreatePresenter';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useDebounce } from 'src/hooks/useDebounce';
 import { useLazy } from 'src/hooks/useLazy';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
@@ -70,7 +69,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
 
-  const isLoadingDebounced = useDebounce(isLoading || categoriesLoading || featureTypesLoading, 500);
+  const isLoading_ = isLoading || categoriesLoading || featureTypesLoading;
 
   const makeValidator = React.useCallback(
     () =>
@@ -214,7 +213,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
       edit={edit}
       error={error}
       isUpdating={isUpdating}
-      isLoading={isLoadingDebounced}
+      isLoading={isLoading_}
       close={close}
       availableLocales={availableLocales}
       validate={(validator || { validate: undefined }).validate}

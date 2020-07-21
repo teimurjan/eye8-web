@@ -3,7 +3,6 @@ import * as yup from 'yup';
 
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useDebounce } from 'src/hooks/useDebounce';
 import { useLazy } from 'src/hooks/useLazy';
 import { IFeatureValueService } from 'src/services/FeatureValueService';
 import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
@@ -42,8 +41,6 @@ export const AdminFeatureValuesCreatePresenter: React.FC<IProps> = ({
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isCreating, setCreating] = React.useState(false);
-
-  const isLoadingDebounced = useDebounce(featureTypesLoading, 500);
 
   React.useEffect(() => {
     getFeatureTypes();
@@ -108,7 +105,7 @@ export const AdminFeatureValuesCreatePresenter: React.FC<IProps> = ({
       create={create}
       error={error}
       isCreating={isCreating}
-      isLoading={isLoadingDebounced}
+      isLoading={featureTypesLoading}
       close={close}
       availableLocales={availableLocales}
       featureTypes={featureTypes}

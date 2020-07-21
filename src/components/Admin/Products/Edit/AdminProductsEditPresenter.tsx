@@ -6,7 +6,6 @@ import { IProductListResponseItem } from 'src/api/ProductAPI';
 import { IProductTypeListRawIntlMinifiedResponseItem } from 'src/api/ProductTypeAPI';
 import { useSelectProductTypes } from 'src/components/Admin/ProductTypeSelect/useSelectProductTypes';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useDebounce } from 'src/hooks/useDebounce';
 import { IProductService } from 'src/services/ProductService';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
@@ -72,8 +71,6 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
     productTypeService,
     mandatoryProductTypeId: product?.product_type.id,
   });
-
-  const isLoadingDebounced = useDebounce(isLoading, 500);
 
   const validator = new schemaValidator.SchemaValidator(
     yup.object().shape({
@@ -155,7 +152,7 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
       isOpen={true}
       edit={edit}
       error={error ? error : productTypesError}
-      isLoading={isLoadingDebounced}
+      isLoading={isLoading}
       isUpdating={isUpdating}
       close={close}
       validate={(validator || { validate: undefined }).validate}

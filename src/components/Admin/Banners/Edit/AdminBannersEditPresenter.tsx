@@ -5,7 +5,6 @@ import * as yup from 'yup';
 import { IBannerListRawIntlResponseItem } from 'src/api/BannerAPI';
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useDebounce } from 'src/hooks/useDebounce';
 import { useLazy } from 'src/hooks/useLazy';
 import { IBannerService } from 'src/services/BannerService';
 import { ContextValue as AdminBannersStateContextValue } from 'src/state/AdminBannersState';
@@ -65,8 +64,6 @@ export const AdminBannersEditPresenter: React.FC<IProps> = ({
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
-
-  const isLoadingDebounced = useDebounce(isLoading, 500);
 
   const makeValidator = React.useCallback(
     () =>
@@ -191,7 +188,7 @@ export const AdminBannersEditPresenter: React.FC<IProps> = ({
       edit={edit}
       error={error}
       isUpdating={isUpdating}
-      isLoading={isLoadingDebounced}
+      isLoading={isLoading}
       close={close}
       availableLocales={availableLocales}
       validate={(validator || { validate: undefined }).validate}

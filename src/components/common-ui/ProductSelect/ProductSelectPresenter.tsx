@@ -65,7 +65,7 @@ export const ProductSelectPresenter = ({ searchService, onChange, View, placehol
   return (
     <View
       className={className}
-      isLoading={isLoadingDebounced}
+      isLoading={isLoading}
       productTypes={agregateOrderedMapToArray(productTypes, order)}
       onSearchValueChange={onSearchValueChange}
       error={error}

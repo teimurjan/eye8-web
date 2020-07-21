@@ -5,7 +5,6 @@ import * as yup from 'yup';
 import { IFeatureTypeListRawIntlResponseItem } from 'src/api/FeatureTypeAPI';
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useDebounce } from 'src/hooks/useDebounce';
 import { useLazy } from 'src/hooks/useLazy';
 import { IFeatureTypeService } from 'src/services/FeatureTypeService';
 import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
@@ -47,8 +46,6 @@ export const AdminFeatureTypesEditPresenter: React.FC<IProps> = ({
   const [featureType, setFeatureType] = React.useState<IFeatureTypeListRawIntlResponseItem | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
-
-  const isLoadingDebounced = useDebounce(isLoading, 500);
 
   React.useEffect(() => {
     (async () => {
@@ -133,7 +130,7 @@ export const AdminFeatureTypesEditPresenter: React.FC<IProps> = ({
       error={error}
       preloadingError={preloadingError}
       isUpdating={isUpdating}
-      isLoading={isLoadingDebounced}
+      isLoading={isLoading}
       initialValues={initialValues}
       close={close}
       availableLocales={availableLocales}

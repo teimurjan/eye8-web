@@ -5,7 +5,6 @@ import * as yup from 'yup';
 import { ICategoryListRawIntlResponseItem } from 'src/api/CategoryAPI';
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useDebounce } from 'src/hooks/useDebounce';
 import { useLazy } from 'src/hooks/useLazy';
 import { ICategoryService } from 'src/services/CategoryService';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
@@ -54,8 +53,6 @@ export const AdminCategoriesEditPresenter: React.FC<IProps> = ({
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
-
-  const isLoadingDebounced = useDebounce(isLoading || categoriesLoading, 500);
 
   const makeValidator = React.useCallback(
     () =>
@@ -160,7 +157,7 @@ export const AdminCategoriesEditPresenter: React.FC<IProps> = ({
       edit={edit}
       error={error}
       isUpdating={isUpdating}
-      isLoading={isLoadingDebounced}
+      isLoading={isLoading || categoriesLoading}
       close={close}
       availableLocales={availableLocales}
       validate={(validator || { validate: undefined }).validate}

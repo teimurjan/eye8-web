@@ -60,5 +60,5 @@ export const DeleteModalPresenter = ({
     }
   }, [close, deleteEntity, getErrorMessageID, id]);
 
-  return <View isOpen={!!id} onConfirm={remove} onClose={close} error={error} isLoading={isLoadingDebounced} />;
+  return <View isOpen={!!id} onConfirm={remove} onClose={close} error={error} isLoading={isLoading} />;
 };

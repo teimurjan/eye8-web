@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import * as React from 'react';
 import { IntlShape } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import { ControlledPagination } from 'src/components/admin-ui/ControlledPagination/ControlledPagination';
 import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextField';
@@ -75,6 +76,30 @@ export class IntlRenderer<T> implements IRenderer<T> {
       ))}
     </React.Fragment>
   );
+}
+
+export class LinkRenderer<T> extends DefaultRenderer<T> {
+  private getLink: (entity: T) => { to: string; text: string };
+
+  constructor(getLink: (entity: T) => { to: string; text: string }) {
+    super();
+    this.getLink = getLink;
+  }
+
+  public renderEntity = (entity: T, { colKey }: IAdminTableRendererRequiredArgs) => {
+    const { to, text } = this.getLink(entity);
+    return (
+      <Table.Cell
+        css={css`
+          text-align: center !important;
+        `}
+      >
+        <Link to={to} role="img">
+          {text} 🔗
+        </Link>
+      </Table.Cell>
+    );
+  };
 }
 
 export class ImageRenderer<T> extends DefaultRenderer<T> {

@@ -7,14 +7,20 @@ export type ContextValue = IContextValue<
   IProductListResponseItem,
   IProductListResponseItem,
   IProductListResponseMeta,
-  { page: number }
+  { page: number; productTypeId?: number }
 >;
 
 const Context = React.createContext<ContextValue | null>(null);
 
 export const AdminProductsStateProvider = makeEntityState(
   Context,
-  (d, params = { page: 1 }) => d.dependencies.services.product.getAll(params.page),
+  (d, params = { page: 1 }) => {
+    if (params.productTypeId) {
+      return d.dependencies.services.product.getForProductType(params.productTypeId);
+    }
+
+    return d.dependencies.services.product.getAll(params.page);
+  },
   'products',
 );
 

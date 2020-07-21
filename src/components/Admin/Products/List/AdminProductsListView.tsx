@@ -5,6 +5,7 @@ import { IntlShape, injectIntl } from 'react-intl';
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
 import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataAvaiable';
 import { Section } from 'src/components/admin-ui/Section/Section';
+import { Subtitle } from 'src/components/admin-ui/Subtitle/Subtitle';
 import { AdminTable } from 'src/components/Admin/AdminTable';
 import { IViewProps as IProps } from 'src/components/Admin/Products/List/AdminProductsListPresenter';
 
@@ -39,12 +40,36 @@ export const AdminProductsListView = ({
   isDataLoaded,
   meta,
   onPageChange,
+  hasProductTypeFilter,
 }: IProps & { intl: IntlShape }) => (
   <Section
     css={css`
       width: 100%;
     `}
   >
+    {hasProductTypeFilter && (
+      <div
+        css={css`
+          margin-bottom: 20px;
+        `}
+      >
+        {products.length > 0 && !isLoading && (
+          <Subtitle size={4}>
+            {intl.formatMessage(
+              { id: 'AdminProducts.productTypeFilter' },
+              { productType: products[0].product_type.name },
+            )}
+          </Subtitle>
+        )}
+
+        {!isLoading && (
+          <ReactRouterLinkButton to="/admin/products">
+            {intl.formatMessage({ id: 'common.showAll' })}
+          </ReactRouterLinkButton>
+        )}
+      </div>
+    )}
+
     <AdminTable<Product>
       hideSubheader={true}
       pathPrefix="/admin/products"
@@ -69,6 +94,6 @@ export const AdminProductsListView = ({
       />
     </AdminTable>
 
-    {isDataLoaded && products.length > 0 && <NewProductButton />}
+    {isDataLoaded && !isLoading && products.length > 0 && <NewProductButton />}
   </Section>
 );

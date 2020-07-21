@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { useDebounce } from 'src/hooks/useDebounce';
 import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
@@ -21,8 +20,6 @@ export const AdminFeatureValuesListPresenter = ({
   adminFeatureValuesState: { isListLoading, entities: featureValues, get: getFeatureValues, hasListLoaded },
   intlState: { availableLocales },
 }: IProps & IntlStateContextValue) => {
-  const isLoadingDebounced = useDebounce(isListLoading, 1000);
-
   React.useEffect(() => {
     getFeatureValues();
   }, [getFeatureValues]);
@@ -30,7 +27,7 @@ export const AdminFeatureValuesListPresenter = ({
   return (
     <View
       isDataLoaded={hasListLoaded}
-      isLoading={isLoadingDebounced}
+      isLoading={isListLoading}
       locales={availableLocales.map(({ name }) => name)}
       featureValues={featureValues}
     />

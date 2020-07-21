@@ -5,7 +5,7 @@ import { IntlShape, injectIntl } from 'react-intl';
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
 import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataAvaiable';
 import { Section } from 'src/components/admin-ui/Section/Section';
-import { AdminTable, IntlRenderer, ImageRenderer } from 'src/components/Admin/AdminTable';
+import { AdminTable, IntlRenderer, ImageRenderer, LinkRenderer } from 'src/components/Admin/AdminTable';
 import { IViewProps as IProps } from 'src/components/Admin/ProductTypes/List/AdminProductTypesListPresenter';
 
 export const NewProductTypeButton = injectIntl(({ intl }) => (
@@ -65,6 +65,16 @@ export const AdminProductTypesListView = ({
         key_="image"
         title={intl.formatMessage({ id: 'AdminProductTypes.image' })}
         renderer={new ImageRenderer(productType => productType.name[intl.locale])}
+      />
+      <AdminTable.Col<ProductType>
+        key_="id"
+        title=""
+        renderer={
+          new LinkRenderer(entity => ({
+            to: `/admin/products?productTypeId=${entity.id}`,
+            text: intl.formatMessage({ id: 'AdminProductTypes.productsLink' }),
+          }))
+        }
       />
     </AdminTable>
 

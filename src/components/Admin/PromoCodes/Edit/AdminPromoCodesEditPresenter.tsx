@@ -3,7 +3,6 @@ import * as React from 'react';
 
 import { IPromoCodeDetailResponseItem } from 'src/api/PromoCodeAPI';
 import { getErrorMessageID } from 'src/components/Admin/PromoCodes/Create/AdminPromoCodesCreatePresenter';
-import { useDebounce } from 'src/hooks/useDebounce';
 import { IPromoCodeService } from 'src/services/PromoCodeService';
 import { ContextValue as AdminPromoCodesStateContextValue } from 'src/state/AdminPromoCodesState';
 
@@ -42,8 +41,6 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
   const [promoCode, setPromoCode] = React.useState<IPromoCodeDetailResponseItem | undefined>(undefined);
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
-
-  const isLoadingDebounced = useDebounce(isLoading, 500);
 
   React.useEffect(() => {
     (async () => {
@@ -94,7 +91,7 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
       edit={edit}
       error={error}
       isUpdating={isUpdating}
-      isLoading={isLoadingDebounced}
+      isLoading={isLoading}
       preloadingError={preloadingError}
       close={close}
       initialValues={

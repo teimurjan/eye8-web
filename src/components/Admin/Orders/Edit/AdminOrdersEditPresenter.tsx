@@ -4,7 +4,6 @@ import * as yup from 'yup';
 
 import { IOrderDetailResponseItem } from 'src/api/OrderAPI';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useDebounce } from 'src/hooks/useDebounce';
 import { IOrderService } from 'src/services/OrderService';
 import * as orderService from 'src/services/OrderService';
 import { ContextValue as AdminOrdersStateContextValue } from 'src/state/AdminOrdersState';
@@ -75,8 +74,6 @@ export const AdminOrdersEditPresenter: React.FC<IProps> = ({
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
 
-  const isLoadingDebounced = useDebounce(isLoading, 500);
-
   React.useEffect(() => {
     (async () => {
       try {
@@ -122,7 +119,7 @@ export const AdminOrdersEditPresenter: React.FC<IProps> = ({
       isOpen={true}
       edit={edit}
       error={error}
-      isLoading={isLoadingDebounced}
+      isLoading={isLoading}
       isUpdating={isUpdating}
       close={close}
       validate={validator.validate}

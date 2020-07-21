@@ -3,7 +3,6 @@ import React from 'react';
 
 import { IOrderDetailResponseItem, IOrderListResponseMeta, IOrderForUserResponseItem } from 'src/api/OrderAPI';
 import { isUserAuthorized } from 'src/helpers/user';
-import { useDebounce } from 'src/hooks/useDebounce';
 import { IOrderService } from 'src/services/OrderService';
 import { AuthorizedUser } from 'src/state/UserState';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
@@ -36,7 +35,6 @@ export const OrdersPresenter: React.FC<IProps> = ({ service, View, user, history
     limit: 0,
     page: 0,
   });
-  const isLoadingDebounced = useDebounce(isLoading, 500);
 
   const getOrders = React.useCallback(
     (page: number) => {
@@ -75,7 +73,7 @@ export const OrdersPresenter: React.FC<IProps> = ({ service, View, user, history
   return (
     <View
       orders={agregateOrderedMapToArray(orders, ordersOrder)}
-      isLoading={isLoadingDebounced}
+      isLoading={isLoading}
       error={error}
       currentPage={ordersMeta.page}
       onPageChange={getOrders}

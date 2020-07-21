@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { useDebounce } from 'src/hooks/useDebounce';
 import { ContextValue as AdminBannersStateContextValue } from 'src/state/AdminBannersState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
@@ -21,8 +20,6 @@ export const AdminBannersListPresenter = ({
   adminBannersState: { isListLoading, entities: banners, get: getBanners, hasListLoaded },
   intlState: { availableLocales },
 }: IProps) => {
-  const isLoadingDebounced = useDebounce(isListLoading, 1000);
-
   React.useEffect(() => {
     getBanners();
   }, [getBanners]);
@@ -30,7 +27,7 @@ export const AdminBannersListPresenter = ({
   return (
     <View
       isDataLoaded={hasListLoaded}
-      isLoading={isLoadingDebounced}
+      isLoading={isListLoading}
       locales={availableLocales.map(({ name }) => name)}
       banners={banners}
     />

@@ -38,7 +38,16 @@ export interface IProductService {
   edit(id: number, payload: productAPI.IProductEditPayload): Promise<productAPI.IProductResponseItem>;
   exists(id: number): Promise<boolean>;
   getOne(id: number): Promise<productAPI.IProductResponseItem | undefined>;
-  getForProductType(productTypeID: number): Promise<productAPI.IProductForProductTypeResponseItem[]>;
+  getForProductType(
+    productTypeID: number,
+  ): Promise<{
+    entities: {
+      products: {
+        [key: string]: productAPI.IProductForProductTypeResponseItem;
+      };
+    };
+    result: number[];
+  }>;
 }
 
 export class ProductService implements IProductService {
@@ -114,6 +123,7 @@ export class ProductService implements IProductService {
   };
 
   public getForProductType: IProductService['getForProductType'] = async (productTypeID: number) => {
-    return (await this.API.getForProductType(productTypeID)).data;
+    const products = await this.API.getForProductType(productTypeID);
+    return normalize(products.data, [new schema.Entity('products')]);
   };
 }
