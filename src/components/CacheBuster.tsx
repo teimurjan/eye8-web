@@ -9,7 +9,7 @@ import { toast } from 'src/components/Toast/ToastContainer';
 import { useDependencies } from 'src/DI/DI';
 import { safeWindowOperation } from 'src/utils/dom';
 
-const CACHE_DATE = new Date(21, 7, 2020);
+const CACHE_DATE = new Date(2020, 7, 21);
 const CACHE_VERSION = CACHE_DATE.getTime().toString();
 
 export const CacheBuster = () => {

@@ -20,7 +20,7 @@ import { mediaQueries } from 'src/styles/media';
 import { formatMediaURL } from 'src/utils/url';
 
 const inputCSS = css`
-  width: 300px !important;
+  width: 400px !important;
   max-width: 100%;
 
   @media ${mediaQueries.maxWidth768} {
@@ -108,8 +108,8 @@ export const SearchView: React.FC<IProps> = ({
               <img
                 alt={productType.name}
                 css={css`
-                  width: 30px;
-                  height: 30px;
+                  width: 50px;
+                  height: 50px;
                   vertical-align: middle;
                   margin-right: 0.25rem;
                 `}
