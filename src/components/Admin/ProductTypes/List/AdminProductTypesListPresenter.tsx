@@ -31,7 +31,8 @@ export const AdminProductTypesListPresenter = ({
 }: IProps & IntlStateContextValue) => {
   React.useEffect(() => {
     getProductTypes();
-  }, [getProductTypes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onPageChange = React.useCallback(
     page => {

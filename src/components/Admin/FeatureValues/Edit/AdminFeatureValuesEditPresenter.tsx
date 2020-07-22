@@ -40,7 +40,12 @@ export const AdminFeatureValuesEditPresenter: React.FC<IProps> = ({
   featureValueId,
   intlState: { availableLocales },
   service,
-  adminFeatureTypesState: { get: getFeatureTypes, isListLoading: featureTypesLoading, entities: featureTypes },
+  adminFeatureTypesState: {
+    get: getFeatureTypes,
+    isListLoading: featureTypesLoading,
+    entities: featureTypes,
+    hasListLoaded: isDataLoaded,
+  },
   history,
   adminFeatureValuesState: { set: setFeatureValueToState },
   View,
@@ -57,7 +62,10 @@ export const AdminFeatureValuesEditPresenter: React.FC<IProps> = ({
         setLoading(true);
         const featureValue = await service.getOneRawIntl(featureValueId);
         if (featureValue) {
-          getFeatureTypes();
+          if (!isDataLoaded) {
+            getFeatureTypes();
+          }
+
           setFeatureValue(featureValue);
         } else {
           setPreloadingError('AdminFeatureValues.notFound');
@@ -68,7 +76,8 @@ export const AdminFeatureValuesEditPresenter: React.FC<IProps> = ({
         setLoading(false);
       }
     })();
-  }, [featureValueId, getFeatureTypes, service]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const makeValidator = React.useCallback(
     () =>

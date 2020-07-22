@@ -43,7 +43,12 @@ export interface IViewProps {
 
 export const AdminProductsCreatePresenter: React.FC<IProps> = ({
   history,
-  adminFeatureValuesState: { get: getFeatureValues, entities: featureValues, isListLoading: featureValuesLoading },
+  adminFeatureValuesState: {
+    get: getFeatureValues,
+    entities: featureValues,
+    isListLoading: featureValuesLoading,
+    hasListLoaded: isDataLoaded,
+  },
   adminProductsState: { get: getProducts },
   productService,
   productTypeService,
@@ -84,6 +89,10 @@ export const AdminProductsCreatePresenter: React.FC<IProps> = ({
   );
 
   React.useEffect(() => {
+    if (isDataLoaded) {
+      return;
+    }
+
     (async () => {
       try {
         await getFeatureValues();

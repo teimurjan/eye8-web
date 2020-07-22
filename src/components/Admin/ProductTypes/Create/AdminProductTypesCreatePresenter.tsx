@@ -59,8 +59,18 @@ const STATE_CACHE_KEY = 'adminProductTypeCreationForm';
 export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
   intlState,
   history,
-  adminCategoriesState: { get: getCategories, entities: categories, isListLoading: categoriesLoading },
-  adminFeatureTypesState: { get: getFeatureTypes, entities: featureTypes, isListLoading: featureTypesLoading },
+  adminCategoriesState: {
+    get: getCategories,
+    entities: categories,
+    isListLoading: categoriesLoading,
+    hasListLoaded: hasCategoriesLoaded,
+  },
+  adminFeatureTypesState: {
+    get: getFeatureTypes,
+    entities: featureTypes,
+    isListLoading: featureTypesLoading,
+    hasListLoaded: hasFeatureTypesLoaded,
+  },
   adminProductTypesState: { get: getProductTypes },
   service,
   View,
@@ -114,12 +124,21 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
   React.useEffect(() => {
     (async () => {
       try {
-        await Promise.all([getCategories(), getFeatureTypes()]);
+        const promises = [];
+        if (!hasCategoriesLoaded) {
+          promises.push(getCategories());
+        }
+        if (!hasFeatureTypesLoaded) {
+          promises.push(getFeatureTypes());
+        }
+
+        await Promise.all(promises);
       } catch (e) {
         setPreloadingError('errors.common');
       }
     })();
-  }, [getCategories, getFeatureTypes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const close = React.useCallback(() => history.push('/admin/productTypes'), [history]);
 

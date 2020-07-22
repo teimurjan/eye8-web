@@ -28,6 +28,7 @@ export interface ISelectTriggerProps {
   placeholder: string;
   onClick: React.MouseEventHandler;
   isOpen: boolean;
+  clear?: () => void;
 }
 
 export const SelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProps>(
@@ -105,6 +106,7 @@ export interface IProps<T extends HTMLElement> {
   onLoadMore?: () => void;
   isLoading?: boolean;
   append?: React.ReactNode;
+  clear?: () => void;
 }
 
 const getSelectedOptionChild = <T extends HTMLElement>({ children, value }: Pick<IProps<T>, 'children' | 'value'>) => {
@@ -134,6 +136,7 @@ export const Select = <T extends HTMLElement>({
   onLoadMore,
   isLoading,
   append,
+  clear,
 }: IProps<T>) => {
   const intl = useIntl();
   const popoverContentRef = React.useRef<HTMLDivElement>(null);
@@ -180,6 +183,7 @@ export const Select = <T extends HTMLElement>({
           renderTrigger={getSelectTriggerRenderer(TriggerComponent, {
             title: selectedOptionChild ? selectedOptionChild.props.children : undefined,
             placeholder,
+            clear: selectedOptionChild ? clear : undefined,
           })}
           closeOnClick
         >

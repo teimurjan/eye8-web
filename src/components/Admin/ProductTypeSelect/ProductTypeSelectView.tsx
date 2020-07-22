@@ -10,15 +10,17 @@ interface IProps {
   productTypes: IProductTypeListRawIntlMinifiedResponseItem[];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
+  allowClear?: boolean;
 }
 
-export const ProductTypeSelectView = ({
+export const ProductTypeSelectView = <T extends string | undefined = string>({
   productTypes,
   input,
   meta,
   LoadMoreProductTypes,
   productTypesLoading,
-}: IProps & FieldRenderProps<string>) => {
+  allowClear,
+}: IProps & FieldRenderProps<T>) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
@@ -43,6 +45,7 @@ export const ProductTypeSelectView = ({
         TriggerComponent: SelectTrigger,
         onLoadMore: LoadMoreProductTypes,
         isLoading: productTypesLoading,
+        clear: allowClear ? () => input.onChange(undefined) : undefined,
       }}
       helpTextProps={{
         children: showError ? intl.formatMessage({ id: meta.error }) : undefined,

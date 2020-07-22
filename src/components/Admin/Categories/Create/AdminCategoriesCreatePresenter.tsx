@@ -34,18 +34,12 @@ export const CATEGORY_NAME_FIELD_KEY = 'name';
 export const AdminCategoriesCreatePresenter: React.FC<IProps> = ({
   intlState,
   history,
-  adminCategoriesState: {
-    get: getCategories,
-    entities: categories,
-    add: addCategory,
-    isListLoading: categoriesLoading,
-  },
+  adminCategoriesState: { entities: categories, add: addCategory, isListLoading: categoriesLoading, listError },
   service,
   View,
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isCreating, setCreating] = React.useState(false);
-  const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
 
   const makeValidator = React.useCallback(
     () =>
@@ -69,16 +63,6 @@ export const AdminCategoriesCreatePresenter: React.FC<IProps> = ({
     make: makeValidator,
     trigger: intlState.availableLocales.length,
   });
-
-  React.useEffect(() => {
-    (async () => {
-      try {
-        await getCategories();
-      } catch (e) {
-        setPreloadingError('errors.common');
-      }
-    })();
-  }, [getCategories]);
 
   const close = React.useCallback(() => history.push('/admin/categories'), [history]);
 
@@ -125,7 +109,7 @@ export const AdminCategoriesCreatePresenter: React.FC<IProps> = ({
       close={close}
       availableLocales={intlState.availableLocales}
       validate={(validator || { validate: undefined }).validate}
-      preloadingError={preloadingError}
+      preloadingError={listError}
     />
   );
 };

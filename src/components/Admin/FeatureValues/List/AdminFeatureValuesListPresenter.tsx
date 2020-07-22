@@ -22,7 +22,8 @@ export const AdminFeatureValuesListPresenter = ({
 }: IProps & IntlStateContextValue) => {
   React.useEffect(() => {
     getFeatureValues();
-  }, [getFeatureValues]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View

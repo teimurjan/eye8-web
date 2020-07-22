@@ -77,8 +77,6 @@ const CategoriesSelect = ({ categories, input, meta }: ICategoriesSelectProps) =
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
-  console.log(categories);
-
   const { onChange: _, value, ...inputPropsToPass } = input;
 
   const onChange = React.useCallback(

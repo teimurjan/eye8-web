@@ -1,13 +1,15 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+import React from 'react';
 import { IntlShape, injectIntl } from 'react-intl';
 
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
 import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataAvaiable';
 import { Section } from 'src/components/admin-ui/Section/Section';
-import { Subtitle } from 'src/components/admin-ui/Subtitle/Subtitle';
 import { AdminTable } from 'src/components/Admin/AdminTable';
 import { IViewProps as IProps } from 'src/components/Admin/Products/List/AdminProductsListPresenter';
+import { ProductTypeSelectView } from 'src/components/Admin/ProductTypeSelect/ProductTypeSelectView';
+import { noop } from 'src/utils/function';
 
 export const NewProductButton = injectIntl(({ intl }) => (
   <ReactRouterLinkButton to="/admin/products/new" color="is-primary">
@@ -40,60 +42,64 @@ export const AdminProductsListView = ({
   isDataLoaded,
   meta,
   onPageChange,
-  hasProductTypeFilter,
-}: IProps & { intl: IntlShape }) => (
-  <Section
-    css={css`
-      width: 100%;
-    `}
-  >
-    {hasProductTypeFilter && (
+  selectedProductTypeId,
+  LoadMoreProductTypes,
+  productTypesLoading,
+  productTypes,
+  onProductTypeChange,
+}: IProps & { intl: IntlShape }) => {
+  return (
+    <Section
+      css={css`
+        width: 100%;
+      `}
+    >
       <div
         css={css`
           margin-bottom: 20px;
         `}
       >
-        {products.length > 0 && !isLoading && (
-          <Subtitle size={4}>
-            {intl.formatMessage(
-              { id: 'AdminProducts.productTypeFilter' },
-              { productType: products[0].product_type.name },
-            )}
-          </Subtitle>
-        )}
-
-        {!isLoading && (
-          <ReactRouterLinkButton to="/admin/products">
-            {intl.formatMessage({ id: 'common.showAll' })}
-          </ReactRouterLinkButton>
-        )}
+        <ProductTypeSelectView<string | undefined>
+          meta={{}}
+          input={{
+            name: 'productTypeSelect',
+            onChange: onProductTypeChange,
+            onBlur: noop,
+            onFocus: noop,
+            value: selectedProductTypeId,
+          }}
+          LoadMoreProductTypes={LoadMoreProductTypes}
+          productTypesLoading={productTypesLoading}
+          productTypes={productTypes}
+          allowClear
+        />
       </div>
-    )}
 
-    <AdminTable<Product>
-      hideSubheader={true}
-      pathPrefix="/admin/products"
-      isLoading={isLoading}
-      isDataLoaded={isDataLoaded}
-      entities={products}
-      renderNoData={renderNoData}
-      intl={intl}
-      currentPage={meta?.page}
-      pagesCount={meta?.pages_count}
-      onPageChange={onPageChange}
-    >
-      <AdminTable.Col<Product> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
-      <AdminTable.Col<Product> key_="upc" title={intl.formatMessage({ id: 'common.upc' })} />
-      <AdminTable.Col<Product> key_="price" title={intl.formatMessage({ id: 'AdminProducts.price' })} />
-      <AdminTable.Col<Product> key_="quantity" title={intl.formatMessage({ id: 'AdminProducts.quantity' })} />
-      <AdminTable.Col<Product> key_="discount" title={intl.formatMessage({ id: 'AdminProducts.discount' })} />
-      <AdminTable.Col<Product>
-        key_="product_type"
-        title={intl.formatMessage({ id: 'common.productType' })}
-        render={product => product.product_type.name}
-      />
-    </AdminTable>
+      <AdminTable<Product>
+        hideSubheader={true}
+        pathPrefix="/admin/products"
+        isLoading={isLoading}
+        isDataLoaded={isDataLoaded}
+        entities={products}
+        renderNoData={renderNoData}
+        intl={intl}
+        currentPage={meta?.page}
+        pagesCount={meta?.pages_count}
+        onPageChange={onPageChange}
+      >
+        <AdminTable.Col<Product> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
+        <AdminTable.Col<Product> key_="upc" title={intl.formatMessage({ id: 'common.upc' })} />
+        <AdminTable.Col<Product> key_="price" title={intl.formatMessage({ id: 'AdminProducts.price' })} />
+        <AdminTable.Col<Product> key_="quantity" title={intl.formatMessage({ id: 'AdminProducts.quantity' })} />
+        <AdminTable.Col<Product> key_="discount" title={intl.formatMessage({ id: 'AdminProducts.discount' })} />
+        <AdminTable.Col<Product>
+          key_="product_type"
+          title={intl.formatMessage({ id: 'common.productType' })}
+          render={product => product.product_type.name}
+        />
+      </AdminTable>
 
-    {isDataLoaded && !isLoading && products.length > 0 && <NewProductButton />}
-  </Section>
-);
+      {isDataLoaded && !isLoading && products.length > 0 && <NewProductButton />}
+    </Section>
+  );
+};

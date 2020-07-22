@@ -22,7 +22,8 @@ export const AdminFeatureTypesListPresenter = ({
 }: IProps) => {
   React.useEffect(() => {
     getFeatureTypes();
-  }, [getFeatureTypes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View

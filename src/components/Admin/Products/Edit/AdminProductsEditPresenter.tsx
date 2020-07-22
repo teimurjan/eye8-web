@@ -51,8 +51,13 @@ export interface IViewProps {
 export const AdminProductsEditPresenter: React.FC<IProps> = ({
   productId,
   history,
-  adminFeatureValuesState: { get: getFeatureValues, entities: featureValues, isListLoading: featureValuesLoading },
-  adminProductsState: { get: getProducts },
+  adminFeatureValuesState: {
+    get: getFeatureValues,
+    entities: featureValues,
+    isListLoading: featureValuesLoading,
+    hasListLoaded: isDataLoaded,
+  },
+  adminProductsState: { set: setProductToState },
   productService,
   productTypeService,
   View,
@@ -98,10 +103,12 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
     (async () => {
       try {
         setLoading(true);
-        await getFeatureValues();
         const product = await productService.getOne(productId);
         if (product) {
           setProduct(product);
+          if (!isDataLoaded) {
+            getFeatureValues();
+          }
         } else {
           setPreloadingError('AdminProducts.notFound');
         }
@@ -130,8 +137,8 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
       };
 
       try {
-        await productService.edit(productId, formattedValues);
-        getProducts();
+        const product = await productService.edit(productId, formattedValues);
+        setProductToState(product);
         setUpdating(false);
         close();
       } catch (e) {
@@ -139,7 +146,7 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
         setUpdating(false);
       }
     },
-    [close, getProducts, productId, productService],
+    [close, setProductToState, productId, productService],
   );
 
   return (

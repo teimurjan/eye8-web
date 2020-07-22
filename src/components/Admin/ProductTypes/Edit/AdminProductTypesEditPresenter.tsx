@@ -55,8 +55,18 @@ export const CATEGORY_NAME_FIELD_KEY = 'name';
 export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
   intlState,
   history,
-  adminCategoriesState: { get: getCategories, entities: categories, isListLoading: categoriesLoading },
-  adminFeatureTypesState: { get: getFeatureTypes, entities: featureTypes, isListLoading: featureTypesLoading },
+  adminCategoriesState: {
+    get: getCategories,
+    entities: categories,
+    isListLoading: categoriesLoading,
+    hasListLoaded: hasCategoriesLoaded,
+  },
+  adminFeatureTypesState: {
+    get: getFeatureTypes,
+    entities: featureTypes,
+    isListLoading: featureTypesLoading,
+    hasListLoaded: hasFeatureTypesLoaded,
+  },
   adminProductTypesState: { set: setProductTypeToState },
   intlState: { availableLocales },
   service,
@@ -120,10 +130,18 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
       try {
         setLoading(true);
 
-        await Promise.all([getCategories(), getFeatureTypes()]);
-
         const productType = await service.getOneRawIntl(productTypeId);
         if (productType) {
+          const promises = [];
+          if (!hasCategoriesLoaded) {
+            promises.push(getCategories());
+          }
+          if (!hasFeatureTypesLoaded) {
+            promises.push(getFeatureTypes());
+          }
+
+          Promise.all(promises);
+
           setProductType(productType);
         } else {
           setPreloadingError('AdminProductTypes.notFound');

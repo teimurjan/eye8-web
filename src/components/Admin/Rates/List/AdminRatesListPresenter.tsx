@@ -20,7 +20,8 @@ export const AdminRatesListPresenter = ({
 }: IProps & IntlStateContextValue) => {
   React.useEffect(() => {
     getRates();
-  }, [getRates]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <View isDataLoaded={hasListLoaded} isLoading={isListLoading} rates={rates} />;
 };

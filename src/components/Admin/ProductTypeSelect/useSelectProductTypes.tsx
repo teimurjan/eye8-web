@@ -1,3 +1,4 @@
+import { uniq } from 'lodash';
 import * as React from 'react';
 
 import {
@@ -19,10 +20,10 @@ export const useSelectProductTypes = ({ productTypeService, mandatoryProductType
   const {
     intlState: { availableLocales },
   } = useIntlState();
-  const [productTypes, setProductTypes] = React.useState<{ [id: string]: IProductTypeListRawIntlMinifiedResponseItem }>(
-    {},
-  );
-  const [productTypesOrder, setProductTypesOrder] = React.useState<number[]>([]);
+  const [data, setData] = React.useState<{
+    entities: { [id: string]: IProductTypeListRawIntlMinifiedResponseItem };
+    order: number[];
+  }>({ entities: {}, order: [] });
   const [isLoading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [meta, setMeta] = React.useState<IProductTypeListResponseMeta>({
@@ -40,8 +41,7 @@ export const useSelectProductTypes = ({ productTypeService, mandatoryProductType
           page,
           ProductTypeSortingType.RECENT,
         );
-        setProductTypes({ ...productTypes, ...entities.productTypes });
-        setProductTypesOrder([...productTypesOrder, ...result]);
+        setData({ entities: { ...data.entities, ...entities.productTypes }, order: uniq([...data.order, ...result]) });
         setMeta(meta);
       } catch (e) {
         setError('errors.common');
@@ -49,7 +49,7 @@ export const useSelectProductTypes = ({ productTypeService, mandatoryProductType
         setLoading(false);
       }
     },
-    [productTypeService, productTypes, productTypesOrder],
+    [productTypeService, data],
   );
 
   React.useEffect(() => {
@@ -59,13 +59,15 @@ export const useSelectProductTypes = ({ productTypeService, mandatoryProductType
 
   React.useEffect(() => {
     (async () => {
-      if (mandatoryProductTypeId && !productTypes[mandatoryProductTypeId] && !isLoading) {
+      if (mandatoryProductTypeId && !data.entities[mandatoryProductTypeId] && meta.page > 0) {
         try {
           setLoading(true);
           const productType = await productTypeService.getOneRawIntl(mandatoryProductTypeId);
           if (productType) {
-            setProductTypes({ ...productTypes, [productType.id]: productType });
-            setProductTypesOrder([...productTypesOrder, productType.id]);
+            setData({
+              entities: { ...data.entities, [productType.id]: productType },
+              order: [...data.order, productType.id],
+            });
           }
         } catch (e) {
           setError('errors.common');
@@ -75,7 +77,7 @@ export const useSelectProductTypes = ({ productTypeService, mandatoryProductType
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mandatoryProductTypeId]);
+  }, [mandatoryProductTypeId, meta.page]);
 
   const loadMore = React.useCallback(() => {
     if (meta.page < meta.pages_count && !isLoading) {
@@ -84,7 +86,7 @@ export const useSelectProductTypes = ({ productTypeService, mandatoryProductType
   }, [getProductTypes, meta, isLoading]);
 
   return {
-    productTypes: agregateOrderedMapToArray(productTypes, productTypesOrder, productType => ({
+    productTypes: agregateOrderedMapToArray(data.entities, data.order, productType => ({
       ...productType,
       name: extendIntlTextWithLocaleNames(productType.name, availableLocales),
     })),

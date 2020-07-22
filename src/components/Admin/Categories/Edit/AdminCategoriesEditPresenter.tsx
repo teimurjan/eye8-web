@@ -37,12 +37,7 @@ export const CATEGORY_NAME_FIELD_KEY = 'name';
 export const AdminCategoriesEditPresenter: React.FC<IProps> = ({
   intlState,
   history,
-  adminCategoriesState: {
-    get: getCategories,
-    entities: categories,
-    set: setCategoryToState,
-    isListLoading: categoriesLoading,
-  },
+  adminCategoriesState: { entities: categories, set: setCategoryToState, isListLoading: categoriesLoading },
   intlState: { availableLocales },
   service,
   View,
@@ -81,8 +76,6 @@ export const AdminCategoriesEditPresenter: React.FC<IProps> = ({
     (async () => {
       try {
         setLoading(true);
-
-        getCategories();
 
         const category = await service.getOneRawIntl(categoryId);
         if (category) {

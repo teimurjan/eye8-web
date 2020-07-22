@@ -16,16 +16,15 @@ const getErrorMessageID = (e: Error) => {
 export const AdminPromoCodesDeleteContainer = () => {
   const { dependencies } = useDependencies();
   const {
-    state: { get: getPromoCodes, remove: deletePromoCode },
+    state: { remove: deletePromoCode },
   } = useAdminPromoCodesState();
 
   const deleteEntity = React.useCallback(
     async (id: number) => {
       await dependencies.services.promoCode.delete(id);
       deletePromoCode(id);
-      getPromoCodes();
     },
-    [deletePromoCode, dependencies.services.promoCode, getPromoCodes],
+    [deletePromoCode, dependencies.services.promoCode],
   );
 
   const preloadData = React.useCallback(

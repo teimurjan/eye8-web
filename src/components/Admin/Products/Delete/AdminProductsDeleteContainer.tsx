@@ -7,16 +7,15 @@ import { useAdminProductsState } from 'src/state/AdminProductsState';
 export const AdminProductsDeleteContainer = () => {
   const { dependencies } = useDependencies();
   const {
-    state: { get: getProducts, remove: deleteProduct },
+    state: { remove: deleteProduct },
   } = useAdminProductsState();
 
   const deleteEntity = React.useCallback(
     async (id: number) => {
       await dependencies.services.product.delete(id);
       deleteProduct(id);
-      getProducts();
     },
-    [deleteProduct, dependencies.services.product, getProducts],
+    [deleteProduct, dependencies.services.product],
   );
 
   const preloadData = React.useCallback(

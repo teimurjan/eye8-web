@@ -63,7 +63,7 @@ export const getErrorMessageID = (e: Error) => {
 
 export const AdminOrdersEditPresenter: React.FC<IProps> = ({
   history,
-  adminOrdersState: { get: getOrders },
+  adminOrdersState: { set: setOrderToState },
   service,
   View,
   orderId,
@@ -102,8 +102,8 @@ export const AdminOrdersEditPresenter: React.FC<IProps> = ({
       };
 
       try {
-        await service.edit(orderId, formattedValues);
-        getOrders();
+        const order = await service.edit(orderId, formattedValues);
+        setOrderToState(order);
         close();
       } catch (e) {
         setError(getErrorMessageID(e));
@@ -111,7 +111,7 @@ export const AdminOrdersEditPresenter: React.FC<IProps> = ({
         setUpdating(false);
       }
     },
-    [service, orderId, getOrders, close],
+    [service, orderId, setOrderToState, close],
   );
 
   return (

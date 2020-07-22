@@ -20,7 +20,8 @@ export const AdminPromoCodesListPresenter = ({
 }: IProps & IntlStateContextValue) => {
   React.useEffect(() => {
     getPromoCodes();
-  }, [getPromoCodes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <View isDataLoaded={hasListLoaded} isLoading={isListLoading} promoCodes={promoCodes} />;
 };

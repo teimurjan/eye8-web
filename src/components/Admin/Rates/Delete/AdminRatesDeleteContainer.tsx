@@ -16,16 +16,15 @@ const getErrorMessageID = (e: Error) => {
 export const AdminRatesDeleteContainer = () => {
   const { dependencies } = useDependencies();
   const {
-    state: { get: getRates, remove: deleteRate },
+    state: { remove: deleteRate },
   } = useAdminRatesState();
 
   const deleteEntity = React.useCallback(
     async (id: number) => {
       await dependencies.services.rate.delete(id);
       deleteRate(id);
-      getRates();
     },
-    [deleteRate, dependencies.services.rate, getRates],
+    [deleteRate, dependencies.services.rate],
   );
 
   const preloadData = React.useCallback(

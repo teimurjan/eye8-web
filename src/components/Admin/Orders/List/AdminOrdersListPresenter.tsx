@@ -20,7 +20,8 @@ export const AdminOrdersListPresenter = ({
 }: IProps & IntlStateContextValue) => {
   React.useEffect(() => {
     getOrders();
-  }, [getOrders]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <View isDataLoaded={hasListLoaded} isLoading={isListLoading} orders={orders} />;
 };

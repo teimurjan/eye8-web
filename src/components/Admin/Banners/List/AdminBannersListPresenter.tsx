@@ -22,7 +22,8 @@ export const AdminBannersListPresenter = ({
 }: IProps) => {
   React.useEffect(() => {
     getBanners();
-  }, [getBanners]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View

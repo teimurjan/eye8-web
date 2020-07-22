@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/core';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { useTheme } from 'emotion-theming';
@@ -13,7 +13,7 @@ const VERTICAL_PADDING_PX = 5;
 const HORIZONTAL_PADDING_PX = 7.5;
 
 export const SelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProps>(
-  ({ title, onClick, isOpen, placeholder }, ref) => {
+  ({ title, onClick, isOpen, placeholder, clear }, ref) => {
     const theme = useTheme<AdminUITheme>();
 
     return (
@@ -44,6 +44,17 @@ export const SelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProp
         `}
         onClick={onClick}
       >
+        {clear && (
+          <span
+            onClick={clear}
+            css={css`
+              margin-right: 10px;
+              cursor: pointer;
+            `}
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </span>
+        )}
         {title ? title : placeholder}
         <FontAwesomeIcon
           css={css`

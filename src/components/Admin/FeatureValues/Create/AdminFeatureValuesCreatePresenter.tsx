@@ -33,7 +33,12 @@ export const FEATURE_VALUE_NAME_FIELD_KEY = 'name';
 
 export const AdminFeatureValuesCreatePresenter: React.FC<IProps> = ({
   intlState: { availableLocales },
-  adminFeatureTypesState: { get: getFeatureTypes, isListLoading: featureTypesLoading, entities: featureTypes },
+  adminFeatureTypesState: {
+    get: getFeatureTypes,
+    isListLoading: featureTypesLoading,
+    entities: featureTypes,
+    hasListLoaded: isDataLoaded,
+  },
   adminFeatureValuesState: { add: addFeatureValue },
   View,
   service,
@@ -43,8 +48,11 @@ export const AdminFeatureValuesCreatePresenter: React.FC<IProps> = ({
   const [isCreating, setCreating] = React.useState(false);
 
   React.useEffect(() => {
-    getFeatureTypes();
-  }, [getFeatureTypes]);
+    if (!isDataLoaded) {
+      getFeatureTypes();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const makeValidator = React.useCallback(
     () =>

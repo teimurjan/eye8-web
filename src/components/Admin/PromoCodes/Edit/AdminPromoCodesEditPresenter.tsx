@@ -31,7 +31,7 @@ export interface IViewProps {
 
 export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
   history,
-  adminPromoCodesState: { get: getPromoCodes },
+  adminPromoCodesState: { set: setPromoCodeToState },
   service,
   View,
   promoCodeId,
@@ -73,8 +73,11 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
       };
 
       try {
-        await service.edit(promoCodeId, formattedValues);
-        getPromoCodes();
+        const promoCode = await service.edit(promoCodeId, formattedValues);
+        setPromoCodeToState({
+          ...promoCode,
+          products: promoCode?.products.map(product => product.id),
+        });
         close();
       } catch (e) {
         setError(getErrorMessageID(e));
@@ -82,7 +85,7 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
         setUpdating(false);
       }
     },
-    [service, getPromoCodes, close, promoCodeId],
+    [service, setPromoCodeToState, close, promoCodeId],
   );
 
   return (
