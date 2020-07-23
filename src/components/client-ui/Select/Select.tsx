@@ -12,6 +12,7 @@ import { Popover, RenderTrigger } from 'src/components/client-ui/Popover/Popover
 import { useForceUpdate } from 'src/hooks/useForceUpdate';
 import { useScrollPosition } from 'src/hooks/useScrollPosition';
 import { mediaQueries } from 'src/styles/media';
+import { makeNoop } from 'src/utils/function';
 
 const VERTICAL_PADDING_PX = 7.5;
 const HORIZONTAL_PADDING_PX = 2.5;
@@ -19,25 +20,31 @@ const HORIZONTAL_PADDING_PX = 2.5;
 interface IOptionProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: string;
   children: React.ReactNode;
+  toSearchQuery: () => string;
 }
 
-const SelectOption = ({ color, ...props }: IOptionProps) => <Popover.Item Component="div" {...props} />;
+const SelectOption = ({ color, toSearchQuery, ...props }: IOptionProps) => <Popover.Item Component="div" {...props} />;
 
 export interface ISelectTriggerProps {
-  title?: React.ReactNode;
   placeholder: string;
   onClick: React.MouseEventHandler;
   isOpen: boolean;
   clear?: () => void;
+  onSearch?: (query: string) => void;
+  searchQuery?: string;
+  value: {
+    node?: React.ReactNode;
+    searchQuery?: string;
+  };
 }
 
 export const SelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProps>(
-  ({ title, onClick, isOpen, placeholder }, ref) => {
+  ({ value, onClick, isOpen, placeholder }, ref) => {
     const theme = useTheme<ClientUITheme>();
 
     return (
       <div
-        className={classNames({ open: isOpen, empty: !title })}
+        className={classNames({ open: isOpen, empty: !value.node })}
         ref={ref}
         tabIndex={1}
         css={css`
@@ -61,7 +68,7 @@ export const SelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProp
         `}
         onClick={onClick}
       >
-        {title ? title : placeholder}
+        {value.node ?? placeholder}
         <FontAwesomeIcon
           css={css`
             position: absolute;
@@ -107,6 +114,8 @@ export interface IProps<T extends HTMLElement> {
   isLoading?: boolean;
   append?: React.ReactNode;
   clear?: () => void;
+  onSearch?: (query: string) => void;
+  searchQuery?: string;
 }
 
 const getSelectedOptionChild = <T extends HTMLElement>({ children, value }: Pick<IProps<T>, 'children' | 'value'>) => {
@@ -126,6 +135,8 @@ const hasScrolledToLoad = (el: HTMLElement, scrollTop: number) => {
   return scrollHeight - scrollTop - LOAD_MORE_SCROLL_OFFSET <= clientHeight;
 };
 
+export const toSearchQueryNoop = makeNoop('');
+
 export const Select = <T extends HTMLElement>({
   children,
   onChange,
@@ -137,6 +148,8 @@ export const Select = <T extends HTMLElement>({
   isLoading,
   append,
   clear,
+  onSearch,
+  searchQuery,
 }: IProps<T>) => {
   const intl = useIntl();
   const popoverContentRef = React.useRef<HTMLDivElement>(null);
@@ -154,7 +167,7 @@ export const Select = <T extends HTMLElement>({
     ) {
       onLoadMore();
     }
-  }, [popoverContentRef, isLoading, onLoadMore, scrollPos, dep]);
+  }, [popoverContentRef, isLoading, onLoadMore, scrollPos, dep, searchQuery]);
 
   return (
     <div
@@ -181,9 +194,14 @@ export const Select = <T extends HTMLElement>({
           /* In order to popoverContentRef be set */
           onEnter={update}
           renderTrigger={getSelectTriggerRenderer(TriggerComponent, {
-            title: selectedOptionChild ? selectedOptionChild.props.children : undefined,
+            value: {
+              node: selectedOptionChild ? selectedOptionChild.props.children : undefined,
+              searchQuery: selectedOptionChild ? selectedOptionChild.props.toSearchQuery() : undefined,
+            },
+            searchQuery,
             placeholder,
             clear: selectedOptionChild ? clear : undefined,
+            onSearch,
           })}
           closeOnClick
         >
@@ -207,7 +225,7 @@ export const Select = <T extends HTMLElement>({
               }),
             )}
             {isLoading && (
-              <Select.Option>
+              <Select.Option toSearchQuery={toSearchQueryNoop}>
                 {intl.formatMessage({ id: 'common.loading' })}{' '}
                 <span role="img" aria-label="...">
                   ⌛

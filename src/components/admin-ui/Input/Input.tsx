@@ -7,6 +7,7 @@ export interface IProps {
   type?: string;
   placeholder?: string;
   onFocus?: React.FocusEventHandler<HTMLInputElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   value?: string;
   disabled?: boolean;

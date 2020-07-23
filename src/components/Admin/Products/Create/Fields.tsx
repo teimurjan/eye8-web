@@ -326,5 +326,6 @@ export const Fields: React.SFC<IFieldsProps> = React.memo(
       productTypes: lengthCompare,
       featureValues: lengthCompare,
       productTypesLoading: defaultCompare,
+      featureValuesLoading: defaultCompare,
     }),
 );

@@ -268,7 +268,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                   placeholder={featureType.name}
                 >
                   {getOptions(featureType).map(option => (
-                    <Select.Option key={option.value} value={option.value}>
+                    <Select.Option key={option.value} value={option.value} toSearchQuery={() => option.title}>
                       {option.title}
                     </Select.Option>
                   ))}

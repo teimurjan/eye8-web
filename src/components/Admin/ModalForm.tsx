@@ -15,7 +15,7 @@ import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout
 import { useDebounce } from 'src/hooks/useDebounce';
 import { useMedia } from 'src/hooks/useMedia';
 import { mediaQueries } from 'src/styles/media';
-import { arePropsEqual, defaultCompare } from 'src/utils/propEquality';
+import { arePropsEqual, defaultCompare, pointerCompare } from 'src/utils/propEquality';
 
 export interface IProps<T> {
   isOpen: boolean;
@@ -61,7 +61,7 @@ const MemoizedForm = React.memo(
     );
   },
   (prevProps, nextProps) =>
-    arePropsEqual(prevProps, nextProps, { id: defaultCompare, globalError: defaultCompare, fields: defaultCompare }),
+    arePropsEqual(prevProps, nextProps, { id: defaultCompare, globalError: defaultCompare, fields: pointerCompare }),
 );
 
 interface IInnerFormProps<T> {

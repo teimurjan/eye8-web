@@ -24,6 +24,11 @@ export const defaultCompare = <T>(prev: T, next: T) => {
     return deepEqual(prev, next);
   }
 
+  return pointerCompare(prev, next);
+};
+
+export const lengthCompare = <T>(prev: T[], next: T[]) => prev.length === next.length;
+
+export const pointerCompare = <T>(prev: T, next: T) => {
   return prev === next;
 };
-export const lengthCompare = <T>(prev: T[], next: T[]) => prev.length === next.length;

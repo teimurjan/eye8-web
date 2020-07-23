@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import React from 'react';
 import { IntlShape, injectIntl } from 'react-intl';
 
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';

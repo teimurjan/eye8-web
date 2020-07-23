@@ -23,11 +23,14 @@ export const ProductTypeSelectView = <T extends string | undefined = string>({
 }: IProps & FieldRenderProps<T>) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
+  const [searchQuery, setSearchQuery] = React.useState('');
 
-  const options = productTypes.map(({ id, name }) => ({
-    title: name[intl.locale],
-    value: `${id}`,
-  }));
+  const options = productTypes
+    .filter(({ name }) => name[intl.locale].toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1)
+    .map(({ id, name }) => ({
+      title: name[intl.locale],
+      value: `${id}`,
+    }));
 
   return (
     <FormSelectField
@@ -46,6 +49,8 @@ export const ProductTypeSelectView = <T extends string | undefined = string>({
         onLoadMore: LoadMoreProductTypes,
         isLoading: productTypesLoading,
         clear: allowClear ? () => input.onChange(undefined) : undefined,
+        onSearch: setSearchQuery,
+        searchQuery,
       }}
       helpTextProps={{
         children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
