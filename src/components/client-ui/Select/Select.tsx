@@ -203,6 +203,7 @@ export const Select = <T extends HTMLElement>({
             clear: selectedOptionChild ? clear : undefined,
             onSearch,
           })}
+          onExited={() => onSearch && onSearch('')}
           closeOnClick
         >
           <Popover.Content

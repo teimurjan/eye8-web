@@ -2,17 +2,20 @@
 import { css, jsx } from '@emotion/core';
 import { faCaretDown, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
 
+import { Button } from 'src/components/admin-ui/Button/Button';
 import { Input } from 'src/components/admin-ui/Input/Input';
 import { ISelectTriggerProps } from 'src/components/client-ui/Select/Select';
 import { useBoolean } from 'src/hooks/useBoolean';
 
 export const SelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProps>(
-  ({ searchQuery, onClick, placeholder, clear, onSearch, value }, ref) => {
+  ({ isOpen, searchQuery, onClick, placeholder, clear, onSearch, value }, ref) => {
     const theme = useTheme<AdminUITheme>();
     const { value: isFocused, setPositive: focus, setNegative: blur } = useBoolean();
+    const inputRef = React.useRef<HTMLInputElement>(null);
 
     const onSearchChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
       e => {
@@ -21,24 +24,31 @@ export const SelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProp
       [onSearch],
     );
 
-    const onBlur = React.useCallback(() => {
-      blur();
-      onSearch && onSearch('');
-    }, [onSearch, blur]);
-
     const query = (isFocused && onSearch ? searchQuery : value.searchQuery) ?? '';
+
+    const onClick_: React.MouseEventHandler = React.useCallback(
+      e => {
+        if (!isFocused) {
+          inputRef.current?.focus();
+        }
+        onClick(e);
+      },
+      [onClick, inputRef, isFocused],
+    );
 
     return (
       <div
+        data-open={classNames({ open: isOpen })}
         ref={ref}
         css={css`
           cursor: pointer;
           width: auto;
           position: relative;
         `}
-        onClick={onClick}
+        onClick={onClick_}
       >
         <Input
+          ref={inputRef}
           data-empty={!query}
           data-focused={isFocused}
           data-clearable={!!clear}
@@ -47,7 +57,7 @@ export const SelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProp
             transition: padding-left 300ms;
 
             &:not([data-empty='true'])[data-focused='false'][data-clearable='true'] {
-              padding-left: 30px;
+              padding-left: 44px;
             }
 
             &[data-searchable='false'] {
@@ -55,33 +65,35 @@ export const SelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProp
             }
           `}
           onFocus={focus}
-          onBlur={onBlur}
+          onBlur={blur}
           placeholder={placeholder}
           onChange={onSearchChange}
           value={query}
         />
         {clear && !isFocused && (
-          <span
+          <Button
             onClick={clear}
             css={css`
               cursor: pointer;
               position: absolute;
-              left: 10px;
-              top: 7px;
+              left: 0;
+              top: 50%;
+              transform: translateY(-50%);
             `}
           >
             <FontAwesomeIcon icon={faTimes} />
-          </span>
+          </Button>
         )}
         <FontAwesomeIcon
           css={css`
             position: absolute;
             right: 10px;
-            top: 10px;
+            top: 50%;
+            transform: translateY(-50%);
             color: ${theme.info};
             transition: transform 300ms;
 
-            .open > & {
+            [data-open='true'] > & {
               transform: rotate(180deg);
             }
           `}

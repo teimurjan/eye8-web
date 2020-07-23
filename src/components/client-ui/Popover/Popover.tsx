@@ -84,6 +84,8 @@ export interface IProps<T> {
   closeOnClick?: boolean;
   onEnter?: () => void;
   onEntered?: () => void;
+  onExit?: () => void;
+  onExited?: () => void;
   className?: string;
 }
 
@@ -104,6 +106,8 @@ export const Popover = <T extends HTMLElement>({
   closeOnClick = false,
   onEnter,
   onEntered,
+  onExit,
+  onExited,
   className,
 }: IProps<T>) => {
   const popoverRoot = safeDocument(d => d.getElementById('popoverRoot'), null);
@@ -190,6 +194,8 @@ export const Popover = <T extends HTMLElement>({
               classNames="popping"
               onEnter={onEnter}
               onEntered={onEntered}
+              onExit={onExit}
+              onExited={onExited}
               mountOnEnter
               unmountOnExit
             >
