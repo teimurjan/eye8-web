@@ -1,7 +1,6 @@
 /** @jsx jsx */
-
 import { css, jsx } from '@emotion/core';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { useTheme } from 'emotion-theming';
@@ -12,7 +11,6 @@ import { Popover, RenderTrigger } from 'src/components/client-ui/Popover/Popover
 import { useForceUpdate } from 'src/hooks/useForceUpdate';
 import { useScrollPosition } from 'src/hooks/useScrollPosition';
 import { mediaQueries } from 'src/styles/media';
-import { makeNoop } from 'src/utils/function';
 
 const VERTICAL_PADDING_PX = 7.5;
 const HORIZONTAL_PADDING_PX = 2.5;
@@ -20,10 +18,27 @@ const HORIZONTAL_PADDING_PX = 2.5;
 interface IOptionProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: string;
   children: React.ReactNode;
-  toSearchQuery: () => string;
+  searchQuery?: string;
+  selected?: boolean;
 }
 
-const SelectOption = ({ color, toSearchQuery, ...props }: IOptionProps) => <Popover.Item Component="div" {...props} />;
+const SelectOption = ({ color, searchQuery, children, selected, ...props }: IOptionProps) => {
+  const theme = useTheme<ClientUITheme>();
+  return (
+    <Popover.Item Component="div" {...props}>
+      {children}
+      {selected && (
+        <FontAwesomeIcon
+          css={css`
+            margin-left: 7.5px;
+          `}
+          icon={faCheck}
+          color={theme.successColor}
+        />
+      )}
+    </Popover.Item>
+  );
+};
 
 export interface ISelectTriggerProps {
   placeholder: string;
@@ -114,8 +129,7 @@ export interface IProps<T extends HTMLElement> {
   isLoading?: boolean;
   append?: React.ReactNode;
   clear?: () => void;
-  onSearch?: (query: string) => void;
-  searchQuery?: string;
+  hasSearch?: boolean;
 }
 
 const getSelectedOptionChild = <T extends HTMLElement>({ children, value }: Pick<IProps<T>, 'children' | 'value'>) => {
@@ -135,8 +149,6 @@ const hasScrolledToLoad = (el: HTMLElement, scrollTop: number) => {
   return scrollHeight - scrollTop - LOAD_MORE_SCROLL_OFFSET <= clientHeight;
 };
 
-export const toSearchQueryNoop = makeNoop('');
-
 export const Select = <T extends HTMLElement>({
   children,
   onChange,
@@ -148,13 +160,13 @@ export const Select = <T extends HTMLElement>({
   isLoading,
   append,
   clear,
-  onSearch,
-  searchQuery,
+  hasSearch,
 }: IProps<T>) => {
   const intl = useIntl();
   const popoverContentRef = React.useRef<HTMLDivElement>(null);
   const selectedOptionChild = getSelectedOptionChild<T>({ children, value });
   const { update, dep } = useForceUpdate();
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   const scrollPos = useScrollPosition(popoverContentRef);
 
@@ -168,6 +180,15 @@ export const Select = <T extends HTMLElement>({
       onLoadMore();
     }
   }, [popoverContentRef, isLoading, onLoadMore, scrollPos, dep, searchQuery]);
+
+  const onSearch = hasSearch ? setSearchQuery : undefined;
+  const onPopoverExited = () => onSearch && onSearch('');
+
+  const filteredChildren = children.filter(child =>
+    hasSearch && child.props.searchQuery && searchQuery.trim().length > 0
+      ? child.props.searchQuery.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
+      : true,
+  );
 
   return (
     <div
@@ -196,14 +217,14 @@ export const Select = <T extends HTMLElement>({
           renderTrigger={getSelectTriggerRenderer(TriggerComponent, {
             value: {
               node: selectedOptionChild ? selectedOptionChild.props.children : undefined,
-              searchQuery: selectedOptionChild ? selectedOptionChild.props.toSearchQuery() : undefined,
+              searchQuery: selectedOptionChild ? selectedOptionChild.props.searchQuery : undefined,
             },
             searchQuery,
             placeholder,
             clear: selectedOptionChild ? clear : undefined,
             onSearch,
           })}
-          onExited={() => onSearch && onSearch('')}
+          onExited={onPopoverExited}
           closeOnClick
         >
           <Popover.Content
@@ -217,16 +238,17 @@ export const Select = <T extends HTMLElement>({
               position: relative;
             `}
           >
-            {React.Children.map(children, child =>
+            {React.Children.map(filteredChildren, child =>
               React.cloneElement(child, {
                 ...child.props,
+                selected: child.props.value === value,
                 onClick: () => {
                   onChange && onChange(child.props.value as string | undefined);
                 },
               }),
             )}
             {isLoading && (
-              <Select.Option toSearchQuery={toSearchQueryNoop}>
+              <Select.Option>
                 {intl.formatMessage({ id: 'common.loading' })}{' '}
                 <span role="img" aria-label="...">
                   ⌛

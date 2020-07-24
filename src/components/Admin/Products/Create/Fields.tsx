@@ -179,6 +179,7 @@ const FeatureValuesSelect = ({ featureValues, featureValuesLoading, input, meta 
             }}
             selectProps={{
               isLoading: featureValuesLoading,
+              hasSearch: true,
               append: (
                 <Popover.Item
                   Component="div"

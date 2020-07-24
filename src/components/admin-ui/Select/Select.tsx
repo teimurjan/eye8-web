@@ -24,7 +24,8 @@ export const SelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProp
       [onSearch],
     );
 
-    const query = (isFocused && onSearch ? searchQuery : value.searchQuery) ?? '';
+    const shouldShowSelectedValueQuery = isFocused && onSearch;
+    const query = (shouldShowSelectedValueQuery ? searchQuery : value.searchQuery) ?? '';
 
     const onClick_: React.MouseEventHandler = React.useCallback(
       e => {

@@ -26,7 +26,7 @@ export const FormSelectField = ({
   const { options, ...selectPropsToPass } = selectProps;
 
   const selectOptions = options.map(({ title, value }) => (
-    <Select.Option key={value} value={value} toSearchQuery={() => title}>
+    <Select.Option key={value} value={value} searchQuery={title}>
       {title}
     </Select.Option>
   ));

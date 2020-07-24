@@ -70,7 +70,7 @@ export const AdminProductsListView = ({
           LoadMoreProductTypes={LoadMoreProductTypes}
           productTypesLoading={productTypesLoading}
           productTypes={productTypes}
-          allowClear
+          hasClear
         />
       </div>
 
