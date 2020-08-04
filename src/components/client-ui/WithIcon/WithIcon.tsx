@@ -16,6 +16,7 @@ export const WithIcon = React.forwardRef<HTMLSpanElement, IProps>(
   ({ children, icon, size, hideTextOnMobile = false, ...props }, ref) => (
     <span
       ref={ref}
+      className={hideTextOnMobile ? 'hide-text-on-mobile' : undefined}
       css={css`
         display: flex;
         align-items: center;
@@ -25,7 +26,9 @@ export const WithIcon = React.forwardRef<HTMLSpanElement, IProps>(
       <span
         css={css`
           @media ${mediaQueries.maxWidth768} {
-            display: ${hideTextOnMobile ? 'none' : undefined};
+            .hide-text-on-mobile & {
+              display: none;
+            }
           }
         `}
       >
@@ -34,6 +37,12 @@ export const WithIcon = React.forwardRef<HTMLSpanElement, IProps>(
       <FontAwesomeIcon
         css={css`
           margin-left: 5px;
+
+          @media ${mediaQueries.maxWidth768} {
+            .hide-text-on-mobile & {
+              margin-left: 10px;
+            }
+          }
         `}
         icon={icon}
         size={size}

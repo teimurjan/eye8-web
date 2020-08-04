@@ -10,7 +10,7 @@ export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const NAVBAR_HEIGHT_PX = 100;
-export const NAVBAR_HEIGHT_MOBILE_PX = 90;
+export const NAVBAR_HEIGHT_MOBILE_PX = 92;
 
 export const Navbar = ({ children, className, ...props }: IProps) => {
   const theme = useTheme<ClientUITheme>();

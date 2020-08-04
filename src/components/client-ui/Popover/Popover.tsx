@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { css, jsx, ClassNames } from '@emotion/core';
-import { Placement } from '@popperjs/core';
+import { Placement, State as PopperState } from '@popperjs/core';
 import classNames from 'classnames';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
@@ -87,6 +87,7 @@ export interface IProps<T> {
   onExit?: () => void;
   onExited?: () => void;
   className?: string;
+  widthSameAsReference?: boolean;
 }
 
 export const Popover = <T extends HTMLElement>({
@@ -109,6 +110,7 @@ export const Popover = <T extends HTMLElement>({
   onExit,
   onExited,
   className,
+  widthSameAsReference,
 }: IProps<T>) => {
   const popoverRoot = safeDocument(d => d.getElementById('popoverRoot'), null);
 
@@ -152,8 +154,19 @@ export const Popover = <T extends HTMLElement>({
     if (offset) {
       modifiers_.push({ name: 'offset', enabled: true, options: { offset } });
     }
+    if (widthSameAsReference) {
+      modifiers_.push({
+        name: 'widthSameAsReference',
+        enabled: true,
+        fn: ({ state }: { state: PopperState }) => {
+          state.styles.popper.width = `${state.rects.reference.width}px`;
+        },
+        phase: 'beforeWrite' as 'beforeWrite',
+        requires: ['computeStyles'],
+      });
+    }
     return modifiers_;
-  }, [hasArrow, arrowRef, preventOverflow, offset]);
+  }, [hasArrow, arrowRef, preventOverflow, offset, widthSameAsReference]);
 
   const popper = usePopper(triggerRef.current, popperRef, { modifiers, placement });
   React.useEffect(() => {

@@ -19,6 +19,7 @@ import { Title } from 'src/components/client-ui/Title/Title';
 import { WithIcon } from 'src/components/client-ui/WithIcon/WithIcon';
 import { CartItem } from 'src/components/Client/Cart/CartItem/CartItem';
 import { IViewProps as IProps, IFormValues } from 'src/components/Client/Cart/CartPresenter';
+import { useHeaderIconSize } from 'src/components/Client/Header/HeaderView';
 import { PriceText } from 'src/components/Client/Price/Price';
 import { bounce, fadeInFromRight, fadeInFromLeft, expand } from 'src/styles/keyframes';
 import { easeOutCubic } from 'src/styles/timing-functions';
@@ -33,8 +34,9 @@ const buttonCSS = css`
 
 const CartTrigger = React.forwardRef<HTMLSpanElement>((props, ref) => {
   const intl = useIntl();
+  const size = useHeaderIconSize();
   return (
-    <WithIcon ref={ref} icon={faShoppingCart} hideTextOnMobile {...props}>
+    <WithIcon ref={ref} icon={faShoppingCart} size={size} hideTextOnMobile {...props}>
       {intl.formatMessage({ id: 'common.cart' })}
     </WithIcon>
   );

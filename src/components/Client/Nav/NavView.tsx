@@ -20,6 +20,12 @@ interface ICategoryMenuItemProps {
   className?: string;
 }
 
+export const navItemCSS = css`
+  @media ${mediaQueries.maxWidth768} {
+    font-size: 18px;
+  }
+`;
+
 const CategoryMenuItem = ({
   className,
   as,
@@ -52,6 +58,7 @@ const CategoryMenuItem = ({
           justify-content: space-between;
           padding-right: 0.25rem !important;
           width: 100%;
+          ${navItemCSS};
         `}
         as={as}
         href="/categories/[slug]/products"

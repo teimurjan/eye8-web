@@ -13,6 +13,7 @@ import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout
 import { Popover } from 'src/components/client-ui/Popover/Popover';
 import { Tag } from 'src/components/client-ui/Tag/Tag';
 import { WithIcon } from 'src/components/client-ui/WithIcon/WithIcon';
+import { useHeaderIconSize } from 'src/components/Client/Header/HeaderView';
 import { IViewProps as IProps } from 'src/components/Client/Search/SearchPresenter';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useDebounce } from 'src/hooks/useDebounce';
@@ -35,8 +36,9 @@ const contentCSS = css`
 
 const SearchTrigger = React.forwardRef<HTMLSpanElement>((props, ref) => {
   const intl = useIntl();
+  const size = useHeaderIconSize();
   return (
-    <WithIcon ref={ref} icon={faSearch} hideTextOnMobile {...props}>
+    <WithIcon ref={ref} size={size} icon={faSearch} hideTextOnMobile {...props}>
       {intl.formatMessage({ id: 'common.search' })}
     </WithIcon>
   );

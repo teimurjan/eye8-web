@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import { SizeProp } from '@fortawesome/fontawesome-svg-core';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTheme } from 'emotion-theming';
@@ -19,6 +20,7 @@ import { TriggerHoverProps as PopoverTriggerProps } from 'src/components/client-
 import { CartContainer } from 'src/components/Client/Cart/CartContainer';
 import { LanguageDropdownContainer as LanguageDropdown } from 'src/components/Client/LanguageDropdown/LanguageDropdownContainer';
 import { NavContainer } from 'src/components/Client/Nav/NavContainer';
+import { navItemCSS } from 'src/components/Client/Nav/NavView';
 import { SearchContainer } from 'src/components/Client/Search/SearchContainer';
 import { UserDropdownContainer as UserDropdown } from 'src/components/Client/UserDropdown/UserDropdownContainer';
 import { useBoolean } from 'src/hooks/useBoolean';
@@ -35,6 +37,13 @@ const CategoriesTrigger = React.forwardRef<HTMLAnchorElement, PopoverTriggerProp
     </Anchor>
   );
 });
+
+const DEFAULT_HEADER_ICON_SIZE = '1x';
+export const useHeaderIconSize = () => {
+  const size = useMedia<SizeProp | undefined>([mediaQueries.maxWidth768], ['lg'], DEFAULT_HEADER_ICON_SIZE);
+  const { value: lazySize } = useLazyInitialization(size, DEFAULT_HEADER_ICON_SIZE);
+  return lazySize;
+};
 
 const DesktopNav = () => {
   const intl = useIntl();
@@ -86,7 +95,14 @@ const MobileNav = () => {
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item>
-          <Anchor href="/how-it-works" primary weight={Anchor.Weight.Bold}>
+          <Anchor
+            css={css`
+              ${navItemCSS};
+            `}
+            href="/how-it-works"
+            primary
+            weight={Anchor.Weight.Bold}
+          >
             {intl.formatMessage({ id: 'HowItWorks.title' })}
           </Anchor>
         </Menu.Item>
@@ -152,7 +168,7 @@ export const HeaderView = () => {
                     align-self: center;
                   `}
                 >
-                  <FontAwesomeIcon icon={faBars} />
+                  <FontAwesomeIcon icon={faBars} size="lg" />
                 </span>
                 <Drawer
                   css={css`
@@ -175,6 +191,15 @@ export const HeaderView = () => {
               <a
                 css={css`
                   background: transparent !important;
+                  display: inline-block;
+                  flex: 0 1 80px !important;
+                  max-height: 70px !important;
+
+                  @media ${mediaQueries.maxWidth768} {
+                    max-height: 55px !important;
+                    margin-top: 10px;
+                    padding-top: 0 !important;
+                  }
                 `}
                 href="/"
                 className="navbar-item"
@@ -182,12 +207,7 @@ export const HeaderView = () => {
                 <img
                   alt={intl.formatMessage({ id: 'common.logo' })}
                   css={css`
-                    max-height: 50px !important;
-
-                    @media ${mediaQueries.maxWidth768} {
-                      max-height: 2.5rem !important;
-                      padding-top: 0;
-                    }
+                    max-height: 100% !important;
                   `}
                   src={withPublicURL('img/icons/icon-192x192.png')}
                 />

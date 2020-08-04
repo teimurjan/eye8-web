@@ -149,6 +149,15 @@ const hasScrolledToLoad = (el: HTMLElement, scrollTop: number) => {
   return scrollHeight - scrollTop - LOAD_MORE_SCROLL_OFFSET <= clientHeight;
 };
 
+const selectWidthCSS = css`
+  width: 300px;
+  max-width: 100%;
+
+  @media ${mediaQueries.maxWidth768} {
+    width: 100%;
+  }
+`;
+
 export const Select = <T extends HTMLElement>({
   children,
   onChange,
@@ -196,12 +205,7 @@ export const Select = <T extends HTMLElement>({
       css={css`
         display: flex;
         align-items: center;
-        width: 300px;
-        max-width: 100%;
-
-        @media ${mediaQueries.maxWidth768} {
-          width: 100%;
-        }
+        ${selectWidthCSS};
       `}
     >
       <div
@@ -226,6 +230,8 @@ export const Select = <T extends HTMLElement>({
           })}
           onExited={onPopoverExited}
           closeOnClick
+          preventOverflow
+          widthSameAsReference
         >
           <Popover.Content
             ref={popoverContentRef}
@@ -233,9 +239,8 @@ export const Select = <T extends HTMLElement>({
               padding: 0;
               max-height: 300px;
               overflow: auto;
-              width: 300px;
-              max-width: 100%;
               position: relative;
+              ${selectWidthCSS};
             `}
           >
             {React.Children.map(filteredChildren, child =>

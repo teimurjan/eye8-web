@@ -22,7 +22,6 @@ const EmailField = ({ input, meta }: FieldRenderProps<string>) => {
   const showError = meta.touched && meta.error && meta.submitFailed;
   return (
     <UnderlinedInput
-      autoFocus
       autoFocusDelay={500}
       placeholder={intl.formatMessage({ id: 'LoginForm.emailInput.label' })}
       error={showError ? intl.formatMessage({ id: meta.error }) : undefined}
