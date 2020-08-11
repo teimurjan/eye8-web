@@ -5,6 +5,7 @@ const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 const withSourceMaps = require('@zeit/next-source-maps');
 const withManifest = require('next-manifest');
 const withPWA = require('next-pwa');
+const runtimeCaching = require('next-pwa/cache');
 
 module.exports = withPWA(
   withManifest(
@@ -46,6 +47,7 @@ module.exports = withPWA(
         },
         pwa: {
           dest: 'public',
+          runtimeCaching,
         },
         manifest: {
           output: 'public',

@@ -1,6 +1,5 @@
 import { CacheProvider } from '@emotion/core';
 import * as Sentry from '@sentry/node';
-import whyDidYouRender from '@welldone-software/why-did-you-render';
 import { cache } from 'emotion';
 import { ThemeProvider } from 'emotion-theming';
 import { AppProps } from 'next/app';
@@ -28,14 +27,17 @@ import { safeWindowOperation, isWindowDefined } from 'src/utils/dom';
 import { getGlobal } from 'src/utils/global';
 import { logPerformance } from 'src/utils/log';
 
-import 'bulma/css/bulma.css';
+import 'bulma/bulma.sass';
 
 export function reportWebVitals(metric: object) {
   logPerformance(metric);
 }
 
-if (isWindowDefined() && process.env.NODE_ENV === 'development') {
-  whyDidYouRender(React, { trackAllPureComponents: true });
+if (process.env.NODE_ENV === 'development') {
+  if (isWindowDefined()) {
+    const whyDidYouRender = require('@welldone-software/why-did-you-render');
+    whyDidYouRender(React, { trackAllPureComponents: true });
+  }
 }
 
 const intlCache = createIntlCache();
