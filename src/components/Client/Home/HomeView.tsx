@@ -67,20 +67,20 @@ const BannerCarouselItem = ({ banner, isMobile, dataKey }: IBannerCarouselItemPr
       `}
     >
       <Image alt={banner.text} src={banner.image} squared={false} />
-      {banner.text && (
-        <div
-          data-key={dataKey}
-          css={css`
-            position: absolute;
-            max-width: 33vw;
-            color: ${banner.text_color || theme.textBrightColor} !important;
-            ${getTextPositioningCSS(banner)};
+      <div
+        data-key={dataKey}
+        css={css`
+          position: absolute;
+          max-width: 33vw;
+          color: ${banner.text_color || theme.textBrightColor} !important;
+          ${getTextPositioningCSS(banner)};
 
-            @media ${mediaQueries.maxWidth768} {
-              max-width: 50vw;
-            }
-          `}
-        >
+          @media ${mediaQueries.maxWidth768} {
+            max-width: 50vw;
+          }
+        `}
+      >
+        {banner.text && (
           <div
             css={css`
               color: inherit;
@@ -113,21 +113,21 @@ const BannerCarouselItem = ({ banner, isMobile, dataKey }: IBannerCarouselItemPr
             `}
             dangerouslySetInnerHTML={{ __html: banner.text }}
           ></div>
-          {banner.link && banner.link_text && (
-            <LinkButton
-              css={css`
-                margin-top: 10px;
-              `}
-              color="primary"
-              size={isMobile ? 'small' : 'default'}
-              as={banner.link}
-              href={guessPageHref(banner.link)}
-            >
-              <b>{banner.link_text}</b>
-            </LinkButton>
-          )}
-        </div>
-      )}
+        )}
+        {banner.link && banner.link_text && (
+          <LinkButton
+            css={css`
+              margin-top: 10px;
+            `}
+            color="primary"
+            size={isMobile ? 'small' : 'default'}
+            as={banner.link}
+            href={guessPageHref(banner.link)}
+          >
+            <b>{banner.link_text}</b>
+          </LinkButton>
+        )}
+      </div>
     </CarouselItem>
   );
 };
