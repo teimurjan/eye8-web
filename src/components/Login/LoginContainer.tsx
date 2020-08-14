@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import * as React from 'react';
 
 import { LoginPresenter } from 'src/components/Login/LoginPresenter';
@@ -11,8 +12,11 @@ export const LoginContainer = () => {
   const { userState } = useUserState();
   const { authModalState } = useAuthModalState();
 
+  const router = useRouter();
+
   return (
     <LoginPresenter
+      router={router}
       authModalState={authModalState}
       View={LoginView}
       service={dependencies.services.auth}

@@ -69,7 +69,7 @@ const XCache = {
 const renderAndCache = (req, res, pagePath, queryParams) => {
   const key = getCacheKey(req);
 
-  if (!key) {
+  if (!key || dev) {
     handle(req, res, pagePath, queryParams);
     return;
   }

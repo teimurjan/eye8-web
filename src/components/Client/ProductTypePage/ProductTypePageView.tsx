@@ -62,14 +62,24 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
     products.length > 0 ? products[0].feature_values.map(featureValue => featureValue.feature_type) : [];
 
   const allFeatureValuesGroupedByFeatureType = getAllFeatureValuesGroupedByType(products, allFeatureTypes);
+  const productsKey = products
+    .map(product => product.id)
+    .sort()
+    .join('');
   const initialFeatureValues = React.useMemo(
-    () =>
-      Object.keys(allFeatureValuesGroupedByFeatureType).reduce((acc, featureTypeId) => {
-        const featueValues = allFeatureValuesGroupedByFeatureType[featureTypeId];
-        return { ...acc, [featureTypeId]: featueValues.length > 0 ? featueValues[0].id : undefined };
-      }, {}),
+    () => {
+      if (products.length > 0) {
+        const firstAvailableProduct = products.find(product => product.quantity > 0);
+        return (firstAvailableProduct ?? products[0]).feature_values.reduce(
+          (acc, featureValue) => ({ ...acc, [featureValue.feature_type.id]: featureValue.id }),
+          {},
+        );
+      } else {
+        return {};
+      }
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [...Object.keys(allFeatureValuesGroupedByFeatureType), productType?.id],
+    [productsKey],
   );
   const [chosenFeatureValues, setChosenFeatureValues] = React.useState<{ [key: string]: number }>(initialFeatureValues);
 

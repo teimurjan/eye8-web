@@ -1,9 +1,10 @@
 import * as authAPI from 'src/api/AuthAPI';
+import { decodeAccessToken, AuthorizedUser } from 'src/state/UserState';
 import * as authStorage from 'src/storage/AuthStorage';
 import * as stateCacheStorage from 'src/storage/StateCacheStorage';
 
 export interface IAuthService {
-  logIn(email: string, password: string): Promise<void>;
+  logIn(email: string, password: string): Promise<AuthorizedUser>;
   signUp(name: string, email: string, password: string): Promise<void>;
   confirmSignup(token: string): Promise<void>;
   refreshTokens(): Promise<void>;
@@ -59,6 +60,8 @@ export class AuthService implements IAuthService {
 
       this.storage.setRefreshToken(refreshToken);
       this.storage.setAccessToken(accessToken);
+
+      return decodeAccessToken(accessToken);
     } catch (e) {
       if (e instanceof authAPI.errors.EmailOrPasswordInvalidError) {
         throw new errors.InvalidCredentialsError();

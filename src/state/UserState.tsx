@@ -12,6 +12,8 @@ export type EmptyUser = null;
 export type AnonymousUser = {};
 export type User = AuthorizedUser | EmptyUser | AnonymousUser;
 
+export const decodeAccessToken = (accessToken: string): AuthorizedUser => jwtDecode(accessToken);
+
 export interface IContextValue {
   userState: {
     clearUser: () => void;
@@ -42,7 +44,7 @@ export const UserStateProvider: React.SFC<IProviderProps> = ({ children }) => {
   const syncUser = React.useCallback(() => {
     const accessToken = service.getAccessToken();
     try {
-      setUser(accessToken ? jwtDecode<{ id: string }>(accessToken) : USER_ANONYMOUS_STATE);
+      setUser(accessToken ? decodeAccessToken(accessToken) : USER_ANONYMOUS_STATE);
     } catch (e) {
       authStorage.clearAccessToken();
       setUser(USER_ANONYMOUS_STATE);
