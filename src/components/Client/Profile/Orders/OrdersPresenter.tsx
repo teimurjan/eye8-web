@@ -26,15 +26,21 @@ interface IProps {
 
 export const OrdersPresenter: React.FC<IProps> = ({ service, View, user, history, location }) => {
   const [isLoading, setLoading] = React.useState(true);
-  const [orders, setOrders] = React.useState<{ [key: string]: IOrderForUserResponseItem }>({});
-  const [ordersOrder, setOrdersOrder] = React.useState<number[]>([]);
-  const [error, setError] = React.useState<undefined | string>(undefined);
-  const [ordersMeta, setOrdersMeta] = React.useState<IOrderListResponseMeta>({
-    count: 0,
-    pages_count: 0,
-    limit: 0,
-    page: 0,
+  const [ordersData, setOrdersData] = React.useState<{
+    entities: { [key: number]: IOrderForUserResponseItem };
+    order: number[];
+    meta: IOrderListResponseMeta;
+  }>({
+    entities: {},
+    order: [],
+    meta: {
+      count: 0,
+      pages_count: 0,
+      limit: 0,
+      page: 0,
+    },
   });
+  const [error, setError] = React.useState<undefined | string>(undefined);
 
   const getOrders = React.useCallback(
     (page: number) => {
@@ -46,9 +52,7 @@ export const OrdersPresenter: React.FC<IProps> = ({ service, View, user, history
             result,
             meta,
           } = await service.getForUser(user.user_id, page);
-          setOrders(orders);
-          setOrdersOrder(result);
-          setOrdersMeta(meta);
+          setOrdersData({ entities: orders, meta, order: result });
           history.replace({ pathname: `${location.pathname}`, search: `?page=${page}` });
         } catch (e) {
           setError('errors.common');
@@ -72,12 +76,12 @@ export const OrdersPresenter: React.FC<IProps> = ({ service, View, user, history
 
   return (
     <View
-      orders={agregateOrderedMapToArray(orders, ordersOrder)}
+      orders={agregateOrderedMapToArray(ordersData.entities, ordersData.order)}
       isLoading={isLoading}
       error={error}
-      currentPage={ordersMeta.page}
+      currentPage={ordersData.meta.page}
       onPageChange={getOrders}
-      pagesCount={ordersMeta.pages_count}
+      pagesCount={ordersData.meta.pages_count}
     />
   );
 };

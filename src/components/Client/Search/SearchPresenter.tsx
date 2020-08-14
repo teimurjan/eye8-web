@@ -26,13 +26,9 @@ export interface IViewProps {
 export const SearchPresenter = ({ service, View }: IProps) => {
   const { value: isOpen, setPositive: open, setNegative: close } = useBoolean();
   const [data, setData] = React.useState<{
-    categories: { [id: string]: ICategoryListResponseItem };
-    productTypes: { [id: string]: IProductTypeListResponseItem };
-  }>({ categories: {}, productTypes: {} });
-  const [order, setOrder] = React.useState<{ categories: number[]; productTypes: number[] }>({
-    categories: [],
-    productTypes: [],
-  });
+    categories: { entities: { [id: string]: ICategoryListResponseItem }; order: number[] };
+    productTypes: { entities: { [id: string]: IProductTypeListResponseItem }; order: number[] };
+  }>({ categories: { entities: {}, order: [] }, productTypes: { entities: {}, order: [] } });
   const [isLoading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>(undefined);
 
@@ -52,12 +48,13 @@ export const SearchPresenter = ({ service, View }: IProps) => {
       setLoading(true);
       try {
         if (value.length === 0) {
-          setData({ categories: {}, productTypes: {} });
-          setOrder({ categories: [], productTypes: [] });
+          setData({ categories: { entities: {}, order: [] }, productTypes: { entities: {}, order: [] } });
         } else {
           const { entities, result } = await service.search(value);
-          setData(entities);
-          setOrder(result);
+          setData({
+            categories: { entities: entities.categories, order: result.categories },
+            productTypes: { entities: entities.productTypes, order: result.productTypes },
+          });
         }
       } catch (e) {
         setError('errors.common');
@@ -74,8 +71,8 @@ export const SearchPresenter = ({ service, View }: IProps) => {
       open={open}
       close={close}
       isLoading={isLoading}
-      categories={agregateOrderedMapToArray(data.categories, order.categories)}
-      productTypes={agregateOrderedMapToArray(data.productTypes, order.productTypes)}
+      categories={agregateOrderedMapToArray(data.categories.entities, data.categories.order)}
+      productTypes={agregateOrderedMapToArray(data.productTypes.entities, data.productTypes.order)}
       onSearchValueChange={onSearchValueChange}
       error={error}
     />

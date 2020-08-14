@@ -1,3 +1,4 @@
+import reject from 'lodash/reject';
 import * as React from 'react';
 import * as yup from 'yup';
 
@@ -86,8 +87,10 @@ export const CartPresenter: React.FC<IProps> = ({
   const [isLoading, setLoading] = React.useState(true);
   const [promoCode, setPromoCode] = React.useState<IPromoCodeDetailResponseItem | undefined>(undefined);
   const [error, setError] = React.useState<string | undefined>(undefined);
-  const [products, setProducts] = React.useState<{ [key: number]: IProductListResponseItem }>({});
-  const [productsOrder, setProductsOrder] = React.useState<number[]>([]);
+  const [data, setData] = React.useState<{
+    entities: { [key: number]: IProductListResponseItem };
+    order: number[];
+  }>({ entities: {}, order: [] });
   const { update } = useForceUpdate();
 
   useMousetrap('shift+c', open);
@@ -106,8 +109,7 @@ export const CartPresenter: React.FC<IProps> = ({
         const ids = storage.getItems().map(item => item.id);
         if (ids.length > 0) {
           const { entities, result } = await productService.getForCart(ids);
-          setProducts(entities.products);
-          setProductsOrder(result);
+          setData({ entities: entities.products, order: result });
         }
       } catch (e) {
         setError('errors.common');
@@ -129,10 +131,13 @@ export const CartPresenter: React.FC<IProps> = ({
     (product: IProductListResponseItem) => {
       const newCount = storage.remove(product);
       if (newCount === 0) {
-        setProductsOrder(productsOrder.filter(id => id !== product.id));
+        setData({
+          entities: reject(data.entities, entity => entity.id !== product.id),
+          order: data.order.filter(id => id !== product.id),
+        });
       }
     },
-    [productsOrder, storage],
+    [data, storage],
   );
 
   const goToNextStep = React.useCallback(() => {
@@ -193,7 +198,7 @@ export const CartPresenter: React.FC<IProps> = ({
       open={open}
       close={close}
       toggle={toggle}
-      products={agregateOrderedMapToArray(products, productsOrder)}
+      products={agregateOrderedMapToArray(data.entities, data.order)}
       getProductCount={id => {
         const storageItem = storage.getItem(id);
         return storageItem && storageItem.count ? storageItem.count : 0;

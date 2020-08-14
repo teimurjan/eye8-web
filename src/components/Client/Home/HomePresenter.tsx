@@ -33,16 +33,14 @@ export const HomePresenter: React.FC<IProps> = ({
   appState,
   initialProps,
 }) => {
-  const [banners, setBanners] = React.useState<{ [key: string]: IBannerListResponseItem }>(
-    initialProps ? initialProps.banners : {},
-  );
-  const [productTypes, setProductTypes] = React.useState<{ [key: string]: IProductTypeListResponseItem }>(
-    initialProps ? initialProps.productTypes : {},
-  );
-  const [bannersOrder, setBannersOrder] = React.useState<number[]>(initialProps ? initialProps.bannersOrder : []);
-  const [productTypesOrder, setProductTypesOrder] = React.useState<number[]>(
-    initialProps ? initialProps.productTypesOrder : [],
-  );
+  const [bannersData, setBannersData] = React.useState<{
+    entities: { [key: number]: IBannerListResponseItem };
+    order: number[];
+  }>({ entities: initialProps?.banners ?? {}, order: initialProps?.bannersOrder ?? [] });
+  const [productTypesData, setProductTypesData] = React.useState<{
+    entities: { [key: number]: IProductTypeListResponseItem };
+    order: number[];
+  }>({ entities: initialProps?.productTypes ?? {}, order: initialProps?.productTypesOrder ?? [] });
   const [error, setError] = React.useState<string | undefined>(initialProps ? initialProps.error : undefined);
 
   React.useEffect(() => {
@@ -54,17 +52,15 @@ export const HomePresenter: React.FC<IProps> = ({
       try {
         appState.setLoading();
         const {
-          entities: { banners: _banners },
-          result: _bannersOrder,
+          entities: { banners },
+          result: bannersOrder,
         } = await bannerService.getAll();
-        setBanners(_banners);
-        setBannersOrder(_bannersOrder);
+        setBannersData({ entities: banners, order: bannersOrder });
         const {
-          entities: { productTypes: _productTypes },
-          result: _productTypesOrder,
+          entities: { productTypes },
+          result: productTypesOrder,
         } = await productTypeService.getNewest();
-        setProductTypes(_productTypes);
-        setProductTypesOrder(_productTypesOrder);
+        setProductTypesData({ entities: productTypes, order: productTypesOrder });
       } catch (e) {
         setError('errors.common');
       } finally {
@@ -76,8 +72,8 @@ export const HomePresenter: React.FC<IProps> = ({
 
   return (
     <View
-      banners={agregateOrderedMapToArray(banners, bannersOrder)}
-      productTypes={agregateOrderedMapToArray(productTypes, productTypesOrder)}
+      banners={agregateOrderedMapToArray(bannersData.entities, bannersData.order)}
+      productTypes={agregateOrderedMapToArray(productTypesData.entities, productTypesData.order)}
       error={error}
     />
   );

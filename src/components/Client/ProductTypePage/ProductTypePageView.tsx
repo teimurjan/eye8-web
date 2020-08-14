@@ -109,10 +109,12 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
           }, {});
 
           setChosenFeatureValues(chosenFeatureValues);
+        } else {
+          setChosenFeatureValues(initialFeatureValues);
         }
       }
     },
-    [allImages, products],
+    [allImages, products, initialFeatureValues],
   );
 
   const onFeatureValueChange = React.useCallback(

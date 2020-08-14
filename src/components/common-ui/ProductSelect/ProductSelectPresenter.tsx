@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { IProductForProductTypeResponseItem } from 'src/api/ProductAPI';
 import { IProductTypeListResponseItem } from 'src/api/ProductTypeAPI';
-import { useDebounce } from 'src/hooks/useDebounce';
 import { ISearchService } from 'src/services/SearchService';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
@@ -27,27 +26,28 @@ export interface IViewProps {
 }
 
 export const ProductSelectPresenter = ({ searchService, onChange, View, placeholder, className }: IProps) => {
-  const [productTypes, setProductTypes] = React.useState<{ [id: string]: IProductTypeListResponseItem }>({});
   const [selectedProductType, setSelectedProductType] = React.useState<IProductTypeListResponseItem | undefined>(
     undefined,
   );
-  const [order, setOrder] = React.useState<number[]>([]);
+  const [data, setData] = React.useState<{
+    entities: { [key: number]: IProductTypeListResponseItem };
+    order: number[];
+  }>({
+    entities: {},
+    order: [],
+  });
   const [isLoading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | undefined>(undefined);
-
-  const isLoadingDebounced = useDebounce(isLoading, 1000);
 
   const onSearchValueChange = React.useCallback(
     async (value: string) => {
       try {
         setError(undefined);
         if (value.length === 0) {
-          setProductTypes({});
-          setOrder([]);
+          setData({ entities: {}, order: [] });
         } else {
           const { entities, result } = await searchService.search(value);
-          setProductTypes(entities.productTypes);
-          setOrder(result.productTypes);
+          setData({ entities: entities.productTypes, order: result.productTypes });
         }
       } catch (e) {
         setError('errors.common');
@@ -66,7 +66,7 @@ export const ProductSelectPresenter = ({ searchService, onChange, View, placehol
     <View
       className={className}
       isLoading={isLoading}
-      productTypes={agregateOrderedMapToArray(productTypes, order)}
+      productTypes={agregateOrderedMapToArray(data.entities, data.order)}
       onSearchValueChange={onSearchValueChange}
       error={error}
       selectProductType={selectProductType}

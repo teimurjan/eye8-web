@@ -42,19 +42,21 @@ export const ProductTypesPagePresenter = ({
   const intl = useIntl();
   const [error, setError] = React.useState<string | undefined>(initialProps?.error);
   const [isLoading, setLoading] = React.useState(false);
-  const [productTypes, setProductTypes] = React.useState<{ [key: string]: IProductTypeListResponseItem }>(
-    initialProps?.productTypes ?? {},
-  );
   const [category, setCategory] = React.useState<ICategoryListResponseItem | undefined>(initialProps?.category);
-  const [productTypesMeta, setProductTypesMeta] = React.useState<IProductTypeListResponseMeta>(
-    initialProps?.productTypesMeta ?? {
+  const [productTypesData, setProductTypesData] = React.useState<{
+    entities: { [key: number]: IProductTypeListResponseItem };
+    order: number[];
+    meta: IProductTypeListResponseMeta;
+  }>({
+    entities: initialProps?.productTypes ?? {},
+    order: initialProps?.productTypesOrder ?? [],
+    meta: initialProps?.productTypesMeta ?? {
       count: 0,
       pages_count: 0,
       limit: 0,
       page: 0,
     },
-  );
-  const [productTypesOrder, setProductTypesOrder] = React.useState<number[]>(initialProps?.productTypesOrder ?? []);
+  });
   const sortByQuery = (router.query.sort_by || '') as string;
   const [sortingType, setSortingType] = React.useState<ProductTypeSortingType>(
     typeof sortingTypeOfQueryValue[sortByQuery] === 'undefined'
@@ -71,9 +73,7 @@ export const ProductTypesPagePresenter = ({
           page,
           typeof newSortingType === 'undefined' ? sortingType : newSortingType,
         );
-        setProductTypes(entities.productTypes || {});
-        setProductTypesMeta(meta);
-        setProductTypesOrder(result);
+        setProductTypesData({ entities: entities.productTypes ?? {}, meta, order: result });
       } catch (e) {
         setError('errors.common');
       } finally {
@@ -85,12 +85,12 @@ export const ProductTypesPagePresenter = ({
 
   const getNextURL = React.useCallback(
     ({ page, newSortingType }: { page?: number; newSortingType?: ProductTypeSortingType }) => {
-      const pageQueryValue = page || productTypesMeta.page;
+      const pageQueryValue = page || productTypesData.meta.page;
       const sortByQueryValue =
         queryValueOfSortingType[typeof newSortingType === 'undefined' ? sortingType : newSortingType];
       return `${router.asPath.split('?')[0]}?page=${pageQueryValue}&sort_by=${sortByQueryValue}`;
     },
-    [router, sortingType, productTypesMeta],
+    [router, sortingType, productTypesData],
   );
 
   const onPageChange = React.useCallback(
@@ -106,9 +106,11 @@ export const ProductTypesPagePresenter = ({
     if (initialProps) {
       setError(initialProps.error);
       setCategory(initialProps.category);
-      setProductTypes(initialProps.productTypes);
-      setProductTypesMeta(initialProps.productTypesMeta);
-      setProductTypesOrder(initialProps.productTypesOrder);
+      setProductTypesData({
+        entities: initialProps.productTypes,
+        meta: initialProps.productTypesMeta,
+        order: initialProps.productTypesOrder,
+      });
     }
   }, [initialProps]);
 
@@ -173,9 +175,9 @@ export const ProductTypesPagePresenter = ({
           </Filter.ItemGroup>
         </Filter>
       }
-      productTypes={agregateOrderedMapToArray(productTypes, productTypesOrder)}
+      productTypes={agregateOrderedMapToArray(productTypesData.entities, productTypesData.order)}
       category={category}
-      meta={productTypesMeta}
+      meta={productTypesData.meta}
       isLoading={isLoading}
       error={error}
       onPageChange={onPageChange}

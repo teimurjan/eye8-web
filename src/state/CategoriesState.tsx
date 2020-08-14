@@ -30,12 +30,10 @@ export const CategoriesStateProvider: React.SFC<IProviderProps> = ({ children, i
     },
   } = useDependencies();
 
-  const [categories, setCategories] = React.useState<{ [key: string]: ICategoryListResponseItem }>(
-    initialProps ? initialProps.categories : {},
-  );
-  const [categoriesOrder, setCategoriesOrder] = React.useState<number[]>(
-    initialProps ? initialProps.categoriesOrder : [],
-  );
+  const [data, setData] = React.useState<{ entities: { [key: string]: ICategoryListResponseItem }; order: number[] }>({
+    entities: initialProps?.categories ?? {},
+    order: initialProps?.categoriesOrder ?? [],
+  });
   const [isLoading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>(initialProps ? initialProps.error : undefined);
 
@@ -45,8 +43,7 @@ export const CategoriesStateProvider: React.SFC<IProviderProps> = ({ children, i
         setLoading(true);
         try {
           const { entities, result } = await service.getAll();
-          setCategories(entities.categories);
-          setCategoriesOrder(result);
+          setData({ entities: entities.categories, order: result });
         } catch (e) {
           setError('errors.common');
         } finally {
@@ -61,7 +58,7 @@ export const CategoriesStateProvider: React.SFC<IProviderProps> = ({ children, i
     <Context.Provider
       value={{
         categoriesState: {
-          categories: agregateOrderedMapToArray(categories, categoriesOrder),
+          categories: agregateOrderedMapToArray(data.entities, data.order),
           isLoading,
           error,
         },
