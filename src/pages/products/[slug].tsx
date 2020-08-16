@@ -5,6 +5,7 @@ import { Layout } from 'src/components/Client/Layout';
 import { ProductTypePageContainer } from 'src/components/Client/ProductTypePage/ProductTypePageContainer';
 import { dependenciesFactory } from 'src/DI/DependenciesContainer';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
+import { logTimeStart, logTimeFinish } from 'src/utils/log';
 
 export default ({ productType, products, error }: Then<ReturnType<typeof getServerSideProps>>['props']) => (
   <Layout>
@@ -16,6 +17,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params = {}, req,
   const dependencies = dependenciesFactory({ req, res });
 
   try {
+    logTimeStart('Product.getServerSideProps');
+
     const productType = await dependencies.services.productType.getBySlug(params.slug as string);
     const {
       entities: { products },
@@ -23,6 +26,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params = {}, req,
     } = productType
       ? await dependencies.services.product.getForProductType(productType.id)
       : { entities: { products: {} }, result: [] };
+
+    logTimeFinish('Product.getServerSideProps');
 
     return {
       props: {

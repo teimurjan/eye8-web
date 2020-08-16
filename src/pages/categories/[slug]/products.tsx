@@ -5,6 +5,7 @@ import { sortingTypeOfQueryValue, ProductTypeSortingQueryValue } from 'src/api/P
 import { Layout } from 'src/components/Client/Layout';
 import { ProductTypesPageContainer } from 'src/components/Client/ProducTypesPage/ProductTypesPageContainer';
 import { dependenciesFactory } from 'src/DI/DependenciesContainer';
+import { logTimeStart, logTimeFinish } from 'src/utils/log';
 
 export default ({
   productTypes,
@@ -27,6 +28,8 @@ export const getServerSideProps: GetServerSideProps = async ({
   const dependencies = dependenciesFactory({ req, res });
 
   try {
+    logTimeStart('CategoryProducts.getServerSideProps');
+
     const categorySlug = params.slug as string;
     const { entities, meta, result } = await dependencies.services.productType.getForCategory(
       categorySlug,
@@ -34,6 +37,8 @@ export const getServerSideProps: GetServerSideProps = async ({
       sortingTypeOfQueryValue[sortBy as string],
     );
     const category = await dependencies.services.category.getOneBySlug(categorySlug);
+
+    logTimeFinish('CategoryProducts.getServerSideProps');
 
     return {
       props: {

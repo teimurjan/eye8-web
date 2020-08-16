@@ -391,7 +391,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
               `}
               size={3}
             >
-              {intl.formatMessage({ id: 'ProductTypePageView.instagram' })}
+              {intl.formatMessage({ id: 'ProductTypePage.instagram' })}
             </Title>
             <div
               css={css`

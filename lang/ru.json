@@ -288,7 +288,7 @@
   "AdminRates.errors.hasOrders": "Этот курс валют не может быть удален, так как есть заказы, связанные с ним",
   "AdminRates.create.title": "Создание курса валют",
   "AdminPromoCodes.errors.hasOrders": "Промокод, связанный с заказами не может быть изменен или удален",
-  "ProductTypePageView.instagram": "Смотреть в Instagram",
+  "ProductTypePage.instagram": "Смотреть в Instagram",
   "AdminProductTypes.errors.invalidInstagramLinks": "Данное поле должно содержать ссылки на Instagram публикации, разделенные запятой",
   "AdminProductTypes.instagramLinks": "Instagram ссылки",
   "AdminProductTypes.instagramLinks.placeholder": "https://www.instagram.com/p/CBxH4cfHlk4/,https://www.instagram.com/p/CBvUxOrHLdR/",
@@ -302,5 +302,6 @@
   "ProductType.someOptionsAvailable": "Доступно несколько вариантов",
   "AdminProductTypes.productsLink": "Показать продукты",
   "AdminProducts.productTypeFilter": "Показаны продукты для {productType}",
-  "common.showAll": "Показать все"
+  "common.showAll": "Показать все",
+  "common.empty": "Здесь пока пусто 🤷‍♂️"
 }

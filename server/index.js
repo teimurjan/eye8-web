@@ -32,9 +32,15 @@ app
     server.get('*', (req, res) => {
       const parsedUrl = parse(req.url, true);
       const { pathname, query } = parsedUrl;
-      const routeMapping = getRouteMapping(pathname);
-      const pagePath = routeMapping ? routeMapping.route : pathname;
-      renderAndCache(req, res, pagePath, query);
+
+      if (pathname === '/sw.js' || pathname.startsWith('/workbox-')) {
+        const filePath = path.join(__dirname, '../public', pathname);
+        app.serveStatic(req, res, filePath);
+      } else {
+        const routeMapping = getRouteMapping(pathname);
+        const pagePath = routeMapping ? routeMapping.route : pathname;
+        renderAndCache(req, res, pagePath, query);
+      }
     });
 
     server.listen(port, e => {
@@ -56,7 +62,7 @@ const getCacheKey = req => {
   }
 
   const detectedLocale = getRequestLocale(req);
-  return `${req.url}${detectedLocale}`;
+  return `{"url":"${req.url}","locale":"${detectedLocale}"}`;
 };
 
 const XCACHE_KEY = 'X-Cache';

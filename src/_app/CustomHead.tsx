@@ -1,3 +1,4 @@
+import Manifest from 'next-manifest/manifest';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import * as React from 'react';
@@ -34,7 +35,7 @@ export const CustomHead = () => {
       <link rel="icon" type="image/png" sizes="32x32" href={withPublicURL('favicon-32x32.png')} />
       <link rel="icon" type="image/png" sizes="16x16" href={withPublicURL('favicon-16x16.png')} />
       <link rel="shortcut icon" href={withPublicURL('favicon.ico')} />
-      <link rel="manifest" href={withPublicURL('manifest.json')} />
+      <Manifest href={withPublicURL('manifest.json')} />
       <title>{intl.formatMessage({ id: 'Meta.title' })}</title>
       <meta name="description" content={intl.formatMessage({ id: 'Meta.description' })} />
       <meta name="keywords" content={intl.formatMessage({ id: 'Meta.keywords' })} />

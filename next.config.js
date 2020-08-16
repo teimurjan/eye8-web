@@ -46,6 +46,7 @@ module.exports = withPWA(
           return config;
         },
         pwa: {
+          disable: process.env.DISABLE_SW === 'true',
           dest: 'public',
           runtimeCaching,
         },

@@ -40,9 +40,9 @@ const CustomNextDocument = ({ ids, css, localeDataScript, __CUSTOM_DATA__ }: IPr
 };
 
 const getInitialProps = async (ctx: DocumentContext) => {
-  logTimeStart('Index.getInitialProps');
-
+  logTimeStart('Document.getInitialProps');
   const statesInitialProps = await getStatesInitialProps(ctx);
+  logTimeFinish('Document.getInitialProps');
 
   const req = ctx.req as (IncomingMessage & { locale: string; localeDataScript: string }) | undefined;
 
@@ -67,8 +67,6 @@ const getInitialProps = async (ctx: DocumentContext) => {
   const styles = extractCritical(page.html);
 
   const props = await Document.getInitialProps(ctx);
-
-  logTimeFinish('Index.getInitialProps');
 
   return {
     ...props,

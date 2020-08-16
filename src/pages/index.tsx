@@ -21,13 +21,13 @@ const Index = ({
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  logTimeStart('Index.getServerSideProps');
-
   const {
     services: { banner: bannerService, productType: productTypeService },
   } = dependenciesFactory({ req, res });
 
   try {
+    logTimeStart('Index.getServerSideProps');
+
     const bannersPromise = bannerService.getAll();
     const productTypesPromise = productTypeService.getNewest();
 
