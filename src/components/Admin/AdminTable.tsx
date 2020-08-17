@@ -139,7 +139,7 @@ interface IProps<T> {
   hideDelete?: boolean;
   hideEdit?: boolean;
   search?: (query: string) => Promise<T[]>;
-  deleted?: boolean;
+  showDeleted?: boolean;
 }
 
 const defaultRenderer = new DefaultRenderer();
@@ -159,7 +159,7 @@ export const AdminTable = <T extends { id: number }>({
   hideDelete = false,
   hideEdit = false,
   search,
-  deleted,
+  showDeleted,
 }: IProps<T> & { intl: IntlShape }) => {
   const { value: isSearching, setPositive: setSearching, setNegative: setIdle } = useBoolean();
   const [error, setError] = React.useState<string | undefined>(undefined);
@@ -266,7 +266,7 @@ export const AdminTable = <T extends { id: number }>({
                   )}
                   {!hideDelete && (
                     <ReactRouterLinkButton
-                      to={`${pathPrefix}/delete/${entity.id}?instantly=${Boolean(deleted)}`}
+                      to={`${pathPrefix}/delete/${entity.id}?forever=${Boolean(showDeleted)}`}
                       color="is-danger"
                     >
                       <FontAwesomeIcon icon={faTrashAlt} />

@@ -36,7 +36,7 @@ export interface IPromoCodeService {
   }>;
   create(payload: promoCodeAPI.IPromoCodeCreatePayload): Promise<promoCodeAPI.IPromoCodeDetailResponseItem>;
   edit(id: number, payload: promoCodeAPI.IPromoCodeEditPayload): Promise<promoCodeAPI.IPromoCodeDetailResponseItem>;
-  delete(id: number, instantly?: boolean): Promise<{}>;
+  delete(id: number, isForever?: boolean): Promise<{}>;
   exists(id: number, deleted?: boolean): Promise<boolean>;
   getOne(id: number): Promise<promoCodeAPI.IPromoCodeDetailResponseItem | undefined>;
   getByValue(value: string): Promise<promoCodeAPI.IPromoCodeDetailResponseItem | undefined>;
@@ -81,9 +81,9 @@ export class PromoCodeService implements IPromoCodeService {
     }
   };
 
-  public delete: IPromoCodeService['delete'] = async (id, instantly) => {
+  public delete: IPromoCodeService['delete'] = async (id, isForever) => {
     try {
-      return await this.API.delete(id, instantly);
+      return await this.API.delete(id, isForever);
     } catch (e) {
       if (e instanceof promoCodeAPI.errors.PromoCodeNotFound) {
         throw new errors.PromoCodeNotExists();

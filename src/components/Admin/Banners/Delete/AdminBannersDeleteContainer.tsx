@@ -35,5 +35,7 @@ export const AdminBannersDeleteContainer = () => {
     [dependencies.services.banner],
   );
 
-  return <DeleteModalContainer deleteEntity={deleteEntity} preloadData={preloadData} backPath="/admin/banners" />;
+  return (
+    <DeleteModalContainer deleteEntity={deleteEntity} preloadData={preloadData} getBackPath={() => '/admin/banners'} />
+  );
 };

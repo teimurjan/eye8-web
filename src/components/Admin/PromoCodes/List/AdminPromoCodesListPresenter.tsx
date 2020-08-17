@@ -6,25 +6,27 @@ import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   adminPromoCodesState: AdminPromoCodesStateContextValue['state'];
-  deleted: boolean;
+  showDeleted: boolean;
 }
 
 export interface IViewProps {
   promoCodes: AdminPromoCodesStateContextValue['state']['entities'];
   isDataLoaded: boolean;
   isLoading: boolean;
-  deleted: boolean;
+  showDeleted: boolean;
 }
 
 export const AdminPromoCodesListPresenter = ({
   View,
-  deleted,
+  showDeleted,
   adminPromoCodesState: { isListLoading, entities: promoCodes, get: getPromoCodes, hasListLoaded },
 }: IProps & IntlStateContextValue) => {
   React.useEffect(() => {
-    getPromoCodes({ deleted });
+    getPromoCodes({ deleted: showDeleted });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deleted]);
+  }, [showDeleted]);
 
-  return <View isDataLoaded={hasListLoaded} isLoading={isListLoading} promoCodes={promoCodes} deleted={deleted} />;
+  return (
+    <View isDataLoaded={hasListLoaded} isLoading={isListLoading} promoCodes={promoCodes} showDeleted={showDeleted} />
+  );
 };

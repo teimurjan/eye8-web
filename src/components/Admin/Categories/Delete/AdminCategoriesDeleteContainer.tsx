@@ -52,7 +52,7 @@ export const AdminCategoriesDeleteContainer = () => {
       getErrorMessageID={getErrorMessageID}
       deleteEntity={deleteEntity}
       preloadData={preloadData}
-      backPath="/admin/categories"
+      getBackPath={() => '/admin/categories'}
     />
   );
 };

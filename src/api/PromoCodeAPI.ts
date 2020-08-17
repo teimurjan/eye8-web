@@ -65,7 +65,7 @@ export interface IPromoCodeAPI {
   getAll(deleted?: boolean): Promise<IPromoCodeListResponseData>;
   getOne(id: number): Promise<IPromoCodeDetailResponseData>;
   getByValue(value: string): Promise<IPromoCodeDetailResponseData>;
-  delete(id: number, instantly?: boolean): Promise<{}>;
+  delete(id: number, isForever?: boolean): Promise<{}>;
   create(payload: IPromoCodeCreatePayload): Promise<IPromoCodeDetailResponseData>;
   edit(id: number, payload: IPromoCodeEditPayload): Promise<IPromoCodeDetailResponseData>;
   status(id: number, deleted?: boolean): Promise<{}>;
@@ -115,10 +115,10 @@ export class PromoCodeAPI implements IPromoCodeAPI {
     }
   }
 
-  public async delete(id: number, instantly = false) {
+  public async delete(id: number, isForever = false) {
     try {
       const response = await this.client.delete<{}>(
-        `/api/promo_codes/${id}${buildQueryString({ instantly: instantly ? 1 : 0 })}`,
+        `/api/promo_codes/${id}${buildQueryString({ forever: isForever ? 1 : 0 })}`,
         {
           headers: this.headersManager.getHeaders(),
         },

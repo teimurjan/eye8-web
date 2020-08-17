@@ -35,5 +35,11 @@ export const AdminFeatureValuesDeleteContainer = () => {
     [dependencies.services.featureValue],
   );
 
-  return <DeleteModalContainer deleteEntity={deleteEntity} preloadData={preloadData} backPath="/admin/featureValues" />;
+  return (
+    <DeleteModalContainer
+      deleteEntity={deleteEntity}
+      preloadData={preloadData}
+      getBackPath={() => '/admin/featureValues'}
+    />
+  );
 };
