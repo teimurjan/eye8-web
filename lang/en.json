@@ -304,5 +304,7 @@
   "AdminProductTypes.productsLink": "Show products",
   "AdminProducts.productTypeFilter": "The products shown are for the {productType} type",
   "common.showAll": "Show all",
-  "common.empty": "There is nothing here yet 🤷‍♂️"
+  "common.empty": "There is nothing here yet 🤷‍♂️",
+  "common.showArchived": "Show archived",
+  "common.showCurrent": "Show current"
 }

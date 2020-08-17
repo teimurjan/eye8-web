@@ -22,7 +22,7 @@ const renderNoData = () => <NoPromoCodesAvialable />;
 
 type PromoCode = IProps['promoCodes'][0];
 
-export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded }: IProps) => {
+export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded, deleted }: IProps) => {
   const intl = useIntl();
   return (
     <Section
@@ -38,6 +38,7 @@ export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded }:
         entities={promoCodes}
         renderNoData={renderNoData}
         intl={intl}
+        deleted={deleted}
       >
         <AdminTable.Col<PromoCode> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
         <AdminTable.Col<PromoCode> key_="value" title={intl.formatMessage({ id: 'AdminPromoCodes.value' })} />
@@ -55,7 +56,25 @@ export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded }:
         />
       </AdminTable>
 
-      {isDataLoaded && promoCodes.length > 0 && <NewPromoCodeButton />}
+      {isDataLoaded && promoCodes.length > 0 && (
+        <div
+          css={css`
+            display: flex;
+            justify-content: space-between;
+          `}
+        >
+          <NewPromoCodeButton />
+          {deleted ? (
+            <ReactRouterLinkButton to="/admin/promoCodes">
+              {intl.formatMessage({ id: 'common.showCurrent' })}
+            </ReactRouterLinkButton>
+          ) : (
+            <ReactRouterLinkButton to="/admin/promoCodes?deleted=true">
+              {intl.formatMessage({ id: 'common.showArchived' })}
+            </ReactRouterLinkButton>
+          )}
+        </div>
+      )}
     </Section>
   );
 };

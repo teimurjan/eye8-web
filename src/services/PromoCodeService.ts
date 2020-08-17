@@ -24,7 +24,9 @@ export const errors = {
 };
 
 export interface IPromoCodeService {
-  getAll(): Promise<{
+  getAll(
+    deleted?: boolean,
+  ): Promise<{
     entities: {
       promoCodes: {
         [key: string]: promoCodeAPI.IPromoCodeListResponseItem;
@@ -34,8 +36,8 @@ export interface IPromoCodeService {
   }>;
   create(payload: promoCodeAPI.IPromoCodeCreatePayload): Promise<promoCodeAPI.IPromoCodeDetailResponseItem>;
   edit(id: number, payload: promoCodeAPI.IPromoCodeEditPayload): Promise<promoCodeAPI.IPromoCodeDetailResponseItem>;
-  delete(id: number): Promise<{}>;
-  exists(id: number): Promise<boolean>;
+  delete(id: number, instantly?: boolean): Promise<{}>;
+  exists(id: number, deleted?: boolean): Promise<boolean>;
   getOne(id: number): Promise<promoCodeAPI.IPromoCodeDetailResponseItem | undefined>;
   getByValue(value: string): Promise<promoCodeAPI.IPromoCodeDetailResponseItem | undefined>;
 }
@@ -46,8 +48,8 @@ export class PromoCodeService implements IPromoCodeService {
     this.API = API;
   }
 
-  public getAll: IPromoCodeService['getAll'] = async () => {
-    const products = await this.API.getAll();
+  public getAll: IPromoCodeService['getAll'] = async deleted => {
+    const products = await this.API.getAll(deleted);
     return normalize(products.data, [new schema.Entity('promoCodes')]);
   };
 
@@ -79,9 +81,9 @@ export class PromoCodeService implements IPromoCodeService {
     }
   };
 
-  public delete: IPromoCodeService['delete'] = async id => {
+  public delete: IPromoCodeService['delete'] = async (id, instantly) => {
     try {
-      return await this.API.delete(id);
+      return await this.API.delete(id, instantly);
     } catch (e) {
       if (e instanceof promoCodeAPI.errors.PromoCodeNotFound) {
         throw new errors.PromoCodeNotExists();
@@ -93,9 +95,9 @@ export class PromoCodeService implements IPromoCodeService {
     }
   };
 
-  public exists: IPromoCodeService['exists'] = async id => {
+  public exists: IPromoCodeService['exists'] = async (id, deleted) => {
     try {
-      await this.API.status(id);
+      await this.API.status(id, deleted);
       return true;
     } catch (e) {
       if (e instanceof promoCodeAPI.errors.PromoCodeNotFound) {

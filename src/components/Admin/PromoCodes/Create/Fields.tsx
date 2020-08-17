@@ -45,7 +45,7 @@ const AmountField = ({ input, meta, disabled }: FieldRenderProps<string>) => {
   const intl = useIntl();
 
   const showError = meta.touched && meta.error;
-
+  console.log(input);
   return (
     <FormTextField
       labelProps={{

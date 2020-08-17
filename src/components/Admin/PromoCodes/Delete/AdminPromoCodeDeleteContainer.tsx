@@ -20,18 +20,18 @@ export const AdminPromoCodesDeleteContainer = () => {
   } = useAdminPromoCodesState();
 
   const deleteEntity = React.useCallback(
-    async (id: number) => {
-      await dependencies.services.promoCode.delete(id);
+    async (id: number, instantly?: boolean) => {
+      await dependencies.services.promoCode.delete(id, instantly);
       deletePromoCode(id);
     },
     [deletePromoCode, dependencies.services.promoCode],
   );
 
   const preloadData = React.useCallback(
-    async ({ id, setError, setIsLoading }) => {
+    async ({ id, setError, setIsLoading, instantly }) => {
       try {
         setIsLoading(true);
-        const isExists = await dependencies.services.promoCode.exists(id);
+        const isExists = await dependencies.services.promoCode.exists(id, instantly);
         if (!isExists) {
           setError('AdminPromoCodes.notFound');
         }

@@ -71,11 +71,12 @@ export const AdminPromoCodesCreatePresenter: React.FC<IProps> = ({
       const formattedValues = {
         value: values.value,
         discount: parseInt(values.discount, 10),
-        amount: values.amount ? parseInt(values.amount, 10) : undefined,
+        amount: values.amount ? parseFloat(values.amount) : undefined,
         is_active: values.isActive,
         disable_on_use: values.disableOnUse,
         products: (values.products || []).map(product => product.id),
       };
+      console.log(formattedValues);
 
       try {
         await service.create(formattedValues);
