@@ -76,7 +76,6 @@ export const AdminPromoCodesCreatePresenter: React.FC<IProps> = ({
         disable_on_use: values.disableOnUse,
         products: (values.products || []).map(product => product.id),
       };
-      console.log(formattedValues);
 
       try {
         await service.create(formattedValues);
