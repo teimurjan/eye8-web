@@ -78,7 +78,7 @@
     "@types/color": "^3.0.1",
     "@types/jest": "^24.0.0",
     "@types/jwt-decode": "^2.2.1",
-    "@types/lodash": "^4.14.120",
+    "@types/lodash": "^4.14.159",
     "@types/mousetrap": "^1.6.3",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
