@@ -4,6 +4,7 @@ import * as yup from 'yup';
 
 import { IProductTypeDetailRawIntlResponseItem } from 'src/api/ProductTypeAPI';
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
+import { Link } from 'src/components/Admin/LinksInput/LinksInput';
 import {
   PRODUCT_TYPE_NAME_FIELD_KEY,
   PRODUCT_TYPE_DESCRIPTION_FIELD_KEY,
@@ -99,8 +100,10 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
             {
               instagram_links: yup
                 .array()
-                .test('areLinksValid', 'AdminProductTypes.errors.invalidInstagramLinks', (value: string[] = []) => {
-                  return value.every(link => link.match(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/));
+                .test('areLinksValid', 'AdminProductTypes.errors.invalidInstagramLinks', (value: Link[] = []) => {
+                  return value.every(link =>
+                    link.value.match(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/),
+                  );
                 }),
               categories: yup
                 .array()
@@ -213,7 +216,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
           }),
           {},
         ),
-        instagram_links: productType.instagram_links.map(({ link }) => link),
+        instagram_links: productType.instagram_links.map(link => ({ id: link.id, value: link.link })),
         categories: productType.categories.map(({ id }) => id),
         feature_types: productType.feature_types,
         image: productType.image,

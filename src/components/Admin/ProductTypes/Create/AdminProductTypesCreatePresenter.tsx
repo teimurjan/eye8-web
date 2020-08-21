@@ -3,6 +3,7 @@ import * as React from 'react';
 import * as yup from 'yup';
 
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
+import { Link } from 'src/components/Admin/LinksInput/LinksInput';
 import { IProps as IModalFormProps } from 'src/components/Admin/ModalForm';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { useLazy } from 'src/hooks/useLazy';
@@ -98,6 +99,13 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
                 .required('common.errors.field.empty'),
             }),
             {
+              instagram_links: yup
+                .array()
+                .test('areLinksValid', 'AdminProductTypes.errors.invalidInstagramLinks', (value: Link[] = []) => {
+                  return value.every(link =>
+                    link.value.match(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/),
+                  );
+                }),
               categories: yup
                 .array()
                 .of(yup.number())

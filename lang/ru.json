@@ -289,7 +289,7 @@
   "AdminRates.create.title": "Создание курса валют",
   "AdminPromoCodes.errors.hasOrders": "Промокод, связанный с заказами не может быть изменен или удален",
   "ProductTypePage.instagram": "Смотреть в Instagram",
-  "AdminProductTypes.errors.invalidInstagramLinks": "Данное поле должно содержать ссылки на Instagram публикации, разделенные запятой",
+  "AdminProductTypes.errors.invalidInstagramLinks": "Одна или несколько ссылок неверны",
   "AdminProductTypes.instagramLinks": "Instagram ссылки",
   "AdminProductTypes.instagramLinks.placeholder": "https://www.instagram.com/p/CBxH4cfHlk4/,https://www.instagram.com/p/CBvUxOrHLdR/",
   "common.separateWithComma": "Значения должны быть разделены запятыми (без пробелов)",

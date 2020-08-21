@@ -412,7 +412,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                       margin-right: 0;
                     }
                   `}
-                  wide={productType.instagram_links.length === 1}
+                  size={productType.instagram_links.length === 1 ? InstagramPost.Size.Wide : undefined}
                   id={id}
                   url={link}
                 />
