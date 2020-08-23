@@ -28,24 +28,26 @@ export interface IProps extends IntlStateContextValue {
   adminProductTypesState: AdminProductTypesStateContextValue['state'];
 }
 
+interface IFormValues {
+  names: { [key: string]: string };
+  descriptions: { [key: string]: string };
+  short_descriptions: { [key: string]: string };
+  instagram_links: Link[];
+  feature_types: string[];
+  categories?: string[];
+  image: string;
+}
+
 export interface IViewProps {
   isOpen: boolean;
-  edit: (values: {
-    names: { [key: string]: string };
-    descriptions: { [key: string]: string };
-    short_descriptions: { [key: string]: string };
-    instagram_links: string[];
-    feature_types: string[];
-    categories?: string[];
-    image: string;
-  }) => void;
+  edit: (values: IFormValues) => void;
   isLoading: boolean;
   isUpdating: boolean;
   error?: string;
   preloadingError?: string;
   close: () => void;
   availableLocales: IntlStateContextValue['intlState']['availableLocales'];
-  validate?: (values: object) => object | Promise<object>;
+  validate?: (values: IFormValues) => object | Promise<object>;
   categories: AdminCategoriesStateContextValue['state']['entities'];
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
   initialValues: object;
@@ -184,7 +186,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
           names: {},
           descriptions: {},
           short_descriptions: {},
-          instagram_links: values.instagram_links,
+          instagram_links: values.instagram_links.map(link => link.value),
           categories: values.categories ? values.categories.map(category => parseInt(category, 10)) : [],
           feature_types: values.feature_types.map(id => parseInt(id, 10)),
           image: values.image,
