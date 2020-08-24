@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Field, FieldRenderProps } from 'react-final-form';
 import { IntlShape, injectIntl } from 'react-intl';
 
-import { FormNativeSelectField } from 'src/components/admin-ui/FormNativeSelectField/FormNativeSelectField';
+import { FormSelectField } from 'src/components/admin-ui/FormSelectField/FormSelectField';
+import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
 import { IntlField } from 'src/components/Admin/IntlField';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
@@ -16,7 +17,7 @@ const ParentCategorySelect = injectIntl(
     const showError = meta.touched && meta.error;
 
     return (
-      <FormNativeSelectField
+      <FormSelectField
         labelProps={{
           children: (
             <>
@@ -28,15 +29,14 @@ const ParentCategorySelect = injectIntl(
         }}
         selectProps={{
           ...input,
-          defaultOption: {
-            title: intl.formatMessage({
-              id: 'AdminCategories.parentCategorySelect.defaultOption.title',
-            }),
-          },
+          placeholder: intl.formatMessage({
+            id: 'AdminCategories.parentCategorySelect.defaultOption.title',
+          }),
           options: categories.map(({ id, name }) => ({
             title: name[intl.locale],
             value: `${id}`,
           })),
+          TriggerComponent: SearchableSelectTrigger,
         }}
         helpTextProps={{
           children: showError ? intl.formatMessage({ id: meta.error }) : undefined,

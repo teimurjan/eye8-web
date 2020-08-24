@@ -50,7 +50,7 @@ export interface IViewProps {
   validate?: (values: IFormValues) => object | Promise<object>;
   categories: AdminCategoriesStateContextValue['state']['entities'];
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
-  initialValues: object;
+  initialValues: Partial<IFormValues>;
 }
 
 export const CATEGORY_NAME_FIELD_KEY = 'name';
@@ -219,10 +219,10 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
           {},
         ),
         instagram_links: productType.instagram_links.map(link => ({ id: link.id, value: link.link })),
-        categories: productType.categories.map(({ id }) => id),
-        feature_types: productType.feature_types,
+        categories: productType.categories.map(({ id }) => id.toString()),
+        feature_types: productType.feature_types.map(id => id.toString()),
         image: productType.image,
-      };
+      } as IViewProps['initialValues'];
     }
 
     return {};

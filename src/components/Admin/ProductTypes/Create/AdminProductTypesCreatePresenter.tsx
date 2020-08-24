@@ -48,7 +48,7 @@ export interface IViewProps {
   categories: AdminCategoriesStateContextValue['state']['entities'];
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
   onChange: IModalFormProps<IFormValues>['onChange'];
-  initialValues: object;
+  initialValues: Partial<IFormValues>;
 }
 
 export const PRODUCT_TYPE_NAME_FIELD_KEY = 'name';

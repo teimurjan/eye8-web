@@ -66,11 +66,12 @@ export const AdminProductsListView = ({
             onBlur: noop,
             onFocus: noop,
             value: selectedProductTypeId,
+            placeholder: intl.formatMessage({ id: 'AdminProducts.productTypeSelect.placeholder' }),
           }}
           LoadMoreProductTypes={LoadMoreProductTypes}
           productTypesLoading={productTypesLoading}
           productTypes={productTypes}
-          hasClear
+          clearable
         />
       </div>
 

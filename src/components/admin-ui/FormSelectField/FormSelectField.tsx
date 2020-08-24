@@ -16,7 +16,7 @@ interface IProps {
   labelProps?: LabelProps;
 }
 
-export const FormSelectField = ({
+export const FormSelectField = <M extends boolean>({
   controlProps = {},
   fieldProps = {},
   selectProps,
@@ -26,7 +26,7 @@ export const FormSelectField = ({
   const { options, ...selectPropsToPass } = selectProps;
 
   const selectOptions = options.map(({ title, value }) => (
-    <Select.Option key={value} value={value} searchQuery={title}>
+    <Select.Option key={value} value={value} name={title}>
       {title}
     </Select.Option>
   ));

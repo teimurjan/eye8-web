@@ -11,12 +11,13 @@ import { Link } from 'react-router-dom';
 import { IOrderDetailResponseItem } from 'src/api/OrderAPI';
 import { Box } from 'src/components/admin-ui/Box/Box';
 import { Field } from 'src/components/admin-ui/Field/Field';
-import { FormNativeSelectField } from 'src/components/admin-ui/FormNativeSelectField/FormNativeSelectField';
 import { FormPhoneField } from 'src/components/admin-ui/FormPhoneField/FormPhoneField';
+import { FormSelectField } from 'src/components/admin-ui/FormSelectField/FormSelectField';
 import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextField';
 import { HelpText } from 'src/components/admin-ui/HelpText/HelpText';
 import { Label } from 'src/components/admin-ui/Label/Label';
 import { Subtitle } from 'src/components/admin-ui/Subtitle/Subtitle';
+import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
 import { Quantity } from 'src/components/Client/Cart/CartItem/Quantity';
 import { PriceText } from 'src/components/Client/Price/Price';
 import { ProductSelectContainer } from 'src/components/common-ui/ProductSelect/ProductSelectContainer';
@@ -95,7 +96,7 @@ const StatusSelectField = ({ input, meta }: FieldRenderProps<string>) => {
   const intl = useIntl();
 
   return (
-    <FormNativeSelectField
+    <FormSelectField
       labelProps={{
         children: intl.formatMessage({
           id: 'AdminOrders.statusSelect.label',
@@ -121,6 +122,7 @@ const StatusSelectField = ({ input, meta }: FieldRenderProps<string>) => {
             value: 'rejected',
           },
         ],
+        TriggerComponent: SearchableSelectTrigger,
       }}
       helpTextProps={{
         children: showError ? intl.formatMessage({ id: meta.error }) : undefined,

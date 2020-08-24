@@ -109,6 +109,7 @@
   "AdminProductTypes.shortDescriptionInput.label": "Краткое описание",
   "AdminProductTypes.shortDescriptionInput.placeholder": "Введите краткое описание",
   "AdminProductTypes.errors.noFeatureTypes": "Вы должны выбрать как минимум 1 тип характеристики.",
+  "AdminProductTypes.errors.noCategories": "Вы должны выбрать как минимум 1 категорию.",
   "AdminProductTypes.edit.title": "Редактировать тип продукта",
   "AdminProducts.quantity": "Количество",
   "AdminProducts.price": "Цена",
@@ -123,7 +124,6 @@
   "AdminProducts.images": "Картинки",
   "AdminProducts.featureValuesSelect.label": "Значения характеристики",
   "AdminProducts.productTypeSelect.label": "Тип продукта",
-  "AdminProducts.productTypeSelect.defaultOption.title": "Нет типа продукта",
   "Admine.create.title": "Создать продукт",
   "AdminProducts.edit.title": "Редактировать",
   "AdminProducts.notFound": "Продукт не найден.",
@@ -305,5 +305,8 @@
   "common.showAll": "Показать все",
   "common.empty": "Здесь пока пусто 🤷‍♂️",
   "common.showArchived": "Показать архив",
-  "common.showCurrent": "Показать текущие"
+  "common.showCurrent": "Показать текущие",
+  "AdminProducts.productTypeSelect.placeholder": "Выберите тип продукта",
+  "AdminProductTypes.featureTypesSelect.placeholder": "Выберите тип продукта",
+  "AdminProductTypes.categoriesSelect.placeholder": "Выберите категорию"
 }

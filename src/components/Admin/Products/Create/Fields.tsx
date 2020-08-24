@@ -17,7 +17,7 @@ import { FormSelectField } from 'src/components/admin-ui/FormSelectField/FormSel
 import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextField';
 import { HelpText } from 'src/components/admin-ui/HelpText/HelpText';
 import { Label } from 'src/components/admin-ui/Label/Label';
-import { SelectTrigger } from 'src/components/admin-ui/Select/Select';
+import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
 import { ColorDecoration } from 'src/components/Admin/FeatureTypes/Decorations/Color';
 import { AdminFeatureValuesCreateContainer } from 'src/components/Admin/FeatureValues/Create/AdminFeatureValuesCreateContainer';
 import { useFeatureValuesOfProductType } from 'src/components/Admin/Products/Create/useFeatureValuesOfProductType';
@@ -179,7 +179,7 @@ const FeatureValuesSelect = ({ featureValues, featureValuesLoading, input, meta 
             }}
             selectProps={{
               isLoading: featureValuesLoading,
-              hasSearch: true,
+              searchable: true,
               append: (
                 <Popover.Item
                   Component="div"
@@ -196,9 +196,6 @@ const FeatureValuesSelect = ({ featureValues, featureValuesLoading, input, meta 
                     groupedFeatureValues[featureTypeId].featureValues.some(({ id }) => id.toString() === idStr),
                   )
                 : undefined,
-              placeholder: intl.formatMessage({
-                id: 'AdminProducts.productTypeSelect.defaultOption.title',
-              }),
               options: groupedFeatureValues[featureTypeId].featureValues.map(({ id, name }) => ({
                 key: id.toString(),
                 title: name[intl.locale],
@@ -211,7 +208,7 @@ const FeatureValuesSelect = ({ featureValues, featureValuesLoading, input, meta 
                 );
                 input.onChange([...valueWithoutCurrentGroup, id]);
               },
-              TriggerComponent: SelectTrigger,
+              TriggerComponent: SearchableSelectTrigger,
             }}
           />
         );
@@ -310,6 +307,7 @@ export const Fields: React.SFC<IFieldsProps> = React.memo(
           productTypes={productTypes}
           LoadMoreProductTypes={LoadMoreProductTypes}
           productTypesLoading={productTypesLoading}
+          clearable
         />
         <FinalFormField
           key="feature_values"

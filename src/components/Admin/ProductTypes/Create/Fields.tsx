@@ -4,12 +4,12 @@ import { useIntl } from 'react-intl';
 
 import { Field } from 'src/components/admin-ui/Field/Field';
 import { FileInput } from 'src/components/admin-ui/FileInput/FileInput';
-import { FormNativeSelectField } from 'src/components/admin-ui/FormNativeSelectField/FormNativeSelectField';
+import { FormSelectField } from 'src/components/admin-ui/FormSelectField/FormSelectField';
 import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextField';
 import { HelpText } from 'src/components/admin-ui/HelpText/HelpText';
 import { Label } from 'src/components/admin-ui/Label/Label';
-import { getMultipleValuesFromChangeEvent } from 'src/components/admin-ui/NativeSelect/NativeSelect';
 import { Tag } from 'src/components/admin-ui/Tag/Tag';
+import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
 import { IntlField, IProps as IIntlFieldProps } from 'src/components/Admin/IntlField';
 import { LinksInput, Link } from 'src/components/Admin/LinksInput/LinksInput';
 import { WYSIWYG } from 'src/components/client-ui/WYSIWYG/WYSIWYG';
@@ -27,17 +27,8 @@ const FeatureTypesSelect = ({ featureTypes, input, meta }: IFeatureTypesSelectPr
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
-  const { onChange: _, value, ...inputPropsToPass } = input;
-
-  const onChange = React.useCallback(
-    (e: React.SyntheticEvent<HTMLSelectElement>) => {
-      input.onChange(getMultipleValuesFromChangeEvent(e));
-    },
-    [input],
-  );
-
   return (
-    <FormNativeSelectField
+    <FormSelectField
       labelProps={{
         children: (
           <>
@@ -48,15 +39,16 @@ const FeatureTypesSelect = ({ featureTypes, input, meta }: IFeatureTypesSelectPr
         ),
       }}
       selectProps={{
-        ...inputPropsToPass,
-        isMultiple: true,
-        onChange,
+        ...input,
+        multiple: true,
         options: featureTypes.map(({ id, name }) => ({
-          checked: value instanceof Array ? value.indexOf(id.toString()) !== -1 : false,
           title: name[intl.locale],
           value: id.toString(),
         })),
-        value,
+        TriggerComponent: SearchableSelectTrigger,
+        searchable: true,
+        clearable: true,
+        placeholder: intl.formatMessage({ id: 'AdminProductTypes.featureTypesSelect.placeholder' }),
       }}
       helpTextProps={{
         children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
@@ -78,17 +70,8 @@ const CategoriesSelect = ({ categories, input, meta }: ICategoriesSelectProps) =
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
-  const { onChange: _, value, ...inputPropsToPass } = input;
-
-  const onChange = React.useCallback(
-    (e: React.SyntheticEvent<HTMLSelectElement>) => {
-      input.onChange(getMultipleValuesFromChangeEvent(e));
-    },
-    [input],
-  );
-
   return (
-    <FormNativeSelectField
+    <FormSelectField
       labelProps={{
         children: (
           <>
@@ -99,15 +82,16 @@ const CategoriesSelect = ({ categories, input, meta }: ICategoriesSelectProps) =
         ),
       }}
       selectProps={{
-        ...inputPropsToPass,
-        isMultiple: true,
-        onChange,
+        ...input,
+        multiple: true,
         options: categories.map(({ id, name }) => ({
-          checked: value instanceof Array ? value.indexOf(id.toString()) !== -1 : false,
           title: name[intl.locale],
           value: id.toString(),
         })),
-        value,
+        TriggerComponent: SearchableSelectTrigger,
+        placeholder: intl.formatMessage({ id: 'AdminProductTypes.categoriesSelect.placeholder' }),
+        searchable: true,
+        clearable: true,
       }}
       helpTextProps={{
         children: showError ? intl.formatMessage({ id: meta.error }) : undefined,

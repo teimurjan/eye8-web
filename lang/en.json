@@ -123,7 +123,6 @@
   "AdminProducts.notFound.cta": "Create a product",
   "AdminProducts.images": "Images",
   "AdminProducts.featureValuesSelect.label": "Feature values",
-  "AdminProducts.productTypeSelect.defaultOption.title": "No Product Type",
   "AdminProducts.productTypeSelect.label": "Product type",
   "Admine.create.title": "Create product",
   "AdminProducts.edit.title": "Edit product",
@@ -306,5 +305,8 @@
   "common.showAll": "Show all",
   "common.empty": "There is nothing here yet 🤷‍♂️",
   "common.showArchived": "Show archived",
-  "common.showCurrent": "Show current"
+  "common.showCurrent": "Show current",
+  "AdminProducts.productTypeSelect.placeholder": "Choose a product type",
+  "AdminProductTypes.featureTypesSelect.placeholder": "Choose a feature type",
+  "AdminProductTypes.categoriesSelect.placeholder": "Choose a category"
 }
