@@ -9,7 +9,7 @@ export const arePropsEqual = <T extends { [K in keyof T]: T[K] }>(
   nextProps: T,
   pickedProps?: PickedProps<T>,
 ) => {
-  return Object.keys(pickedProps || prevProps).every(pickedPropKey => {
+  return Object.keys(pickedProps || prevProps).every((pickedPropKey) => {
     const compare = (prev: T[keyof T], next: T[keyof T]) => {
       return pickedProps ? pickedProps[pickedPropKey](prev, next) : defaultCompare(prev, next);
     };

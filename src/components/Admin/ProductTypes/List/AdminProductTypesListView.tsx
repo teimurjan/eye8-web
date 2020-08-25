@@ -64,13 +64,13 @@ export const AdminProductTypesListView = ({
       <AdminTable.Col<ProductType>
         key_="image"
         title={intl.formatMessage({ id: 'AdminProductTypes.image' })}
-        renderer={new ImageRenderer(productType => productType.name[intl.locale])}
+        renderer={new ImageRenderer((productType) => productType.name[intl.locale])}
       />
       <AdminTable.Col<ProductType>
         key_="id"
         title=""
         renderer={
-          new LinkRenderer(entity => ({
+          new LinkRenderer((entity) => ({
             to: `/admin/products?productTypeId=${entity.id}`,
             text: intl.formatMessage({ id: 'AdminProductTypes.productsLink' }),
           }))

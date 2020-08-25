@@ -110,7 +110,7 @@ const makeResponseErrorInterceptor = (
         tokensRefreshStatusWV.set(Status.Idle);
       }
     } else if (tokensRefreshStatusWV.get() === Status.Busy) {
-      await tokensRefreshStatusWV.watchPromise(status => status === Status.Idle);
+      await tokensRefreshStatusWV.watchPromise((status) => status === Status.Idle);
     }
 
     error.config.headers = headersManager.getHeaders();
@@ -138,7 +138,7 @@ export interface IDependenciesFactoryArgs {
 }
 
 export const dependenciesFactory = ({ req, res }: IDependenciesFactoryArgs = {}): IDependenciesContainer => {
-  const localStorage = safeWindow(w => w.localStorage, new InMemoryStorage());
+  const localStorage = safeWindow((w) => w.localStorage, new InMemoryStorage());
   const cookieStorage = req && res ? new ServerCookieStorage(req, res) : new CookieStorage();
   const stateCacheStorage_ = new stateCacheStorage.StateCacheStorage(localStorage);
   const storagesContainer = {

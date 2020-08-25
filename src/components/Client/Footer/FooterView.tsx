@@ -13,7 +13,7 @@ export const FOOTER_DESKTOP_VERTICAL_PADDING_PX = 35;
 export const FOOTER_MOBILE_VERTICAL_PADDING_PX = 15;
 
 export const getFooterHeight = () => {
-  return safeDocument(d => {
+  return safeDocument((d) => {
     const footer = d.querySelector('footer');
     if (footer) {
       return footer.clientHeight;

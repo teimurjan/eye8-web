@@ -56,10 +56,10 @@ const Loader = ({ status, timeout, className, color, ...props }: ILoaderProps) =
 
 export const PageLoader = ({ isActive, timeout = 500, ...props }: IProps) =>
   safeDocument(
-    d =>
+    (d) =>
       ReactDOM.createPortal(
         <Transition in={isActive} timeout={timeout} unmountOnExit={true}>
-          {status => <Loader timeout={timeout} status={status} {...props} />}
+          {(status) => <Loader timeout={timeout} status={status} {...props} />}
         </Transition>,
         d.body,
       ),

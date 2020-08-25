@@ -43,7 +43,7 @@ export const FileInput: React.SFC<IProps> = ({ placeholder, value, showPreview =
   }, [value]);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    e => {
+    (e) => {
       if (onChange) {
         onChange(e.target.files ? e.target.files[0] : undefined);
       }

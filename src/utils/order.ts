@@ -17,14 +17,14 @@ interface IPromoCode {
 }
 
 export const getOrderTotalPrice = (items: IOrderItem[], promoCode?: IPromoCode) => {
-  const products = items.map(item => ({
+  const products = items.map((item) => ({
     id: item.product ? item.product.id : NaN,
     price: item.product_price_per_item,
     discount: item.product_discount,
     quantity: item.quantity,
   }));
 
-  const getProductCount = (productId: number) => products.find(product => product.id === productId)!.quantity;
+  const getProductCount = (productId: number) => products.find((product) => product.id === productId)!.quantity;
 
   return getCartTotalPrice(products, getProductCount, promoCode);
 };

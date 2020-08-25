@@ -27,7 +27,7 @@ const useRateOnDate = ({ date, name }: { date?: Date; name: string }) => {
     return {};
   }
 
-  const matchingRate = date ? rates[name].find(rate => new Date(rate.created_on).getTime() <= date.getTime()) : date;
+  const matchingRate = date ? rates[name].find((rate) => new Date(rate.created_on).getTime() <= date.getTime()) : date;
   const rate = matchingRate ?? rates[name][rates[name].length - 1];
 
   return { rate, error };
@@ -44,7 +44,7 @@ const useFormattedPrice = ({ price, discount, date, forceLocale }: IPriceProps) 
 
   const calculatedPrice = calculateDiscountedPrice(price, discount || 0);
   const defaultFormattedPrice = React.useMemo(() => `$${calculatedPrice}`, [calculatedPrice]);
-  const isEn = [locale, forceLocale].some(l => l === 'en');
+  const isEn = [locale, forceLocale].some((l) => l === 'en');
   const formattedPrice = React.useMemo(() => {
     if (!rate) {
       return error ? defaultFormattedPrice : null;
@@ -61,13 +61,13 @@ const useFormattedPrice = ({ price, discount, date, forceLocale }: IPriceProps) 
 };
 
 const usePriceRange = ({ range }: IPriceRangeTextProps) => {
-  const calculatedRange = range.map(price => calculateDiscountedPrice(price.price, price.discount || 0));
+  const calculatedRange = range.map((price) => calculateDiscountedPrice(price.price, price.discount || 0));
   const uniqueRange = uniq(calculatedRange);
   const discounts = range
-    .map(price => {
+    .map((price) => {
       return Array.isArray(price.discount) ? Math.max(...price.discount) : price.discount || 0;
     })
-    .filter(discount => discount !== 0);
+    .filter((discount) => discount !== 0);
   const uniqueDiscounts = uniq(discounts);
 
   const biggestPrice = Math.max(...calculatedRange);

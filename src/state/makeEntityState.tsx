@@ -104,7 +104,7 @@ export const makeEntityState = <
       const newEntities = { ...data.entities };
       delete newEntities[id];
 
-      const newOrder = data.order.filter(idFromOrder => idFromOrder !== id);
+      const newOrder = data.order.filter((idFromOrder) => idFromOrder !== id);
 
       setData({ entities: newEntities, order: newOrder });
     },
@@ -121,7 +121,7 @@ export const makeEntityState = <
           entities: agregateOrderedMapToArray(
             data.entities,
             data.order,
-            agregate ? e => agregate(e, { availableLocales }) : undefined,
+            agregate ? (e) => agregate(e, { availableLocales }) : undefined,
           ) as AgregatedEntity[],
           get,
           hasListLoaded,

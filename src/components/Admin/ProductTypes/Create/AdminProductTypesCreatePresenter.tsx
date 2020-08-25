@@ -102,7 +102,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
               instagram_links: yup
                 .array()
                 .test('areLinksValid', 'AdminProductTypes.errors.invalidInstagramLinks', (value: Link[] = []) => {
-                  return value.every(link =>
+                  return value.every((link) =>
                     link.value.match(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/),
                   );
                 }),
@@ -151,7 +151,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
   const close = React.useCallback(() => history.push('/admin/productTypes'), [history]);
 
   const create: IViewProps['create'] = React.useCallback(
-    async values => {
+    async (values) => {
       setCreating(true);
 
       const formattedValues = Object.keys(values).reduce(
@@ -174,9 +174,11 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
           names: {},
           descriptions: {},
           short_descriptions: {},
-          instagram_links: Array.isArray(values.instagram_links) ? values.instagram_links.map(link => link.value) : [],
-          categories: values.categories ? values.categories.map(category => parseInt(category as string, 10)) : [],
-          feature_types: values.feature_types.map(id => parseInt(id, 10)),
+          instagram_links: Array.isArray(values.instagram_links)
+            ? values.instagram_links.map((link) => link.value)
+            : [],
+          categories: values.categories ? values.categories.map((category) => parseInt(category as string, 10)) : [],
+          feature_types: values.feature_types.map((id) => parseInt(id, 10)),
           image: values.image,
         },
       );
@@ -195,7 +197,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
   );
 
   const onChange: IViewProps['onChange'] = React.useCallback(
-    values => {
+    (values) => {
       // Filter if cached feature type and category does not exist anymore
       values.feature_types = values.feature_types
         ? values.feature_types.filter((idStr: string) => featureTypes.some(({ id }) => id.toString() === idStr))

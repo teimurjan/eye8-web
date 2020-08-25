@@ -21,7 +21,7 @@ export const LinksInput = ({ links, onChange, onAdd, renderPreview }: IProps) =>
 
   const change = React.useCallback(
     (linkToChange: Link) => {
-      const newValue = links.map(link_ => (link_.id === linkToChange.id ? linkToChange : link_));
+      const newValue = links.map((link_) => (link_.id === linkToChange.id ? linkToChange : link_));
       onChange(newValue);
     },
     [links, onChange],
@@ -29,7 +29,7 @@ export const LinksInput = ({ links, onChange, onAdd, renderPreview }: IProps) =>
 
   const remove = React.useCallback(
     (linkToRemove: Link) => {
-      const newValue = links.filter(link_ => linkToRemove.id !== link_.id);
+      const newValue = links.filter((link_) => linkToRemove.id !== link_.id);
       onChange(newValue);
     },
     [links, onChange],
@@ -39,13 +39,13 @@ export const LinksInput = ({ links, onChange, onAdd, renderPreview }: IProps) =>
 
   return (
     <>
-      {links.map(link => (
+      {links.map((link) => (
         <FormTextField
           key={link.id}
           fieldProps={{ className: 'has-addons' }}
           inputProps={{
             value: link.value,
-            onChange: e => change({ ...link, value: e.currentTarget.value }),
+            onChange: (e) => change({ ...link, value: e.currentTarget.value }),
           }}
           controlProps={{ className: 'is-expanded' }}
           addons={<Button onClick={() => remove(link)}>{intl.formatMessage({ id: 'common.remove' })}</Button>}
@@ -66,7 +66,7 @@ export const LinksInput = ({ links, onChange, onAdd, renderPreview }: IProps) =>
           overflow-x: auto;
         `}
       >
-        {debouncedLinks.map(link => (
+        {debouncedLinks.map((link) => (
           <React.Fragment key={link.id}>{renderPreview(link)}</React.Fragment>
         ))}
       </div>

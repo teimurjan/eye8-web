@@ -34,36 +34,24 @@ class DefaultTheme implements AdminUITheme, ClientUITheme {
   public buttonDarkBackgroundColor = '#1e1e1c';
   public buttonDarkBackgroundHoverColor = '#fff';
   // -- primary
-  public buttonPrimaryBackgroundHoverColor = color(this.primaryColor)
-    .darken(0.15)
-    .hex();
+  public buttonPrimaryBackgroundHoverColor = color(this.primaryColor).darken(0.15).hex();
   // -- info
-  public buttonInfoBackgroundHoverColor = color(this.infoColor)
-    .darken(0.15)
-    .hex();
+  public buttonInfoBackgroundHoverColor = color(this.infoColor).darken(0.15).hex();
   // - background
   public backgroundPrimaryColor = '#fff';
-  public backgroundPrimaryHoverColor = color(this.backgroundPrimaryColor)
-    .darken(0.05)
-    .hex();
+  public backgroundPrimaryHoverColor = color(this.backgroundPrimaryColor).darken(0.05).hex();
   public backgroundDarkColor = '#000';
   public backgroundDarkHoverColor = '#222';
   public backgroundSecondaryColor = '#f0ebe3';
   public backgroundGrayColor = this.lightGrayColor;
-  public backgroundDarkGrayColor = color(this.backgroundGrayColor)
-    .darken(0.2)
-    .hex();
+  public backgroundDarkGrayColor = color(this.backgroundGrayColor).darken(0.2).hex();
   // - text
   public headerBackgroundColor = '#fff';
   public textColor = '#1e1e1c';
-  public textFadedColor = color(this.lightGrayColor)
-    .darken(0.1)
-    .hex();
+  public textFadedColor = color(this.lightGrayColor).darken(0.1).hex();
   public textSecondaryColor = '#606060';
   public textBrightColor = '#fff';
-  public textOnDangerColor = color(this.dangerColor)
-    .darken(0.2)
-    .hex();
+  public textOnDangerColor = color(this.dangerColor).darken(0.2).hex();
   public anchorColor = '#1e1e1c';
   // - tooltip
   public tooltipBackgroundColor = '#111';

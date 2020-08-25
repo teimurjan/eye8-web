@@ -32,7 +32,7 @@ export const LanguageDropdownPresenter = ({
     (newLocale: string) => {
       if (intlService.getLocale() !== newLocale) {
         intlService.setLocale(newLocale);
-        safeWindowOperation(w => w.location.reload());
+        safeWindowOperation((w) => w.location.reload());
       }
     },
     [intlService],

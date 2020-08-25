@@ -64,19 +64,19 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
   const close = React.useCallback(() => history.push('/admin/promoCodes'), [history]);
 
   const edit: IViewProps['edit'] = React.useCallback(
-    async values => {
+    async (values) => {
       setUpdating(true);
       const formattedValues = {
         is_active: values.isActive,
         disable_on_use: values.disableOnUse,
-        products: (values.products || []).map(product => product.id),
+        products: (values.products || []).map((product) => product.id),
       };
 
       try {
         const promoCode = await service.edit(promoCodeId, formattedValues);
         setPromoCodeToState({
           ...promoCode,
-          products: promoCode?.products.map(product => product.id),
+          products: promoCode?.products.map((product) => product.id),
         });
         close();
       } catch (e) {

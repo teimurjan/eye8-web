@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { safeWindow, safeWindowOperation } from 'src/utils/dom';
 
-export const triggerDimensionsCorrect = () => safeWindowOperation(w => w.dispatchEvent(new Event('resize')));
+export const triggerDimensionsCorrect = () => safeWindowOperation((w) => w.dispatchEvent(new Event('resize')));
 
 export const defaultGetElementDimensions = (el: HTMLElement) => el.getBoundingClientRect();
 
@@ -25,7 +25,7 @@ export const useDimensions = <T extends HTMLElement = HTMLElement>(
 
   React.useEffect(
     () =>
-      safeWindow(w => {
+      safeWindow((w) => {
         if (ref.current) {
           correctDimensions();
 

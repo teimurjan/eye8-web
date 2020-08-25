@@ -22,7 +22,7 @@ export const ProductTypePageContainer: React.FC<IProps> = ({ initialProps }) => 
 
   const [showAddedText, setShowAddedText] = React.useState(false);
   const action: IPresenterProps['action'] = React.useCallback(
-    product => {
+    (product) => {
       dependencies.storages.cart.add(product);
       setShowAddedText(true);
       addToCartTimeoutID = setTimeout(() => {

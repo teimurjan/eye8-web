@@ -25,7 +25,7 @@ export const FormRadioGroupField = ({
     <Field {...fieldProps}>
       <Label {...labelProps} />
       <Control {...controlProps}>
-        {radioPropsList.map(radioProps => (
+        {radioPropsList.map((radioProps) => (
           <Radio {...radioProps} />
         ))}
       </Control>

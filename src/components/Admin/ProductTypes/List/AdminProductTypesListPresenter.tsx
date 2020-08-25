@@ -35,7 +35,7 @@ export const AdminProductTypesListPresenter = ({
   }, []);
 
   const onPageChange = React.useCallback(
-    page => {
+    (page) => {
       getProductTypes(page);
     },
     [getProductTypes],
@@ -48,7 +48,7 @@ export const AdminProductTypesListPresenter = ({
         result: { productTypes: productTypesOrder },
       } = await searchService.searchRawIntl(query);
 
-      return agregateOrderedMapToArray(productTypes, productTypesOrder, productType => ({
+      return agregateOrderedMapToArray(productTypes, productTypesOrder, (productType) => ({
         ...productType,
         name: extendIntlTextWithLocaleNames(productType.name, availableLocales),
         description: extendIntlTextWithLocaleNames({}, availableLocales),

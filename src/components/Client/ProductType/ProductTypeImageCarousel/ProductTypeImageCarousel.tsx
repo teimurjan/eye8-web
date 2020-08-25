@@ -30,7 +30,7 @@ export const ProductTypeImageCarousel = <T extends any = string>({
       `}
     >
       <Carousel activeIndex={activeImageIndex}>
-        {images.map(image => {
+        {images.map((image) => {
           const { src, alt } = getImageProps(image);
           return (
             <CarouselItem key={src}>
@@ -63,7 +63,7 @@ export const ProductTypeImageCarousel = <T extends any = string>({
           margin-top: 5px;
         `}
       >
-        {images.map(image => {
+        {images.map((image) => {
           const { src, alt } = getImageProps(image);
 
           const currentImageIndex = images.indexOf(image);

@@ -69,7 +69,7 @@ export const InstagramPost = ({ className, url, id, size }: IProps) => {
     return () => clearInterval(intervalID);
   }, [adaptHeight, getIframe]);
 
-  useDimensions({ current: safeDocument(d => d.body, null) }, defaultGetElementDimensions, adaptHeight);
+  useDimensions({ current: safeDocument((d) => d.body, null) }, defaultGetElementDimensions, adaptHeight);
 
   return (
     <InstagramEmbed

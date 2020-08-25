@@ -87,7 +87,7 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
       feature_values: yup
         .array()
         .of(yup.number())
-        .test('allFeatureValuesChosen', 'AdminProducts.errors.noFeatureValues', function(value) {
+        .test('allFeatureValuesChosen', 'AdminProducts.errors.noFeatureValues', function (value) {
           if (!this.parent.product_type_id) {
             return true;
           }
@@ -124,7 +124,7 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
   const close = React.useCallback(() => history.push('/admin/products'), [history]);
 
   const edit: IViewProps['edit'] = React.useCallback(
-    async values => {
+    async (values) => {
       setUpdating(true);
 
       const formattedValues = {
@@ -133,7 +133,7 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
         quantity: parseInt(values.quantity, 10),
         discount: parseInt(values.discount, 10),
         price: parseInt(values.price, 10),
-        feature_values: values.feature_values.map(id => parseInt(id, 10)),
+        feature_values: values.feature_values.map((id) => parseInt(id, 10)),
       };
 
       try {
@@ -171,7 +171,7 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
               discount: product.discount.toString(),
               price: product.price.toString(),
               upc: product.upc,
-              feature_values: product.feature_values.map(id => id.toString()),
+              feature_values: product.feature_values.map((id) => id.toString()),
               product_type_id: product.product_type.id.toString(),
               images: product.images,
             }

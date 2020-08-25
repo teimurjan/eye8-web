@@ -29,7 +29,7 @@ export class CookieStorage implements ICookieStorage {
   };
 
   clear = () => {
-    Object.keys(cookies.getAll()).forEach(key => this.removeItem(key));
+    Object.keys(cookies.getAll()).forEach((key) => this.removeItem(key));
   };
 
   getItem = (key: string, options?: CookieGetOptions) => {

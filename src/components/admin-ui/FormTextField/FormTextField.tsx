@@ -28,7 +28,7 @@ export const FormTextField = ({
   addons,
 }: IProps) => {
   const onChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    e => {
+    (e) => {
       if (allowValue && !allowValue(e.currentTarget.value)) {
         return;
       }

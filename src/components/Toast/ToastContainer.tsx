@@ -84,29 +84,29 @@ export const ToastContainer: React.FC<IToastContainerProps> = ({
   const [toasts, setToasts] = React.useState<KeyedToast[]>([]);
 
   React.useEffect(() => {
-    return toastsWV.watch(toasts_ => {
+    return toastsWV.watch((toasts_) => {
       setToasts(Object.values(toasts_));
     });
   }, []);
 
   React.useEffect(() => {
     return () =>
-      [durationTimeoutIds, delayTimeoutIds].forEach(timeoutIds => {
+      [durationTimeoutIds, delayTimeoutIds].forEach((timeoutIds) => {
         Object.values(timeoutIds).forEach(clearTimeout);
       });
   }, []);
 
   const toastRoot = useLazyInitialization(
-    safeDocument(d => d.getElementById('toastRoot'), null),
+    safeDocument((d) => d.getElementById('toastRoot'), null),
     null,
   ).value;
 
   return toastRoot
     ? ReactDOM.createPortal(
         <TransitionGroup className={className}>
-          {toasts.map(toast_ => (
+          {toasts.map((toast_) => (
             <CSSTransition key={toast_.id} timeout={transitionDuration} classNames={transitionClassName}>
-              {status => {
+              {(status) => {
                 const props = {
                   componentKey: toast_.key.toString(),
                   status,

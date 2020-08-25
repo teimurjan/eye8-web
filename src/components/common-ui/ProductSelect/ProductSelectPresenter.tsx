@@ -58,7 +58,7 @@ export const ProductSelectPresenter = ({ searchService, onChange, View, placehol
     [searchService],
   );
 
-  const selectProductType: IViewProps['selectProductType'] = React.useCallback(async productType => {
+  const selectProductType: IViewProps['selectProductType'] = React.useCallback(async (productType) => {
     setSelectedProductType(productType);
   }, []);
 

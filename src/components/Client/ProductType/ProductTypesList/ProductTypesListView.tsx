@@ -81,7 +81,7 @@ export const ProductTypesListView = ({
             `}
           >
             <Columns className="is-multiline is-mobile">
-              {productTypes.map(productType => (
+              {productTypes.map((productType) => (
                 <Column
                   key={productType.id}
                   className={

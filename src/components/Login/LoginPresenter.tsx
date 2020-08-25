@@ -31,10 +31,7 @@ export interface IViewProps {
 
 const validator = new schemaValidator.SchemaValidator(
   yup.object().shape({
-    email: yup
-      .string()
-      .email('LoginForm.errors.email.format')
-      .required('LoginForm.errors.email.empty'),
+    email: yup.string().email('LoginForm.errors.email.format').required('LoginForm.errors.email.empty'),
     password: yup.string().required('LoginForm.errors.password.empty'),
   }),
 );

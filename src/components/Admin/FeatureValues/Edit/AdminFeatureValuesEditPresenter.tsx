@@ -104,7 +104,7 @@ export const AdminFeatureValuesEditPresenter: React.FC<IProps> = ({
 
   const close = React.useCallback(() => history.push('/admin/featureValues'), [history]);
 
-  const edit: IViewProps['edit'] = async values => {
+  const edit: IViewProps['edit'] = async (values) => {
     const formattedValues = Object.keys(values).reduce(
       (acc, fieldName) => {
         const { key, id } = parseFieldName(fieldName);

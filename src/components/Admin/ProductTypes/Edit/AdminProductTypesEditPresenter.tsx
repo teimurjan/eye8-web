@@ -103,7 +103,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
               instagram_links: yup
                 .array()
                 .test('areLinksValid', 'AdminProductTypes.errors.invalidInstagramLinks', (value: Link[] = []) => {
-                  return value.every(link =>
+                  return value.every((link) =>
                     link.value.match(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/),
                   );
                 }),
@@ -163,7 +163,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
   const close = React.useCallback(() => history.push('/admin/productTypes'), [history]);
 
   const edit: IViewProps['edit'] = React.useCallback(
-    async values => {
+    async (values) => {
       setUpdating(true);
 
       const formattedValues = Object.keys(values).reduce(
@@ -186,9 +186,9 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
           names: {},
           descriptions: {},
           short_descriptions: {},
-          instagram_links: values.instagram_links.map(link => link.value),
-          categories: values.categories ? values.categories.map(category => parseInt(category, 10)) : [],
-          feature_types: values.feature_types.map(id => parseInt(id, 10)),
+          instagram_links: values.instagram_links.map((link) => link.value),
+          categories: values.categories ? values.categories.map((category) => parseInt(category, 10)) : [],
+          feature_types: values.feature_types.map((id) => parseInt(id, 10)),
           image: values.image,
         },
       );
@@ -218,9 +218,9 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
           }),
           {},
         ),
-        instagram_links: productType.instagram_links.map(link => ({ id: link.id, value: link.link })),
+        instagram_links: productType.instagram_links.map((link) => ({ id: link.id, value: link.link })),
         categories: productType.categories.map(({ id }) => id.toString()),
-        feature_types: productType.feature_types.map(id => id.toString()),
+        feature_types: productType.feature_types.map((id) => id.toString()),
         image: productType.image,
       } as IViewProps['initialValues'];
     }

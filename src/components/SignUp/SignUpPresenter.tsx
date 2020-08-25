@@ -43,10 +43,7 @@ export class SignUpPresenter extends React.Component<IProps, IState> {
     super(props);
     this.validator = new schemaValidator.SchemaValidator(
       yup.object().shape({
-        email: yup
-          .string()
-          .email('SignUpForm.errors.email.format')
-          .required('SignUpForm.errors.email.empty'),
+        email: yup.string().email('SignUpForm.errors.email.format').required('SignUpForm.errors.email.empty'),
         name: yup.string().required('SignUpForm.errors.name.empty'),
         password: yup
           .string()

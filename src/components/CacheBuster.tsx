@@ -24,7 +24,7 @@ export const CacheBuster = () => {
   React.useEffect(() => {
     const currentVersion = versionStorage.getVersion();
     const bust = () =>
-      safeWindowOperation(w => {
+      safeWindowOperation((w) => {
         versionStorage.setVersion(CACHE_VERSION);
         w.location.reload(true);
       });

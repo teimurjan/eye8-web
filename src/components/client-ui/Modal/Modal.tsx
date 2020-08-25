@@ -48,7 +48,7 @@ export const ModalClose: React.FC<IModalCloseProps> = ({ className, onClick }) =
 
 const getFullScreenStyles = (
   styles: string,
-  getSelector: (className: string) => string = className => `&.${className}`,
+  getSelector: (className: string) => string = (className) => `&.${className}`,
 ) => css`
   @media ${mediaQueries.maxWidth768} {
     ${getSelector('mobileFullScreen')} {
@@ -198,7 +198,7 @@ export const Modal = ({
   useClickOutside([ref], close, isOpen);
   useMousetrap('esc', close);
 
-  const modalRoot = safeDocument(d => d.getElementById('modalRoot'), null);
+  const modalRoot = safeDocument((d) => d.getElementById('modalRoot'), null);
 
   const debouncedChildren = useDebounce(children, 500);
 
@@ -239,7 +239,7 @@ export const Modal = ({
                   position: absolute;
                   ${modalCloseCSS};
 
-                  ${getFullScreenStyles(`color: ${theme.textColor};`, className => `.${className} + & `)}
+                  ${getFullScreenStyles(`color: ${theme.textColor};`, (className) => `.${className} + & `)}
 
                   &.fixed {
                     position: fixed;

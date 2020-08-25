@@ -53,7 +53,7 @@ export const AdminRatesCreatePresenter: React.FC<IProps> = ({
   const close = React.useCallback(() => history.push('/admin/rates'), [history]);
 
   const create: IViewProps['create'] = React.useCallback(
-    async values => {
+    async (values) => {
       setCreating(true);
       try {
         const formattedValues = { name: values.name.toLowerCase(), value: parseFloat(values.value) };

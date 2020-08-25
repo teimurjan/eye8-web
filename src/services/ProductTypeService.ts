@@ -125,7 +125,7 @@ export class ProductTypeService implements IProductTypeService {
     return normalize(productTypes.data, [new schema.Entity('productTypes')]);
   };
 
-  public getByID: IProductTypeService['getByID'] = async id => {
+  public getByID: IProductTypeService['getByID'] = async (id) => {
     try {
       return (await this.API.getByID(id)).data;
     } catch (e) {
@@ -137,7 +137,7 @@ export class ProductTypeService implements IProductTypeService {
     }
   };
 
-  public getBySlug: IProductTypeService['getBySlug'] = async slug => {
+  public getBySlug: IProductTypeService['getBySlug'] = async (slug) => {
     try {
       return (await this.API.getBySlug(slug)).data;
     } catch (e) {

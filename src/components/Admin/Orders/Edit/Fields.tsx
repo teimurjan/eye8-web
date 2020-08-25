@@ -143,14 +143,14 @@ const OrderItemsField = ({
 
   const setOrderItem = React.useCallback(
     (id: number, orderItem: IOrderDetailResponseItem['items'][0]) => {
-      input.onChange(input.value.map(orderItem_ => (orderItem_.id === id ? orderItem : orderItem_)));
+      input.onChange(input.value.map((orderItem_) => (orderItem_.id === id ? orderItem : orderItem_)));
     },
     [input],
   );
 
   const removeOrderItem = React.useCallback(
     (orderItem: IOrderDetailResponseItem['items'][0]) => {
-      input.onChange(input.value.filter(orderItem_ => orderItem_.id !== orderItem.id));
+      input.onChange(input.value.filter((orderItem_) => orderItem_.id !== orderItem.id));
     },
     [input],
   );
@@ -158,7 +158,7 @@ const OrderItemsField = ({
   const addOrderItem = React.useCallback(
     (orderItem: IOrderDetailResponseItem['items'][0]) => {
       const itemWithProduct = input.value.find(
-        orderItem_ => orderItem_.product && orderItem.product && orderItem_.product.id === orderItem.product.id,
+        (orderItem_) => orderItem_.product && orderItem.product && orderItem_.product.id === orderItem.product.id,
       );
 
       if (itemWithProduct) {
@@ -181,7 +181,7 @@ const OrderItemsField = ({
             display: flex;
           `}
         >
-          {input.value.map(orderItem => (
+          {input.value.map((orderItem) => (
             <Box
               css={css`
                 margin-bottom: 0 !important;
@@ -219,7 +219,7 @@ const OrderItemsField = ({
                 )}
                 <ProductSelectContainer
                   placeholder={intl.formatMessage({ id: 'AdminOrders.anotherProduct.placeholder' })}
-                  onChange={product => {
+                  onChange={(product) => {
                     setOrderItem(orderItem.id, {
                       id: NaN,
                       product_price_per_item: product.price,
@@ -250,7 +250,7 @@ const OrderItemsField = ({
           margin: 10px 0;
         `}
         placeholder={intl.formatMessage({ id: 'AdminOrders.newProduct.placeholder' })}
-        onChange={product => {
+        onChange={(product) => {
           addOrderItem({
             id: NaN,
             product_price_per_item: product.price,

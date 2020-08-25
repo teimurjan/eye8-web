@@ -157,7 +157,7 @@ const FeatureValuesSelect = ({ featureValues, featureValuesLoading, input, meta 
 
   return (
     <React.Fragment>
-      {Object.keys(groupedFeatureValues).map(featureTypeId => {
+      {Object.keys(groupedFeatureValues).map((featureTypeId) => {
         const featureType = groupedFeatureValues[featureTypeId].featureValues[0].feature_type;
         const decoration = featureType.name['en'].match(/[Cc]olor/) ? <ColorDecoration /> : null;
         return (
@@ -192,7 +192,7 @@ const FeatureValuesSelect = ({ featureValues, featureValuesLoading, input, meta 
                 </Popover.Item>
               ),
               value: Array.isArray(input.value)
-                ? input.value.find(idStr =>
+                ? input.value.find((idStr) =>
                     groupedFeatureValues[featureTypeId].featureValues.some(({ id }) => id.toString() === idStr),
                   )
                 : undefined,
@@ -201,7 +201,7 @@ const FeatureValuesSelect = ({ featureValues, featureValuesLoading, input, meta 
                 title: name[intl.locale],
                 value: id.toString(),
               })),
-              onChange: id => {
+              onChange: (id) => {
                 const valueWithoutCurrentGroup = difference(
                   input.value,
                   groupedFeatureValues[featureTypeId].featureValues.map(({ id }) => id.toString()),
@@ -239,7 +239,7 @@ const ImagesInput = React.memo<FieldRenderProps<Array<File | undefined>>>(
           >
             <FileInput
               value={file}
-              onChange={newFile => {
+              onChange={(newFile) => {
                 const newFiles = [...value];
                 newFiles[i] = newFile;
                 onChange(newFiles);
@@ -256,7 +256,7 @@ const ImagesInput = React.memo<FieldRenderProps<Array<File | undefined>>>(
                 right: 0;
               `}
               color="is-danger"
-              onClick={e => {
+              onClick={(e) => {
                 e.preventDefault();
                 const newFiles = value.filter((_, j) => j !== i);
                 onChange(newFiles);
@@ -268,7 +268,7 @@ const ImagesInput = React.memo<FieldRenderProps<Array<File | undefined>>>(
         ))}
         <FileInput
           value={undefined}
-          onChange={newFile => {
+          onChange={(newFile) => {
             onChange([...value, newFile]);
           }}
           accept={Accept.Image}

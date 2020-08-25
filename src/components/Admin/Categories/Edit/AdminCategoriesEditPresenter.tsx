@@ -95,7 +95,7 @@ export const AdminCategoriesEditPresenter: React.FC<IProps> = ({
   const close = React.useCallback(() => history.push('/admin/categories'), [history]);
 
   const edit: IViewProps['edit'] = React.useCallback(
-    async values => {
+    async (values) => {
       setUpdating(true);
 
       const formattedValues = Object.keys(values).reduce(
@@ -145,7 +145,7 @@ export const AdminCategoriesEditPresenter: React.FC<IProps> = ({
 
   return (
     <View
-      categories={categories.filter(category => category.id !== categoryId)}
+      categories={categories.filter((category) => category.id !== categoryId)}
       isOpen={true}
       edit={edit}
       error={error}

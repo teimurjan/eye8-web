@@ -62,7 +62,7 @@ export const AdminFeatureTypesCreatePresenter: React.FC<IProps> = ({
   const close = React.useCallback(() => history.push('/admin/featureTypes'), [history]);
 
   const create: IViewProps['create'] = React.useCallback(
-    async values => {
+    async (values) => {
       setCreating(true);
 
       const formattedValues = Object.keys(values).reduce(

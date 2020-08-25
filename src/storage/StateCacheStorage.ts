@@ -52,7 +52,7 @@ export class StateCacheStorage implements IStateCacheStorage {
       cachedState[key] = value;
     }
     this.storage.setItem('cachedState', JSON.stringify(cachedState));
-    this.listeners.forEach(l => l(key, value, options));
+    this.listeners.forEach((l) => l(key, value, options));
   };
 
   public clear(key: string) {

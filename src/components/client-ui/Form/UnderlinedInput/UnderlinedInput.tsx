@@ -56,14 +56,14 @@ export const UnderlinedInput = React.forwardRef<HTMLInputElement, IProps>(
     const debouncedError = useDebounce(error, 300);
 
     const onFocus_: IProps['onFocus'] = React.useCallback(
-      e => {
+      (e) => {
         focus();
         onFocus && onFocus(e);
       },
       [focus, onFocus],
     );
     const onBlur_: IProps['onBlur'] = React.useCallback(
-      e => {
+      (e) => {
         blur();
         onBlur && onBlur(e);
       },

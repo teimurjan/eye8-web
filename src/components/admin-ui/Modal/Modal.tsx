@@ -55,7 +55,7 @@ export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Modal = ({ children, className, isOpen, ...props }: IProps) => {
-  const modalRoot = safeDocument(d => d.getElementById('modalRoot'), null);
+  const modalRoot = safeDocument((d) => d.getElementById('modalRoot'), null);
 
   return modalRoot
     ? ReactDOM.createPortal(

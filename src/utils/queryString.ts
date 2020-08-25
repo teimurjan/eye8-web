@@ -7,7 +7,7 @@ export const buildQueryString = (queryObj: { [key: string]: string | number | un
 
     const encodedKey = encodeURIComponent(k);
     if (Array.isArray(value)) {
-      const queryArr = value.map(valueItem => `${encodedKey}=${encodeURIComponent(valueItem)}`);
+      const queryArr = value.map((valueItem) => `${encodedKey}=${encodeURIComponent(valueItem)}`);
       return [...acc, queryArr.join('&')];
     }
 

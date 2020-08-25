@@ -90,12 +90,12 @@ export const AdminOrdersEditPresenter: React.FC<IProps> = ({
   const close = React.useCallback(() => history.push('/admin/orders'), [history]);
 
   const edit: IViewProps['edit'] = React.useCallback(
-    async values => {
+    async (values) => {
       setUpdating(true);
 
       const formattedValues = {
         ...values,
-        items: values.items.map(item => ({
+        items: values.items.map((item) => ({
           product_id: item.product.id,
           quantity: item.quantity,
         })),

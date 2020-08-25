@@ -55,7 +55,7 @@ export const AdminBannersListView = ({ banners, intl, isLoading, isDataLoaded }:
         title={intl.formatMessage({
           id: 'AdminBanners.image',
         })}
-        renderer={new ImageRenderer(banner => `Banner #${banner.id}`)}
+        renderer={new ImageRenderer((banner) => `Banner #${banner.id}`)}
       />
     </AdminTable>
 

@@ -47,7 +47,7 @@ export const Subtitle = ({ children, size, tag = size, className }: IProps) => {
                 font-weight: 500;
 
                 ${times(6)
-                  .map(i => {
+                  .map((i) => {
                     const sizeI = i + 1;
                     const fontSize = fontSizes[sizeI];
                     return `

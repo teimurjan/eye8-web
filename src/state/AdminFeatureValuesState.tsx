@@ -10,7 +10,7 @@ const Context = React.createContext<ContextValue | null>(null);
 
 export const AdminFeatureValuesStateProvider = makeEntityState(
   Context,
-  d => d.dependencies.services.featureValue.getAllRawIntl(),
+  (d) => d.dependencies.services.featureValue.getAllRawIntl(),
   'featureValues',
   (featureValue, { availableLocales }) => ({
     ...featureValue,

@@ -201,7 +201,7 @@ export const Drawer = ({
   useClickOutside([ref], close, isOpen);
   useMousetrap('esc', close);
 
-  const drawerRoot = safeDocument(d => d.getElementById('drawerRoot'), null);
+  const drawerRoot = safeDocument((d) => d.getElementById('drawerRoot'), null);
   const { drawerContentCSS, backdropCSS, modalCloseCSS } = getSlidingCSS(fromSide);
 
   return drawerRoot

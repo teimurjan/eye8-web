@@ -166,7 +166,7 @@ export class ProductAPI implements IProductAPI {
       const formData = new FormData();
       formData.append('json', JSON.stringify(json));
       if (images) {
-        images.forEach(image => formData.append('images', image));
+        images.forEach((image) => formData.append('images', image));
       }
       const response = await this.client.post<IProductResponseData>(`/api/products`, formData, {
         headers: this.headersManager.getHeaders(),
@@ -182,7 +182,7 @@ export class ProductAPI implements IProductAPI {
       const formData = new FormData();
       formData.append('json', JSON.stringify(json));
       if (images) {
-        images.forEach(image => formData.append('images', image));
+        images.forEach((image) => formData.append('images', image));
       }
       const response = await this.client.put<IProductResponseData>(`/api/products/${id}`, formData, {
         headers: this.headersManager.getHeaders(),

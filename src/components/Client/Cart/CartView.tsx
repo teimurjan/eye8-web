@@ -67,7 +67,7 @@ const PromoCodeField = ({ onPromoCodeApply }: Pick<IProps, 'onPromoCodeApply'>) 
   const intl = useIntl();
   const [value, setValue] = React.useState('');
 
-  const onChange = React.useCallback(e => {
+  const onChange = React.useCallback((e) => {
     const newValue = e.currentTarget.value.toUpperCase();
     if (newValue.match(/^[A-z0-9]*$/)) {
       setValue(e.currentTarget.value.toUpperCase());
@@ -79,7 +79,7 @@ const PromoCodeField = ({ onPromoCodeApply }: Pick<IProps, 'onPromoCodeApply'>) 
   }, [onPromoCodeApply, value]);
 
   const onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = React.useCallback(
-    event => {
+    (event) => {
       if (event.keyCode === 13) {
         onApplyClick();
       }
@@ -136,12 +136,12 @@ const FirstStep: React.FC<IProps> = ({
     return <Title size={5}>{intl.formatMessage({ id: 'Cart.empty' })}</Title>;
   }
 
-  const isAnyProductCountNotAllowed = products.some(product => product.quantity < getProductCount(product.id));
+  const isAnyProductCountNotAllowed = products.some((product) => product.quantity < getProductCount(product.id));
 
   return (
     <div>
       <div>
-        {products.map(product => (
+        {products.map((product) => (
           <CartItem
             key={product.id}
             product={product}
@@ -271,7 +271,7 @@ const ThirdStep: React.FC<IProps> = () => {
   );
 };
 
-export const CartView: React.FC<IProps> = props => {
+export const CartView: React.FC<IProps> = (props) => {
   const { isOpen, open, close, step, cartItemsCount, goToPrevStep } = props;
   const theme = useTheme<ClientUITheme>();
   return (

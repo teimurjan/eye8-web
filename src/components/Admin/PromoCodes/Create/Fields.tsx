@@ -137,14 +137,14 @@ const ProductsField = ({ input, meta }: FieldRenderProps<IPromoCodeDetailRespons
 
   const setProduct = React.useCallback(
     (id: number, product: IPromoCodeDetailResponseItem['products'][0]) => {
-      input.onChange(input.value.map(product_ => (product_.id === id ? product : product_)));
+      input.onChange(input.value.map((product_) => (product_.id === id ? product : product_)));
     },
     [input],
   );
 
   const removeProduct = React.useCallback(
     (product: IPromoCodeDetailResponseItem['products'][0]) => {
-      input.onChange(input.value.filter(product_ => product_.id !== product.id));
+      input.onChange(input.value.filter((product_) => product_.id !== product.id));
     },
     [input],
   );
@@ -172,7 +172,7 @@ const ProductsField = ({ input, meta }: FieldRenderProps<IPromoCodeDetailRespons
       </Control>
 
       {input.value
-        ? input.value.map(product => (
+        ? input.value.map((product) => (
             <div
               css={css`
                 margin: 10px 0;
@@ -198,7 +198,7 @@ const ProductsField = ({ input, meta }: FieldRenderProps<IPromoCodeDetailRespons
                 </Subtitle>
                 <ProductSelectContainer
                   placeholder={intl.formatMessage({ id: 'AdminPromoCodes.anotherProduct.placeholder' })}
-                  onChange={product => setProduct(product.id, product)}
+                  onChange={(product) => setProduct(product.id, product)}
                 />
               </div>
               <Button color="is-danger" onClick={() => removeProduct(product)}>

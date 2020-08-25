@@ -59,7 +59,7 @@ export const SearchView: React.FC<IProps> = ({
   const intl = useIntl();
   const [searchValue, setSearchValue] = React.useState('');
   const onSearchChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    e => setSearchValue(e.currentTarget.value),
+    (e) => setSearchValue(e.currentTarget.value),
     [],
   );
 
@@ -80,7 +80,7 @@ export const SearchView: React.FC<IProps> = ({
     return (
       <React.Fragment>
         {categories.length > 0 &&
-          categories.map(category => (
+          categories.map((category) => (
             <Popover.Item
               Component={LinkPassingProps}
               key={category.id}
@@ -95,7 +95,7 @@ export const SearchView: React.FC<IProps> = ({
             </Popover.Item>
           ))}
         {productTypes.length > 0 &&
-          productTypes.map(productType => (
+          productTypes.map((productType) => (
             <Popover.Item
               Component={LinkPassingProps}
               key={productType.id}

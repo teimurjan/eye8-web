@@ -48,7 +48,7 @@ export const Title = ({ children, size, tag = size, className }: IProps) => {
                 color: ${theme.textColor};
 
                 ${times(6)
-                  .map(i => {
+                  .map((i) => {
                     const sizeI = i + 1;
                     const fontSize = fontSizes[sizeI];
                     return `

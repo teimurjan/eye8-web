@@ -4,7 +4,7 @@ import React from 'react';
 export const useMousetrap = (keys: string | string[], callback: (e: Event) => void) => {
   React.useEffect(() => {
     const mousetrapInstance = Mousetrap.bind(keys, callback);
-    mousetrapInstance.stopCallback = function(e, element, combo) {
+    mousetrapInstance.stopCallback = function (e, element, combo) {
       if ((element as HTMLElement).dataset.mousetrap) {
         return false;
       }

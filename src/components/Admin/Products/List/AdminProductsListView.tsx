@@ -95,7 +95,7 @@ export const AdminProductsListView = ({
         <AdminTable.Col<Product>
           key_="product_type"
           title={intl.formatMessage({ id: 'common.productType' })}
-          render={product => product.product_type.name}
+          render={(product) => product.product_type.name}
         />
       </AdminTable>
 

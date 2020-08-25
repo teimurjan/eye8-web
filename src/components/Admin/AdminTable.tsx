@@ -67,11 +67,11 @@ export class IntlRenderer<T> implements IRenderer<T> {
   );
 
   public renderSubheader = ({ componentKey }: IAdminTableRendererRequiredArgs) =>
-    this.locales.map(locale => <Table.HeadCell key={`${componentKey}-${locale}`}>{locale}</Table.HeadCell>);
+    this.locales.map((locale) => <Table.HeadCell key={`${componentKey}-${locale}`}>{locale}</Table.HeadCell>);
 
   public renderEntity = (entity: T, { colKey, componentKey }: IAdminTableRendererRequiredArgs) => (
     <React.Fragment key={componentKey}>
-      {this.locales.map(locale => (
+      {this.locales.map((locale) => (
         <Table.Cell key={locale}>{entity[colKey][locale]}</Table.Cell>
       ))}
     </React.Fragment>
@@ -166,7 +166,7 @@ export const AdminTable = <T extends { id: number }>({
   const [searchValue, setSearchValue] = React.useState('');
   const debouncedSearchValue = useDebounce(searchValue, 500);
   const onSearchChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    e => setSearchValue(e.currentTarget.value),
+    (e) => setSearchValue(e.currentTarget.value),
     [],
   );
   const [searchResults, setSearchResults] = React.useState<T[]>([]);
@@ -228,7 +228,7 @@ export const AdminTable = <T extends { id: number }>({
             )}
           </Table.Head>
           <Table.Body>
-            {(debouncedSearchValue.length > 0 ? searchResults : entities).map(entity => (
+            {(debouncedSearchValue.length > 0 ? searchResults : entities).map((entity) => (
               <Table.Row key={entity.id}>
                 {React.Children.map(children, ({ props: { key_, renderer, render } }) =>
                   render ? (
@@ -278,7 +278,7 @@ export const AdminTable = <T extends { id: number }>({
           </Table.Body>
         </Table>
 
-        {[pagesCount, currentPage].every(i => typeof i !== 'undefined') && debouncedSearchValue.length === 0 && (
+        {[pagesCount, currentPage].every((i) => typeof i !== 'undefined') && debouncedSearchValue.length === 0 && (
           <ControlledPagination
             css={css`
               margin-bottom: 0.25rem;

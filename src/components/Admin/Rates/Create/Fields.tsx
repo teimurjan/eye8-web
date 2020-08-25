@@ -35,7 +35,7 @@ const NameField = ({ input, meta, disabled }: FieldRenderProps<string>) => {
   const showError = meta.touched && meta.error;
 
   const onChange = React.useCallback(
-    e => {
+    (e) => {
       const value = e.currentTarget.value;
       if (value.match(/^[A-z_]*$/)) {
         input.onChange(e);

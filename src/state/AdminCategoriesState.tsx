@@ -10,7 +10,7 @@ const Context = React.createContext<ContextValue | null>(null);
 
 export const AdminCategoriesStateProvider = makeEntityState(
   Context,
-  d => d.dependencies.services.category.getAllRawIntl(),
+  (d) => d.dependencies.services.category.getAllRawIntl(),
   'categories',
   (category, { availableLocales }) => ({
     ...category,

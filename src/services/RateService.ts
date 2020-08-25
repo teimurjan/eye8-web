@@ -59,7 +59,7 @@ export class RateService implements IRateService {
     }
   };
 
-  public delete: IRateService['delete'] = async id => {
+  public delete: IRateService['delete'] = async (id) => {
     try {
       await this.API.delete(id);
     } catch (e) {
@@ -73,7 +73,7 @@ export class RateService implements IRateService {
     }
   };
 
-  public exists: IRateService['exists'] = async id => {
+  public exists: IRateService['exists'] = async (id) => {
     try {
       await this.API.status(id);
       return true;
@@ -85,7 +85,7 @@ export class RateService implements IRateService {
     }
   };
 
-  public create: IRateService['create'] = async payload => {
+  public create: IRateService['create'] = async (payload) => {
     const rate = await this.API.create(payload);
     return rate.data;
   };
@@ -103,7 +103,7 @@ export class RateService implements IRateService {
     return (this.storage.get('rates') || {}) as IGroupedRates;
   };
 
-  public addChangeListener: IRateService['addChangeListener'] = listener => {
+  public addChangeListener: IRateService['addChangeListener'] = (listener) => {
     return this.storage.addChangeListener((key, value, options) => {
       if (key === 'rates') {
         listener(key, value, options);

@@ -4,7 +4,7 @@ export const isUserAdmin = (user: User) => !!user && 'group' in user && user.gro
 
 export const isUserManager = (user: User) => !!user && 'group' in user && user.group === 'manager';
 
-export const isUserAdminOrManager = (user: User) => [isUserAdmin, isUserManager].some(f => f(user));
+export const isUserAdminOrManager = (user: User) => [isUserAdmin, isUserManager].some((f) => f(user));
 
 export const isUserNotSetYet = (user: User) => user === null;
 

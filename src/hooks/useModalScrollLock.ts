@@ -5,8 +5,8 @@ import { safeDocument } from 'src/utils/dom';
 export const useModalScrollLock = (...conditions: boolean[]) => {
   React.useEffect(
     () =>
-      safeDocument(d => {
-        if (conditions.some(c => !c)) {
+      safeDocument((d) => {
+        if (conditions.some((c) => !c)) {
           return;
         }
 

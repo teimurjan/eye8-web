@@ -52,14 +52,8 @@ export interface IViewProps {
 
 const validator = new schemaValidator.SchemaValidator(
   yup.object().shape({
-    name: yup
-      .string()
-      .test('isTrimmed', 'common.errors.notTrimmed', isTrimmed)
-      .required('common.errors.field.empty'),
-    phone: yup
-      .string()
-      .required('common.errors.field.empty')
-      .matches(PHONE_REGEX, 'common.errors.invalidPhone'),
+    name: yup.string().test('isTrimmed', 'common.errors.notTrimmed', isTrimmed).required('common.errors.field.empty'),
+    phone: yup.string().required('common.errors.field.empty').matches(PHONE_REGEX, 'common.errors.invalidPhone'),
     address: yup
       .string()
       .test('isTrimmed', 'common.errors.notTrimmed', isTrimmed)
@@ -106,7 +100,7 @@ export const CartPresenter: React.FC<IProps> = ({
     (async () => {
       try {
         setLoading(true);
-        const ids = storage.getItems().map(item => item.id);
+        const ids = storage.getItems().map((item) => item.id);
         if (ids.length > 0) {
           const { entities, result } = await productService.getForCart(ids);
           setData({ entities: entities.products, order: result });
@@ -132,8 +126,8 @@ export const CartPresenter: React.FC<IProps> = ({
       const newCount = storage.remove(product);
       if (newCount === 0) {
         setData({
-          entities: reject(data.entities, entity => entity.id !== product.id),
-          order: data.order.filter(id => id !== product.id),
+          entities: reject(data.entities, (entity) => entity.id !== product.id),
+          order: data.order.filter((id) => id !== product.id),
         });
       }
     },
@@ -178,7 +172,7 @@ export const CartPresenter: React.FC<IProps> = ({
   const { value: lazyTotalCartItemsCount } = useLazyInitialization(totalCartItemsCount, 0);
 
   const onPromoCodeApply: IViewProps['onPromoCodeApply'] = React.useCallback(
-    async value => {
+    async (value) => {
       setError(undefined);
       if (value.length > 0) {
         const promoCode = await promoCodeService.getByValue(value);
@@ -199,7 +193,7 @@ export const CartPresenter: React.FC<IProps> = ({
       close={close}
       toggle={toggle}
       products={agregateOrderedMapToArray(data.entities, data.order)}
-      getProductCount={id => {
+      getProductCount={(id) => {
         const storageItem = storage.getItem(id);
         return storageItem && storageItem.count ? storageItem.count : 0;
       }}

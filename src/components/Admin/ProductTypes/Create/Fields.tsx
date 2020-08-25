@@ -164,7 +164,7 @@ const InstagramLinksField = ({ input, meta }: FieldRenderProps<Link[]>) => {
   const form = useFormState();
   const links = Array.isArray(input.value) ? input.value : [];
   const initialLinks: Link[] = form.initialValues.instagram_links || [];
-  const existingLinkIDs = React.useMemo(() => new Set(initialLinks.map(link => link.id)), [initialLinks]);
+  const existingLinkIDs = React.useMemo(() => new Set(initialLinks.map((link) => link.id)), [initialLinks]);
   const addLink = React.useCallback(() => {
     const id = (() => {
       let id_ = getID();
@@ -186,7 +186,7 @@ const InstagramLinksField = ({ input, meta }: FieldRenderProps<Link[]>) => {
         <LinksInput
           links={links}
           onChange={input.onChange}
-          renderPreview={link => <InstagramPost id={link.id} url={link.value} />}
+          renderPreview={(link) => <InstagramPost id={link.id} url={link.value} />}
           onAdd={addLink}
         />
       )}

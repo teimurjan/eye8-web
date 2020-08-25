@@ -122,7 +122,7 @@ export class CategoryService implements ICategoryService {
     }
   };
 
-  public getOne: ICategoryService['getOne'] = async id => {
+  public getOne: ICategoryService['getOne'] = async (id) => {
     try {
       return (await this.API.getOne(id)).data;
     } catch (e) {
@@ -134,7 +134,7 @@ export class CategoryService implements ICategoryService {
     }
   };
 
-  public getOneBySlug: ICategoryService['getOneBySlug'] = async slug => {
+  public getOneBySlug: ICategoryService['getOneBySlug'] = async (slug) => {
     try {
       return (await this.API.getOneBySlug(slug)).data;
     } catch (e) {

@@ -1,7 +1,7 @@
 import { safeWindow, isWindowDefined } from 'src/utils/dom';
 
 export const getGlobal = (key: string) => {
-  return safeWindow(w => w[key], global[key]);
+  return safeWindow((w) => w[key], global[key]);
 };
 
 export const setGlobal = <T>(key: string, value: T) => {

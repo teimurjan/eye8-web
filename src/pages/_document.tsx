@@ -59,7 +59,7 @@ const getInitialProps = async (ctx: DocumentContext) => {
   };
 
   const page = await ctx.renderPage({
-    enhanceApp: app => {
+    enhanceApp: (app) => {
       setGlobal('__CUSTOM_DATA__', __CUSTOM_DATA__);
       return app;
     },

@@ -66,7 +66,7 @@ export const AdminPromoCodesCreatePresenter: React.FC<IProps> = ({
   const close = React.useCallback(() => history.push('/admin/promoCodes'), [history]);
 
   const create: IViewProps['create'] = React.useCallback(
-    async values => {
+    async (values) => {
       setCreating(true);
       const formattedValues = {
         value: values.value,
@@ -74,7 +74,7 @@ export const AdminPromoCodesCreatePresenter: React.FC<IProps> = ({
         amount: values.amount ? parseFloat(values.amount) : undefined,
         is_active: values.isActive,
         disable_on_use: values.disableOnUse,
-        products: (values.products || []).map(product => product.id),
+        products: (values.products || []).map((product) => product.id),
       };
 
       try {

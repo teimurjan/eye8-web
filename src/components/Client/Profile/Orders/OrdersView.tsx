@@ -49,7 +49,7 @@ export const OrdersView: React.FC<IProps> = ({ isLoading, orders, error, current
       </Title>
       {orders.length === 0 && <Subtitle size={4}>{intl.formatMessage({ id: 'Orders.empty' })}</Subtitle>}
 
-      {orders.map(order => (
+      {orders.map((order) => (
         <OrderItem key={order.id} order={order} />
       ))}
 

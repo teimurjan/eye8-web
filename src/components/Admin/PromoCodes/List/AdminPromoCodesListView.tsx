@@ -69,12 +69,12 @@ export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded, s
         <AdminTable.Col<PromoCode>
           key_="is_active"
           title={intl.formatMessage({ id: 'AdminPromoCodes.active' })}
-          render={value => (value.is_active ? '✅' : '❌')}
+          render={(value) => (value.is_active ? '✅' : '❌')}
         />
         <AdminTable.Col<PromoCode>
           key_="disable_on_use"
           title={intl.formatMessage({ id: 'AdminPromoCodes.disableOnUse' })}
-          render={value => (value.disable_on_use ? '✅' : '❌')}
+          render={(value) => (value.disable_on_use ? '✅' : '❌')}
         />
       </AdminTable>
 

@@ -17,7 +17,7 @@ export const LanguageDropdownContainer = React.forwardRef<
 
   return (
     <LanguageDropdownPresenter
-      View={props => <LanguageDropdownView ref={ref} {...props} />}
+      View={(props) => <LanguageDropdownView ref={ref} {...props} />}
       intlService={dependencies.services.intl}
       intlState={intlState}
       {...viewProps}

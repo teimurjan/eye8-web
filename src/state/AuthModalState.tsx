@@ -23,7 +23,7 @@ export const AuthModalStateProvider: React.SFC<IProviderProps> = ({ children }) 
   const [modalType, setModalType] = React.useState<ModalType | undefined>(undefined);
 
   const modalTypeFromRoute = React.useMemo(() => {
-    return ['login', 'signup'].find(type => router.asPath.startsWith(`/${type}`));
+    return ['login', 'signup'].find((type) => router.asPath.startsWith(`/${type}`));
   }, [router]) as ModalType | undefined;
 
   const close = () => {

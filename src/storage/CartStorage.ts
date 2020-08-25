@@ -31,7 +31,7 @@ export class CartStorage implements ICartStorage {
 
   public getItem(id: number) {
     const cartItems = this.getItems();
-    return cartItems.find(cartItem => cartItem.id === id);
+    return cartItems.find((cartItem) => cartItem.id === id);
   }
 
   private updateItem(item: ICartItem, delta: number) {
@@ -41,8 +41,8 @@ export class CartStorage implements ICartStorage {
       const newCount = (existingItem.count || 0) + delta;
       this.setItems(
         newCount === 0
-          ? cartItems.filter(item => item.id !== existingItem.id)
-          : cartItems.map(item => (item.id === existingItem.id ? { ...existingItem, count: newCount } : item)),
+          ? cartItems.filter((item) => item.id !== existingItem.id)
+          : cartItems.map((item) => (item.id === existingItem.id ? { ...existingItem, count: newCount } : item)),
       );
       return newCount;
     } else if (delta > 0) {
@@ -65,7 +65,7 @@ export class CartStorage implements ICartStorage {
     this.storage.clear('cart');
   }
 
-  public addChangeListener: IStateCacheStorage['addChangeListener'] = listener => {
+  public addChangeListener: IStateCacheStorage['addChangeListener'] = (listener) => {
     return this.storage.addChangeListener(listener);
   };
 }

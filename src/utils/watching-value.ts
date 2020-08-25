@@ -6,7 +6,7 @@ export class WatchingValue<T> {
   }
 
   public set = (value: T) => {
-    this.watchers.forEach(listener => listener(value));
+    this.watchers.forEach((listener) => listener(value));
     this.value = value;
   };
 
@@ -23,7 +23,7 @@ export class WatchingValue<T> {
 
   public watchPromise = (shouldResolve: (value: T) => boolean, shouldReject?: (value: T) => boolean) =>
     new Promise((resolve, reject) => {
-      const stopWatching = this.watch(value => {
+      const stopWatching = this.watch((value) => {
         if (shouldResolve(value)) {
           stopWatching();
           resolve();

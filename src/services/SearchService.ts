@@ -37,7 +37,7 @@ export class SearchService implements ISearchService {
     this.API = API;
   }
 
-  public search: ISearchService['search'] = async query => {
+  public search: ISearchService['search'] = async (query) => {
     const { data } = await this.API.search(query);
 
     const { entities: categoriesEntities, result: categoriesResult } = normalize(data.categories, [
@@ -56,7 +56,7 @@ export class SearchService implements ISearchService {
     };
   };
 
-  public searchRawIntl: ISearchService['searchRawIntl'] = async query => {
+  public searchRawIntl: ISearchService['searchRawIntl'] = async (query) => {
     const { data } = await this.API.searchRawIntl(query);
 
     const { entities: categoriesEntities, result: categoriesResult } = normalize(data.categories, [

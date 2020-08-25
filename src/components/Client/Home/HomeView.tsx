@@ -153,7 +153,7 @@ const HomeView = ({ banners, productTypes }: IProps) => {
         fullWidth
         swipeable
       >
-        {banners.map(banner => (
+        {banners.map((banner) => (
           <BannerCarouselItem key={banner.id} banner={banner} isMobile={lazyIsMobile} />
         ))}
       </InfiniteCarousel>

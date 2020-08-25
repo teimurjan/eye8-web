@@ -62,7 +62,7 @@ const IntlField_: IProps['component'] = ({ input, meta, label, placeholder, loca
 export const IntlField = ({ component, label, locales, placeholder, key_ }: IProps) => {
   return (
     <>
-      {locales.map(locale => (
+      {locales.map((locale) => (
         <Field
           key={locale.id}
           name={getFieldName(key_, locale)}

@@ -54,7 +54,7 @@ export const CartItem = ({ product, count, onRemoveClick, onAddClick, promoCode 
           `}
         >
           <Title size={6}>{product.product_type.name}</Title>
-          <Subtitle size={6}>{product.feature_values.map(featureValue => featureValue.name).join(', ')}</Subtitle>
+          <Subtitle size={6}>{product.feature_values.map((featureValue) => featureValue.name).join(', ')}</Subtitle>
         </div>
         <div
           css={css`

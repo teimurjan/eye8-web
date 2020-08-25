@@ -11,4 +11,4 @@ export const agregateOrderedMapToArray = <T, I = T>(
 
         return acc;
       }, [] as I[])
-    : order.map(i => items[i]);
+    : order.map((i) => items[i]);

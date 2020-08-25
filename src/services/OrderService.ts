@@ -86,7 +86,7 @@ export class OrderService implements IOrderService {
     }
   };
 
-  public delete: IOrderService['delete'] = async id => {
+  public delete: IOrderService['delete'] = async (id) => {
     try {
       return await this.API.delete(id);
     } catch (e) {
@@ -97,7 +97,7 @@ export class OrderService implements IOrderService {
     }
   };
 
-  public exists: IOrderService['exists'] = async id => {
+  public exists: IOrderService['exists'] = async (id) => {
     try {
       await this.API.status(id);
       return true;
@@ -109,7 +109,7 @@ export class OrderService implements IOrderService {
     }
   };
 
-  public getOne: IOrderService['getOne'] = async id => {
+  public getOne: IOrderService['getOne'] = async (id) => {
     try {
       return (await this.API.getOne(id)).data;
     } catch (e) {

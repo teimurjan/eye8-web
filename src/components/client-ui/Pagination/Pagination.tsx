@@ -19,7 +19,7 @@ export const Pagination = ({ className, length, page, onChange }: IProps) => {
         display: flex;
       `}
     >
-      {times(length).map(i => (
+      {times(length).map((i) => (
         <Button
           key={i}
           css={css`

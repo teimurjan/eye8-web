@@ -28,7 +28,7 @@ export const ProductTypeCard = ({ productType }: IProps) => {
   const { price, discount } = usePriceRangeText({ range: productType.products || [] });
 
   const hasProducts = (productType.products?.length || 0) > 0;
-  const productInStock = productType.products?.some(product => product.quantity > 0);
+  const productInStock = productType.products?.some((product) => product.quantity > 0);
 
   const buttonTextIntlId = React.useMemo(() => {
     if (productInStock) {

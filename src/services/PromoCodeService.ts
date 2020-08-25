@@ -48,7 +48,7 @@ export class PromoCodeService implements IPromoCodeService {
     this.API = API;
   }
 
-  public getAll: IPromoCodeService['getAll'] = async deleted => {
+  public getAll: IPromoCodeService['getAll'] = async (deleted) => {
     const products = await this.API.getAll(deleted);
     return normalize(products.data, [new schema.Entity('promoCodes')]);
   };
@@ -107,7 +107,7 @@ export class PromoCodeService implements IPromoCodeService {
     }
   };
 
-  public getOne: IPromoCodeService['getOne'] = async id => {
+  public getOne: IPromoCodeService['getOne'] = async (id) => {
     try {
       return (await this.API.getOne(id)).data;
     } catch (e) {
@@ -118,7 +118,7 @@ export class PromoCodeService implements IPromoCodeService {
     }
   };
 
-  public getByValue: IPromoCodeService['getByValue'] = async value => {
+  public getByValue: IPromoCodeService['getByValue'] = async (value) => {
     try {
       return (await this.API.getByValue(value)).data;
     } catch (e) {

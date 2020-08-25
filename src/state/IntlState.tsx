@@ -45,7 +45,7 @@ export const IntlStateProvider = ({ children, intl, initialProps }: IProviderPro
     setLoading();
     try {
       const locales = await service.getAvailableLocales();
-      setAvailableLocales(locales.map(l => ({ ...l, name: l.name.split('-')[0] })));
+      setAvailableLocales(locales.map((l) => ({ ...l, name: l.name.split('-')[0] })));
     } catch (e) {
       setError(e);
     } finally {

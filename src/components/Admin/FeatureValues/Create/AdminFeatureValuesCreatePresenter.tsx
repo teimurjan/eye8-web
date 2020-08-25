@@ -78,7 +78,7 @@ export const AdminFeatureValuesCreatePresenter: React.FC<IProps> = ({
   });
 
   const create: IViewProps['create'] = React.useCallback(
-    async values => {
+    async (values) => {
       const formattedValues = Object.keys(values).reduce(
         (acc, fieldName) => {
           const { key, id } = parseFieldName(fieldName);

@@ -43,12 +43,12 @@ export const ProductSelectView: React.FC<IProps> = ({
   const intl = useIntl();
   const [searchValue, setSearchValue] = React.useState('');
   const onSearchChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-    e => setSearchValue(e.currentTarget.value),
+    (e) => setSearchValue(e.currentTarget.value),
     [],
   );
   const close = React.useCallback(() => selectProductType(undefined), [selectProductType]);
   const productTypePreviewAction: IProductTypePreviewProps['action'] = React.useCallback(
-    product => {
+    (product) => {
       onChange(product);
       close();
     },
@@ -72,7 +72,7 @@ export const ProductSelectView: React.FC<IProps> = ({
     return (
       <React.Fragment>
         {productTypes.length > 0 &&
-          productTypes.map(productType => (
+          productTypes.map((productType) => (
             <DropdownItem
               onClick={() => selectProductType(productType)}
               css={css`

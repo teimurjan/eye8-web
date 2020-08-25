@@ -40,7 +40,7 @@ export const ControlledPagination = ({ length, page, onPageChange, ...props }: I
   return (
     <Pagination {...props}>
       <PaginationList>
-        {times(length).map(i => {
+        {times(length).map((i) => {
           const onClick = () => changeCurrent(i);
           return (
             <PaginationLink key={i} isCurrent={currentIndex === i} onClick={onClick}>

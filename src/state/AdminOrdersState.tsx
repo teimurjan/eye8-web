@@ -7,6 +7,10 @@ export type ContextValue = IContextValue<IOrderListResponseItem, IOrderListRespo
 
 const Context = React.createContext<ContextValue | null>(null);
 
-export const AdminOrdersStateProvider = makeEntityState(Context, d => d.dependencies.services.order.getAll(), 'orders');
+export const AdminOrdersStateProvider = makeEntityState(
+  Context,
+  (d) => d.dependencies.services.order.getAll(),
+  'orders',
+);
 
 export const useAdminOrdersState = () => React.useContext(Context) as ContextValue;

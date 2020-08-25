@@ -43,7 +43,7 @@ if (process.env.NODE_ENV === 'development') {
 const intlCache = createIntlCache();
 const dependencies = dependenciesFactory();
 
-safeWindowOperation(w => {
+safeWindowOperation((w) => {
   w.history.scrollRestoration = 'manual';
 });
 

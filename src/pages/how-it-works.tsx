@@ -17,7 +17,7 @@ const HowItWorks = () => {
         title={<Story.Title>{intl.formatMessage({ id: 'HowItWorks.makingOrder.title' })}</Story.Title>}
         description={
           <Story.Description>
-            {[1, 2, 3, 4].map(i => (
+            {[1, 2, 3, 4].map((i) => (
               <React.Fragment key={i}>
                 - {intl.formatMessage({ id: `HowItWorks.makingOrder.description.${i}` })}
                 <br />

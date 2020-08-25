@@ -86,7 +86,7 @@ export const useSelectProductTypes = ({ productTypeService, mandatoryProductType
   }, [getProductTypes, meta, isLoading]);
 
   return {
-    productTypes: agregateOrderedMapToArray(data.entities, data.order, productType => ({
+    productTypes: agregateOrderedMapToArray(data.entities, data.order, (productType) => ({
       ...productType,
       name: extendIntlTextWithLocaleNames(productType.name, availableLocales),
     })),
