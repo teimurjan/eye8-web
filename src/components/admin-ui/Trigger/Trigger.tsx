@@ -111,11 +111,11 @@ export const SearchableSelectTrigger = React.forwardRef<HTMLDivElement, ISelectT
               outline: none;
               font-size: 1rem;
 
-              ${TRIGGER_SELECTOR} [data-empty='true'] & {
+              ${TRIGGER_SELECTOR}[data-empty='true'] & {
                 flex: 1;
               }
 
-              ${TRIGGER_SELECTOR} [data-searchable='false'] & {
+              ${TRIGGER_SELECTOR}[data-searchable='false'] & {
                 caret-color: transparent;
               }
             `}
@@ -154,7 +154,7 @@ export const SearchableSelectTrigger = React.forwardRef<HTMLDivElement, ISelectT
             transition: transform 300ms;
             z-index: 1;
 
-            ${TRIGGER_SELECTOR} [data-open='true'] > & {
+            ${TRIGGER_SELECTOR}[data-open='true'] > & {
               transform: translateY(-50%), rotate(180deg);
             }
           `}
