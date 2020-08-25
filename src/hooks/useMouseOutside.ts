@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { safeDocument } from 'src/utils/dom';
 
-export const isEventInBounds = (e: MouseEvent, ref: React.RefObject<HTMLElement>, offset = 0) => {
+export const isEventInBounds = (e: MouseEvent, ref: React.RefObject<HTMLElement>, offset: number) => {
   const { clientX, clientY } = e;
   if (ref.current && clientX && clientY) {
     const { bottom, top, left, right } = ref.current.getBoundingClientRect();
@@ -12,27 +12,34 @@ export const isEventInBounds = (e: MouseEvent, ref: React.RefObject<HTMLElement>
   }
 };
 
+interface IOptions {
+  attachHandler: boolean;
+  offset?: number;
+}
+
+const DEFAULT_OPTIONS = { attachHandler: true, offset: 30 };
+
 export const useMouseOutside = (
   refs: React.RefObject<HTMLElement> | Array<React.RefObject<HTMLElement>>,
   callback: () => void,
-  attachHandler = true,
+  options: IOptions = DEFAULT_OPTIONS,
 ) => {
   useEffect(
     () =>
-      safeDocument(d => {
-        const handleMouseOut: EventListener = e => {
+      safeDocument((d) => {
+        const handleMouseOut: EventListener = (e) => {
           if (Array.isArray(refs)) {
-            if (refs.every(ref => !isEventInBounds(e as MouseEvent, ref, 30))) {
+            if (refs.every((ref) => !isEventInBounds(e as MouseEvent, ref, options.offset ?? DEFAULT_OPTIONS.offset))) {
               callback();
             }
           } else {
-            if (!isEventInBounds(e as MouseEvent, refs, 30)) {
+            if (!isEventInBounds(e as MouseEvent, refs, options.offset ?? DEFAULT_OPTIONS.offset)) {
               callback();
             }
           }
         };
 
-        if (attachHandler) {
+        if (options.attachHandler) {
           d.addEventListener('mousemove', handleMouseOut);
         } else {
           d.removeEventListener('mousemove', handleMouseOut);
@@ -41,7 +48,7 @@ export const useMouseOutside = (
           d.removeEventListener('mousemove', handleMouseOut);
         };
       }, undefined),
-    [attachHandler, callback, refs],
+    [options, callback, refs],
   );
 };
 

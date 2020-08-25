@@ -19,25 +19,31 @@ export interface IOption {
   name?: string;
   selected?: boolean;
   onClick?: React.MouseEventHandler;
+  className?: string;
 }
 
-const SelectOption = ({ children, selected, value, onClick }: IOption) => {
+const SelectOptionCheckedFlag = () => {
   const theme = useTheme<ClientUITheme>();
+
   return (
-    <Popover.Item data-selected={selected} data-value={value} onClick={onClick} Component="div">
-      {children}
-      {selected && (
-        <FontAwesomeIcon
-          css={css`
-            margin-left: 7.5px;
-          `}
-          icon={faCheck}
-          color={theme.successColor}
-        />
-      )}
-    </Popover.Item>
+    <FontAwesomeIcon
+      css={css`
+        margin-left: 7.5px;
+      `}
+      icon={faCheck}
+      color={theme.primaryColor}
+    />
   );
 };
+
+const SelectOption = ({ className, children, selected, value, onClick }: IOption) => (
+  <Popover.Item className={className} data-selected={selected} data-value={value} onClick={onClick} Component="div">
+    {children}
+    {selected && <SelectOptionCheckedFlag />}
+  </Popover.Item>
+);
+
+SelectOption.CheckedFlag = SelectOptionCheckedFlag;
 
 export type OptionChild = React.ReactElement<IOption>;
 
@@ -58,17 +64,18 @@ export interface IProps<T extends HTMLElement> {
   clearable?: boolean;
   searchable?: boolean;
   multiple?: boolean;
+  size?: Size;
 }
 
 const getSelectedOptions = <T extends HTMLElement>({ children, value }: Pick<IProps<T>, 'children' | 'value'>) => {
   if (Array.isArray(value)) {
     return value.reduce<IOption[]>((acc, optionValue) => {
-      const childFound = reactChildrenFind(children, child => child.props.value === optionValue);
+      const childFound = reactChildrenFind(children, (child) => child.props.value === optionValue);
       return childFound ? [...acc, childFound.props] : acc;
     }, []);
   }
 
-  const childFound = reactChildrenFind(children, child => child.props.value === value);
+  const childFound = reactChildrenFind(children, (child) => child.props.value === value);
   return childFound ? [childFound.props] : [];
 };
 
@@ -78,8 +85,13 @@ const hasScrolledToLoad = (el: HTMLElement, scrollTop: number) => {
   return scrollHeight - scrollTop - LOAD_MORE_SCROLL_OFFSET <= clientHeight;
 };
 
-const selectWidthCSS = css`
-  width: 300px;
+enum Size {
+  Large = 500,
+  Medium = 400,
+  Small = 300,
+}
+
+const baseSelectCSS = css`
   max-width: 100%;
 
   @media ${mediaQueries.maxWidth768} {
@@ -100,6 +112,7 @@ export const Select = <T extends HTMLElement>({
   clearable,
   searchable,
   multiple = false,
+  size = Size.Medium,
 }: IProps<T>) => {
   const intl = useIntl();
   const popoverContentRef = React.useRef<HTMLDivElement>(null);
@@ -123,7 +136,7 @@ export const Select = <T extends HTMLElement>({
   const onSearch = searchable ? setSearchQuery : undefined;
   const onPopoverExited = () => onSearch && onSearch('');
 
-  const filteredChildren = children.filter(child =>
+  const filteredChildren = children.filter((child) =>
     searchable && child.props.name && searchQuery.trim().length > 0
       ? child.props.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
       : true,
@@ -139,7 +152,7 @@ export const Select = <T extends HTMLElement>({
       const castedValue = value as MultipleValue;
       const selected = castedValue.includes(child.props.value);
       nextValue = selected
-        ? castedValue.filter(optionValue => optionValue !== child.props.value)
+        ? castedValue.filter((optionValue) => optionValue !== child.props.value)
         : [...castedValue, child.props.value];
     }
 
@@ -152,7 +165,7 @@ export const Select = <T extends HTMLElement>({
         return;
       }
 
-      onChange(multiple ? options.map(option => option.value!) : options[0]?.value);
+      onChange(multiple ? options.map((option) => option.value!) : options[0]?.value);
     },
     [onChange, multiple],
   );
@@ -160,10 +173,11 @@ export const Select = <T extends HTMLElement>({
   return (
     <div
       className={className}
+      style={{ width: size }}
       css={css`
         display: flex;
         align-items: center;
-        ${selectWidthCSS};
+        ${baseSelectCSS};
       `}
     >
       <div
@@ -196,15 +210,16 @@ export const Select = <T extends HTMLElement>({
         >
           <Popover.Content
             ref={popoverContentRef}
+            style={{ width: size }}
             css={css`
               padding: 0;
               max-height: 300px;
               overflow: auto;
               position: relative;
-              ${selectWidthCSS};
+              ${baseSelectCSS};
             `}
           >
-            {React.Children.map(filteredChildren, child => {
+            {React.Children.map(filteredChildren, (child) => {
               const selected = Array.isArray(value) ? value.includes(child.props.value!) : child.props.value === value;
 
               return React.cloneElement(child, {
@@ -230,3 +245,4 @@ export const Select = <T extends HTMLElement>({
 };
 
 Select.Option = SelectOption;
+Select.Size = Size;

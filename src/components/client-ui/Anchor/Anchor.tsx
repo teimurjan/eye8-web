@@ -17,7 +17,6 @@ enum Weight {
 
 interface IProps {
   className?: string;
-  primary?: boolean;
   href?: string;
   as?: string;
   onClick?: React.MouseEventHandler;
@@ -30,6 +29,8 @@ interface IProps {
   plain?: boolean;
   noHoverOnTouch?: boolean;
   shallow?: boolean;
+  underline?: boolean;
+  flex?: boolean;
 }
 
 export interface AnchorComponent
@@ -47,13 +48,14 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
       onClick,
       onMouseEnter,
       active,
-      weight,
+      weight = Weight.Normal,
       rel,
       target,
       plain,
-      primary,
       noHoverOnTouch,
       shallow,
+      underline,
+      flex,
     },
     ref,
   ) => {
@@ -61,7 +63,7 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
     const router = useRouter();
 
     const modifiedOnClick = React.useCallback(
-      e => {
+      (e) => {
         if (!href) {
           e.preventDefault();
         }
@@ -79,14 +81,12 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
     const isTouch = useIsTouch();
     const { value: lazyDataAttributes } = useLazyInitialization({ 'data-ignore-hover': noHoverOnTouch && isTouch }, {});
 
-    const hoverColor = primary ? theme.primaryColor : theme.anchorColor;
-
     const anchor = (
       <a
         ref={ref}
         rel={rel}
         target={target}
-        className={classNames(className, weight)}
+        className={classNames(className, weight, { underline, flex })}
         href={as ? as : href || '#'}
         onClick={modifiedOnClick}
         onMouseEnter={onMouseEnter}
@@ -96,29 +96,39 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
           color: ${theme.anchorColor};
           transition: color 300ms;
           position: relative;
+          overflow: hidden;
+          cursor: pointer;
+          padding: 5px 0;
           display: inline-block;
+          vertical-align: bottom;
 
-          &:hover {
-            color: ${hoverColor} !important;
+          &.flex {
+            display: flex;
+            align-items: center;
           }
 
-          .anchor > &::before {
+          &:hover,
+          &[data-active='true'] {
+            color: ${theme.primaryColor} !important;
+          }
+
+          &.underline::before {
             content: '';
             position: absolute;
-            bottom: -2.5px;
+            bottom: 2.5px;
             width: 100%;
-            height: 2px;
+            height: 1px;
             transform: translateX(-100%);
-            background: ${hoverColor};
+            background: ${theme.primaryColor};
             transition: transform 200ms;
           }
 
-          .anchor:hover > &::before,
+          &:hover::before,
           &[data-active='true']::before {
             transform: translateX(0);
           }
 
-          .anchor:hover > &[data-ignore-hover='true']::before,
+          &:hover[data-ignore-hover='true']::before,
           &[data-active='true'][data-ignore-hover='true']::before {
             transform: translateX(-100%);
           }
@@ -140,23 +150,12 @@ export const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
       </a>
     );
 
-    return (
-      <div
-        className="anchor"
-        css={css`
-          overflow: hidden;
-          cursor: pointer;
-          padding: 5px 0;
-        `}
-      >
-        {href && !plain ? (
-          <Link href={href} as={as}>
-            {anchor}
-          </Link>
-        ) : (
-          anchor
-        )}
-      </div>
+    return href && !plain ? (
+      <Link href={href} as={as}>
+        {anchor}
+      </Link>
+    ) : (
+      anchor
     );
   },
 ) as AnchorComponent;

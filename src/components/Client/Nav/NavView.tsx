@@ -21,6 +21,7 @@ interface ICategoryMenuItemProps {
 }
 
 export const navItemCSS = css`
+  font-weight: 500 !important;
   @media ${mediaQueries.maxWidth768} {
     font-size: 18px;
   }
@@ -38,7 +39,7 @@ const CategoryMenuItem = ({
   const intl = useIntl();
 
   const onToggleClick: React.MouseEventHandler = React.useCallback(
-    e => {
+    (e) => {
       e.preventDefault();
       e.stopPropagation();
       toggle();
@@ -62,8 +63,6 @@ const CategoryMenuItem = ({
         `}
         as={as}
         href="/categories/[slug]/products"
-        weight={Anchor.Weight.Thin}
-        primary
       >
         {name}
         {children && (
@@ -99,7 +98,7 @@ const renderCategoryMenuList = ({
   parentId = null,
   level = 0,
 }: ICategoryMenuListProps) => {
-  const parentCategories = categories.filter(category => category.parent_category_id === parentId);
+  const parentCategories = categories.filter((category) => category.parent_category_id === parentId);
   if (parentCategories.length === 0) {
     return null;
   }

@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import { SizeProp } from '@fortawesome/fontawesome-svg-core';
+import { faSuperpowers } from '@fortawesome/free-brands-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTheme } from 'emotion-theming';
@@ -18,14 +19,17 @@ import { Navbar } from 'src/components/client-ui/Navbar/Navbar';
 import { Popover } from 'src/components/client-ui/Popover/Popover';
 import { TriggerHoverProps as PopoverTriggerProps } from 'src/components/client-ui/Popover/Popover';
 import { CartContainer } from 'src/components/Client/Cart/CartContainer';
+import { IViewProps as IProps } from 'src/components/Client/Header/HeaderPresenter';
 import { LanguageDropdownContainer as LanguageDropdown } from 'src/components/Client/LanguageDropdown/LanguageDropdownContainer';
 import { NavContainer } from 'src/components/Client/Nav/NavContainer';
 import { navItemCSS } from 'src/components/Client/Nav/NavView';
 import { SearchContainer } from 'src/components/Client/Search/SearchContainer';
 import { UserDropdownContainer as UserDropdown } from 'src/components/Client/UserDropdown/UserDropdownContainer';
+import { isUserAdminOrManager } from 'src/helpers/user';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useLazyInitialization } from 'src/hooks/useLazyInitialization';
 import { useMedia } from 'src/hooks/useMedia';
+import { User } from 'src/state/UserState';
 import { mediaQueries } from 'src/styles/media';
 import { withPublicURL } from 'src/utils/url';
 
@@ -51,18 +55,11 @@ const DesktopNav = () => {
 
   return (
     <>
-      <Popover
-        css={css`
-          box-shadow: none;
-        `}
-        TriggerComponent={CategoriesTrigger}
-        offset={[0, 22]}
-        openOnHover
-      >
+      <Popover TriggerComponent={CategoriesTrigger} offset={[0, 16]} boxShadow={Popover.BoxShadow.Bottom} openOnHover>
         <Popover.Content
           css={css`
             width: 100vw;
-            background: ${theme.backgroundSecondaryColor};
+            border-top: 1px solid ${theme.borderLightGrayColor};
           `}
         >
           <Container>
@@ -100,7 +97,6 @@ const MobileNav = () => {
               ${navItemCSS};
             `}
             href="/how-it-works"
-            primary
             weight={Anchor.Weight.Bold}
           >
             {intl.formatMessage({ id: 'HowItWorks.title' })}
@@ -111,7 +107,37 @@ const MobileNav = () => {
   );
 };
 
-const PreHeader = () => {
+interface IPreHeaderItemProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const PreHeaderItem = ({ children, className }: IPreHeaderItemProps) => {
+  const theme = useTheme<ClientUITheme>();
+  return (
+    <HelpText
+      className={className}
+      css={css`
+        cursor: pointer;
+
+        &:hover {
+          color: ${theme.textColor};
+        }
+      `}
+      color={HelpText.Color.Gray}
+    >
+      {children}
+    </HelpText>
+  );
+};
+
+interface IPreHeaderProps {
+  user: User;
+}
+
+const PreHeader = ({ user }: IPreHeaderProps) => {
+  const intl = useIntl();
+
   return (
     <Container>
       <div
@@ -121,15 +147,39 @@ const PreHeader = () => {
           padding: 5px 0;
         `}
       >
-        <HelpText color={HelpText.Color.Gray}>
+        {isUserAdminOrManager(user) && (
+          <Link href="/admin">
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a
+              css={css`
+                display: flex;
+              `}
+            >
+              <PreHeaderItem
+                css={css`
+                  margin-right: 15px;
+                `}
+              >
+                {intl.formatMessage({ id: 'Header.admin' })}
+                <FontAwesomeIcon
+                  css={css`
+                    margin-left: 5px;
+                  `}
+                  icon={faSuperpowers}
+                />
+              </PreHeaderItem>
+            </a>
+          </Link>
+        )}
+        <PreHeaderItem>
           <LanguageDropdown openOnHover placement="bottom-end" offset={[0, 0]} />
-        </HelpText>
+        </PreHeaderItem>
       </div>
     </Container>
   );
 };
 
-export const HeaderView = () => {
+export const HeaderView = ({ user }: IProps) => {
   const intl = useIntl();
   const theme = useTheme<ClientUITheme>();
 
@@ -145,7 +195,7 @@ export const HeaderView = () => {
           flex: 1;
         `}
       >
-        <PreHeader />
+        <PreHeader user={user} />
         <Divider
           css={css`
             margin: 0;

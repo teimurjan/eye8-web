@@ -88,6 +88,13 @@ export interface IProps<T> {
   onExited?: () => void;
   className?: string;
   widthSameAsReference?: boolean;
+  boxShadow?: BoxShadow;
+  mouseOutsideOffset?: number;
+}
+
+enum BoxShadow {
+  Default = '0 0 4px 0 rgba(0, 0, 0, 0.15), 0 8px 8px 0 rgba(0, 0, 0, 0.05)',
+  Bottom = '0 2px 4px 0 rgba(0, 0, 0, 0.15), 0 8px 8px 0 rgba(0, 0, 0, 0.05)',
 }
 
 export const Popover = <T extends HTMLElement>({
@@ -111,8 +118,10 @@ export const Popover = <T extends HTMLElement>({
   onExited,
   className,
   widthSameAsReference,
+  boxShadow = BoxShadow.Default,
+  mouseOutsideOffset,
 }: IProps<T>) => {
-  const popoverRoot = safeDocument(d => d.getElementById('popoverRoot'), null);
+  const popoverRoot = safeDocument((d) => d.getElementById('popoverRoot'), null);
 
   const { value: isOpen, toggle, setNegative: close, setPositive: open } = useBoolean();
   const isOpenDebounced = useDebounce(isOpen, delay);
@@ -141,7 +150,10 @@ export const Popover = <T extends HTMLElement>({
   ]);
 
   useClickOutside(outsideRefs, close, isOpenMemoized);
-  useMouseOutside(outsideRefs, close, shouldOpenOnHover && isOpenMemoized);
+  useMouseOutside(outsideRefs, close, {
+    attachHandler: shouldOpenOnHover && isOpenMemoized,
+    offset: mouseOutsideOffset,
+  });
 
   const modifiers = React.useMemo(() => {
     const modifiers_ = [];
@@ -222,9 +234,8 @@ export const Popover = <T extends HTMLElement>({
               >
                 <div
                   className={className}
+                  style={{ boxShadow }}
                   css={css`
-                    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15), 0 8px 8px 0 rgba(0, 0, 0, 0.05);
-
                     ${poppingCSS};
                   `}
                   onClick={closeOnClick ? close : undefined}
@@ -279,15 +290,17 @@ export const Popover = <T extends HTMLElement>({
 export interface IPopoverContentProps {
   className?: string;
   children?: React.ReactNode;
+  style?: React.CSSProperties;
 }
 
-const PopoverContent = React.forwardRef<HTMLDivElement, IPopoverContentProps>(({ children, className }, ref) => {
+const PopoverContent = React.forwardRef<HTMLDivElement, IPopoverContentProps>(({ children, className, style }, ref) => {
   const theme = useTheme<ClientUITheme>();
 
   return (
     <div
       ref={ref}
       className={className}
+      style={style}
       css={css`
         background: ${theme.backgroundPrimaryColor};
         padding: 10px 20px;
@@ -358,3 +371,5 @@ const PopoverItem = <T extends object = {}>({
 PopoverItem.Color = Color;
 
 Popover.Item = PopoverItem;
+
+Popover.BoxShadow = BoxShadow;

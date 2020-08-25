@@ -112,13 +112,15 @@ export const OrderItem: React.FC<IProps> = ({ order, className }) => {
         `}
       >
         <div>
-          {order.items.map(item =>
+          {order.items.map((item) =>
             item.product ? (
               <Anchor
                 key={item.id}
                 href="products/[slug]"
                 as={`/products/${item.product.product_type.slug}`}
                 weight={Anchor.Weight.Bold}
+                flex
+                underline
               >
                 {item.product.product_type.name}{' '}
                 <FontAwesomeIcon

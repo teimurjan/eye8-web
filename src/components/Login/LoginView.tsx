@@ -70,7 +70,7 @@ const InnerForm = ({
         <Button css={authSubmitButtonCSS} color="primary" loading={submitting} type="submit">
           {intl.formatMessage({ id: 'LoginForm.submitButton.text' })}
         </Button>
-        <Anchor onClick={openSignup} weight={Anchor.Weight.Normal}>
+        <Anchor onClick={openSignup} underline>
           {intl.formatMessage({ id: 'LoginForm.signUpLink' })}
         </Anchor>
       </div>

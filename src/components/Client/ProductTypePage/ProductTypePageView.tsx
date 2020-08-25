@@ -37,7 +37,10 @@ const getAllFeatureValuesGroupedByType = (
       [featureType.id]: products.reduce(
         (acc, product) =>
           uniqBy(
-            [...acc, ...product.feature_values.filter(featureValue => featureValue.feature_type.id === featureType.id)],
+            [
+              ...acc,
+              ...product.feature_values.filter((featureValue) => featureValue.feature_type.id === featureType.id),
+            ],
             'id',
           ),
         [] as IProps['products'][0]['feature_values'],
@@ -53,24 +56,24 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
 
   const allImages = products.reduce(
     (acc, product) => {
-      const productImages = product.images.map(image => ({ productId: product.id, image }));
+      const productImages = product.images.map((image) => ({ productId: product.id, image }));
       return [...acc, ...productImages];
     },
     [...(productType ? [{ productId: NaN, image: productType.image }] : [])],
   );
 
   const allFeatureTypes =
-    products.length > 0 ? products[0].feature_values.map(featureValue => featureValue.feature_type) : [];
+    products.length > 0 ? products[0].feature_values.map((featureValue) => featureValue.feature_type) : [];
 
   const allFeatureValuesGroupedByFeatureType = getAllFeatureValuesGroupedByType(products, allFeatureTypes);
   const productsKey = products
-    .map(product => product.id)
+    .map((product) => product.id)
     .sort()
     .join('');
   const initialFeatureValues = React.useMemo(
     () => {
       if (products.length > 0) {
-        const firstAvailableProduct = products.find(product => product.quantity > 0);
+        const firstAvailableProduct = products.find((product) => product.quantity > 0);
         return (firstAvailableProduct ?? products[0]).feature_values.reduce(
           (acc, featureValue) => ({ ...acc, [featureValue.feature_type.id]: featureValue.id }),
           {},
@@ -89,14 +92,16 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialFeatureValues]);
 
-  const matchingProduct = products.find(product =>
-    product.feature_values.every(featureValue => chosenFeatureValues[featureValue.feature_type.id] === featureValue.id),
+  const matchingProduct = products.find((product) =>
+    product.feature_values.every(
+      (featureValue) => chosenFeatureValues[featureValue.feature_type.id] === featureValue.id,
+    ),
   );
 
   React.useEffect(() => {
     if (matchingProduct) {
       if (matchingProduct.images[0]) {
-        setActiveImageIndex(allImages.findIndex(image => image.productId === matchingProduct.id));
+        setActiveImageIndex(allImages.findIndex((image) => image.productId === matchingProduct.id));
       } else {
         setActiveImageIndex(0);
       }
@@ -150,7 +155,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
   }
 
   const getOptions = (featureType: IProps['products'][0]['feature_values'][0]['feature_type']) =>
-    allFeatureValuesGroupedByFeatureType[featureType.id].map(featureValue => ({
+    allFeatureValuesGroupedByFeatureType[featureType.id].map((featureValue) => ({
       title: featureValue.name,
       value: featureValue.id.toString(),
     }));
@@ -205,7 +210,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
           >
             <ProductTypeImageCarousel
               images={allImages}
-              getImageProps={image => ({ src: formatMediaURL(image.image), alt: image.productId.toString() })}
+              getImageProps={(image) => ({ src: formatMediaURL(image.image), alt: image.productId.toString() })}
               activeImageIndex={activeImageIndex}
               onChange={onImageChange}
             />
@@ -267,7 +272,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                   <Subtitle size={3}>{intl.formatMessage({ id: 'ProductPage.notInStock' })}</Subtitle>
                 ))}
             </div>
-            {allFeatureTypes.map(featureType => {
+            {allFeatureTypes.map((featureType) => {
               const chosenFeatureValue = chosenFeatureValues[featureType.id];
               return (
                 <Select
@@ -277,12 +282,12 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                   `}
                   key={featureType.id}
                   value={chosenFeatureValue ? chosenFeatureValue.toString() : undefined}
-                  onChange={value => {
+                  onChange={(value) => {
                     onFeatureValueChange(featureType.id, value ? parseInt(value as string, 10) : undefined);
                   }}
                   placeholder={featureType.name}
                 >
-                  {getOptions(featureType).map(option => (
+                  {getOptions(featureType).map((option) => (
                     <Select.Option key={option.value} value={option.value} name={option.title}>
                       {option.title}
                     </Select.Option>
@@ -311,7 +316,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                   right: 0;
                   top: 50px;
 
-                  @media ${mediaQueries.maxWidth768}, ${mediaQueries.maxWidth1024} {
+                  @media ${mediaQueries.maxWidth768}, ${mediaQueries.maxWidth1440} {
                     position: static;
                     margin-top: 20px;
                   }
@@ -339,7 +344,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                 >
                   {intl.formatMessage({ id: 'ProductTypePage.findMoreForCategory' })}
                 </span>
-                {productType.categories.map(category => (
+                {productType.categories.map((category) => (
                   <LinkPassingProps
                     key={category.id}
                     href="/categories/[slug]/products"
@@ -357,9 +362,11 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                 ))}
               </div>
             )}
-            <Anchor primary href="/how-it-works" weight={Anchor.Weight.Bold}>
-              {intl.formatMessage({ id: 'HowItWorks.help' })}
-            </Anchor>
+            <div>
+              <Anchor href="/how-it-works" weight={Anchor.Weight.Bold} underline>
+                {intl.formatMessage({ id: 'HowItWorks.help' })}
+              </Anchor>
+            </div>
           </div>
         </div>
       </Container>

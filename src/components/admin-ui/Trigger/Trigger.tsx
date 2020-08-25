@@ -11,7 +11,8 @@ import { ISelectTriggerProps } from 'src/components/client-ui/Select/Trigger';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { mediaQueries } from 'src/styles/media';
 
-const clearIconVisibleSelector = `.select-trigger:not([data-empty='true'])[data-clearable='true']`;
+const TRIGGER_CLASSNAME = 'select-trigger';
+const TRIGGER_SELECTOR = `.${TRIGGER_CLASSNAME}`;
 export const SearchableSelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProps>(
   ({ isOpen, searchQuery, onClick, placeholder, change, clearable, onSearch, selectedOptions }, ref) => {
     const theme = useTheme<AdminUITheme>();
@@ -19,14 +20,14 @@ export const SearchableSelectTrigger = React.forwardRef<HTMLDivElement, ISelectT
     const inputRef = React.useRef<HTMLInputElement>(null);
 
     const onSearchChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
-      e => {
+      (e) => {
         onSearch && onSearch(e.currentTarget.value);
       },
       [onSearch],
     );
 
     const onSearchKeyDown: React.KeyboardEventHandler<HTMLInputElement> = React.useCallback(
-      e => {
+      (e) => {
         if (searchQuery === '' && (e.keyCode === 8 || e.charCode === 8)) {
           const newOptions = [...selectedOptions];
           newOptions.pop();
@@ -41,7 +42,7 @@ export const SearchableSelectTrigger = React.forwardRef<HTMLDivElement, ISelectT
     }, [searchQuery, isFocused, onSearch]);
 
     const onClick_: React.MouseEventHandler = React.useCallback(
-      e => {
+      (e) => {
         if (!isFocused) {
           inputRef.current?.focus();
         }
@@ -64,13 +65,12 @@ export const SearchableSelectTrigger = React.forwardRef<HTMLDivElement, ISelectT
     return (
       <div
         {...dataAttributes}
-        className="select-trigger"
+        className={TRIGGER_CLASSNAME}
         ref={ref}
         css={css`
           cursor: pointer;
           width: auto;
           position: relative;
-          min-width: 300px;
 
           @media ${mediaQueries.maxWidth768} {
             width: 100%;
@@ -87,17 +87,14 @@ export const SearchableSelectTrigger = React.forwardRef<HTMLDivElement, ISelectT
             overflow: hidden;
             display: flex;
             flex-wrap: wrap;
+            min-height: 2.25em;
 
-            ${clearIconVisibleSelector} > & {
+            ${TRIGGER_SELECTOR}:not([data-empty='true'])[data-clearable='true'] > & {
               padding-left: 44px;
-            }
-
-            .select-trigger[data-searchable='false'] & > {
-              caret-color: transparent;
             }
           `}
         >
-          {selectedOptions.map(option => (
+          {selectedOptions.map((option) => (
             <Tag
               css={css`
                 margin-right: 2.5px;
@@ -114,8 +111,12 @@ export const SearchableSelectTrigger = React.forwardRef<HTMLDivElement, ISelectT
               outline: none;
               font-size: 1rem;
 
-              .select-trigger[data-empty='true'] & {
+              ${TRIGGER_SELECTOR} [data-empty='true'] & {
                 flex: 1;
+              }
+
+              ${TRIGGER_SELECTOR} [data-searchable='false'] & {
+                caret-color: transparent;
               }
             `}
             size={isEmpty ? undefined : inputSize}
@@ -153,7 +154,7 @@ export const SearchableSelectTrigger = React.forwardRef<HTMLDivElement, ISelectT
             transition: transform 300ms;
             z-index: 1;
 
-            .select-trigger[data-open='true'] > & {
+            ${TRIGGER_SELECTOR} [data-open='true'] > & {
               transform: translateY(-50%), rotate(180deg);
             }
           `}

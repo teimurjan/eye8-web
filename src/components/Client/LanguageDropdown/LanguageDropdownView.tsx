@@ -1,13 +1,13 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faGlobe, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTheme } from 'emotion-theming';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 
 import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
 import { Popover, TriggerClickProps as PopoverTriggerProps } from 'src/components/client-ui/Popover/Popover';
+import { Select } from 'src/components/client-ui/Select/Select';
 import { IViewProps as IProps } from 'src/components/Client/LanguageDropdown/LanguageDropdownPresenter';
 
 const nameOfLocale = {
@@ -19,7 +19,7 @@ const Trigger = React.forwardRef<HTMLDivElement, PopoverTriggerProps>((props, re
   const intl = useIntl();
 
   const onClick: React.MouseEventHandler<HTMLDivElement> = React.useCallback(
-    e => {
+    (e) => {
       e.stopPropagation();
       props.onClick(e);
     },
@@ -53,30 +53,21 @@ export const LanguageDropdownView = React.forwardRef<HTMLDivElement, IProps>(
     { className, locales, changeLocale, currentLocale, TriggerComponent = Trigger, openOnHover, placement, offset },
     ref,
   ) => {
-    const theme = useTheme<ClientUITheme>();
     return (
       <Popover<HTMLDivElement>
         TriggerComponent={TriggerComponent}
         openOnHover={openOnHover}
         placement={placement}
         offset={offset}
+        mouseOutsideOffset={10}
       >
         <Popover.Content ref={ref} className={className}>
-          {locales.map(locale => {
+          {locales.map((locale) => {
             const onClick = () => changeLocale(locale);
             return (
-              <Anchor key={locale} onClick={onClick} weight={Anchor.Weight.Thin}>
+              <Anchor key={locale} onClick={onClick} flex>
                 {nameOfLocale[locale] || locale}
-                {locale === currentLocale && (
-                  <span
-                    css={css`
-                      margin-left: 7.5px;
-                      color: ${theme.successColor};
-                    `}
-                  >
-                    <FontAwesomeIcon icon={faCheck} />
-                  </span>
-                )}
+                {locale === currentLocale && <Select.Option.CheckedFlag />}
               </Anchor>
             );
           })}
