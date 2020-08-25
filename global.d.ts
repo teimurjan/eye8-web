@@ -61,3 +61,10 @@ interface Window {
     states: { initialProps: { rates: object; intl: object; categories: object } };
   };
 }
+
+interface SvgrComponent extends React.StatelessComponent<React.SVGAttributes<SVGElement>> {}
+
+declare module '*.svg' {
+  const value: SvgrComponent;
+  export default value;
+}

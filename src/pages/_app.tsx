@@ -1,7 +1,6 @@
 import { CacheProvider } from '@emotion/core';
 import * as Sentry from '@sentry/node';
 import { cache } from 'emotion';
-import { ThemeProvider } from 'emotion-theming';
 import { AppProps } from 'next/app';
 import React from 'react';
 import { createIntl, createIntlCache } from 'react-intl';
@@ -11,6 +10,7 @@ import { CustomHead } from 'src/_app/CustomHead';
 import { EntryPoint } from 'src/_app/EntryPoint';
 import { GlobalStyles } from 'src/_app/GlobalStyle';
 import { LoadingOverlay } from 'src/_app/LoadingOverlay';
+import { ThemeProvider } from 'src/_app/ThemeProvider';
 import { Toaster } from 'src/_app/Toaster';
 import { CacheBuster } from 'src/components/CacheBuster';
 import { PageProgressBar } from 'src/components/common-ui/PageProgressBar/PageProgressBar';
@@ -22,7 +22,6 @@ import { CategoriesStateProvider, IProviderProps as ICategoriesStateProviderProp
 import { IntlStateProvider, IProviderProps as IIntlStateProviderProps } from 'src/state/IntlState';
 import { RatesStateProvider, IProviderProps as IRatesStateProviderProps } from 'src/state/RatesState';
 import { UserStateProvider } from 'src/state/UserState';
-import { defaultTheme } from 'src/themes';
 import { safeWindowOperation, isWindowDefined } from 'src/utils/dom';
 import { getGlobal } from 'src/utils/global';
 import { logPerformance } from 'src/utils/log';
@@ -67,7 +66,7 @@ const CustomNextApp = ({ Component, pageProps }: AppProps) => {
   return (
     <CacheProvider value={cache}>
       <DIProvider value={{ dependencies }}>
-        <ThemeProvider theme={defaultTheme}>
+        <ThemeProvider>
           <AppStateProvider>
             <IntlStateProvider
               initialProps={customData.states.initialProps.intl as IIntlStateProviderProps['initialProps']}

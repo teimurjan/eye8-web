@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import { faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { useTheme } from 'emotion-theming';
 import { useIntl } from 'react-intl';
 
 import { Container } from 'src/components/admin-ui/Container/Container';
@@ -23,6 +24,7 @@ export const getFooterHeight = () => {
 
 export const FooterView = () => {
   const intl = useIntl();
+  const theme = useTheme<ClientUITheme>();
 
   return (
     <footer
@@ -45,6 +47,7 @@ export const FooterView = () => {
         >
           <div
             css={css`
+              color: ${theme.textColor};
               text-align: center;
               font-weight: bold;
             `}

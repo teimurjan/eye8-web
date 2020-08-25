@@ -6,6 +6,7 @@ import { useIntl } from 'react-intl';
 
 import { Button } from 'src/components/client-ui/Button/Button';
 import { Drawer } from 'src/components/client-ui/Drawer/Drawer';
+import { Title } from 'src/components/client-ui/Title/Title';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useLazyInitialization } from 'src/hooks/useLazyInitialization';
 import { useMedia } from 'src/hooks/useMedia';
@@ -37,14 +38,14 @@ export const Filter = ({ className, title, children }: IProps) => {
 
   const filter = (
     <div className={className}>
-      <h6
+      <Title
+        size={6}
         css={css`
-          font-weight: bold;
           margin-bottom: 10px;
         `}
       >
         {title || intl.formatMessage({ id: 'common.filter' })}
-      </h6>
+      </Title>
       {children}
     </div>
   );
@@ -100,14 +101,15 @@ const FilterItemGroup = ({ title, children }: IFilterItemGroupProps) => {
         padding: 10px 0;
       `}
     >
-      <h6
+      <Title
+        size={6}
         css={css`
           font-weight: bold;
           margin-bottom: 15px;
         `}
       >
         {title}
-      </h6>
+      </Title>
       {children}
     </div>
   );

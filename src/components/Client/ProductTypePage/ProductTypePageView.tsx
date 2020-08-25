@@ -382,6 +382,10 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
           <div
             css={css`
               animation: ${fadeInFromBottom} 700ms ${easeOutCubic};
+              color: ${theme.textColor};
+              table {
+                background-color: ${theme.backgroundSecondaryColor};
+              }
             `}
             className="content"
             dangerouslySetInnerHTML={{ __html: productType.description }}
