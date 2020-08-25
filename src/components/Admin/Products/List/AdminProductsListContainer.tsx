@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { injectIntl } from 'react-intl';
-import { useLocation, useHistory } from 'react-router';
+import { useHistory } from 'react-router';
 
 import { AdminProductsListPresenter } from 'src/components/Admin/Products/List/AdminProductsListPresenter';
 import { AdminProductsListView } from 'src/components/Admin/Products/List/AdminProductsListView';
+import { useSearchParams } from 'src/components/Admin/useSearchParams';
 import { useDependencies } from 'src/DI/DI';
 import { useAdminProductsState } from 'src/state/AdminProductsState';
 import { useIntlState } from 'src/state/IntlState';
@@ -19,9 +20,7 @@ export const AdminProductsListContainer = () => {
     },
   } = useDependencies();
 
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const productTypeId = searchParams.get('productTypeId');
+  const [productTypeId] = useSearchParams('productTypeId');
 
   const history = useHistory();
 

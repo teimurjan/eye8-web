@@ -3,6 +3,7 @@ import * as React from 'react';
 import * as yup from 'yup';
 
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
+import { Link } from 'src/components/Admin/LinksInput/LinksInput';
 import { IProps as IModalFormProps } from 'src/components/Admin/ModalForm';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { useLazy } from 'src/hooks/useLazy';
@@ -28,7 +29,7 @@ interface IFormValues {
   names: { [key: string]: string };
   descriptions: { [key: string]: string };
   short_descriptions: { [key: string]: string };
-  instagram_links: string[];
+  instagram_links: Link[];
   feature_types: string[];
   categories?: string[];
   image: string;
@@ -43,11 +44,11 @@ export interface IViewProps {
   preloadingError?: string;
   close: () => void;
   availableLocales: IntlStateContextValue['intlState']['availableLocales'];
-  validate?: (values: object) => object | Promise<object>;
+  validate?: (values: IFormValues) => object | Promise<object>;
   categories: AdminCategoriesStateContextValue['state']['entities'];
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
   onChange: IModalFormProps<IFormValues>['onChange'];
-  initialValues: object;
+  initialValues: Partial<IFormValues>;
 }
 
 export const PRODUCT_TYPE_NAME_FIELD_KEY = 'name';
@@ -98,6 +99,13 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
                 .required('common.errors.field.empty'),
             }),
             {
+              instagram_links: yup
+                .array()
+                .test('areLinksValid', 'AdminProductTypes.errors.invalidInstagramLinks', (value: Link[] = []) => {
+                  return value.every(link =>
+                    link.value.match(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/),
+                  );
+                }),
               categories: yup
                 .array()
                 .of(yup.number())
@@ -166,7 +174,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
           names: {},
           descriptions: {},
           short_descriptions: {},
-          instagram_links: Array.isArray(values.instagram_links) ? values.instagram_links : [],
+          instagram_links: Array.isArray(values.instagram_links) ? values.instagram_links.map(link => link.value) : [],
           categories: values.categories ? values.categories.map(category => parseInt(category as string, 10)) : [],
           feature_types: values.feature_types.map(id => parseInt(id, 10)),
           image: values.image,

@@ -5,7 +5,7 @@ import { forceSSR } from 'src/_app/forceSSR';
 import { Admin } from 'src/components/Admin/Admin';
 import { safeWindow } from 'src/utils/dom';
 
-export default () =>
+const Admin_ = () =>
   safeWindow(
     <BrowserRouter>
       <Admin />
@@ -13,4 +13,4 @@ export default () =>
     null,
   );
 
-export { forceSSR as getServerSideProps };
+export { forceSSR as getServerSideProps, Admin_ as default };

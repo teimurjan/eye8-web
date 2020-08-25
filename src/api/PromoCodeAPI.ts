@@ -1,6 +1,7 @@
 import { Client } from 'ttypes/http';
 
 import { IHeadersManager } from 'src/manager/HeadersManager';
+import { buildQueryString } from 'src/utils/queryString';
 
 export interface IPromoCodeListResponseItem {
   id: number;
@@ -61,13 +62,13 @@ export interface IPromoCodeEditPayload {
 }
 
 export interface IPromoCodeAPI {
-  getAll(): Promise<IPromoCodeListResponseData>;
+  getAll(deleted?: boolean): Promise<IPromoCodeListResponseData>;
   getOne(id: number): Promise<IPromoCodeDetailResponseData>;
   getByValue(value: string): Promise<IPromoCodeDetailResponseData>;
-  delete(id: number): Promise<{}>;
+  delete(id: number, isForever?: boolean): Promise<{}>;
   create(payload: IPromoCodeCreatePayload): Promise<IPromoCodeDetailResponseData>;
   edit(id: number, payload: IPromoCodeEditPayload): Promise<IPromoCodeDetailResponseData>;
-  status(id: number): Promise<{}>;
+  status(id: number, deleted?: boolean): Promise<{}>;
 }
 
 export const errors = {
@@ -100,22 +101,28 @@ export class PromoCodeAPI implements IPromoCodeAPI {
     this.headersManager = headersManager;
   }
 
-  public async getAll() {
+  public async getAll(deleted = false) {
     try {
-      const response = await this.client.get<IPromoCodeListResponseData>('/api/promo_codes', {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.get<IPromoCodeListResponseData>(
+        `/api/promo_codes${buildQueryString({ deleted: deleted ? 1 : 0 })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       throw e;
     }
   }
 
-  public async delete(id: number) {
+  public async delete(id: number, isForever = false) {
     try {
-      const response = await this.client.delete<{}>(`/api/promo_codes/${id}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.delete<{}>(
+        `/api/promo_codes/${id}${buildQueryString({ forever: isForever ? 1 : 0 })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
@@ -190,11 +197,14 @@ export class PromoCodeAPI implements IPromoCodeAPI {
     }
   }
 
-  public async status(id: number) {
+  public async status(id: number, deleted = false) {
     try {
-      const response = await this.client.head<{}>(`/api/promo_codes/${id}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.head<{}>(
+        `/api/promo_codes/${id}${buildQueryString({ deleted: deleted ? 1 : 0 })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {

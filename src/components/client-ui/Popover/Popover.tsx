@@ -348,8 +348,7 @@ const PopoverItem = <T extends object = {}>({
             `,
             color,
           )}
-          /* TODO: Get rid of any */
-          {...(props as any)}
+          {...(props as T)}
         />
       )}
     </ClassNames>

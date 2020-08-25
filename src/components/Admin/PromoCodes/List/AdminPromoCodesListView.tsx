@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import { injectIntl, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
 import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataAvaiable';
@@ -8,21 +8,38 @@ import { Section } from 'src/components/admin-ui/Section/Section';
 import { AdminTable } from 'src/components/Admin/AdminTable';
 import { IViewProps as IProps } from 'src/components/Admin/PromoCodes/List/AdminPromoCodesListPresenter';
 
-export const NewPromoCodeButton = injectIntl(({ intl }) => (
-  <ReactRouterLinkButton to="/admin/promoCodes/new" color="is-primary">
-    {intl.formatMessage({ id: 'AdminPromoCodes.notFound.cta' })}
-  </ReactRouterLinkButton>
-));
+export const NewPromoCodeButton = () => {
+  const intl = useIntl();
 
-const NoPromoCodesAvialable = injectIntl(({ intl }) => (
-  <NoDataAvailable title={intl.formatMessage({ id: 'AdminPromoCodes.notFound.title' })} CTA={<NewPromoCodeButton />} />
-));
+  return (
+    <ReactRouterLinkButton to="/admin/promoCodes/new" color="is-primary">
+      {intl.formatMessage({ id: 'AdminPromoCodes.notFound.cta' })}
+    </ReactRouterLinkButton>
+  );
+};
 
-const renderNoData = () => <NoPromoCodesAvialable />;
+enum ArchivedButtonState {
+  Active,
+  Idle,
+}
+
+const ArchivedButton = ({ state }: { state: ArchivedButtonState }) => {
+  const intl = useIntl();
+
+  return state === ArchivedButtonState.Active ? (
+    <ReactRouterLinkButton to="/admin/promoCodes">
+      {intl.formatMessage({ id: 'common.showCurrent' })}
+    </ReactRouterLinkButton>
+  ) : (
+    <ReactRouterLinkButton to="/admin/promoCodes?deleted=true">
+      {intl.formatMessage({ id: 'common.showArchived' })}
+    </ReactRouterLinkButton>
+  );
+};
 
 type PromoCode = IProps['promoCodes'][0];
 
-export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded }: IProps) => {
+export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded, showDeleted }: IProps) => {
   const intl = useIntl();
   return (
     <Section
@@ -36,8 +53,14 @@ export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded }:
         isLoading={isLoading}
         isDataLoaded={isDataLoaded}
         entities={promoCodes}
-        renderNoData={renderNoData}
+        renderNoData={() => (
+          <NoDataAvailable
+            title={intl.formatMessage({ id: 'AdminPromoCodes.notFound.title' })}
+            CTA={showDeleted ? <ArchivedButton state={ArchivedButtonState.Active} /> : <NewPromoCodeButton />}
+          />
+        )}
         intl={intl}
+        showDeleted={showDeleted}
       >
         <AdminTable.Col<PromoCode> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
         <AdminTable.Col<PromoCode> key_="value" title={intl.formatMessage({ id: 'AdminPromoCodes.value' })} />
@@ -55,7 +78,17 @@ export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded }:
         />
       </AdminTable>
 
-      {isDataLoaded && promoCodes.length > 0 && <NewPromoCodeButton />}
+      {isDataLoaded && promoCodes.length > 0 && (
+        <div
+          css={css`
+            display: flex;
+            justify-content: space-between;
+          `}
+        >
+          <NewPromoCodeButton />
+          <ArchivedButton state={showDeleted ? ArchivedButtonState.Active : ArchivedButtonState.Idle} />
+        </div>
+      )}
     </Section>
   );
 };

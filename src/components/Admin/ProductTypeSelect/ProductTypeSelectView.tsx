@@ -4,13 +4,13 @@ import { useIntl } from 'react-intl';
 
 import { IProductTypeListRawIntlMinifiedResponseItem } from 'src/api/ProductTypeAPI';
 import { FormSelectField } from 'src/components/admin-ui/FormSelectField/FormSelectField';
-import { SelectTrigger } from 'src/components/admin-ui/Select/Select';
+import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
 
 interface IProps {
   productTypes: IProductTypeListRawIntlMinifiedResponseItem[];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
-  hasClear?: boolean;
+  clearable?: boolean;
 }
 
 export const ProductTypeSelectView = <T extends string | undefined = string>({
@@ -19,7 +19,7 @@ export const ProductTypeSelectView = <T extends string | undefined = string>({
   meta,
   LoadMoreProductTypes,
   productTypesLoading,
-  hasClear,
+  clearable,
 }: IProps & FieldRenderProps<T>) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
@@ -38,15 +38,12 @@ export const ProductTypeSelectView = <T extends string | undefined = string>({
       }}
       selectProps={{
         ...input,
-        placeholder: intl.formatMessage({
-          id: 'AdminProducts.productTypeSelect.defaultOption.title',
-        }),
         options,
-        TriggerComponent: SelectTrigger,
+        TriggerComponent: SearchableSelectTrigger,
         onLoadMore: LoadMoreProductTypes,
         isLoading: productTypesLoading,
-        clear: hasClear ? () => input.onChange(undefined) : undefined,
-        hasSearch: true,
+        clearable,
+        searchable: true,
       }}
       helpTextProps={{
         children: showError ? intl.formatMessage({ id: meta.error }) : undefined,

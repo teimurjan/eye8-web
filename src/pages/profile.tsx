@@ -6,7 +6,7 @@ import { Layout } from 'src/components/Client/Layout';
 import { Profile } from 'src/components/Client/Profile/Profile';
 import { safeWindow } from 'src/utils/dom';
 
-export default () => (
+const Profile_ = () => (
   <Layout>
     {safeWindow(
       <BrowserRouter>
@@ -17,4 +17,4 @@ export default () => (
   </Layout>
 );
 
-export { forceSSR as getServerSideProps };
+export { forceSSR as getServerSideProps, Profile_ as default };

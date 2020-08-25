@@ -1,5 +1,7 @@
 import * as yup from 'yup';
 
+import { logError } from 'src/utils/log';
+
 export interface ISchemaValidator {
   validate(values: object): object;
 }
@@ -15,6 +17,7 @@ export class SchemaValidator implements ISchemaValidator {
       this.schema.validateSync(values, { abortEarly: false });
       return {};
     } catch (e) {
+      logError(e);
       return e.inner.reduce(
         (errors: {}, innerError: yup.ValidationError) => ({
           ...errors,

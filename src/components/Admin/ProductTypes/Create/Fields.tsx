@@ -1,18 +1,19 @@
 import * as React from 'react';
-import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
+import { Field as FinalFormField, FieldRenderProps, useFormState } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
 import { Field } from 'src/components/admin-ui/Field/Field';
 import { FileInput } from 'src/components/admin-ui/FileInput/FileInput';
-import { FormNativeSelectField } from 'src/components/admin-ui/FormNativeSelectField/FormNativeSelectField';
+import { FormSelectField } from 'src/components/admin-ui/FormSelectField/FormSelectField';
 import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextField';
 import { HelpText } from 'src/components/admin-ui/HelpText/HelpText';
 import { Label } from 'src/components/admin-ui/Label/Label';
-import { getMultipleValuesFromChangeEvent } from 'src/components/admin-ui/NativeSelect/NativeSelect';
 import { Tag } from 'src/components/admin-ui/Tag/Tag';
-import { Textarea } from 'src/components/admin-ui/Textarea/Textarea';
+import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
 import { IntlField, IProps as IIntlFieldProps } from 'src/components/Admin/IntlField';
+import { LinksInput, Link } from 'src/components/Admin/LinksInput/LinksInput';
 import { WYSIWYG } from 'src/components/client-ui/WYSIWYG/WYSIWYG';
+import { InstagramPost } from 'src/components/Client/InstagramPost/InstagramPost';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
 import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
@@ -26,17 +27,8 @@ const FeatureTypesSelect = ({ featureTypes, input, meta }: IFeatureTypesSelectPr
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
-  const { onChange: _, value, ...inputPropsToPass } = input;
-
-  const onChange = React.useCallback(
-    (e: React.SyntheticEvent<HTMLSelectElement>) => {
-      input.onChange(getMultipleValuesFromChangeEvent(e));
-    },
-    [input],
-  );
-
   return (
-    <FormNativeSelectField
+    <FormSelectField
       labelProps={{
         children: (
           <>
@@ -47,15 +39,16 @@ const FeatureTypesSelect = ({ featureTypes, input, meta }: IFeatureTypesSelectPr
         ),
       }}
       selectProps={{
-        ...inputPropsToPass,
-        isMultiple: true,
-        onChange,
+        ...input,
+        multiple: true,
         options: featureTypes.map(({ id, name }) => ({
-          checked: value instanceof Array ? value.indexOf(id.toString()) !== -1 : false,
           title: name[intl.locale],
           value: id.toString(),
         })),
-        value,
+        TriggerComponent: SearchableSelectTrigger,
+        searchable: true,
+        clearable: true,
+        placeholder: intl.formatMessage({ id: 'AdminProductTypes.featureTypesSelect.placeholder' }),
       }}
       helpTextProps={{
         children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
@@ -77,17 +70,8 @@ const CategoriesSelect = ({ categories, input, meta }: ICategoriesSelectProps) =
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
-  const { onChange: _, value, ...inputPropsToPass } = input;
-
-  const onChange = React.useCallback(
-    (e: React.SyntheticEvent<HTMLSelectElement>) => {
-      input.onChange(getMultipleValuesFromChangeEvent(e));
-    },
-    [input],
-  );
-
   return (
-    <FormNativeSelectField
+    <FormSelectField
       labelProps={{
         children: (
           <>
@@ -98,15 +82,16 @@ const CategoriesSelect = ({ categories, input, meta }: ICategoriesSelectProps) =
         ),
       }}
       selectProps={{
-        ...inputPropsToPass,
-        isMultiple: true,
-        onChange,
+        ...input,
+        multiple: true,
         options: categories.map(({ id, name }) => ({
-          checked: value instanceof Array ? value.indexOf(id.toString()) !== -1 : false,
           title: name[intl.locale],
           value: id.toString(),
         })),
-        value,
+        TriggerComponent: SearchableSelectTrigger,
+        placeholder: intl.formatMessage({ id: 'AdminProductTypes.categoriesSelect.placeholder' }),
+        searchable: true,
+        clearable: true,
       }}
       helpTextProps={{
         children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
@@ -171,32 +156,42 @@ const DescriptionField: IIntlFieldProps['component'] = ({ input, meta, label, pl
   );
 };
 
-const InstagramLinksField = ({ input, meta }: FieldRenderProps<string[]>) => {
+const getID = (() => {
+  let i = 0;
+  return () => ++i;
+})();
+const InstagramLinksField = ({ input, meta }: FieldRenderProps<Link[]>) => {
+  const form = useFormState();
+  const links = Array.isArray(input.value) ? input.value : [];
+  const initialLinks: Link[] = form.initialValues.instagram_links || [];
+  const existingLinkIDs = React.useMemo(() => new Set(initialLinks.map(link => link.id)), [initialLinks]);
+  const addLink = React.useCallback(() => {
+    const id = (() => {
+      let id_ = getID();
+      while (existingLinkIDs.has(id_)) {
+        id_ = getID();
+      }
+      return id_;
+    })();
+    input.onChange([...links, { id, value: '' }]);
+  }, [input, existingLinkIDs, links]);
+
   const intl = useIntl();
   const showError = meta.touched && meta.error;
-  const onChange: React.ChangeEventHandler<HTMLTextAreaElement> = React.useCallback(
-    e => {
-      const { value } = e.currentTarget;
-      input.onChange(value ? value.split(',') : []);
-    },
-    [input],
-  );
 
   return (
     <FormTextField
       labelProps={{ children: intl.formatMessage({ id: 'AdminProductTypes.instagramLinks' }) }}
       renderInput={() => (
-        <Textarea
-          value={Array.isArray(input.value) ? input.value.join(',') : input.value}
-          placeholder={intl.formatMessage({ id: 'AdminProductTypes.instagramLinks.placeholder' })}
-          onChange={onChange}
-          onBlur={input.onBlur}
-          onFocus={input.onFocus}
-          isDanger={showError}
+        <LinksInput
+          links={links}
+          onChange={input.onChange}
+          renderPreview={link => <InstagramPost id={link.id} url={link.value} />}
+          onAdd={addLink}
         />
       )}
       helpTextProps={{
-        children: intl.formatMessage({ id: showError ? meta.error : 'common.separateWithComma' }),
+        children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
         type: showError ? 'is-danger' : undefined,
       }}
     />

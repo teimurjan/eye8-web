@@ -14,16 +14,20 @@ interface Response {
   thumbnail_height: number;
 }
 
+enum Size {
+  Wide = 'wide',
+}
+
 interface IProps {
   className?: string;
   url: string;
   id: number;
-  wide?: boolean;
+  size?: Size;
 }
 
 const IFRAME_HEIGHT_OFFSET_PX = 95;
 
-export const InstagramPost: React.FC<IProps> = ({ className, url, id, wide }) => {
+export const InstagramPost = ({ className, url, id, size }: IProps) => {
   const [response, setResponse] = React.useState<Response | undefined>(undefined);
   const [isRendered, setRendered] = React.useState(false);
 
@@ -91,7 +95,7 @@ export const InstagramPost: React.FC<IProps> = ({ className, url, id, wide }) =>
           }
         }
       `}
-      className={classNames(`instagram-embed-${id}`, className, { wide })}
+      className={classNames(`instagram-embed-${id}`, className, size)}
       url={url}
       hideCaption={true}
       protocol=""
@@ -103,3 +107,5 @@ export const InstagramPost: React.FC<IProps> = ({ className, url, id, wide }) =>
     />
   );
 };
+
+InstagramPost.Size = Size;

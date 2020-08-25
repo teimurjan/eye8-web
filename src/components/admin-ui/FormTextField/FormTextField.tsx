@@ -14,6 +14,7 @@ interface IProps {
   labelProps?: LabelProps;
   renderInput?: () => React.ReactNode;
   allowValue?: (value: string) => boolean;
+  addons?: React.ReactNode;
 }
 
 export const FormTextField = ({
@@ -24,6 +25,7 @@ export const FormTextField = ({
   helpTextProps = {},
   allowValue,
   renderInput,
+  addons,
 }: IProps) => {
   const onChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     e => {
@@ -39,6 +41,7 @@ export const FormTextField = ({
     <Field {...fieldProps}>
       <Label {...labelProps} />
       <Control {...controlProps}>{renderInput ? renderInput() : <Input {...inputProps} onChange={onChange} />}</Control>
+      {addons && <Control {...controlProps}>{addons}</Control>}
       <HelpText {...helpTextProps} />
     </Field>
   );

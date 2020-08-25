@@ -1,31 +1,30 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faCaretDown, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import classNames from 'classnames';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Popover, RenderTrigger } from 'src/components/client-ui/Popover/Popover';
+import { Popover } from 'src/components/client-ui/Popover/Popover';
+import { ITriggerComponentType } from 'src/components/client-ui/Select/Trigger';
 import { useForceUpdate } from 'src/hooks/useForceUpdate';
 import { useScrollPosition } from 'src/hooks/useScrollPosition';
 import { mediaQueries } from 'src/styles/media';
+import { reactChildrenFind } from 'src/utils/children';
 
-const VERTICAL_PADDING_PX = 7.5;
-const HORIZONTAL_PADDING_PX = 2.5;
-
-interface IOptionProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface IOption {
   value?: string;
   children: React.ReactNode;
-  searchQuery?: string;
+  name?: string;
   selected?: boolean;
+  onClick?: React.MouseEventHandler;
 }
 
-const SelectOption = ({ color, searchQuery, children, selected, ...props }: IOptionProps) => {
+const SelectOption = ({ children, selected, value, onClick }: IOption) => {
   const theme = useTheme<ClientUITheme>();
   return (
-    <Popover.Item Component="div" {...props}>
+    <Popover.Item data-selected={selected} data-value={value} onClick={onClick} Component="div">
       {children}
       {selected && (
         <FontAwesomeIcon
@@ -40,107 +39,37 @@ const SelectOption = ({ color, searchQuery, children, selected, ...props }: IOpt
   );
 };
 
-export interface ISelectTriggerProps {
-  placeholder: string;
-  onClick: React.MouseEventHandler;
-  isOpen: boolean;
-  clear?: () => void;
-  onSearch?: (query: string) => void;
-  searchQuery?: string;
-  value: {
-    node?: React.ReactNode;
-    searchQuery?: string;
-  };
-}
+export type OptionChild = React.ReactElement<IOption>;
 
-export const SelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProps>(
-  ({ value, onClick, isOpen, placeholder }, ref) => {
-    const theme = useTheme<ClientUITheme>();
-
-    return (
-      <div
-        className={classNames({ open: isOpen, empty: !value.node })}
-        ref={ref}
-        tabIndex={1}
-        css={css`
-          color: ${theme.textColor};
-          border-bottom: 1px solid ${theme.borderColor};
-          padding: ${VERTICAL_PADDING_PX}px ${HORIZONTAL_PADDING_PX}px;
-          cursor: pointer;
-          transition: border-bottom 300ms;
-          width: auto;
-          position: relative;
-
-          &.empty {
-            color: ${theme.textFadedColor};
-          }
-
-          &:active,
-          &:focus {
-            border-bottom: 1px solid ${theme.primaryColor};
-            outline: none;
-          }
-        `}
-        onClick={onClick}
-      >
-        {value.node ?? placeholder}
-        <FontAwesomeIcon
-          css={css`
-            position: absolute;
-            right: 10px;
-            top: 12.5px;
-            color: ${theme.primaryColor};
-            transition: transform 300ms;
-
-            .open > & {
-              transform: rotate(180deg);
-            }
-          `}
-          icon={faCaretDown}
-        />
-      </div>
-    );
-  },
-);
-
-type ITriggerComponentType<T extends HTMLElement> = React.ComponentType<ISelectTriggerProps & React.RefAttributes<T>>;
-
-const getSelectTriggerRenderer = <T extends HTMLElement>(
-  TriggerComponent: ITriggerComponentType<T>,
-  props: Omit<ISelectTriggerProps, 'onClick' | 'isOpen'>,
-): RenderTrigger<T> => ({ toggle, ref, isOpen }) =>
-  React.createElement(TriggerComponent, {
-    ref,
-    onClick: toggle,
-    isOpen,
-    ...props,
-  });
-
-type OptionChild = React.ReactElement<IOptionProps>;
+export type SingleValue = string | undefined;
+export type MultipleValue = string[];
+export type Value = MultipleValue | SingleValue;
 
 export interface IProps<T extends HTMLElement> {
   children: Array<OptionChild>;
   className?: string;
-  value?: string;
-  onChange?: (value?: string) => void;
-  placeholder: string;
+  value: Value;
+  onChange?: (value: Value) => void;
+  placeholder?: string;
   TriggerComponent: ITriggerComponentType<T>;
   onLoadMore?: () => void;
   isLoading?: boolean;
   append?: React.ReactNode;
-  clear?: () => void;
-  hasSearch?: boolean;
+  clearable?: boolean;
+  searchable?: boolean;
+  multiple?: boolean;
 }
 
-const getSelectedOptionChild = <T extends HTMLElement>({ children, value }: Pick<IProps<T>, 'children' | 'value'>) => {
-  let selectedOptionChild: OptionChild | undefined;
-  React.Children.forEach(children, child => {
-    if (child.props.value === value) {
-      selectedOptionChild = child;
-    }
-  });
+const getSelectedOptions = <T extends HTMLElement>({ children, value }: Pick<IProps<T>, 'children' | 'value'>) => {
+  if (Array.isArray(value)) {
+    return value.reduce<IOption[]>((acc, optionValue) => {
+      const childFound = reactChildrenFind(children, child => child.props.value === optionValue);
+      return childFound ? [...acc, childFound.props] : acc;
+    }, []);
+  }
 
-  return selectedOptionChild;
+  const childFound = reactChildrenFind(children, child => child.props.value === value);
+  return childFound ? [childFound.props] : [];
 };
 
 const LOAD_MORE_SCROLL_OFFSET = 100;
@@ -168,12 +97,13 @@ export const Select = <T extends HTMLElement>({
   onLoadMore,
   isLoading,
   append,
-  clear,
-  hasSearch,
+  clearable,
+  searchable,
+  multiple = false,
 }: IProps<T>) => {
   const intl = useIntl();
   const popoverContentRef = React.useRef<HTMLDivElement>(null);
-  const selectedOptionChild = getSelectedOptionChild<T>({ children, value });
+  const selectedOptions = getSelectedOptions<T>({ children, value });
   const { update, dep } = useForceUpdate();
   const [searchQuery, setSearchQuery] = React.useState('');
 
@@ -190,13 +120,41 @@ export const Select = <T extends HTMLElement>({
     }
   }, [popoverContentRef, isLoading, onLoadMore, scrollPos, dep, searchQuery]);
 
-  const onSearch = hasSearch ? setSearchQuery : undefined;
+  const onSearch = searchable ? setSearchQuery : undefined;
   const onPopoverExited = () => onSearch && onSearch('');
 
   const filteredChildren = children.filter(child =>
-    hasSearch && child.props.searchQuery && searchQuery.trim().length > 0
-      ? child.props.searchQuery.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
+    searchable && child.props.name && searchQuery.trim().length > 0
+      ? child.props.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
       : true,
+  );
+
+  const makeOnClick = (child: OptionChild) => () => {
+    if (!onChange) {
+      return;
+    }
+
+    let nextValue: Value = child.props.value;
+    if (multiple && child.props.value) {
+      const castedValue = value as MultipleValue;
+      const selected = castedValue.includes(child.props.value);
+      nextValue = selected
+        ? castedValue.filter(optionValue => optionValue !== child.props.value)
+        : [...castedValue, child.props.value];
+    }
+
+    onChange(nextValue);
+  };
+
+  const triggerOnChange = React.useCallback(
+    (options: Array<IOption>) => {
+      if (!onChange) {
+        return;
+      }
+
+      onChange(multiple ? options.map(option => option.value!) : options[0]?.value);
+    },
+    [onChange, multiple],
   );
 
   return (
@@ -210,26 +168,29 @@ export const Select = <T extends HTMLElement>({
     >
       <div
         css={css`
-          flex: 1;
+          width: 100%;
         `}
       >
-        <Popover
+        <Popover<T>
           placement="bottom-start"
           offset={[0, 1]}
           /* In order to popoverContentRef be set */
           onEnter={update}
-          renderTrigger={getSelectTriggerRenderer(TriggerComponent, {
-            value: {
-              node: selectedOptionChild ? selectedOptionChild.props.children : undefined,
-              searchQuery: selectedOptionChild ? selectedOptionChild.props.searchQuery : undefined,
-            },
-            searchQuery,
-            placeholder,
-            clear: selectedOptionChild ? clear : undefined,
-            onSearch,
-          })}
+          renderTrigger={({ toggle, ref, isOpen }) =>
+            React.createElement(TriggerComponent, {
+              ref,
+              onClick: toggle,
+              isOpen,
+              selectedOptions,
+              searchQuery,
+              placeholder,
+              change: triggerOnChange,
+              onSearch,
+              clearable,
+            })
+          }
           onExited={onPopoverExited}
-          closeOnClick
+          closeOnClick={!multiple}
           preventOverflow
           widthSameAsReference
         >
@@ -243,15 +204,15 @@ export const Select = <T extends HTMLElement>({
               ${selectWidthCSS};
             `}
           >
-            {React.Children.map(filteredChildren, child =>
-              React.cloneElement(child, {
+            {React.Children.map(filteredChildren, child => {
+              const selected = Array.isArray(value) ? value.includes(child.props.value!) : child.props.value === value;
+
+              return React.cloneElement(child, {
                 ...child.props,
-                selected: child.props.value === value,
-                onClick: () => {
-                  onChange && onChange(child.props.value as string | undefined);
-                },
-              }),
-            )}
+                selected,
+                onClick: makeOnClick(child),
+              });
+            })}
             {isLoading && (
               <Select.Option>
                 {intl.formatMessage({ id: 'common.loading' })}{' '}

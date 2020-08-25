@@ -1,3 +1,4 @@
+import uniq from 'lodash/uniq';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 
@@ -61,41 +62,44 @@ const useFormattedPrice = ({ price, discount, date, forceLocale }: IPriceProps) 
 
 const usePriceRange = ({ range }: IPriceRangeTextProps) => {
   const calculatedRange = range.map(price => calculateDiscountedPrice(price.price, price.discount || 0));
+  const uniqueRange = uniq(calculatedRange);
   const discounts = range
     .map(price => {
       return Array.isArray(price.discount) ? Math.max(...price.discount) : price.discount || 0;
     })
     .filter(discount => discount !== 0);
+  const uniqueDiscounts = uniq(discounts);
 
   const biggestPrice = Math.max(...calculatedRange);
   const lowestPrice = Math.min(...calculatedRange);
   const biggestFormattedPrice = useFormattedPrice({ price: biggestPrice, discount: 0 });
   const lowestFormattedPrice = useFormattedPrice({ price: lowestPrice, discount: 0 });
 
-  return { calculatedRange, discounts, biggestFormattedPrice, lowestFormattedPrice, biggestPrice, lowestPrice };
-};
-
-export const usePriceRangeText = ({ range }: IPriceRangeTextProps) => {
-  const intl = useIntl();
-
-  const {
+  return {
     calculatedRange,
     discounts,
     biggestFormattedPrice,
     lowestFormattedPrice,
     biggestPrice,
     lowestPrice,
-  } = usePriceRange({ range });
+    uniqueRange,
+    uniqueDiscounts,
+  };
+};
+
+export const usePriceRangeText = ({ range }: IPriceRangeTextProps) => {
+  const intl = useIntl();
+
+  const { calculatedRange, biggestFormattedPrice, lowestFormattedPrice, uniqueRange, uniqueDiscounts } = usePriceRange({
+    range,
+  });
 
   const price = React.useMemo(() => {
-    const isOnlyOnePrice = range.length === 1;
-    const arePricesTheSame = biggestPrice === lowestPrice;
-
-    if (isOnlyOnePrice || arePricesTheSame) {
+    if (uniqueRange.length === 1) {
       return <PriceCrossedText price={range[0].price} discount={range[0].discount} />;
     }
 
-    if (calculatedRange.length > 1) {
+    if (uniqueRange.length > 1) {
       return (
         <>
           {lowestFormattedPrice} - {biggestFormattedPrice}
@@ -104,16 +108,16 @@ export const usePriceRangeText = ({ range }: IPriceRangeTextProps) => {
     }
 
     return null;
-  }, [lowestFormattedPrice, biggestFormattedPrice, calculatedRange, range, lowestPrice, biggestPrice]);
+  }, [lowestFormattedPrice, biggestFormattedPrice, range, uniqueRange]);
 
   const discount = React.useMemo(() => {
-    if (range.length === 1 && discounts.length === 1) {
-      return intl.formatMessage({ id: 'Price.discount' }, { value: Math.max(...discounts) });
+    if (uniqueDiscounts.length === 1) {
+      return intl.formatMessage({ id: 'Price.discount' }, { value: uniqueDiscounts[0] });
     }
-    if (range.length > 1 && discounts.length > 1) {
-      return intl.formatMessage({ id: 'Price.discountUpTo' }, { value: Math.max(...discounts) });
+    if (uniqueDiscounts.length > 1) {
+      return intl.formatMessage({ id: 'Price.discountUpTo' }, { value: Math.max(...uniqueDiscounts) });
     }
-  }, [range, intl, discounts]);
+  }, [intl, uniqueDiscounts]);
 
   if (calculatedRange.length === 0) {
     return { price: null };

@@ -13,7 +13,8 @@ import { ErrorLayout } from 'src/components/client-ui/ErrorLayout/ErrorLayout';
 import { LinkPassingProps } from 'src/components/client-ui/LinkPassingProps/LinkPassingProps';
 import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout';
 import { NotFound } from 'src/components/client-ui/NotFound/NotFound';
-import { Select, SelectTrigger } from 'src/components/client-ui/Select/Select';
+import { Select } from 'src/components/client-ui/Select/Select';
+import { SimpleSelectTrigger } from 'src/components/client-ui/Select/Trigger';
 import { Subtitle } from 'src/components/client-ui/Subtitle/Subtitle';
 import { Tag } from 'src/components/client-ui/Tag/Tag';
 import { Title } from 'src/components/client-ui/Title/Title';
@@ -270,17 +271,19 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
               const chosenFeatureValue = chosenFeatureValues[featureType.id];
               return (
                 <Select
-                  TriggerComponent={SelectTrigger}
+                  TriggerComponent={SimpleSelectTrigger}
                   css={css`
                     margin-bottom: 20px;
                   `}
                   key={featureType.id}
                   value={chosenFeatureValue ? chosenFeatureValue.toString() : undefined}
-                  onChange={value => onFeatureValueChange(featureType.id, value ? parseInt(value, 10) : undefined)}
+                  onChange={value => {
+                    onFeatureValueChange(featureType.id, value ? parseInt(value as string, 10) : undefined);
+                  }}
                   placeholder={featureType.name}
                 >
                   {getOptions(featureType).map(option => (
-                    <Select.Option key={option.value} value={option.value}>
+                    <Select.Option key={option.value} value={option.value} name={option.title}>
                       {option.title}
                     </Select.Option>
                   ))}
@@ -412,7 +415,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
                       margin-right: 0;
                     }
                   `}
-                  wide={productType.instagram_links.length === 1}
+                  size={productType.instagram_links.length === 1 ? InstagramPost.Size.Wide : undefined}
                   id={id}
                   url={link}
                 />

@@ -7,7 +7,6 @@ const LRUCache = require('lru-cache');
 const next = require('next');
 
 const { getRequestLocale, initIntlPolyfills, localeMiddleware } = require('./locale');
-const { getRouteMapping } = require('./route-mappings');
 
 initIntlPolyfills();
 
@@ -29,17 +28,27 @@ app
 
     server.use(localeMiddleware);
 
+    server.get('/admin(/*)?', (req, res) => {
+      return app.render(req, res, '/admin', req.query);
+    });
+
+    server.get('/profile(/*)?', (req, res) => {
+      return app.render(req, res, '/profile', req.query);
+    });
+
+    server.get(['/login', '/signup'], (req, res) => {
+      return app.render(req, res, '/', req.query);
+    });
+
     server.get('*', (req, res) => {
       const parsedUrl = parse(req.url, true);
-      const { pathname, query } = parsedUrl;
+      const { pathname } = parsedUrl;
 
       if (pathname === '/sw.js' || pathname.startsWith('/workbox-')) {
         const filePath = path.join(__dirname, '../public', pathname);
         app.serveStatic(req, res, filePath);
       } else {
-        const routeMapping = getRouteMapping(pathname);
-        const pagePath = routeMapping ? routeMapping.route : pathname;
-        renderAndCache(req, res, pagePath, query);
+        renderAndCache(req, res);
       }
     });
 
@@ -72,11 +81,11 @@ const XCache = {
   Miss: 'Miss',
 };
 
-const renderAndCache = (req, res, pagePath, queryParams) => {
+const renderAndCache = (req, res) => {
   const key = getCacheKey(req);
 
   if (!key || dev) {
-    handle(req, res, pagePath, queryParams);
+    handle(req, res);
     return;
   }
 
@@ -103,9 +112,9 @@ const renderAndCache = (req, res, pagePath, queryParams) => {
 
     console.log(`Cache Miss: ${key}`);
     res.setHeader(XCACHE_KEY, XCache.Miss);
-    app.render(req, res, pagePath, queryParams);
+    app.render(req, res, req.path, req.query);
   } catch (err) {
     console.error(err);
-    app.renderError(err, req, res, pagePath, queryParams);
+    app.renderError(err, req, res, req.path, req.query);
   }
 };

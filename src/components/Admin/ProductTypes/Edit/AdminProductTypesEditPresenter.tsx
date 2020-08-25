@@ -4,6 +4,7 @@ import * as yup from 'yup';
 
 import { IProductTypeDetailRawIntlResponseItem } from 'src/api/ProductTypeAPI';
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
+import { Link } from 'src/components/Admin/LinksInput/LinksInput';
 import {
   PRODUCT_TYPE_NAME_FIELD_KEY,
   PRODUCT_TYPE_DESCRIPTION_FIELD_KEY,
@@ -27,27 +28,29 @@ export interface IProps extends IntlStateContextValue {
   adminProductTypesState: AdminProductTypesStateContextValue['state'];
 }
 
+interface IFormValues {
+  names: { [key: string]: string };
+  descriptions: { [key: string]: string };
+  short_descriptions: { [key: string]: string };
+  instagram_links: Link[];
+  feature_types: string[];
+  categories?: string[];
+  image: string;
+}
+
 export interface IViewProps {
   isOpen: boolean;
-  edit: (values: {
-    names: { [key: string]: string };
-    descriptions: { [key: string]: string };
-    short_descriptions: { [key: string]: string };
-    instagram_links: string[];
-    feature_types: string[];
-    categories?: string[];
-    image: string;
-  }) => void;
+  edit: (values: IFormValues) => void;
   isLoading: boolean;
   isUpdating: boolean;
   error?: string;
   preloadingError?: string;
   close: () => void;
   availableLocales: IntlStateContextValue['intlState']['availableLocales'];
-  validate?: (values: object) => object | Promise<object>;
+  validate?: (values: IFormValues) => object | Promise<object>;
   categories: AdminCategoriesStateContextValue['state']['entities'];
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
-  initialValues: object;
+  initialValues: Partial<IFormValues>;
 }
 
 export const CATEGORY_NAME_FIELD_KEY = 'name';
@@ -99,8 +102,10 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
             {
               instagram_links: yup
                 .array()
-                .test('areLinksValid', 'AdminProductTypes.errors.invalidInstagramLinks', (value: string[] = []) => {
-                  return value.every(link => link.match(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/));
+                .test('areLinksValid', 'AdminProductTypes.errors.invalidInstagramLinks', (value: Link[] = []) => {
+                  return value.every(link =>
+                    link.value.match(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/),
+                  );
                 }),
               categories: yup
                 .array()
@@ -181,7 +186,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
           names: {},
           descriptions: {},
           short_descriptions: {},
-          instagram_links: values.instagram_links,
+          instagram_links: values.instagram_links.map(link => link.value),
           categories: values.categories ? values.categories.map(category => parseInt(category, 10)) : [],
           feature_types: values.feature_types.map(id => parseInt(id, 10)),
           image: values.image,
@@ -213,11 +218,11 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
           }),
           {},
         ),
-        instagram_links: productType.instagram_links.map(({ link }) => link),
-        categories: productType.categories.map(({ id }) => id),
-        feature_types: productType.feature_types,
+        instagram_links: productType.instagram_links.map(link => ({ id: link.id, value: link.link })),
+        categories: productType.categories.map(({ id }) => id.toString()),
+        feature_types: productType.feature_types.map(id => id.toString()),
         image: productType.image,
-      };
+      } as IViewProps['initialValues'];
     }
 
     return {};

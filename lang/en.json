@@ -123,7 +123,6 @@
   "AdminProducts.notFound.cta": "Create a product",
   "AdminProducts.images": "Images",
   "AdminProducts.featureValuesSelect.label": "Feature values",
-  "AdminProducts.productTypeSelect.defaultOption.title": "No Product Type",
   "AdminProducts.productTypeSelect.label": "Product type",
   "Admine.create.title": "Create product",
   "AdminProducts.edit.title": "Edit product",
@@ -290,7 +289,7 @@
   "AdminRates.create.title": "Create currency rate",
   "AdminPromoCodes.errors.hasOrders": "Promo code connected with orders can't be deleted or edited",
   "ProductTypePage.instagram": "Check out on Instagram",
-  "AdminProductTypes.errors.invalidInstagramLinks": "This fields should contain instagram posts links separated by comma",
+  "AdminProductTypes.errors.invalidInstagramLinks": "One or some of the links are not valid",
   "AdminProductTypes.instagramLinks": "Instagram links",
   "AdminProductTypes.instagramLinks.placeholder": "https://www.instagram.com/p/CBxH4cfHlk4/,https://www.instagram.com/p/CBvUxOrHLdR/",
   "common.separateWithComma": "Values should be separated with comma",
@@ -304,5 +303,10 @@
   "AdminProductTypes.productsLink": "Show products",
   "AdminProducts.productTypeFilter": "The products shown are for the {productType} type",
   "common.showAll": "Show all",
-  "common.empty": "There is nothing here yet 🤷‍♂️"
+  "common.empty": "There is nothing here yet 🤷‍♂️",
+  "common.showArchived": "Show archived",
+  "common.showCurrent": "Show current",
+  "AdminProducts.productTypeSelect.placeholder": "Choose a product type",
+  "AdminProductTypes.featureTypesSelect.placeholder": "Choose a feature type",
+  "AdminProductTypes.categoriesSelect.placeholder": "Choose a category"
 }

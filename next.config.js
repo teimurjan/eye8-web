@@ -20,6 +20,7 @@ module.exports = withPWA(
           PUBLIC_URL: process.env.PUBLIC_URL,
           CLIENT_API_URL: process.env.CLIENT_API_URL,
           YM_ACCOUNT_ID: process.env.YM_ACCOUNT_ID,
+          FB_PIXEL_ID: process.env.FB_PIXEL_ID,
         },
         webpack: (config, options) => {
           if (!options.isServer) {

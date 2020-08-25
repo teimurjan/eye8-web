@@ -7,7 +7,7 @@ import { ProductTypesPageContainer } from 'src/components/Client/ProducTypesPage
 import { dependenciesFactory } from 'src/DI/DependenciesContainer';
 import { logTimeStart, logTimeFinish } from 'src/utils/log';
 
-export default ({
+const Products = ({
   productTypes,
   productTypesOrder,
   productTypesMeta,
@@ -64,3 +64,5 @@ export const getServerSideProps: GetServerSideProps = async ({
     };
   }
 };
+
+export default Products;

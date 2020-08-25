@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Field, FieldRenderProps } from 'react-final-form';
 import { IntlShape, injectIntl } from 'react-intl';
 
-import { FormNativeSelectField } from 'src/components/admin-ui/FormNativeSelectField/FormNativeSelectField';
+import { FormSelectField } from 'src/components/admin-ui/FormSelectField/FormSelectField';
+import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
 import {
   FEATURE_VALUE_NAME_FIELD_KEY,
   IViewProps as IProps,
@@ -24,7 +25,7 @@ const FeatureTypeSelect = injectIntl(
     const showError = meta.touched && meta.error;
 
     return (
-      <FormNativeSelectField
+      <FormSelectField
         labelProps={{
           children: (
             <>
@@ -36,15 +37,14 @@ const FeatureTypeSelect = injectIntl(
         }}
         selectProps={{
           ...input,
-          defaultOption: {
-            title: intl.formatMessage({
-              id: 'AdminFeatureValues.featureTypeSelect.defaultOption.title',
-            }),
-          },
+          placeholder: intl.formatMessage({
+            id: 'AdminFeatureValues.featureTypeSelect.defaultOption.title',
+          }),
           options: featureTypes.map(({ id, name }) => ({
             title: name[intl.locale],
             value: `${id}`,
           })),
+          TriggerComponent: SearchableSelectTrigger,
         }}
         helpTextProps={{
           children: showError ? intl.formatMessage({ id: meta.error }) : undefined,

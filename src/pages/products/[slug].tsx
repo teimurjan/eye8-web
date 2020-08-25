@@ -7,7 +7,7 @@ import { dependenciesFactory } from 'src/DI/DependenciesContainer';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 import { logTimeStart, logTimeFinish } from 'src/utils/log';
 
-export default ({ productType, products, error }: Then<ReturnType<typeof getServerSideProps>>['props']) => (
+const Product = ({ productType, products, error }: Then<ReturnType<typeof getServerSideProps>>['props']) => (
   <Layout>
     <ProductTypePageContainer initialProps={{ products, productType, error }} />
   </Layout>
@@ -46,3 +46,5 @@ export const getServerSideProps: GetServerSideProps = async ({ params = {}, req,
     };
   }
 };
+
+export default Product;

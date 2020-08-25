@@ -35,5 +35,7 @@ export const AdminProductsDeleteContainer = () => {
     [dependencies.services.product],
   );
 
-  return <DeleteModalContainer deleteEntity={deleteEntity} preloadData={preloadData} backPath="/admin/products" />;
+  return (
+    <DeleteModalContainer deleteEntity={deleteEntity} preloadData={preloadData} getBackPath={() => '/admin/products'} />
+  );
 };
