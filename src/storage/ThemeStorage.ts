@@ -29,6 +29,6 @@ export class ThemeStorage implements IThemeStorage {
 
   public toggle() {
     const theme = this.getTheme();
-    this.setTheme(theme === Theme.Light ? Theme.Dark : Theme.Light);
+    this.setTheme(!theme || theme === Theme.Light ? Theme.Dark : Theme.Light);
   }
 }

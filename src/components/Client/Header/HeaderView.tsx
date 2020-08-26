@@ -254,7 +254,7 @@ export const HeaderView = ({ user }: IProps) => {
 
                   @media ${mediaQueries.maxWidth768} {
                     max-height: 55px !important;
-                    margin-top: 10px;
+                    margin-top: 7.5px;
                     padding-top: 0 !important;
                   }
                 `}
@@ -263,8 +263,9 @@ export const HeaderView = ({ user }: IProps) => {
               >
                 <LogoSVG
                   css={css`
-                    width: auto;
+                    max-width: 100%;
                     max-height: 100%;
+                    display: block;
                     fill: ${theme.textColor};
                   `}
                 />
