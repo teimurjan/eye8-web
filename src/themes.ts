@@ -70,6 +70,11 @@ class DefaultTheme implements AdminUITheme, ClientUITheme {
   public messagePrimaryTextColor = this.textBrightColor;
   public messageDangerBackgroundColor = this.dangerColor;
   public messageDangerTextColor = this.textBrightColor;
+  // - toggle
+  public toggleBackgroundColor = this.whiteColor;
+  public toggleDotColor = this.darkGrayColor;
+  public toggleGrayBackgroundColor = this.whiteColor;
+  public toggleGrayDotColor = this.grayColor;
 }
 
 class DarkTheme implements AdminUITheme, ClientUITheme {
@@ -142,6 +147,11 @@ class DarkTheme implements AdminUITheme, ClientUITheme {
   public messagePrimaryTextColor = this.textBrightColor;
   public messageDangerBackgroundColor = this.dangerColor;
   public messageDangerTextColor = this.textBrightColor;
+  // - toggle
+  public toggleBackgroundColor = this.whiteColor;
+  public toggleDotColor = this.darkGrayColor;
+  public toggleGrayBackgroundColor = this.whiteColor;
+  public toggleGrayDotColor = this.grayColor;
 }
 
 export const defaultTheme = new DefaultTheme();

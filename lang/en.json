@@ -308,5 +308,6 @@
   "common.showCurrent": "Show current",
   "AdminProducts.productTypeSelect.placeholder": "Choose a product type",
   "AdminProductTypes.featureTypesSelect.placeholder": "Choose a feature type",
-  "AdminProductTypes.categoriesSelect.placeholder": "Choose a category"
+  "AdminProductTypes.categoriesSelect.placeholder": "Choose a category",
+  "theme.dark": "Dark Mode"
 }

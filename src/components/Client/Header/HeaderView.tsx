@@ -24,12 +24,12 @@ import { LanguageDropdownContainer as LanguageDropdown } from 'src/components/Cl
 import { NavContainer } from 'src/components/Client/Nav/NavContainer';
 import { navItemCSS } from 'src/components/Client/Nav/NavView';
 import { SearchContainer } from 'src/components/Client/Search/SearchContainer';
+import { ThemeToggleContainer as ThemeToggle } from 'src/components/Client/ThemeToggle/ThemeToggleContainer';
 import { UserDropdownContainer as UserDropdown } from 'src/components/Client/UserDropdown/UserDropdownContainer';
 import { isUserAdminOrManager } from 'src/helpers/user';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useLazyInitialization } from 'src/hooks/useLazyInitialization';
 import { useMedia } from 'src/hooks/useMedia';
-import { User } from 'src/state/UserState';
 import { mediaQueries } from 'src/styles/media';
 import LogoSVG from 'src/svg/logo.svg';
 
@@ -132,7 +132,7 @@ const PreHeaderItem = ({ children, className }: IPreHeaderItemProps) => {
 };
 
 interface IPreHeaderProps {
-  user: User;
+  user: IProps['user'];
 }
 
 const PreHeader = ({ user }: IPreHeaderProps) => {
@@ -144,9 +144,17 @@ const PreHeader = ({ user }: IPreHeaderProps) => {
         css={css`
           display: flex;
           justify-content: flex-end;
+          align-items: center;
           padding: 5px 0;
         `}
       >
+        <PreHeaderItem
+          css={css`
+            margin-right: auto;
+          `}
+        >
+          <ThemeToggle />
+        </PreHeaderItem>
         {isUserAdminOrManager(user) && (
           <Link href="/admin">
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}

@@ -50,6 +50,10 @@ declare interface ClientUITheme {
   messagePrimaryTextColor: string;
   messageDangerBackgroundColor: string;
   messageDangerTextColor: string;
+  toggleBackgroundColor: string;
+  toggleDotColor: string;
+  toggleGrayBackgroundColor: string;
+  toggleGrayDotColor: string;
 }
 
 declare type Then<T> = T extends PromiseLike<infer U> ? U : T;

@@ -1,7 +1,7 @@
 import { CacheProvider } from '@emotion/core';
 import * as Sentry from '@sentry/node';
 import { cache } from 'emotion';
-import { AppProps } from 'next/app';
+import { AppProps, AppContext } from 'next/app';
 import React from 'react';
 import { createIntl, createIntlCache } from 'react-intl';
 
@@ -14,7 +14,7 @@ import { ThemeProvider } from 'src/_app/ThemeProvider';
 import { Toaster } from 'src/_app/Toaster';
 import { CacheBuster } from 'src/components/CacheBuster';
 import { PageProgressBar } from 'src/components/common-ui/PageProgressBar/PageProgressBar';
-import { dependenciesFactory } from 'src/DI/DependenciesContainer';
+import { dependenciesFactory, IDependenciesFactoryArgs } from 'src/DI/DependenciesContainer';
 import { DIProvider } from 'src/DI/DI';
 import { AppStateProvider } from 'src/state/AppState';
 import { AuthModalStateProvider } from 'src/state/AuthModalState';
@@ -40,7 +40,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const intlCache = createIntlCache();
-const dependencies = dependenciesFactory();
 
 safeWindowOperation((w) => {
   w.history.scrollRestoration = 'manual';
@@ -52,8 +51,13 @@ Sentry.init({
   release: process.env.RELEASE_VERSION,
 });
 
-const CustomNextApp = ({ Component, pageProps }: AppProps) => {
+const _DEPENDENCIES_SERVER_PROPS: IDependenciesFactoryArgs = {};
+
+const CustomNextApp = ({ Component, pageProps, ...rest }: AppProps) => {
   const customData = getGlobal('__CUSTOM_DATA__') as Window['__CUSTOM_DATA__'];
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const dependencies = React.useMemo(() => dependenciesFactory(_DEPENDENCIES_SERVER_PROPS), []);
 
   const intl = createIntl(
     {
@@ -105,5 +109,14 @@ const CustomNextApp = ({ Component, pageProps }: AppProps) => {
     </CacheProvider>
   );
 };
+
+const getInitialProps = ({ ctx }: AppContext) => {
+  _DEPENDENCIES_SERVER_PROPS.req = ctx.req;
+  _DEPENDENCIES_SERVER_PROPS.res = ctx.res;
+
+  return {};
+};
+
+CustomNextApp.getInitialProps = getInitialProps;
 
 export default CustomNextApp;
