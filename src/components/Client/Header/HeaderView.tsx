@@ -24,14 +24,14 @@ import { LanguageDropdownContainer as LanguageDropdown } from 'src/components/Cl
 import { NavContainer } from 'src/components/Client/Nav/NavContainer';
 import { navItemCSS } from 'src/components/Client/Nav/NavView';
 import { SearchContainer } from 'src/components/Client/Search/SearchContainer';
+import { ThemeToggleContainer as ThemeToggle } from 'src/components/Client/ThemeToggle/ThemeToggleContainer';
 import { UserDropdownContainer as UserDropdown } from 'src/components/Client/UserDropdown/UserDropdownContainer';
 import { isUserAdminOrManager } from 'src/helpers/user';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useLazyInitialization } from 'src/hooks/useLazyInitialization';
 import { useMedia } from 'src/hooks/useMedia';
-import { User } from 'src/state/UserState';
 import { mediaQueries } from 'src/styles/media';
-import { withPublicURL } from 'src/utils/url';
+import LogoSVG from 'src/svg/logo.svg';
 
 const CategoriesTrigger = React.forwardRef<HTMLAnchorElement, PopoverTriggerProps>((props, ref) => {
   const intl = useIntl();
@@ -132,7 +132,7 @@ const PreHeaderItem = ({ children, className }: IPreHeaderItemProps) => {
 };
 
 interface IPreHeaderProps {
-  user: User;
+  user: IProps['user'];
 }
 
 const PreHeader = ({ user }: IPreHeaderProps) => {
@@ -144,9 +144,17 @@ const PreHeader = ({ user }: IPreHeaderProps) => {
         css={css`
           display: flex;
           justify-content: flex-end;
+          align-items: center;
           padding: 5px 0;
         `}
       >
+        <PreHeaderItem
+          css={css`
+            margin-right: auto;
+          `}
+        >
+          <ThemeToggle />
+        </PreHeaderItem>
         {isUserAdminOrManager(user) && (
           <Link href="/admin">
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
@@ -180,7 +188,6 @@ const PreHeader = ({ user }: IPreHeaderProps) => {
 };
 
 export const HeaderView = ({ user }: IProps) => {
-  const intl = useIntl();
   const theme = useTheme<ClientUITheme>();
 
   const isMobile = useMedia([mediaQueries.maxWidth768], [true], false);
@@ -218,7 +225,7 @@ export const HeaderView = ({ user }: IProps) => {
                     align-self: center;
                   `}
                 >
-                  <FontAwesomeIcon icon={faBars} size="lg" />
+                  <FontAwesomeIcon icon={faBars} size="lg" color={theme.textColor} />
                 </span>
                 <Drawer
                   css={css`
@@ -242,7 +249,7 @@ export const HeaderView = ({ user }: IProps) => {
                 css={css`
                   background: transparent !important;
                   display: inline-block;
-                  flex: 0 1 80px !important;
+                  max-width: 80px;
                   max-height: 70px !important;
 
                   @media ${mediaQueries.maxWidth768} {
@@ -254,12 +261,12 @@ export const HeaderView = ({ user }: IProps) => {
                 href="/"
                 className="navbar-item"
               >
-                <img
-                  alt={intl.formatMessage({ id: 'common.logo' })}
+                <LogoSVG
                   css={css`
-                    max-height: 100% !important;
+                    width: auto;
+                    max-height: 100%;
+                    fill: ${theme.textColor};
                   `}
-                  src={withPublicURL('img/icons/icon-192x192.png')}
                 />
               </a>
             </Link>

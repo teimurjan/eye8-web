@@ -308,5 +308,6 @@
   "common.showCurrent": "Показать текущие",
   "AdminProducts.productTypeSelect.placeholder": "Выберите тип продукта",
   "AdminProductTypes.featureTypesSelect.placeholder": "Выберите тип продукта",
-  "AdminProductTypes.categoriesSelect.placeholder": "Выберите категорию"
+  "AdminProductTypes.categoriesSelect.placeholder": "Выберите категорию",
+  "theme.dark": "Тёмная тема"
 }

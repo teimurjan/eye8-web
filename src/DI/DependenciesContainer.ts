@@ -36,6 +36,7 @@ import { ServerCookieStorage } from 'src/storage/cookie/ServerCookieStorage';
 import { InMemoryStorage } from 'src/storage/InMemoryStorage';
 import * as intlStorage from 'src/storage/IntlStorage';
 import * as stateCacheStorage from 'src/storage/StateCacheStorage';
+import * as themeStorage from 'src/storage/ThemeStorage';
 import * as versionStorage from 'src/storage/VersionStorage';
 import { safeWindow } from 'src/utils/dom';
 import { WatchingValue } from 'src/utils/watching-value';
@@ -76,6 +77,7 @@ export interface IStoragesContainer {
   stateCache: stateCacheStorage.IStateCacheStorage;
   cart: cartStorage.ICartStorage;
   version: versionStorage.IVersionStorage;
+  theme: themeStorage.IThemeStorage;
 }
 
 export interface IDependenciesContainer {
@@ -147,6 +149,7 @@ export const dependenciesFactory = ({ req, res }: IDependenciesFactoryArgs = {})
     stateCache: stateCacheStorage_,
     cart: new cartStorage.CartStorage(stateCacheStorage_),
     version: new versionStorage.VersionStorage(localStorage),
+    theme: new themeStorage.ThemeStorage(cookieStorage),
   };
 
   // Set locale detected on server if the intl storage is empty

@@ -14,7 +14,7 @@ export interface IProps extends React.HTMLAttributes<HTMLSpanElement> {
   color?: Color;
 }
 
-export const HelpText = ({ children, className, color, ...props }: IProps) => {
+export const HelpText = ({ children, className, color = Color.Gray, ...props }: IProps) => {
   const theme = useTheme<ClientUITheme>();
   return (
     <small

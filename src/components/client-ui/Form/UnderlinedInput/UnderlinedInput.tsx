@@ -134,6 +134,7 @@ export const UnderlinedInput = React.forwardRef<HTMLInputElement, IProps>(
               font-size: 16px;
               background: transparent;
               width: 100%;
+              color: ${theme.textColor};
 
               &:focus {
                 outline: none;

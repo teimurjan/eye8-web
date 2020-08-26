@@ -1,6 +1,6 @@
 {
   "name": "eye8-web",
-  "version": "1.6.14",
+  "version": "1.6.15",
   "private": true,
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
     "@sentry/browser": "^5.15.5",
     "@sentry/node": "^5.19.1",
     "@sentry/webpack-plugin": "^1.12.0",
+    "@svgr/webpack": "^5.4.0",
     "@tanem/react-nprogress": "^3.0.22",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",

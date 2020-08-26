@@ -11,6 +11,7 @@ import { UnderlinedInput } from 'src/components/client-ui/Form/UnderlinedInput/U
 import { LinkPassingProps } from 'src/components/client-ui/LinkPassingProps/LinkPassingProps';
 import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout';
 import { Popover } from 'src/components/client-ui/Popover/Popover';
+import { Subtitle } from 'src/components/client-ui/Subtitle/Subtitle';
 import { Tag } from 'src/components/client-ui/Tag/Tag';
 import { WithIcon } from 'src/components/client-ui/WithIcon/WithIcon';
 import { useHeaderIconSize } from 'src/components/Client/Header/HeaderView';
@@ -104,7 +105,8 @@ export const SearchView: React.FC<IProps> = ({
               css={css`
                 overflow: hidden;
                 text-overflow: ellipsis;
-                display: block;
+                display: flex;
+                align-items: center;
               `}
             >
               <img
@@ -112,12 +114,11 @@ export const SearchView: React.FC<IProps> = ({
                 css={css`
                   width: 50px;
                   height: 50px;
-                  vertical-align: middle;
-                  margin-right: 0.25rem;
+                  margin-right: 12px;
                 `}
                 src={formatMediaURL(productType.image)}
               />{' '}
-              {productType.name}
+              <Subtitle size={5}>{productType.name}</Subtitle>
             </Popover.Item>
           ))}
         {categories.length === 0 && productTypes.length === 0 && (

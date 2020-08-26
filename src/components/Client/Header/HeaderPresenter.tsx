@@ -11,6 +11,6 @@ export interface IViewProps {
   user: User;
 }
 
-export const HeaderPresenter: React.FC<IProps> = ({ View, userState: { user, clearUser }, ...viewProps }) => (
-  <View user={user} {...viewProps} />
-);
+export const HeaderPresenter: React.FC<IProps> = ({ View, userState: { user }, ...viewProps }) => {
+  return <View user={user} {...viewProps} />;
+};

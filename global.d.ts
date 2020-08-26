@@ -50,6 +50,10 @@ declare interface ClientUITheme {
   messagePrimaryTextColor: string;
   messageDangerBackgroundColor: string;
   messageDangerTextColor: string;
+  toggleBackgroundColor: string;
+  toggleDotColor: string;
+  toggleGrayBackgroundColor: string;
+  toggleGrayDotColor: string;
 }
 
 declare type Then<T> = T extends PromiseLike<infer U> ? U : T;
@@ -60,4 +64,11 @@ interface Window {
     intl: { messages: { [key: string]: string }; locale: string; isFallback: boolean };
     states: { initialProps: { rates: object; intl: object; categories: object } };
   };
+}
+
+interface SvgrComponent extends React.StatelessComponent<React.SVGAttributes<SVGElement>> {}
+
+declare module '*.svg' {
+  const value: SvgrComponent;
+  export default value;
 }

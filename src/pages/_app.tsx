@@ -1,8 +1,7 @@
 import { CacheProvider } from '@emotion/core';
 import * as Sentry from '@sentry/node';
 import { cache } from 'emotion';
-import { ThemeProvider } from 'emotion-theming';
-import { AppProps } from 'next/app';
+import { AppProps, AppContext } from 'next/app';
 import React from 'react';
 import { createIntl, createIntlCache } from 'react-intl';
 
@@ -11,10 +10,11 @@ import { CustomHead } from 'src/_app/CustomHead';
 import { EntryPoint } from 'src/_app/EntryPoint';
 import { GlobalStyles } from 'src/_app/GlobalStyle';
 import { LoadingOverlay } from 'src/_app/LoadingOverlay';
+import { ThemeProvider } from 'src/_app/ThemeProvider';
 import { Toaster } from 'src/_app/Toaster';
 import { CacheBuster } from 'src/components/CacheBuster';
 import { PageProgressBar } from 'src/components/common-ui/PageProgressBar/PageProgressBar';
-import { dependenciesFactory } from 'src/DI/DependenciesContainer';
+import { dependenciesFactory, IDependenciesFactoryArgs } from 'src/DI/DependenciesContainer';
 import { DIProvider } from 'src/DI/DI';
 import { AppStateProvider } from 'src/state/AppState';
 import { AuthModalStateProvider } from 'src/state/AuthModalState';
@@ -22,7 +22,6 @@ import { CategoriesStateProvider, IProviderProps as ICategoriesStateProviderProp
 import { IntlStateProvider, IProviderProps as IIntlStateProviderProps } from 'src/state/IntlState';
 import { RatesStateProvider, IProviderProps as IRatesStateProviderProps } from 'src/state/RatesState';
 import { UserStateProvider } from 'src/state/UserState';
-import { defaultTheme } from 'src/themes';
 import { safeWindowOperation, isWindowDefined } from 'src/utils/dom';
 import { getGlobal } from 'src/utils/global';
 import { logPerformance } from 'src/utils/log';
@@ -41,7 +40,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const intlCache = createIntlCache();
-const dependencies = dependenciesFactory();
 
 safeWindowOperation((w) => {
   w.history.scrollRestoration = 'manual';
@@ -53,8 +51,13 @@ Sentry.init({
   release: process.env.RELEASE_VERSION,
 });
 
-const CustomNextApp = ({ Component, pageProps }: AppProps) => {
+const _DEPENDENCIES_SERVER_PROPS: IDependenciesFactoryArgs = {};
+
+const CustomNextApp = ({ Component, pageProps, ...rest }: AppProps) => {
   const customData = getGlobal('__CUSTOM_DATA__') as Window['__CUSTOM_DATA__'];
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const dependencies = React.useMemo(() => dependenciesFactory(_DEPENDENCIES_SERVER_PROPS), []);
 
   const intl = createIntl(
     {
@@ -67,7 +70,7 @@ const CustomNextApp = ({ Component, pageProps }: AppProps) => {
   return (
     <CacheProvider value={cache}>
       <DIProvider value={{ dependencies }}>
-        <ThemeProvider theme={defaultTheme}>
+        <ThemeProvider>
           <AppStateProvider>
             <IntlStateProvider
               initialProps={customData.states.initialProps.intl as IIntlStateProviderProps['initialProps']}
@@ -106,5 +109,14 @@ const CustomNextApp = ({ Component, pageProps }: AppProps) => {
     </CacheProvider>
   );
 };
+
+const getInitialProps = ({ ctx }: AppContext) => {
+  _DEPENDENCIES_SERVER_PROPS.req = ctx.req;
+  _DEPENDENCIES_SERVER_PROPS.res = ctx.res;
+
+  return {};
+};
+
+CustomNextApp.getInitialProps = getInitialProps;
 
 export default CustomNextApp;
