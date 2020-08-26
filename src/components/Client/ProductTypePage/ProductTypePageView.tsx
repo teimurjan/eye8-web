@@ -383,8 +383,18 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
             css={css`
               animation: ${fadeInFromBottom} 700ms ${easeOutCubic};
               color: ${theme.textColor};
+
               table {
                 background-color: ${theme.backgroundSecondaryColor};
+
+                th,
+                td {
+                  color: ${theme.textColor};
+                }
+              }
+
+              strong {
+                color: ${theme.textColor};
               }
             `}
             className="content"
