@@ -36,7 +36,7 @@ export const AdminProductTypesListPresenter = ({
 
   const onPageChange = React.useCallback(
     (page) => {
-      getProductTypes(page);
+      getProductTypes({ page });
     },
     [getProductTypes],
   );
