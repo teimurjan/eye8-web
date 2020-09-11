@@ -32,6 +32,7 @@ import { useLazyInitialization } from 'src/hooks/useLazyInitialization';
 import { useMedia } from 'src/hooks/useMedia';
 import { mediaQueries } from 'src/styles/media';
 import LogoSVG from 'src/svg/logo.svg';
+import featureFlags from 'src/utils/featureFlags';
 
 const CategoriesTrigger = React.forwardRef<HTMLAnchorElement, PopoverTriggerProps>((props, ref) => {
   const intl = useIntl();
@@ -153,7 +154,7 @@ const PreHeader = ({ user }: IPreHeaderProps) => {
             margin-right: auto;
           `}
         >
-          <ThemeToggle />
+          {featureFlags.shouldUseThemeToggle() && <ThemeToggle />}
         </PreHeaderItem>
         {isUserAdminOrManager(user) && (
           <Link href="/admin">

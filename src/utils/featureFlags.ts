@@ -1,1 +1,4 @@
-export const USE_CEILED_PRICE = false;
+export default {
+  shouldUseCeiledPrice: () => false,
+  shouldUseThemeToggle: () => false,
+};

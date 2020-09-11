@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 
 import { useIntlState } from 'src/state/IntlState';
 import { useRatesState } from 'src/state/RatesState';
-import { USE_CEILED_PRICE } from 'src/utils/featureFlags';
+import featureFlags from 'src/utils/featureFlags';
 import { calculateDiscountedPrice, getCeiledPrice } from 'src/utils/number';
 
 interface IPriceProps {
@@ -52,7 +52,7 @@ const useFormattedPrice = ({ price, discount, date, forceLocale }: IPriceProps) 
     const kgsPrice = Math.round(calculatedPrice * rate.value);
     return (
       <>
-        {USE_CEILED_PRICE ? getCeiledPrice(kgsPrice) : kgsPrice} {isEn ? 'KGS' : <u>с</u>}
+        {featureFlags.shouldUseCeiledPrice() ? getCeiledPrice(kgsPrice) : kgsPrice} {isEn ? 'KGS' : <u>с</u>}
       </>
     );
   }, [calculatedPrice, rate, isEn, defaultFormattedPrice, error]);
