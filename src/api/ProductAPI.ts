@@ -1,7 +1,7 @@
 import { Client } from 'ttypes/http';
 
 import { IHeadersManager } from 'src/manager/HeadersManager';
-import { buildQueryString } from 'src/utils/queryString';
+import { buildSearchString } from 'src/utils/queryString';
 
 // LIST
 export interface IProductListResponseMeta {
@@ -127,7 +127,7 @@ export class ProductAPI implements IProductAPI {
 
   public async getAll(page: number) {
     try {
-      const response = await this.client.get<IProductListResponseData>(`/api/products${buildQueryString({ page })}`, {
+      const response = await this.client.get<IProductListResponseData>(`/api/products${buildSearchString({ page })}`, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -138,7 +138,7 @@ export class ProductAPI implements IProductAPI {
 
   public async getForCart(ids: number[]) {
     try {
-      const response = await this.client.get<IProductListResponseData>(`/api/products${buildQueryString({ ids })}`, {
+      const response = await this.client.get<IProductListResponseData>(`/api/products${buildSearchString({ ids })}`, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;

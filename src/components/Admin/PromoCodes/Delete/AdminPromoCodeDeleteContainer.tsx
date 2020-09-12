@@ -4,7 +4,7 @@ import { DeleteModalContainer } from 'src/components/Admin/DeleteModal/DeleteMod
 import { useDependencies } from 'src/DI/DI';
 import * as promoCodeService from 'src/services/PromoCodeService';
 import { useAdminPromoCodesState } from 'src/state/AdminPromoCodesState';
-import { buildQueryString } from 'src/utils/queryString';
+import { buildSearchString } from 'src/utils/queryString';
 
 const getErrorMessageID = (e: Error) => {
   if (e instanceof promoCodeService.errors.PromoCodeHasOrders) {
@@ -51,7 +51,7 @@ export const AdminPromoCodesDeleteContainer = () => {
       deleteEntity={deleteEntity}
       preloadData={preloadData}
       getBackPath={({ isForever }) =>
-        `/admin/promoCodes${buildQueryString({ deleted: Boolean(isForever).toString() })}`
+        `/admin/promoCodes${buildSearchString({ deleted: Boolean(isForever).toString() })}`
       }
     />
   );

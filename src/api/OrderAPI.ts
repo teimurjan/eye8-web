@@ -1,7 +1,7 @@
 import { Client } from 'ttypes/http';
 
 import { IHeadersManager } from 'src/manager/HeadersManager';
-import { buildQueryString } from 'src/utils/queryString';
+import { buildSearchString } from 'src/utils/queryString';
 
 export interface IOrderItem {
   id: number;
@@ -193,7 +193,7 @@ export class OrderAPI implements IOrderAPI {
   public async getForUser(userID: number, page: number) {
     try {
       const response = await this.client.get<IOrderForUserResponseData>(
-        `/api/users/${userID}/orders${buildQueryString({ page, limit: 10 })}`,
+        `/api/users/${userID}/orders${buildSearchString({ page, limit: 10 })}`,
         {
           headers: this.headersManager.getHeaders(),
         },

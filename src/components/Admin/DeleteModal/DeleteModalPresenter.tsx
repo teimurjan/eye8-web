@@ -41,7 +41,7 @@ export const DeleteModalPresenter = ({
   deleteEntity,
   getErrorMessageID,
 }: IProps & RouteComponentProps<{ id: string }>) => {
-  const [foreverParam] = useSearchParams('forever');
+  const { forever: foreverParam } = useSearchParams('forever');
   const isForever = foreverParam === 'true';
 
   const id = parseInt(match.params.id, 10);

@@ -65,7 +65,7 @@ export const AdminProductsListView = ({
             onChange: onProductTypeChange,
             onBlur: noop,
             onFocus: noop,
-            value: selectedProductTypeId,
+            value: selectedProductTypeId?.toString(),
             placeholder: intl.formatMessage({ id: 'AdminProducts.productTypeSelect.placeholder' }),
           }}
           LoadMoreProductTypes={LoadMoreProductTypes}

@@ -19,6 +19,7 @@ export interface IProps {
   productId: number;
   adminProductsState: AdminProductsStateContextValue['state'];
   adminFeatureValuesState: AdminFeatureValuesStateContextValue['state'];
+  close: () => void;
 }
 
 interface IFormValues {
@@ -61,6 +62,7 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
   productService,
   productTypeService,
   View,
+  close,
 }) => {
   const [product, setProduct] = React.useState<IProductListResponseItem | undefined>(undefined);
   const [error, setError] = React.useState<string | undefined>(undefined);
@@ -120,8 +122,6 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const close = React.useCallback(() => history.push('/admin/products'), [history]);
 
   const edit: IViewProps['edit'] = React.useCallback(
     async (values) => {

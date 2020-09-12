@@ -17,6 +17,7 @@ import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { mediaQueries } from 'src/styles/media';
+import { buildSearchString } from 'src/utils/queryString';
 import { formatMediaURL } from 'src/utils/url';
 
 interface IAdminTableRendererRequiredArgs {
@@ -266,7 +267,9 @@ export const AdminTable = <T extends { id: number }>({
                   )}
                   {!hideDelete && (
                     <ReactRouterLinkButton
-                      to={`${pathPrefix}/delete/${entity.id}?forever=${Boolean(showDeleted)}`}
+                      to={`${pathPrefix}/delete/${entity.id}${buildSearchString({
+                        forever: Boolean(showDeleted).toString(),
+                      })}`}
                       color="is-danger"
                     >
                       <FontAwesomeIcon icon={faTrashAlt} />

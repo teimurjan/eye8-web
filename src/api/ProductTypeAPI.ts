@@ -1,7 +1,7 @@
 import { Client } from 'ttypes/http';
 
 import { IHeadersManager } from 'src/manager/HeadersManager';
-import { buildQueryString } from 'src/utils/queryString';
+import { buildSearchString } from 'src/utils/queryString';
 
 // LIST
 export interface IProductTypeListResponseMeta {
@@ -215,7 +215,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
   ) {
     try {
       const response = await this.client.get<IProductTypeListResponseData>(
-        `/api/categories/${categorySlug}/product_types${buildQueryString({
+        `/api/categories/${categorySlug}/product_types${buildSearchString({
           page,
           sort_by: queryValueOfSortingType[sortBy],
           products: 1,
@@ -233,7 +233,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
   public async getAll(page: number) {
     try {
       const response = await this.client.get<IProductTypeListResponseData>(
-        `/api/product_types${buildQueryString({ page })}`,
+        `/api/product_types${buildSearchString({ page })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
@@ -247,7 +247,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
   public async getNewest() {
     try {
       const response = await this.client.get<IProductTypeListResponseData>(
-        `/api/product_types${buildQueryString({
+        `/api/product_types${buildSearchString({
           page: 1,
           sort_by: queryValueOfSortingType[ProductTypeSortingType.RECENT],
           limit: 8,
@@ -295,7 +295,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
   public async getAllRawIntlMinified(page?: number, sortBy?: ProductTypeSortingType) {
     try {
       const response = await this.client.get<IProductTypeListRawIntlMinifiedResponseData>(
-        `/api/product_types${buildQueryString({
+        `/api/product_types${buildSearchString({
           fields: ['id', 'name', 'feature_types'],
           raw_intl: 1,
           page,
@@ -315,7 +315,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
   public async getAllRawIntl(page: number) {
     try {
       const response = await this.client.get<IProductTypeListRawIntlResponseData>(
-        `/api/product_types${buildQueryString({ page, raw_intl: 1, limit: 10 })}`,
+        `/api/product_types${buildSearchString({ page, raw_intl: 1, limit: 10 })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
@@ -364,7 +364,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
       formData.append('json', JSON.stringify(json));
       formData.append('image', image);
       const response = await this.client.put<IProductTypeRawIntlResponseData>(
-        `/api/product_types/${id}${buildQueryString({ raw_intl: 1 })}`,
+        `/api/product_types/${id}${buildSearchString({ raw_intl: 1 })}`,
         formData,
         {
           headers: this.headersManager.getHeaders(),
@@ -396,7 +396,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
   public async getOneRawIntl(id: number) {
     try {
       const response = await this.client.get<IProductTypeRawIntlResponseData>(
-        `/api/product_types/${id}${buildQueryString({ raw_intl: 1 })}`,
+        `/api/product_types/${id}${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
         },

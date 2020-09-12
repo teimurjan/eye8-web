@@ -15,6 +15,8 @@ export const AdminProductsEditContainer = () => {
   const { state: adminFeatureValuesState } = useAdminFeatureValuesState();
   const { state: adminProductsState } = useAdminProductsState();
 
+  const close = React.useCallback(() => history.push('/admin/products'), [history]);
+
   return (
     <AdminProductsEditPresenter
       productId={parseInt(params.id, 10)}
@@ -24,6 +26,7 @@ export const AdminProductsEditContainer = () => {
       productTypeService={dependencies.services.productType}
       adminProductsState={adminProductsState}
       adminFeatureValuesState={adminFeatureValuesState}
+      close={close}
     />
   );
 };

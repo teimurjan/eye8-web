@@ -3,7 +3,7 @@ import { Client } from 'ttypes/http';
 import { ICategoryListResponseItem, ICategoryListRawIntlResponseItem } from 'src/api/CategoryAPI';
 import { IProductTypeListResponseItem, IProductTypeListRawIntlResponseItem } from 'src/api/ProductTypeAPI';
 import { IHeadersManager } from 'src/manager/HeadersManager';
-import { buildQueryString } from 'src/utils/queryString';
+import { buildSearchString } from 'src/utils/queryString';
 
 export type SearchProductTypeResponseItem = Omit<IProductTypeListResponseItem, 'description'>;
 export type SearchProductTypeRawIntlResponseItem = Omit<IProductTypeListRawIntlResponseItem, 'description'>;
@@ -44,7 +44,7 @@ export class SearchAPI implements ISearchAPI {
   public async searchRawIntl(query: string) {
     try {
       const response = await this.client.get<ISearchRawIntlResponseData>(
-        `/api/search/${query}${buildQueryString({ raw_intl: 1 })}`,
+        `/api/search/${query}${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
         },

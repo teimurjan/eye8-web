@@ -6,14 +6,14 @@ import { useSelectProductTypes } from 'src/components/Admin/ProductTypeSelect/us
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminProductsStateContextValue } from 'src/state/AdminProductsState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
-import { buildQueryString } from 'src/utils/queryString';
 
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   adminProductsState: AdminProductsStateContextValue['state'];
-  productTypeId?: string;
+  productTypeId?: number;
   productTypeService: IProductTypeService;
   history: History;
+  onProductTypeChange: (id?: number) => void;
 }
 
 export interface IViewProps {
@@ -22,11 +22,11 @@ export interface IViewProps {
   isDataLoaded: boolean;
   isLoading: boolean;
   onPageChange: (page: number) => void;
-  selectedProductTypeId?: string;
+  selectedProductTypeId?: number;
   productTypes: IProductTypeListRawIntlMinifiedResponseItem[];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
-  onProductTypeChange: (id?: string) => void;
+  onProductTypeChange: (id?: number) => void;
 }
 
 export const AdminProductsListPresenter = ({
@@ -34,17 +34,16 @@ export const AdminProductsListPresenter = ({
   adminProductsState: { isListLoading, entities: products, get: getProducts, hasListLoaded, meta },
   productTypeId,
   productTypeService,
-  history,
+  onProductTypeChange,
 }: IProps & IntlStateContextValue) => {
-  const productTypeIdInt = productTypeId ? parseInt(productTypeId, 10) : undefined;
   React.useEffect(() => {
-    getProducts(productTypeIdInt ? { productTypeId: productTypeIdInt, page: 1 } : undefined);
+    getProducts({ productTypeId, page: 1 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productTypeId]);
 
   const { productTypes, isLoading: productTypesLoading, loadMore: LoadMoreProductTypes } = useSelectProductTypes({
     productTypeService,
-    mandatoryProductTypeId: productTypeIdInt,
+    mandatoryProductTypeId: productTypeId,
   });
 
   const onPageChange = React.useCallback(
@@ -53,10 +52,6 @@ export const AdminProductsListPresenter = ({
     },
     [getProducts],
   );
-
-  const onProductTypeChange = (id?: string) => {
-    history.replace(`${history.location.pathname}${buildQueryString({ productTypeId: id })}`);
-  };
 
   return (
     <View

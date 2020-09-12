@@ -1,7 +1,7 @@
 import { Client } from 'ttypes/http';
 
 import { IHeadersManager } from 'src/manager/HeadersManager';
-import { buildQueryString } from 'src/utils/queryString';
+import { buildSearchString } from 'src/utils/queryString';
 
 export interface IBannerListResponseItem {
   id: number;
@@ -107,7 +107,7 @@ export class BannerAPI implements IBannerAPI {
   public async getAllRawIntl() {
     try {
       const response = await this.client.get<IBannerListRawIntlResponseData>(
-        `/api/banners${buildQueryString({ raw_intl: 1 })}`,
+        `/api/banners${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
@@ -167,7 +167,7 @@ export class BannerAPI implements IBannerAPI {
       formData.append('json', JSON.stringify(json));
       formData.append('image', image);
       const response = await this.client.put<IBannerRawIntlResponseData>(
-        `/api/banners/${id}${buildQueryString({ raw_intl: 1 })}`,
+        `/api/banners/${id}${buildSearchString({ raw_intl: 1 })}`,
         formData,
         {
           headers: this.headersManager.getHeaders(),
@@ -185,7 +185,7 @@ export class BannerAPI implements IBannerAPI {
   public async getOneRawIntl(id: number) {
     try {
       const response = await this.client.get<IBannerRawIntlResponseData>(
-        `/api/banners/${id}${buildQueryString({ raw_intl: 1 })}`,
+        `/api/banners/${id}${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
         },

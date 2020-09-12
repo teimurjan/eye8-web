@@ -1,7 +1,7 @@
 import { Client } from 'ttypes/http';
 
 import { IHeadersManager } from 'src/manager/HeadersManager';
-import { buildQueryString } from 'src/utils/queryString';
+import { buildSearchString } from 'src/utils/queryString';
 
 export interface IFeatureTypeListResponseItem {
   id: number;
@@ -85,7 +85,7 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
   public async getAllRawIntl() {
     try {
       const response = await this.client.get<IFeatureTypeListRawIntlResponseData>(
-        `/api/feature_types${buildQueryString({ raw_intl: 1 })}`,
+        `/api/feature_types${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
@@ -125,7 +125,7 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
   public async edit(id: number, payload: IFeatureTypeEditPayload) {
     try {
       const response = await this.client.put<IFeatureTypeRawIntlResponseData>(
-        `/api/feature_types/${id}${buildQueryString({ raw_intl: 1 })}`,
+        `/api/feature_types/${id}${buildSearchString({ raw_intl: 1 })}`,
         payload,
         {
           headers: this.headersManager.getHeaders(),
@@ -157,7 +157,7 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
   public async getOneRawIntl(id: number) {
     try {
       const response = await this.client.get<IFeatureTypeRawIntlResponseData>(
-        `/api/feature_types/${id}${buildQueryString({ raw_intl: 1 })}`,
+        `/api/feature_types/${id}${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
         },

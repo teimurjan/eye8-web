@@ -152,6 +152,8 @@ export const dependenciesFactory = ({ req, res }: IDependenciesFactoryArgs = {})
     theme: new themeStorage.ThemeStorage(cookieStorage),
   };
 
+  storagesContainer.theme.setTheme(themeStorage.Theme.Light);
+
   // Set locale detected on server if the intl storage is empty
   const reqLocale = req ? (req as IncomingMessage & { locale?: string }).locale : undefined;
   if (reqLocale && !storagesContainer.intl.getLocale()) {

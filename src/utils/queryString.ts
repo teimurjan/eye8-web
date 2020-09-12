@@ -1,4 +1,8 @@
-export const buildQueryString = (queryObj: { [key: string]: string | number | undefined | Array<number | string> }) => {
+export type ISearchParams<T extends string> = {
+  [key in T]: string | number | undefined | Array<number | string>;
+};
+
+export const buildSearchString = <T extends string>(queryObj: ISearchParams<T>) => {
   const queryArr = Object.keys(queryObj).reduce((acc, k) => {
     const value = queryObj[k];
     if (typeof value === 'undefined') {

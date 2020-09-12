@@ -1,7 +1,7 @@
 import { Client } from 'ttypes/http';
 
 import { IHeadersManager } from 'src/manager/HeadersManager';
-import { buildQueryString } from 'src/utils/queryString';
+import { buildSearchString } from 'src/utils/queryString';
 
 export interface ICategoryListResponseItem {
   id: number;
@@ -102,7 +102,7 @@ export class CategoryAPI implements ICategoryAPI {
   public async getAllRawIntl() {
     try {
       const response = await this.client.get<ICategoryListRawIntlResponseData>(
-        `/api/categories${buildQueryString({ raw_intl: 1 })}`,
+        `/api/categories${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
@@ -162,7 +162,7 @@ export class CategoryAPI implements ICategoryAPI {
   public async edit(id: number, payload: ICategoryCreatePayload) {
     try {
       const response = await this.client.put<ICategoryRawIntlResponseData>(
-        `/api/categories/${id}${buildQueryString({ raw_intl: 1 })}`,
+        `/api/categories/${id}${buildSearchString({ raw_intl: 1 })}`,
         payload,
         {
           headers: this.headersManager.getHeaders(),
@@ -180,7 +180,7 @@ export class CategoryAPI implements ICategoryAPI {
   public async getOneRawIntl(id: number) {
     try {
       const response = await this.client.get<ICategoryRawIntlResponseData>(
-        `/api/categories/${id}${buildQueryString({ raw_intl: 1 })}`,
+        `/api/categories/${id}${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
