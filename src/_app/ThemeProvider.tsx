@@ -4,6 +4,7 @@ import React from 'react';
 import { useDependencies } from 'src/DI/DI';
 import { Theme } from 'src/storage/ThemeStorage';
 import { darkTheme, defaultTheme } from 'src/themes';
+import featureFlags from 'src/utils/featureFlags';
 
 interface IProps {
   children: React.ReactNode;
@@ -16,7 +17,11 @@ export const ThemeProvider = ({ children }: IProps) => {
     },
   } = useDependencies();
 
-  const theme = themeStorage.getTheme() === Theme.Dark ? darkTheme : defaultTheme;
+  const theme = featureFlags.shouldUseThemeToggle()
+    ? themeStorage.getTheme() === Theme.Dark
+      ? darkTheme
+      : defaultTheme
+    : defaultTheme;
 
   return <EmotionThemeProvider theme={theme}>{children}</EmotionThemeProvider>;
 };

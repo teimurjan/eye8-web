@@ -1,3 +1,5 @@
+import url from 'url';
+
 import { GetServerSideProps } from 'next';
 import * as React from 'react';
 
@@ -19,12 +21,10 @@ const Products = ({
   </Layout>
 );
 
-export const getServerSideProps: GetServerSideProps = async ({
-  params = {},
-  req,
-  res,
-  query: { page = '1', sort_by: sortBy = ProductTypeSortingQueryValue.RECENT },
-}) => {
+export const getServerSideProps: GetServerSideProps = async ({ params = {}, req, res }) => {
+  const query = url.parse(req.url ?? '', true).query;
+  const { page = '1', sort_by: sortBy = ProductTypeSortingQueryValue.RECENT } = query;
+
   const dependencies = dependenciesFactory({ req, res });
 
   try {
@@ -49,6 +49,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       },
     };
   } catch (e) {
+    console.error(e);
     return {
       props: {
         error: 'errors.common',

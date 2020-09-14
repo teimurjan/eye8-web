@@ -10,6 +10,7 @@ import { CustomHead } from 'src/_app/CustomHead';
 import { EntryPoint } from 'src/_app/EntryPoint';
 import { GlobalStyles } from 'src/_app/GlobalStyle';
 import { LoadingOverlay } from 'src/_app/LoadingOverlay';
+import { ScrollRestorationWrapper } from 'src/_app/ScrollRestoration';
 import { ThemeProvider } from 'src/_app/ThemeProvider';
 import { Toaster } from 'src/_app/Toaster';
 import { CacheBuster } from 'src/components/CacheBuster';
@@ -87,7 +88,7 @@ const CustomNextApp = ({ Component, pageProps, ...rest }: AppProps) => {
                   >
                     <AuthModalStateProvider>
                       <EntryPoint>
-                        <>
+                        <ScrollRestorationWrapper>
                           <CustomHead />
                           <GlobalStyles />
                           <PageProgressBar />
@@ -96,7 +97,7 @@ const CustomNextApp = ({ Component, pageProps, ...rest }: AppProps) => {
                           <Toaster />
                           <AuthModal />
                           <CacheBuster />
-                        </>
+                        </ScrollRestorationWrapper>
                       </EntryPoint>
                     </AuthModalStateProvider>
                   </CategoriesStateProvider>
