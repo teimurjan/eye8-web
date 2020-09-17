@@ -167,6 +167,7 @@ export interface IProductTypeAPI {
     categorySlug: string,
     page: number,
     sortBy?: ProductTypeSortingType,
+    available?: boolean,
   ): Promise<IProductTypeListResponseData>;
   getAll(page: number): Promise<IProductTypeListResponseData>;
   getNewest(): Promise<IProductTypeListResponseData>;
@@ -212,6 +213,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
     categorySlug: string,
     page: number,
     sortBy: ProductTypeSortingType = ProductTypeSortingType.RECENT,
+    available = true,
   ) {
     try {
       const response = await this.client.get<IProductTypeListResponseData>(
@@ -219,6 +221,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
           page,
           sort_by: queryValueOfSortingType[sortBy],
           products: 1,
+          available: available ? 1 : 0,
         })}`,
         {
           headers: this.headersManager.getHeaders(),

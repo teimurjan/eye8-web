@@ -22,6 +22,7 @@ export interface IProductTypeService {
     categorySlug: string,
     page: number,
     sortBy?: productTypeAPI.ProductTypeSortingType,
+    available?: boolean,
   ): Promise<{
     entities: {
       productTypes?: {
@@ -92,19 +93,15 @@ export class ProductTypeService implements IProductTypeService {
     this.API = API;
   }
 
-  public getForCategory: IProductTypeService['getForCategory'] = async (
-    categorySlug: string,
-    page: number,
-    sortBy?: productTypeAPI.ProductTypeSortingType,
-  ) => {
-    const productTypes = await this.API.getForCategory(categorySlug, page, sortBy);
+  public getForCategory: IProductTypeService['getForCategory'] = async (categorySlug, page, sortBy, available) => {
+    const productTypes = await this.API.getForCategory(categorySlug, page, sortBy, available);
     return {
       ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
       meta: productTypes.meta,
     };
   };
 
-  public getAll: IProductTypeService['getAll'] = async (page: number) => {
+  public getAll: IProductTypeService['getAll'] = async (page) => {
     const productTypes = await this.API.getAll(page);
     return {
       ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
@@ -149,7 +146,7 @@ export class ProductTypeService implements IProductTypeService {
     }
   };
 
-  public getAllRawIntl: IProductTypeService['getAllRawIntl'] = async (page: number) => {
+  public getAllRawIntl: IProductTypeService['getAllRawIntl'] = async (page) => {
     const productTypes = await this.API.getAllRawIntl(page);
     return {
       ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
@@ -157,7 +154,7 @@ export class ProductTypeService implements IProductTypeService {
     };
   };
 
-  public delete: IProductTypeService['delete'] = async (id: number) => {
+  public delete: IProductTypeService['delete'] = async (id) => {
     try {
       await this.API.delete(id);
     } catch (e) {
@@ -172,11 +169,11 @@ export class ProductTypeService implements IProductTypeService {
     }
   };
 
-  public create: IProductTypeService['create'] = async (payload: productTypeAPI.IProductTypeCreatePayload) => {
+  public create: IProductTypeService['create'] = async (payload) => {
     return (await this.API.create(payload)).data;
   };
 
-  public edit: IProductTypeService['edit'] = async (id: number, payload: productTypeAPI.IProductTypeEditPayload) => {
+  public edit: IProductTypeService['edit'] = async (id, payload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
@@ -188,7 +185,7 @@ export class ProductTypeService implements IProductTypeService {
     }
   };
 
-  public exists: IProductTypeService['exists'] = async (id: number) => {
+  public exists: IProductTypeService['exists'] = async (id) => {
     try {
       await this.API.status(id);
       return true;
@@ -201,7 +198,7 @@ export class ProductTypeService implements IProductTypeService {
     }
   };
 
-  public getOneRawIntl: IProductTypeService['getOneRawIntl'] = async (id: number) => {
+  public getOneRawIntl: IProductTypeService['getOneRawIntl'] = async (id) => {
     try {
       return (await this.API.getOneRawIntl(id)).data;
     } catch (e) {
