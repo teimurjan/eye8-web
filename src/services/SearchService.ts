@@ -7,6 +7,7 @@ import * as searchAPI from 'src/api/SearchAPI';
 export interface ISearchService {
   search(
     query: string,
+    available?: boolean,
   ): Promise<{
     entities: {
       categories: { [key: string]: categoryAPI.ICategoryListResponseItem };
@@ -37,8 +38,8 @@ export class SearchService implements ISearchService {
     this.API = API;
   }
 
-  public search: ISearchService['search'] = async (query) => {
-    const { data } = await this.API.search(query);
+  public search: ISearchService['search'] = async (query, available = true) => {
+    const { data } = await this.API.search(query, available);
 
     const { entities: categoriesEntities, result: categoriesResult } = normalize(data.categories, [
       new schema.Entity('categories'),

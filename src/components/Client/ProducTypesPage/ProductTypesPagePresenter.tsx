@@ -83,22 +83,26 @@ export const ProductTypesPagePresenter = ({
     [categorySlug, productTypeService, sortingType],
   );
 
-  const getNextURL = React.useCallback(
+  const getQuery = React.useCallback(
     ({ page, newSortingType }: { page?: number; newSortingType?: ProductTypeSortingType }) => {
       const pageQueryValue = page || productTypesData.meta.page;
       const sortByQueryValue =
         queryValueOfSortingType[typeof newSortingType === 'undefined' ? sortingType : newSortingType];
-      return `${router.asPath.split('?')[0]}?page=${pageQueryValue}&sort_by=${sortByQueryValue}`;
+      return `?page=${pageQueryValue}&sort_by=${sortByQueryValue}`;
     },
-    [router, sortingType, productTypesData],
+    [sortingType, productTypesData],
   );
+
+  const getBasePath = React.useCallback(() => router.asPath.split('?')[0], [router]);
 
   const onPageChange = React.useCallback(
     (page: number) => {
-      router.push(router.pathname, getNextURL({ page }), { shallow: true });
+      const query = getQuery({ page });
+      const basePath = getBasePath();
+      router.push(`${router.pathname}${query}`, `${basePath}${query}`, { shallow: true });
       loadProductTypes(page);
     },
-    [router, loadProductTypes, getNextURL],
+    [router, loadProductTypes, getBasePath, getQuery],
   );
 
   // When navigating between categories the initialProps are changing and needed to be set to state
@@ -124,12 +128,12 @@ export const ProductTypesPagePresenter = ({
   const setSortingTypeAndLoad = React.useCallback(
     (newSortingType: ProductTypeSortingType) => {
       setSortingType(newSortingType);
-      router.push(router.pathname, getNextURL({ newSortingType }), {
-        shallow: true,
-      });
+      const query = getQuery({ newSortingType });
+      const basePath = getBasePath();
+      router.push(`${router.pathname}?${query}`, `${basePath}?${query}`, { shallow: true });
       loadProductTypes(1, newSortingType);
     },
-    [router, getNextURL, loadProductTypes],
+    [router, getQuery, getBasePath, loadProductTypes],
   );
 
   const onPriceAscendingSortingTypeClick = React.useCallback(

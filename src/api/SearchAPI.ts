@@ -17,7 +17,7 @@ export interface ISearchRawIntlResponseData {
 }
 
 export interface ISearchAPI {
-  search(query: string): Promise<ISearchResponseData>;
+  search(query: string, available?: boolean): Promise<ISearchResponseData>;
   searchRawIntl(query: string): Promise<ISearchRawIntlResponseData>;
 }
 
@@ -30,11 +30,14 @@ export class SearchAPI implements ISearchAPI {
     this.headersManager = headersManager;
   }
 
-  public async search(query: string) {
+  public async search(query: string, available = true) {
     try {
-      const response = await this.client.get<ISearchResponseData>(`/api/search/${query}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.get<ISearchResponseData>(
+        `/api/search/${query}${buildSearchString({ available: available ? 1 : 0 })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       throw e;

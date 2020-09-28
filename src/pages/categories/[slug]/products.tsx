@@ -22,8 +22,8 @@ const Products = ({
 );
 
 export const getServerSideProps: GetServerSideProps = async ({ params = {}, req, res }) => {
-  const query = url.parse(req.url ?? '', true).query;
-  const { page = '1', sort_by: sortBy = ProductTypeSortingQueryValue.RECENT } = query;
+  const parsedUrl = url.parse(req.url ?? '', true);
+  const { page = '1', sort_by: sortBy = ProductTypeSortingQueryValue.RECENT } = parsedUrl.query;
 
   const dependencies = dependenciesFactory({ req, res });
 

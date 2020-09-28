@@ -48,24 +48,24 @@ app
         const filePath = path.join(__dirname, '../public', pathname);
         app.serveStatic(req, res, filePath);
       } else {
-        renderAndCache(req, res);
+        renderAndCache(req, res, parsedUrl);
       }
     });
 
-    server.listen(port, e => {
+    server.listen(port, (e) => {
       if (e) throw e;
       console.log(`> Ready on http://localhost:${port}`);
     });
   })
-  .catch(e => {
+  .catch((e) => {
     console.error(e.stack);
     process.exit(1);
   });
 
-const isAssetUrl = url => fs.existsSync(path.join(__dirname, '../public', url));
-const isNextUrl = url => url.indexOf('_next') !== -1;
+const isAssetUrl = (url) => fs.existsSync(path.join(__dirname, '../public', url));
+const isNextUrl = (url) => url.indexOf('_next') !== -1;
 
-const getCacheKey = req => {
+const getCacheKey = (req) => {
   if (isAssetUrl(req.url) || isNextUrl(req.url)) {
     return undefined;
   }
@@ -81,11 +81,11 @@ const XCache = {
   Miss: 'Miss',
 };
 
-const renderAndCache = (req, res) => {
+const renderAndCache = (req, res, parsedUrl) => {
   const key = getCacheKey(req);
 
-  if (!key || dev) {
-    handle(req, res);
+  if (!key || dev || true) {
+    handle(req, res, parsedUrl);
     return;
   }
 
@@ -99,7 +99,7 @@ const renderAndCache = (req, res) => {
   try {
     // https://github.com/vercel/next.js/issues/12019
     const _resEnd = res.end.bind(res);
-    res.end = payload => {
+    res.end = (payload) => {
       if (res.statusCode !== 200) {
         console.log(`Cache Skip: ${key}`);
         res.setHeader(XCACHE_KEY, XCache.Skip);
