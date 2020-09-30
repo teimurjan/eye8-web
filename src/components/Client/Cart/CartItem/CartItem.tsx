@@ -25,8 +25,8 @@ export const CartItem = ({ product, count, onRemoveClick, onAddClick, promoCode 
   const theme = useTheme<ClientUITheme>();
   const intl = useIntl();
 
-  console.log(promoCode?.products_ids, product);
-  const promoCodeApplicable = promoCode ? isPromoCodeApplicableForProduct(promoCode.products_ids, product) : false;
+  console.log(promoCode?.products, product);
+  const promoCodeApplicable = promoCode ? isPromoCodeApplicableForProduct(promoCode.products, product) : false;
 
   return (
     <div

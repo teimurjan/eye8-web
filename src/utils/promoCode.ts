@@ -1,7 +1,7 @@
 import { IPromoCodeListResponseItem } from 'src/api/PromoCodeAPI';
 
 export const isPromoCodeApplicableForProduct = (
-  promoCodeProductsIds: IPromoCodeListResponseItem['products_ids'],
+  promoCodeProductsIds: IPromoCodeListResponseItem['products'],
   product: { id: number },
 ) => {
   return (

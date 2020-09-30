@@ -32,7 +32,7 @@ export interface IOrderListResponseItem {
   items: IOrderItem[];
   status: 'idle' | 'completed' | 'approved' | 'rejected';
   promo_code_value?: string;
-  promo_code_products_ids?: number[];
+  promo_code_products?: number[];
   promo_code_discount?: number;
   promo_code_amount?: number;
 }

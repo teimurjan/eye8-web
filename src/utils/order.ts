@@ -5,7 +5,7 @@ import { calculateDiscountedPrice } from 'src/utils/number';
 import { isPromoCodeApplicableForProduct } from 'src/utils/promoCode';
 
 type ValuableProductProps = Pick<IProductListResponseItem, 'id' | 'price' | 'discount'>;
-type ValuablePromoCodeProps = Pick<IPromoCodeListResponseItem, 'products_ids' | 'amount' | 'value' | 'discount'>;
+type ValuablePromoCodeProps = Pick<IPromoCodeListResponseItem, 'products' | 'amount' | 'value' | 'discount'>;
 type ProductCountGetter = (productId: number) => number;
 
 export const getOrderTotalPrice = (items: IOrderItem[], promoCode?: ValuablePromoCodeProps) => {
@@ -29,8 +29,8 @@ export const getCartTotalPrice = (
   getProductCount: ProductCountGetter,
   promoCode?: ValuablePromoCodeProps,
 ) => {
-  if (promoCode && promoCode.products_ids) {
-    const promoCodeHasTarget_ = promoCode.products_ids.length > 0;
+  if (promoCode && promoCode.products) {
+    const promoCodeHasTarget_ = promoCode.products.length > 0;
     if (promoCodeHasTarget_) {
       return getTotalForTargetedPromoCode(products, getProductCount, promoCode);
     }
@@ -48,7 +48,7 @@ const getTotalForTargetedPromoCode = (
 ) => {
   return products.reduce((acc, product) => {
     const productCount = getProductCount(product.id);
-    const promoCodeApplicableForProduct = isPromoCodeApplicableForProduct(promoCode.products_ids, product);
+    const promoCodeApplicableForProduct = isPromoCodeApplicableForProduct(promoCode.products, product);
 
     if (promoCodeApplicableForProduct) {
       const priceAfterAllDiscounts =

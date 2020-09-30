@@ -64,7 +64,7 @@ export const OrderItem: React.FC<IProps> = ({ order, className }) => {
       ? {
           amount: order.promo_code_amount,
           discount: order.promo_code_discount ?? 0,
-          products_ids: order.promo_code_products_ids,
+          products: order.promo_code_products,
           value: order.promo_code_value,
         }
       : undefined,

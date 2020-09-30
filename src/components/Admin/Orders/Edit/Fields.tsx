@@ -137,7 +137,7 @@ const OrderItemsField = ({
   meta,
   promo_code_amount: promoCodeAmount,
   promo_code_discount: promoCodeDiscount,
-  promo_code_products_ids: promoCodeProductsIds,
+  promo_code_products: promoCodeProductsIds,
   promo_code_value: promoCodeValue,
 }: FieldRenderProps<IOrderListResponseItem['items']> & FieldsProps) => {
   const intl = useIntl();
@@ -180,7 +180,7 @@ const OrderItemsField = ({
           ? {
               amount: promoCodeAmount,
               discount: promoCodeDiscount ?? 0,
-              products_ids: promoCodeProductsIds,
+              products: promoCodeProductsIds,
               value: promoCodeValue,
             }
           : undefined,
@@ -284,7 +284,7 @@ const OrderItemsField = ({
 
 type FieldsProps = Pick<
   IOrderListResponseItem,
-  'promo_code_amount' | 'promo_code_discount' | 'promo_code_products_ids' | 'promo_code_value'
+  'promo_code_amount' | 'promo_code_discount' | 'promo_code_products' | 'promo_code_value'
 >;
 
 export const Fields = (promoCodeProps: FieldsProps) => {

@@ -74,7 +74,7 @@ export const AdminPromoCodesCreatePresenter: React.FC<IProps> = ({
         amount: values.amount ? parseFloat(values.amount) : undefined,
         is_active: values.isActive,
         disable_on_use: values.disableOnUse,
-        products_ids: values.products.map((product) => product.id),
+        products: values.products.map((product) => product.id),
       };
 
       try {

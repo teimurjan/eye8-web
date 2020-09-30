@@ -58,7 +58,7 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
           setPreloadingError('AdminPromoCodes.notFound');
         }
 
-        const { entities, result } = await productService.getSome(promoCode?.products_ids ?? []);
+        const { entities, result } = await productService.getSome(promoCode?.products ?? []);
         setProductsData({ entities: entities.products, order: result });
       } catch (e) {
         setPreloadingError('errors.common');
@@ -77,7 +77,7 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
       const formattedValues = {
         is_active: values.isActive,
         disable_on_use: values.disableOnUse,
-        products_ids: values.products.map((product) => product.id),
+        products: values.products.map((product) => product.id),
       };
 
       try {

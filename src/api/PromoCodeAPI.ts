@@ -10,7 +10,7 @@ export interface IPromoCodeListResponseItem {
   value: string;
   is_active: boolean;
   disable_on_use: boolean;
-  products_ids?: number[];
+  products?: number[];
   created_on: string;
   updated_on: string;
   is_deleted: boolean | null;
@@ -30,13 +30,13 @@ export interface IPromoCodeCreatePayload {
   value: string;
   is_active: boolean;
   disable_on_use: boolean;
-  products_ids: number[];
+  products: number[];
 }
 
 export interface IPromoCodeEditPayload {
   is_active: boolean;
   disable_on_use: boolean;
-  products_ids: number[];
+  products: number[];
 }
 
 export interface IPromoCodeAPI {

@@ -21,7 +21,7 @@ export interface IProps {
 export interface IViewProps
   extends Pick<
     IOrderListResponseItem,
-    'promo_code_amount' | 'promo_code_discount' | 'promo_code_products_ids' | 'promo_code_value'
+    'promo_code_amount' | 'promo_code_discount' | 'promo_code_products' | 'promo_code_value'
   > {
   isOpen: boolean;
   edit: (values: {
@@ -140,7 +140,7 @@ export const AdminOrdersEditPresenter: React.FC<IProps> = ({
             }
           : {}
       }
-      {...pick(order, ['promo_code_amount', 'promo_code_discount', 'promo_code_products_ids', 'promo_code_value'])}
+      {...pick(order, ['promo_code_amount', 'promo_code_discount', 'promo_code_products', 'promo_code_value'])}
     />
   );
 };
