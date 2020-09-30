@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as yup from 'yup';
 
 import { IProductListResponseItem } from 'src/api/ProductAPI';
-import { IPromoCodeDetailResponseItem } from 'src/api/PromoCodeAPI';
+import { IPromoCodeListResponseItem } from 'src/api/PromoCodeAPI';
 import { getErrorMessageID } from 'src/components/Admin/Orders/Edit/AdminOrdersEditPresenter';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { getUserPropertySafe } from 'src/helpers/user';
@@ -46,7 +46,7 @@ export interface IViewProps {
   validator: schemaValidator.ISchemaValidator;
   initialValues: Partial<IFormValues>;
   onSubmit: (values: IFormValues) => Promise<void>;
-  promoCode?: IPromoCodeDetailResponseItem;
+  promoCode?: IPromoCodeListResponseItem;
   onPromoCodeApply: (newPromoCode: string) => void;
 }
 
@@ -79,7 +79,7 @@ export const CartPresenter: React.FC<IProps> = ({
 
   const [step, setStep] = React.useState(0);
   const [isLoading, setLoading] = React.useState(true);
-  const [promoCode, setPromoCode] = React.useState<IPromoCodeDetailResponseItem | undefined>(undefined);
+  const [promoCode, setPromoCode] = React.useState<IPromoCodeListResponseItem | undefined>(undefined);
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [data, setData] = React.useState<{
     entities: { [key: number]: IProductListResponseItem };

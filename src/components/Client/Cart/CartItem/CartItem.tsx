@@ -4,7 +4,7 @@ import { useTheme } from 'emotion-theming';
 import { useIntl } from 'react-intl';
 
 import { IProductListResponseItem } from 'src/api/ProductAPI';
-import { IPromoCodeDetailResponseItem } from 'src/api/PromoCodeAPI';
+import { IPromoCodeListResponseItem } from 'src/api/PromoCodeAPI';
 import { HelpText } from 'src/components/client-ui/HelpText/HelpText';
 import { Image } from 'src/components/client-ui/Image/Image';
 import { Subtitle } from 'src/components/client-ui/Subtitle/Subtitle';
@@ -18,14 +18,15 @@ interface IProps {
   count: number;
   onRemoveClick: () => void;
   onAddClick: () => void;
-  promoCode?: IPromoCodeDetailResponseItem;
+  promoCode?: IPromoCodeListResponseItem;
 }
 
 export const CartItem = ({ product, count, onRemoveClick, onAddClick, promoCode }: IProps) => {
   const theme = useTheme<ClientUITheme>();
   const intl = useIntl();
 
-  const promoCodeApplicable = promoCode ? isPromoCodeApplicableForProduct(promoCode, product) : false;
+  console.log(promoCode?.products_ids, product);
+  const promoCodeApplicable = promoCode ? isPromoCodeApplicableForProduct(promoCode.products_ids, product) : false;
 
   return (
     <div

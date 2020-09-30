@@ -31,12 +31,10 @@ export interface IOrderListResponseItem {
   is_deleted: boolean | null;
   items: IOrderItem[];
   status: 'idle' | 'completed' | 'approved' | 'rejected';
-  promo_code?: {
-    id: number;
-    value: string;
-    discount: number;
-    amount?: number;
-  };
+  promo_code_value?: string;
+  promo_code_products_ids?: number[];
+  promo_code_discount?: number;
+  promo_code_amount?: number;
 }
 
 export interface IOrderListResponseMeta {
@@ -52,34 +50,8 @@ export interface IOrderListResponseData {
 }
 
 // DETAIL
-export type IOrderDetailResponseItem = IOrderListResponseItem & {
-  promo_code?: {
-    id: number;
-    value: string;
-    discount: number;
-    amount?: number;
-    products?: Array<{ id: number; price: number; quantity: number; discount?: number }>;
-  };
-};
-
 export interface IOrderResponseData {
-  data: IOrderDetailResponseItem;
-}
-
-// FOR USER
-export type IOrderForUserResponseItem = IOrderListResponseItem & {
-  promo_code?: {
-    id: number;
-    value: string;
-    discount: number;
-    amount?: number;
-    products?: number[];
-  };
-};
-
-export interface IOrderForUserResponseData {
-  data: IOrderForUserResponseItem[];
-  meta: IOrderListResponseMeta;
+  data: IOrderListResponseItem;
 }
 
 // PAYLOADS
@@ -106,17 +78,12 @@ export interface IOrderEditPayload {
     | number
   >;
   status: string;
-  promo_code?: {
-    id: number;
-    value: string;
-    discount: number;
-    amount: number;
-  };
+  promo_code?: string;
 }
 
 export interface IOrderAPI {
   getAll(): Promise<IOrderListResponseData>;
-  getForUser(userID: number, page: number): Promise<IOrderForUserResponseData>;
+  getForUser(userID: number, page: number): Promise<IOrderListResponseData>;
   create(payload: IOrderCreatePayload): Promise<IOrderResponseData>;
   edit(orderID: number, payload: IOrderEditPayload): Promise<IOrderResponseData>;
   getOne(orderID: number): Promise<IOrderResponseData>;
@@ -192,7 +159,7 @@ export class OrderAPI implements IOrderAPI {
 
   public async getForUser(userID: number, page: number) {
     try {
-      const response = await this.client.get<IOrderForUserResponseData>(
+      const response = await this.client.get<IOrderListResponseData>(
         `/api/users/${userID}/orders${buildSearchString({ page, limit: 10 })}`,
         {
           headers: this.headersManager.getHeaders(),

@@ -8,7 +8,7 @@ import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 
-import { IOrderDetailResponseItem } from 'src/api/OrderAPI';
+import { IOrderListResponseItem } from 'src/api/OrderAPI';
 import { Box } from 'src/components/admin-ui/Box/Box';
 import { Field } from 'src/components/admin-ui/Field/Field';
 import { FormPhoneField } from 'src/components/admin-ui/FormPhoneField/FormPhoneField';
@@ -135,28 +135,31 @@ const StatusSelectField = ({ input, meta }: FieldRenderProps<string>) => {
 const OrderItemsField = ({
   input,
   meta,
-  promoCode,
-}: FieldRenderProps<IOrderDetailResponseItem['items']> & Pick<IFieldsProps, 'promoCode'>) => {
+  promo_code_amount: promoCodeAmount,
+  promo_code_discount: promoCodeDiscount,
+  promo_code_products_ids: promoCodeProductsIds,
+  promo_code_value: promoCodeValue,
+}: FieldRenderProps<IOrderListResponseItem['items']> & FieldsProps) => {
   const intl = useIntl();
 
   const showError = meta.touched && meta.error;
 
   const setOrderItem = React.useCallback(
-    (id: number, orderItem: IOrderDetailResponseItem['items'][0]) => {
+    (id: number, orderItem: IOrderListResponseItem['items'][0]) => {
       input.onChange(input.value.map((orderItem_) => (orderItem_.id === id ? orderItem : orderItem_)));
     },
     [input],
   );
 
   const removeOrderItem = React.useCallback(
-    (orderItem: IOrderDetailResponseItem['items'][0]) => {
+    (orderItem: IOrderListResponseItem['items'][0]) => {
       input.onChange(input.value.filter((orderItem_) => orderItem_.id !== orderItem.id));
     },
     [input],
   );
 
   const addOrderItem = React.useCallback(
-    (orderItem: IOrderDetailResponseItem['items'][0]) => {
+    (orderItem: IOrderListResponseItem['items'][0]) => {
       const itemWithProduct = input.value.find(
         (orderItem_) => orderItem_.product && orderItem.product && orderItem_.product.id === orderItem.product.id,
       );
@@ -170,7 +173,19 @@ const OrderItemsField = ({
     [setOrderItem, input],
   );
 
-  const totalPrice = input.value ? getOrderTotalPrice(input.value, promoCode) : 0;
+  const totalPrice = input.value
+    ? getOrderTotalPrice(
+        input.value,
+        promoCodeValue
+          ? {
+              amount: promoCodeAmount,
+              discount: promoCodeDiscount ?? 0,
+              products_ids: promoCodeProductsIds,
+              value: promoCodeValue,
+            }
+          : undefined,
+      )
+    : 0;
 
   return (
     <Field>
@@ -224,7 +239,6 @@ const OrderItemsField = ({
                       id: NaN,
                       product_price_per_item: product.price,
                       product_discount: product.discount,
-                      product_upc: product.upc,
                       product,
                       quantity: 1,
                     });
@@ -255,7 +269,6 @@ const OrderItemsField = ({
             id: NaN,
             product_price_per_item: product.price,
             product_discount: product.discount,
-            product_upc: product.upc,
             product,
             quantity: 1,
           });
@@ -269,11 +282,12 @@ const OrderItemsField = ({
   );
 };
 
-interface IFieldsProps {
-  promoCode: IOrderDetailResponseItem['promo_code'];
-}
+type FieldsProps = Pick<
+  IOrderListResponseItem,
+  'promo_code_amount' | 'promo_code_discount' | 'promo_code_products_ids' | 'promo_code_value'
+>;
 
-export const Fields = ({ promoCode }: IFieldsProps) => {
+export const Fields = (promoCodeProps: FieldsProps) => {
   const intl = useIntl();
 
   return (
@@ -287,7 +301,7 @@ export const Fields = ({ promoCode }: IFieldsProps) => {
         label={intl.formatMessage({ id: 'AdminOrders.userPhoneNumber' })}
       />
       <FinalFormField key="user_address" name="user_address" component={UserAddressField} />
-      <FinalFormField key="items" name="items" render={OrderItemsField} promoCode={promoCode} />
+      <FinalFormField key="items" name="items" render={OrderItemsField} {...promoCodeProps} />
       <FinalFormField key="promo_code" name="promo_code" component={PromoCodeField} />
       <FinalFormField key="status" name="status" component={StatusSelectField} />
     </React.Fragment>

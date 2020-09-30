@@ -54,31 +54,6 @@ const QuantityField = ({ input, meta }: FieldRenderProps<string>) => {
   );
 };
 
-const UPCField = ({ input, meta }: FieldRenderProps<string>) => {
-  const intl = useIntl();
-  const showError = meta.touched && meta.error;
-
-  return (
-    <FormTextField
-      labelProps={{
-        children: intl.formatMessage({ id: 'AdminProducts.upc' }),
-      }}
-      inputProps={{
-        ...input,
-        isDanger: showError,
-        placeholder: intl.formatMessage({
-          id: 'AdminProducts.upc',
-        }),
-      }}
-      helpTextProps={{
-        children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
-        type: 'is-danger',
-      }}
-      allowValue={isAllowedForNumberInput}
-    />
-  );
-};
-
 const DiscountField = ({ input, meta }: FieldRenderProps<string>) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
@@ -299,7 +274,6 @@ export const Fields: React.SFC<IFieldsProps> = React.memo(
         <FinalFormField key="price" name="price" component={PriceField} />
         <FinalFormField key="discount" name="discount" component={DiscountField} />
         <FinalFormField key="quantity" name="quantity" component={QuantityField} />
-        <FinalFormField key="upc" name="upc" component={UPCField} />
         <FinalFormField
           key="product_type_id"
           name="product_type_id"

@@ -16,8 +16,7 @@ export interface IProductListResponseItem {
   discount: number;
   price: number;
   quantity: number;
-  upc?: string;
-  product_type: { id: number; name: string; image: string };
+  product_type: { category: number; feature_types: number[]; id: number; name: string; slug: string; image: string };
   feature_values: Array<{
     feature_type: { id: number; name: string };
     id: number;
@@ -34,54 +33,13 @@ export interface IProductListResponseData {
 }
 
 // DETAIL
-export interface IProductResponseItem {
-  id: number;
-  discount: number;
-  price: number;
-  quantity: number;
-  upc?: string;
-  product_type: { id: number; name: string; image: string };
-  feature_values: Array<{
-    feature_type: { id: number; name: string };
-    id: number;
-    name: string;
-  }>;
-  images: string[];
-  created_on: string;
-  updated_on: string;
-}
-
 export interface IProductResponseData {
-  data: IProductResponseItem;
+  data: IProductListResponseItem;
 }
 
 // FOR PRODUCT TYPE
-export interface IProductForProductTypeResponseItem {
-  discount: number;
-  feature_values: Array<{
-    feature_type: { id: number; name: string };
-    id: number;
-    name: string;
-  }>;
-  id: number;
-  images: string[];
-  price: number;
-  product_type: {
-    category: number;
-    feature_types: number[];
-    id: number;
-    name: string;
-    slug: string;
-    image: string;
-  };
-  quantity: number;
-  upc?: string;
-  created_on: string;
-  updated_on: string;
-}
-
 export interface IProductForProductTypeResponseData {
-  data: IProductForProductTypeResponseItem[];
+  data: IProductListResponseItem[];
 }
 
 // PAYLOADS
@@ -91,13 +49,13 @@ export interface IProductCreatePayload {
   quantity: number;
   product_type_id: number;
   images?: Array<File | string>;
-  upc?: string;
 }
 
 export type IProductEditPayload = IProductCreatePayload;
 
 export interface IProductAPI {
   getAll(page: number): Promise<IProductListResponseData>;
+  getSome(ids: number[]): Promise<IProductListResponseData>;
   getForCart(ids: number[]): Promise<IProductListResponseData>;
   delete(id: number): Promise<{}>;
   create(payload: IProductCreatePayload): Promise<IProductResponseData>;
@@ -128,6 +86,17 @@ export class ProductAPI implements IProductAPI {
   public async getAll(page: number) {
     try {
       const response = await this.client.get<IProductListResponseData>(`/api/products${buildSearchString({ page })}`, {
+        headers: this.headersManager.getHeaders(),
+      });
+      return response.data;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  public async getSome(ids: number[]) {
+    try {
+      const response = await this.client.get<IProductListResponseData>(`/api/products${buildSearchString({ ids })}`, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;

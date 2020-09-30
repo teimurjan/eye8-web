@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { IProductForProductTypeResponseItem } from 'src/api/ProductAPI';
+import { IProductListResponseItem } from 'src/api/ProductAPI';
 import { IProductTypeDetailResponseItem } from 'src/api/ProductTypeAPI';
 import { IProductService } from 'src/services/ProductService';
 import { IProductTypeService } from 'src/services/ProductTypeService';
@@ -12,17 +12,17 @@ export interface IProps {
   productService: IProductService;
   id?: number;
   actionText: string;
-  action?: (product: IProductForProductTypeResponseItem) => void;
+  action?: (product: IProductListResponseItem) => void;
   initialProps?: {
     productType: IProductTypeDetailResponseItem | null;
-    products: IProductForProductTypeResponseItem[];
+    products: IProductListResponseItem[];
     error?: string;
   };
 }
 
 export interface IViewProps {
   productType: IProductTypeDetailResponseItem | null;
-  products: IProductForProductTypeResponseItem[];
+  products: IProductListResponseItem[];
   error: string | undefined;
   isLoading: boolean;
   action: IProps['action'];
@@ -43,9 +43,7 @@ export const ProductTypePagePresenter: React.FC<IProps> = ({
   const [productType, setProductType] = React.useState<null | IProductTypeDetailResponseItem>(
     initialProps ? initialProps.productType : null,
   );
-  const [products, setProducts] = React.useState<IProductForProductTypeResponseItem[]>(
-    initialProps ? initialProps.products : [],
-  );
+  const [products, setProducts] = React.useState<IProductListResponseItem[]>(initialProps ? initialProps.products : []);
 
   React.useEffect(() => {
     if (initialProps && !initialProps.productType) {

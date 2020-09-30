@@ -6,7 +6,7 @@ import * as React from 'react';
 import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
-import { IPromoCodeDetailResponseItem } from 'src/api/PromoCodeAPI';
+import { IProductListResponseItem } from 'src/api/ProductAPI';
 import { Button } from 'src/components/admin-ui/Button/Button';
 import { Checkbox } from 'src/components/admin-ui/Checkbox/Checkbox';
 import { Control } from 'src/components/admin-ui/Control/Control';
@@ -127,30 +127,30 @@ const DisableOnUseField = ({ input, meta }: FieldRenderProps<boolean>) => {
   );
 };
 
-const ProductsField = ({ input, meta }: FieldRenderProps<IPromoCodeDetailResponseItem['products']>) => {
+const ProductsField = ({ input, meta }: FieldRenderProps<IProductListResponseItem[]>) => {
   const intl = useIntl();
   const theme = useTheme<AdminUITheme>();
 
-  const [isAllSet, setAllSet] = React.useState(true);
+  const [isAllSet, setAllSet] = React.useState(input.value.length === 0);
 
   const showError = meta.touched && meta.error;
 
   const setProduct = React.useCallback(
-    (id: number, product: IPromoCodeDetailResponseItem['products'][0]) => {
-      input.onChange(input.value.map((product_) => (product_.id === id ? product : product_)));
+    (id: number, product: IProductListResponseItem) => {
+      input.onChange(input.value.map((product_) => (product_.id === product.id ? product : product_)));
     },
     [input],
   );
 
   const removeProduct = React.useCallback(
-    (product: IPromoCodeDetailResponseItem['products'][0]) => {
-      input.onChange(input.value.filter((product_) => product_.id !== product.id));
+    (product: IProductListResponseItem) => {
+      input.onChange(input.value?.filter((product_) => product_.id !== product.id));
     },
     [input],
   );
 
   const addProduct = React.useCallback(
-    (product: IPromoCodeDetailResponseItem['products'][0]) => {
+    (product: IProductListResponseItem) => {
       input.onChange([...input.value, product]);
     },
     [input],

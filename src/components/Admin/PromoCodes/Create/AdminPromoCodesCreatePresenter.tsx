@@ -2,7 +2,7 @@ import { History } from 'history';
 import * as React from 'react';
 import * as yup from 'yup';
 
-import { IPromoCodeDetailResponseItem } from 'src/api/PromoCodeAPI';
+import { IProductListResponseItem } from 'src/api/ProductAPI';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { IPromoCodeService } from 'src/services/PromoCodeService';
 import * as promoCodeService from 'src/services/PromoCodeService';
@@ -23,7 +23,7 @@ export interface IViewProps {
     value: string;
     isActive: boolean;
     disableOnUse: boolean;
-    products?: IPromoCodeDetailResponseItem['products'];
+    products: IProductListResponseItem[];
   }) => void;
   isCreating: boolean;
   error?: string;
@@ -74,7 +74,7 @@ export const AdminPromoCodesCreatePresenter: React.FC<IProps> = ({
         amount: values.amount ? parseFloat(values.amount) : undefined,
         is_active: values.isActive,
         disable_on_use: values.disableOnUse,
-        products: (values.products || []).map((product) => product.id),
+        products_ids: values.products.map((product) => product.id),
       };
 
       try {

@@ -1,8 +1,9 @@
 import { History } from 'history';
+import pick from 'lodash/pick';
 import * as React from 'react';
 import * as yup from 'yup';
 
-import { IOrderDetailResponseItem } from 'src/api/OrderAPI';
+import { IOrderListResponseItem } from 'src/api/OrderAPI';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { IOrderService } from 'src/services/OrderService';
 import * as orderService from 'src/services/OrderService';
@@ -17,7 +18,11 @@ export interface IProps {
   adminOrdersState: AdminOrdersStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface IViewProps
+  extends Pick<
+    IOrderListResponseItem,
+    'promo_code_amount' | 'promo_code_discount' | 'promo_code_products_ids' | 'promo_code_value'
+  > {
   isOpen: boolean;
   edit: (values: {
     user_name: string;
@@ -37,7 +42,6 @@ export interface IViewProps {
   close: () => void;
   validate?: (values: object) => object | Promise<object>;
   initialValues: object;
-  promoCode?: IOrderDetailResponseItem['promo_code'];
 }
 
 const validator = new schemaValidator.SchemaValidator(
@@ -69,7 +73,7 @@ export const AdminOrdersEditPresenter: React.FC<IProps> = ({
   orderId,
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
-  const [order, setOrder] = React.useState<IOrderDetailResponseItem | undefined>(undefined);
+  const [order, setOrder] = React.useState<IOrderListResponseItem | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
@@ -124,7 +128,6 @@ export const AdminOrdersEditPresenter: React.FC<IProps> = ({
       close={close}
       validate={validator.validate}
       preloadingError={preloadingError}
-      promoCode={order ? order.promo_code : undefined}
       initialValues={
         order
           ? {
@@ -133,10 +136,11 @@ export const AdminOrdersEditPresenter: React.FC<IProps> = ({
               user_address: order.user_address,
               status: order.status,
               items: order.items,
-              promo_code: order.promo_code ? order.promo_code.value : '',
+              promo_code: order.promo_code_value,
             }
           : {}
       }
+      {...pick(order, ['promo_code_amount', 'promo_code_discount', 'promo_code_products_ids', 'promo_code_value'])}
     />
   );
 };

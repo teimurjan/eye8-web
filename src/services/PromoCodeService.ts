@@ -34,12 +34,12 @@ export interface IPromoCodeService {
     };
     result: number[];
   }>;
-  create(payload: promoCodeAPI.IPromoCodeCreatePayload): Promise<promoCodeAPI.IPromoCodeDetailResponseItem>;
-  edit(id: number, payload: promoCodeAPI.IPromoCodeEditPayload): Promise<promoCodeAPI.IPromoCodeDetailResponseItem>;
+  create(payload: promoCodeAPI.IPromoCodeCreatePayload): Promise<promoCodeAPI.IPromoCodeListResponseItem>;
+  edit(id: number, payload: promoCodeAPI.IPromoCodeEditPayload): Promise<promoCodeAPI.IPromoCodeListResponseItem>;
   delete(id: number, isForever?: boolean): Promise<{}>;
   exists(id: number, deleted?: boolean): Promise<boolean>;
-  getOne(id: number): Promise<promoCodeAPI.IPromoCodeDetailResponseItem | undefined>;
-  getByValue(value: string): Promise<promoCodeAPI.IPromoCodeDetailResponseItem | undefined>;
+  getOne(id: number): Promise<promoCodeAPI.IPromoCodeListResponseItem | undefined>;
+  getByValue(value: string): Promise<promoCodeAPI.IPromoCodeListResponseItem | undefined>;
 }
 
 export class PromoCodeService implements IPromoCodeService {

@@ -32,7 +32,7 @@ export interface IOrderService {
   ): Promise<{
     entities: {
       orders: {
-        [key: string]: orderAPI.IOrderForUserResponseItem;
+        [key: string]: orderAPI.IOrderListResponseItem;
       };
     };
     result: number[];
@@ -42,7 +42,7 @@ export interface IOrderService {
   edit(id: number, payload: orderAPI.IOrderEditPayload): Promise<orderAPI.IOrderListResponseItem>;
   delete(id: number): Promise<{}>;
   exists(id: number): Promise<boolean>;
-  getOne(id: number): Promise<orderAPI.IOrderDetailResponseItem | undefined>;
+  getOne(id: number): Promise<orderAPI.IOrderListResponseItem | undefined>;
 }
 
 export class OrderService implements IOrderService {

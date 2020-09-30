@@ -88,7 +88,6 @@ export const AdminProductsListView = ({
         onPageChange={onPageChange}
       >
         <AdminTable.Col<Product> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
-        <AdminTable.Col<Product> key_="upc" title={intl.formatMessage({ id: 'common.upc' })} />
         <AdminTable.Col<Product> key_="price" title={intl.formatMessage({ id: 'AdminProducts.price' })} />
         <AdminTable.Col<Product> key_="quantity" title={intl.formatMessage({ id: 'AdminProducts.quantity' })} />
         <AdminTable.Col<Product> key_="discount" title={intl.formatMessage({ id: 'AdminProducts.discount' })} />

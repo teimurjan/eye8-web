@@ -1,14 +1,14 @@
 import { History, Location } from 'history';
 import React from 'react';
 
-import { IOrderDetailResponseItem, IOrderListResponseMeta, IOrderForUserResponseItem } from 'src/api/OrderAPI';
+import { IOrderListResponseItem, IOrderListResponseMeta } from 'src/api/OrderAPI';
 import { isUserAuthorized } from 'src/helpers/user';
 import { IOrderService } from 'src/services/OrderService';
 import { AuthorizedUser } from 'src/state/UserState';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 export interface IViewProps {
-  orders: IOrderDetailResponseItem[];
+  orders: IOrderListResponseItem[];
   isLoading?: boolean;
   error?: string;
   currentPage: number;
@@ -27,7 +27,7 @@ interface IProps {
 export const OrdersPresenter: React.FC<IProps> = ({ service, View, user, history, location }) => {
   const [isLoading, setLoading] = React.useState(true);
   const [ordersData, setOrdersData] = React.useState<{
-    entities: { [key: number]: IOrderForUserResponseItem };
+    entities: { [key: number]: IOrderListResponseItem };
     order: number[];
     meta: IOrderListResponseMeta;
   }>({

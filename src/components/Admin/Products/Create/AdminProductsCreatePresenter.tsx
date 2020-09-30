@@ -71,7 +71,6 @@ export const AdminProductsCreatePresenter: React.FC<IProps> = ({
       quantity: yup.number().required('common.errors.field.empty'),
       discount: yup.number().required('common.errors.field.empty'),
       price: yup.number().required('common.errors.field.empty'),
-      upc: yup.string().nullable(true),
       product_type_id: yup.number().required('common.errors.field.empty'),
       feature_values: yup
         .array()

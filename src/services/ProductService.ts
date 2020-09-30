@@ -34,16 +34,26 @@ export interface IProductService {
     result: number[];
   }>;
   delete(id: number): Promise<{}>;
-  create(payload: productAPI.IProductCreatePayload): Promise<productAPI.IProductResponseItem>;
-  edit(id: number, payload: productAPI.IProductEditPayload): Promise<productAPI.IProductResponseItem>;
+  create(payload: productAPI.IProductCreatePayload): Promise<productAPI.IProductListResponseItem>;
+  edit(id: number, payload: productAPI.IProductEditPayload): Promise<productAPI.IProductListResponseItem>;
   exists(id: number): Promise<boolean>;
-  getOne(id: number): Promise<productAPI.IProductResponseItem | undefined>;
+  getOne(id: number): Promise<productAPI.IProductListResponseItem | undefined>;
   getForProductType(
     productTypeID: number,
   ): Promise<{
     entities: {
       products: {
-        [key: string]: productAPI.IProductForProductTypeResponseItem;
+        [key: string]: productAPI.IProductListResponseItem;
+      };
+    };
+    result: number[];
+  }>;
+  getSome(
+    ids: number[],
+  ): Promise<{
+    entities: {
+      products: {
+        [key: string]: productAPI.IProductListResponseItem;
       };
     };
     result: number[];
@@ -62,6 +72,11 @@ export class ProductService implements IProductService {
       ...normalize(products.data, [new schema.Entity('products')]),
       meta: products.meta,
     };
+  };
+
+  public getSome: IProductService['getSome'] = async (ids: number[]) => {
+    const products = await this.API.getSome(ids);
+    return normalize(products.data, [new schema.Entity('products')]);
   };
 
   public getForCart: IProductService['getForCart'] = async (ids: number[]) => {

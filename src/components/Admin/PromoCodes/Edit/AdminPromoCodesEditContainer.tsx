@@ -19,6 +19,7 @@ export const AdminPromoCodesEditContainer = () => {
       history={history}
       View={AdminPromoCodesEditView}
       service={dependencies.services.promoCode}
+      productService={dependencies.services.product}
       adminPromoCodesState={adminPromoCodesState}
     />
   );

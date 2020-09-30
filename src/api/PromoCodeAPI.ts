@@ -10,7 +10,7 @@ export interface IPromoCodeListResponseItem {
   value: string;
   is_active: boolean;
   disable_on_use: boolean;
-  products: number[];
+  products_ids?: number[];
   created_on: string;
   updated_on: string;
   is_deleted: boolean | null;
@@ -20,30 +20,8 @@ export interface IPromoCodeListResponseData {
   data: IPromoCodeListResponseItem[];
 }
 
-export interface IPromoCodeDetailResponseItem {
-  id: number;
-  discount: number;
-  amount?: number;
-  value: string;
-  is_active: boolean;
-  disable_on_use: boolean;
-  products: Array<{
-    product_type: {
-      id: number;
-      name: string;
-    };
-    discount: number;
-    id: number;
-    price: number;
-    quantity: number;
-  }>;
-  created_on: string;
-  updated_on: string;
-  is_deleted: boolean | null;
-}
-
 export interface IPromoCodeDetailResponseData {
-  data: IPromoCodeDetailResponseItem;
+  data: IPromoCodeListResponseItem;
 }
 
 export interface IPromoCodeCreatePayload {
@@ -52,13 +30,13 @@ export interface IPromoCodeCreatePayload {
   value: string;
   is_active: boolean;
   disable_on_use: boolean;
-  products: number[];
+  products_ids: number[];
 }
 
 export interface IPromoCodeEditPayload {
   is_active: boolean;
   disable_on_use: boolean;
-  products: number[];
+  products_ids: number[];
 }
 
 export interface IPromoCodeAPI {

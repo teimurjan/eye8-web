@@ -6,7 +6,7 @@ import { useTheme } from 'emotion-theming';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { IOrderDetailResponseItem } from 'src/api/OrderAPI';
+import { IOrderListResponseItem } from 'src/api/OrderAPI';
 import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
 import { Tag } from 'src/components/client-ui/Tag/Tag';
 import { Tooltip } from 'src/components/client-ui/Tooltip/Tooltip';
@@ -15,11 +15,11 @@ import { useIntlState } from 'src/state/IntlState';
 import { getOrderTotalPrice } from 'src/utils/order';
 
 interface IProps {
-  order: IOrderDetailResponseItem;
+  order: IOrderListResponseItem;
   className?: string;
 }
 
-const OrderStatus = ({ status }: { status: IOrderDetailResponseItem['status'] }) => {
+const OrderStatus = ({ status }: { status: IOrderListResponseItem['status'] }) => {
   const intl = useIntl();
 
   return status === 'rejected' || status === 'completed' ? (
@@ -58,7 +58,17 @@ export const OrderItem: React.FC<IProps> = ({ order, className }) => {
   const {
     intlState: { locale },
   } = useIntlState();
-  const total = getOrderTotalPrice(order.items, order.promo_code);
+  const total = getOrderTotalPrice(
+    order.items,
+    order.promo_code_value
+      ? {
+          amount: order.promo_code_amount,
+          discount: order.promo_code_discount ?? 0,
+          products_ids: order.promo_code_products_ids,
+          value: order.promo_code_value,
+        }
+      : undefined,
+  );
 
   const orderCreatedOnDate = new Date(order.created_on);
 

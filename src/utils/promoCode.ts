@@ -1,11 +1,12 @@
-type PromoCode = number | { id: number };
+import { IPromoCodeListResponseItem } from 'src/api/PromoCodeAPI';
 
-export const isPromoCodeApplicableForProduct = (promoCode: { products?: PromoCode[] }, product: { id: number }) => {
+export const isPromoCodeApplicableForProduct = (
+  promoCodeProductsIds: IPromoCodeListResponseItem['products_ids'],
+  product: { id: number },
+) => {
   return (
-    !promoCodeHasTarget(promoCode) ||
-    promoCode.products!.some((productId) => product.id === (typeof productId === 'number' ? productId : product.id))
+    typeof promoCodeProductsIds === 'undefined' ||
+    promoCodeProductsIds.length === 0 ||
+    (promoCodeProductsIds.length > 0 && promoCodeProductsIds.some((productId) => product.id === productId))
   );
 };
-
-export const promoCodeHasTarget = (promoCode: { products?: PromoCode[] }) =>
-  Array.isArray(promoCode.products) && promoCode.products.length > 0;

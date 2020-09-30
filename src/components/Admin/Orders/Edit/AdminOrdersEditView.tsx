@@ -15,7 +15,7 @@ export const AdminOrdersEditView = ({
   preloadingError,
   isUpdating,
   initialValues,
-  promoCode,
+  ...promoCodeProps
 }: IProps) => {
   const intl = useIntl();
   return (
@@ -29,7 +29,7 @@ export const AdminOrdersEditView = ({
       preloadingError={preloadingError}
       globalError={error}
       title={intl.formatMessage({ id: 'AdminOrders.edit.title' })}
-      fields={<Fields promoCode={promoCode} />}
+      fields={<Fields {...promoCodeProps} />}
       validate={validate}
       initialValues={initialValues}
       wide
