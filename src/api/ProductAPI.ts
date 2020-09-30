@@ -54,7 +54,7 @@ export interface IProductCreatePayload {
 export type IProductEditPayload = IProductCreatePayload;
 
 export interface IProductAPI {
-  getAll(page: number): Promise<IProductListResponseData>;
+  getAll(page: number, available?: boolean): Promise<IProductListResponseData>;
   getSome(ids: number[]): Promise<IProductListResponseData>;
   getForCart(ids: number[]): Promise<IProductListResponseData>;
   delete(id: number): Promise<{}>;
@@ -62,7 +62,7 @@ export interface IProductAPI {
   edit(id: number, payload: IProductEditPayload): Promise<IProductResponseData>;
   status(id: number): Promise<{}>;
   getOne(id: number): Promise<IProductResponseData>;
-  getForProductType(productTypeID: number): Promise<IProductForProductTypeResponseData>;
+  getForProductType(productTypeID: number, available?: boolean): Promise<IProductForProductTypeResponseData>;
 }
 
 export const errors = {
@@ -83,11 +83,17 @@ export class ProductAPI implements IProductAPI {
     this.headersManager = headersManager;
   }
 
-  public async getAll(page: number) {
+  public async getAll(page: number, available = false) {
     try {
-      const response = await this.client.get<IProductListResponseData>(`/api/products${buildSearchString({ page })}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.get<IProductListResponseData>(
+        `/api/products${buildSearchString({
+          page,
+          available: available ? 1 : 0,
+        })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       throw e;
@@ -193,9 +199,9 @@ export class ProductAPI implements IProductAPI {
     }
   }
 
-  public async getForProductType(productTypeID: number) {
+  public async getForProductType(productTypeID: number, available = false) {
     const response = await this.client.get<IProductForProductTypeResponseData>(
-      `/api/product_types/${productTypeID}/products`,
+      `/api/product_types/${productTypeID}/products${buildSearchString({ available: available ? 1 : 0 })}`,
       { headers: this.headersManager.getHeaders() },
     );
     return response.data;

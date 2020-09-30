@@ -307,5 +307,7 @@
   "AdminProducts.productTypeSelect.placeholder": "Choose a product type",
   "AdminProductTypes.featureTypesSelect.placeholder": "Choose a feature type",
   "AdminProductTypes.categoriesSelect.placeholder": "Choose a category",
-  "theme.dark": "Dark Mode"
+  "theme.dark": "Dark Mode",
+  "common.deleted": "Deleted",
+  "AdminProducts.availabilityFilter": "In stock only"
 }

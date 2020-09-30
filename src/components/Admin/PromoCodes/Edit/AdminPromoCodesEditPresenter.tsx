@@ -54,12 +54,14 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
         const promoCode = await service.getOne(promoCodeId);
         if (promoCode) {
           setPromoCode(promoCode);
+
+          if (promoCode.products && promoCode.products.length > 0) {
+            const { entities, result } = await productService.getSome(promoCode.products);
+            setProductsData({ entities: entities.products, order: result });
+          }
         } else {
           setPreloadingError('AdminPromoCodes.notFound');
         }
-
-        const { entities, result } = await productService.getSome(promoCode?.products ?? []);
-        setProductsData({ entities: entities.products, order: result });
       } catch (e) {
         setPreloadingError('errors.common');
       } finally {

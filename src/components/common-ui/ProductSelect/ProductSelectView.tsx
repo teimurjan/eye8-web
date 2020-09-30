@@ -50,6 +50,7 @@ export const ProductSelectView: React.FC<IProps> = ({
   const productTypePreviewAction: IProductTypePreviewProps['action'] = React.useCallback(
     (product) => {
       onChange(product);
+      setSearchValue('');
       close();
     },
     [close, onChange],

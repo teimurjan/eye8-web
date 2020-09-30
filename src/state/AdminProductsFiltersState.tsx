@@ -5,8 +5,8 @@ import { ISearchParams } from 'src/utils/queryString';
 
 export interface IContextValue {
   adminProductsFiltersState: {
-    filters: ISearchParams<'productTypeId'>;
-    setFilters: (filters: ISearchParams<'productTypeId'>) => void;
+    filters: ISearchParams<'productTypeId' | 'available'>;
+    setFilters: (filters: ISearchParams<'productTypeId' | 'available'>) => void;
   };
 }
 
@@ -18,7 +18,7 @@ interface IProviderProps {
 
 export const AdminProductsFiltersStateProvider: React.FC<IProviderProps> = ({ children }) => {
   const { filters, setFilters } = useFilters({
-    initialFilters: { productTypeId: undefined },
+    initialFilters: { productTypeId: undefined, available: true },
     relyOn: 'state',
     initialFrom: 'location',
   });

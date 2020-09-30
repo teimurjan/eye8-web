@@ -14,6 +14,7 @@ export const errors = {
 export interface IProductService {
   getAll(
     page: number,
+    available?: boolean,
   ): Promise<{
     entities: {
       products: {
@@ -40,6 +41,7 @@ export interface IProductService {
   getOne(id: number): Promise<productAPI.IProductListResponseItem | undefined>;
   getForProductType(
     productTypeID: number,
+    available?: boolean,
   ): Promise<{
     entities: {
       products: {
@@ -66,8 +68,8 @@ export class ProductService implements IProductService {
     this.API = API;
   }
 
-  public getAll: IProductService['getAll'] = async (page: number) => {
-    const products = await this.API.getAll(page);
+  public getAll: IProductService['getAll'] = async (page, available) => {
+    const products = await this.API.getAll(page, available);
     return {
       ...normalize(products.data, [new schema.Entity('products')]),
       meta: products.meta,
@@ -137,8 +139,8 @@ export class ProductService implements IProductService {
     }
   };
 
-  public getForProductType: IProductService['getForProductType'] = async (productTypeID: number) => {
-    const products = await this.API.getForProductType(productTypeID);
+  public getForProductType: IProductService['getForProductType'] = async (productTypeID: number, available = false) => {
+    const products = await this.API.getForProductType(productTypeID, available);
     return normalize(products.data, [new schema.Entity('products')]);
   };
 }

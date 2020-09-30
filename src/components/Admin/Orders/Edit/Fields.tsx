@@ -1,23 +1,19 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/core';
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
 
 import { IOrderListResponseItem } from 'src/api/OrderAPI';
-import { Box } from 'src/components/admin-ui/Box/Box';
 import { Field } from 'src/components/admin-ui/Field/Field';
 import { FormPhoneField } from 'src/components/admin-ui/FormPhoneField/FormPhoneField';
 import { FormSelectField } from 'src/components/admin-ui/FormSelectField/FormSelectField';
 import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextField';
 import { HelpText } from 'src/components/admin-ui/HelpText/HelpText';
 import { Label } from 'src/components/admin-ui/Label/Label';
-import { Subtitle } from 'src/components/admin-ui/Subtitle/Subtitle';
 import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
+import { ProductsSelectItem } from 'src/components/Admin/ProductsSelect/ProductsSelectItem';
 import { Quantity } from 'src/components/Client/Cart/CartItem/Quantity';
 import { PriceText } from 'src/components/Client/Price/Price';
 import { ProductSelectContainer } from 'src/components/common-ui/ProductSelect/ProductSelectContainer';
@@ -191,71 +187,36 @@ const OrderItemsField = ({
     <Field>
       <Label>{intl.formatMessage({ id: 'AdminOrders.items' })}</Label>
       {input.value ? (
-        <div
-          css={css`
-            display: flex;
-          `}
-        >
+        <div>
           {input.value.map((orderItem) => (
-            <Box
-              css={css`
-                margin-bottom: 0 !important;
-                margin-right: 10px;
-                padding: 10px;
-                flex: 0 0 25%;
-
-                &:last-child {
-                  margin-right: 0;
-                }
-              `}
+            <ProductsSelectItem
               key={orderItem.id}
-            >
-              <div
-                css={css`
-                  display: flex;
-                  flex-direction: column;
-                `}
-              >
-                {orderItem.product && (
-                  <Subtitle size={4}>
-                    {orderItem.product.product_type.name}{' '}
-                    <Link to={`/admin/products/edit/${orderItem.product.id}`}>
-                      <FontAwesomeIcon
-                        size="sm"
-                        css={css`
-                          margin-left: 5px;
-                          display: inline-block;
-                          vertical-align: baseline;
-                        `}
-                        icon={faExternalLinkAlt}
-                      />
-                    </Link>
-                  </Subtitle>
-                )}
-                <ProductSelectContainer
-                  placeholder={intl.formatMessage({ id: 'AdminOrders.anotherProduct.placeholder' })}
-                  onChange={(product) => {
-                    setOrderItem(orderItem.id, {
-                      id: NaN,
-                      product_price_per_item: product.price,
-                      product_discount: product.discount,
-                      product,
-                      quantity: 1,
-                    });
-                  }}
+              id={orderItem.product?.id}
+              name={
+                orderItem.product ? orderItem.product.product_type.name : intl.formatMessage({ id: 'common.deleted' })
+              }
+              onChange={(product) =>
+                setOrderItem(orderItem.id, {
+                  id: NaN,
+                  product_price_per_item: product.price,
+                  product_discount: product.discount,
+                  product,
+                  quantity: 1,
+                })
+              }
+              footer={
+                <Quantity
+                  count={orderItem.quantity}
+                  allowedCount={orderItem.product ? orderItem.product.quantity : 0}
+                  onAddClick={() => setOrderItem(orderItem.id, { ...orderItem, quantity: orderItem.quantity + 1 })}
+                  onRemoveClick={() =>
+                    orderItem.quantity === 1
+                      ? removeOrderItem(orderItem)
+                      : setOrderItem(orderItem.id, { ...orderItem, quantity: orderItem.quantity - 1 })
+                  }
                 />
-              </div>
-              <Quantity
-                count={orderItem.quantity}
-                allowedCount={orderItem.product ? orderItem.product.quantity : 0}
-                onAddClick={() => setOrderItem(orderItem.id, { ...orderItem, quantity: orderItem.quantity + 1 })}
-                onRemoveClick={() =>
-                  orderItem.quantity === 1
-                    ? removeOrderItem(orderItem)
-                    : setOrderItem(orderItem.id, { ...orderItem, quantity: orderItem.quantity - 1 })
-                }
-              />
-            </Box>
+              }
+            />
           ))}
         </div>
       ) : null}

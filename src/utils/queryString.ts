@@ -1,5 +1,5 @@
 export type ISearchParams<T extends string> = {
-  [key in T]: string | number | undefined | Array<number | string>;
+  [key in T]: string | number | undefined | boolean | Array<number | string | boolean>;
 };
 
 export const buildSearchString = <T extends string>(queryObj: ISearchParams<T>) => {

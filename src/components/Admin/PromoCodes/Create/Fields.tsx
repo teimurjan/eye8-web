@@ -1,13 +1,8 @@
-/** @jsx jsx */
-
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
 import * as React from 'react';
 import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
 import { IProductListResponseItem } from 'src/api/ProductAPI';
-import { Button } from 'src/components/admin-ui/Button/Button';
 import { Checkbox } from 'src/components/admin-ui/Checkbox/Checkbox';
 import { Control } from 'src/components/admin-ui/Control/Control';
 import { Field } from 'src/components/admin-ui/Field/Field';
@@ -15,8 +10,7 @@ import { FormCheckboxField } from 'src/components/admin-ui/FormCheckboxField/For
 import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextField';
 import { HelpText } from 'src/components/admin-ui/HelpText/HelpText';
 import { Label } from 'src/components/admin-ui/Label/Label';
-import { Subtitle } from 'src/components/admin-ui/Subtitle/Subtitle';
-import { ProductSelectContainer } from 'src/components/common-ui/ProductSelect/ProductSelectContainer';
+import { ProductsSelect } from 'src/components/Admin/ProductsSelect/ProductsSelect';
 
 const DiscountField = ({ input, meta, disabled }: FieldRenderProps<string>) => {
   const intl = useIntl();
@@ -129,32 +123,10 @@ const DisableOnUseField = ({ input, meta }: FieldRenderProps<boolean>) => {
 
 const ProductsField = ({ input, meta }: FieldRenderProps<IProductListResponseItem[]>) => {
   const intl = useIntl();
-  const theme = useTheme<AdminUITheme>();
 
   const [isAllSet, setAllSet] = React.useState(input.value.length === 0);
 
   const showError = meta.touched && meta.error;
-
-  const setProduct = React.useCallback(
-    (id: number, product: IProductListResponseItem) => {
-      input.onChange(input.value.map((product_) => (product_.id === product.id ? product : product_)));
-    },
-    [input],
-  );
-
-  const removeProduct = React.useCallback(
-    (product: IProductListResponseItem) => {
-      input.onChange(input.value?.filter((product_) => product_.id !== product.id));
-    },
-    [input],
-  );
-
-  const addProduct = React.useCallback(
-    (product: IProductListResponseItem) => {
-      input.onChange([...input.value, product]);
-    },
-    [input],
-  );
 
   return (
     <Field>
@@ -171,51 +143,7 @@ const ProductsField = ({ input, meta }: FieldRenderProps<IProductListResponseIte
         />
       </Control>
 
-      {input.value
-        ? input.value.map((product) => (
-            <div
-              css={css`
-                margin: 10px 0;
-                padding: 10px;
-                background: ${theme.greyLight};
-                border-radius: 10px;
-              `}
-              key={product.id}
-            >
-              <div
-                css={css`
-                  display: flex;
-                  justify-content: space-between;
-                `}
-              >
-                <Subtitle
-                  css={css`
-                    margin: 0 !important;
-                  `}
-                  size={5}
-                >
-                  {product.product_type.name}
-                </Subtitle>
-                <ProductSelectContainer
-                  placeholder={intl.formatMessage({ id: 'AdminPromoCodes.anotherProduct.placeholder' })}
-                  onChange={(product) => setProduct(product.id, product)}
-                />
-              </div>
-              <Button color="is-danger" onClick={() => removeProduct(product)}>
-                {intl.formatMessage({ id: 'common.remove' })}
-              </Button>
-            </div>
-          ))
-        : null}
-      {!isAllSet && (
-        <ProductSelectContainer
-          css={css`
-            margin: 10px 0;
-          `}
-          placeholder={intl.formatMessage({ id: 'AdminOrders.newProduct.placeholder' })}
-          onChange={addProduct}
-        />
-      )}
+      <ProductsSelect products={input.value || []} onChange={input.onChange} allowAddition={!isAllSet} />
 
       <HelpText type="is-danger">{showError ? intl.formatMessage({ id: meta.error }) : undefined}</HelpText>
     </Field>

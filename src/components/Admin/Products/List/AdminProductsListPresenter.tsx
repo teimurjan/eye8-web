@@ -4,16 +4,15 @@ import * as React from 'react';
 import { IProductTypeListRawIntlMinifiedResponseItem } from 'src/api/ProductTypeAPI';
 import { useSelectProductTypes } from 'src/components/Admin/ProductTypeSelect/useSelectProductTypes';
 import { IProductTypeService } from 'src/services/ProductTypeService';
+import { useAdminProductsFiltersState } from 'src/state/AdminProductsFiltersState';
 import { ContextValue as AdminProductsStateContextValue } from 'src/state/AdminProductsState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   adminProductsState: AdminProductsStateContextValue['state'];
-  productTypeId?: number;
   productTypeService: IProductTypeService;
   history: History;
-  onProductTypeChange: (id?: number) => void;
 }
 
 export interface IViewProps {
@@ -27,19 +26,37 @@ export interface IViewProps {
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
   onProductTypeChange: (id?: number) => void;
+  onAvailabilityChange: () => void;
+  available: boolean;
 }
 
 export const AdminProductsListPresenter = ({
   View,
   adminProductsState: { isListLoading, entities: products, get: getProducts, hasListLoaded, meta },
-  productTypeId,
   productTypeService,
-  onProductTypeChange,
 }: IProps & IntlStateContextValue) => {
+  const {
+    adminProductsFiltersState: { filters, setFilters },
+  } = useAdminProductsFiltersState();
+
+  const productTypeId = filters.productTypeId as number;
+  const available = filters.available as boolean;
+
+  const onProductTypeChange = React.useCallback(
+    (productTypeId_?: number) => {
+      setFilters({ ...filters, productTypeId: productTypeId_ });
+    },
+    [setFilters, filters],
+  );
+
+  const onAvailabilityChange = React.useCallback(() => {
+    setFilters({ ...filters, available: !available });
+  }, [setFilters, filters, available]);
+
   React.useEffect(() => {
-    getProducts({ productTypeId, page: 1 });
+    getProducts({ productTypeId, page: 1, available });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productTypeId]);
+  }, [productTypeId, available]);
 
   const { productTypes, isLoading: productTypesLoading, loadMore: LoadMoreProductTypes } = useSelectProductTypes({
     productTypeService,
@@ -48,13 +65,15 @@ export const AdminProductsListPresenter = ({
 
   const onPageChange = React.useCallback(
     (page: number) => {
-      getProducts({ page });
+      getProducts({ page, available });
     },
-    [getProducts],
+    [getProducts, available],
   );
 
   return (
     <View
+      available={available}
+      onAvailabilityChange={onAvailabilityChange}
       selectedProductTypeId={productTypeId}
       meta={meta}
       isDataLoaded={hasListLoaded}

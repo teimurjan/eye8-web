@@ -8,7 +8,6 @@ export interface IOrderItem {
   quantity: number;
   product_price_per_item: number;
   product_discount: number;
-  product_upc?: string;
   product?: {
     id: number;
     quantity: number;
