@@ -43,7 +43,7 @@ const CharacteristicValuesSelect = ({ characteristicValues, input, meta }: IChar
         ...input,
         multiple: true,
         options: characteristicValues.map(({ id, name, characteristic }) => ({
-          title: `${characteristic.name[intl.locale]}: {name[intl.locale]}`,
+          title: `${characteristic.name[intl.locale]}: ${name[intl.locale]}`,
           value: id.toString(),
         })),
         TriggerComponent: SearchableSelectTrigger,

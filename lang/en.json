@@ -334,5 +334,6 @@
   "AdminCharacteristicValues.characteristicSelect.defaultOption.title": "No Characteristic",
   "AdminCharacteristicValues.edit.title": "Change characteristic value",
   "AdminProductTypes.characteristicValuesSelect.label": "Characteristic values",
-  "AdminProductTypes.characteristicValuesSelect.placeholder": "Choose characteristic values"
+  "AdminProductTypes.characteristicValuesSelect.placeholder": "Choose characteristic values",
+  "common.reset": "Reset"
 }

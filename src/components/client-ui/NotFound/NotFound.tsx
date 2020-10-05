@@ -18,7 +18,12 @@ export const NotFound = ({ title, ctaText, ctaHref }: IProps) => {
   const intl = useIntl();
 
   return (
-    <Hero className={classNames('is-large')}>
+    <Hero
+      css={css`
+        flex: 1;
+      `}
+      className={classNames('is-large')}
+    >
       <HeroBody
         css={css`
           text-align: center;

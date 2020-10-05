@@ -1,8 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
 import { NextRouter } from 'next/router';
 import * as React from 'react';
-import { useIntl } from 'react-intl';
 
 import { ICategoryListResponseItem } from 'src/api/CategoryAPI';
 import {
@@ -12,11 +9,11 @@ import {
   sortingTypeOfQueryValue,
   queryValueOfSortingType,
 } from 'src/api/ProductTypeAPI';
-import { Filter } from 'src/components/client-ui/Filter/Filter';
 import { IProps as IListViewProps } from 'src/components/Client/ProductType/ProductTypesList/ProductTypesListView';
+import { ProductTypesPageFilterContainer as ProductTypesPageFilter } from 'src/components/Client/ProducTypesPage/ProductTypesPageFilter/ProductTypesPageFilterContainer';
 import { IProductTypeService } from 'src/services/ProductTypeService';
-import { mediaQueries } from 'src/styles/media';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
+import { buildSearchString } from 'src/utils/queryString';
 
 export interface IProps {
   ListView: React.ComponentClass<IListViewProps> | React.SFC<IListViewProps>;
@@ -32,6 +29,11 @@ export interface IProps {
   };
 }
 
+export const getCharacteristicValuesIdsFromQuery = (query: NextRouter['query']) =>
+  (Array.isArray(query.characteristics) ? query.characteristics : [query.characteristics])
+    .map((id) => parseInt(id, 10))
+    .filter((id) => !isNaN(id));
+
 export const ProductTypesPagePresenter = ({
   ListView,
   categorySlug,
@@ -39,7 +41,6 @@ export const ProductTypesPagePresenter = ({
   initialProps,
   router,
 }: IProps) => {
-  const intl = useIntl();
   const [error, setError] = React.useState<string | undefined>(initialProps?.error);
   const [isLoading, setLoading] = React.useState(false);
   const [category, setCategory] = React.useState<ICategoryListResponseItem | undefined>(initialProps?.category);
@@ -57,21 +58,26 @@ export const ProductTypesPagePresenter = ({
       page: 0,
     },
   });
-  const sortByQuery = (router.query.sort_by || '') as string;
+  const sortByQuery = (router.query.sort_by ?? '') as string;
   const [sortingType, setSortingType] = React.useState<ProductTypeSortingType>(
     typeof sortingTypeOfQueryValue[sortByQuery] === 'undefined'
       ? ProductTypeSortingType.RECENT
       : sortingTypeOfQueryValue[sortByQuery],
   );
 
+  const [characteristicValuesIds, setCharacteristicValuesIds] = React.useState(
+    getCharacteristicValuesIdsFromQuery(router.query),
+  );
+
   const loadProductTypes = React.useCallback(
-    async (page: number = 1, newSortingType?: ProductTypeSortingType) => {
+    async (page: number = 1, newSortingType?: ProductTypeSortingType, newCharacteristicValuesIds?: number[]) => {
       setLoading(true);
       try {
         const { entities, result, meta } = await productTypeService.getForCategory(
           categorySlug!,
           page,
-          typeof newSortingType === 'undefined' ? sortingType : newSortingType,
+          sortingType ?? newSortingType,
+          newCharacteristicValuesIds ?? characteristicValuesIds,
         );
         setProductTypesData({ entities: entities.productTypes ?? {}, meta, order: result });
       } catch (e) {
@@ -80,15 +86,27 @@ export const ProductTypesPagePresenter = ({
         setLoading(false);
       }
     },
-    [categorySlug, productTypeService, sortingType],
+    [categorySlug, productTypeService, sortingType, characteristicValuesIds],
   );
 
   const getQuery = React.useCallback(
-    ({ page, newSortingType }: { page?: number; newSortingType?: ProductTypeSortingType }) => {
+    ({
+      page,
+      newSortingType,
+      newCharacteristicValuesIds,
+    }: {
+      page?: number;
+      newSortingType?: ProductTypeSortingType;
+      newCharacteristicValuesIds?: number[];
+    }) => {
       const pageQueryValue = page || productTypesData.meta.page;
       const sortByQueryValue =
         queryValueOfSortingType[typeof newSortingType === 'undefined' ? sortingType : newSortingType];
-      return `?page=${pageQueryValue}&sort_by=${sortByQueryValue}`;
+      return buildSearchString({
+        page: pageQueryValue,
+        sort_by: sortByQueryValue,
+        characteristics: newCharacteristicValuesIds,
+      });
     },
     [sortingType, productTypesData],
   );
@@ -125,59 +143,38 @@ export const ProductTypesPagePresenter = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categorySlug]);
 
-  const setSortingTypeAndLoad = React.useCallback(
+  const onSortingTypeChange = React.useCallback(
     (newSortingType: ProductTypeSortingType) => {
       setSortingType(newSortingType);
       const query = getQuery({ newSortingType });
       const basePath = getBasePath();
-      router.push(`${router.pathname}?${query}`, `${basePath}?${query}`, { shallow: true });
+      router.push(`${router.pathname}${query}`, `${basePath}${query}`, { shallow: true });
       loadProductTypes(1, newSortingType);
     },
     [router, getQuery, getBasePath, loadProductTypes],
   );
 
-  const onPriceAscendingSortingTypeClick = React.useCallback(
-    () => setSortingTypeAndLoad(ProductTypeSortingType.PRICE_ASCENDING),
-    [setSortingTypeAndLoad],
+  const onCharacteristicValuesChange = React.useCallback(
+    (newCharacteristicValuesIds: number[]) => {
+      setCharacteristicValuesIds(newCharacteristicValuesIds);
+      const query = getQuery({ newCharacteristicValuesIds });
+      const basePath = getBasePath();
+      router.push(`${router.pathname}${query}`, `${basePath}${query}`, { shallow: true });
+      loadProductTypes(1, undefined, newCharacteristicValuesIds);
+    },
+    [router, getQuery, getBasePath, loadProductTypes],
   );
-  const onPriceDescendingSortingTypeClick = React.useCallback(
-    () => setSortingTypeAndLoad(ProductTypeSortingType.PRICE_DESCENDING),
-    [setSortingTypeAndLoad],
-  );
-  const onRecentSortingTypeClick = React.useCallback(() => setSortingTypeAndLoad(ProductTypeSortingType.RECENT), [
-    setSortingTypeAndLoad,
-  ]);
 
   return (
     <ListView
       filter={
-        <Filter
-          css={css`
-            padding: 20px 30px 0 0;
-
-            @media ${mediaQueries.maxWidth768} {
-              padding: 0;
-            }
-          `}
-        >
-          <Filter.ItemGroup title={intl.formatMessage({ id: 'common.sortBy' })}>
-            <Filter.Item active={sortingType === ProductTypeSortingType.RECENT} onClick={onRecentSortingTypeClick}>
-              {intl.formatMessage({ id: 'filter.newlyAdded' })}
-            </Filter.Item>
-            <Filter.Item
-              active={sortingType === ProductTypeSortingType.PRICE_ASCENDING}
-              onClick={onPriceAscendingSortingTypeClick}
-            >
-              {intl.formatMessage({ id: 'filter.priceAscending' })}
-            </Filter.Item>
-            <Filter.Item
-              active={sortingType === ProductTypeSortingType.PRICE_DESCENDING}
-              onClick={onPriceDescendingSortingTypeClick}
-            >
-              {intl.formatMessage({ id: 'filter.priceDescending' })}
-            </Filter.Item>
-          </Filter.ItemGroup>
-        </Filter>
+        <ProductTypesPageFilter
+          disabled={isLoading}
+          sortingType={sortingType}
+          characteristicValuesIds={characteristicValuesIds}
+          onSortingTypeChange={onSortingTypeChange}
+          onCharacteristicValuesChange={onCharacteristicValuesChange}
+        />
       }
       productTypes={agregateOrderedMapToArray(productTypesData.entities, productTypesData.order)}
       category={category}

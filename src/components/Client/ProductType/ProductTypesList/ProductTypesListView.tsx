@@ -37,13 +37,53 @@ export const ProductTypesListView = ({
 }: IProps) => {
   const intl = useIntl();
 
-  if (error) {
-    return <ErrorLayout>{intl.formatMessage({ id: error })}</ErrorLayout>;
-  }
+  const renderContent = () => {
+    if (isLoading) {
+      return <LoaderLayout />;
+    }
 
-  if (productTypes.length === 0) {
-    return <NotFound title={intl.formatMessage({ id: 'common.empty' })} />;
-  }
+    if (error) {
+      return <ErrorLayout>{intl.formatMessage({ id: error })}</ErrorLayout>;
+    }
+
+    if (productTypes.length === 0) {
+      return <NotFound title={intl.formatMessage({ id: 'common.empty' })} />;
+    }
+
+    return (
+      <div
+        css={css`
+          margin-top: 10px;
+          width: 100%;
+        `}
+      >
+        <Columns className="is-multiline is-mobile">
+          {productTypes.map((productType) => (
+            <Column
+              key={productType.id}
+              className={
+                filter
+                  ? classNames('is-half-mobile', 'is-one-third-desktop', 'is-one-quarter-widescreen')
+                  : classNames('is-half-mobile', 'is-one-quarter-desktop', 'is-one-fifths-widescreen')
+              }
+            >
+              <ProductTypeCard productType={productType} />
+            </Column>
+          ))}
+        </Columns>
+        {meta && meta.pages_count > 1 && (
+          <Pagination
+            css={css`
+              margin-top: 20px;
+            `}
+            length={meta.pages_count}
+            page={meta.page}
+            onChange={onPageChange}
+          />
+        )}
+      </div>
+    );
+  };
 
   return (
     <Container>
@@ -71,41 +111,7 @@ export const ProductTypesListView = ({
       >
         {filter}
 
-        {isLoading ? (
-          <LoaderLayout />
-        ) : (
-          <div
-            css={css`
-              margin-top: 10px;
-              width: 100%;
-            `}
-          >
-            <Columns className="is-multiline is-mobile">
-              {productTypes.map((productType) => (
-                <Column
-                  key={productType.id}
-                  className={
-                    filter
-                      ? classNames('is-half-mobile', 'is-one-third-desktop', 'is-one-quarter-widescreen')
-                      : classNames('is-half-mobile', 'is-one-quarter-desktop', 'is-one-fifths-widescreen')
-                  }
-                >
-                  <ProductTypeCard productType={productType} />
-                </Column>
-              ))}
-            </Columns>
-            {meta && meta.pages_count > 1 && (
-              <Pagination
-                css={css`
-                  margin-top: 20px;
-                `}
-                length={meta.pages_count}
-                page={meta.page}
-                onChange={onPageChange}
-              />
-            )}
-          </div>
-        )}
+        {renderContent()}
       </div>
     </Container>
   );

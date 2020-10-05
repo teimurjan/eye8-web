@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import classNames from 'classnames';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
@@ -16,6 +17,7 @@ interface IFilterItemProps {
   children: React.ReactNode;
   active?: boolean;
   onClick?: React.MouseEventHandler;
+  squared?: boolean;
 }
 
 interface IFilterItemGroupProps {
@@ -23,13 +25,16 @@ interface IFilterItemGroupProps {
   children: React.ReactElement<IFilterItemProps> | Array<React.ReactElement<IFilterItemProps>>;
 }
 
-interface IProps {
+type FilterItenGroupChild = React.ReactElement<IFilterItemGroupProps> | null;
+
+export interface IProps {
   className?: string;
   title?: string;
-  children: React.ReactElement<IFilterItemGroupProps> | Array<React.ReactElement<IFilterItemGroupProps>>;
+  children: FilterItenGroupChild | FilterItenGroupChild[];
+  disabled?: boolean;
 }
 
-export const Filter = ({ className, title, children }: IProps) => {
+export const Filter = ({ className, title, children, disabled }: IProps) => {
   const intl = useIntl();
   const theme = useTheme<ClientUITheme>();
   const isMobile = useMedia([mediaQueries.maxWidth768], [true], false);
@@ -37,7 +42,15 @@ export const Filter = ({ className, title, children }: IProps) => {
   const { value: isOpen, setNegative: close, setPositive: open } = useBoolean();
 
   const filter = (
-    <div className={className}>
+    <div
+      css={css`
+        &[data-disabled='true'] {
+          pointer-events: none;
+        }
+      `}
+      className={className}
+      data-disabled={disabled}
+    >
       <Title
         size={6}
         css={css`
@@ -117,11 +130,12 @@ const FilterItemGroup = ({ title, children }: IFilterItemGroupProps) => {
 
 const OUTER_CIRCLE_SIZE_PX = 24;
 const INNER_CIRCLE_SIZE_PX = 14;
-const FilterItem = ({ children, active, onClick }: IFilterItemProps) => {
+const FilterItem = ({ children, active, onClick, squared }: IFilterItemProps) => {
   const theme = useTheme<ClientUITheme>();
 
   return (
     <div
+      className={classNames({ squared })}
       onClick={onClick}
       data-active={active}
       css={css`
@@ -161,6 +175,11 @@ const FilterItem = ({ children, active, onClick }: IFilterItemProps) => {
 
         &[data-active='true']::after {
           opacity: 1;
+        }
+
+        &.squared::after,
+        &.squared::before {
+          border-radius: 0;
         }
       `}
     >

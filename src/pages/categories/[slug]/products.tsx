@@ -6,6 +6,7 @@ import * as React from 'react';
 import { sortingTypeOfQueryValue, ProductTypeSortingQueryValue } from 'src/api/ProductTypeAPI';
 import { Layout } from 'src/components/Client/Layout';
 import { ProductTypesPageContainer } from 'src/components/Client/ProducTypesPage/ProductTypesPageContainer';
+import { getCharacteristicValuesIdsFromQuery } from 'src/components/Client/ProducTypesPage/ProductTypesPagePresenter';
 import { dependenciesFactory } from 'src/DI/DependenciesContainer';
 import { logTimeStart, logTimeFinish } from 'src/utils/log';
 
@@ -35,6 +36,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params = {}, req,
       categorySlug,
       parseInt(page as string, 10),
       sortingTypeOfQueryValue[sortBy as string],
+      getCharacteristicValuesIdsFromQuery(parsedUrl.query),
     );
     const category = await dependencies.services.category.getOneBySlug(categorySlug);
 

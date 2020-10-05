@@ -334,5 +334,6 @@
   "AdminCharacteristicValues.characteristicSelect.defaultOption.title": "Нет атрибута",
   "AdminCharacteristicValues.edit.title": "Изменить значение атрибута",
   "AdminProductTypes.characteristicValuesSelect.label": "Значения атрибутов",
-  "AdminProductTypes.characteristicValuesSelect.placeholder": "Выберите значения атрибутов"
+  "AdminProductTypes.characteristicValuesSelect.placeholder": "Выберите значения атрибутов",
+  "common.reset": "Сбросить"
 }

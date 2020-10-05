@@ -168,6 +168,7 @@ export interface IProductTypeAPI {
     categorySlug: string,
     page: number,
     sortBy?: ProductTypeSortingType,
+    characteristicValuesIds?: number[],
     available?: boolean,
   ): Promise<IProductTypeListResponseData>;
   getAll(page: number): Promise<IProductTypeListResponseData>;
@@ -214,6 +215,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
     categorySlug: string,
     page: number,
     sortBy: ProductTypeSortingType = ProductTypeSortingType.RECENT,
+    characteristicValuesIds = [],
     available = true,
   ) {
     try {
@@ -223,6 +225,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
           sort_by: queryValueOfSortingType[sortBy],
           products: 1,
           available: available ? 1 : 0,
+          characteristics: characteristicValuesIds,
         })}`,
         {
           headers: this.headersManager.getHeaders(),
