@@ -75,6 +75,9 @@ class DefaultTheme implements AdminUITheme, ClientUITheme {
   public toggleDotColor = this.darkGrayColor;
   public toggleGrayBackgroundColor = this.whiteColor;
   public toggleGrayDotColor = this.grayColor;
+  // - thumb
+  public thumbColor = color(this.lightGrayColor).darken(0.3).hex();
+  public thumbBackgroundColor = this.lightGrayColor;
 }
 
 class DarkTheme implements AdminUITheme, ClientUITheme {
@@ -152,6 +155,9 @@ class DarkTheme implements AdminUITheme, ClientUITheme {
   public toggleDotColor = this.darkGrayColor;
   public toggleGrayBackgroundColor = this.whiteColor;
   public toggleGrayDotColor = this.grayColor;
+  // - thumb
+  public thumbColor = this.grayColor;
+  public thumbBackgroundColor = this.lightGrayColor;
 }
 
 export const defaultTheme = new DefaultTheme();

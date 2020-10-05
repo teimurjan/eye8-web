@@ -1,10 +1,11 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+import * as React from 'react';
 import { useIntl } from 'react-intl';
 
 import { ProductTypeSortingType } from 'src/api/ProductTypeAPI';
-import { Button } from 'src/components/client-ui/Button/Button';
 import { Filter } from 'src/components/client-ui/Filter/Filter';
+import { ScrollableContainer } from 'src/components/client-ui/ScrollableContainer/ScrollableContainer';
 import { IViewProps as IProps } from 'src/components/Client/ProducTypesPage/ProductTypesPageFilter/ProductTypesPageFilterPresenter';
 import { mediaQueries } from 'src/styles/media';
 
@@ -46,34 +47,42 @@ export const ProductTypesPageFilterView = ({
 
     return values.length > 0 ? (
       <Filter.ItemGroup key={characteristicId} title={name}>
-        {values.map((value) => {
-          const isActive = characteristicValuesIds.indexOf(value.id) !== -1;
-          return (
-            <Filter.Item
-              key={value.id}
-              active={isActive}
-              squared
-              onClick={() => {
-                onCharacteristicValuesChange(
-                  isActive
-                    ? characteristicValuesIds.filter((id) => id !== value.id)
-                    : [...characteristicValuesIds, value.id],
-                );
-              }}
-            >
-              {value.name}
-            </Filter.Item>
-          );
-        })}
+        <ScrollableContainer maxHeight={350}>
+          {values.map((value) => {
+            const isActive = characteristicValuesIds.indexOf(value.id) !== -1;
+            return (
+              <Filter.Item
+                key={value.id}
+                active={isActive}
+                squared
+                onClick={() => {
+                  onCharacteristicValuesChange(
+                    isActive
+                      ? characteristicValuesIds.filter((id) => id !== value.id)
+                      : [...characteristicValuesIds, value.id],
+                  );
+                }}
+              >
+                {value.name}
+              </Filter.Item>
+            );
+          })}
+        </ScrollableContainer>
       </Filter.ItemGroup>
     ) : null;
   });
 
   const allFilterGroups = [sortingFilterGroup, ...characteristicsFilterGroups];
 
+  const onReset = React.useCallback(
+    () => (characteristicValuesIds.length > 0 ? () => onCharacteristicValuesChange([]) : undefined),
+    [characteristicValuesIds, onCharacteristicValuesChange],
+  );
+
   return (
-    <div>
+    <>
       <Filter
+        onReset={onReset}
         disabled={disabled}
         css={css`
           padding: 20px 30px 0 0;
@@ -85,12 +94,6 @@ export const ProductTypesPageFilterView = ({
       >
         {allFilterGroups}
       </Filter>
-
-      {characteristicValuesIds.length > 0 && (
-        <Button size="small" onClick={() => onCharacteristicValuesChange([])}>
-          {intl.formatMessage({ id: 'common.reset' })}
-        </Button>
-      )}
-    </div>
+    </>
   );
 };

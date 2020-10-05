@@ -32,9 +32,10 @@ export interface IProps {
   title?: string;
   children: FilterItenGroupChild | FilterItenGroupChild[];
   disabled?: boolean;
+  onReset?: () => void;
 }
 
-export const Filter = ({ className, title, children, disabled }: IProps) => {
+export const Filter = ({ className, title, children, disabled, onReset }: IProps) => {
   const intl = useIntl();
   const theme = useTheme<ClientUITheme>();
   const isMobile = useMedia([mediaQueries.maxWidth768], [true], false);
@@ -60,6 +61,12 @@ export const Filter = ({ className, title, children, disabled }: IProps) => {
         {title || intl.formatMessage({ id: 'common.filter' })}
       </Title>
       {children}
+
+      {onReset && (
+        <Button size="small" onClick={onReset}>
+          {intl.formatMessage({ id: 'common.reset' })}
+        </Button>
+      )}
     </div>
   );
 
@@ -128,8 +135,8 @@ const FilterItemGroup = ({ title, children }: IFilterItemGroupProps) => {
   );
 };
 
-const OUTER_CIRCLE_SIZE_PX = 24;
-const INNER_CIRCLE_SIZE_PX = 14;
+const OUTER_CIRCLE_SIZE_PX = 20;
+const INNER_CIRCLE_SIZE_PX = 12;
 const FilterItem = ({ children, active, onClick, squared }: IFilterItemProps) => {
   const theme = useTheme<ClientUITheme>();
 

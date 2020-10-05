@@ -26,20 +26,21 @@ export const GlobalStyles = () => {
         background: unset;
       }
 
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: ${theme.thumbColor} ${theme.thumbBackgroundColor};
+      }
       ::-webkit-scrollbar {
-        width: 7.5px;
+        width: 8px;
+        height: 8px;
       }
-
       ::-webkit-scrollbar-track {
-        background: ${theme.backgroundPrimaryColor};
+        background: ${theme.thumbBackgroundColor};
       }
-
       ::-webkit-scrollbar-thumb {
-        background: ${theme.primaryColor};
-      }
-
-      ::-webkit-scrollbar-thumb:hover {
-        background: ${theme.buttonPrimaryBackgroundHoverColor};
+        background-color: ${theme.thumbColor} ;
+        border-radius: 6px;
+        border: 2px solid ${theme.thumbBackgroundColor};
       }
 
       body {
