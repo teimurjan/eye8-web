@@ -15,9 +15,49 @@ import { LinksInput, Link } from 'src/components/Admin/LinksInput/LinksInput';
 import { WYSIWYG } from 'src/components/client-ui/WYSIWYG/WYSIWYG';
 import { InstagramPost } from 'src/components/Client/InstagramPost/InstagramPost';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
+import { ContextValue as AdminCharacteristicValuesStateContextValue } from 'src/state/AdminCharacteristicValuesState';
 import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 import { arePropsEqual, lengthCompare, defaultCompare } from 'src/utils/propEquality';
+
+interface ICharacteristicValuesSelectProps extends FieldRenderProps<string[]> {
+  characteristicValues: AdminCharacteristicValuesStateContextValue['state']['entities'];
+}
+
+const CharacteristicValuesSelect = ({ characteristicValues, input, meta }: ICharacteristicValuesSelectProps) => {
+  const intl = useIntl();
+  const showError = meta.touched && meta.error;
+
+  return (
+    <FormSelectField
+      labelProps={{
+        children: (
+          <>
+            {intl.formatMessage({
+              id: 'AdminProductTypes.characteristicValuesSelect.label',
+            })}
+          </>
+        ),
+      }}
+      selectProps={{
+        ...input,
+        multiple: true,
+        options: characteristicValues.map(({ id, name, characteristic }) => ({
+          title: `${characteristic.name[intl.locale]}: {name[intl.locale]}`,
+          value: id.toString(),
+        })),
+        TriggerComponent: SearchableSelectTrigger,
+        searchable: true,
+        clearable: true,
+        placeholder: intl.formatMessage({ id: 'AdminProductTypes.characteristicValuesSelect.placeholder' }),
+      }}
+      helpTextProps={{
+        children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
+        type: 'is-danger',
+      }}
+    />
+  );
+};
 
 interface IFeatureTypesSelectProps extends FieldRenderProps<string[]> {
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
@@ -58,10 +98,6 @@ const FeatureTypesSelect = ({ featureTypes, input, meta }: IFeatureTypesSelectPr
   );
 };
 
-const getFeatureTypesSelectRenderer = (featureTypes: AdminFeatureTypesStateContextValue['state']['entities']) => (
-  fieldRenderProps: FieldRenderProps<string[]>,
-) => <FeatureTypesSelect featureTypes={featureTypes} {...fieldRenderProps} />;
-
 interface ICategoriesSelectProps extends FieldRenderProps<string[]> {
   categories: AdminCategoriesStateContextValue['state']['entities'];
 }
@@ -100,10 +136,6 @@ const CategoriesSelect = ({ categories, input, meta }: ICategoriesSelectProps) =
     />
   );
 };
-
-const getCategoriesSelectRenderer = (categories: AdminCategoriesStateContextValue['state']['entities']) => (
-  fieldRenderProps: FieldRenderProps<string[]>,
-) => <CategoriesSelect categories={categories} {...fieldRenderProps} />;
 
 const ImageField = ({ input, meta }: FieldRenderProps<File>) => {
   const intl = useIntl();
@@ -202,13 +234,22 @@ export interface IFieldsProps {
   availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   categories: AdminCategoriesStateContextValue['state']['entities'];
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
+  characteristicValues: AdminCharacteristicValuesStateContextValue['state']['entities'];
   nameFieldKey: string;
   descriptionFieldKey: string;
   shortDescriptionFieldKey: string;
 }
 
 export const Fields: React.SFC<IFieldsProps> = React.memo(
-  ({ availableLocales, categories, featureTypes, nameFieldKey, descriptionFieldKey, shortDescriptionFieldKey }) => {
+  ({
+    availableLocales,
+    categories,
+    featureTypes,
+    nameFieldKey,
+    descriptionFieldKey,
+    shortDescriptionFieldKey,
+    characteristicValues,
+  }) => {
     const intl = useIntl();
 
     return (
@@ -245,8 +286,19 @@ export const Fields: React.SFC<IFieldsProps> = React.memo(
           })}
         />
         <FinalFormField key="instagram_links" name="instagram_links" component={InstagramLinksField} />
-        <FinalFormField key="categories" name="categories" render={getCategoriesSelectRenderer(categories)} />
-        <FinalFormField key="feature_types" name="feature_types" render={getFeatureTypesSelectRenderer(featureTypes)} />
+        <FinalFormField key="categories" name="categories" render={CategoriesSelect} categories={categories} />
+        <FinalFormField
+          key="feature_types"
+          name="feature_types"
+          component={FeatureTypesSelect}
+          featureTypes={featureTypes}
+        />
+        <FinalFormField
+          key="characteristic_values"
+          name="characteristic_values"
+          component={CharacteristicValuesSelect}
+          characteristicValues={characteristicValues}
+        />
         <FinalFormField key="image" name="image" component={ImageField} />
       </>
     );

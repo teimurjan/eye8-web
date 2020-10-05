@@ -2,73 +2,75 @@ import { History } from 'history';
 import * as React from 'react';
 import * as yup from 'yup';
 
-import { IFeatureValueListRawIntlResponseItem } from 'src/api/FeatureValueAPI';
+import { ICharacteristicValueListRawIntlResponseItem } from 'src/api/CharacteristicValueAPI';
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { useLazy } from 'src/hooks/useLazy';
-import { IFeatureValueService } from 'src/services/FeatureValueService';
-import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
-import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
+import { ICharacteristicValueService } from 'src/services/CharacteristicValueService';
+import { ContextValue as AdminCharacteristicsStateContextValue } from 'src/state/AdminCharacteristicsState';
+import { ContextValue as AdminCharacteristicValuesStateContextValue } from 'src/state/AdminCharacteristicValuesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
 export interface IProps extends IntlStateContextValue {
-  featureValueId: number;
+  characteristicValueId: number;
   history: History;
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
-  service: IFeatureValueService;
-  adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
-  adminFeatureValuesState: AdminFeatureValuesStateContextValue['state'];
+  service: ICharacteristicValueService;
+  adminCharacteristicsState: AdminCharacteristicsStateContextValue['state'];
+  adminCharacteristicValuesState: AdminCharacteristicValuesStateContextValue['state'];
 }
 
 export interface IViewProps {
   isOpen: boolean;
-  edit: (values: { names: { [key: string]: string }; feature_type_id: string }) => void;
+  edit: (values: { names: { [key: string]: string }; characteristic_id: string }) => void;
   isLoading: boolean;
   isUpdating: boolean;
   error: string | undefined;
   close: () => void;
   availableLocales: IntlStateContextValue['intlState']['availableLocales'];
-  featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
+  characteristics: AdminCharacteristicsStateContextValue['state']['entities'];
   validate?: (values: object) => object | Promise<object>;
   initialValues: object;
   preloadingError?: string;
 }
 
-export const FEATURE_VALUE_NAME_FIELD_KEY = 'name';
+export const CHARACTERISTIC_VALUE_NAME_FIELD_KEY = 'name';
 
-export const AdminFeatureValuesEditPresenter: React.FC<IProps> = ({
-  featureValueId,
+export const AdminCharacteristicValuesEditPresenter: React.FC<IProps> = ({
+  characteristicValueId,
   intlState: { availableLocales },
   service,
-  adminFeatureTypesState: {
-    get: getFeatureTypes,
-    isListLoading: featureTypesLoading,
-    entities: featureTypes,
+  adminCharacteristicsState: {
+    get: getCharacteristics,
+    isListLoading: characteristicsLoading,
+    entities: characteristics,
     hasListLoaded: isDataLoaded,
   },
   history,
-  adminFeatureValuesState: { set: setFeatureValueToState },
+  adminCharacteristicValuesState: { set: setCharacteristicValueToState },
   View,
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
-  const [featureValue, setFeatureValue] = React.useState<undefined | IFeatureValueListRawIntlResponseItem>(undefined);
+  const [characteristicValue, setCharacteristicValue] = React.useState<
+    undefined | ICharacteristicValueListRawIntlResponseItem
+  >(undefined);
 
   React.useEffect(() => {
     (async () => {
       try {
         setLoading(true);
-        const featureValue = await service.getOneRawIntl(featureValueId);
-        if (featureValue) {
+        const characteristicValue = await service.getOneRawIntl(characteristicValueId);
+        if (characteristicValue) {
           if (!isDataLoaded) {
-            getFeatureTypes();
+            getCharacteristics();
           }
 
-          setFeatureValue(featureValue);
+          setCharacteristicValue(characteristicValue);
         } else {
-          setPreloadingError('AdminFeatureValues.notFound');
+          setPreloadingError('AdminCharacteristicValues.notFound');
         }
       } catch (e) {
         setPreloadingError('errors.common');
@@ -86,10 +88,12 @@ export const AdminFeatureValuesEditPresenter: React.FC<IProps> = ({
           availableLocales.reduce(
             (acc, locale) => ({
               ...acc,
-              [getFieldName(FEATURE_VALUE_NAME_FIELD_KEY, locale)]: yup.string().required('common.errors.field.empty'),
+              [getFieldName(CHARACTERISTIC_VALUE_NAME_FIELD_KEY, locale)]: yup
+                .string()
+                .required('common.errors.field.empty'),
             }),
             {
-              feature_type_id: yup.number().required('common.errors.field.empty'),
+              characteristic_id: yup.number().required('common.errors.field.empty'),
             },
           ),
         ),
@@ -102,27 +106,27 @@ export const AdminFeatureValuesEditPresenter: React.FC<IProps> = ({
     trigger: availableLocales.length,
   });
 
-  const close = React.useCallback(() => history.push('/admin/featureValues'), [history]);
+  const close = React.useCallback(() => history.push('/admin/characteristicValues'), [history]);
 
   const edit: IViewProps['edit'] = async (values) => {
     const formattedValues = Object.keys(values).reduce(
       (acc, fieldName) => {
         const { key, id } = parseFieldName(fieldName);
-        if (key === FEATURE_VALUE_NAME_FIELD_KEY) {
+        if (key === CHARACTERISTIC_VALUE_NAME_FIELD_KEY) {
           return { ...acc, names: { ...acc.names, [id]: values[fieldName] } };
         }
 
         return acc;
       },
       {
-        feature_type_id: parseInt(values.feature_type_id, 10),
+        characteristic_id: parseInt(values.characteristic_id, 10),
         names: {},
       },
     );
 
     try {
-      const featureValue = await service.edit(featureValueId, formattedValues);
-      setFeatureValueToState(featureValue);
+      const characteristicValue = await service.edit(characteristicValueId, formattedValues);
+      setCharacteristicValueToState(characteristicValue);
       setUpdating(false);
       close();
     } catch (e) {
@@ -136,13 +140,15 @@ export const AdminFeatureValuesEditPresenter: React.FC<IProps> = ({
       availableLocales.reduce(
         (acc, locale) => ({
           ...acc,
-          [getFieldName(FEATURE_VALUE_NAME_FIELD_KEY, locale)]: (featureValue || { name: '' }).name[locale.id],
+          [getFieldName(CHARACTERISTIC_VALUE_NAME_FIELD_KEY, locale)]: (characteristicValue || { name: '' }).name[
+            locale.id
+          ],
         }),
         {
-          feature_type_id: featureValue?.feature_type.id.toString(),
+          characteristic_id: characteristicValue?.characteristic.id.toString(),
         },
       ),
-    [availableLocales, featureValue],
+    [availableLocales, characteristicValue],
   );
 
   return (
@@ -151,10 +157,10 @@ export const AdminFeatureValuesEditPresenter: React.FC<IProps> = ({
       edit={edit}
       error={error}
       isUpdating={isUpdating}
-      isLoading={isLoading || featureTypesLoading}
+      isLoading={isLoading || characteristicsLoading}
       close={close}
       availableLocales={availableLocales}
-      featureTypes={featureTypes}
+      characteristics={characteristics}
       validate={(validator || { validate: undefined }).validate}
       initialValues={initialValues}
       preloadingError={preloadingError}

@@ -24,6 +24,7 @@ export const AdminProductTypesCreateView = ({
   featureTypes,
   onChange,
   initialValues,
+  characteristicValues,
 }: IProps) => {
   const intl = useIntl();
   return (
@@ -39,6 +40,7 @@ export const AdminProductTypesCreateView = ({
       title={intl.formatMessage({ id: 'AdminProductTypes.create.title' })}
       fields={
         <Fields
+          characteristicValues={characteristicValues}
           availableLocales={availableLocales}
           categories={categories}
           featureTypes={featureTypes}

@@ -72,6 +72,16 @@ export const AdminMenuView = ({ onLogOutClick, user }: IProps) => {
           </NavLink>
         </Menu.Item>
         <Menu.Item>
+          <NavLink to="/admin/characteristics" activeClassName="is-active">
+            {intl.formatMessage({ id: 'AdminMenu.characteristicsLinkText' })}
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item>
+          <NavLink to="/admin/characteristicValues" activeClassName="is-active">
+            {intl.formatMessage({ id: 'AdminMenu.characteristicValuesLinkText' })}
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item>
           <NavLink to="/admin/featureTypes" activeClassName="is-active">
             {intl.formatMessage({ id: 'AdminMenu.featureTypesLinkText' })}
           </NavLink>

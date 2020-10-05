@@ -5,6 +5,7 @@ import { AdminProductTypesEditPresenter } from 'src/components/Admin/ProductType
 import { AdminProductTypesEditView } from 'src/components/Admin/ProductTypes/Edit/AdminProductTypesEditView';
 import { useDependencies } from 'src/DI/DI';
 import { useAdminCategoriesState } from 'src/state/AdminCategoriesState';
+import { useAdminCharacteristicValuesState } from 'src/state/AdminCharacteristicValuesState';
 import { useAdminFeatureTypesState } from 'src/state/AdminFeatureTypesState';
 import { useAdminProductTypesState } from 'src/state/AdminProductTypesState';
 import { useIntlState } from 'src/state/IntlState';
@@ -17,6 +18,7 @@ export const AdminProductTypesEditContainer = () => {
   const { state: adminCategoriesState } = useAdminCategoriesState();
   const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
   const { state: adminProductTypesState } = useAdminProductTypesState();
+  const { state: adminCharacteristicValuesState } = useAdminCharacteristicValuesState();
   const { intlState } = useIntlState();
 
   return (
@@ -29,6 +31,7 @@ export const AdminProductTypesEditContainer = () => {
       adminProductTypesState={adminProductTypesState}
       adminCategoriesState={adminCategoriesState}
       adminFeatureTypesState={adminFeatureTypesState}
+      adminCharacteristicValuesState={adminCharacteristicValuesState}
     />
   );
 };

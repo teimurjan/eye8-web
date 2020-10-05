@@ -5,6 +5,8 @@ import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
 import * as authAPI from 'src/api/AuthAPI';
 import * as bannerAPI from 'src/api/BannerAPI';
 import * as categoryAPI from 'src/api/CategoryAPI';
+import * as characteristicAPI from 'src/api/CharacteristicAPI';
+import * as characteristicValueAPI from 'src/api/CharacteristicValueAPI';
 import * as featureTypeAPI from 'src/api/FeatureTypeAPI';
 import * as featureValueAPI from 'src/api/FeatureValueAPI';
 import * as intlAPI from 'src/api/IntlAPI';
@@ -20,6 +22,8 @@ import { HeadersManager } from 'src/manager/HeadersManager';
 import * as authService from 'src/services/AuthService';
 import * as bannerService from 'src/services/BannerService';
 import * as categoryService from 'src/services/CategoryService';
+import * as characteristicService from 'src/services/CharacteristicService';
+import * as characteristicValueService from 'src/services/CharacteristicValueService';
 import * as featureTypeService from 'src/services/FeatureTypeService';
 import * as featureValueService from 'src/services/FeatureValueService';
 import * as intlService from 'src/services/IntlService';
@@ -46,6 +50,8 @@ export interface IAPIsContainer {
   category: categoryAPI.ICategoryAPI;
   productType: productTypeAPI.IProductTypeAPI;
   product: productAPI.IProductAPI;
+  characteristic: characteristicAPI.ICharacteristicAPI;
+  characteristicValue: characteristicValueAPI.ICharacteristicValueAPI;
   featureType: featureTypeAPI.IFeatureTypeAPI;
   featureValue: featureValueAPI.IFeatureValueAPI;
   intl: intlAPI.IIntlAPI;
@@ -61,6 +67,8 @@ export interface IServicesContainer {
   category: categoryService.ICategoryService;
   productType: productTypeService.IProductTypeService;
   product: productService.IProductService;
+  characteristic: characteristicService.ICharacteristicService;
+  characteristicValue: characteristicValueService.ICharacteristicValueService;
   featureType: featureTypeService.IFeatureTypeService;
   featureValue: featureValueService.IFeatureValueService;
   intl: intlService.IIntlService;
@@ -164,6 +172,8 @@ export const dependenciesFactory = ({ req, res }: IDependenciesFactoryArgs = {})
   const APIsContainer = {
     auth: new authAPI.AuthAPI(APIClient, headersManager),
     category: new categoryAPI.CategoryAPI(APIClient, headersManager),
+    characteristic: new characteristicAPI.CharacteristicAPI(APIClient, headersManager),
+    characteristicValue: new characteristicValueAPI.CharacteristicValueAPI(APIClient, headersManager),
     featureType: new featureTypeAPI.FeatureTypeAPI(APIClient, headersManager),
     featureValue: new featureValueAPI.FeatureValueAPI(APIClient, headersManager),
     intl: new intlAPI.IntlAPI(APIClient, headersManager),
@@ -179,6 +189,8 @@ export const dependenciesFactory = ({ req, res }: IDependenciesFactoryArgs = {})
   const servicesContainer = {
     auth: new authService.AuthService(APIsContainer.auth, storagesContainer.auth, storagesContainer.stateCache),
     category: new categoryService.CategoryService(APIsContainer.category),
+    characteristic: new characteristicService.CharacteristicService(APIsContainer.characteristic),
+    characteristicValue: new characteristicValueService.CharacteristicValueService(APIsContainer.characteristicValue),
     featureType: new featureTypeService.FeatureTypeService(APIsContainer.featureType),
     featureValue: new featureValueService.FeatureValueService(APIsContainer.featureValue),
     intl: new intlService.IntlService(APIsContainer.intl, storagesContainer.intl),

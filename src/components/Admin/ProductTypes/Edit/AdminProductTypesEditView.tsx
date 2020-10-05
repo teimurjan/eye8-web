@@ -23,6 +23,7 @@ export const AdminProductTypesEditView = ({
   preloadingError,
   initialValues,
   featureTypes,
+  characteristicValues,
 }: IProps) => {
   const intl = useIntl();
 
@@ -39,6 +40,7 @@ export const AdminProductTypesEditView = ({
       title={intl.formatMessage({ id: 'AdminProductTypes.edit.title' })}
       fields={
         <Fields
+          characteristicValues={characteristicValues}
           availableLocales={availableLocales}
           categories={categories}
           featureTypes={featureTypes}

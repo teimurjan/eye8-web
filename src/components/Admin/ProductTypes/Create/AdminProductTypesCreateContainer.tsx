@@ -5,6 +5,7 @@ import { AdminProductTypesCreatePresenter } from 'src/components/Admin/ProductTy
 import { AdminProductTypesCreateView } from 'src/components/Admin/ProductTypes/Create/AdminProductTypesCreateView';
 import { useDependencies } from 'src/DI/DI';
 import { useAdminCategoriesState } from 'src/state/AdminCategoriesState';
+import { useAdminCharacteristicValuesState } from 'src/state/AdminCharacteristicValuesState';
 import { useAdminFeatureTypesState } from 'src/state/AdminFeatureTypesState';
 import { useAdminProductTypesState } from 'src/state/AdminProductTypesState';
 import { useIntlState } from 'src/state/IntlState';
@@ -16,6 +17,7 @@ export const AdminProductTypesCreateContainer = () => {
   const { state: adminCategoriesState } = useAdminCategoriesState();
   const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
   const { state: adminProductTypesState } = useAdminProductTypesState();
+  const { state: adminCharacteristicValuesState } = useAdminCharacteristicValuesState();
   const { intlState } = useIntlState();
 
   return (
@@ -27,6 +29,7 @@ export const AdminProductTypesCreateContainer = () => {
       adminProductTypesState={adminProductTypesState}
       adminCategoriesState={adminCategoriesState}
       adminFeatureTypesState={adminFeatureTypesState}
+      adminCharacteristicValuesState={adminCharacteristicValuesState}
       stateCacheStorage={dependencies.storages.stateCache}
     />
   );

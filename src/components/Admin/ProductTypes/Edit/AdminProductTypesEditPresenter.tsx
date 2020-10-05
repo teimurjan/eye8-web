@@ -14,6 +14,7 @@ import * as schemaValidator from 'src/components/SchemaValidator';
 import { useLazy } from 'src/hooks/useLazy';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
+import { ContextValue as AdminCharacteristicValuesStateContextValue } from 'src/state/AdminCharacteristicValuesState';
 import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
 import { ContextValue as AdminProductTypesStateContextValue } from 'src/state/AdminProductTypesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
@@ -26,6 +27,7 @@ export interface IProps extends IntlStateContextValue {
   adminCategoriesState: AdminCategoriesStateContextValue['state'];
   adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
   adminProductTypesState: AdminProductTypesStateContextValue['state'];
+  adminCharacteristicValuesState: AdminCharacteristicValuesStateContextValue['state'];
 }
 
 interface IFormValues {
@@ -34,6 +36,7 @@ interface IFormValues {
   short_descriptions: { [key: string]: string };
   instagram_links: Link[];
   feature_types: string[];
+  characteristic_values: string[];
   categories?: string[];
   image: string;
 }
@@ -50,6 +53,7 @@ export interface IViewProps {
   validate?: (values: IFormValues) => object | Promise<object>;
   categories: AdminCategoriesStateContextValue['state']['entities'];
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
+  characteristicValues: AdminCharacteristicValuesStateContextValue['state']['entities'];
   initialValues: Partial<IFormValues>;
 }
 
@@ -70,6 +74,12 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
     isListLoading: featureTypesLoading,
     hasListLoaded: hasFeatureTypesLoaded,
   },
+  adminCharacteristicValuesState: {
+    get: getCharacteristicValues,
+    entities: characteristicValues,
+    isListLoading: characteristicValuesLoading,
+    hasListLoaded: hasCharacteristicValuesLoaded,
+  },
   adminProductTypesState: { set: setProductTypeToState },
   intlState: { availableLocales },
   service,
@@ -82,7 +92,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
 
-  const isLoading_ = isLoading || categoriesLoading || featureTypesLoading;
+  const isLoading_ = isLoading || categoriesLoading || featureTypesLoading || characteristicValuesLoading;
 
   const makeValidator = React.useCallback(
     () =>
@@ -117,6 +127,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
                 .of(yup.number())
                 .required('AdminProductTypes.errors.noFeatureTypes')
                 .min(1, 'AdminProductTypes.errors.noFeatureTypes'),
+              characteristic_values: yup.array().of(yup.number()),
               image: yup.mixed().required('common.errors.field.empty'),
             },
           ),
@@ -143,6 +154,9 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
           }
           if (!hasFeatureTypesLoaded) {
             promises.push(getFeatureTypes());
+          }
+          if (!hasCharacteristicValuesLoaded) {
+            promises.push(getCharacteristicValues());
           }
 
           Promise.all(promises);
@@ -189,6 +203,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
           instagram_links: values.instagram_links.map((link) => link.value),
           categories: values.categories ? values.categories.map((category) => parseInt(category, 10)) : [],
           feature_types: values.feature_types.map((id) => parseInt(id, 10)),
+          characteristic_values: values.characteristic_values.map((id) => parseInt(id, 10)),
           image: values.image,
         },
       );
@@ -221,6 +236,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
         instagram_links: productType.instagram_links.map((link) => ({ id: link.id, value: link.link })),
         categories: productType.categories.map(({ id }) => id.toString()),
         feature_types: productType.feature_types.map((id) => id.toString()),
+        characteristic_values: productType.characteristic_values.map((id) => id.toString()),
         image: productType.image,
       } as IViewProps['initialValues'];
     }
@@ -230,6 +246,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
 
   return (
     <View
+      characteristicValues={characteristicValues}
       featureTypes={featureTypes}
       categories={categories}
       isOpen={true}

@@ -96,6 +96,7 @@ export interface IProductTypeDetailRawIntlResponseItem {
   image: string;
   categories: Array<{ id: number }>;
   feature_types: number[];
+  characteristic_values: number[];
   slug: string;
   created_on: string;
   updated_on: string;

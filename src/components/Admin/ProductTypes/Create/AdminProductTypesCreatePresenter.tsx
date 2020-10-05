@@ -9,6 +9,7 @@ import * as schemaValidator from 'src/components/SchemaValidator';
 import { useLazy } from 'src/hooks/useLazy';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
+import { ContextValue as AdminCharacteristicValuesStateContextValue } from 'src/state/AdminCharacteristicValuesState';
 import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
 import { ContextValue as AdminProductTypesStateContextValue } from 'src/state/AdminProductTypesState';
 import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
@@ -23,6 +24,7 @@ export interface IProps extends IntlStateContextValue {
   adminCategoriesState: AdminCategoriesStateContextValue['state'];
   adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
   adminProductTypesState: AdminProductTypesStateContextValue['state'];
+  adminCharacteristicValuesState: AdminCharacteristicValuesStateContextValue['state'];
 }
 
 interface IFormValues {
@@ -31,6 +33,7 @@ interface IFormValues {
   short_descriptions: { [key: string]: string };
   instagram_links: Link[];
   feature_types: string[];
+  characteristic_values: string[];
   categories?: string[];
   image: string;
 }
@@ -47,6 +50,7 @@ export interface IViewProps {
   validate?: (values: IFormValues) => object | Promise<object>;
   categories: AdminCategoriesStateContextValue['state']['entities'];
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
+  characteristicValues: AdminCharacteristicValuesStateContextValue['state']['entities'];
   onChange: IModalFormProps<IFormValues>['onChange'];
   initialValues: Partial<IFormValues>;
 }
@@ -72,6 +76,12 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
     isListLoading: featureTypesLoading,
     hasListLoaded: hasFeatureTypesLoaded,
   },
+  adminCharacteristicValuesState: {
+    get: getCharacteristicValues,
+    entities: characteristicValues,
+    isListLoading: characteristicValuesLoading,
+    hasListLoaded: hasCharacteristicValuesLoaded,
+  },
   adminProductTypesState: { get: getProductTypes },
   service,
   View,
@@ -81,7 +91,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
   const [isCreating, setCreating] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
 
-  const isLoading = categoriesLoading && featureTypesLoading;
+  const isLoading = categoriesLoading || featureTypesLoading || characteristicValuesLoading;
 
   const makeValidator = React.useCallback(
     () =>
@@ -116,6 +126,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
                 .of(yup.number())
                 .required('AdminProductTypes.errors.noFeatureTypes')
                 .min(1, 'AdminProductTypes.errors.noFeatureTypes'),
+              characteristic_values: yup.array().of(yup.number()).required('AdminProductTypes.errors.noFeatureTypes'),
               image: yup.mixed().required('common.errors.field.empty'),
             },
           ),
@@ -138,6 +149,9 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
         }
         if (!hasFeatureTypesLoaded) {
           promises.push(getFeatureTypes());
+        }
+        if (!hasCharacteristicValuesLoaded) {
+          promises.push(getCharacteristicValues());
         }
 
         await Promise.all(promises);
@@ -179,6 +193,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
             : [],
           categories: values.categories ? values.categories.map((category) => parseInt(category as string, 10)) : [],
           feature_types: values.feature_types.map((id) => parseInt(id, 10)),
+          characteristic_values: values.characteristic_values.map((id) => parseInt(id, 10)),
           image: values.image,
         },
       );
@@ -205,10 +220,15 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
       values.categories = values.categories
         ? values.categories.filter((idStr: string) => categories.some(({ id }) => id.toString() === idStr))
         : undefined;
+      values.characteristic_values = values.characteristic_values
+        ? values.characteristic_values.filter((idStr: string) =>
+            characteristicValues.some(({ id }) => id.toString() === idStr),
+          )
+        : undefined;
 
       stateCacheStorage.set(STATE_CACHE_KEY, objectWithout(values, 'image'), { expireIn: 3600 });
     },
-    [featureTypes, categories, stateCacheStorage],
+    [featureTypes, categories, characteristicValues, stateCacheStorage],
   );
 
   return (
@@ -226,6 +246,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
       preloadingError={preloadingError}
       onChange={onChange}
       initialValues={stateCacheStorage.get(STATE_CACHE_KEY) || {}}
+      characteristicValues={characteristicValues}
     />
   );
 };
