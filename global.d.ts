@@ -42,6 +42,7 @@ declare interface ClientUITheme {
   backgroundDarkColor: string;
   backgroundDarkHoverColor: string;
   backgroundGrayColor: string;
+  backgroundSelectedColor: string;
   infoColor: string;
   buttonInfoBackgroundHoverColor: string;
   messageDefaultBackgroundColor: string;

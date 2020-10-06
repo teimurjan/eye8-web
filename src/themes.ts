@@ -53,6 +53,7 @@ class DefaultTheme implements AdminUITheme, ClientUITheme {
   public backgroundSecondaryColor = this.beigeColor;
   public backgroundGrayColor = this.lightGrayColor;
   public backgroundDarkGrayColor = color(this.backgroundGrayColor).darken(0.2).hex();
+  public backgroundSelectedColor = color(this.primaryColor).lighten(0.55).hex();
   // - text
   public headerBackgroundColor = this.whiteColor;
   public textColor = this.darkGrayColor;
@@ -133,6 +134,7 @@ class DarkTheme implements AdminUITheme, ClientUITheme {
   public backgroundSecondaryColor = this.beigeColor;
   public backgroundGrayColor = this.lightGrayColor;
   public backgroundDarkGrayColor = color(this.backgroundGrayColor).darken(0.2).hex();
+  public backgroundSelectedColor = color(this.primaryColor).lighten(0.5).hex();
   // - text
   public headerBackgroundColor = this.whiteColor;
   public textColor = this.darkGrayColor;

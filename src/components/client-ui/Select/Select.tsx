@@ -29,7 +29,7 @@ const SelectOptionCheckedFlag = () => {
   return (
     <IconWrapper
       css={css`
-        margin-left: 7.5px;
+        margin-left: auto;
         color: ${theme.primaryColor};
       `}
     >
@@ -38,12 +38,31 @@ const SelectOptionCheckedFlag = () => {
   );
 };
 
-const SelectOption = ({ className, children, selected, value, onClick }: IOption) => (
-  <Popover.Item className={className} data-selected={selected} data-value={value} onClick={onClick} Component="div">
-    {children}
-    {selected && <SelectOptionCheckedFlag />}
-  </Popover.Item>
-);
+const SelectOption = ({ className, children, selected, value, onClick }: IOption) => {
+  const theme = useTheme<ClientUITheme>();
+
+  return (
+    <Popover.Item
+      css={css`
+        display: flex;
+        align-items: center;
+
+        &[data-selected='true'] {
+          font-weight: bold;
+          background: ${theme.backgroundSelectedColor};
+        }
+      `}
+      className={className}
+      data-selected={selected}
+      data-value={value}
+      onClick={onClick}
+      Component="div"
+    >
+      {children}
+      {selected && <SelectOptionCheckedFlag />}
+    </Popover.Item>
+  );
+};
 
 SelectOption.CheckedFlag = SelectOptionCheckedFlag;
 

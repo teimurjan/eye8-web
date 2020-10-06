@@ -342,7 +342,7 @@ const PopoverItem = <T extends object = {}>({
             className,
             css_`
               cursor: pointer;
-              padding: 10px 20px;
+              padding: 5px 10px;
               color: ${theme.textColor};
               background: ${theme.backgroundPrimaryColor};
 

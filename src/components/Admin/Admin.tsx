@@ -54,6 +54,7 @@ const arrowDivider = (
       display: block;
       font-size: 20px;
       margin: 10px auto 10px auto;
+      text-align: center;
     `}
   >
     <ArrowDownIcon size={IconSizes.Medium} />
