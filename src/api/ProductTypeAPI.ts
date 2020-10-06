@@ -163,14 +163,15 @@ export const sortingTypeOfQueryValue = {
   [ProductTypeSortingQueryValue.PRICE_DESCENDING]: ProductTypeSortingType.PRICE_DESCENDING,
 };
 
+export interface IGetForCategoryOptions {
+  page: number;
+  sortBy?: ProductTypeSortingType;
+  characteristicValuesIds?: number[];
+  available?: boolean;
+}
+
 export interface IProductTypeAPI {
-  getForCategory(
-    categorySlug: string,
-    page: number,
-    sortBy?: ProductTypeSortingType,
-    characteristicValuesIds?: number[],
-    available?: boolean,
-  ): Promise<IProductTypeListResponseData>;
+  getForCategory(categorySlug: string, options: IGetForCategoryOptions): Promise<IProductTypeListResponseData>;
   getAll(page: number): Promise<IProductTypeListResponseData>;
   getNewest(): Promise<IProductTypeListResponseData>;
   getByID(id: number): Promise<IProductTypeDetailResponseItemData>;
@@ -213,10 +214,12 @@ export class ProductTypeAPI implements IProductTypeAPI {
 
   public async getForCategory(
     categorySlug: string,
-    page: number,
-    sortBy: ProductTypeSortingType = ProductTypeSortingType.RECENT,
-    characteristicValuesIds = [],
-    available = true,
+    {
+      page,
+      sortBy = ProductTypeSortingType.RECENT,
+      characteristicValuesIds = [],
+      available = true,
+    }: IGetForCategoryOptions,
   ) {
     try {
       const response = await this.client.get<IProductTypeListResponseData>(

@@ -32,12 +32,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params = {}, req,
     logTimeStart('CategoryProducts.getServerSideProps');
 
     const categorySlug = params.slug as string;
-    const { entities, meta, result } = await dependencies.services.productType.getForCategory(
-      categorySlug,
-      parseInt(page as string, 10),
-      sortingTypeOfQueryValue[sortBy as string],
-      getCharacteristicValuesIdsFromQuery(parsedUrl.query),
-    );
+    const { entities, meta, result } = await dependencies.services.productType.getForCategory(categorySlug, {
+      page: parseInt(page as string, 10),
+      sortBy: sortingTypeOfQueryValue[sortBy as string],
+      characteristicValuesIds: getCharacteristicValuesIdsFromQuery(parsedUrl.query),
+    });
     const category = await dependencies.services.category.getOneBySlug(categorySlug);
 
     logTimeFinish('CategoryProducts.getServerSideProps');

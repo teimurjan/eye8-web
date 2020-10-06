@@ -73,12 +73,11 @@ export const ProductTypesPagePresenter = ({
     async (page: number = 1, newSortingType?: ProductTypeSortingType, newCharacteristicValuesIds?: number[]) => {
       setLoading(true);
       try {
-        const { entities, result, meta } = await productTypeService.getForCategory(
-          categorySlug!,
+        const { entities, result, meta } = await productTypeService.getForCategory(categorySlug!, {
           page,
-          sortingType ?? newSortingType,
-          newCharacteristicValuesIds ?? characteristicValuesIds,
-        );
+          sortBy: newSortingType ?? sortingType,
+          characteristicValuesIds: newCharacteristicValuesIds ?? characteristicValuesIds,
+        });
         setProductTypesData({ entities: entities.productTypes ?? {}, meta, order: result });
       } catch (e) {
         setError('errors.common');
