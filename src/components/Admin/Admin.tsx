@@ -1,9 +1,8 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
+import { ArrowDown as ArrowDownIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 import { Route, Switch } from 'react-router';
 
@@ -30,6 +29,7 @@ import { NewProductTypeButton } from 'src/components/Admin/ProductTypes/List/Adm
 import { AdminPromoCodes } from 'src/components/Admin/PromoCodes/AdminPromoCodes';
 import { AdminRates } from 'src/components/Admin/Rates/AdminRates';
 import { Drawer } from 'src/components/client-ui/Drawer/Drawer';
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { isUserSetAsManagerOrAdmin, isUserSetAsClient, isUserSetAsAdmin } from 'src/helpers/user';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useMedia } from 'src/hooks/useMedia';
@@ -45,17 +45,19 @@ import { AdminProductsStateProvider } from 'src/state/AdminProductsState';
 import { AdminProductTypesStateProvider } from 'src/state/AdminProductTypesState';
 import { AdminPromoCodesStateProvider } from 'src/state/AdminPromoCodesState';
 import { AdminRatesStateProvider } from 'src/state/AdminRatesState';
+import { IconSizes } from 'src/styles/icon';
 import { mediaQueries } from 'src/styles/media';
 
 const arrowDivider = (
-  <FontAwesomeIcon
+  <IconWrapper
     css={css`
       display: block;
       font-size: 20px;
       margin: 10px auto 10px auto;
     `}
-    icon={faArrowDown}
-  />
+  >
+    <ArrowDownIcon size={IconSizes.Medium} />
+  </IconWrapper>
 );
 
 interface IStepProps {

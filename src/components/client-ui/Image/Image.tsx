@@ -1,14 +1,15 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { useTheme } from 'emotion-theming';
 import React from 'react';
+import { AlertTriangle as AlertTriangleIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { Tooltip } from 'src/components/client-ui/Tooltip/Tooltip';
 import { useBoolean } from 'src/hooks/useBoolean';
+import { IconSizes } from 'src/styles/icon';
 import { arePropsEqual } from 'src/utils/propEquality';
 
 interface IProps {
@@ -70,15 +71,16 @@ const Image = ({ src, alt, className, squared = true }: IProps) => {
         {hasError && (
           <Tooltip
             renderTrigger={({ ref, open }) => (
-              <span
+              <IconWrapper
                 ref={ref}
                 css={css`
                   z-index: 1;
+                  color: ${theme.textFadedColor};
                 `}
                 onMouseEnter={open}
               >
-                <FontAwesomeIcon color={theme.textFadedColor} size="2x" icon={faExclamationCircle} />
-              </span>
+                <AlertTriangleIcon size={IconSizes.Large} />
+              </IconWrapper>
             )}
           >
             {intl.formatMessage({ id: 'errors.brokenImage' })}

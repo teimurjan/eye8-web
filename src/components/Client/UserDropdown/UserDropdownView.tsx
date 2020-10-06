@@ -1,22 +1,21 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
 import * as React from 'react';
+import { User as UserIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
 import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
 import { Popover, TriggerHoverProps as PopoverTriggerProps } from 'src/components/client-ui/Popover/Popover';
 import { WithIcon } from 'src/components/client-ui/WithIcon/WithIcon';
-import { useHeaderIconSize } from 'src/components/Client/Header/HeaderView';
 import { IViewProps as IProps } from 'src/components/Client/UserDropdown/UserDropdownPresenter';
 import { isUserAuthorized } from 'src/helpers/user';
+import { IconSizes } from 'src/styles/icon';
 
 const Trigger = React.forwardRef<HTMLAnchorElement, PopoverTriggerProps>((props, ref) => {
   const intl = useIntl();
-  const size = useHeaderIconSize();
   return (
     <Anchor ref={ref} weight={Anchor.Weight.Bold} noHoverOnTouch {...props}>
-      <WithIcon icon={faUser} size={size} hideTextOnMobile>
+      <WithIcon icon={<UserIcon size={IconSizes.Medium} />} hideTextOnMobile>
         {intl.formatMessage({ id: 'common.account' })}
       </WithIcon>
     </Anchor>

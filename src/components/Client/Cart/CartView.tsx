@@ -1,9 +1,8 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faShoppingCart, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
+import { ArrowLeft as ArrowLeftIcon, ShoppingBag as ShoppingBagIcon } from 'react-feather';
 import { Form, Field as FinalFormField, FieldRenderProps, FormRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
@@ -13,14 +12,15 @@ import { Button } from 'src/components/client-ui/Button/Button';
 import { Drawer } from 'src/components/client-ui/Drawer/Drawer';
 import { UnderlinedInput } from 'src/components/client-ui/Form/UnderlinedInput/UnderlinedInput';
 import { HelpText } from 'src/components/client-ui/HelpText/HelpText';
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout';
 import { Message } from 'src/components/client-ui/Message/Message';
 import { Title } from 'src/components/client-ui/Title/Title';
 import { WithIcon } from 'src/components/client-ui/WithIcon/WithIcon';
 import { CartItem } from 'src/components/Client/Cart/CartItem/CartItem';
 import { IViewProps as IProps, IFormValues } from 'src/components/Client/Cart/CartPresenter';
-import { useHeaderIconSize } from 'src/components/Client/Header/HeaderView';
 import { PriceText } from 'src/components/Client/Price/Price';
+import { IconSizes } from 'src/styles/icon';
 import { bounce, fadeInFromRight, fadeInFromLeft, expand } from 'src/styles/keyframes';
 import { easeOutCubic } from 'src/styles/timing-functions';
 import { getCartTotalPrice } from 'src/utils/order';
@@ -34,9 +34,8 @@ const buttonCSS = css`
 
 const CartTrigger = React.forwardRef<HTMLSpanElement>((props, ref) => {
   const intl = useIntl();
-  const size = useHeaderIconSize();
   return (
-    <WithIcon ref={ref} icon={faShoppingCart} size={size} hideTextOnMobile {...props}>
+    <WithIcon ref={ref} icon={<ShoppingBagIcon size={IconSizes.Medium} />} hideTextOnMobile {...props}>
       {intl.formatMessage({ id: 'common.cart' })}
     </WithIcon>
   );
@@ -327,7 +326,7 @@ export const CartView: React.FC<IProps> = (props) => {
             overflow-x: hidden;
           `}
         >
-          <FontAwesomeIcon
+          <IconWrapper
             onClick={goToPrevStep}
             css={css`
               position: absolute;
@@ -338,8 +337,9 @@ export const CartView: React.FC<IProps> = (props) => {
               transition: opacity 200ms;
               color: ${theme.textColor};
             `}
-            icon={faArrowLeft}
-          />
+          >
+            <ArrowLeftIcon size={IconSizes.Medium} />
+          </IconWrapper>
           <TransitionGroup component={null}>
             <CSSTransition key={step} classNames="fading" timeout={400}>
               <div

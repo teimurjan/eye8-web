@@ -1,7 +1,6 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/core';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import classNames from 'classnames';
 import * as React from 'react';
 
@@ -72,7 +71,7 @@ export const Dropdown = ({
   );
 };
 
-const IconTrigger = ({ onClick, icon, className }: ITriggerProps & { icon: IconProp }) => {
+const IconTrigger = ({ onClick, icon, className }: ITriggerProps & { icon: React.ReactNode }) => {
   const modifiedOnClick = React.useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();

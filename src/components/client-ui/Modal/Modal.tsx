@@ -1,14 +1,14 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { useTheme } from 'emotion-theming';
 import React from 'react';
 import * as ReactDOM from 'react-dom';
+import { X as XIcon } from 'react-feather';
 import { CSSTransition } from 'react-transition-group';
 
 import { ModalBackground } from 'src/components/admin-ui/ModalBackground/ModalBackground';
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { Tooltip } from 'src/components/client-ui/Tooltip/Tooltip';
 import useClickOutside from 'src/hooks/useClickOutside';
 import { useDebounce } from 'src/hooks/useDebounce';
@@ -25,7 +25,8 @@ export const ModalClose: React.FC<IModalCloseProps> = ({ className, onClick }) =
       offset={[0, -10]}
       placement="left"
       renderTrigger={({ open, ref }) => (
-        <span
+        <IconWrapper
+          onClick={onClick}
           css={css`
             padding: 20px;
             cursor: pointer;
@@ -37,8 +38,8 @@ export const ModalClose: React.FC<IModalCloseProps> = ({ className, onClick }) =
           onMouseEnter={open}
           className={className}
         >
-          <FontAwesomeIcon icon={faTimes} onClick={onClick} />
-        </span>
+          <XIcon />
+        </IconWrapper>
       )}
     >
       esc

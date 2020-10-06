@@ -18,7 +18,7 @@ const LanguageDrodownTrigger = React.forwardRef<any, PopoverTriggerProps>((props
     (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
 
-      if ('onClick' in props) {
+      if (props.onClick) {
         props.onClick(e);
       }
     },

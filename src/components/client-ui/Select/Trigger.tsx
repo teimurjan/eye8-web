@@ -1,12 +1,13 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
+import { ChevronDown as ChevronDownIcon } from 'react-feather';
 
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { IOption } from 'src/components/client-ui/Select/Select';
+import { IconSizes } from 'src/styles/icon';
 
 const VERTICAL_PADDING_PX = 7.5;
 const LEFT_PADDING_PX = 2.5;
@@ -61,7 +62,7 @@ export const SimpleSelectTrigger = React.forwardRef<HTMLDivElement, ISelectTrigg
         onClick={onClick}
       >
         {selectedOptions.length > 0 ? selectedOptions[0].name : placeholder}
-        <FontAwesomeIcon
+        <IconWrapper
           css={css`
             position: absolute;
             right: 10px;
@@ -73,8 +74,9 @@ export const SimpleSelectTrigger = React.forwardRef<HTMLDivElement, ISelectTrigg
               transform: rotate(180deg);
             }
           `}
-          icon={faCaretDown}
-        />
+        >
+          <ChevronDownIcon size={IconSizes.Medium} />
+        </IconWrapper>
       </div>
     );
   },

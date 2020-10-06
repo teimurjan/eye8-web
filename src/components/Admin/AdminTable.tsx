@@ -1,10 +1,9 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/core';
-import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import * as React from 'react';
+import { Trash as TrashIcon, Edit2 as Edit2Icon } from 'react-feather';
 import { IntlShape } from 'react-intl';
 import { Link } from 'react-router-dom';
 
@@ -13,9 +12,11 @@ import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextFie
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
 import { Table } from 'src/components/admin-ui/Table/Table';
 import { Title } from 'src/components/admin-ui/Title/Title';
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useDebounce } from 'src/hooks/useDebounce';
+import { IconSizes } from 'src/styles/icon';
 import { mediaQueries } from 'src/styles/media';
 import { buildSearchString } from 'src/utils/queryString';
 import { formatMediaURL } from 'src/utils/url';
@@ -262,7 +263,9 @@ export const AdminTable = <T extends { id: number }>({
                       `}
                       color="is-primary"
                     >
-                      <FontAwesomeIcon icon={faPencilAlt} />
+                      <IconWrapper>
+                        <Edit2Icon size={IconSizes.Medium} />
+                      </IconWrapper>
                     </ReactRouterLinkButton>
                   )}
                   {!hideDelete && (
@@ -272,7 +275,9 @@ export const AdminTable = <T extends { id: number }>({
                       })}`}
                       color="is-danger"
                     >
-                      <FontAwesomeIcon icon={faTrashAlt} />
+                      <IconWrapper>
+                        <TrashIcon size={IconSizes.Medium} />
+                      </IconWrapper>
                     </ReactRouterLinkButton>
                   )}
                 </Table.Cell>

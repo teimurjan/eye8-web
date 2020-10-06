@@ -1,6 +1,5 @@
-import { faFile } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
+import { File as FileIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
 import { formatMediaURL } from 'src/utils/url';
@@ -58,7 +57,7 @@ export const FileInput: React.SFC<IProps> = ({ placeholder, value, showPreview =
           <input className="file-input" type="file" onChange={handleChange} accept={accept} />
           <span className="file-cta">
             <span className="file-icon">
-              <FontAwesomeIcon icon={faFile} />
+              <FileIcon />
             </span>
             <span className="file-label">{placeholder}</span>
           </span>

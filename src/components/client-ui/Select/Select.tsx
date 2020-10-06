@@ -1,15 +1,16 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
+import { Check as CheckIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { Popover } from 'src/components/client-ui/Popover/Popover';
 import { ITriggerComponentType } from 'src/components/client-ui/Select/Trigger';
 import { useForceUpdate } from 'src/hooks/useForceUpdate';
 import { useScrollPosition } from 'src/hooks/useScrollPosition';
+import { IconSizes } from 'src/styles/icon';
 import { mediaQueries } from 'src/styles/media';
 import { reactChildrenFind } from 'src/utils/children';
 
@@ -26,13 +27,14 @@ const SelectOptionCheckedFlag = () => {
   const theme = useTheme<ClientUITheme>();
 
   return (
-    <FontAwesomeIcon
+    <IconWrapper
       css={css`
         margin-left: 7.5px;
+        color: ${theme.primaryColor};
       `}
-      icon={faCheck}
-      color={theme.primaryColor}
-    />
+    >
+      <CheckIcon size={IconSizes.Medium} />
+    </IconWrapper>
   );
 };
 

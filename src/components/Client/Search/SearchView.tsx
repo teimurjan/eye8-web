@@ -1,8 +1,8 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
+import { Search as SearchIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
 import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
@@ -14,10 +14,10 @@ import { Popover } from 'src/components/client-ui/Popover/Popover';
 import { Subtitle } from 'src/components/client-ui/Subtitle/Subtitle';
 import { Tag } from 'src/components/client-ui/Tag/Tag';
 import { WithIcon } from 'src/components/client-ui/WithIcon/WithIcon';
-import { useHeaderIconSize } from 'src/components/Client/Header/HeaderView';
 import { IViewProps as IProps } from 'src/components/Client/Search/SearchPresenter';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useDebounce } from 'src/hooks/useDebounce';
+import { IconSizes } from 'src/styles/icon';
 import { mediaQueries } from 'src/styles/media';
 import { formatMediaURL } from 'src/utils/url';
 
@@ -37,9 +37,8 @@ const contentCSS = css`
 
 const SearchTrigger = React.forwardRef<HTMLSpanElement>((props, ref) => {
   const intl = useIntl();
-  const size = useHeaderIconSize();
   return (
-    <WithIcon ref={ref} size={size} icon={faSearch} hideTextOnMobile {...props}>
+    <WithIcon ref={ref} icon={<SearchIcon size={IconSizes.Medium} />} hideTextOnMobile {...props}>
       {intl.formatMessage({ id: 'common.search' })}
     </WithIcon>
   );

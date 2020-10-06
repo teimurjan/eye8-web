@@ -1,19 +1,17 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import { IconProp, SizeProp } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { mediaQueries } from 'src/styles/media';
 
 interface IProps extends React.HTMLAttributes<HTMLSpanElement> {
-  icon: IconProp;
-  size?: SizeProp;
+  icon: React.ReactNode;
   hideTextOnMobile?: boolean;
 }
 
 export const WithIcon = React.forwardRef<HTMLSpanElement, IProps>(
-  ({ children, icon, size, hideTextOnMobile = false, ...props }, ref) => (
+  ({ children, icon, hideTextOnMobile = false, ...props }, ref) => (
     <span
       ref={ref}
       className={hideTextOnMobile ? 'hide-text-on-mobile' : undefined}
@@ -34,7 +32,7 @@ export const WithIcon = React.forwardRef<HTMLSpanElement, IProps>(
       >
         {children}
       </span>
-      <FontAwesomeIcon
+      <IconWrapper
         css={css`
           margin-left: 5px;
 
@@ -44,9 +42,9 @@ export const WithIcon = React.forwardRef<HTMLSpanElement, IProps>(
             }
           }
         `}
-        icon={icon}
-        size={size}
-      />
+      >
+        {icon}
+      </IconWrapper>
     </span>
   ),
 );

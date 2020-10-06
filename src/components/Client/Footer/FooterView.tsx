@@ -1,12 +1,13 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { useTheme } from 'emotion-theming';
+import { Instagram as InstagramIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
 import { Container } from 'src/components/admin-ui/Container/Container';
 import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
 import { WithIcon } from 'src/components/client-ui/WithIcon/WithIcon';
+import { IconSizes } from 'src/styles/icon';
 import { mediaQueries } from 'src/styles/media';
 import { safeDocument } from 'src/utils/dom';
 
@@ -67,7 +68,7 @@ export const FooterView = () => {
               target="_blank"
               weight={Anchor.Weight.Bold}
             >
-              <WithIcon icon={faInstagram}>Instagram</WithIcon>
+              <WithIcon icon={<InstagramIcon size={IconSizes.Medium} />}>Instagram</WithIcon>
             </Anchor>
           </div>
         </div>

@@ -1,6 +1,6 @@
 {
   "name": "eye8-web",
-  "version": "1.7.6",
+  "version": "1.7.7",
   "private": true,
   "repository": {
     "type": "git",
@@ -19,11 +19,6 @@
     "@emotion/core": "^10.0.5",
     "@emotion/styled": "^10.0.5",
     "@formatjs/intl-relativetimeformat": "^4.5.11",
-    "@fortawesome/fontawesome-svg-core": "^1.2.30",
-    "@fortawesome/free-brands-svg-icons": "^5.14.0",
-    "@fortawesome/free-regular-svg-icons": "^5.14.0",
-    "@fortawesome/free-solid-svg-icons": "^5.14.0",
-    "@fortawesome/react-fontawesome": "^0.1.11",
     "@popperjs/core": "^2.2.2",
     "@sentry/browser": "^5.15.5",
     "@sentry/node": "^5.19.1",
@@ -58,6 +53,7 @@
     "normalizr": "^3.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-feather": "^2.0.8",
     "react-final-form": "^6.5.0",
     "react-helmet": "^5.2.1",
     "react-input-mask": "^2.0.4",
@@ -113,7 +109,7 @@
     "prettier": "prettier --write \"./src/**/*.{ts,tsx,js,jsx,json}\"",
     "lint:fix": "eslint \"./src/**/*.{ts,tsx,js,jsx}\" --fix",
     "lint": "eslint \"./src/**/*.{ts,tsx,js,jsx}\"",
-    "dev": "node server/index.js",
+    "dev": "env DISABLE_SW=true node server/index.js",
     "start": "env NODE_ENV=production node server/index.js",
     "build": "next build"
   },

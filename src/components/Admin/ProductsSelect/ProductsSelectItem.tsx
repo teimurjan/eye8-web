@@ -1,14 +1,15 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTheme } from 'emotion-theming';
+import { ExternalLink as ExternalLinkIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 
 import { IProductListResponseItem } from 'src/api/ProductAPI';
 import { Subtitle } from 'src/components/admin-ui/Subtitle/Subtitle';
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { ProductSelectContainer } from 'src/components/common-ui/ProductSelect/ProductSelectContainer';
+import { IconSizes } from 'src/styles/icon';
 
 interface IProps {
   id?: number;
@@ -46,15 +47,13 @@ export const ProductsSelectItem = ({ id, name, onChange, footer }: IProps) => {
           </Subtitle>{' '}
           {id && (
             <Link to={`/admin/products/edit/${id}`}>
-              <FontAwesomeIcon
-                size="sm"
+              <IconWrapper
                 css={css`
                   margin-left: 5px;
-                  display: inline-block;
-                  vertical-align: baseline;
                 `}
-                icon={faExternalLinkAlt}
-              />
+              >
+                <ExternalLinkIcon size={IconSizes.Small} />
+              </IconWrapper>
             </Link>
           )}
         </span>

@@ -1,17 +1,18 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTheme } from 'emotion-theming';
 import React from 'react';
+import { ExternalLink as ExternalLinkIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
 import { IOrderListResponseItem } from 'src/api/OrderAPI';
 import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { Tag } from 'src/components/client-ui/Tag/Tag';
 import { Tooltip } from 'src/components/client-ui/Tooltip/Tooltip';
 import { PriceText } from 'src/components/Client/Price/Price';
 import { useIntlState } from 'src/state/IntlState';
+import { IconSizes } from 'src/styles/icon';
 import { getOrderTotalPrice } from 'src/utils/order';
 
 interface IProps {
@@ -133,15 +134,13 @@ export const OrderItem: React.FC<IProps> = ({ order, className }) => {
                 underline
               >
                 {item.product.product_type.name}{' '}
-                <FontAwesomeIcon
-                  size="sm"
+                <IconWrapper
                   css={css`
                     margin-left: 5px;
-                    display: inline-block;
-                    vertical-align: baseline;
                   `}
-                  icon={faExternalLinkAlt}
-                />
+                >
+                  <ExternalLinkIcon size={IconSizes.Small} />
+                </IconWrapper>
               </Anchor>
             ) : null,
           )}

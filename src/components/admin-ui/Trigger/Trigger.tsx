@@ -1,14 +1,15 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faCaretDown, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
+import { ChevronDown as ChevronDownIcon, X as XIcon } from 'react-feather';
 
 import { Button } from 'src/components/admin-ui/Button/Button';
 import { Tag } from 'src/components/admin-ui/Tag/Tag';
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { ISelectTriggerProps } from 'src/components/client-ui/Select/Trigger';
 import { useBoolean } from 'src/hooks/useBoolean';
+import { IconSizes } from 'src/styles/icon';
 import { mediaQueries } from 'src/styles/media';
 
 const TRIGGER_CLASSNAME = 'select-trigger';
@@ -141,10 +142,12 @@ export const SearchableSelectTrigger = React.forwardRef<HTMLDivElement, ISelectT
               height: 100%;
             `}
           >
-            <FontAwesomeIcon icon={faTimes} />
+            <IconWrapper>
+              <XIcon size={IconSizes.Medium} />
+            </IconWrapper>
           </Button>
         )}
-        <FontAwesomeIcon
+        <IconWrapper
           css={css`
             position: absolute;
             right: 10px;
@@ -158,8 +161,9 @@ export const SearchableSelectTrigger = React.forwardRef<HTMLDivElement, ISelectT
               transform: translateY(-50%), rotate(180deg);
             }
           `}
-          icon={faCaretDown}
-        />
+        >
+          <ChevronDownIcon size={IconSizes.Medium} />
+        </IconWrapper>
       </div>
     );
   },

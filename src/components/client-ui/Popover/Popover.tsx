@@ -56,11 +56,11 @@ export type RenderTrigger<T> = (props: {
 }) => React.ReactNode;
 
 export type TriggerClickProps = {
-  onClick: React.MouseEventHandler;
+  onClick?: React.MouseEventHandler;
 };
 export type TriggerHoverProps = {
-  onMouseEnter: React.MouseEventHandler;
-  onClick: React.MouseEventHandler;
+  onMouseEnter?: React.MouseEventHandler;
+  onClick?: React.MouseEventHandler;
 };
 type TriggerClickComponent<T> = React.ComponentType<TriggerClickProps & React.RefAttributes<T>>;
 type TriggerHoverComponent<T> = React.ComponentType<TriggerHoverProps & React.RefAttributes<T>>;

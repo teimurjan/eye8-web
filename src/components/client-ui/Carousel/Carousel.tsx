@@ -1,12 +1,13 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import React from 'react';
+import { ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon } from 'react-feather';
 import { useSwipeable, SwipeableOptions } from 'react-swipeable';
 
 import { Button } from 'src/components/client-ui/Button/Button';
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
+import { IconSizes } from 'src/styles/icon';
 import { mediaQueries } from 'src/styles/media';
 
 interface ICarouselItemProps {
@@ -198,7 +199,9 @@ Carousel.Controls = ({ onNextClick, onPrevClick }: ICarouselControlsProps) => (
       onClick={onPrevClick}
       circled
     >
-      <FontAwesomeIcon icon={faAngleLeft} size="lg" />
+      <IconWrapper>
+        <ChevronLeftIcon size={IconSizes.Medium} />
+      </IconWrapper>
     </Button>
     <Button
       css={css`
@@ -209,7 +212,9 @@ Carousel.Controls = ({ onNextClick, onPrevClick }: ICarouselControlsProps) => (
       onClick={onNextClick}
       circled
     >
-      <FontAwesomeIcon icon={faAngleRight} size="lg" />
+      <IconWrapper>
+        <ChevronRightIcon size={IconSizes.Medium} />
+      </IconWrapper>
     </Button>
   </>
 );

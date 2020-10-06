@@ -1,28 +1,39 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTheme } from 'emotion-theming';
+import { Circle as CircleIcon } from 'react-feather';
+
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
+import { IconSizes } from 'src/styles/icon';
 
 export const ColorDecoration = () => {
   const theme = useTheme<AdminUITheme>();
   return (
     <span>
-      <FontAwesomeIcon
+      <IconWrapper
         css={css`
           margin-right: 5px;
+          color: ${theme.danger};
         `}
-        color={theme.danger}
-        icon={faCircle}
-      />
-      <FontAwesomeIcon
+      >
+        <CircleIcon size={IconSizes.Small} />
+      </IconWrapper>
+      <IconWrapper
         css={css`
           margin-right: 5px;
+          color: ${theme.success};
         `}
-        color={theme.success}
-        icon={faCircle}
-      />
-      <FontAwesomeIcon color={theme.info} icon={faCircle} />
+      >
+        <CircleIcon size={IconSizes.Small} />
+      </IconWrapper>
+      <IconWrapper
+        css={css`
+          margin-right: 5px;
+          color: ${theme.info};
+        `}
+      >
+        <CircleIcon size={IconSizes.Small} />
+      </IconWrapper>
     </span>
   );
 };

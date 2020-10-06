@@ -1,9 +1,8 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import difference from 'lodash/difference';
 import * as React from 'react';
+import { Trash as TrashIcon } from 'react-feather';
 import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
@@ -22,8 +21,10 @@ import { ColorDecoration } from 'src/components/Admin/FeatureTypes/Decorations/C
 import { AdminFeatureValuesCreateContainer } from 'src/components/Admin/FeatureValues/Create/AdminFeatureValuesCreateContainer';
 import { useFeatureValuesOfProductType } from 'src/components/Admin/Products/Create/useFeatureValuesOfProductType';
 import { ProductTypeSelectView } from 'src/components/Admin/ProductTypeSelect/ProductTypeSelectView';
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { Popover } from 'src/components/client-ui/Popover/Popover';
 import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
+import { IconSizes } from 'src/styles/icon';
 import { Accept } from 'src/utils/accept';
 import { isAllowedForNumberInput } from 'src/utils/number';
 import { arePropsEqual, lengthCompare, defaultCompare } from 'src/utils/propEquality';
@@ -237,7 +238,9 @@ const ImagesInput = React.memo<FieldRenderProps<Array<File | undefined>>>(
                 onChange(newFiles);
               }}
             >
-              <FontAwesomeIcon icon={faTrashAlt} />
+              <IconWrapper>
+                <TrashIcon size={IconSizes.Medium} />
+              </IconWrapper>
             </Button>
           </div>
         ))}

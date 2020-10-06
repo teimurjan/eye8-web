@@ -1,15 +1,16 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTheme } from 'emotion-theming';
 import * as React from 'react';
+import { Eye as EyeIcon, EyeOff as EyeOffIcon } from 'react-feather';
 
 import {
   UnderlinedInput,
   IProps as IUnderlinedInputProps,
 } from 'src/components/client-ui/Form/UnderlinedInput/UnderlinedInput';
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { useBoolean } from 'src/hooks/useBoolean';
+import { IconSizes } from 'src/styles/icon';
 
 export interface IProps<T> {
   Component: React.FC<T> | React.ComponentClass<T>;
@@ -40,7 +41,9 @@ export const PasswordUnderlinedInput = (props: IUnderlinedInputProps) => {
             `}
             onClick={toggle}
           >
-            <FontAwesomeIcon icon={visible ? faEye : faEyeSlash} />
+            <IconWrapper>
+              {visible ? <EyeIcon size={IconSizes.Medium} /> : <EyeOffIcon size={IconSizes.Medium} />}
+            </IconWrapper>
           </span>
         ),
       })}

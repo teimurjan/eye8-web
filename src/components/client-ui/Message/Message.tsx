@@ -1,10 +1,12 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { useTheme } from 'emotion-theming';
 import React from 'react';
+import { X as XIcon } from 'react-feather';
+
+import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
+import { IconSizes } from 'src/styles/icon';
 
 export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   color?: 'default' | 'primary' | 'error';
@@ -70,7 +72,9 @@ export const Message: React.FC<IProps> = ({
             }
           `}
         >
-          <FontAwesomeIcon size="sm" icon={faTimes} onClick={onCloseClick} />
+          <IconWrapper>
+            <XIcon size={IconSizes.Small} onClick={onCloseClick} />
+          </IconWrapper>
         </span>
       )}
     </div>
