@@ -47,7 +47,7 @@ export const ProductTypesPageFilterView = ({
 
     return values.length > 0 ? (
       <Filter.ItemGroup key={characteristicId} title={name}>
-        <ScrollableContainer maxHeight={350}>
+        <ScrollableContainer maxHeight={350} mobileMaxHeight={250}>
           {values.map((value) => {
             const isActive = characteristicValuesIds.indexOf(value.id) !== -1;
             return (

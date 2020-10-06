@@ -96,6 +96,8 @@ export const Filter = ({ className, title, children, disabled, onReset }: IProps
           & ~ span > .fa-times {
             color: ${theme.textBrightColor};
           }
+
+          overflow: auto;
         `}
         backdrop
         isOpen={isOpen}
