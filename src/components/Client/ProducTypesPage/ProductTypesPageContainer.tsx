@@ -9,7 +9,7 @@ import {
 import { useDependencies } from 'src/DI/DI';
 
 interface IProps {
-  initialProps?: IPresenterProps['initialProps'];
+  initialProps: IPresenterProps['initialProps'];
 }
 
 export const ProductTypesPageContainer = ({ initialProps }: IProps) => {
@@ -19,7 +19,6 @@ export const ProductTypesPageContainer = ({ initialProps }: IProps) => {
   return (
     <ProductTypesPagePresenter
       router={router}
-      categorySlug={router.query.slug as string}
       productTypeService={dependencies.services.productType}
       ListView={ProductTypesListView}
       initialProps={initialProps}

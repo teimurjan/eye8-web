@@ -16,9 +16,25 @@ const Products = ({
   productTypesMeta,
   category,
   error,
+  categorySlug,
+  page,
+  sortingType,
+  characteristicValuesIds,
 }: Then<ReturnType<typeof getServerSideProps>>['props']) => (
   <Layout>
-    <ProductTypesPageContainer initialProps={{ productTypes, productTypesOrder, productTypesMeta, category, error }} />
+    <ProductTypesPageContainer
+      initialProps={{
+        productTypes,
+        productTypesOrder,
+        productTypesMeta,
+        category,
+        error,
+        categorySlug,
+        page,
+        sortingType,
+        characteristicValuesIds,
+      }}
+    />
   </Layout>
 );
 
@@ -32,11 +48,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params = {}, req,
     logTimeStart('CategoryProducts.getServerSideProps');
 
     const categorySlug = params.slug as string;
-    const { entities, meta, result } = await dependencies.services.productType.getForCategory(categorySlug, {
+    const options = {
       page: parseInt(page as string, 10),
-      sortBy: sortingTypeOfQueryValue[sortBy as string],
+      sortingType: sortingTypeOfQueryValue[sortBy as string],
       characteristicValuesIds: getCharacteristicValuesIdsFromQuery(parsedUrl.query),
-    });
+    };
+    const { entities, meta, result } = await dependencies.services.productType.getForCategory(categorySlug, options);
     const category = await dependencies.services.category.getOneBySlug(categorySlug);
 
     logTimeFinish('CategoryProducts.getServerSideProps');
@@ -47,6 +64,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params = {}, req,
         productTypesMeta: meta,
         productTypesOrder: result,
         category,
+        categorySlug,
+        ...options,
       },
     };
   } catch (e) {
@@ -56,6 +75,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params = {}, req,
         error: 'errors.common',
         productTypes: {},
         productTypesOrder: [],
+        categorySlug: undefined,
+        page: 1,
+        sortingType: undefined,
+        characteristicValuesIds: [],
         productTypesMeta: {
           count: 0,
           pages_count: 0,

@@ -165,7 +165,7 @@ export const sortingTypeOfQueryValue = {
 
 export interface IGetForCategoryOptions {
   page: number;
-  sortBy?: ProductTypeSortingType;
+  sortingType?: ProductTypeSortingType;
   characteristicValuesIds?: number[];
   available?: boolean;
 }
@@ -178,7 +178,7 @@ export interface IProductTypeAPI {
   getBySlug(slug: string): Promise<IProductTypeDetailResponseItemData>;
   getAllRawIntlMinified(
     page?: number,
-    sortBy?: ProductTypeSortingType,
+    sortingType?: ProductTypeSortingType,
   ): Promise<IProductTypeListRawIntlMinifiedResponseData>;
   getAllRawIntl(page: number): Promise<IProductTypeListRawIntlResponseData>;
   delete(id: number): Promise<{}>;
@@ -216,7 +216,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
     categorySlug: string,
     {
       page,
-      sortBy = ProductTypeSortingType.RECENT,
+      sortingType = ProductTypeSortingType.RECENT,
       characteristicValuesIds = [],
       available = true,
     }: IGetForCategoryOptions,
@@ -225,7 +225,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
       const response = await this.client.get<IProductTypeListResponseData>(
         `/api/categories/${categorySlug}/product_types${buildSearchString({
           page,
-          sort_by: queryValueOfSortingType[sortBy],
+          sort_by: queryValueOfSortingType[sortingType],
           products: 1,
           available: available ? 1 : 0,
           characteristics: characteristicValuesIds,
