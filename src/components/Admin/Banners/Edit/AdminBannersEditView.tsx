@@ -16,7 +16,6 @@ export const AdminBannersEditView = ({
   isLoading,
   isUpdating,
   error,
-  availableLocales,
   validate,
   preloadingError,
   initialValues,
@@ -34,13 +33,7 @@ export const AdminBannersEditView = ({
       preloadingError={preloadingError}
       globalError={error}
       title={intl.formatMessage({ id: 'AdminBanners.edit.title' })}
-      fields={
-        <Fields
-          availableLocales={availableLocales}
-          textFieldKey={BANNER_TEXT_FIELD_KEY}
-          linkTextFieldKey={BANNER_LINK_TEXT_FIELD_KEY}
-        />
-      }
+      fields={<Fields textFieldKey={BANNER_TEXT_FIELD_KEY} linkTextFieldKey={BANNER_LINK_TEXT_FIELD_KEY} />}
       validate={validate}
       initialValues={initialValues}
     />

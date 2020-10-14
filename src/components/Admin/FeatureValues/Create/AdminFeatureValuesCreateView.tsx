@@ -13,7 +13,6 @@ export const AdminFeatureValuesCreateView = ({
   isLoading,
   error,
   intl,
-  availableLocales,
   featureTypes,
   validate,
 }: IProps & { intl: IntlShape }) => (
@@ -26,7 +25,7 @@ export const AdminFeatureValuesCreateView = ({
     isPreloading={isLoading}
     globalError={error}
     title={intl.formatMessage({ id: 'AdminFeatureValues.create.title' })}
-    fields={<Fields availableLocales={availableLocales} featureTypes={featureTypes} />}
+    fields={<Fields featureTypes={featureTypes} />}
     validate={validate}
   />
 );

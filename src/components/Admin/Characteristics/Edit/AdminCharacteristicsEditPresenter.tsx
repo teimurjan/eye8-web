@@ -5,12 +5,11 @@ import * as yup from 'yup';
 import { ICharacteristicListRawIntlResponseItem } from 'src/api/CharacteristicAPI';
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useLazy } from 'src/hooks/useLazy';
 import { ICharacteristicService } from 'src/services/CharacteristicService';
 import { ContextValue as AdminCharacteristicsStateContextValue } from 'src/state/AdminCharacteristicsState';
-import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
+import { availableLocales } from 'src/utils/locale';
 
-export interface IProps extends IntlStateContextValue {
+export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: ICharacteristicService;
   characteristicId: number;
@@ -25,7 +24,6 @@ export interface IViewProps {
   isUpdating: boolean;
   error: string | undefined;
   close: () => void;
-  availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   validate?: (values: object) => object | Promise<object>;
   initialValues: object;
   preloadingError?: string;
@@ -33,8 +31,19 @@ export interface IViewProps {
 
 export const CHARACTERISTIC_NAME_FIELD_KEY = 'name';
 
+const validator = new schemaValidator.SchemaValidator(
+  yup.object().shape(
+    availableLocales.reduce(
+      (acc, locale) => ({
+        ...acc,
+        [getFieldName(CHARACTERISTIC_NAME_FIELD_KEY, locale)]: yup.string().required('common.errors.field.empty'),
+      }),
+      {},
+    ),
+  ),
+);
+
 export const AdminCharacteristicsEditPresenter: React.FC<IProps> = ({
-  intlState: { availableLocales },
   View,
   history,
   service,
@@ -67,34 +76,13 @@ export const AdminCharacteristicsEditPresenter: React.FC<IProps> = ({
     })();
   }, [characteristicId, service]);
 
-  const makeValidator = React.useCallback(
-    () =>
-      new schemaValidator.SchemaValidator(
-        yup.object().shape(
-          availableLocales.reduce(
-            (acc, locale) => ({
-              ...acc,
-              [getFieldName(CHARACTERISTIC_NAME_FIELD_KEY, locale)]: yup.string().required('common.errors.field.empty'),
-            }),
-            {},
-          ),
-        ),
-      ),
-    [availableLocales],
-  );
-
-  const validator = useLazy({
-    make: makeValidator,
-    trigger: availableLocales.length,
-  });
-
   const close = React.useCallback(() => history.push('/admin/characteristics'), [history]);
   const edit: IViewProps['edit'] = async (values) => {
     const formattedValues = Object.keys(values).reduce(
       (acc, fieldName) => {
-        const { key, id } = parseFieldName(fieldName);
+        const { key, locale } = parseFieldName(fieldName);
         if (key === CHARACTERISTIC_NAME_FIELD_KEY) {
-          return { ...acc, names: { ...acc.names, [id]: values[fieldName] } };
+          return { ...acc, names: { ...acc.names, [locale]: values[fieldName] } };
         }
 
         return acc;
@@ -119,11 +107,11 @@ export const AdminCharacteristicsEditPresenter: React.FC<IProps> = ({
     return availableLocales.reduce(
       (acc, locale) => ({
         ...acc,
-        [getFieldName(CHARACTERISTIC_NAME_FIELD_KEY, locale)]: (characteristic || { name: '' }).name[locale.id],
+        [getFieldName(CHARACTERISTIC_NAME_FIELD_KEY, locale)]: (characteristic || { name: '' }).name[locale],
       }),
       {},
     );
-  }, [availableLocales, characteristic]);
+  }, [characteristic]);
 
   return (
     <View
@@ -135,8 +123,7 @@ export const AdminCharacteristicsEditPresenter: React.FC<IProps> = ({
       isLoading={isLoading}
       initialValues={initialValues}
       close={close}
-      availableLocales={availableLocales}
-      validate={(validator || { validate: undefined }).validate}
+      validate={validator.validate}
     />
   );
 };

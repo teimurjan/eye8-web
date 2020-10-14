@@ -36,7 +36,7 @@ const renderNoData = () => <NoCharacteristicsAvialable />;
 
 type Characteristic = IProps['characteristics'][0];
 
-export const AdminCharacteristicsListView = ({ characteristics, locales, isLoading, isDataLoaded }: IProps) => {
+export const AdminCharacteristicsListView = ({ characteristics, isLoading, isDataLoaded }: IProps) => {
   const intl = useIntl();
 
   return (
@@ -57,7 +57,7 @@ export const AdminCharacteristicsListView = ({ characteristics, locales, isLoadi
         <AdminTable.Col<Characteristic>
           key_="name"
           title={intl.formatMessage({ id: 'AdminCharacteristics.names' })}
-          renderer={new IntlRenderer(locales)}
+          renderer={new IntlRenderer()}
         />
       </AdminTable>
 

@@ -15,7 +15,6 @@ export const AdminBannersCreateView = ({
   close,
   error,
   intl,
-  availableLocales,
   validate,
   isCreating,
 }: IProps & { intl: IntlShape }) => (
@@ -27,13 +26,7 @@ export const AdminBannersCreateView = ({
     isLoading={isCreating}
     globalError={error}
     title={intl.formatMessage({ id: 'AdminBanners.create.title' })}
-    fields={
-      <Fields
-        availableLocales={availableLocales}
-        textFieldKey={BANNER_TEXT_FIELD_KEY}
-        linkTextFieldKey={BANNER_LINK_TEXT_FIELD_KEY}
-      />
-    }
+    fields={<Fields textFieldKey={BANNER_TEXT_FIELD_KEY} linkTextFieldKey={BANNER_LINK_TEXT_FIELD_KEY} />}
     validate={validate}
   />
 );

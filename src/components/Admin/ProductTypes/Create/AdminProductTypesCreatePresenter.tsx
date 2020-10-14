@@ -6,17 +6,16 @@ import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import { Link } from 'src/components/Admin/LinksInput/LinksInput';
 import { IProps as IModalFormProps } from 'src/components/Admin/ModalForm';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useLazy } from 'src/hooks/useLazy';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
 import { ContextValue as AdminCharacteristicValuesStateContextValue } from 'src/state/AdminCharacteristicValuesState';
 import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
 import { ContextValue as AdminProductTypesStateContextValue } from 'src/state/AdminProductTypesState';
-import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 import { IStateCacheStorage } from 'src/storage/StateCacheStorage';
+import { availableLocales } from 'src/utils/locale';
 import { objectWithout } from 'src/utils/object';
 
-export interface IProps extends IntlStateContextValue {
+export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IProductTypeService;
   history: History;
@@ -46,7 +45,6 @@ export interface IViewProps {
   error?: string;
   preloadingError?: string;
   close: () => void;
-  availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   validate?: (values: IFormValues) => object | Promise<object>;
   categories: AdminCategoriesStateContextValue['state']['entities'];
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
@@ -61,8 +59,41 @@ export const PRODUCT_TYPE_SHORT_DESCRIPTION_FIELD_KEY = 'short_description';
 
 const STATE_CACHE_KEY = 'adminProductTypeCreationForm';
 
+const validator = new schemaValidator.SchemaValidator(
+  yup.object().shape(
+    availableLocales.reduce(
+      (acc, locale) => ({
+        ...acc,
+        [getFieldName(PRODUCT_TYPE_NAME_FIELD_KEY, locale)]: yup.string().required('common.errors.field.empty'),
+        [getFieldName(PRODUCT_TYPE_SHORT_DESCRIPTION_FIELD_KEY, locale)]: yup
+          .string()
+          .required('common.errors.field.empty'),
+        [getFieldName(PRODUCT_TYPE_DESCRIPTION_FIELD_KEY, locale)]: yup.string().required('common.errors.field.empty'),
+      }),
+      {
+        instagram_links: yup
+          .array()
+          .test('areLinksValid', 'AdminProductTypes.errors.invalidInstagramLinks', (value: Link[] = []) => {
+            return value.every((link) => link.value.match(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/));
+          }),
+        categories: yup
+          .array()
+          .of(yup.number())
+          .required('AdminProductTypes.errors.noCategories')
+          .min(1, 'AdminProductTypes.errors.noCategories'),
+        feature_types: yup
+          .array()
+          .of(yup.number())
+          .required('AdminProductTypes.errors.noFeatureTypes')
+          .min(1, 'AdminProductTypes.errors.noFeatureTypes'),
+        characteristic_values: yup.array().of(yup.number()).required('AdminProductTypes.errors.noFeatureTypes'),
+        image: yup.mixed().required('common.errors.field.empty'),
+      },
+    ),
+  ),
+);
+
 export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
-  intlState,
   history,
   adminCategoriesState: {
     get: getCategories,
@@ -92,53 +123,6 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
 
   const isLoading = categoriesLoading || featureTypesLoading || characteristicValuesLoading;
-
-  const makeValidator = React.useCallback(
-    () =>
-      new schemaValidator.SchemaValidator(
-        yup.object().shape(
-          intlState.availableLocales.reduce(
-            (acc, locale) => ({
-              ...acc,
-              [getFieldName(PRODUCT_TYPE_NAME_FIELD_KEY, locale)]: yup.string().required('common.errors.field.empty'),
-              [getFieldName(PRODUCT_TYPE_SHORT_DESCRIPTION_FIELD_KEY, locale)]: yup
-                .string()
-                .required('common.errors.field.empty'),
-              [getFieldName(PRODUCT_TYPE_DESCRIPTION_FIELD_KEY, locale)]: yup
-                .string()
-                .required('common.errors.field.empty'),
-            }),
-            {
-              instagram_links: yup
-                .array()
-                .test('areLinksValid', 'AdminProductTypes.errors.invalidInstagramLinks', (value: Link[] = []) => {
-                  return value.every((link) =>
-                    link.value.match(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/),
-                  );
-                }),
-              categories: yup
-                .array()
-                .of(yup.number())
-                .required('AdminProductTypes.errors.noCategories')
-                .min(1, 'AdminProductTypes.errors.noCategories'),
-              feature_types: yup
-                .array()
-                .of(yup.number())
-                .required('AdminProductTypes.errors.noFeatureTypes')
-                .min(1, 'AdminProductTypes.errors.noFeatureTypes'),
-              characteristic_values: yup.array().of(yup.number()).required('AdminProductTypes.errors.noFeatureTypes'),
-              image: yup.mixed().required('common.errors.field.empty'),
-            },
-          ),
-        ),
-      ),
-    [intlState],
-  );
-
-  const validator = useLazy({
-    make: makeValidator,
-    trigger: intlState.availableLocales.length,
-  });
 
   React.useEffect(() => {
     (async () => {
@@ -170,7 +154,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
 
       const formattedValues = Object.keys(values).reduce(
         (acc, fieldName) => {
-          const { key, id } = parseFieldName(fieldName);
+          const { key, locale } = parseFieldName(fieldName);
           if (
             [
               PRODUCT_TYPE_NAME_FIELD_KEY,
@@ -179,7 +163,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
             ].indexOf(key) !== -1
           ) {
             const pluralKeys = `${key}s`;
-            return { ...acc, [pluralKeys]: { ...acc[pluralKeys], [id]: values[fieldName] } };
+            return { ...acc, [pluralKeys]: { ...acc[pluralKeys], [locale]: values[fieldName] } };
           }
 
           return acc;
@@ -241,8 +225,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
       isLoading={isLoading}
       isCreating={isCreating}
       close={close}
-      availableLocales={intlState.availableLocales}
-      validate={(validator || { validate: undefined }).validate}
+      validate={validator.validate}
       preloadingError={preloadingError}
       onChange={onChange}
       initialValues={stateCacheStorage.get(STATE_CACHE_KEY) || {}}

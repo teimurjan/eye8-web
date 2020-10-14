@@ -16,7 +16,6 @@ export const AdminProductTypesCreateView = ({
   close,
   isLoading,
   error,
-  availableLocales,
   validate,
   categories,
   preloadingError,
@@ -41,7 +40,6 @@ export const AdminProductTypesCreateView = ({
       fields={
         <Fields
           characteristicValues={characteristicValues}
-          availableLocales={availableLocales}
           categories={categories}
           featureTypes={featureTypes}
           nameFieldKey={PRODUCT_TYPE_NAME_FIELD_KEY}

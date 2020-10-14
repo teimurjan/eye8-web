@@ -1,10 +1,8 @@
 import * as React from 'react';
 
 import { IProductTypeListRawIntlResponseItem } from 'src/api/ProductTypeAPI';
-import { extendIntlTextWithLocaleNames } from 'src/helpers/intl';
 import { ISearchService } from 'src/services/SearchService';
 import { ContextValue as AdminProductTypesStateContextValue } from 'src/state/AdminProductTypesState';
-import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 export interface IProps {
@@ -18,7 +16,6 @@ export interface IViewProps {
   meta: AdminProductTypesStateContextValue['state']['meta'];
   isDataLoaded: boolean;
   isLoading: boolean;
-  locales: string[];
   onPageChange: (page: number) => void;
   search: (query: string) => Promise<IProductTypeListRawIntlResponseItem[]>;
 }
@@ -26,9 +23,9 @@ export interface IViewProps {
 export const AdminProductTypesListPresenter = ({
   View,
   adminProductTypesState: { isListLoading, entities: productTypes, get: getProductTypes, hasListLoaded, meta },
-  intlState: { availableLocales },
+
   searchService,
-}: IProps & IntlStateContextValue) => {
+}: IProps) => {
   React.useEffect(() => {
     getProductTypes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,12 +47,12 @@ export const AdminProductTypesListPresenter = ({
 
       return agregateOrderedMapToArray(productTypes, productTypesOrder, (productType) => ({
         ...productType,
-        name: extendIntlTextWithLocaleNames(productType.name, availableLocales),
-        description: extendIntlTextWithLocaleNames({}, availableLocales),
-        short_description: extendIntlTextWithLocaleNames(productType.short_description, availableLocales),
+        name: productType.name,
+        description: productType.short_description,
+        short_description: productType.short_description,
       })) as IProductTypeListRawIntlResponseItem[];
     },
-    [searchService, availableLocales],
+    [searchService],
   );
 
   return (
@@ -63,7 +60,6 @@ export const AdminProductTypesListPresenter = ({
       meta={meta}
       isDataLoaded={hasListLoaded}
       isLoading={isListLoading}
-      locales={availableLocales.map(({ name }) => name)}
       productTypes={productTypes}
       onPageChange={onPageChange}
       search={search}

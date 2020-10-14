@@ -12,7 +12,6 @@ export const AdminCharacteristicValuesCreateView = ({
   isCreating,
   isLoading,
   error,
-  availableLocales,
   characteristics,
   validate,
 }: IProps) => {
@@ -28,7 +27,7 @@ export const AdminCharacteristicValuesCreateView = ({
       isPreloading={isLoading}
       globalError={error}
       title={intl.formatMessage({ id: 'AdminCharacteristicValues.create.title' })}
-      fields={<Fields availableLocales={availableLocales} characteristics={characteristics} />}
+      fields={<Fields characteristics={characteristics} />}
       validate={validate}
     />
   );

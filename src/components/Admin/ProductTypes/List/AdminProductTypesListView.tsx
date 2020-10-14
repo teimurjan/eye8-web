@@ -30,7 +30,6 @@ type ProductType = IProps['productTypes'][0];
 
 export const AdminProductTypesListView = ({
   productTypes,
-  locales,
   intl,
   isLoading,
   isDataLoaded,
@@ -59,7 +58,7 @@ export const AdminProductTypesListView = ({
       <AdminTable.Col<ProductType>
         key_="name"
         title={intl.formatMessage({ id: 'AdminProductTypes.names' })}
-        renderer={new IntlRenderer(locales)}
+        renderer={new IntlRenderer()}
       />
       <AdminTable.Col<ProductType>
         key_="image"

@@ -259,7 +259,7 @@ export const Popover = <T extends HTMLElement>({
                         }
                         &[data-placement*='right'] {
                           left: 0;
-                          margin-right: -3.75px;
+                          margin-left: -3.75px;
                         }
                         &[data-placement*='left'] {
                           right: 0;

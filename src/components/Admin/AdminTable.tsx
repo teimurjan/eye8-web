@@ -7,6 +7,7 @@ import { Trash as TrashIcon, Edit2 as Edit2Icon } from 'react-feather';
 import { IntlShape } from 'react-intl';
 import { Link } from 'react-router-dom';
 
+import { PriceText } from 'src/components//Client/Price/Price';
 import { ControlledPagination } from 'src/components/admin-ui/ControlledPagination/ControlledPagination';
 import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextField';
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
@@ -14,10 +15,12 @@ import { Table } from 'src/components/admin-ui/Table/Table';
 import { Title } from 'src/components/admin-ui/Title/Title';
 import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout';
+import { Tooltip } from 'src/components/client-ui/Tooltip/Tooltip';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { IconSizes } from 'src/styles/icon';
 import { mediaQueries } from 'src/styles/media';
+import { availableLocales } from 'src/utils/locale';
 import { buildSearchString } from 'src/utils/queryString';
 import { formatMediaURL } from 'src/utils/url';
 
@@ -56,27 +59,46 @@ class DefaultRenderer<T> implements IRenderer<T> {
 }
 
 export class IntlRenderer<T> implements IRenderer<T> {
-  private locales: string[];
-
-  constructor(locales: string[]) {
-    this.locales = locales;
-  }
-
   public renderHeader = (title: string, { componentKey }: IAdminTableRendererRequiredArgs) => (
-    <Table.HeadCell key={componentKey} colSpan={this.locales.length}>
+    <Table.HeadCell key={componentKey} colSpan={availableLocales.length}>
       {title}
     </Table.HeadCell>
   );
 
   public renderSubheader = ({ componentKey }: IAdminTableRendererRequiredArgs) =>
-    this.locales.map((locale) => <Table.HeadCell key={`${componentKey}-${locale}`}>{locale}</Table.HeadCell>);
+    availableLocales.map((locale) => <Table.HeadCell key={`${componentKey}-${locale}`}>{locale}</Table.HeadCell>);
 
   public renderEntity = (entity: T, { colKey, componentKey }: IAdminTableRendererRequiredArgs) => (
     <React.Fragment key={componentKey}>
-      {this.locales.map((locale) => (
+      {availableLocales.map((locale) => (
         <Table.Cell key={locale}>{entity[colKey][locale]}</Table.Cell>
       ))}
     </React.Fragment>
+  );
+}
+
+export class PriceRenderer<T> implements IRenderer<T> {
+  public renderHeader = (title: string, { componentKey }: IAdminTableRendererRequiredArgs) => (
+    <Table.HeadCell key={componentKey}>{title}</Table.HeadCell>
+  );
+
+  public renderSubheader = ({ componentKey }: IAdminTableRendererRequiredArgs) => <Table.HeadCell key={componentKey} />;
+
+  public renderEntity = (entity: T, { colKey, componentKey }: IAdminTableRendererRequiredArgs) => (
+    <Tooltip<HTMLTableCellElement>
+      placement="left"
+      renderTrigger={({ open, ref }) => (
+        <Table.Cell ref={ref} onMouseEnter={open} key={componentKey}>
+          <PriceText price={entity[colKey]} />
+        </Table.Cell>
+      )}
+    >
+      {availableLocales.map((locale) => (
+        <div key={locale}>
+          <PriceText price={entity[colKey]} locale={locale} alwaysConvertToPrimary={false} />
+        </div>
+      ))}
+    </Tooltip>
   );
 }
 

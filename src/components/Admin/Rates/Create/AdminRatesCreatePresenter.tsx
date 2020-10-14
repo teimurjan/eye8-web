@@ -2,7 +2,7 @@ import { History } from 'history';
 import * as React from 'react';
 import * as yup from 'yup';
 
-import { KGS_TO_USD_RATE_NAME } from 'src/components/Client/Price/Price';
+import { RateName } from 'src/components/Client/Price/Price';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import * as rateService from 'src/services/RateService';
 import { ContextValue as AdminRatesStateContextValue } from 'src/state/AdminRatesState';
@@ -29,7 +29,7 @@ const validator = new schemaValidator.SchemaValidator(
     name: yup
       .string()
       .required('common.errors.field.empty')
-      .oneOf([KGS_TO_USD_RATE_NAME], 'AdminRates.errors.unallowedName'),
+      .oneOf([RateName.Primary], 'AdminRates.errors.unallowedName'),
   }),
 );
 

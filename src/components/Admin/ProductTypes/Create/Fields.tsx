@@ -17,7 +17,6 @@ import { InstagramPost } from 'src/components/Client/InstagramPost/InstagramPost
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
 import { ContextValue as AdminCharacteristicValuesStateContextValue } from 'src/state/AdminCharacteristicValuesState';
 import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
-import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 import { arePropsEqual, lengthCompare, defaultCompare } from 'src/utils/propEquality';
 
 interface ICharacteristicValuesSelectProps extends FieldRenderProps<string[]> {
@@ -166,7 +165,7 @@ const DescriptionField: IIntlFieldProps['component'] = ({ input, meta, label, pl
       labelProps={{
         children: (
           <>
-            {label} <Tag color="is-primary">{locale.name}</Tag>
+            {label} <Tag color="is-primary">{locale}</Tag>
           </>
         ),
       }}
@@ -231,7 +230,6 @@ const InstagramLinksField = ({ input, meta }: FieldRenderProps<Link[]>) => {
 };
 
 export interface IFieldsProps {
-  availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   categories: AdminCategoriesStateContextValue['state']['entities'];
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
   characteristicValues: AdminCharacteristicValuesStateContextValue['state']['entities'];
@@ -241,22 +239,13 @@ export interface IFieldsProps {
 }
 
 export const Fields: React.SFC<IFieldsProps> = React.memo(
-  ({
-    availableLocales,
-    categories,
-    featureTypes,
-    nameFieldKey,
-    descriptionFieldKey,
-    shortDescriptionFieldKey,
-    characteristicValues,
-  }) => {
+  ({ categories, featureTypes, nameFieldKey, descriptionFieldKey, shortDescriptionFieldKey, characteristicValues }) => {
     const intl = useIntl();
 
     return (
       <>
         <IntlField
           key_={nameFieldKey}
-          locales={availableLocales}
           label={intl.formatMessage({
             id: 'AdminProductTypes.nameInput.label',
           })}
@@ -266,7 +255,6 @@ export const Fields: React.SFC<IFieldsProps> = React.memo(
         />
         <IntlField
           key_={descriptionFieldKey}
-          locales={availableLocales}
           label={intl.formatMessage({
             id: 'AdminProductTypes.descriptionInput.label',
           })}
@@ -277,7 +265,6 @@ export const Fields: React.SFC<IFieldsProps> = React.memo(
         />
         <IntlField
           key_={shortDescriptionFieldKey}
-          locales={availableLocales}
           label={intl.formatMessage({
             id: 'AdminProductTypes.shortDescriptionInput.label',
           })}
@@ -308,7 +295,6 @@ export const Fields: React.SFC<IFieldsProps> = React.memo(
       nameFieldKey: defaultCompare,
       descriptionFieldKey: defaultCompare,
       shortDescriptionFieldKey: defaultCompare,
-      availableLocales: lengthCompare,
       categories: lengthCompare,
       featureTypes: lengthCompare,
     }),

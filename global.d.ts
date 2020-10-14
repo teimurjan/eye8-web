@@ -65,7 +65,7 @@ interface Window {
   __NEXT_DATA__: { props: object };
   __CUSTOM_DATA__: {
     intl: { messages: { [key: string]: string }; locale: string; isFallback: boolean };
-    states: { initialProps: { rates: object; intl: object; categories: object } };
+    states: { initialProps: { rates: object; categories: object } };
   };
 }
 

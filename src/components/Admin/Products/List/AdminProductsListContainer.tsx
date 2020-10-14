@@ -6,12 +6,10 @@ import { AdminProductsListPresenter } from 'src/components/Admin/Products/List/A
 import { AdminProductsListView } from 'src/components/Admin/Products/List/AdminProductsListView';
 import { useDependencies } from 'src/DI/DI';
 import { useAdminProductsState } from 'src/state/AdminProductsState';
-import { useIntlState } from 'src/state/IntlState';
 
 const View = injectIntl(AdminProductsListView);
 
 export const AdminProductsListContainer = () => {
-  const { intlState } = useIntlState();
   const { state: adminProductsState } = useAdminProductsState();
   const {
     dependencies: {
@@ -27,7 +25,6 @@ export const AdminProductsListContainer = () => {
       productTypeService={productTypeService}
       View={View}
       adminProductsState={adminProductsState}
-      intlState={intlState}
     />
   );
 };

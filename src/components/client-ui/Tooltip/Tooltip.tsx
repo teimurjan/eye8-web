@@ -34,6 +34,7 @@ const TooltipContent = React.forwardRef<HTMLDivElement, ITooltipContentProps>(({
 
 export const Tooltip = <T extends HTMLElement>({ children, ...props }: IPopoverProps<T>) => {
   const theme = useTheme<ClientUITheme>();
+  const contentRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <ClassNames>
@@ -48,10 +49,12 @@ export const Tooltip = <T extends HTMLElement>({ children, ...props }: IPopoverP
               display: none;
             }
           `}
+          mouseOutsideOffset={10}
+          refsToInclude={[contentRef]}
           openOnHover
           hasArrow
         >
-          <TooltipContent>{children}</TooltipContent>
+          <TooltipContent ref={contentRef}>{children}</TooltipContent>
         </Popover>
       )}
     </ClassNames>

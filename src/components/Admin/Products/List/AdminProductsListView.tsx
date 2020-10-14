@@ -6,7 +6,7 @@ import { Checkbox } from 'src/components/admin-ui/Checkbox/Checkbox';
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
 import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataAvaiable';
 import { Section } from 'src/components/admin-ui/Section/Section';
-import { AdminTable } from 'src/components/Admin/AdminTable';
+import { AdminTable, PriceRenderer } from 'src/components/Admin/AdminTable';
 import { IViewProps as IProps } from 'src/components/Admin/Products/List/AdminProductsListPresenter';
 import { ProductTypeSelectView } from 'src/components/Admin/ProductTypeSelect/ProductTypeSelectView';
 import { noop } from 'src/utils/function';
@@ -96,9 +96,17 @@ export const AdminProductsListView = ({
         onPageChange={onPageChange}
       >
         <AdminTable.Col<Product> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
-        <AdminTable.Col<Product> key_="price" title={intl.formatMessage({ id: 'AdminProducts.price' })} />
+        <AdminTable.Col<Product>
+          key_="price"
+          title={intl.formatMessage({ id: 'AdminProducts.price' })}
+          renderer={new PriceRenderer()}
+        />
         <AdminTable.Col<Product> key_="quantity" title={intl.formatMessage({ id: 'AdminProducts.quantity' })} />
-        <AdminTable.Col<Product> key_="discount" title={intl.formatMessage({ id: 'AdminProducts.discount' })} />
+        <AdminTable.Col<Product>
+          key_="discount"
+          title={intl.formatMessage({ id: 'common.discount' })}
+          render={(product) => `${product.discount}%`}
+        />
         <AdminTable.Col<Product>
           key_="product_type"
           title={intl.formatMessage({ id: 'common.productType' })}

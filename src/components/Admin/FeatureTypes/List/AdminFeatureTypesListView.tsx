@@ -30,7 +30,6 @@ type FeatureType = IProps['featureTypes'][0];
 
 export const AdminFeatureTypesListView = ({
   featureTypes,
-  locales,
   intl,
   isLoading,
   isDataLoaded,
@@ -52,7 +51,7 @@ export const AdminFeatureTypesListView = ({
       <AdminTable.Col<FeatureType>
         key_="name"
         title={intl.formatMessage({ id: 'AdminFeatureTypes.names' })}
-        renderer={new IntlRenderer(locales)}
+        renderer={new IntlRenderer()}
       />
     </AdminTable>
 

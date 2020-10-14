@@ -14,7 +14,6 @@ export const AdminFeatureValuesEditView = ({
   error,
   intl,
   initialValues,
-  availableLocales,
   validate,
   preloadingError,
   featureTypes,
@@ -28,7 +27,7 @@ export const AdminFeatureValuesEditView = ({
     isPreloading={isLoading}
     globalError={error}
     title={intl.formatMessage({ id: 'AdminFeatureValues.edit.title' })}
-    fields={<Fields availableLocales={availableLocales} featureTypes={featureTypes} />}
+    fields={<Fields featureTypes={featureTypes} />}
     validate={validate}
     initialValues={initialValues}
     preloadingError={preloadingError}

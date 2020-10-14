@@ -10,7 +10,6 @@ import { AdminFeatureValuesCreateView } from 'src/components/Admin/FeatureValues
 import { useDependencies } from 'src/DI/DI';
 import { useAdminFeatureTypesState } from 'src/state/AdminFeatureTypesState';
 import { useAdminFeatureValuesState } from 'src/state/AdminFeatureValuesState';
-import { useIntlState } from 'src/state/IntlState';
 
 const View = injectIntl(AdminFeatureValuesCreateView);
 
@@ -21,14 +20,12 @@ export const AdminFeatureValuesCreateContainer = ({ close }: Partial<Pick<IPrese
   const { dependencies } = useDependencies();
   const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
   const { state: adminFeatureValuesState } = useAdminFeatureValuesState();
-  const { intlState } = useIntlState();
 
   return (
     <AdminFeatureValuesCreatePresenter
       close={close ? close : defaultClose}
       View={View}
       service={dependencies.services.featureValue}
-      intlState={intlState}
       adminFeatureTypesState={adminFeatureTypesState}
       adminFeatureValuesState={adminFeatureValuesState}
     />

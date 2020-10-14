@@ -6,7 +6,6 @@ import { AdminFeatureTypesEditPresenter } from 'src/components/Admin/FeatureType
 import { AdminFeatureTypesEditView } from 'src/components/Admin/FeatureTypes/Edit/AdminFeatureTypesEditView';
 import { useDependencies } from 'src/DI/DI';
 import { useAdminFeatureTypesState } from 'src/state/AdminFeatureTypesState';
-import { useIntlState } from 'src/state/IntlState';
 
 const View = injectIntl(AdminFeatureTypesEditView);
 
@@ -16,7 +15,6 @@ export const AdminFeatureTypesEditContainer = () => {
 
   const { dependencies } = useDependencies();
   const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
-  const { intlState } = useIntlState();
 
   return (
     <AdminFeatureTypesEditPresenter
@@ -24,7 +22,6 @@ export const AdminFeatureTypesEditContainer = () => {
       history={history}
       View={View}
       service={dependencies.services.featureType}
-      intlState={intlState}
       adminFeatureTypesState={adminFeatureTypesState}
     />
   );

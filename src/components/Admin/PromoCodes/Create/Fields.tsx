@@ -20,7 +20,7 @@ const DiscountField = ({ input, meta, disabled }: FieldRenderProps<string>) => {
   return (
     <FormTextField
       labelProps={{
-        children: intl.formatMessage({ id: 'AdminPromoCodes.discount' }),
+        children: `${intl.formatMessage({ id: 'common.discount' })} (%)`,
       }}
       inputProps={{
         ...input,

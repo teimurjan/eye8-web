@@ -6,7 +6,6 @@ import { FormSelectField } from 'src/components/admin-ui/FormSelectField/FormSel
 import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
 import { IntlField } from 'src/components/Admin/IntlField';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
-import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
 interface IParentCategorySelectProps extends FieldRenderProps<string> {
   categories: AdminCategoriesStateContextValue['state']['entities'];
@@ -52,25 +51,21 @@ const getParentCategoryIDRenderer = (categories: AdminCategoriesStateContextValu
 ) => <ParentCategorySelect categories={categories} {...fieldRenderProps} />;
 
 export interface IFieldsProps {
-  availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   categories: AdminCategoriesStateContextValue['state']['entities'];
   nameFieldKey: string;
 }
 
-export const Fields = injectIntl(
-  ({ availableLocales, categories, intl, nameFieldKey }: IFieldsProps & { intl: IntlShape }) => (
-    <>
-      <IntlField
-        key_={nameFieldKey}
-        locales={availableLocales}
-        label={intl.formatMessage({
-          id: 'AdminCategories.nameInput.label',
-        })}
-        placeholder={intl.formatMessage({
-          id: 'AdminCategories.nameInput.placeholder',
-        })}
-      />
-      <Field key="parent_category_id" name="parent_category_id" render={getParentCategoryIDRenderer(categories)} />
-    </>
-  ),
-);
+export const Fields = injectIntl(({ categories, intl, nameFieldKey }: IFieldsProps & { intl: IntlShape }) => (
+  <>
+    <IntlField
+      key_={nameFieldKey}
+      label={intl.formatMessage({
+        id: 'AdminCategories.nameInput.label',
+      })}
+      placeholder={intl.formatMessage({
+        id: 'AdminCategories.nameInput.placeholder',
+      })}
+    />
+    <Field key="parent_category_id" name="parent_category_id" render={getParentCategoryIDRenderer(categories)} />
+  </>
+));

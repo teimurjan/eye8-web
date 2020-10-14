@@ -5,12 +5,11 @@ import * as yup from 'yup';
 import { IBannerListRawIntlResponseItem } from 'src/api/BannerAPI';
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useLazy } from 'src/hooks/useLazy';
 import { IBannerService } from 'src/services/BannerService';
 import { ContextValue as AdminBannersStateContextValue } from 'src/state/AdminBannersState';
-import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
+import { availableLocales } from 'src/utils/locale';
 
-export interface IProps extends IntlStateContextValue {
+export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IBannerService;
   history: History;
@@ -39,7 +38,6 @@ export interface IViewProps {
   edit: (values: IFormValues) => void;
   error?: string;
   close: () => void;
-  availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   validate?: (values: IFormValues) => object | Promise<object>;
   isLoading: boolean;
   isUpdating: boolean;
@@ -50,11 +48,24 @@ export interface IViewProps {
 export const BANNER_TEXT_FIELD_KEY = 'text';
 export const BANNER_LINK_TEXT_FIELD_KEY = 'link_text';
 
+const validator = new schemaValidator.SchemaValidator(
+  yup.object().shape(
+    availableLocales.reduce(
+      (acc, locale) => ({
+        ...acc,
+        [getFieldName(BANNER_TEXT_FIELD_KEY, locale)]: yup.string(),
+        [getFieldName(BANNER_LINK_TEXT_FIELD_KEY, locale)]: yup.string(),
+      }),
+      {
+        parent_banner_id: yup.number().nullable(true),
+      },
+    ),
+  ),
+);
+
 export const AdminBannersEditPresenter: React.FC<IProps> = ({
-  intlState,
   history,
   adminBannersState: { set: setBannerToState },
-  intlState: { availableLocales },
   service,
   View,
   bannerId,
@@ -64,30 +75,6 @@ export const AdminBannersEditPresenter: React.FC<IProps> = ({
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
-
-  const makeValidator = React.useCallback(
-    () =>
-      new schemaValidator.SchemaValidator(
-        yup.object().shape(
-          intlState.availableLocales.reduce(
-            (acc, locale) => ({
-              ...acc,
-              [getFieldName(BANNER_TEXT_FIELD_KEY, locale)]: yup.string(),
-              [getFieldName(BANNER_LINK_TEXT_FIELD_KEY, locale)]: yup.string(),
-            }),
-            {
-              parent_banner_id: yup.number().nullable(true),
-            },
-          ),
-        ),
-      ),
-    [intlState],
-  );
-
-  const validator = useLazy({
-    make: makeValidator,
-    trigger: availableLocales.length,
-  });
 
   React.useEffect(() => {
     (async () => {
@@ -116,17 +103,17 @@ export const AdminBannersEditPresenter: React.FC<IProps> = ({
 
       const formattedValues = Object.keys(values).reduce(
         (acc, fieldName) => {
-          const { key, id } = parseFieldName(fieldName);
+          const { key, locale } = parseFieldName(fieldName);
           if (key === BANNER_TEXT_FIELD_KEY) {
             return {
               ...acc,
-              texts: { ...acc.texts, [id]: values[fieldName] },
+              texts: { ...acc.texts, [locale]: values[fieldName] },
             };
           }
           if (key === BANNER_LINK_TEXT_FIELD_KEY) {
             return {
               ...acc,
-              link_texts: { ...acc.link_texts, [id]: values[fieldName] },
+              link_texts: { ...acc.link_texts, [locale]: values[fieldName] },
             };
           }
 
@@ -164,8 +151,8 @@ export const AdminBannersEditPresenter: React.FC<IProps> = ({
         ...availableLocales.reduce(
           (acc, locale) => ({
             ...acc,
-            [getFieldName(BANNER_TEXT_FIELD_KEY, locale)]: banner.text[locale.id],
-            [getFieldName(BANNER_LINK_TEXT_FIELD_KEY, locale)]: banner.link_text[locale.id],
+            [getFieldName(BANNER_TEXT_FIELD_KEY, locale)]: banner.text[locale],
+            [getFieldName(BANNER_LINK_TEXT_FIELD_KEY, locale)]: banner.link_text[locale],
           }),
           {},
         ),
@@ -180,7 +167,7 @@ export const AdminBannersEditPresenter: React.FC<IProps> = ({
     }
 
     return {};
-  }, [availableLocales, banner]);
+  }, [banner]);
 
   return (
     <View
@@ -190,8 +177,7 @@ export const AdminBannersEditPresenter: React.FC<IProps> = ({
       isUpdating={isUpdating}
       isLoading={isLoading}
       close={close}
-      availableLocales={availableLocales}
-      validate={(validator || { validate: undefined }).validate}
+      validate={validator.validate}
       initialValues={initialValues}
       preloadingError={preloadingError}
     />

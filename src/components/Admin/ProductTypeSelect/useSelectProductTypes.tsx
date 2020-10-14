@@ -6,9 +6,7 @@ import {
   IProductTypeListResponseMeta,
   ProductTypeSortingType,
 } from 'src/api/ProductTypeAPI';
-import { extendIntlTextWithLocaleNames } from 'src/helpers/intl';
 import { IProductTypeService } from 'src/services/ProductTypeService';
-import { useIntlState } from 'src/state/IntlState';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 interface IArgs {
@@ -17,9 +15,6 @@ interface IArgs {
 }
 
 export const useSelectProductTypes = ({ productTypeService, mandatoryProductTypeId }: IArgs) => {
-  const {
-    intlState: { availableLocales },
-  } = useIntlState();
   const [data, setData] = React.useState<{
     entities: { [id: string]: IProductTypeListRawIntlMinifiedResponseItem };
     order: number[];
@@ -88,7 +83,7 @@ export const useSelectProductTypes = ({ productTypeService, mandatoryProductType
   return {
     productTypes: agregateOrderedMapToArray(data.entities, data.order, (productType) => ({
       ...productType,
-      name: extendIntlTextWithLocaleNames(productType.name, availableLocales),
+      name: productType.name,
     })),
     isLoading,
     error,

@@ -8,17 +8,12 @@ import {
 import { IntlField } from 'src/components/Admin/IntlField';
 import { ModalForm } from 'src/components/Admin/ModalForm';
 
-interface IFieldsProps {
-  availableLocales: IProps['availableLocales'];
-}
-
-const Fields = ({ availableLocales }: IFieldsProps) => {
+const Fields = () => {
   const intl = useIntl();
 
   return (
     <IntlField
       key_={CHARACTERISTIC_NAME_FIELD_KEY}
-      locales={availableLocales}
       label={intl.formatMessage({
         id: 'AdminCharacteristics.nameInput.label',
       })}
@@ -29,15 +24,7 @@ const Fields = ({ availableLocales }: IFieldsProps) => {
   );
 };
 
-export const AdminCharacteristicsCreateView = ({
-  isOpen,
-  create,
-  close,
-  isLoading,
-  error,
-  availableLocales,
-  validate,
-}: IProps) => {
+export const AdminCharacteristicsCreateView = ({ isOpen, create, close, isLoading, error, validate }: IProps) => {
   const intl = useIntl();
 
   return (
@@ -49,7 +36,7 @@ export const AdminCharacteristicsCreateView = ({
       isLoading={isLoading}
       globalError={error}
       title={intl.formatMessage({ id: 'AdminCharacteristics.create.title' })}
-      fields={<Fields availableLocales={availableLocales} />}
+      fields={<Fields />}
       validate={validate}
     />
   );

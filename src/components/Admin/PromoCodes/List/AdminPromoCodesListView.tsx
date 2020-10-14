@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
 import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataAvaiable';
 import { Section } from 'src/components/admin-ui/Section/Section';
-import { AdminTable } from 'src/components/Admin/AdminTable';
+import { AdminTable, PriceRenderer } from 'src/components/Admin/AdminTable';
 import { IViewProps as IProps } from 'src/components/Admin/PromoCodes/List/AdminPromoCodesListPresenter';
 
 export const NewPromoCodeButton = () => {
@@ -64,8 +64,16 @@ export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded, s
       >
         <AdminTable.Col<PromoCode> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
         <AdminTable.Col<PromoCode> key_="value" title={intl.formatMessage({ id: 'AdminPromoCodes.value' })} />
-        <AdminTable.Col<PromoCode> key_="discount" title={intl.formatMessage({ id: 'AdminPromoCodes.discount' })} />
-        <AdminTable.Col<PromoCode> key_="amount" title={intl.formatMessage({ id: 'AdminPromoCodes.amount' })} />
+        <AdminTable.Col<PromoCode>
+          key_="discount"
+          title={intl.formatMessage({ id: 'common.discount' })}
+          render={(product) => `${product.discount}%`}
+        />
+        <AdminTable.Col<PromoCode>
+          key_="amount"
+          title={intl.formatMessage({ id: 'AdminPromoCodes.amount' })}
+          renderer={new PriceRenderer()}
+        />
         <AdminTable.Col<PromoCode>
           key_="is_active"
           title={intl.formatMessage({ id: 'AdminPromoCodes.active' })}

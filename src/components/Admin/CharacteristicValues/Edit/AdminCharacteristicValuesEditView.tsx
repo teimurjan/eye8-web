@@ -13,7 +13,6 @@ export const AdminCharacteristicValuesEditView = ({
   isUpdating,
   error,
   initialValues,
-  availableLocales,
   validate,
   preloadingError,
   characteristics,
@@ -30,7 +29,7 @@ export const AdminCharacteristicValuesEditView = ({
       isPreloading={isLoading}
       globalError={error}
       title={intl.formatMessage({ id: 'AdminCharacteristicValues.edit.title' })}
-      fields={<Fields availableLocales={availableLocales} characteristics={characteristics} />}
+      fields={<Fields characteristics={characteristics} />}
       validate={validate}
       initialValues={initialValues}
       preloadingError={preloadingError}

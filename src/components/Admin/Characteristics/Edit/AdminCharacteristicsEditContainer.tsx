@@ -5,7 +5,6 @@ import { AdminCharacteristicsEditPresenter } from 'src/components/Admin/Characte
 import { AdminCharacteristicsEditView } from 'src/components/Admin/Characteristics/Edit/AdminCharacteristicsEditView';
 import { useDependencies } from 'src/DI/DI';
 import { useAdminCharacteristicsState } from 'src/state/AdminCharacteristicsState';
-import { useIntlState } from 'src/state/IntlState';
 
 export const AdminCharacteristicsEditContainer = () => {
   const history = useHistory();
@@ -13,7 +12,6 @@ export const AdminCharacteristicsEditContainer = () => {
 
   const { dependencies } = useDependencies();
   const { state: adminCharacteristicsState } = useAdminCharacteristicsState();
-  const { intlState } = useIntlState();
 
   return (
     <AdminCharacteristicsEditPresenter
@@ -21,7 +19,6 @@ export const AdminCharacteristicsEditContainer = () => {
       history={history}
       View={AdminCharacteristicsEditView}
       service={dependencies.services.characteristic}
-      intlState={intlState}
       adminCharacteristicsState={adminCharacteristicsState}
     />
   );

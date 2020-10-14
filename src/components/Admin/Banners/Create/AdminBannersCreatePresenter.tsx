@@ -4,12 +4,11 @@ import * as yup from 'yup';
 
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useLazy } from 'src/hooks/useLazy';
 import { IBannerService } from 'src/services/BannerService';
 import { ContextValue as AdminBannersStateContextValue } from 'src/state/AdminBannersState';
-import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
+import { availableLocales } from 'src/utils/locale';
 
-export interface IProps extends IntlStateContextValue {
+export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IBannerService;
   history: History;
@@ -36,15 +35,29 @@ export interface IViewProps {
   isCreating: boolean;
   error?: string;
   close: () => void;
-  availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   validate?: (values: object) => object | Promise<object>;
 }
 
 export const BANNER_TEXT_FIELD_KEY = 'text';
 export const BANNER_LINK_TEXT_FIELD_KEY = 'link_text';
 
+const validator = new schemaValidator.SchemaValidator(
+  yup.object().shape(
+    availableLocales.reduce(
+      (acc, locale) => ({
+        ...acc,
+        [getFieldName(BANNER_TEXT_FIELD_KEY, locale)]: yup.string(),
+        [getFieldName(BANNER_LINK_TEXT_FIELD_KEY, locale)]: yup.string(),
+      }),
+      {
+        link: yup.string(),
+        image: yup.mixed().required('common.errors.field.empty'),
+      },
+    ),
+  ),
+);
+
 export const AdminBannersCreatePresenter: React.FC<IProps> = ({
-  intlState,
   history,
   adminBannersState: { add: addBanner },
   service,
@@ -52,31 +65,6 @@ export const AdminBannersCreatePresenter: React.FC<IProps> = ({
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isCreating, setCreating] = React.useState(false);
-
-  const makeValidator = React.useCallback(
-    () =>
-      new schemaValidator.SchemaValidator(
-        yup.object().shape(
-          intlState.availableLocales.reduce(
-            (acc, locale) => ({
-              ...acc,
-              [getFieldName(BANNER_TEXT_FIELD_KEY, locale)]: yup.string(),
-              [getFieldName(BANNER_LINK_TEXT_FIELD_KEY, locale)]: yup.string(),
-            }),
-            {
-              link: yup.string(),
-              image: yup.mixed().required('common.errors.field.empty'),
-            },
-          ),
-        ),
-      ),
-    [intlState],
-  );
-
-  const validator = useLazy({
-    make: makeValidator,
-    trigger: intlState.availableLocales.length,
-  });
 
   const close = React.useCallback(() => history.push('/admin/banners'), [history]);
 
@@ -86,17 +74,17 @@ export const AdminBannersCreatePresenter: React.FC<IProps> = ({
 
       const formattedValues = Object.keys(values).reduce(
         (acc, fieldName) => {
-          const { key, id } = parseFieldName(fieldName);
+          const { key, locale } = parseFieldName(fieldName);
           if (key === BANNER_TEXT_FIELD_KEY) {
             return {
               ...acc,
-              texts: { ...acc.texts, [id]: values[fieldName] },
+              texts: { ...acc.texts, [locale]: values[fieldName] },
             };
           }
           if (key === BANNER_LINK_TEXT_FIELD_KEY) {
             return {
               ...acc,
-              link_texts: { ...acc.link_texts, [id]: values[fieldName] },
+              link_texts: { ...acc.link_texts, [locale]: values[fieldName] },
             };
           }
 
@@ -135,8 +123,7 @@ export const AdminBannersCreatePresenter: React.FC<IProps> = ({
       error={error}
       isCreating={isCreating}
       close={close}
-      availableLocales={intlState.availableLocales}
-      validate={(validator || { validate: undefined }).validate}
+      validate={validator.validate}
     />
   );
 };

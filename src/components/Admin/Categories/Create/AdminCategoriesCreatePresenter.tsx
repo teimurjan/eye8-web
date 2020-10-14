@@ -4,12 +4,11 @@ import * as yup from 'yup';
 
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useLazy } from 'src/hooks/useLazy';
 import { ICategoryService } from 'src/services/CategoryService';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
-import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
+import { availableLocales } from 'src/utils/locale';
 
-export interface IProps extends IntlStateContextValue {
+export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: ICategoryService;
   history: History;
@@ -24,15 +23,27 @@ export interface IViewProps {
   error?: string;
   preloadingError?: string;
   close: () => void;
-  availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   validate?: (values: object) => object | Promise<object>;
   categories: AdminCategoriesStateContextValue['state']['entities'];
 }
 
 export const CATEGORY_NAME_FIELD_KEY = 'name';
 
+const validator = new schemaValidator.SchemaValidator(
+  yup.object().shape(
+    availableLocales.reduce(
+      (acc, locale) => ({
+        ...acc,
+        [getFieldName(CATEGORY_NAME_FIELD_KEY, locale)]: yup.string().required('common.errors.field.empty'),
+      }),
+      {
+        parent_category_id: yup.number(),
+      },
+    ),
+  ),
+);
+
 export const AdminCategoriesCreatePresenter: React.FC<IProps> = ({
-  intlState,
   history,
   adminCategoriesState: { entities: categories, add: addCategory, isListLoading: categoriesLoading, listError },
   service,
@@ -40,29 +51,6 @@ export const AdminCategoriesCreatePresenter: React.FC<IProps> = ({
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isCreating, setCreating] = React.useState(false);
-
-  const makeValidator = React.useCallback(
-    () =>
-      new schemaValidator.SchemaValidator(
-        yup.object().shape(
-          intlState.availableLocales.reduce(
-            (acc, locale) => ({
-              ...acc,
-              [getFieldName(CATEGORY_NAME_FIELD_KEY, locale)]: yup.string().required('common.errors.field.empty'),
-            }),
-            {
-              parent_category_id: yup.number(),
-            },
-          ),
-        ),
-      ),
-    [intlState],
-  );
-
-  const validator = useLazy({
-    make: makeValidator,
-    trigger: intlState.availableLocales.length,
-  });
 
   const close = React.useCallback(() => history.push('/admin/categories'), [history]);
 
@@ -72,9 +60,9 @@ export const AdminCategoriesCreatePresenter: React.FC<IProps> = ({
 
       const formattedValues = Object.keys(values).reduce(
         (acc, fieldName) => {
-          const { key, id } = parseFieldName(fieldName);
+          const { key, locale } = parseFieldName(fieldName);
           if (key === CATEGORY_NAME_FIELD_KEY) {
-            return { ...acc, names: { ...acc.names, [id]: values[fieldName] } };
+            return { ...acc, names: { ...acc.names, [locale]: values[fieldName] } };
           }
 
           return acc;
@@ -107,8 +95,7 @@ export const AdminCategoriesCreatePresenter: React.FC<IProps> = ({
       isLoading={categoriesLoading}
       isCreating={isCreating}
       close={close}
-      availableLocales={intlState.availableLocales}
-      validate={(validator || { validate: undefined }).validate}
+      validate={validator.validate}
       preloadingError={listError}
     />
   );

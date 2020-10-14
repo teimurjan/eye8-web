@@ -6,7 +6,6 @@ import { AdminCategoriesCreatePresenter } from 'src/components/Admin/Categories/
 import { AdminCategoriesCreateView } from 'src/components/Admin/Categories/Create/AdminCategoriesCreateView';
 import { useDependencies } from 'src/DI/DI';
 import { useAdminCategoriesState } from 'src/state/AdminCategoriesState';
-import { useIntlState } from 'src/state/IntlState';
 
 const View = injectIntl(AdminCategoriesCreateView);
 
@@ -15,14 +14,12 @@ export const AdminCategoriesCreateContainer = () => {
 
   const { dependencies } = useDependencies();
   const { state: adminCategoriesState } = useAdminCategoriesState();
-  const { intlState } = useIntlState();
 
   return (
     <AdminCategoriesCreatePresenter
       history={history}
       View={View}
       service={dependencies.services.category}
-      intlState={intlState}
       adminCategoriesState={adminCategoriesState}
     />
   );

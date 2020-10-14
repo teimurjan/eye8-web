@@ -4,15 +4,11 @@ import { IntlShape, injectIntl } from 'react-intl';
 
 import { FormSelectField } from 'src/components/admin-ui/FormSelectField/FormSelectField';
 import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
-import {
-  FEATURE_VALUE_NAME_FIELD_KEY,
-  IViewProps as IProps,
-} from 'src/components/Admin/FeatureValues/Create/AdminFeatureValuesCreatePresenter';
+import { FEATURE_VALUE_NAME_FIELD_KEY } from 'src/components/Admin/FeatureValues/Create/AdminFeatureValuesCreatePresenter';
 import { IntlField } from 'src/components/Admin/IntlField';
 import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
 
 export interface IFieldsProps {
-  availableLocales: IProps['availableLocales'];
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
 }
 
@@ -59,11 +55,10 @@ const getFeatureTypeSelectRenderer = (featureTypes: AdminFeatureTypesStateContex
   fieldRenderProps: FieldRenderProps<string>,
 ) => <FeatureTypeSelect featureTypes={featureTypes} {...fieldRenderProps} />;
 
-export const Fields = injectIntl(({ availableLocales, intl, featureTypes }: IFieldsProps & { intl: IntlShape }) => (
+export const Fields = injectIntl(({ intl, featureTypes }: IFieldsProps & { intl: IntlShape }) => (
   <>
     <IntlField
       key_={FEATURE_VALUE_NAME_FIELD_KEY}
-      locales={availableLocales}
       label={intl.formatMessage({
         id: 'AdminFeatureValues.nameInput.label',
       })}

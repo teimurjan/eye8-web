@@ -7,7 +7,6 @@ import { AdminFeatureValuesEditView } from 'src/components/Admin/FeatureValues/E
 import { useDependencies } from 'src/DI/DI';
 import { useAdminFeatureTypesState } from 'src/state/AdminFeatureTypesState';
 import { useAdminFeatureValuesState } from 'src/state/AdminFeatureValuesState';
-import { useIntlState } from 'src/state/IntlState';
 
 const View = injectIntl(AdminFeatureValuesEditView);
 
@@ -18,7 +17,6 @@ export const AdminFeatureValuesEditContainer = () => {
   const { dependencies } = useDependencies();
   const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
   const { state: adminFeatureValuesState } = useAdminFeatureValuesState();
-  const { intlState } = useIntlState();
 
   return (
     <AdminFeatureValuesEditPresenter
@@ -26,7 +24,6 @@ export const AdminFeatureValuesEditContainer = () => {
       history={history}
       View={View}
       service={dependencies.services.featureValue}
-      intlState={intlState}
       adminFeatureTypesState={adminFeatureTypesState}
       adminFeatureValuesState={adminFeatureValuesState}
     />

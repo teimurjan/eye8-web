@@ -11,7 +11,6 @@ import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { Tag } from 'src/components/client-ui/Tag/Tag';
 import { Tooltip } from 'src/components/client-ui/Tooltip/Tooltip';
 import { PriceText } from 'src/components/Client/Price/Price';
-import { useIntlState } from 'src/state/IntlState';
 import { IconSizes } from 'src/styles/icon';
 import { getOrderTotalPrice } from 'src/utils/order';
 
@@ -56,9 +55,6 @@ const OrderStatus = ({ status }: { status: IOrderListResponseItem['status'] }) =
 export const OrderItem: React.FC<IProps> = ({ order, className }) => {
   const theme = useTheme<ClientUITheme>();
   const intl = useIntl();
-  const {
-    intlState: { locale },
-  } = useIntlState();
   const total = getOrderTotalPrice(
     order.items,
     order.promo_code_value
@@ -99,7 +95,7 @@ export const OrderItem: React.FC<IProps> = ({ order, className }) => {
         >
           {intl.formatMessage({ id: 'Order.orderPlaced' }, { id: order.id })}
           <br />
-          {orderCreatedOnDate.toLocaleDateString(locale)}
+          {orderCreatedOnDate.toLocaleDateString(intl.locale)}
         </div>
         <div
           css={css`

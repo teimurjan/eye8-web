@@ -26,6 +26,7 @@ import { Popover } from 'src/components/client-ui/Popover/Popover';
 import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
 import { IconSizes } from 'src/styles/icon';
 import { Accept } from 'src/utils/accept';
+import { Locale } from 'src/utils/locale';
 import { isAllowedForNumberInput } from 'src/utils/number';
 import { arePropsEqual, lengthCompare, defaultCompare } from 'src/utils/propEquality';
 
@@ -62,13 +63,13 @@ const DiscountField = ({ input, meta }: FieldRenderProps<string>) => {
   return (
     <FormTextField
       labelProps={{
-        children: intl.formatMessage({ id: 'AdminProducts.discount' }),
+        children: `${intl.formatMessage({ id: 'common.discount' })} (%)`,
       }}
       inputProps={{
         ...input,
         isDanger: showError,
         placeholder: intl.formatMessage({
-          id: 'AdminProducts.discount',
+          id: 'common.discount',
         }),
         type: 'number',
       }}
@@ -88,7 +89,7 @@ const PriceField = ({ input, meta }: FieldRenderProps<string>) => {
   return (
     <FormTextField
       labelProps={{
-        children: intl.formatMessage({ id: 'AdminProducts.price' }),
+        children: `${intl.formatMessage({ id: 'AdminProducts.price' })} ($)`,
       }}
       inputProps={{
         ...input,
@@ -135,7 +136,7 @@ const FeatureValuesSelect = ({ featureValues, featureValuesLoading, input, meta 
     <React.Fragment>
       {Object.keys(groupedFeatureValues).map((featureTypeId) => {
         const featureType = groupedFeatureValues[featureTypeId].featureValues[0].feature_type;
-        const decoration = featureType.name['en'].match(/[Cc]olor/) ? <ColorDecoration /> : null;
+        const decoration = featureType.name[Locale.Secondary].match(/[Cc]olor/) ? <ColorDecoration /> : null;
         return (
           <FormSelectField
             key={featureTypeId}

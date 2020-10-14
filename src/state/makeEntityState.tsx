@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-import { IIntlListResponseItem } from 'src/api/IntlAPI';
 import { useDependencies, IContextValue as IDependenciesContextValue } from 'src/DI/DI';
-import { useIntlState } from 'src/state/IntlState';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 export interface IContextValue<Entity, AgregatedEntity, Meta = undefined, Params = {}> {
@@ -36,11 +34,8 @@ export const makeEntityState = <
     params?: Params,
   ) => Promise<{ entities: { [key in Key]: { [key: string]: Entity } }; result: number[]; meta?: Meta }>,
   key: Key,
-  agregate?: (entity: Entity, helpers: { availableLocales: IIntlListResponseItem[] }) => AgregatedEntity,
+  agregate?: (entity: Entity) => AgregatedEntity,
 ): React.SFC<IProviderProps> => ({ children }) => {
-  const {
-    intlState: { availableLocales },
-  } = useIntlState();
   const dependenciesContextValue = useDependencies();
 
   const [meta, setMeta] = React.useState<Meta | undefined>(undefined);
@@ -121,7 +116,7 @@ export const makeEntityState = <
           entities: agregateOrderedMapToArray(
             data.entities,
             data.order,
-            agregate ? (e) => agregate(e, { availableLocales }) : undefined,
+            agregate ? (e) => agregate(e) : undefined,
           ) as AgregatedEntity[],
           get,
           hasListLoaded,

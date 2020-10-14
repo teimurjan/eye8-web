@@ -34,7 +34,6 @@ type Category = IProps['categories'][0];
 
 export const AdminCategoriesListView = ({
   categories,
-  locales,
   intl,
   isLoading,
   isDataLoaded,
@@ -62,7 +61,7 @@ export const AdminCategoriesListView = ({
       <AdminTable.Col<Category>
         key_="name"
         title={intl.formatMessage({ id: 'AdminCategories.names' })}
-        renderer={new IntlRenderer(locales)}
+        renderer={new IntlRenderer()}
       />
     </AdminTable>
 

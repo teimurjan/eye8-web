@@ -5,12 +5,11 @@ import * as yup from 'yup';
 import { ICategoryListRawIntlResponseItem } from 'src/api/CategoryAPI';
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useLazy } from 'src/hooks/useLazy';
 import { ICategoryService } from 'src/services/CategoryService';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
-import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
+import { availableLocales } from 'src/utils/locale';
 
-export interface IProps extends IntlStateContextValue {
+export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: ICategoryService;
   history: History;
@@ -23,7 +22,6 @@ export interface IViewProps {
   edit: (values: { names: { [key: string]: string }; parent_category_id?: string }) => void;
   error?: string;
   close: () => void;
-  availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   validate?: (values: object) => object | Promise<object>;
   categories: AdminCategoriesStateContextValue['state']['entities'];
   isLoading: boolean;
@@ -34,11 +32,24 @@ export interface IViewProps {
 
 export const CATEGORY_NAME_FIELD_KEY = 'name';
 
+const validator = new schemaValidator.SchemaValidator(
+  yup.object().shape(
+    availableLocales.reduce(
+      (acc, locale) => ({
+        ...acc,
+        [getFieldName(CATEGORY_NAME_FIELD_KEY, locale)]: yup.string().required('common.errors.field.empty'),
+      }),
+      {
+        parent_category_id: yup.number().nullable(true),
+      },
+    ),
+  ),
+);
+
 export const AdminCategoriesEditPresenter: React.FC<IProps> = ({
-  intlState,
   history,
   adminCategoriesState: { entities: categories, set: setCategoryToState, isListLoading: categoriesLoading },
-  intlState: { availableLocales },
+
   service,
   View,
   categoryId,
@@ -48,29 +59,6 @@ export const AdminCategoriesEditPresenter: React.FC<IProps> = ({
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
-
-  const makeValidator = React.useCallback(
-    () =>
-      new schemaValidator.SchemaValidator(
-        yup.object().shape(
-          intlState.availableLocales.reduce(
-            (acc, locale) => ({
-              ...acc,
-              [getFieldName(CATEGORY_NAME_FIELD_KEY, locale)]: yup.string().required('common.errors.field.empty'),
-            }),
-            {
-              parent_category_id: yup.number().nullable(true),
-            },
-          ),
-        ),
-      ),
-    [intlState],
-  );
-
-  const validator = useLazy({
-    make: makeValidator,
-    trigger: availableLocales.length,
-  });
 
   React.useEffect(() => {
     (async () => {
@@ -100,9 +88,9 @@ export const AdminCategoriesEditPresenter: React.FC<IProps> = ({
 
       const formattedValues = Object.keys(values).reduce(
         (acc, fieldName) => {
-          const { key, id } = parseFieldName(fieldName);
+          const { key, locale } = parseFieldName(fieldName);
           if (key === CATEGORY_NAME_FIELD_KEY) {
-            return { ...acc, names: { ...acc.names, [id]: values[fieldName] } };
+            return { ...acc, names: { ...acc.names, [locale]: values[fieldName] } };
           }
 
           return acc;
@@ -132,7 +120,7 @@ export const AdminCategoriesEditPresenter: React.FC<IProps> = ({
         ...availableLocales.reduce(
           (acc, locale) => ({
             ...acc,
-            [getFieldName(CATEGORY_NAME_FIELD_KEY, locale)]: category.name[locale.id],
+            [getFieldName(CATEGORY_NAME_FIELD_KEY, locale)]: category.name[locale],
           }),
           {},
         ),
@@ -141,7 +129,7 @@ export const AdminCategoriesEditPresenter: React.FC<IProps> = ({
     }
 
     return {};
-  }, [availableLocales, category]);
+  }, [category]);
 
   return (
     <View
@@ -152,8 +140,7 @@ export const AdminCategoriesEditPresenter: React.FC<IProps> = ({
       isUpdating={isUpdating}
       isLoading={isLoading || categoriesLoading}
       close={close}
-      availableLocales={availableLocales}
-      validate={(validator || { validate: undefined }).validate}
+      validate={validator.validate}
       initialValues={initialValues}
       preloadingError={preloadingError}
     />

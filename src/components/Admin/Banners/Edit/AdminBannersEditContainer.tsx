@@ -5,7 +5,6 @@ import { AdminBannersEditPresenter } from 'src/components/Admin/Banners/Edit/Adm
 import { AdminBannersEditView } from 'src/components/Admin/Banners/Edit/AdminBannersEditView';
 import { useDependencies } from 'src/DI/DI';
 import { useAdminBannersState } from 'src/state/AdminBannersState';
-import { useIntlState } from 'src/state/IntlState';
 
 export const AdminBannersEditContainer = () => {
   const history = useHistory();
@@ -13,7 +12,6 @@ export const AdminBannersEditContainer = () => {
 
   const { dependencies } = useDependencies();
   const { state: adminBannersState } = useAdminBannersState();
-  const { intlState } = useIntlState();
 
   return (
     <AdminBannersEditPresenter
@@ -21,7 +19,6 @@ export const AdminBannersEditContainer = () => {
       history={history}
       View={AdminBannersEditView}
       service={dependencies.services.banner}
-      intlState={intlState}
       adminBannersState={adminBannersState}
     />
   );

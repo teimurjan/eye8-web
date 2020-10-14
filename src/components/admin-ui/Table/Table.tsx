@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import * as React from 'react';
+import React from 'react';
 
 export const Table = ({ children, className, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
   <table className={classNames('table', className)} {...props}>
@@ -19,4 +19,10 @@ Table.Body = ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => <
 
 Table.Row = ({ children, ...props }: React.HTMLAttributes<HTMLTableRowElement>) => <tr {...props}>{children}</tr>;
 
-Table.Cell = ({ children, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => <td {...props}>{children}</td>;
+Table.Cell = React.forwardRef<HTMLTableCellElement, React.HTMLAttributes<HTMLTableCellElement>>(
+  ({ children, ...props }, ref) => (
+    <td ref={ref} {...props}>
+      {children}
+    </td>
+  ),
+);

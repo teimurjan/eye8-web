@@ -236,7 +236,7 @@ const OrderItemsField = ({
         }}
       />
       <div>
-        {intl.formatMessage({ id: 'Cart.total' })}: <PriceText price={totalPrice} forceLocale="en" />
+        {intl.formatMessage({ id: 'Cart.total' })}: <PriceText price={totalPrice} />
       </div>
       <HelpText type="is-danger">{showError ? intl.formatMessage({ id: meta.error }) : undefined}</HelpText>
     </Field>

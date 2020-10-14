@@ -142,7 +142,7 @@ export const AdminProductsCreatePresenter: React.FC<IProps> = ({
       featureValuesLoading={featureValuesLoading}
       isCreating={isCreating}
       close={close}
-      validate={(validator || { validate: undefined }).validate}
+      validate={validator.validate}
       preloadingError={preloadingError}
     />
   );

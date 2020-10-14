@@ -15,7 +15,6 @@ export const AdminCategoriesCreateView = ({
   isLoading,
   error,
   intl,
-  availableLocales,
   validate,
   categories,
   preloadingError,
@@ -31,9 +30,7 @@ export const AdminCategoriesCreateView = ({
     preloadingError={preloadingError}
     globalError={error}
     title={intl.formatMessage({ id: 'AdminCategories.create.title' })}
-    fields={
-      <Fields availableLocales={availableLocales} categories={categories} nameFieldKey={CATEGORY_NAME_FIELD_KEY} />
-    }
+    fields={<Fields categories={categories} nameFieldKey={CATEGORY_NAME_FIELD_KEY} />}
     validate={validate}
   />
 );

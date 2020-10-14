@@ -6,6 +6,7 @@ import * as React from 'react';
 
 import { IDependenciesFactoryArgs, dependenciesFactory } from 'src/DI/DependenciesContainer';
 import { setGlobal } from 'src/utils/global';
+import { Locale } from 'src/utils/locale';
 import { logTimeStart, logTimeFinish } from 'src/utils/log';
 
 type IProps = DocumentProps & Then<ReturnType<typeof getInitialProps>>;
@@ -46,12 +47,11 @@ const getInitialProps = async (ctx: DocumentContext) => {
 
   const req = ctx.req as (IncomingMessage & { locale: string; localeDataScript: string }) | undefined;
 
-  const locale = req ? req.locale : 'en';
+  const locale = req ? req.locale : Locale.Primary;
   const __CUSTOM_DATA__: Window['__CUSTOM_DATA__'] = {
     intl: { messages: require(`../../lang/${locale}.json`), locale: locale, isFallback: true },
     states: {
       initialProps: {
-        intl: statesInitialProps.intlState,
         categories: statesInitialProps.categoriesState,
         rates: statesInitialProps.ratesState,
       },
@@ -82,27 +82,20 @@ CustomNextDocument.renderDocument = Document.renderDocument;
 
 const getStatesInitialProps = async (args: IDependenciesFactoryArgs) => {
   const {
-    services: { category: categoryService, intl: intlService, rate: rateService },
+    services: { category: categoryService, rate: rateService },
   } = dependenciesFactory(args);
   try {
     const categoriesPromise = categoryService.getAll();
-    const availableLocalesPromise = intlService.getAvailableLocales();
     const ratesPromise = await rateService.getAllGrouped();
-    const [{ entities, result }, availableLocales, rates] = await Promise.all([
-      categoriesPromise,
-      availableLocalesPromise,
-      ratesPromise,
-    ]);
+    const [{ entities, result }, rates] = await Promise.all([categoriesPromise, ratesPromise]);
     return {
       categoriesState: { categories: entities.categories, categoriesOrder: result },
-      intlState: { availableLocales },
       ratesState: { rates },
     };
   } catch (e) {
     console.error(e);
     return {
       categoriesState: { categories: {}, categoriesOrder: [], error: 'errors.common' },
-      intlState: { availableLocales: [], error: 'errors.common' },
       ratesState: { rates: {}, error: 'errors.common' },
     };
   }

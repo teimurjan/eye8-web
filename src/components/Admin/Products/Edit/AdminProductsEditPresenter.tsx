@@ -160,7 +160,7 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
       isLoading={isLoading}
       isUpdating={isUpdating}
       close={close}
-      validate={(validator || { validate: undefined }).validate}
+      validate={validator.validate}
       preloadingError={preloadingError}
       initialValues={
         product

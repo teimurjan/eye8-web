@@ -2,28 +2,28 @@ import uniq from 'lodash/uniq';
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 
-import { useIntlState } from 'src/state/IntlState';
 import { useRatesState } from 'src/state/RatesState';
-import featureFlags from 'src/utils/featureFlags';
-import { calculateDiscountedPrice, getCeiledPrice } from 'src/utils/number';
+import { Locale } from 'src/utils/locale';
+import { calculateDiscountedPrice } from 'src/utils/number';
 
 interface IPriceProps {
   price: number;
   discount?: number | number[];
   date?: Date;
-  forceLocale?: string;
+  locale?: string;
+  alwaysConvertToPrimary?: boolean;
 }
 
 interface IPriceRangeTextProps {
   range: IPriceProps[];
 }
 
-const useRateOnDate = ({ date, name }: { date?: Date; name: string }) => {
+const useRateOnDate = ({ date, name }: { date?: Date; name?: string }) => {
   const {
     ratesState: { rates, error },
   } = useRatesState();
 
-  if (!rates[name]) {
+  if (!name || !rates[name]) {
     return {};
   }
 
@@ -33,31 +33,38 @@ const useRateOnDate = ({ date, name }: { date?: Date; name: string }) => {
   return { rate, error };
 };
 
-export const KGS_TO_USD_RATE_NAME = 'kgs_to_usd';
+export enum RateName {
+  Primary = 'kgs_to_usd',
+  Secondary = 'usd_to_usd',
+}
 
-const useFormattedPrice = ({ price, discount, date, forceLocale }: IPriceProps) => {
-  const {
-    intlState: { locale },
-  } = useIntlState();
+const rateNameByLocale: { [key in Locale]: RateName | undefined } = {
+  [Locale.Primary]: RateName.Primary,
+  [Locale.Secondary]: undefined,
+};
 
-  const { rate, error } = useRateOnDate({ date, name: KGS_TO_USD_RATE_NAME });
+const useFormattedPrice = ({ price, discount, date, locale, alwaysConvertToPrimary = true }: IPriceProps) => {
+  const intl = useIntl();
+  const reliableLocale = locale ?? intl.locale;
+
+  const rateName = alwaysConvertToPrimary ? RateName.Primary : rateNameByLocale[reliableLocale];
+  const { rate, error } = useRateOnDate({
+    date,
+    name: rateName,
+  });
 
   const calculatedPrice = calculateDiscountedPrice(price, discount || 0);
-  const defaultFormattedPrice = React.useMemo(() => `$${calculatedPrice}`, [calculatedPrice]);
-  const isEn = [locale, forceLocale].some((l) => l === 'en');
-  const formattedPrice = React.useMemo(() => {
-    if (!rate) {
-      return error ? defaultFormattedPrice : null;
-    }
-    const kgsPrice = Math.round(calculatedPrice * rate.value);
-    return (
-      <>
-        {featureFlags.shouldUseCeiledPrice() ? getCeiledPrice(kgsPrice) : kgsPrice} {isEn ? 'KGS' : <u>с</u>}
-      </>
-    );
-  }, [calculatedPrice, rate, isEn, defaultFormattedPrice, error]);
+  const defaultFormattedPrice = React.useMemo(() => <>${calculatedPrice}</>, [calculatedPrice]);
 
-  return formattedPrice;
+  if (!rate || error) {
+    return defaultFormattedPrice;
+  }
+
+  return (
+    <>
+      {Math.round(calculatedPrice * rate.value)} <u>с</u>
+    </>
+  );
 };
 
 const usePriceRange = ({ range }: IPriceRangeTextProps) => {
@@ -129,8 +136,8 @@ export const usePriceRangeText = ({ range }: IPriceRangeTextProps) => {
   };
 };
 
-export const PriceCrossedText = ({ price, discount, date, forceLocale }: IPriceProps) => {
-  const formattedPrice = useFormattedPrice({ price, discount, date, forceLocale });
+export const PriceCrossedText = ({ price, discount, date, locale }: IPriceProps) => {
+  const formattedPrice = useFormattedPrice({ price, discount, date, locale });
   const formattedInitialPrice = useFormattedPrice({ price, discount: 0, date });
 
   const hasDiscount = Array.isArray(discount) ? discount.reduce((acc, d) => acc + d, 0) > 0 : discount && discount > 0;
@@ -144,6 +151,5 @@ export const PriceCrossedText = ({ price, discount, date, forceLocale }: IPriceP
   );
 };
 
-export const PriceText = ({ price, date, forceLocale }: IPriceProps) => (
-  <>{useFormattedPrice({ price, discount: 0, date, forceLocale })}</>
-);
+export const PriceText = ({ price, date, locale, alwaysConvertToPrimary }: IPriceProps) =>
+  useFormattedPrice({ price, discount: 0, date, locale, alwaysConvertToPrimary });

@@ -3,19 +3,16 @@ import * as React from 'react';
 import { PopoverPlacement } from 'src/components/client-ui/Popover/Popover';
 import { TriggerClickProps, TriggerHoverProps } from 'src/components/client-ui/Popover/Popover';
 import { IIntlService } from 'src/services/IntlService';
-import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 import { safeWindowOperation } from 'src/utils/dom';
 
-interface IProps extends IntlStateContextValue {
+interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   intlService: IIntlService;
   TriggerComponent: React.ComponentType<TriggerClickProps> | React.ComponentType<TriggerHoverProps>;
 }
 
 export interface IViewProps {
-  locales: string[];
   changeLocale: IIntlService['setLocale'];
-  currentLocale: string;
   TriggerComponent: IProps['TriggerComponent'];
   className?: string;
   triggerClassName?: string;
@@ -24,13 +21,7 @@ export interface IViewProps {
   offset?: number[];
 }
 
-export const LanguageDropdownPresenter = ({
-  View,
-  intlState: { availableLocales, locale },
-  intlService,
-  TriggerComponent,
-  ...viewProps
-}: IProps) => {
+export const LanguageDropdownPresenter = ({ View, intlService, TriggerComponent, ...viewProps }: IProps) => {
   const changeLocale = React.useCallback(
     (newLocale: string) => {
       if (intlService.getLocale() !== newLocale) {
@@ -41,13 +32,5 @@ export const LanguageDropdownPresenter = ({
     [intlService],
   );
 
-  return (
-    <View
-      locales={availableLocales.map(({ name }) => name)}
-      changeLocale={changeLocale}
-      currentLocale={locale}
-      TriggerComponent={TriggerComponent}
-      {...viewProps}
-    />
-  );
+  return <View changeLocale={changeLocale} TriggerComponent={TriggerComponent} {...viewProps} />;
 };

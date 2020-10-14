@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/node';
 import { cache } from 'emotion';
 import { AppProps, AppContext } from 'next/app';
 import React from 'react';
-import { createIntl, createIntlCache } from 'react-intl';
+import { createIntl, createIntlCache, RawIntlProvider } from 'react-intl';
 
 import { AuthModal } from 'src/_app/AuthModal';
 import { CustomHead } from 'src/_app/CustomHead';
@@ -20,7 +20,6 @@ import { DIProvider } from 'src/DI/DI';
 import { AppStateProvider } from 'src/state/AppState';
 import { AuthModalStateProvider } from 'src/state/AuthModalState';
 import { CategoriesStateProvider, IProviderProps as ICategoriesStateProviderProps } from 'src/state/CategoriesState';
-import { IntlStateProvider, IProviderProps as IIntlStateProviderProps } from 'src/state/IntlState';
 import { RatesStateProvider, IProviderProps as IRatesStateProviderProps } from 'src/state/RatesState';
 import { UserStateProvider } from 'src/state/UserState';
 import { safeWindowOperation, isWindowDefined } from 'src/utils/dom';
@@ -73,10 +72,7 @@ const CustomNextApp = ({ Component, pageProps, ...rest }: AppProps) => {
       <DIProvider value={{ dependencies }}>
         <ThemeProvider>
           <AppStateProvider>
-            <IntlStateProvider
-              initialProps={customData.states.initialProps.intl as IIntlStateProviderProps['initialProps']}
-              intl={intl}
-            >
+            <RawIntlProvider value={intl}>
               <RatesStateProvider
                 initialProps={customData.states.initialProps.rates as IRatesStateProviderProps['initialProps']}
               >
@@ -103,7 +99,7 @@ const CustomNextApp = ({ Component, pageProps, ...rest }: AppProps) => {
                   </CategoriesStateProvider>
                 </UserStateProvider>
               </RatesStateProvider>
-            </IntlStateProvider>
+            </RawIntlProvider>
           </AppStateProvider>
         </ThemeProvider>
       </DIProvider>

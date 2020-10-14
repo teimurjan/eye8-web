@@ -8,7 +8,6 @@ import { useAdminCategoriesState } from 'src/state/AdminCategoriesState';
 import { useAdminCharacteristicValuesState } from 'src/state/AdminCharacteristicValuesState';
 import { useAdminFeatureTypesState } from 'src/state/AdminFeatureTypesState';
 import { useAdminProductTypesState } from 'src/state/AdminProductTypesState';
-import { useIntlState } from 'src/state/IntlState';
 
 export const AdminProductTypesEditContainer = () => {
   const history = useHistory();
@@ -19,7 +18,6 @@ export const AdminProductTypesEditContainer = () => {
   const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
   const { state: adminProductTypesState } = useAdminProductTypesState();
   const { state: adminCharacteristicValuesState } = useAdminCharacteristicValuesState();
-  const { intlState } = useIntlState();
 
   return (
     <AdminProductTypesEditPresenter
@@ -27,7 +25,6 @@ export const AdminProductTypesEditContainer = () => {
       history={history}
       View={AdminProductTypesEditView}
       service={dependencies.services.productType}
-      intlState={intlState}
       adminProductTypesState={adminProductTypesState}
       adminCategoriesState={adminCategoriesState}
       adminFeatureTypesState={adminFeatureTypesState}

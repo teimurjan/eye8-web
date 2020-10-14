@@ -6,7 +6,6 @@ import { useSelectProductTypes } from 'src/components/Admin/ProductTypeSelect/us
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { useAdminProductsFiltersState } from 'src/state/AdminProductsFiltersState';
 import { ContextValue as AdminProductsStateContextValue } from 'src/state/AdminProductsState';
-import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
 
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
@@ -34,7 +33,7 @@ export const AdminProductsListPresenter = ({
   View,
   adminProductsState: { isListLoading, entities: products, get: getProducts, hasListLoaded, meta },
   productTypeService,
-}: IProps & IntlStateContextValue) => {
+}: IProps) => {
   const {
     adminProductsFiltersState: { filters, setFilters },
   } = useAdminProductsFiltersState();

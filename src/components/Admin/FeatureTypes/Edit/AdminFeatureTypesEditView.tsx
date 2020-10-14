@@ -8,14 +8,9 @@ import {
 import { IntlField } from 'src/components/Admin/IntlField';
 import { ModalForm } from 'src/components/Admin/ModalForm';
 
-interface IFieldsProps {
-  availableLocales: IProps['availableLocales'];
-}
-
-const Fields = injectIntl(({ availableLocales, intl }: IFieldsProps & { intl: IntlShape }) => (
+const Fields = injectIntl(({ intl }: { intl: IntlShape }) => (
   <IntlField
     key_={FEATURE_TYPE_NAME_FIELD_KEY}
-    locales={availableLocales}
     label={intl.formatMessage({
       id: 'AdminFeatureTypes.nameInput.label',
     })}
@@ -34,7 +29,6 @@ export const AdminFeatureTypesEditView = ({
   error,
   intl,
   initialValues,
-  availableLocales,
   validate,
   preloadingError,
 }: IProps & { intl: IntlShape }) => (
@@ -47,7 +41,7 @@ export const AdminFeatureTypesEditView = ({
     isPreloading={isLoading}
     globalError={error}
     title={intl.formatMessage({ id: 'AdminFeatureTypes.edit.title' })}
-    fields={<Fields availableLocales={availableLocales} />}
+    fields={<Fields />}
     validate={validate}
     initialValues={initialValues}
     preloadingError={preloadingError}

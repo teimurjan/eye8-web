@@ -3,13 +3,12 @@ import * as yup from 'yup';
 
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useLazy } from 'src/hooks/useLazy';
 import { IFeatureValueService } from 'src/services/FeatureValueService';
 import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
 import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
-import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
+import { availableLocales } from 'src/utils/locale';
 
-export interface IProps extends IntlStateContextValue {
+export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IFeatureValueService;
   close: () => void;
@@ -24,15 +23,27 @@ export interface IViewProps {
   isLoading: boolean;
   error: string | undefined;
   close: () => void;
-  availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
   validate?: (values: object) => object | Promise<object>;
 }
 
 export const FEATURE_VALUE_NAME_FIELD_KEY = 'name';
 
+const validator = new schemaValidator.SchemaValidator(
+  yup.object().shape(
+    availableLocales.reduce(
+      (acc, locale) => ({
+        ...acc,
+        [getFieldName(FEATURE_VALUE_NAME_FIELD_KEY, locale)]: yup.string().required('common.errors.field.empty'),
+      }),
+      {
+        feature_type_id: yup.number().required('common.errors.field.empty'),
+      },
+    ),
+  ),
+);
+
 export const AdminFeatureValuesCreatePresenter: React.FC<IProps> = ({
-  intlState: { availableLocales },
   adminFeatureTypesState: {
     get: getFeatureTypes,
     isListLoading: featureTypesLoading,
@@ -54,36 +65,13 @@ export const AdminFeatureValuesCreatePresenter: React.FC<IProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const makeValidator = React.useCallback(
-    () =>
-      new schemaValidator.SchemaValidator(
-        yup.object().shape(
-          availableLocales.reduce(
-            (acc, locale) => ({
-              ...acc,
-              [getFieldName(FEATURE_VALUE_NAME_FIELD_KEY, locale)]: yup.string().required('common.errors.field.empty'),
-            }),
-            {
-              feature_type_id: yup.number().required('common.errors.field.empty'),
-            },
-          ),
-        ),
-      ),
-    [availableLocales],
-  );
-
-  const validator = useLazy({
-    make: makeValidator,
-    trigger: availableLocales.length,
-  });
-
   const create: IViewProps['create'] = React.useCallback(
     async (values) => {
       const formattedValues = Object.keys(values).reduce(
         (acc, fieldName) => {
-          const { key, id } = parseFieldName(fieldName);
+          const { key, locale } = parseFieldName(fieldName);
           if (key === FEATURE_VALUE_NAME_FIELD_KEY) {
-            return { ...acc, names: { ...acc.names, [id]: values[fieldName] } };
+            return { ...acc, names: { ...acc.names, [locale]: values[fieldName] } };
           }
 
           return acc;
@@ -115,9 +103,8 @@ export const AdminFeatureValuesCreatePresenter: React.FC<IProps> = ({
       isCreating={isCreating}
       isLoading={featureTypesLoading}
       close={close}
-      availableLocales={availableLocales}
       featureTypes={featureTypes}
-      validate={(validator || { validate: undefined }).validate}
+      validate={validator.validate}
     />
   );
 };

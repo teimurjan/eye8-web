@@ -5,12 +5,11 @@ import * as yup from 'yup';
 import { IFeatureTypeListRawIntlResponseItem } from 'src/api/FeatureTypeAPI';
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
-import { useLazy } from 'src/hooks/useLazy';
 import { IFeatureTypeService } from 'src/services/FeatureTypeService';
 import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
-import { IContextValue as IntlStateContextValue } from 'src/state/IntlState';
+import { availableLocales } from 'src/utils/locale';
 
-export interface IProps extends IntlStateContextValue {
+export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   service: IFeatureTypeService;
   featureTypeId: number;
@@ -25,7 +24,6 @@ export interface IViewProps {
   isUpdating: boolean;
   error: string | undefined;
   close: () => void;
-  availableLocales: IntlStateContextValue['intlState']['availableLocales'];
   validate?: (values: object) => object | Promise<object>;
   initialValues: object;
   preloadingError?: string;
@@ -33,8 +31,19 @@ export interface IViewProps {
 
 export const FEATURE_TYPE_NAME_FIELD_KEY = 'name';
 
+const validator = new schemaValidator.SchemaValidator(
+  yup.object().shape(
+    availableLocales.reduce(
+      (acc, locale) => ({
+        ...acc,
+        [getFieldName(FEATURE_TYPE_NAME_FIELD_KEY, locale)]: yup.string().required('common.errors.field.empty'),
+      }),
+      {},
+    ),
+  ),
+);
+
 export const AdminFeatureTypesEditPresenter: React.FC<IProps> = ({
-  intlState: { availableLocales },
   View,
   history,
   service,
@@ -65,34 +74,13 @@ export const AdminFeatureTypesEditPresenter: React.FC<IProps> = ({
     })();
   }, [featureTypeId, service]);
 
-  const makeValidator = React.useCallback(
-    () =>
-      new schemaValidator.SchemaValidator(
-        yup.object().shape(
-          availableLocales.reduce(
-            (acc, locale) => ({
-              ...acc,
-              [getFieldName(FEATURE_TYPE_NAME_FIELD_KEY, locale)]: yup.string().required('common.errors.field.empty'),
-            }),
-            {},
-          ),
-        ),
-      ),
-    [availableLocales],
-  );
-
-  const validator = useLazy({
-    make: makeValidator,
-    trigger: availableLocales.length,
-  });
-
   const close = React.useCallback(() => history.push('/admin/featureTypes'), [history]);
   const edit: IViewProps['edit'] = async (values) => {
     const formattedValues = Object.keys(values).reduce(
       (acc, fieldName) => {
-        const { key, id } = parseFieldName(fieldName);
+        const { key, locale } = parseFieldName(fieldName);
         if (key === FEATURE_TYPE_NAME_FIELD_KEY) {
-          return { ...acc, names: { ...acc.names, [id]: values[fieldName] } };
+          return { ...acc, names: { ...acc.names, [locale]: values[fieldName] } };
         }
 
         return acc;
@@ -117,11 +105,11 @@ export const AdminFeatureTypesEditPresenter: React.FC<IProps> = ({
     return availableLocales.reduce(
       (acc, locale) => ({
         ...acc,
-        [getFieldName(FEATURE_TYPE_NAME_FIELD_KEY, locale)]: (featureType || { name: '' }).name[locale.id],
+        [getFieldName(FEATURE_TYPE_NAME_FIELD_KEY, locale)]: (featureType || { name: '' }).name[locale],
       }),
       {},
     );
-  }, [availableLocales, featureType]);
+  }, [featureType]);
 
   return (
     <View
@@ -133,8 +121,7 @@ export const AdminFeatureTypesEditPresenter: React.FC<IProps> = ({
       isLoading={isLoading}
       initialValues={initialValues}
       close={close}
-      availableLocales={availableLocales}
-      validate={(validator || { validate: undefined }).validate}
+      validate={validator.validate}
     />
   );
 };
