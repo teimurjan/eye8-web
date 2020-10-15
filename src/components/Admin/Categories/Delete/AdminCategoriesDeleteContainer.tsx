@@ -3,7 +3,7 @@ import * as React from 'react';
 import { DeleteModalContainer } from 'src/components/Admin/DeleteModal/DeleteModalContainer';
 import { useDependencies } from 'src/DI/DI';
 import * as categoryService from 'src/services/CategoryService';
-import { useAdminCategoriesState } from 'src/state/AdminCategoriesState';
+import { useAdminCategoriesState } from 'src/state/Admin/AdminCategoriesState';
 
 const getErrorMessageID = (e: Error) => {
   if (e instanceof categoryService.errors.CategoryHasChildren) {

@@ -14,9 +14,9 @@ import { IntlField, IProps as IIntlFieldProps } from 'src/components/Admin/IntlF
 import { LinksInput, Link } from 'src/components/Admin/LinksInput/LinksInput';
 import { WYSIWYG } from 'src/components/client-ui/WYSIWYG/WYSIWYG';
 import { InstagramPost } from 'src/components/Client/InstagramPost/InstagramPost';
-import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
-import { ContextValue as AdminCharacteristicValuesStateContextValue } from 'src/state/AdminCharacteristicValuesState';
-import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
+import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/Admin/AdminCategoriesState';
+import { ContextValue as AdminCharacteristicValuesStateContextValue } from 'src/state/Admin/AdminCharacteristicValuesState';
+import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/Admin/AdminFeatureTypesState';
 import { arePropsEqual, lengthCompare, defaultCompare } from 'src/utils/propEquality';
 
 interface ICharacteristicValuesSelectProps extends FieldRenderProps<string[]> {

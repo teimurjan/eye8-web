@@ -4,8 +4,8 @@ import * as React from 'react';
 import { IProductTypeListRawIntlMinifiedResponseItem } from 'src/api/ProductTypeAPI';
 import { useSelectProductTypes } from 'src/components/Admin/ProductTypeSelect/useSelectProductTypes';
 import { IProductTypeService } from 'src/services/ProductTypeService';
-import { useAdminProductsFiltersState } from 'src/state/AdminProductsFiltersState';
-import { ContextValue as AdminProductsStateContextValue } from 'src/state/AdminProductsState';
+import { useAdminProductsFiltersState } from 'src/state/Admin/AdminProductsFiltersState';
+import { ContextValue as AdminProductsStateContextValue } from 'src/state/Admin/AdminProductsState';
 
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;

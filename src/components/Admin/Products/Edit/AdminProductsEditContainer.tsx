@@ -4,8 +4,8 @@ import { useHistory, useParams } from 'react-router';
 import { AdminProductsEditPresenter } from 'src/components/Admin/Products/Edit/AdminProductsEditPresenter';
 import { AdminProductsEditView } from 'src/components/Admin/Products/Edit/AdminProductsEditView';
 import { useDependencies } from 'src/DI/DI';
-import { useAdminFeatureValuesState } from 'src/state/AdminFeatureValuesState';
-import { useAdminProductsState } from 'src/state/AdminProductsState';
+import { useAdminFeatureValuesState } from 'src/state/Admin/AdminFeatureValuesState';
+import { useAdminProductsState } from 'src/state/Admin/AdminProductsState';
 
 export const AdminProductsEditContainer = () => {
   const history = useHistory();

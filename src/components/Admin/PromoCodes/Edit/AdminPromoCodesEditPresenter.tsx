@@ -6,7 +6,7 @@ import { IPromoCodeListResponseItem } from 'src/api/PromoCodeAPI';
 import { getErrorMessageID } from 'src/components/Admin/PromoCodes/Create/AdminPromoCodesCreatePresenter';
 import { IProductService } from 'src/services/ProductService';
 import { IPromoCodeService } from 'src/services/PromoCodeService';
-import { ContextValue as AdminPromoCodesStateContextValue } from 'src/state/AdminPromoCodesState';
+import { ContextValue as AdminPromoCodesStateContextValue } from 'src/state/Admin/AdminPromoCodesState';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 export interface IProps {

@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { ICharacteristicService } from 'src/services/CharacteristicService';
-import { ContextValue as AdminCharacteristicsStateContextValue } from 'src/state/AdminCharacteristicsState';
+import { ContextValue as AdminCharacteristicsStateContextValue } from 'src/state/Admin/AdminCharacteristicsState';
 import { availableLocales } from 'src/utils/locale';
 
 export interface IProps {

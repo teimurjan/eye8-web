@@ -6,7 +6,7 @@ import { ICategoryListRawIntlResponseItem } from 'src/api/CategoryAPI';
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { ICategoryService } from 'src/services/CategoryService';
-import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
+import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/Admin/AdminCategoriesState';
 import { availableLocales } from 'src/utils/locale';
 
 export interface IProps {

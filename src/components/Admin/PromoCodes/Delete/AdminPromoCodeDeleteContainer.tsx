@@ -3,7 +3,7 @@ import * as React from 'react';
 import { DeleteModalContainer } from 'src/components/Admin/DeleteModal/DeleteModalContainer';
 import { useDependencies } from 'src/DI/DI';
 import * as promoCodeService from 'src/services/PromoCodeService';
-import { useAdminPromoCodesState } from 'src/state/AdminPromoCodesState';
+import { useAdminPromoCodesState } from 'src/state/Admin/AdminPromoCodesState';
 import { buildSearchString } from 'src/utils/queryString';
 
 const getErrorMessageID = (e: Error) => {
@@ -21,18 +21,18 @@ export const AdminPromoCodesDeleteContainer = () => {
   } = useAdminPromoCodesState();
 
   const deleteEntity = React.useCallback(
-    async (id: number, isForever?: boolean) => {
-      await dependencies.services.promoCode.delete(id, isForever);
+    async (id: number, forever?: boolean) => {
+      await dependencies.services.promoCode.delete(id, forever);
       deletePromoCode(id);
     },
     [deletePromoCode, dependencies.services.promoCode],
   );
 
   const preloadData = React.useCallback(
-    async ({ id, setError, setIsLoading, isForever }) => {
+    async ({ id, setError, setIsLoading, forever }) => {
       try {
         setIsLoading(true);
-        const isExists = await dependencies.services.promoCode.exists(id, isForever);
+        const isExists = await dependencies.services.promoCode.exists(id, forever);
         if (!isExists) {
           setError('AdminPromoCodes.notFound');
         }
@@ -50,9 +50,7 @@ export const AdminPromoCodesDeleteContainer = () => {
       getErrorMessageID={getErrorMessageID}
       deleteEntity={deleteEntity}
       preloadData={preloadData}
-      getBackPath={({ isForever }) =>
-        `/admin/promoCodes${buildSearchString({ deleted: Boolean(isForever).toString() })}`
-      }
+      getBackPath={({ forever }) => `/admin/promoCodes${buildSearchString({ deleted: Boolean(forever).toString() })}`}
     />
   );
 };

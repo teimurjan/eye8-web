@@ -31,7 +31,7 @@ export interface IProductTypeService {
     meta: productTypeAPI.IProductTypeListResponseMeta;
   }>;
   getAll(
-    page: number,
+    options: productTypeAPI.IGetAllOptions,
   ): Promise<{
     entities: {
       productTypes: {
@@ -48,10 +48,13 @@ export interface IProductTypeService {
     };
     result: number[];
   }>;
-  getByID(id: number): Promise<productTypeAPI.IProductTypeDetailResponseItem | null>;
+  getByID(
+    id: number,
+    options?: productTypeAPI.IGetOneOptions,
+  ): Promise<productTypeAPI.IProductTypeDetailResponseItem | null>;
   getBySlug(slug: string): Promise<productTypeAPI.IProductTypeDetailResponseItem | null>;
   getAllRawIntl(
-    page: number,
+    options: productTypeAPI.IGetAllOptions,
   ): Promise<{
     entities: {
       productTypes: {
@@ -73,7 +76,7 @@ export interface IProductTypeService {
     result: number[];
     meta: productTypeAPI.IProductTypeListResponseMeta;
   }>;
-  delete(id: number): Promise<void>;
+  delete(id: number, options?: productTypeAPI.IDeleteOptions): Promise<void>;
   create(
     payload: productTypeAPI.IProductTypeCreatePayload,
   ): Promise<productTypeAPI.IProductTypeDetailRawIntlResponseItem>;
@@ -81,8 +84,11 @@ export interface IProductTypeService {
     id: number,
     payload: productTypeAPI.IProductTypeEditPayload,
   ): Promise<productTypeAPI.IProductTypeDetailRawIntlResponseItem>;
-  exists(id: number): Promise<boolean>;
-  getOneRawIntl(id: number): Promise<productTypeAPI.IProductTypeDetailRawIntlResponseItem | undefined>;
+  exists(id: number, options?: productTypeAPI.IGetOneOptions): Promise<boolean>;
+  getOneRawIntl(
+    id: number,
+    options?: productTypeAPI.IGetOneOptions,
+  ): Promise<productTypeAPI.IProductTypeDetailRawIntlResponseItem | undefined>;
 }
 
 export class ProductTypeService implements IProductTypeService {
@@ -107,8 +113,8 @@ export class ProductTypeService implements IProductTypeService {
     };
   };
 
-  public getAll: IProductTypeService['getAll'] = async (page) => {
-    const productTypes = await this.API.getAll(page);
+  public getAll: IProductTypeService['getAll'] = async (options) => {
+    const productTypes = await this.API.getAll(options);
     return {
       ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
       meta: productTypes.meta,
@@ -128,9 +134,9 @@ export class ProductTypeService implements IProductTypeService {
     return normalize(productTypes.data, [new schema.Entity('productTypes')]);
   };
 
-  public getByID: IProductTypeService['getByID'] = async (id) => {
+  public getByID: IProductTypeService['getByID'] = async (id, options = {}) => {
     try {
-      return (await this.API.getByID(id)).data;
+      return (await this.API.getByID(id, options)).data;
     } catch (e) {
       if (e instanceof productTypeAPI.errors.ProductTypeNotFound) {
         return null;
@@ -152,17 +158,17 @@ export class ProductTypeService implements IProductTypeService {
     }
   };
 
-  public getAllRawIntl: IProductTypeService['getAllRawIntl'] = async (page) => {
-    const productTypes = await this.API.getAllRawIntl(page);
+  public getAllRawIntl: IProductTypeService['getAllRawIntl'] = async (options) => {
+    const productTypes = await this.API.getAllRawIntl(options);
     return {
       ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
       meta: productTypes.meta,
     };
   };
 
-  public delete: IProductTypeService['delete'] = async (id) => {
+  public delete: IProductTypeService['delete'] = async (id, options = {}) => {
     try {
-      await this.API.delete(id);
+      await this.API.delete(id, options);
     } catch (e) {
       if (e instanceof productTypeAPI.errors.ProductTypeNotFound) {
         throw new errors.ProductTypeNotExists();
@@ -191,9 +197,9 @@ export class ProductTypeService implements IProductTypeService {
     }
   };
 
-  public exists: IProductTypeService['exists'] = async (id) => {
+  public exists: IProductTypeService['exists'] = async (id, options = {}) => {
     try {
-      await this.API.status(id);
+      await this.API.status(id, options);
       return true;
     } catch (e) {
       if (e instanceof productTypeAPI.errors.ProductTypeNotFound) {
@@ -204,9 +210,9 @@ export class ProductTypeService implements IProductTypeService {
     }
   };
 
-  public getOneRawIntl: IProductTypeService['getOneRawIntl'] = async (id) => {
+  public getOneRawIntl: IProductTypeService['getOneRawIntl'] = async (id, options = {}) => {
     try {
-      return (await this.API.getOneRawIntl(id)).data;
+      return (await this.API.getOneRawIntl(id, options)).data;
     } catch (e) {
       if (e instanceof productTypeAPI.errors.ProductTypeNotFound) {
         return undefined;

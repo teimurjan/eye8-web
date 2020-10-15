@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { IBannerService } from 'src/services/BannerService';
-import { ContextValue as AdminBannersStateContextValue } from 'src/state/AdminBannersState';
+import { ContextValue as AdminBannersStateContextValue } from 'src/state/Admin/AdminBannersState';
 import { availableLocales } from 'src/utils/locale';
 
 export interface IProps {

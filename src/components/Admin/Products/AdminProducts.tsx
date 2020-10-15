@@ -5,7 +5,7 @@ import { AdminProductsCreateContainer } from 'src/components/Admin/Products/Crea
 import { AdminProductsDeleteContainer } from 'src/components/Admin/Products/Delete/AdminProductsDeleteContainer';
 import { AdminProductsEditContainer } from 'src/components/Admin/Products/Edit/AdminProductsEditContainer';
 import { AdminProductsListContainer } from 'src/components/Admin/Products/List/AdminProductsListContainer';
-import { AdminProductsFiltersStateProvider } from 'src/state/AdminProductsFiltersState';
+import { AdminProductsFiltersStateProvider } from 'src/state/Admin/AdminProductsFiltersState';
 
 export const AdminProducts = ({ match }: RouteComponentProps) => {
   return (

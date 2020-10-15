@@ -7,8 +7,8 @@ import { useSelectProductTypes } from 'src/components/Admin/ProductTypeSelect/us
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { IProductService } from 'src/services/ProductService';
 import { IProductTypeService } from 'src/services/ProductTypeService';
-import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
-import { ContextValue as AdminProductsStateContextValue } from 'src/state/AdminProductsState';
+import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/Admin/AdminFeatureValuesState';
+import { ContextValue as AdminProductsStateContextValue } from 'src/state/Admin/AdminProductsState';
 
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;

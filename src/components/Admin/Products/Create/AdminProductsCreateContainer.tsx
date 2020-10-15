@@ -4,8 +4,8 @@ import { useHistory } from 'react-router';
 import { AdminProductsCreatePresenter } from 'src/components/Admin/Products/Create/AdminProductsCreatePresenter';
 import { AdminProductsCreateView } from 'src/components/Admin/Products/Create/AdminProductsCreateView';
 import { useDependencies } from 'src/DI/DI';
-import { useAdminFeatureValuesState } from 'src/state/AdminFeatureValuesState';
-import { useAdminProductsState } from 'src/state/AdminProductsState';
+import { useAdminFeatureValuesState } from 'src/state/Admin/AdminFeatureValuesState';
+import { useAdminProductsState } from 'src/state/Admin/AdminProductsState';
 
 export const AdminProductsCreateContainer = () => {
   const history = useHistory();

@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { getFieldName, parseFieldName } from 'src/components/Admin/IntlField';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { IFeatureTypeService } from 'src/services/FeatureTypeService';
-import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
+import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/Admin/AdminFeatureTypesState';
 import { availableLocales } from 'src/utils/locale';
 
 export interface IProps {

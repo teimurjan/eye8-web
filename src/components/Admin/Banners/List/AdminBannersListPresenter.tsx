@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ContextValue as AdminBannersStateContextValue } from 'src/state/AdminBannersState';
+import { ContextValue as AdminBannersStateContextValue } from 'src/state/Admin/AdminBannersState';
 
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;

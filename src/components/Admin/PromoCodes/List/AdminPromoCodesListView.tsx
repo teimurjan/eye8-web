@@ -2,42 +2,38 @@
 import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
-import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
 import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataAvaiable';
 import { Section } from 'src/components/admin-ui/Section/Section';
-import { AdminTable, PriceRenderer } from 'src/components/Admin/AdminTable';
+import { AdminButtonsGroup } from 'src/components/Admin/AdminButtonsGroup';
+import { AdminTable, BooleanRenderer, PriceRenderer } from 'src/components/Admin/AdminTable';
+import { DeletedButton } from 'src/components/Admin/DeletedButton';
+import { NewButton } from 'src/components/Admin/NewButton';
 import { IViewProps as IProps } from 'src/components/Admin/PromoCodes/List/AdminPromoCodesListPresenter';
 
-export const NewPromoCodeButton = () => {
-  const intl = useIntl();
-
-  return (
-    <ReactRouterLinkButton to="/admin/promoCodes/new" color="is-primary">
-      {intl.formatMessage({ id: 'AdminPromoCodes.notFound.cta' })}
-    </ReactRouterLinkButton>
-  );
-};
-
-enum ArchivedButtonState {
-  Active,
-  Idle,
-}
-
-const ArchivedButton = ({ state }: { state: ArchivedButtonState }) => {
-  const intl = useIntl();
-
-  return state === ArchivedButtonState.Active ? (
-    <ReactRouterLinkButton to="/admin/promoCodes">
-      {intl.formatMessage({ id: 'common.showCurrent' })}
-    </ReactRouterLinkButton>
-  ) : (
-    <ReactRouterLinkButton to="/admin/promoCodes?deleted=true">
-      {intl.formatMessage({ id: 'common.showArchived' })}
-    </ReactRouterLinkButton>
-  );
-};
-
 type PromoCode = IProps['promoCodes'][0];
+
+const NewPromoCodeButton = () => {
+  const intl = useIntl();
+  return (
+    <NewButton pathPrefix="/admin/promoCodes">{intl.formatMessage({ id: 'AdminPromoCodes.notFound.cta' })}</NewButton>
+  );
+};
+
+const NoPromoCodesAvialable = ({ showDeleted }: Pick<IProps, 'showDeleted'>) => {
+  const intl = useIntl();
+  return (
+    <NoDataAvailable
+      title={intl.formatMessage({ id: 'AdminPromoCodes.notFound.title' })}
+      CTA={
+        showDeleted ? (
+          <DeletedButton state={DeletedButton.State.Active} pathPrefix="/admin/promoCodes" />
+        ) : (
+          <NewPromoCodeButton />
+        )
+      }
+    />
+  );
+};
 
 export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded, showDeleted }: IProps) => {
   const intl = useIntl();
@@ -53,12 +49,7 @@ export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded, s
         isLoading={isLoading}
         isDataLoaded={isDataLoaded}
         entities={promoCodes}
-        renderNoData={() => (
-          <NoDataAvailable
-            title={intl.formatMessage({ id: 'AdminPromoCodes.notFound.title' })}
-            CTA={showDeleted ? <ArchivedButton state={ArchivedButtonState.Active} /> : <NewPromoCodeButton />}
-          />
-        )}
+        renderNoData={() => <NoPromoCodesAvialable showDeleted={showDeleted} />}
         intl={intl}
         showDeleted={showDeleted}
       >
@@ -77,25 +68,28 @@ export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded, s
         <AdminTable.Col<PromoCode>
           key_="is_active"
           title={intl.formatMessage({ id: 'AdminPromoCodes.active' })}
-          render={(value) => (value.is_active ? '✅' : '❌')}
+          renderer={new BooleanRenderer()}
         />
         <AdminTable.Col<PromoCode>
           key_="disable_on_use"
           title={intl.formatMessage({ id: 'AdminPromoCodes.disableOnUse' })}
-          render={(value) => (value.disable_on_use ? '✅' : '❌')}
+          renderer={new BooleanRenderer()}
+        />
+        <AdminTable.Col<PromoCode>
+          key_="is_deleted"
+          title={intl.formatMessage({ id: 'common.deleted' })}
+          renderer={new BooleanRenderer()}
         />
       </AdminTable>
 
       {isDataLoaded && promoCodes.length > 0 && (
-        <div
-          css={css`
-            display: flex;
-            justify-content: space-between;
-          `}
-        >
+        <AdminButtonsGroup>
           <NewPromoCodeButton />
-          <ArchivedButton state={showDeleted ? ArchivedButtonState.Active : ArchivedButtonState.Idle} />
-        </div>
+          <DeletedButton
+            state={showDeleted ? DeletedButton.State.Active : DeletedButton.State.Idle}
+            pathPrefix="/admin/promoCodes"
+          />
+        </AdminButtonsGroup>
       )}
     </Section>
   );

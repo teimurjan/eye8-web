@@ -3,7 +3,7 @@ import { injectIntl } from 'react-intl';
 
 import { AdminCategoriesListPresenter } from 'src/components/Admin/Categories/List/AdminCategoriesListPresenter';
 import { AdminCategoriesListView } from 'src/components/Admin/Categories/List/AdminCategoriesListView';
-import { useAdminCategoriesState } from 'src/state/AdminCategoriesState';
+import { useAdminCategoriesState } from 'src/state/Admin/AdminCategoriesState';
 
 const View = injectIntl(AdminCategoriesListView);
 

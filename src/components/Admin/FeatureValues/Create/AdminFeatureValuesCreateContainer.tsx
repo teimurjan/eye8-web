@@ -8,8 +8,8 @@ import {
 } from 'src/components/Admin/FeatureValues/Create/AdminFeatureValuesCreatePresenter';
 import { AdminFeatureValuesCreateView } from 'src/components/Admin/FeatureValues/Create/AdminFeatureValuesCreateView';
 import { useDependencies } from 'src/DI/DI';
-import { useAdminFeatureTypesState } from 'src/state/AdminFeatureTypesState';
-import { useAdminFeatureValuesState } from 'src/state/AdminFeatureValuesState';
+import { useAdminFeatureTypesState } from 'src/state/Admin/AdminFeatureTypesState';
+import { useAdminFeatureValuesState } from 'src/state/Admin/AdminFeatureValuesState';
 
 const View = injectIntl(AdminFeatureValuesCreateView);
 

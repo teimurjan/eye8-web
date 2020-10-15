@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router';
 import { AdminOrdersEditPresenter } from 'src/components/Admin/Orders/Edit/AdminOrdersEditPresenter';
 import { AdminOrdersEditView } from 'src/components/Admin/Orders/Edit/AdminOrdersEditView';
 import { useDependencies } from 'src/DI/DI';
-import { useAdminOrdersState } from 'src/state/AdminOrdersState';
+import { useAdminOrdersState } from 'src/state/Admin/AdminOrdersState';
 
 export const AdminOrdersEditContainer = () => {
   const history = useHistory();

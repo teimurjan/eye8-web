@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router';
 import { AdminCharacteristicsEditPresenter } from 'src/components/Admin/Characteristics/Edit/AdminCharacteristicsEditPresenter';
 import { AdminCharacteristicsEditView } from 'src/components/Admin/Characteristics/Edit/AdminCharacteristicsEditView';
 import { useDependencies } from 'src/DI/DI';
-import { useAdminCharacteristicsState } from 'src/state/AdminCharacteristicsState';
+import { useAdminCharacteristicsState } from 'src/state/Admin/AdminCharacteristicsState';
 
 export const AdminCharacteristicsEditContainer = () => {
   const history = useHistory();

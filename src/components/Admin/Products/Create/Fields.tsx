@@ -23,7 +23,7 @@ import { useFeatureValuesOfProductType } from 'src/components/Admin/Products/Cre
 import { ProductTypeSelectView } from 'src/components/Admin/ProductTypeSelect/ProductTypeSelectView';
 import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { Popover } from 'src/components/client-ui/Popover/Popover';
-import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/AdminFeatureValuesState';
+import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/Admin/AdminFeatureValuesState';
 import { IconSizes } from 'src/styles/icon';
 import { Accept } from 'src/utils/accept';
 import { Locale } from 'src/utils/locale';

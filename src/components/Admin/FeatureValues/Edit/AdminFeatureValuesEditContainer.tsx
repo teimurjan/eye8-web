@@ -5,8 +5,8 @@ import { useHistory, useParams } from 'react-router';
 import { AdminFeatureValuesEditPresenter } from 'src/components/Admin/FeatureValues/Edit/AdminFeatureValuesEditPresenter';
 import { AdminFeatureValuesEditView } from 'src/components/Admin/FeatureValues/Edit/AdminFeatureValuesEditView';
 import { useDependencies } from 'src/DI/DI';
-import { useAdminFeatureTypesState } from 'src/state/AdminFeatureTypesState';
-import { useAdminFeatureValuesState } from 'src/state/AdminFeatureValuesState';
+import { useAdminFeatureTypesState } from 'src/state/Admin/AdminFeatureTypesState';
+import { useAdminFeatureValuesState } from 'src/state/Admin/AdminFeatureValuesState';
 
 const View = injectIntl(AdminFeatureValuesEditView);
 

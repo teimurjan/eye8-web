@@ -4,7 +4,7 @@ import { injectIntl } from 'react-intl';
 import { AdminProductTypesListPresenter } from 'src/components/Admin/ProductTypes/List/AdminProductTypesListPresenter';
 import { AdminProductTypesListView } from 'src/components/Admin/ProductTypes/List/AdminProductTypesListView';
 import { useDependencies } from 'src/DI/DI';
-import { useAdminProductTypesState } from 'src/state/AdminProductTypesState';
+import { useAdminProductTypesState } from 'src/state/Admin/AdminProductTypesState';
 
 const View = injectIntl(AdminProductTypesListView);
 

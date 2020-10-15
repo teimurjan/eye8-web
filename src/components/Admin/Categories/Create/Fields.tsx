@@ -5,7 +5,7 @@ import { IntlShape, injectIntl } from 'react-intl';
 import { FormSelectField } from 'src/components/admin-ui/FormSelectField/FormSelectField';
 import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
 import { IntlField } from 'src/components/Admin/IntlField';
-import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
+import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/Admin/AdminCategoriesState';
 
 interface IParentCategorySelectProps extends FieldRenderProps<string> {
   categories: AdminCategoriesStateContextValue['state']['entities'];

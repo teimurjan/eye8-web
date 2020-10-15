@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ContextValue as AdminRatesContextValue } from 'src/state/AdminRatesState';
+import { ContextValue as AdminRatesContextValue } from 'src/state/Admin/AdminRatesState';
 
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;

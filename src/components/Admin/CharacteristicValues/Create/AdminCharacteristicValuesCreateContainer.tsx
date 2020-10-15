@@ -7,8 +7,8 @@ import {
 } from 'src/components/Admin/CharacteristicValues/Create/AdminCharacteristicValuesCreatePresenter';
 import { AdminCharacteristicValuesCreateView } from 'src/components/Admin/CharacteristicValues/Create/AdminCharacteristicValuesCreateView';
 import { useDependencies } from 'src/DI/DI';
-import { useAdminCharacteristicsState } from 'src/state/AdminCharacteristicsState';
-import { useAdminCharacteristicValuesState } from 'src/state/AdminCharacteristicValuesState';
+import { useAdminCharacteristicsState } from 'src/state/Admin/AdminCharacteristicsState';
+import { useAdminCharacteristicValuesState } from 'src/state/Admin/AdminCharacteristicValuesState';
 
 export const AdminCharacteristicValuesCreateContainer = ({ close }: Partial<Pick<IPresenterProps, 'close'>>) => {
   const history = useHistory();

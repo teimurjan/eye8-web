@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import { AdminFeatureTypesCreatePresenter } from 'src/components/Admin/FeatureTypes/Create/AdminFeatureTypesCreatePresenter';
 import { AdminFeatureTypesCreateView } from 'src/components/Admin/FeatureTypes/Create/AdminFeatureTypesCreateView';
 import { useDependencies } from 'src/DI/DI';
-import { useAdminFeatureTypesState } from 'src/state/AdminFeatureTypesState';
+import { useAdminFeatureTypesState } from 'src/state/Admin/AdminFeatureTypesState';
 
 const View = injectIntl(AdminFeatureTypesCreateView);
 

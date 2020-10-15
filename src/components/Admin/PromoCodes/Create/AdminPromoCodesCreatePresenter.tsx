@@ -6,7 +6,7 @@ import { IProductListResponseItem } from 'src/api/ProductAPI';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { IPromoCodeService } from 'src/services/PromoCodeService';
 import * as promoCodeService from 'src/services/PromoCodeService';
-import { ContextValue as AdminPromoCodesStateContextValue } from 'src/state/AdminPromoCodesState';
+import { ContextValue as AdminPromoCodesStateContextValue } from 'src/state/Admin/AdminPromoCodesState';
 
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;

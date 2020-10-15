@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import { AdminCategoriesCreatePresenter } from 'src/components/Admin/Categories/Create/AdminCategoriesCreatePresenter';
 import { AdminCategoriesCreateView } from 'src/components/Admin/Categories/Create/AdminCategoriesCreateView';
 import { useDependencies } from 'src/DI/DI';
-import { useAdminCategoriesState } from 'src/state/AdminCategoriesState';
+import { useAdminCategoriesState } from 'src/state/Admin/AdminCategoriesState';
 
 const View = injectIntl(AdminCategoriesCreateView);
 

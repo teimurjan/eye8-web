@@ -7,7 +7,7 @@ import { IOrderListResponseItem } from 'src/api/OrderAPI';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { IOrderService } from 'src/services/OrderService';
 import * as orderService from 'src/services/OrderService';
-import { ContextValue as AdminOrdersStateContextValue } from 'src/state/AdminOrdersState';
+import { ContextValue as AdminOrdersStateContextValue } from 'src/state/Admin/AdminOrdersState';
 import { PHONE_REGEX } from 'src/utils/phone';
 
 export interface IProps {

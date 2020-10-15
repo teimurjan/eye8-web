@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-import { ContextValue as AdminPromoCodesStateContextValue } from 'src/state/AdminPromoCodesState';
+import { useShowDeleted } from 'src/components/Admin/hooks/useShowDeleted';
+import { ContextValue as AdminPromoCodesStateContextValue } from 'src/state/Admin/AdminPromoCodesState';
 
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
   adminPromoCodesState: AdminPromoCodesStateContextValue['state'];
-  showDeleted: boolean;
 }
 
 export interface IViewProps {
@@ -17,9 +17,10 @@ export interface IViewProps {
 
 export const AdminPromoCodesListPresenter = ({
   View,
-  showDeleted,
   adminPromoCodesState: { isListLoading, entities: promoCodes, get: getPromoCodes, hasListLoaded },
 }: IProps) => {
+  const showDeleted = useShowDeleted();
+
   React.useEffect(() => {
     getPromoCodes({ deleted: showDeleted });
     // eslint-disable-next-line react-hooks/exhaustive-deps

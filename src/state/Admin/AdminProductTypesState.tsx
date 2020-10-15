@@ -7,14 +7,14 @@ export type ContextValue = IContextValue<
   IProductTypeListRawIntlResponseItem,
   IProductTypeListRawIntlResponseItem,
   IProductTypeListResponseMeta,
-  { page: number }
+  { page: number; deleted?: boolean }
 >;
 
 const Context = React.createContext<ContextValue | null>(null);
 
 export const AdminProductTypesStateProvider = makeEntityState(
   Context,
-  (d, params = { page: 1 }) => d.dependencies.services.productType.getAllRawIntl(params.page),
+  (d, params = { page: 1, deleted: false }) => d.dependencies.services.productType.getAllRawIntl(params),
   'productTypes',
 );
 

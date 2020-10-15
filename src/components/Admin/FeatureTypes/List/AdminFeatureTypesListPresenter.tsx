@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ContextValue as AdminFeatureTypesContextValue } from 'src/state/AdminFeatureTypesState';
+import { ContextValue as AdminFeatureTypesContextValue } from 'src/state/Admin/AdminFeatureTypesState';
 
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;

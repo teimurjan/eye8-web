@@ -3,7 +3,7 @@ import { injectIntl } from 'react-intl';
 
 import { AdminFeatureValuesListPresenter } from 'src/components/Admin/FeatureValues/List/AdminFeatureValuesListPresenter';
 import { AdminFeatureValuesListView } from 'src/components/Admin/FeatureValues/List/AdminFeatureValuesListView';
-import { useAdminFeatureValuesState } from 'src/state/AdminFeatureValuesState';
+import { useAdminFeatureValuesState } from 'src/state/Admin/AdminFeatureValuesState';
 
 const View = injectIntl(AdminFeatureValuesListView);
 

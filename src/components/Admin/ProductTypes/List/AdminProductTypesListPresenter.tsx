@@ -1,8 +1,9 @@
 import * as React from 'react';
 
 import { IProductTypeListRawIntlResponseItem } from 'src/api/ProductTypeAPI';
+import { useShowDeleted } from 'src/components/Admin/hooks/useShowDeleted';
 import { ISearchService } from 'src/services/SearchService';
-import { ContextValue as AdminProductTypesStateContextValue } from 'src/state/AdminProductTypesState';
+import { ContextValue as AdminProductTypesStateContextValue } from 'src/state/Admin/AdminProductTypesState';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 export interface IProps {
@@ -18,6 +19,7 @@ export interface IViewProps {
   isLoading: boolean;
   onPageChange: (page: number) => void;
   search: (query: string) => Promise<IProductTypeListRawIntlResponseItem[]>;
+  showDeleted: boolean;
 }
 
 export const AdminProductTypesListPresenter = ({
@@ -26,16 +28,18 @@ export const AdminProductTypesListPresenter = ({
 
   searchService,
 }: IProps) => {
+  const showDeleted = useShowDeleted();
+
   React.useEffect(() => {
-    getProductTypes();
+    getProductTypes({ page: 1, deleted: showDeleted });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [showDeleted]);
 
   const onPageChange = React.useCallback(
     (page: number) => {
-      getProductTypes({ page });
+      getProductTypes({ page, deleted: showDeleted });
     },
-    [getProductTypes],
+    [getProductTypes, showDeleted],
   );
 
   const search = React.useCallback(
@@ -62,6 +66,7 @@ export const AdminProductTypesListPresenter = ({
       isLoading={isListLoading}
       productTypes={productTypes}
       onPageChange={onPageChange}
+      showDeleted={showDeleted}
       search={search}
     />
   );

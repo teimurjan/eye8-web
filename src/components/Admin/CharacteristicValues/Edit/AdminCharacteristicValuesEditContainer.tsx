@@ -4,8 +4,8 @@ import { useHistory, useParams } from 'react-router';
 import { AdminCharacteristicValuesEditPresenter } from 'src/components/Admin/CharacteristicValues/Edit/AdminCharacteristicValuesEditPresenter';
 import { AdminCharacteristicValuesEditView } from 'src/components/Admin/CharacteristicValues/Edit/AdminCharacteristicValuesEditView';
 import { useDependencies } from 'src/DI/DI';
-import { useAdminCharacteristicsState } from 'src/state/AdminCharacteristicsState';
-import { useAdminCharacteristicValuesState } from 'src/state/AdminCharacteristicValuesState';
+import { useAdminCharacteristicsState } from 'src/state/Admin/AdminCharacteristicsState';
+import { useAdminCharacteristicValuesState } from 'src/state/Admin/AdminCharacteristicValuesState';
 
 export const AdminCharacteristicValuesEditContainer = () => {
   const history = useHistory();

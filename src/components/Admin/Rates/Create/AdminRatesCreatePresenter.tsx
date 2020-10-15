@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { RateName } from 'src/components/Client/Price/Price';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import * as rateService from 'src/services/RateService';
-import { ContextValue as AdminRatesStateContextValue } from 'src/state/AdminRatesState';
+import { ContextValue as AdminRatesStateContextValue } from 'src/state/Admin/AdminRatesState';
 
 export interface IProps {
   View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;

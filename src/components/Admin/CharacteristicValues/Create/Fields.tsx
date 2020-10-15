@@ -6,7 +6,7 @@ import { FormSelectField } from 'src/components/admin-ui/FormSelectField/FormSel
 import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
 import { CHARACTERISTIC_VALUE_NAME_FIELD_KEY } from 'src/components/Admin/CharacteristicValues/Create/AdminCharacteristicValuesCreatePresenter';
 import { IntlField } from 'src/components/Admin/IntlField';
-import { ContextValue as AdminCharacteristicsStateContextValue } from 'src/state/AdminCharacteristicsState';
+import { ContextValue as AdminCharacteristicsStateContextValue } from 'src/state/Admin/AdminCharacteristicsState';
 
 export interface IFieldsProps {
   characteristics: AdminCharacteristicsStateContextValue['state']['entities'];

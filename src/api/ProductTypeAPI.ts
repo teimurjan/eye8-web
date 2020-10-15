@@ -170,22 +170,35 @@ export interface IGetForCategoryOptions {
   available?: boolean;
 }
 
+export interface IGetAllOptions {
+  page: number;
+  deleted?: boolean;
+}
+
+export interface IGetOneOptions {
+  deleted?: boolean;
+}
+
+export interface IDeleteOptions {
+  forever?: boolean;
+}
+
 export interface IProductTypeAPI {
   getForCategory(categorySlug: string, options: IGetForCategoryOptions): Promise<IProductTypeListResponseData>;
-  getAll(page: number): Promise<IProductTypeListResponseData>;
+  getAll(options: IGetAllOptions): Promise<IProductTypeListResponseData>;
   getNewest(): Promise<IProductTypeListResponseData>;
-  getByID(id: number): Promise<IProductTypeDetailResponseItemData>;
+  getByID(id: number, options: IGetOneOptions): Promise<IProductTypeDetailResponseItemData>;
   getBySlug(slug: string): Promise<IProductTypeDetailResponseItemData>;
   getAllRawIntlMinified(
     page?: number,
     sortingType?: ProductTypeSortingType,
   ): Promise<IProductTypeListRawIntlMinifiedResponseData>;
-  getAllRawIntl(page: number): Promise<IProductTypeListRawIntlResponseData>;
-  delete(id: number): Promise<{}>;
+  getAllRawIntl(options: IGetAllOptions): Promise<IProductTypeListRawIntlResponseData>;
+  delete(id: number, options: IDeleteOptions): Promise<{}>;
   create(payload: IProductTypeCreatePayload): Promise<IProductTypeRawIntlResponseData>;
   edit(id: number, payload: IProductTypeEditPayload): Promise<IProductTypeRawIntlResponseData>;
-  status(id: number): Promise<{}>;
-  getOneRawIntl(id: number): Promise<IProductTypeRawIntlResponseData>;
+  status(id: number, options: IGetOneOptions): Promise<{}>;
+  getOneRawIntl(id: number, options: IGetOneOptions): Promise<IProductTypeRawIntlResponseData>;
 }
 
 export const errors = {
@@ -240,10 +253,10 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   }
 
-  public async getAll(page: number) {
+  public async getAll({ page, deleted }: IGetAllOptions) {
     try {
       const response = await this.client.get<IProductTypeListResponseData>(
-        `/api/product_types${buildSearchString({ page })}`,
+        `/api/product_types${buildSearchString({ page, deleted: deleted ? 1 : 0 })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
@@ -274,11 +287,14 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   }
 
-  public async getByID(id: number) {
+  public async getByID(id: number, { deleted }: IGetOneOptions) {
     try {
-      const response = await this.client.get<IProductTypeDetailResponseItemData>(`/api/product_types/${id}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.get<IProductTypeDetailResponseItemData>(
+        `/api/product_types/${id}${buildSearchString({ deleted: deleted ? 1 : 0 })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
@@ -322,10 +338,10 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   }
 
-  public async getAllRawIntl(page: number) {
+  public async getAllRawIntl({ page, deleted }: IGetAllOptions) {
     try {
       const response = await this.client.get<IProductTypeListRawIntlResponseData>(
-        `/api/product_types${buildSearchString({ page, raw_intl: 1, limit: 10 })}`,
+        `/api/product_types${buildSearchString({ page, raw_intl: 1, limit: 10, deleted: deleted ? 1 : 0 })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
@@ -336,11 +352,14 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   }
 
-  public async delete(id: number) {
+  public async delete(id: number, { forever }: IDeleteOptions) {
     try {
-      const response = await this.client.delete<{}>(`/api/product_types/${id}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.delete<{}>(
+        `/api/product_types/${id}${buildSearchString({ forever: forever ? 1 : 0 })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
@@ -389,11 +408,14 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   }
 
-  public async status(id: number) {
+  public async status(id: number, { deleted }: IGetOneOptions) {
     try {
-      const response = await this.client.head<{}>(`/api/product_types/${id}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.head<{}>(
+        `/api/product_types/${id}${buildSearchString({ deleted: deleted ? 1 : 0 })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
@@ -403,10 +425,10 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   }
 
-  public async getOneRawIntl(id: number) {
+  public async getOneRawIntl(id: number, { deleted }: IGetOneOptions) {
     try {
       const response = await this.client.get<IProductTypeRawIntlResponseData>(
-        `/api/product_types/${id}${buildSearchString({ raw_intl: 1 })}`,
+        `/api/product_types/${id}${buildSearchString({ raw_intl: 1, deleted: deleted ? 1 : 0 })}`,
         {
           headers: this.headersManager.getHeaders(),
         },

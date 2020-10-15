@@ -12,10 +12,10 @@ import {
 } from 'src/components/Admin/ProductTypes/Create/AdminProductTypesCreatePresenter';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { IProductTypeService } from 'src/services/ProductTypeService';
-import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/AdminCategoriesState';
-import { ContextValue as AdminCharacteristicValuesStateContextValue } from 'src/state/AdminCharacteristicValuesState';
-import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/AdminFeatureTypesState';
-import { ContextValue as AdminProductTypesStateContextValue } from 'src/state/AdminProductTypesState';
+import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/Admin/AdminCategoriesState';
+import { ContextValue as AdminCharacteristicValuesStateContextValue } from 'src/state/Admin/AdminCharacteristicValuesState';
+import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/Admin/AdminFeatureTypesState';
+import { ContextValue as AdminProductTypesStateContextValue } from 'src/state/Admin/AdminProductTypesState';
 import { availableLocales } from 'src/utils/locale';
 
 export interface IProps {

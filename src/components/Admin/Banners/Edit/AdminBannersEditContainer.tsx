@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router';
 import { AdminBannersEditPresenter } from 'src/components/Admin/Banners/Edit/AdminBannersEditPresenter';
 import { AdminBannersEditView } from 'src/components/Admin/Banners/Edit/AdminBannersEditView';
 import { useDependencies } from 'src/DI/DI';
-import { useAdminBannersState } from 'src/state/AdminBannersState';
+import { useAdminBannersState } from 'src/state/Admin/AdminBannersState';
 
 export const AdminBannersEditContainer = () => {
   const history = useHistory();

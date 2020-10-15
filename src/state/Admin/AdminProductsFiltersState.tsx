@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { useFilters } from 'src/components/Admin/useFilters';
+import { useFilters } from 'src/components/Admin/hooks/useFilters';
 import { ISearchParams } from 'src/utils/queryString';
 
 export interface IContextValue {

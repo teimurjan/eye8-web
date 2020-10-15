@@ -77,13 +77,13 @@ export class IntlRenderer<T> implements IRenderer<T> {
   );
 }
 
-export class PriceRenderer<T> implements IRenderer<T> {
-  public renderHeader = (title: string, { componentKey }: IAdminTableRendererRequiredArgs) => (
-    <Table.HeadCell key={componentKey}>{title}</Table.HeadCell>
+export class BooleanRenderer<T> extends DefaultRenderer<T> {
+  public renderEntity = (entity: T, { colKey, componentKey }: IAdminTableRendererRequiredArgs) => (
+    <Table.Cell>{entity[colKey] === true ? '✅' : '❌'}</Table.Cell>
   );
+}
 
-  public renderSubheader = ({ componentKey }: IAdminTableRendererRequiredArgs) => <Table.HeadCell key={componentKey} />;
-
+export class PriceRenderer<T> extends DefaultRenderer<T> {
   public renderEntity = (entity: T, { colKey, componentKey }: IAdminTableRendererRequiredArgs) => (
     <Tooltip<HTMLTableCellElement>
       placement="left"
@@ -226,6 +226,13 @@ export const AdminTable = <T extends { id: number }>({
       return <Title size={4}>{intl.formatMessage({ id: error })}</Title>;
     }
 
+    const getDeletePath = (id: number) => {
+      return `${pathPrefix}/delete/${id}${buildSearchString({
+        // Currently, search works only for non-deleted entities
+        forever: debouncedSearchValue.length === 0 ? Boolean(showDeleted).toString() : false,
+      })}`;
+    };
+
     return (
       <>
         <Table className={classNames('is-bordered', 'is-striped', 'is-narrow', 'is-hoverable', 'is-fullwidth')}>
@@ -291,12 +298,7 @@ export const AdminTable = <T extends { id: number }>({
                     </ReactRouterLinkButton>
                   )}
                   {!hideDelete && (
-                    <ReactRouterLinkButton
-                      to={`${pathPrefix}/delete/${entity.id}${buildSearchString({
-                        forever: Boolean(showDeleted).toString(),
-                      })}`}
-                      color="is-danger"
-                    >
+                    <ReactRouterLinkButton to={getDeletePath(entity.id)} color="is-danger">
                       <IconWrapper>
                         <TrashIcon size={IconSizes.Medium} />
                       </IconWrapper>

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { DeleteModalContainer } from 'src/components/Admin/DeleteModal/DeleteModalContainer';
 import { useDependencies } from 'src/DI/DI';
 import * as rateService from 'src/services/RateService';
-import { useAdminRatesState } from 'src/state/AdminRatesState';
+import { useAdminRatesState } from 'src/state/Admin/AdminRatesState';
 
 const getErrorMessageID = (e: Error) => {
   if (e instanceof rateService.errors.RateHasOrders) {

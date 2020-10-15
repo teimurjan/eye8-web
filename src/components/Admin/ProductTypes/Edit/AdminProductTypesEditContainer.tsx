@@ -4,10 +4,10 @@ import { useHistory, useParams } from 'react-router';
 import { AdminProductTypesEditPresenter } from 'src/components/Admin/ProductTypes/Edit/AdminProductTypesEditPresenter';
 import { AdminProductTypesEditView } from 'src/components/Admin/ProductTypes/Edit/AdminProductTypesEditView';
 import { useDependencies } from 'src/DI/DI';
-import { useAdminCategoriesState } from 'src/state/AdminCategoriesState';
-import { useAdminCharacteristicValuesState } from 'src/state/AdminCharacteristicValuesState';
-import { useAdminFeatureTypesState } from 'src/state/AdminFeatureTypesState';
-import { useAdminProductTypesState } from 'src/state/AdminProductTypesState';
+import { useAdminCategoriesState } from 'src/state/Admin/AdminCategoriesState';
+import { useAdminCharacteristicValuesState } from 'src/state/Admin/AdminCharacteristicValuesState';
+import { useAdminFeatureTypesState } from 'src/state/Admin/AdminFeatureTypesState';
+import { useAdminProductTypesState } from 'src/state/Admin/AdminProductTypesState';
 
 export const AdminProductTypesEditContainer = () => {
   const history = useHistory();
