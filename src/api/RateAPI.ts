@@ -61,7 +61,7 @@ export class RateAPI implements IRateAPI {
     this.headersManager = headersManager;
   }
 
-  public async getAll() {
+  public getAll: IRateAPI['getAll'] = async () => {
     try {
       const response = await this.client.get<IRateListResponseData>('/api/currency_rates', {
         headers: this.headersManager.getHeaders(),
@@ -73,9 +73,9 @@ export class RateAPI implements IRateAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async delete(id: number) {
+  public delete: IRateAPI['delete'] = async (id) => {
     try {
       await this.client.delete<{}>(`/api/currency_rates/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -89,9 +89,9 @@ export class RateAPI implements IRateAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async status(id: number) {
+  public status: IRateAPI['status'] = async (id) => {
     try {
       await this.client.head<{}>(`/api/currency_rates/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -102,9 +102,9 @@ export class RateAPI implements IRateAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async create(payload: IRatesCreatePayload) {
+  public create: IRateAPI['create'] = async (payload) => {
     try {
       const response = await this.client.post<IRateDetailResponseData>('/api/currency_rates', payload, {
         headers: this.headersManager.getHeaders(),
@@ -113,5 +113,5 @@ export class RateAPI implements IRateAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 }

@@ -4,6 +4,7 @@ import * as React from 'react';
 import { IProductListResponseItem } from 'src/api/ProductAPI';
 import { IPromoCodeListResponseItem } from 'src/api/PromoCodeAPI';
 import { getErrorMessageID } from 'src/components/Admin/PromoCodes/Create/AdminPromoCodesCreatePresenter';
+import { useAdminPromoCodesFilters } from 'src/components/Admin/PromoCodes/useAdminPromoCodesFilters';
 import { IProductService } from 'src/services/ProductService';
 import { IPromoCodeService } from 'src/services/PromoCodeService';
 import { ContextValue as AdminPromoCodesStateContextValue } from 'src/state/Admin/AdminPromoCodesState';
@@ -37,6 +38,9 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
   promoCodeId,
   productService,
 }) => {
+  const {
+    filters: { deleted },
+  } = useAdminPromoCodesFilters();
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [promoCode, setPromoCode] = React.useState<IPromoCodeListResponseItem | undefined>(undefined);
@@ -51,7 +55,7 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
     (async () => {
       setLoading(true);
       try {
-        const promoCode = await service.getOne(promoCodeId);
+        const promoCode = await service.getOne(promoCodeId, { deleted: !!deleted });
         if (promoCode) {
           setPromoCode(promoCode);
 
@@ -76,6 +80,7 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
   const edit: IViewProps['edit'] = React.useCallback(
     async (values) => {
       setUpdating(true);
+      console.log(values);
       const formattedValues = {
         is_active: values.isActive,
         disable_on_use: values.disableOnUse,
@@ -95,6 +100,7 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
     [service, setPromoCodeToState, close, promoCodeId],
   );
 
+  console.log(promoCode);
   return (
     <View
       isOpen={true}

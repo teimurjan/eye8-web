@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IntlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { Button } from 'src/components/admin-ui/Button/Button';
 import { Message } from 'src/components/admin-ui/Message/Message';
@@ -9,15 +9,8 @@ import { ModalCard } from 'src/components/admin-ui/ModalCard/ModalCard';
 import { ModalContent } from 'src/components/admin-ui/ModalContent/ModalContent';
 import { IViewProps as IProps } from 'src/components/Admin/DeleteModal/DeleteModalPresenter';
 
-export const DeleteModalView = ({
-  isOpen,
-  onClose,
-  intl,
-  onConfirm,
-  isLoading = false,
-  error,
-  ...props
-}: IProps & { intl: IntlShape }) => {
+export const DeleteModalView = ({ isOpen, onClose, onConfirm, isLoading = false, error, ...props }: IProps) => {
+  const intl = useIntl();
   const onConfirmClick = React.useCallback(() => onConfirm(), [onConfirm]);
 
   return (

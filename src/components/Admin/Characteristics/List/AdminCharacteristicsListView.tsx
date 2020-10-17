@@ -51,7 +51,6 @@ export const AdminCharacteristicsListView = ({ characteristics, isLoading, isDat
         isDataLoaded={isDataLoaded}
         entities={characteristics}
         renderNoData={renderNoData}
-        intl={intl}
       >
         <AdminTable.Col<Characteristic> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
         <AdminTable.Col<Characteristic>

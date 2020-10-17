@@ -32,10 +32,10 @@ export const useSelectProductTypes = ({ productTypeService, mandatoryProductType
     async (page: number) => {
       try {
         setLoading(true);
-        const { entities, result, meta } = await productTypeService.getAllRawIntlMinified(
+        const { entities, result, meta } = await productTypeService.getAllRawIntlMinified({
           page,
-          ProductTypeSortingType.RECENT,
-        );
+          sortingType: ProductTypeSortingType.RECENT,
+        });
         setData({ entities: { ...data.entities, ...entities.productTypes }, order: uniq([...data.order, ...result]) });
         setMeta(meta);
       } catch (e) {

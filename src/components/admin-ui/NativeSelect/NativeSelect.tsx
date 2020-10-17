@@ -3,7 +3,7 @@
 import { css, jsx } from '@emotion/core';
 import classNames from 'classnames';
 import * as React from 'react';
-import { IntlShape, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { HelpText } from 'src/components/admin-ui/HelpText/HelpText';
 
@@ -17,17 +17,17 @@ export interface IProps<T = boolean> {
   onChange?: (e: React.SyntheticEvent<HTMLSelectElement>) => any;
 }
 
-export const NativeSelect = injectIntl(
-  ({
-    children,
-    wrapperClassName,
-    intl,
-    onChange,
-    isMultiple = false,
-    size,
-    className,
-    value,
-  }: IProps & { intl: IntlShape }) => (
+export const NativeSelect = ({
+  children,
+  wrapperClassName,
+  onChange,
+  isMultiple = false,
+  size,
+  className,
+  value,
+}: IProps) => {
+  const intl = useIntl();
+  return (
     <div
       css={css`
         display: flex;
@@ -67,8 +67,8 @@ export const NativeSelect = injectIntl(
         </HelpText>
       )}
     </div>
-  ),
-);
+  );
+};
 
 interface IOptionProps extends React.HTMLProps<HTMLOptionElement> {
   children?: React.ReactNode;

@@ -56,7 +56,7 @@ export class CharacteristicService implements ICharacteristicService {
     return normalize(characteristics.data, [new schema.Entity('characteristics')]);
   };
 
-  public delete(id: number) {
+  public delete: ICharacteristicService['delete'] = async (id) => {
     try {
       return this.API.delete(id);
     } catch (e) {
@@ -66,16 +66,13 @@ export class CharacteristicService implements ICharacteristicService {
 
       throw e;
     }
-  }
+  };
 
   public create: ICharacteristicService['create'] = async (payload: characteristicAPI.ICharacteristicCreatePayload) => {
     return (await this.API.create(payload)).data;
   };
 
-  public edit: ICharacteristicService['edit'] = async (
-    id: number,
-    payload: characteristicAPI.ICharacteristicEditPayload,
-  ) => {
+  public edit: ICharacteristicService['edit'] = async (id, payload: characteristicAPI.ICharacteristicEditPayload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
@@ -87,7 +84,7 @@ export class CharacteristicService implements ICharacteristicService {
     }
   };
 
-  public exists: ICharacteristicService['exists'] = async (id: number) => {
+  public exists: ICharacteristicService['exists'] = async (id) => {
     try {
       await this.API.status(id);
       return true;
@@ -100,7 +97,7 @@ export class CharacteristicService implements ICharacteristicService {
     }
   };
 
-  public getOneRawIntl: ICharacteristicService['getOneRawIntl'] = async (id: number) => {
+  public getOneRawIntl: ICharacteristicService['getOneRawIntl'] = async (id) => {
     try {
       return (await this.API.getOneRawIntl(id)).data;
     } catch (e) {

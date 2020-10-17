@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { IProductTypeListRawIntlResponseItem } from 'src/api/ProductTypeAPI';
-import { useShowDeleted } from 'src/components/Admin/hooks/useShowDeleted';
+import { useAdminProductTypesFilters } from 'src/components/Admin/ProductTypes/useAdminProductTypesFilters';
 import { ISearchService } from 'src/services/SearchService';
 import { ContextValue as AdminProductTypesStateContextValue } from 'src/state/Admin/AdminProductTypesState';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
@@ -18,28 +18,36 @@ export interface IViewProps {
   isDataLoaded: boolean;
   isLoading: boolean;
   onPageChange: (page: number) => void;
+  onDeletedModeChange: () => void;
   search: (query: string) => Promise<IProductTypeListRawIntlResponseItem[]>;
-  showDeleted: boolean;
+  isDeletedMode: boolean;
 }
 
 export const AdminProductTypesListPresenter = ({
   View,
   adminProductTypesState: { isListLoading, entities: productTypes, get: getProductTypes, hasListLoaded, meta },
-
   searchService,
 }: IProps) => {
-  const showDeleted = useShowDeleted();
+  const {
+    filters: { deleted, forever },
+    setFilters,
+  } = useAdminProductTypesFilters();
+  const isDeletedMode = deleted === true || forever === true;
 
   React.useEffect(() => {
-    getProductTypes({ page: 1, deleted: showDeleted });
+    getProductTypes({ page: 1, deleted: isDeletedMode });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showDeleted]);
+  }, [isDeletedMode]);
+
+  const onDeletedModeChange = React.useCallback(() => {
+    setFilters({ forever, deleted: !deleted });
+  }, [forever, deleted, setFilters]);
 
   const onPageChange = React.useCallback(
     (page: number) => {
-      getProductTypes({ page, deleted: showDeleted });
+      getProductTypes({ page, deleted: isDeletedMode });
     },
-    [getProductTypes, showDeleted],
+    [getProductTypes, isDeletedMode],
   );
 
   const search = React.useCallback(
@@ -61,12 +69,13 @@ export const AdminProductTypesListPresenter = ({
 
   return (
     <View
+      onDeletedModeChange={onDeletedModeChange}
       meta={meta}
       isDataLoaded={hasListLoaded}
       isLoading={isListLoading}
       productTypes={productTypes}
       onPageChange={onPageChange}
-      showDeleted={showDeleted}
+      isDeletedMode={isDeletedMode}
       search={search}
     />
   );

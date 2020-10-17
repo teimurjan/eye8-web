@@ -1,13 +1,10 @@
 import * as React from 'react';
-import { injectIntl } from 'react-intl';
 import { useHistory } from 'react-router';
 
 import { AdminCategoriesCreatePresenter } from 'src/components/Admin/Categories/Create/AdminCategoriesCreatePresenter';
 import { AdminCategoriesCreateView } from 'src/components/Admin/Categories/Create/AdminCategoriesCreateView';
 import { useDependencies } from 'src/DI/DI';
 import { useAdminCategoriesState } from 'src/state/Admin/AdminCategoriesState';
-
-const View = injectIntl(AdminCategoriesCreateView);
 
 export const AdminCategoriesCreateContainer = () => {
   const history = useHistory();
@@ -18,7 +15,7 @@ export const AdminCategoriesCreateContainer = () => {
   return (
     <AdminCategoriesCreatePresenter
       history={history}
-      View={View}
+      View={AdminCategoriesCreateView}
       service={dependencies.services.category}
       adminCategoriesState={adminCategoriesState}
     />

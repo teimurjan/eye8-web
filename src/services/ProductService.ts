@@ -13,8 +13,7 @@ export const errors = {
 
 export interface IProductService {
   getAll(
-    page: number,
-    available?: boolean,
+    options: productAPI.IGetAllOptions,
   ): Promise<{
     entities: {
       products: {
@@ -41,7 +40,7 @@ export interface IProductService {
   getOne(id: number): Promise<productAPI.IProductListResponseItem | undefined>;
   getForProductType(
     productTypeID: number,
-    available?: boolean,
+    options?: productAPI.IGetForProductTypeOptions,
   ): Promise<{
     entities: {
       products: {
@@ -68,20 +67,20 @@ export class ProductService implements IProductService {
     this.API = API;
   }
 
-  public getAll: IProductService['getAll'] = async (page, available) => {
-    const products = await this.API.getAll(page, available);
+  public getAll: IProductService['getAll'] = async (options) => {
+    const products = await this.API.getAll(options);
     return {
       ...normalize(products.data, [new schema.Entity('products')]),
       meta: products.meta,
     };
   };
 
-  public getSome: IProductService['getSome'] = async (ids: number[]) => {
+  public getSome: IProductService['getSome'] = async (ids) => {
     const products = await this.API.getSome(ids);
     return normalize(products.data, [new schema.Entity('products')]);
   };
 
-  public getForCart: IProductService['getForCart'] = async (ids: number[]) => {
+  public getForCart: IProductService['getForCart'] = async (ids) => {
     const products = await this.API.getForCart(ids);
     return normalize(products.data, [new schema.Entity('products')]);
   };
@@ -98,11 +97,11 @@ export class ProductService implements IProductService {
     }
   }
 
-  public create: IProductService['create'] = async (payload: productAPI.IProductCreatePayload) => {
+  public create: IProductService['create'] = async (payload) => {
     return (await this.API.create(payload)).data;
   };
 
-  public edit: IProductService['edit'] = async (id: number, payload: productAPI.IProductEditPayload) => {
+  public edit: IProductService['edit'] = async (id, payload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
@@ -114,7 +113,7 @@ export class ProductService implements IProductService {
     }
   };
 
-  public exists: IProductService['exists'] = async (id: number) => {
+  public exists: IProductService['exists'] = async (id) => {
     try {
       await this.API.status(id);
       return true;
@@ -127,7 +126,7 @@ export class ProductService implements IProductService {
     }
   };
 
-  public getOne: IProductService['getOne'] = async (id: number) => {
+  public getOne: IProductService['getOne'] = async (id) => {
     try {
       return (await this.API.getOne(id)).data;
     } catch (e) {
@@ -139,8 +138,8 @@ export class ProductService implements IProductService {
     }
   };
 
-  public getForProductType: IProductService['getForProductType'] = async (productTypeID: number, available = false) => {
-    const products = await this.API.getForProductType(productTypeID, available);
+  public getForProductType: IProductService['getForProductType'] = async (productTypeID, options = {}) => {
+    const products = await this.API.getForProductType(productTypeID, options);
     return normalize(products.data, [new schema.Entity('products')]);
   };
 }

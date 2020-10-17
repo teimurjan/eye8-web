@@ -6,11 +6,10 @@ interface IProps {
   children: React.ReactNode;
 }
 
-export const AdminButtonsGroup = ({ children }: IProps) => (
+export const AdminFiltersSection = ({ children }: IProps) => (
   <div
     css={css`
-      display: flex;
-      justify-content: space-between;
+      margin-bottom: 20px;
     `}
   >
     {children}

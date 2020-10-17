@@ -10,6 +10,7 @@ import {
   PRODUCT_TYPE_DESCRIPTION_FIELD_KEY,
   PRODUCT_TYPE_SHORT_DESCRIPTION_FIELD_KEY,
 } from 'src/components/Admin/ProductTypes/Create/AdminProductTypesCreatePresenter';
+import { useAdminPromoCodesFilters } from 'src/components/Admin/PromoCodes/useAdminPromoCodesFilters';
 import * as schemaValidator from 'src/components/SchemaValidator';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/Admin/AdminCategoriesState';
@@ -116,6 +117,9 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
   View,
   productTypeId,
 }) => {
+  const {
+    filters: { deleted },
+  } = useAdminPromoCodesFilters();
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [productType, setProductType] = React.useState<IProductTypeDetailRawIntlResponseItem | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
@@ -129,7 +133,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
       try {
         setLoading(true);
 
-        const productType = await service.getOneRawIntl(productTypeId);
+        const productType = await service.getOneRawIntl(productTypeId, { deleted: !!deleted });
         if (productType) {
           const promises = [];
           if (!hasCategoriesLoaded) {

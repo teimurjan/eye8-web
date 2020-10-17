@@ -56,7 +56,7 @@ export class FeatureTypeService implements IFeatureTypeService {
     return normalize(featureTypes.data, [new schema.Entity('featureTypes')]);
   };
 
-  public delete(id: number) {
+  public delete: IFeatureTypeService['delete'] = async (id) => {
     try {
       return this.API.delete(id);
     } catch (e) {
@@ -66,13 +66,13 @@ export class FeatureTypeService implements IFeatureTypeService {
 
       throw e;
     }
-  }
+  };
 
-  public create: IFeatureTypeService['create'] = async (payload: featureTypeAPI.IFeatureTypeCreatePayload) => {
+  public create: IFeatureTypeService['create'] = async (payload) => {
     return (await this.API.create(payload)).data;
   };
 
-  public edit: IFeatureTypeService['edit'] = async (id: number, payload: featureTypeAPI.IFeatureTypeEditPayload) => {
+  public edit: IFeatureTypeService['edit'] = async (id, payload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
@@ -84,7 +84,7 @@ export class FeatureTypeService implements IFeatureTypeService {
     }
   };
 
-  public exists: IFeatureTypeService['exists'] = async (id: number) => {
+  public exists: IFeatureTypeService['exists'] = async (id) => {
     try {
       await this.API.status(id);
       return true;
@@ -97,7 +97,7 @@ export class FeatureTypeService implements IFeatureTypeService {
     }
   };
 
-  public getOneRawIntl: IFeatureTypeService['getOneRawIntl'] = async (id: number) => {
+  public getOneRawIntl: IFeatureTypeService['getOneRawIntl'] = async (id) => {
     try {
       return (await this.API.getOneRawIntl(id)).data;
     } catch (e) {

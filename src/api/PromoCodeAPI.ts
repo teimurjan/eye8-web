@@ -39,9 +39,13 @@ export interface IPromoCodeEditPayload {
   products: number[];
 }
 
+export interface IGetOneOptions {
+  deleted?: boolean;
+}
+
 export interface IPromoCodeAPI {
   getAll(deleted?: boolean): Promise<IPromoCodeListResponseData>;
-  getOne(id: number): Promise<IPromoCodeDetailResponseData>;
+  getOne(id: number, options: IGetOneOptions): Promise<IPromoCodeDetailResponseData>;
   getByValue(value: string): Promise<IPromoCodeDetailResponseData>;
   delete(id: number, forever?: boolean): Promise<{}>;
   create(payload: IPromoCodeCreatePayload): Promise<IPromoCodeDetailResponseData>;
@@ -79,7 +83,7 @@ export class PromoCodeAPI implements IPromoCodeAPI {
     this.headersManager = headersManager;
   }
 
-  public async getAll(deleted = false) {
+  public getAll: IPromoCodeAPI['getAll'] = async (deleted = false) => {
     try {
       const response = await this.client.get<IPromoCodeListResponseData>(
         `/api/promo_codes${buildSearchString({ deleted: deleted ? 1 : 0 })}`,
@@ -91,9 +95,9 @@ export class PromoCodeAPI implements IPromoCodeAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async delete(id: number, forever = false) {
+  public delete: IPromoCodeAPI['delete'] = async (id, forever = false) => {
     try {
       const response = await this.client.delete<{}>(
         `/api/promo_codes/${id}${buildSearchString({ forever: forever ? 1 : 0 })}`,
@@ -111,9 +115,9 @@ export class PromoCodeAPI implements IPromoCodeAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async create(payload: IPromoCodeCreatePayload) {
+  public create: IPromoCodeAPI['create'] = async (payload) => {
     try {
       const response = await this.client.post<IPromoCodeDetailResponseData>(`/api/promo_codes`, payload, {
         headers: this.headersManager.getHeaders(),
@@ -125,9 +129,9 @@ export class PromoCodeAPI implements IPromoCodeAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async edit(id: number, payload: IPromoCodeEditPayload) {
+  public edit: IPromoCodeAPI['edit'] = async (id, payload) => {
     try {
       const response = await this.client.put<IPromoCodeDetailResponseData>(`/api/promo_codes/${id}`, payload, {
         headers: this.headersManager.getHeaders(),
@@ -145,13 +149,16 @@ export class PromoCodeAPI implements IPromoCodeAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async getOne(id: number) {
+  public getOne: IPromoCodeAPI['getOne'] = async (id, options) => {
     try {
-      const response = await this.client.get<IPromoCodeDetailResponseData>(`/api/promo_codes/${id}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.get<IPromoCodeDetailResponseData>(
+        `/api/promo_codes/${id}${buildSearchString({ deleted: options.deleted ? 1 : 0 })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
@@ -159,9 +166,9 @@ export class PromoCodeAPI implements IPromoCodeAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async getByValue(value: string) {
+  public getByValue: IPromoCodeAPI['getByValue'] = async (value) => {
     try {
       const response = await this.client.get<IPromoCodeDetailResponseData>(`/api/promo_codes/${value}`, {
         headers: this.headersManager.getHeaders(),
@@ -173,9 +180,9 @@ export class PromoCodeAPI implements IPromoCodeAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async status(id: number, deleted = false) {
+  public status: IPromoCodeAPI['status'] = async (id, deleted = false) => {
     try {
       const response = await this.client.head<{}>(
         `/api/promo_codes/${id}${buildSearchString({ deleted: deleted ? 1 : 0 })}`,
@@ -190,5 +197,5 @@ export class PromoCodeAPI implements IPromoCodeAPI {
       }
       throw e;
     }
-  }
+  };
 }

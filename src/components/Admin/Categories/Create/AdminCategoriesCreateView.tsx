@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IntlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import {
   CATEGORY_NAME_FIELD_KEY,
@@ -14,23 +14,25 @@ export const AdminCategoriesCreateView = ({
   close,
   isLoading,
   error,
-  intl,
   validate,
   categories,
   preloadingError,
   isCreating,
-}: IProps & { intl: IntlShape }) => (
-  <ModalForm
-    formID="adminCategoriesCreateForm"
-    isOpen={isOpen}
-    onSubmit={create}
-    onClose={close}
-    isLoading={isCreating}
-    isPreloading={isLoading}
-    preloadingError={preloadingError}
-    globalError={error}
-    title={intl.formatMessage({ id: 'AdminCategories.create.title' })}
-    fields={<Fields categories={categories} nameFieldKey={CATEGORY_NAME_FIELD_KEY} />}
-    validate={validate}
-  />
-);
+}: IProps) => {
+  const intl = useIntl();
+  return (
+    <ModalForm
+      formID="adminCategoriesCreateForm"
+      isOpen={isOpen}
+      onSubmit={create}
+      onClose={close}
+      isLoading={isCreating}
+      isPreloading={isLoading}
+      preloadingError={preloadingError}
+      globalError={error}
+      title={intl.formatMessage({ id: 'AdminCategories.create.title' })}
+      fields={<Fields categories={categories} nameFieldKey={CATEGORY_NAME_FIELD_KEY} />}
+      validate={validate}
+    />
+  );
+};

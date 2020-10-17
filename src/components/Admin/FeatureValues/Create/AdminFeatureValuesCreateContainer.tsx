@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { injectIntl } from 'react-intl';
 import { useHistory } from 'react-router';
 
 import {
@@ -11,8 +10,6 @@ import { useDependencies } from 'src/DI/DI';
 import { useAdminFeatureTypesState } from 'src/state/Admin/AdminFeatureTypesState';
 import { useAdminFeatureValuesState } from 'src/state/Admin/AdminFeatureValuesState';
 
-const View = injectIntl(AdminFeatureValuesCreateView);
-
 export const AdminFeatureValuesCreateContainer = ({ close }: Partial<Pick<IPresenterProps, 'close'>>) => {
   const history = useHistory();
   const defaultClose = React.useCallback(() => history.push('/admin/featureValues'), [history]);
@@ -23,8 +20,8 @@ export const AdminFeatureValuesCreateContainer = ({ close }: Partial<Pick<IPrese
 
   return (
     <AdminFeatureValuesCreatePresenter
-      close={close ? close : defaultClose}
-      View={View}
+      close={close ?? defaultClose}
+      View={AdminFeatureValuesCreateView}
       service={dependencies.services.featureValue}
       adminFeatureTypesState={adminFeatureTypesState}
       adminFeatureValuesState={adminFeatureValuesState}

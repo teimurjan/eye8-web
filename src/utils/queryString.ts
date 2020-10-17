@@ -5,7 +5,7 @@ export type ISearchParams<T extends string> = {
 export const buildSearchString = <T extends string>(queryObj: ISearchParams<T>) => {
   const queryArr = Object.keys(queryObj).reduce((acc, k) => {
     const value = queryObj[k];
-    if (typeof value === 'undefined') {
+    if (typeof value === 'undefined' || value === null) {
       return acc;
     }
 

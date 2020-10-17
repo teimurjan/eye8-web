@@ -7,15 +7,25 @@ export interface IAuthResponseData {
   refresh_token: string;
 }
 
+export interface ILogInPayload {
+  email: string;
+  password: string;
+}
+
+export interface ISignUpPayload {
+  name: string;
+  email: string;
+  password: string;
+}
+
 export interface IAuthAPI {
   logIn(
-    email: string,
-    password: string,
+    payload: ILogInPayload,
   ): Promise<{
     accessToken: string;
     refreshToken: string;
   }>;
-  signUp(name: string, email: string, password: string): Promise<{}>;
+  signUp(payload: ISignUpPayload): Promise<{}>;
   confirmSignup(token: string): Promise<{}>;
   refreshTokens(
     refreshToken: string,
@@ -55,7 +65,7 @@ export class AuthAPI implements IAuthAPI {
     this.headersManager = headersManager;
   }
 
-  public async logIn(email: string, password: string) {
+  public logIn: IAuthAPI['logIn'] = async ({ email, password }) => {
     try {
       const response = await this.client.post<IAuthResponseData>(
         '/api/auth/login',
@@ -76,9 +86,9 @@ export class AuthAPI implements IAuthAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async signUp(name: string, email: string, password: string) {
+  public signUp: IAuthAPI['signUp'] = async ({ name, email, password }) => {
     try {
       await this.client.post(
         '/api/auth/register',
@@ -96,7 +106,7 @@ export class AuthAPI implements IAuthAPI {
       }
       throw e;
     }
-  }
+  };
 
   public async confirmSignup(token: string) {
     try {

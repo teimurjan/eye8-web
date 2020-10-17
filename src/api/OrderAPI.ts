@@ -114,7 +114,7 @@ export class OrderAPI implements IOrderAPI {
     this.headersManager = headersManager;
   }
 
-  public async getAll() {
+  public getAll: IOrderAPI['getAll'] = async () => {
     try {
       const response = await this.client.get<IOrderListResponseData>(`/api/orders`, {
         headers: this.headersManager.getHeaders(),
@@ -123,9 +123,9 @@ export class OrderAPI implements IOrderAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async create(data: IOrderCreatePayload) {
+  public create: IOrderAPI['create'] = async (data) => {
     try {
       const response = await this.client.post<IOrderResponseData>(`/api/orders`, data, {
         headers: this.headersManager.getHeaders(),
@@ -137,9 +137,9 @@ export class OrderAPI implements IOrderAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async edit(orderID: number, data: IOrderEditPayload) {
+  public edit: IOrderAPI['edit'] = async (orderID, data) => {
     try {
       const response = await this.client.put<IOrderResponseData>(`/api/orders/${orderID}`, data, {
         headers: this.headersManager.getHeaders(),
@@ -154,9 +154,9 @@ export class OrderAPI implements IOrderAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async getForUser(userID: number, page: number) {
+  public getForUser: IOrderAPI['getForUser'] = async (userID, page) => {
     try {
       const response = await this.client.get<IOrderListResponseData>(
         `/api/users/${userID}/orders${buildSearchString({ page, limit: 10 })}`,
@@ -168,9 +168,9 @@ export class OrderAPI implements IOrderAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async getOne(orderID: number) {
+  public getOne: IOrderAPI['getOne'] = async (orderID) => {
     try {
       const response = await this.client.get<IOrderResponseData>(`/api/orders/${orderID}`, {
         headers: this.headersManager.getHeaders(),
@@ -182,9 +182,9 @@ export class OrderAPI implements IOrderAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async status(orderID: number) {
+  public status: IOrderAPI['status'] = async (orderID) => {
     try {
       await this.client.head(`/api/orders/${orderID}`, {
         headers: this.headersManager.getHeaders(),
@@ -196,9 +196,9 @@ export class OrderAPI implements IOrderAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async delete(orderID: number) {
+  public delete: IOrderAPI['delete'] = async (orderID) => {
     try {
       await this.client.delete(`/api/orders/${orderID}`, {
         headers: this.headersManager.getHeaders(),
@@ -210,5 +210,5 @@ export class OrderAPI implements IOrderAPI {
       }
       throw e;
     }
-  }
+  };
 }

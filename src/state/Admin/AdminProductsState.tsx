@@ -16,10 +16,10 @@ export const AdminProductsStateProvider = makeEntityState(
   Context,
   (d, params = { page: 1, available: true }) => {
     if (params.productTypeId) {
-      return d.dependencies.services.product.getForProductType(params.productTypeId, params.available);
+      return d.dependencies.services.product.getForProductType(params.productTypeId, { available: params.available });
     }
 
-    return d.dependencies.services.product.getAll(params.page, params.available);
+    return d.dependencies.services.product.getAll(params);
   },
   'products',
 );

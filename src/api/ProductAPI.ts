@@ -53,8 +53,17 @@ export interface IProductCreatePayload {
 
 export type IProductEditPayload = IProductCreatePayload;
 
+export interface IGetAllOptions {
+  page: number;
+  available?: boolean;
+}
+
+export interface IGetForProductTypeOptions {
+  available?: boolean;
+}
+
 export interface IProductAPI {
-  getAll(page: number, available?: boolean): Promise<IProductListResponseData>;
+  getAll(options: IGetAllOptions): Promise<IProductListResponseData>;
   getSome(ids: number[]): Promise<IProductListResponseData>;
   getForCart(ids: number[]): Promise<IProductListResponseData>;
   delete(id: number): Promise<{}>;
@@ -62,7 +71,10 @@ export interface IProductAPI {
   edit(id: number, payload: IProductEditPayload): Promise<IProductResponseData>;
   status(id: number): Promise<{}>;
   getOne(id: number): Promise<IProductResponseData>;
-  getForProductType(productTypeID: number, available?: boolean): Promise<IProductForProductTypeResponseData>;
+  getForProductType(
+    productTypeID: number,
+    options: IGetForProductTypeOptions,
+  ): Promise<IProductForProductTypeResponseData>;
 }
 
 export const errors = {
@@ -83,7 +95,7 @@ export class ProductAPI implements IProductAPI {
     this.headersManager = headersManager;
   }
 
-  public async getAll(page: number, available = false) {
+  public getAll: IProductAPI['getAll'] = async ({ page, available = false }) => {
     try {
       const response = await this.client.get<IProductListResponseData>(
         `/api/products${buildSearchString({
@@ -98,9 +110,9 @@ export class ProductAPI implements IProductAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async getSome(ids: number[]) {
+  public getSome: IProductAPI['getSome'] = async (ids) => {
     try {
       const response = await this.client.get<IProductListResponseData>(`/api/products${buildSearchString({ ids })}`, {
         headers: this.headersManager.getHeaders(),
@@ -109,9 +121,9 @@ export class ProductAPI implements IProductAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async getForCart(ids: number[]) {
+  public getForCart: IProductAPI['getForCart'] = async (ids) => {
     try {
       const response = await this.client.get<IProductListResponseData>(`/api/products${buildSearchString({ ids })}`, {
         headers: this.headersManager.getHeaders(),
@@ -120,9 +132,9 @@ export class ProductAPI implements IProductAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async delete(id: number) {
+  public delete: IProductAPI['delete'] = async (id) => {
     try {
       const response = await this.client.delete<{}>(`/api/products/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -134,9 +146,9 @@ export class ProductAPI implements IProductAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async create({ images, ...json }: IProductCreatePayload) {
+  public create: IProductAPI['create'] = async ({ images, ...json }) => {
     try {
       const formData = new FormData();
       formData.append('json', JSON.stringify(json));
@@ -150,9 +162,9 @@ export class ProductAPI implements IProductAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async edit(id: number, { images, ...json }: IProductEditPayload) {
+  public edit: IProductAPI['edit'] = async (id: number, { images, ...json }) => {
     try {
       const formData = new FormData();
       formData.append('json', JSON.stringify(json));
@@ -169,9 +181,9 @@ export class ProductAPI implements IProductAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async status(id: number) {
+  public status: IProductAPI['status'] = async (id) => {
     try {
       const response = await this.client.head<{}>(`/api/products/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -183,9 +195,9 @@ export class ProductAPI implements IProductAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async getOne(id: number) {
+  public getOne: IProductAPI['getOne'] = async (id) => {
     try {
       const response = await this.client.get<IProductResponseData>(`/api/products/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -197,13 +209,13 @@ export class ProductAPI implements IProductAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async getForProductType(productTypeID: number, available = false) {
+  public getForProductType: IProductAPI['getForProductType'] = async (productTypeID, { available = false }) => {
     const response = await this.client.get<IProductForProductTypeResponseData>(
       `/api/product_types/${productTypeID}/products${buildSearchString({ available: available ? 1 : 0 })}`,
       { headers: this.headersManager.getHeaders() },
     );
     return response.data;
-  }
+  };
 }

@@ -80,7 +80,7 @@ export class SignUpPresenter extends React.Component<IProps, IState> {
     const { service } = this.props;
 
     try {
-      await service.signUp(values.name, values.email, values.password);
+      await service.signUp(values);
 
       this.setSuccess();
     } catch (e) {

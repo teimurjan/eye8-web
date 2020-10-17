@@ -2,9 +2,9 @@ import { History } from 'history';
 import * as React from 'react';
 
 import { IProductTypeListRawIntlMinifiedResponseItem } from 'src/api/ProductTypeAPI';
+import { useAdminProductsFilters } from 'src/components/Admin/Products/useAdminProductFilters';
 import { useSelectProductTypes } from 'src/components/Admin/ProductTypeSelect/useSelectProductTypes';
 import { IProductTypeService } from 'src/services/ProductTypeService';
-import { useAdminProductsFiltersState } from 'src/state/Admin/AdminProductsFiltersState';
 import { ContextValue as AdminProductsStateContextValue } from 'src/state/Admin/AdminProductsState';
 
 export interface IProps {
@@ -34,9 +34,7 @@ export const AdminProductsListPresenter = ({
   adminProductsState: { isListLoading, entities: products, get: getProducts, hasListLoaded, meta },
   productTypeService,
 }: IProps) => {
-  const {
-    adminProductsFiltersState: { filters, setFilters },
-  } = useAdminProductsFiltersState();
+  const { filters, setFilters } = useAdminProductsFilters();
 
   const productTypeId = filters.productTypeId as number;
   const available = filters.available as boolean;

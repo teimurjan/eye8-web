@@ -1,13 +1,10 @@
 import * as React from 'react';
-import { injectIntl } from 'react-intl';
 import { useHistory } from 'react-router';
 
 import { AdminProductsListPresenter } from 'src/components/Admin/Products/List/AdminProductsListPresenter';
 import { AdminProductsListView } from 'src/components/Admin/Products/List/AdminProductsListView';
 import { useDependencies } from 'src/DI/DI';
 import { useAdminProductsState } from 'src/state/Admin/AdminProductsState';
-
-const View = injectIntl(AdminProductsListView);
 
 export const AdminProductsListContainer = () => {
   const { state: adminProductsState } = useAdminProductsState();
@@ -23,7 +20,7 @@ export const AdminProductsListContainer = () => {
     <AdminProductsListPresenter
       history={history}
       productTypeService={productTypeService}
-      View={View}
+      View={AdminProductsListView}
       adminProductsState={adminProductsState}
     />
   );

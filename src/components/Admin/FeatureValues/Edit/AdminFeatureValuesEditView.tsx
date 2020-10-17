@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IntlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { Fields } from 'src/components/Admin/FeatureValues/Create/Fields';
 import { IViewProps as IProps } from 'src/components/Admin/FeatureValues/Edit/AdminFeatureValuesEditPresenter';
@@ -12,24 +12,26 @@ export const AdminFeatureValuesEditView = ({
   isLoading,
   isUpdating,
   error,
-  intl,
   initialValues,
   validate,
   preloadingError,
   featureTypes,
-}: IProps & { intl: IntlShape }) => (
-  <ModalForm
-    formID="adminFeatureValuesEditForm"
-    isOpen={isOpen}
-    onSubmit={edit}
-    onClose={close}
-    isLoading={isUpdating}
-    isPreloading={isLoading}
-    globalError={error}
-    title={intl.formatMessage({ id: 'AdminFeatureValues.edit.title' })}
-    fields={<Fields featureTypes={featureTypes} />}
-    validate={validate}
-    initialValues={initialValues}
-    preloadingError={preloadingError}
-  />
-);
+}: IProps) => {
+  const intl = useIntl();
+  return (
+    <ModalForm
+      formID="adminFeatureValuesEditForm"
+      isOpen={isOpen}
+      onSubmit={edit}
+      onClose={close}
+      isLoading={isUpdating}
+      isPreloading={isLoading}
+      globalError={error}
+      title={intl.formatMessage({ id: 'AdminFeatureValues.edit.title' })}
+      fields={<Fields featureTypes={featureTypes} />}
+      validate={validate}
+      initialValues={initialValues}
+      preloadingError={preloadingError}
+    />
+  );
+};

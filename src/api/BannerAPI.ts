@@ -93,7 +93,7 @@ export class BannerAPI implements IBannerAPI {
     this.headersManager = headersManager;
   }
 
-  public async getAll() {
+  public getAll: IBannerAPI['getAll'] = async () => {
     try {
       const response = await this.client.get<IBannerListResponseData>('/api/banners', {
         headers: this.headersManager.getHeaders(),
@@ -102,9 +102,9 @@ export class BannerAPI implements IBannerAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async getAllRawIntl() {
+  public getAllRawIntl: IBannerAPI['getAllRawIntl'] = async () => {
     try {
       const response = await this.client.get<IBannerListRawIntlResponseData>(
         `/api/banners${buildSearchString({ raw_intl: 1 })}`,
@@ -116,9 +116,9 @@ export class BannerAPI implements IBannerAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async delete(id: number) {
+  public delete: IBannerAPI['delete'] = async (id) => {
     try {
       const response = await this.client.delete<{}>(`/api/banners/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -131,9 +131,9 @@ export class BannerAPI implements IBannerAPI {
 
       throw e;
     }
-  }
+  };
 
-  public async status(id: number) {
+  public status: IBannerAPI['status'] = async (id) => {
     try {
       const response = await this.client.head<{}>(`/api/banners/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -145,9 +145,9 @@ export class BannerAPI implements IBannerAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async create({ image, ...json }: IBannerCreatePayload) {
+  public create: IBannerAPI['create'] = async ({ image, ...json }) => {
     try {
       const formData = new FormData();
       formData.append('json', JSON.stringify(json));
@@ -159,9 +159,9 @@ export class BannerAPI implements IBannerAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async edit(id: number, { image, ...json }: IBannerCreatePayload) {
+  public edit: IBannerAPI['edit'] = async (id: number, { image, ...json }) => {
     try {
       const formData = new FormData();
       formData.append('json', JSON.stringify(json));
@@ -180,9 +180,9 @@ export class BannerAPI implements IBannerAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async getOneRawIntl(id: number) {
+  public getOneRawIntl: IBannerAPI['getOneRawIntl'] = async (id) => {
     try {
       const response = await this.client.get<IBannerRawIntlResponseData>(
         `/api/banners/${id}${buildSearchString({ raw_intl: 1 })}`,
@@ -197,5 +197,5 @@ export class BannerAPI implements IBannerAPI {
       }
       throw e;
     }
-  }
+  };
 }

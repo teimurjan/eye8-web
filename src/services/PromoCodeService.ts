@@ -38,7 +38,10 @@ export interface IPromoCodeService {
   edit(id: number, payload: promoCodeAPI.IPromoCodeEditPayload): Promise<promoCodeAPI.IPromoCodeListResponseItem>;
   delete(id: number, forever?: boolean): Promise<{}>;
   exists(id: number, deleted?: boolean): Promise<boolean>;
-  getOne(id: number): Promise<promoCodeAPI.IPromoCodeListResponseItem | undefined>;
+  getOne(
+    id: number,
+    options?: promoCodeAPI.IGetOneOptions,
+  ): Promise<promoCodeAPI.IPromoCodeListResponseItem | undefined>;
   getByValue(value: string): Promise<promoCodeAPI.IPromoCodeListResponseItem | undefined>;
 }
 
@@ -53,7 +56,7 @@ export class PromoCodeService implements IPromoCodeService {
     return normalize(products.data, [new schema.Entity('promoCodes')]);
   };
 
-  public create: IPromoCodeService['create'] = async (payload: promoCodeAPI.IPromoCodeCreatePayload) => {
+  public create: IPromoCodeService['create'] = async (payload) => {
     try {
       return (await this.API.create(payload)).data;
     } catch (e) {
@@ -64,7 +67,7 @@ export class PromoCodeService implements IPromoCodeService {
     }
   };
 
-  public edit: IPromoCodeService['edit'] = async (id, payload: promoCodeAPI.IPromoCodeEditPayload) => {
+  public edit: IPromoCodeService['edit'] = async (id, payload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
@@ -107,9 +110,9 @@ export class PromoCodeService implements IPromoCodeService {
     }
   };
 
-  public getOne: IPromoCodeService['getOne'] = async (id) => {
+  public getOne: IPromoCodeService['getOne'] = async (id, options = {}) => {
     try {
-      return (await this.API.getOne(id)).data;
+      return (await this.API.getOne(id, options)).data;
     } catch (e) {
       if (e instanceof promoCodeAPI.errors.PromoCodeNotFound) {
         return undefined;

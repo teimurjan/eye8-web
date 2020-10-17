@@ -1,35 +1,42 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import { IntlShape, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { Checkbox } from 'src/components/admin-ui/Checkbox/Checkbox';
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
 import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataAvaiable';
 import { Section } from 'src/components/admin-ui/Section/Section';
+import { AdminFiltersSection } from 'src/components/Admin/AdminFiltersSection';
 import { AdminTable, PriceRenderer } from 'src/components/Admin/AdminTable';
 import { IViewProps as IProps } from 'src/components/Admin/Products/List/AdminProductsListPresenter';
 import { ProductTypeSelectView } from 'src/components/Admin/ProductTypeSelect/ProductTypeSelectView';
 import { noop } from 'src/utils/function';
 
-export const NewProductButton = injectIntl(({ intl }) => (
-  <ReactRouterLinkButton to="/admin/products/new" color="is-primary">
-    {intl.formatMessage({ id: 'AdminProducts.notFound.cta' })}
-  </ReactRouterLinkButton>
-));
+export const NewProductButton = () => {
+  const intl = useIntl();
+  return (
+    <ReactRouterLinkButton to="/admin/products/new" color="is-primary">
+      {intl.formatMessage({ id: 'AdminProducts.notFound.cta' })}
+    </ReactRouterLinkButton>
+  );
+};
 
-const NoProductsAvialable = injectIntl(({ intl }) => (
-  <NoDataAvailable
-    title={intl.formatMessage({ id: 'AdminProducts.notFound.title' })}
-    description={intl.formatMessage({
-      id: 'AdminProducts.notFound.description',
-    })}
-    CTA={
-      <ReactRouterLinkButton to="/admin/products/new" color="is-primary">
-        {intl.formatMessage({ id: 'AdminProducts.notFound.cta' })}
-      </ReactRouterLinkButton>
-    }
-  />
-));
+const NoProductsAvialable = () => {
+  const intl = useIntl();
+  return (
+    <NoDataAvailable
+      title={intl.formatMessage({ id: 'AdminProducts.notFound.title' })}
+      description={intl.formatMessage({
+        id: 'AdminProducts.notFound.description',
+      })}
+      CTA={
+        <ReactRouterLinkButton to="/admin/products/new" color="is-primary">
+          {intl.formatMessage({ id: 'AdminProducts.notFound.cta' })}
+        </ReactRouterLinkButton>
+      }
+    />
+  );
+};
 
 const renderNoData = () => <NoProductsAvialable />;
 
@@ -37,7 +44,6 @@ type Product = IProps['products'][0];
 
 export const AdminProductsListView = ({
   products,
-  intl,
   isLoading,
   isDataLoaded,
   meta,
@@ -49,18 +55,15 @@ export const AdminProductsListView = ({
   onProductTypeChange,
   onAvailabilityChange,
   available,
-}: IProps & { intl: IntlShape }) => {
+}: IProps) => {
+  const intl = useIntl();
   return (
     <Section
       css={css`
         width: 100%;
       `}
     >
-      <div
-        css={css`
-          margin-bottom: 20px;
-        `}
-      >
+      <AdminFiltersSection>
         <ProductTypeSelectView<string | undefined>
           meta={{}}
           input={{
@@ -81,7 +84,7 @@ export const AdminProductsListView = ({
           onChange={onAvailabilityChange}
           checked={available}
         />
-      </div>
+      </AdminFiltersSection>
 
       <AdminTable<Product>
         hideSubheader={true}
@@ -90,7 +93,6 @@ export const AdminProductsListView = ({
         isDataLoaded={isDataLoaded}
         entities={products}
         renderNoData={renderNoData}
-        intl={intl}
         currentPage={meta?.page}
         pagesCount={meta?.pages_count}
         onPageChange={onPageChange}

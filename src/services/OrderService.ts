@@ -61,7 +61,7 @@ export class OrderService implements IOrderService {
     return { ...normalize(orders.data, [new schema.Entity('orders')]), meta: orders.meta };
   };
 
-  public create: IOrderService['create'] = async (payload: orderAPI.IOrderCreatePayload) => {
+  public create: IOrderService['create'] = async (payload) => {
     try {
       return (await this.API.create(payload)).data;
     } catch (e) {
@@ -72,7 +72,7 @@ export class OrderService implements IOrderService {
     }
   };
 
-  public edit: IOrderService['edit'] = async (id, payload: orderAPI.IOrderEditPayload) => {
+  public edit: IOrderService['edit'] = async (id, payload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {

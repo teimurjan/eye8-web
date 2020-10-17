@@ -8,7 +8,6 @@ export interface IProps extends React.HTMLProps<HTMLInputElement> {
 
 export const Checkbox = ({ className, label, ...props }: IProps) => (
   <label className={classNames('checkbox', className)}>
-    <input type="checkbox" {...props} />
-    {label}
+    <input type="checkbox" {...props} /> {label}
   </label>
 );

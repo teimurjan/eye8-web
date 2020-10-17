@@ -49,7 +49,7 @@ export class BannerService implements IBannerService {
     return normalize(banners.data, [new schema.Entity('banners')]);
   };
 
-  public delete: IBannerService['delete'] = async (id: number) => {
+  public delete: IBannerService['delete'] = async (id) => {
     try {
       return await this.API.delete(id);
     } catch (e) {
@@ -61,11 +61,11 @@ export class BannerService implements IBannerService {
     }
   };
 
-  public create: IBannerService['create'] = async (payload: bannerAPI.IBannerCreatePayload) => {
+  public create: IBannerService['create'] = async (payload) => {
     return (await this.API.create(payload)).data;
   };
 
-  public exists: IBannerService['exists'] = async (id: number) => {
+  public exists: IBannerService['exists'] = async (id) => {
     try {
       await this.API.status(id);
       return true;
@@ -78,7 +78,7 @@ export class BannerService implements IBannerService {
     }
   };
 
-  public edit: IBannerService['edit'] = async (id: number, payload: bannerAPI.IBannerCreatePayload) => {
+  public edit: IBannerService['edit'] = async (id, payload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {

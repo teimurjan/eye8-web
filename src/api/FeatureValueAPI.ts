@@ -76,7 +76,7 @@ export class FeatureValueAPI implements IFeatureValueAPI {
     this.headersManager = headersManager;
   }
 
-  public async getAll() {
+  public getAll: IFeatureValueAPI['getAll'] = async () => {
     try {
       const response = await this.client.get<IFeatureValueListResponseData>('/api/feature_values', {
         headers: this.headersManager.getHeaders(),
@@ -85,9 +85,9 @@ export class FeatureValueAPI implements IFeatureValueAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async getAllRawIntl() {
+  public getAllRawIntl: IFeatureValueAPI['getAllRawIntl'] = async () => {
     try {
       const response = await this.client.get<IFeatureValueListRawIntlResponseData>(
         `/api/feature_values${buildSearchString({ raw_intl: 1 })}`,
@@ -100,9 +100,9 @@ export class FeatureValueAPI implements IFeatureValueAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async delete(id: number) {
+  public delete: IFeatureValueAPI['delete'] = async (id) => {
     try {
       const response = await this.client.delete<{}>(`/api/feature_values/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -114,9 +114,9 @@ export class FeatureValueAPI implements IFeatureValueAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async create(payload: IFeatureValueCreatePayload) {
+  public create: IFeatureValueAPI['create'] = async (payload) => {
     try {
       const response = await this.client.post<IFeatureValueRawIntlResponseData>(`/api/feature_values`, payload, {
         headers: this.headersManager.getHeaders(),
@@ -125,9 +125,9 @@ export class FeatureValueAPI implements IFeatureValueAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async edit(id: number, payload: IFeatureValueEditPayload) {
+  public edit: IFeatureValueAPI['edit'] = async (id, payload) => {
     try {
       const response = await this.client.put<IFeatureValueRawIntlResponseData>(
         `/api/feature_values/${id}${buildSearchString({ raw_intl: 1 })}`,
@@ -143,9 +143,9 @@ export class FeatureValueAPI implements IFeatureValueAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async status(id: number) {
+  public status: IFeatureValueAPI['status'] = async (id) => {
     try {
       const response = await this.client.head<{}>(`/api/feature_values/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -157,9 +157,9 @@ export class FeatureValueAPI implements IFeatureValueAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async getOneRawIntl(id: number) {
+  public getOneRawIntl: IFeatureValueAPI['getOneRawIntl'] = async (id) => {
     try {
       const response = await this.client.get<IFeatureValueRawIntlResponseData>(
         `/api/feature_values/${id}${buildSearchString({ raw_intl: 1 })}`,
@@ -174,5 +174,5 @@ export class FeatureValueAPI implements IFeatureValueAPI {
       }
       throw e;
     }
-  }
+  };
 }

@@ -4,7 +4,7 @@ import { css, jsx } from '@emotion/core';
 import classNames from 'classnames';
 import * as React from 'react';
 import { Trash as TrashIcon, Edit2 as Edit2Icon } from 'react-feather';
-import { IntlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 
 import { PriceText } from 'src/components//Client/Price/Price';
@@ -163,7 +163,7 @@ interface IProps<T> {
   hideDelete?: boolean;
   hideEdit?: boolean;
   search?: (query: string) => Promise<T[]>;
-  showDeleted?: boolean;
+  isDeletedMode?: boolean;
 }
 
 const defaultRenderer = new DefaultRenderer();
@@ -174,7 +174,6 @@ export const AdminTable = <T extends { id: number }>({
   isDataLoaded,
   entities,
   children,
-  intl,
   pathPrefix,
   pagesCount,
   currentPage,
@@ -183,8 +182,9 @@ export const AdminTable = <T extends { id: number }>({
   hideDelete = false,
   hideEdit = false,
   search,
-  showDeleted,
-}: IProps<T> & { intl: IntlShape }) => {
+  isDeletedMode,
+}: IProps<T>) => {
+  const intl = useIntl();
   const { value: isSearching, setPositive: setSearching, setNegative: setIdle } = useBoolean();
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [searchValue, setSearchValue] = React.useState('');
@@ -229,7 +229,7 @@ export const AdminTable = <T extends { id: number }>({
     const getDeletePath = (id: number) => {
       return `${pathPrefix}/delete/${id}${buildSearchString({
         // Currently, search works only for non-deleted entities
-        forever: debouncedSearchValue.length === 0 ? Boolean(showDeleted).toString() : false,
+        forever: debouncedSearchValue.length === 0 ? Boolean(isDeletedMode).toString() : false,
       })}`;
     };
 

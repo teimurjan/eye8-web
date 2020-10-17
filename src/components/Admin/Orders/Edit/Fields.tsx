@@ -262,7 +262,7 @@ export const Fields = (promoCodeProps: FieldsProps) => {
         label={intl.formatMessage({ id: 'AdminOrders.userPhoneNumber' })}
       />
       <FinalFormField key="user_address" name="user_address" component={UserAddressField} />
-      <FinalFormField key="items" name="items" render={OrderItemsField} {...promoCodeProps} />
+      <FinalFormField key="items" name="items" component={OrderItemsField} {...promoCodeProps} />
       <FinalFormField key="promo_code" name="promo_code" component={PromoCodeField} />
       <FinalFormField key="status" name="status" component={StatusSelectField} />
     </React.Fragment>

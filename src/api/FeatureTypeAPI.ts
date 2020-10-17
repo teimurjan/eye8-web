@@ -71,7 +71,7 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
     this.headersManager = headersManager;
   }
 
-  public async getAll() {
+  public getAll: IFeatureTypeAPI['getAll'] = async () => {
     try {
       const response = await this.client.get<IFeatureTypeListResponseData>('/api/feature_types', {
         headers: this.headersManager.getHeaders(),
@@ -80,9 +80,9 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async getAllRawIntl() {
+  public getAllRawIntl: IFeatureTypeAPI['getAllRawIntl'] = async () => {
     try {
       const response = await this.client.get<IFeatureTypeListRawIntlResponseData>(
         `/api/feature_types${buildSearchString({ raw_intl: 1 })}`,
@@ -95,9 +95,9 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async delete(id: number) {
+  public delete: IFeatureTypeAPI['delete'] = async (id) => {
     try {
       const response = await this.client.delete<{}>(`/api/feature_types/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -109,9 +109,9 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async create(payload: IFeatureTypeCreatePayload) {
+  public create: IFeatureTypeAPI['create'] = async (payload) => {
     try {
       const response = await this.client.post<IFeatureTypeRawIntlResponseData>(`/api/feature_types`, payload, {
         headers: this.headersManager.getHeaders(),
@@ -120,9 +120,9 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async edit(id: number, payload: IFeatureTypeEditPayload) {
+  public edit: IFeatureTypeAPI['edit'] = async (id, payload) => {
     try {
       const response = await this.client.put<IFeatureTypeRawIntlResponseData>(
         `/api/feature_types/${id}${buildSearchString({ raw_intl: 1 })}`,
@@ -138,9 +138,9 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async status(id: number) {
+  public status: IFeatureTypeAPI['status'] = async (id) => {
     try {
       const response = await this.client.head<{}>(`/api/feature_types/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -152,9 +152,9 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
       }
       throw e;
     }
-  }
+  };
 
-  public async getOneRawIntl(id: number) {
+  public getOneRawIntl: IFeatureTypeAPI['getOneRawIntl'] = async (id) => {
     try {
       const response = await this.client.get<IFeatureTypeRawIntlResponseData>(
         `/api/feature_types/${id}${buildSearchString({ raw_intl: 1 })}`,
@@ -169,5 +169,5 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
       }
       throw e;
     }
-  }
+  };
 }

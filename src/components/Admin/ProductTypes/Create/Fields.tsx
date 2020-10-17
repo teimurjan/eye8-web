@@ -273,7 +273,7 @@ export const Fields: React.SFC<IFieldsProps> = React.memo(
           })}
         />
         <FinalFormField key="instagram_links" name="instagram_links" component={InstagramLinksField} />
-        <FinalFormField key="categories" name="categories" render={CategoriesSelect} categories={categories} />
+        <FinalFormField key="categories" name="categories" component={CategoriesSelect} categories={categories} />
         <FinalFormField
           key="feature_types"
           name="feature_types"

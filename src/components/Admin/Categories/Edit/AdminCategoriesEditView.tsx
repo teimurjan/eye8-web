@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IntlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { Fields } from 'src/components/Admin/Categories/Create/Fields';
 import {
@@ -15,24 +15,26 @@ export const AdminCategoriesEditView = ({
   isLoading,
   isUpdating,
   error,
-  intl,
   validate,
   categories,
   preloadingError,
   initialValues,
-}: IProps & { intl: IntlShape }) => (
-  <ModalForm
-    formID="adminCategoriesEditForm"
-    isOpen={isOpen}
-    onSubmit={edit}
-    onClose={close}
-    isPreloading={isLoading}
-    isLoading={isUpdating}
-    preloadingError={preloadingError}
-    globalError={error}
-    title={intl.formatMessage({ id: 'AdminCategories.edit.title' })}
-    fields={<Fields categories={categories} nameFieldKey={CATEGORY_NAME_FIELD_KEY} />}
-    validate={validate}
-    initialValues={initialValues}
-  />
-);
+}: IProps) => {
+  const intl = useIntl();
+  return (
+    <ModalForm
+      formID="adminCategoriesEditForm"
+      isOpen={isOpen}
+      onSubmit={edit}
+      onClose={close}
+      isPreloading={isLoading}
+      isLoading={isUpdating}
+      preloadingError={preloadingError}
+      globalError={error}
+      title={intl.formatMessage({ id: 'AdminCategories.edit.title' })}
+      fields={<Fields categories={categories} nameFieldKey={CATEGORY_NAME_FIELD_KEY} />}
+      validate={validate}
+      initialValues={initialValues}
+    />
+  );
+};

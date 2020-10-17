@@ -53,7 +53,7 @@ export const LoginPresenter = ({
     setLoading(true);
 
     try {
-      const user = await service.logIn(values.email, values.password);
+      const user = await service.logIn(values);
       userState.syncUser();
 
       closeAuthModal();

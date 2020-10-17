@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Field, FieldRenderProps } from 'react-final-form';
-import { IntlShape, injectIntl, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { FormSelectField } from 'src/components/admin-ui/FormSelectField/FormSelectField';
 import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
@@ -12,11 +12,11 @@ export interface IFieldsProps {
   characteristics: AdminCharacteristicsStateContextValue['state']['entities'];
 }
 
-interface ICharacteristicSelectProps extends FieldRenderProps<string> {
-  characteristics: AdminCharacteristicsStateContextValue['state']['entities'];
-}
-
-const CharacteristicSelect = ({ characteristics, input, meta }: ICharacteristicSelectProps) => {
+const CharacteristicSelect = ({
+  characteristics,
+  input,
+  meta,
+}: FieldRenderProps<string> & Pick<IFieldsProps, 'characteristics'>) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
@@ -50,23 +50,25 @@ const CharacteristicSelect = ({ characteristics, input, meta }: ICharacteristicS
   );
 };
 
-const getCharacteristicSelectRenderer = (
-  characteristics: AdminCharacteristicsStateContextValue['state']['entities'],
-) => (fieldRenderProps: FieldRenderProps<string>) => (
-  <CharacteristicSelect characteristics={characteristics} {...fieldRenderProps} />
-);
-
-export const Fields = injectIntl(({ intl, characteristics }: IFieldsProps & { intl: IntlShape }) => (
-  <>
-    <IntlField
-      key_={CHARACTERISTIC_VALUE_NAME_FIELD_KEY}
-      label={intl.formatMessage({
-        id: 'AdminCharacteristicValues.nameInput.label',
-      })}
-      placeholder={intl.formatMessage({
-        id: 'AdminCharacteristicValues.nameInput.placeholder',
-      })}
-    />
-    <Field key="characteristic_id" name="characteristic_id" render={getCharacteristicSelectRenderer(characteristics)} />
-  </>
-));
+export const Fields = ({ characteristics }: IFieldsProps) => {
+  const intl = useIntl();
+  return (
+    <>
+      <IntlField
+        key_={CHARACTERISTIC_VALUE_NAME_FIELD_KEY}
+        label={intl.formatMessage({
+          id: 'AdminCharacteristicValues.nameInput.label',
+        })}
+        placeholder={intl.formatMessage({
+          id: 'AdminCharacteristicValues.nameInput.placeholder',
+        })}
+      />
+      <Field
+        key="characteristic_id"
+        name="characteristic_id"
+        component={CharacteristicSelect}
+        characteristics={characteristics}
+      />
+    </>
+  );
+};

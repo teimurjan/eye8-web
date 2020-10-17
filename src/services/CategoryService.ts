@@ -63,7 +63,7 @@ export class CategoryService implements ICategoryService {
     return normalize(categories.data, [new schema.Entity('categories')]);
   };
 
-  public delete: ICategoryService['delete'] = async (id: number) => {
+  public delete: ICategoryService['delete'] = async (id) => {
     try {
       return await this.API.delete(id);
     } catch (e) {
@@ -81,11 +81,11 @@ export class CategoryService implements ICategoryService {
     }
   };
 
-  public create: ICategoryService['create'] = async (payload: categoryAPI.ICategoryCreatePayload) => {
+  public create: ICategoryService['create'] = async (payload) => {
     return (await this.API.create(payload)).data;
   };
 
-  public exists: ICategoryService['exists'] = async (id: number) => {
+  public exists: ICategoryService['exists'] = async (id) => {
     try {
       await this.API.status(id);
       return true;
@@ -98,7 +98,7 @@ export class CategoryService implements ICategoryService {
     }
   };
 
-  public edit: ICategoryService['edit'] = async (id: number, payload: categoryAPI.ICategoryCreatePayload) => {
+  public edit: ICategoryService['edit'] = async (id, payload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
@@ -110,7 +110,7 @@ export class CategoryService implements ICategoryService {
     }
   };
 
-  public getOneRawIntl: ICategoryService['getOneRawIntl'] = async (id: number) => {
+  public getOneRawIntl: ICategoryService['getOneRawIntl'] = async (id) => {
     try {
       return (await this.API.getOneRawIntl(id)).data;
     } catch (e) {

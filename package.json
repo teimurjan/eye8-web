@@ -1,6 +1,6 @@
 {
   "name": "eye8-web",
-  "version": "1.7.12",
+  "version": "1.7.13",
   "private": true,
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
     "@zeit/next-source-maps": "0.0.4-canary.1",
     "autoprefixer": "7.1.6",
     "axios": "^0.18.1",
-    "bulma": "^0.7.2",
+    "bulma": "^0.9.1",
     "classnames": "^2.2.6",
     "color": "^3.1.2",
     "css-loader": "0.28.7",

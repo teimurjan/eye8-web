@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IntlShape, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import {
   FEATURE_TYPE_NAME_FIELD_KEY,
@@ -8,17 +8,20 @@ import {
 import { IntlField } from 'src/components/Admin/IntlField';
 import { ModalForm } from 'src/components/Admin/ModalForm';
 
-const Fields = injectIntl(({ intl }: { intl: IntlShape }) => (
-  <IntlField
-    key_={FEATURE_TYPE_NAME_FIELD_KEY}
-    label={intl.formatMessage({
-      id: 'AdminFeatureTypes.nameInput.label',
-    })}
-    placeholder={intl.formatMessage({
-      id: 'AdminFeatureTypes.nameInput.placeholder',
-    })}
-  />
-));
+const Fields = () => {
+  const intl = useIntl();
+  return (
+    <IntlField
+      key_={FEATURE_TYPE_NAME_FIELD_KEY}
+      label={intl.formatMessage({
+        id: 'AdminFeatureTypes.nameInput.label',
+      })}
+      placeholder={intl.formatMessage({
+        id: 'AdminFeatureTypes.nameInput.placeholder',
+      })}
+    />
+  );
+};
 
 export const AdminFeatureTypesEditView = ({
   isOpen,
@@ -27,23 +30,25 @@ export const AdminFeatureTypesEditView = ({
   isLoading,
   isUpdating,
   error,
-  intl,
   initialValues,
   validate,
   preloadingError,
-}: IProps & { intl: IntlShape }) => (
-  <ModalForm
-    formID="adminFeatureTypesEditForm"
-    isOpen={isOpen}
-    onSubmit={edit}
-    onClose={close}
-    isLoading={isUpdating}
-    isPreloading={isLoading}
-    globalError={error}
-    title={intl.formatMessage({ id: 'AdminFeatureTypes.edit.title' })}
-    fields={<Fields />}
-    validate={validate}
-    initialValues={initialValues}
-    preloadingError={preloadingError}
-  />
-);
+}: IProps) => {
+  const intl = useIntl();
+  return (
+    <ModalForm
+      formID="adminFeatureTypesEditForm"
+      isOpen={isOpen}
+      onSubmit={edit}
+      onClose={close}
+      isLoading={isUpdating}
+      isPreloading={isLoading}
+      globalError={error}
+      title={intl.formatMessage({ id: 'AdminFeatureTypes.edit.title' })}
+      fields={<Fields />}
+      validate={validate}
+      initialValues={initialValues}
+      preloadingError={preloadingError}
+    />
+  );
+};

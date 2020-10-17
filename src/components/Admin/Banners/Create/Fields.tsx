@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FieldRenderProps, Field as FinalFormField } from 'react-final-form';
-import { IntlShape, injectIntl, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { Field } from 'src/components/admin-ui/Field/Field';
 import { FileInput } from 'src/components/admin-ui/FileInput/FileInput';
@@ -17,7 +17,8 @@ export interface IFieldsProps {
   linkTextFieldKey: string;
 }
 
-const renderImageField = injectIntl(({ input, meta, intl }: FieldRenderProps<File> & { intl: IntlShape }) => {
+const ImageField = ({ input, meta }: FieldRenderProps<File>) => {
+  const intl = useIntl();
   const showError = meta.touched && meta.error;
 
   return (
@@ -33,7 +34,7 @@ const renderImageField = injectIntl(({ input, meta, intl }: FieldRenderProps<Fil
       <HelpText type="is-danger">{showError ? intl.formatMessage({ id: meta.error }) : undefined}</HelpText>
     </Field>
   );
-});
+};
 
 const LinkField = ({ input, meta }: FieldRenderProps<string>) => {
   const intl = useIntl();
@@ -59,8 +60,6 @@ const LinkField = ({ input, meta }: FieldRenderProps<string>) => {
   );
 };
 
-const renderLinkField = (props: FieldRenderProps<string>) => <LinkField {...props} />;
-
 const TextColorField = ({ input, meta }: FieldRenderProps<string>) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
@@ -84,8 +83,6 @@ const TextColorField = ({ input, meta }: FieldRenderProps<string>) => {
     />
   );
 };
-
-const renderTextColorField = (props: FieldRenderProps<string>) => <TextColorField {...props} />;
 
 const getOffsetFieldRenderer = (label: string, placeholder: string) => ({ input, meta }: FieldRenderProps<string>) => {
   const intl = useIntl();
@@ -143,49 +140,53 @@ const TextField: IIntlFieldProps['component'] = ({ input, meta, label, placehold
   );
 };
 
-export const Fields = injectIntl(({ intl, textFieldKey, linkTextFieldKey }: IFieldsProps & { intl: IntlShape }) => (
-  <>
-    <IntlField
-      key_={textFieldKey}
-      label={intl.formatMessage({
-        id: 'AdminBanners.textInput.label',
-      })}
-      placeholder={intl.formatMessage({
-        id: 'AdminBanners.textInput.placeholder',
-      })}
-      component={TextField}
-    />
-    <IntlField
-      key_={linkTextFieldKey}
-      label={intl.formatMessage({
-        id: 'AdminBanners.linkTextInput.label',
-      })}
-      placeholder={intl.formatMessage({
-        id: 'AdminBanners.linkTextInput.placeholder',
-      })}
-    />
-    <FinalFormField key="image" name="image" render={renderImageField} />
-    <FinalFormField key="link" name="link" render={renderLinkField} />
-    <FinalFormField key="text_color" name="text_color" render={renderTextColorField} />
-    <FinalFormField
-      key="text_top_offset"
-      name="text_top_offset"
-      render={getOffsetFieldRenderer(intl.formatMessage({ id: 'AdminBanners.topOffsetInput.label' }), '0')}
-    />
-    <FinalFormField
-      key="text_bottom_offset"
-      name="text_bottom_offset"
-      render={getOffsetFieldRenderer(intl.formatMessage({ id: 'AdminBanners.bottomOffsetInput.label' }), '0')}
-    />
-    <FinalFormField
-      key="text_left_offset"
-      name="text_left_offset"
-      render={getOffsetFieldRenderer(intl.formatMessage({ id: 'AdminBanners.leftOffsetInput.label' }), '0')}
-    />
-    <FinalFormField
-      key="text_right_offset"
-      name="text_right_offset"
-      render={getOffsetFieldRenderer(intl.formatMessage({ id: 'AdminBanners.rightOffsetInput.label' }), '0')}
-    />
-  </>
-));
+export const Fields = ({ textFieldKey, linkTextFieldKey }: IFieldsProps) => {
+  const intl = useIntl();
+
+  return (
+    <>
+      <IntlField
+        key_={textFieldKey}
+        label={intl.formatMessage({
+          id: 'AdminBanners.textInput.label',
+        })}
+        placeholder={intl.formatMessage({
+          id: 'AdminBanners.textInput.placeholder',
+        })}
+        component={TextField}
+      />
+      <IntlField
+        key_={linkTextFieldKey}
+        label={intl.formatMessage({
+          id: 'AdminBanners.linkTextInput.label',
+        })}
+        placeholder={intl.formatMessage({
+          id: 'AdminBanners.linkTextInput.placeholder',
+        })}
+      />
+      <FinalFormField key="image" name="image" component={ImageField} />
+      <FinalFormField key="link" name="link" component={LinkField} />
+      <FinalFormField key="text_color" name="text_color" component={TextColorField} />
+      <FinalFormField
+        key="text_top_offset"
+        name="text_top_offset"
+        render={getOffsetFieldRenderer(intl.formatMessage({ id: 'AdminBanners.topOffsetInput.label' }), '0')}
+      />
+      <FinalFormField
+        key="text_bottom_offset"
+        name="text_bottom_offset"
+        render={getOffsetFieldRenderer(intl.formatMessage({ id: 'AdminBanners.bottomOffsetInput.label' }), '0')}
+      />
+      <FinalFormField
+        key="text_left_offset"
+        name="text_left_offset"
+        render={getOffsetFieldRenderer(intl.formatMessage({ id: 'AdminBanners.leftOffsetInput.label' }), '0')}
+      />
+      <FinalFormField
+        key="text_right_offset"
+        name="text_right_offset"
+        render={getOffsetFieldRenderer(intl.formatMessage({ id: 'AdminBanners.rightOffsetInput.label' }), '0')}
+      />
+    </>
+  );
+};

@@ -30,7 +30,7 @@ export class SearchAPI implements ISearchAPI {
     this.headersManager = headersManager;
   }
 
-  public async search(query: string, available = true) {
+  public search: ISearchAPI['search'] = async (query: string, available = true) => {
     try {
       const response = await this.client.get<ISearchResponseData>(
         `/api/search/${query}${buildSearchString({ available: available ? 1 : 0 })}`,
@@ -42,9 +42,9 @@ export class SearchAPI implements ISearchAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 
-  public async searchRawIntl(query: string) {
+  public searchRawIntl: ISearchAPI['searchRawIntl'] = async (query: string) => {
     try {
       const response = await this.client.get<ISearchRawIntlResponseData>(
         `/api/search/${query}${buildSearchString({ raw_intl: 1 })}`,
@@ -56,5 +56,5 @@ export class SearchAPI implements ISearchAPI {
     } catch (e) {
       throw e;
     }
-  }
+  };
 }

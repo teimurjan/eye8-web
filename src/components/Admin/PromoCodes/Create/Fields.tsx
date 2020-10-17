@@ -162,7 +162,7 @@ export const Fields: React.SFC<IProps> = ({ isEdit }) => {
       <FinalFormField key="amount" name="amount" component={AmountField} disabled={isEdit} />
       <FinalFormField key="disableOnUse" name="disableOnUse" component={DisableOnUseField} />
       <FinalFormField key="isActive" name="isActive" component={IsActiveField} />
-      <FinalFormField key="products" name="products" render={ProductsField} />
+      <FinalFormField key="products" name="products" component={ProductsField} />
     </React.Fragment>
   );
 };

@@ -303,7 +303,7 @@
   "AdminProducts.productTypeFilter": "The products shown are for the {productType} type",
   "common.showAll": "Show all",
   "common.empty": "There is nothing here yet 🤷‍♂️",
-  "common.showDeleted": "Show archived",
+  "common.isDeletedMode": "Show archived",
   "common.showCurrent": "Show current",
   "AdminProducts.productTypeSelect.placeholder": "Choose a product type",
   "AdminProductTypes.featureTypesSelect.placeholder": "Choose a feature type",

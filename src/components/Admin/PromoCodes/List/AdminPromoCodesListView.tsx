@@ -2,11 +2,11 @@
 import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
+import { Checkbox } from 'src/components/admin-ui/Checkbox/Checkbox';
 import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataAvaiable';
 import { Section } from 'src/components/admin-ui/Section/Section';
-import { AdminButtonsGroup } from 'src/components/Admin/AdminButtonsGroup';
+import { AdminFiltersSection } from 'src/components/Admin/AdminFiltersSection';
 import { AdminTable, BooleanRenderer, PriceRenderer } from 'src/components/Admin/AdminTable';
-import { DeletedButton } from 'src/components/Admin/DeletedButton';
 import { NewButton } from 'src/components/Admin/NewButton';
 import { IViewProps as IProps } from 'src/components/Admin/PromoCodes/List/AdminPromoCodesListPresenter';
 
@@ -19,23 +19,23 @@ const NewPromoCodeButton = () => {
   );
 };
 
-const NoPromoCodesAvialable = ({ showDeleted }: Pick<IProps, 'showDeleted'>) => {
+const NoPromoCodesAvialable = ({ isDeletedMode }: Pick<IProps, 'isDeletedMode'>) => {
   const intl = useIntl();
   return (
     <NoDataAvailable
       title={intl.formatMessage({ id: 'AdminPromoCodes.notFound.title' })}
-      CTA={
-        showDeleted ? (
-          <DeletedButton state={DeletedButton.State.Active} pathPrefix="/admin/promoCodes" />
-        ) : (
-          <NewPromoCodeButton />
-        )
-      }
+      CTA={<NewPromoCodeButton />}
     />
   );
 };
 
-export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded, showDeleted }: IProps) => {
+export const AdminPromoCodesListView = ({
+  promoCodes,
+  isLoading,
+  isDataLoaded,
+  isDeletedMode,
+  onDeletedModeChange,
+}: IProps) => {
   const intl = useIntl();
   return (
     <Section
@@ -43,15 +43,22 @@ export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded, s
         width: 100%;
       `}
     >
+      <AdminFiltersSection>
+        <Checkbox
+          label={intl.formatMessage({ id: 'common.isDeletedMode' })}
+          onChange={onDeletedModeChange}
+          checked={isDeletedMode}
+        />
+      </AdminFiltersSection>
+
       <AdminTable<PromoCode>
         hideSubheader={true}
         pathPrefix="/admin/promoCodes"
         isLoading={isLoading}
         isDataLoaded={isDataLoaded}
         entities={promoCodes}
-        renderNoData={() => <NoPromoCodesAvialable showDeleted={showDeleted} />}
-        intl={intl}
-        showDeleted={showDeleted}
+        renderNoData={() => <NoPromoCodesAvialable isDeletedMode={isDeletedMode} />}
+        isDeletedMode={isDeletedMode}
       >
         <AdminTable.Col<PromoCode> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
         <AdminTable.Col<PromoCode> key_="value" title={intl.formatMessage({ id: 'AdminPromoCodes.value' })} />
@@ -82,15 +89,7 @@ export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded, s
         />
       </AdminTable>
 
-      {isDataLoaded && promoCodes.length > 0 && (
-        <AdminButtonsGroup>
-          <NewPromoCodeButton />
-          <DeletedButton
-            state={showDeleted ? DeletedButton.State.Active : DeletedButton.State.Idle}
-            pathPrefix="/admin/promoCodes"
-          />
-        </AdminButtonsGroup>
-      )}
+      {isDataLoaded && promoCodes.length > 0 && <NewPromoCodeButton />}
     </Section>
   );
 };

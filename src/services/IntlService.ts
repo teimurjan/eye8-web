@@ -12,7 +12,7 @@ export class IntlService implements IIntlService {
     this.storage = storage;
   }
 
-  public getLocale = () => this.storage.getLocale();
+  public getLocale: IIntlService['getLocale'] = () => this.storage.getLocale();
 
-  public setLocale = (locale: string) => this.storage.setLocale(locale);
+  public setLocale: IIntlService['setLocale'] = (locale) => this.storage.setLocale(locale);
 }
