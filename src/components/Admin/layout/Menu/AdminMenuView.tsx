@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 import { NavLink, Link } from 'react-router-dom';
 
 import { Menu } from 'src/components/admin-ui/Menu/Menu';
-import { IViewProps as IProps } from 'src/components/admin/menu/AdminMenuPresenter';
+import { IViewProps as IProps } from 'src/components/admin/layout/Menu/AdminMenuPresenter';
 import { TriggerClickProps as PopoverTriggerProps } from 'src/components/client-ui/Popover/Popover';
 import { LanguageDropdownContainer as LanguageDropdown } from 'src/components/client/LanguageDropdown/LanguageDropdownContainer';
 import { isUserSetAsAdmin } from 'src/helpers/user';
