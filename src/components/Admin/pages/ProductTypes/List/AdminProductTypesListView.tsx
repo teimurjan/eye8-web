@@ -5,16 +5,16 @@ import { useIntl } from 'react-intl';
 import { Checkbox } from 'src/components/admin-ui/Checkbox/Checkbox';
 import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataAvaiable';
 import { Section } from 'src/components/admin-ui/Section/Section';
-import { AdminFiltersSection } from 'src/components/admin/AdminFiltersSection';
+import { IViewProps as IProps } from 'src/components/admin/pages/ProductTypes/List/AdminProductTypesListPresenter';
+import { AdminFiltersSection } from 'src/components/admin/table/AdminFiltersSection';
 import {
   AdminTable,
   IntlRenderer,
   ImageRenderer,
   LinkRenderer,
   BooleanRenderer,
-} from 'src/components/admin/AdminTable';
-import { NewButton } from 'src/components/admin/NewButton';
-import { IViewProps as IProps } from 'src/components/admin/pages/ProductTypes/List/AdminProductTypesListPresenter';
+} from 'src/components/admin/table/AdminTable';
+import { NewButton } from 'src/components/admin/table/NewButton';
 
 export const NewProductTypeButton = () => {
   const intl = useIntl();

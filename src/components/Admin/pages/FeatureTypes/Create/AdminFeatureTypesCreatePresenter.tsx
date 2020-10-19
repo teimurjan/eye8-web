@@ -2,7 +2,7 @@ import { History } from 'history';
 import * as React from 'react';
 import * as yup from 'yup';
 
-import { getFieldName, parseFieldName } from 'src/components/admin/IntlField';
+import { getFieldName, parseFieldName } from 'src/components/admin/form/IntlField';
 import { IFeatureTypeService } from 'src/services/FeatureTypeService';
 import { ContextValue as AdminFeatureTypesStateContextValue } from 'src/state/Admin/AdminFeatureTypesState';
 import { availableLocales } from 'src/utils/locale';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 
-import { ModalForm } from 'src/components/admin/ModalForm';
+import { ModalForm } from 'src/components/admin/form/ModalForm';
 import {
   CATEGORY_NAME_FIELD_KEY,
   IViewProps as IProps,

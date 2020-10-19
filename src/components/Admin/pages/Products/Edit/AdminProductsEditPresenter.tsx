@@ -4,7 +4,7 @@ import * as yup from 'yup';
 
 import { IProductListResponseItem } from 'src/api/ProductAPI';
 import { IProductTypeListRawIntlMinifiedResponseItem } from 'src/api/ProductTypeAPI';
-import { useSelectProductTypes } from 'src/components/admin/ProductTypeSelect/useSelectProductTypes';
+import { useSelectProductTypes } from 'src/components/admin/form/ProductTypeSelect/useSelectProductTypes';
 import { IProductService } from 'src/services/ProductService';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/Admin/AdminFeatureValuesState';

@@ -10,7 +10,7 @@ import { FormCheckboxField } from 'src/components/admin-ui/FormCheckboxField/For
 import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextField';
 import { HelpText } from 'src/components/admin-ui/HelpText/HelpText';
 import { Label } from 'src/components/admin-ui/Label/Label';
-import { ProductsSelect } from 'src/components/admin/ProductsSelect/ProductsSelect';
+import { ProductsSelect } from 'src/components/admin/form/ProductsSelect/ProductsSelect';
 
 const DiscountField = ({ input, meta, disabled }: FieldRenderProps<string>) => {
   const intl = useIntl();

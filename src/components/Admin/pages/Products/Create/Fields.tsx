@@ -17,10 +17,10 @@ import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextFie
 import { HelpText } from 'src/components/admin-ui/HelpText/HelpText';
 import { Label } from 'src/components/admin-ui/Label/Label';
 import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
+import { ProductTypeSelectView } from 'src/components/admin/form/ProductTypeSelect/ProductTypeSelectView';
 import { ColorDecoration } from 'src/components/admin/pages/FeatureTypes/Decorations/Color';
 import { AdminFeatureValuesCreateContainer } from 'src/components/admin/pages/FeatureValues/Create/AdminFeatureValuesCreateContainer';
 import { useFeatureValuesOfProductType } from 'src/components/admin/pages/Products/Create/useFeatureValuesOfProductType';
-import { ProductTypeSelectView } from 'src/components/admin/ProductTypeSelect/ProductTypeSelectView';
 import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { Popover } from 'src/components/client-ui/Popover/Popover';
 import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/Admin/AdminFeatureValuesState';

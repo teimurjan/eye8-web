@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as yup from 'yup';
 
 import { ICharacteristicListRawIntlResponseItem } from 'src/api/CharacteristicAPI';
-import { getFieldName, parseFieldName } from 'src/components/admin/IntlField';
+import { getFieldName, parseFieldName } from 'src/components/admin/form/IntlField';
 import { ICharacteristicService } from 'src/services/CharacteristicService';
 import { ContextValue as AdminCharacteristicsStateContextValue } from 'src/state/Admin/AdminCharacteristicsState';
 import { availableLocales } from 'src/utils/locale';

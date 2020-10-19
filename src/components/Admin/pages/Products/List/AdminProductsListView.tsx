@@ -6,10 +6,10 @@ import { Checkbox } from 'src/components/admin-ui/Checkbox/Checkbox';
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
 import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataAvaiable';
 import { Section } from 'src/components/admin-ui/Section/Section';
-import { AdminFiltersSection } from 'src/components/admin/AdminFiltersSection';
-import { AdminTable, PriceRenderer } from 'src/components/admin/AdminTable';
+import { ProductTypeSelectView } from 'src/components/admin/form/ProductTypeSelect/ProductTypeSelectView';
 import { IViewProps as IProps } from 'src/components/admin/pages/Products/List/AdminProductsListPresenter';
-import { ProductTypeSelectView } from 'src/components/admin/ProductTypeSelect/ProductTypeSelectView';
+import { AdminFiltersSection } from 'src/components/admin/table/AdminFiltersSection';
+import { AdminTable, PriceRenderer } from 'src/components/admin/table/AdminTable';
 import { noop } from 'src/utils/function';
 
 export const NewProductButton = () => {

@@ -13,7 +13,7 @@ import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextFie
 import { HelpText } from 'src/components/admin-ui/HelpText/HelpText';
 import { Label } from 'src/components/admin-ui/Label/Label';
 import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
-import { ProductsSelectItem } from 'src/components/admin/ProductsSelect/ProductsSelectItem';
+import { ProductsSelectItem } from 'src/components/admin/form/ProductsSelect/ProductsSelectItem';
 import { Quantity } from 'src/components/client/Cart/CartItem/Quantity';
 import { PriceText } from 'src/components/client/Price/Price';
 import { ProductSelectContainer } from 'src/components/common-ui/ProductSelect/ProductSelectContainer';

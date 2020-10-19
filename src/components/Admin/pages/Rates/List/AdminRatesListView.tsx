@@ -5,8 +5,8 @@ import { useIntl } from 'react-intl';
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
 import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataAvaiable';
 import { Section } from 'src/components/admin-ui/Section/Section';
-import { AdminTable } from 'src/components/admin/AdminTable';
 import { IViewProps as IProps } from 'src/components/admin/pages/Rates/List/AdminRatesListPresenter';
+import { AdminTable } from 'src/components/admin/table/AdminTable';
 
 export const NewRateButton = () => {
   const intl = useIntl();

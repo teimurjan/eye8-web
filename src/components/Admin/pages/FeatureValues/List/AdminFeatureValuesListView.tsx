@@ -5,9 +5,9 @@ import { useIntl } from 'react-intl';
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
 import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataAvaiable';
 import { Section } from 'src/components/admin-ui/Section/Section';
-import { AdminTable, IntlRenderer } from 'src/components/admin/AdminTable';
 import { IViewProps as IProps } from 'src/components/admin/pages/FeatureValues/List/AdminFeatureValuesListPresenter';
 import { FeatureValueTypeRenderer } from 'src/components/admin/pages/FeatureValues/List/FeatureValueTypeRenderer';
+import { AdminTable, IntlRenderer } from 'src/components/admin/table/AdminTable';
 
 export const NewFeatureValueButton = () => {
   const intl = useIntl();

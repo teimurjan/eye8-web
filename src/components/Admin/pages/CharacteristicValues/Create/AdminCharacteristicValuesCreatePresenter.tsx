@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as yup from 'yup';
 
-import { getFieldName, parseFieldName } from 'src/components/admin/IntlField';
+import { getFieldName, parseFieldName } from 'src/components/admin/form/IntlField';
 import { ICharacteristicValueService } from 'src/services/CharacteristicValueService';
 import { ContextValue as AdminCharacteristicsStateContextValue } from 'src/state/Admin/AdminCharacteristicsState';
 import { ContextValue as AdminCharacteristicValuesStateContextValue } from 'src/state/Admin/AdminCharacteristicValuesState';

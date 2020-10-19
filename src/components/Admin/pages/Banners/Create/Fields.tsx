@@ -8,7 +8,7 @@ import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextFie
 import { HelpText } from 'src/components/admin-ui/HelpText/HelpText';
 import { Label } from 'src/components/admin-ui/Label/Label';
 import { Tag } from 'src/components/admin-ui/Tag/Tag';
-import { IntlField, IProps as IIntlFieldProps } from 'src/components/admin/IntlField';
+import { IntlField, IProps as IIntlFieldProps } from 'src/components/admin/form/IntlField';
 import { WYSIWYG } from 'src/components/client-ui/WYSIWYG/WYSIWYG';
 import { isAllowedForNumberInput } from 'src/utils/number';
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 
-import { ModalForm } from 'src/components/admin/ModalForm';
+import { ModalForm } from 'src/components/admin/form/ModalForm';
 import {
   BANNER_TEXT_FIELD_KEY,
   BANNER_LINK_TEXT_FIELD_KEY,

@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as yup from 'yup';
 
 import { IBannerListRawIntlResponseItem } from 'src/api/BannerAPI';
-import { getFieldName, parseFieldName } from 'src/components/admin/IntlField';
+import { getFieldName, parseFieldName } from 'src/components/admin/form/IntlField';
 import { IBannerService } from 'src/services/BannerService';
 import { ContextValue as AdminBannersStateContextValue } from 'src/state/Admin/AdminBannersState';
 import { availableLocales } from 'src/utils/locale';

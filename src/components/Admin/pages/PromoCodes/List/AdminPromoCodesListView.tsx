@@ -5,10 +5,10 @@ import { useIntl } from 'react-intl';
 import { Checkbox } from 'src/components/admin-ui/Checkbox/Checkbox';
 import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataAvaiable';
 import { Section } from 'src/components/admin-ui/Section/Section';
-import { AdminFiltersSection } from 'src/components/admin/AdminFiltersSection';
-import { AdminTable, BooleanRenderer, PriceRenderer } from 'src/components/admin/AdminTable';
-import { NewButton } from 'src/components/admin/NewButton';
 import { IViewProps as IProps } from 'src/components/admin/pages/PromoCodes/List/AdminPromoCodesListPresenter';
+import { AdminFiltersSection } from 'src/components/admin/table/AdminFiltersSection';
+import { AdminTable, BooleanRenderer, PriceRenderer } from 'src/components/admin/table/AdminTable';
+import { NewButton } from 'src/components/admin/table/NewButton';
 
 type PromoCode = IProps['promoCodes'][0];
 

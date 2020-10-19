@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 
 import { FormSelectField } from 'src/components/admin-ui/FormSelectField/FormSelectField';
 import { SearchableSelectTrigger } from 'src/components/admin-ui/Trigger/Trigger';
-import { IntlField } from 'src/components/admin/IntlField';
+import { IntlField } from 'src/components/admin/form/IntlField';
 import { CHARACTERISTIC_VALUE_NAME_FIELD_KEY } from 'src/components/admin/pages/CharacteristicValues/Create/AdminCharacteristicValuesCreatePresenter';
 import { ContextValue as AdminCharacteristicsStateContextValue } from 'src/state/Admin/AdminCharacteristicsState';
 

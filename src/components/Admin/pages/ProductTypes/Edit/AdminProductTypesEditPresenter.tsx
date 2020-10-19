@@ -3,8 +3,8 @@ import * as React from 'react';
 import * as yup from 'yup';
 
 import { IProductTypeDetailRawIntlResponseItem } from 'src/api/ProductTypeAPI';
-import { getFieldName, parseFieldName } from 'src/components/admin/IntlField';
-import { Link } from 'src/components/admin/LinksInput/LinksInput';
+import { getFieldName, parseFieldName } from 'src/components/admin/form/IntlField';
+import { Link } from 'src/components/admin/form/LinksInput/LinksInput';
 import {
   PRODUCT_TYPE_NAME_FIELD_KEY,
   PRODUCT_TYPE_DESCRIPTION_FIELD_KEY,

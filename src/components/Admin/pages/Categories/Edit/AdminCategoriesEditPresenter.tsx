@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as yup from 'yup';
 
 import { ICategoryListRawIntlResponseItem } from 'src/api/CategoryAPI';
-import { getFieldName, parseFieldName } from 'src/components/admin/IntlField';
+import { getFieldName, parseFieldName } from 'src/components/admin/form/IntlField';
 import { ICategoryService } from 'src/services/CategoryService';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/Admin/AdminCategoriesState';
 import { availableLocales } from 'src/utils/locale';

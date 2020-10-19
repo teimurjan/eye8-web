@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { IFeatureValueListRawIntlResponseItem } from 'src/api/FeatureValueAPI';
 import { Table } from 'src/components/admin-ui/Table/Table';
-import { IRenderer } from 'src/components/admin/AdminTable';
+import { IRenderer } from 'src/components/admin/table/AdminTable';
 
 type BaseRenderer = IRenderer<IFeatureValueListRawIntlResponseItem>;
 

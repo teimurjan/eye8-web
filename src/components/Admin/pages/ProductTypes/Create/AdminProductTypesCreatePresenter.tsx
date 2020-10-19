@@ -2,9 +2,9 @@ import { History } from 'history';
 import * as React from 'react';
 import * as yup from 'yup';
 
-import { getFieldName, parseFieldName } from 'src/components/admin/IntlField';
-import { Link } from 'src/components/admin/LinksInput/LinksInput';
-import { IProps as IModalFormProps } from 'src/components/admin/ModalForm';
+import { getFieldName, parseFieldName } from 'src/components/admin/form/IntlField';
+import { Link } from 'src/components/admin/form/LinksInput/LinksInput';
+import { IProps as IModalFormProps } from 'src/components/admin/form/ModalForm';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/Admin/AdminCategoriesState';
 import { ContextValue as AdminCharacteristicValuesStateContextValue } from 'src/state/Admin/AdminCharacteristicValuesState';

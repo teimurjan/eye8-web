@@ -2,8 +2,8 @@ import { History } from 'history';
 import * as React from 'react';
 
 import { IProductTypeListRawIntlMinifiedResponseItem } from 'src/api/ProductTypeAPI';
+import { useSelectProductTypes } from 'src/components/admin/form/ProductTypeSelect/useSelectProductTypes';
 import { useAdminProductsFilters } from 'src/components/admin/pages/Products/useAdminProductFilters';
-import { useSelectProductTypes } from 'src/components/admin/ProductTypeSelect/useSelectProductTypes';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminProductsStateContextValue } from 'src/state/Admin/AdminProductsState';
 

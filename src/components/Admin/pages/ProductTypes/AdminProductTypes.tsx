@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { AdminPage } from 'src/components/admin/AdminPage/AdminPage';
+import { AdminPage } from 'src/components/admin/pages/AdminPage';
 import { AdminProductTypesCreateContainer } from 'src/components/admin/pages/ProductTypes/Create/AdminProductTypesCreateContainer';
 import { AdminProductTypesDeleteContainer } from 'src/components/admin/pages/ProductTypes/Delete/AdminProductTypesDeleteContainer';
 import { AdminProductTypesEditContainer } from 'src/components/admin/pages/ProductTypes/Edit/AdminProductTypesEditContainer';

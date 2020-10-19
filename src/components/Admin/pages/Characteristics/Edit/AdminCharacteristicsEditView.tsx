@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 
-import { IntlField } from 'src/components/admin/IntlField';
-import { ModalForm } from 'src/components/admin/ModalForm';
+import { IntlField } from 'src/components/admin/form/IntlField';
+import { ModalForm } from 'src/components/admin/form/ModalForm';
 import {
   CHARACTERISTIC_NAME_FIELD_KEY,
   IViewProps as IProps,

@@ -7,7 +7,7 @@ import { Modal } from 'src/components/admin-ui/Modal/Modal';
 import { ModalBackground } from 'src/components/admin-ui/ModalBackground/ModalBackground';
 import { ModalCard } from 'src/components/admin-ui/ModalCard/ModalCard';
 import { ModalContent } from 'src/components/admin-ui/ModalContent/ModalContent';
-import { IViewProps as IProps } from 'src/components/admin/DeleteModal/DeleteModalPresenter';
+import { IViewProps as IProps } from 'src/components/admin/table/DeleteModal/DeleteModalPresenter';
 
 export const DeleteModalView = ({ isOpen, onClose, onConfirm, isLoading = false, error, ...props }: IProps) => {
   const intl = useIntl();

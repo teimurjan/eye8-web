@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { AdminPage } from 'src/components/admin/AdminPage/AdminPage';
+import { AdminPage } from 'src/components/admin/pages/AdminPage';
 import { AdminCharacteristicsCreateContainer } from 'src/components/admin/pages/Characteristics/Create/AdminCharacteristicsCreateContainer';
 import { AdminCharacteristicsDeleteContainer } from 'src/components/admin/pages/Characteristics/Delete/AdminCharacteristicsDeleteContainer';
 import { AdminCharacteristicsEditContainer } from 'src/components/admin/pages/Characteristics/Edit/AdminCharacteristicsEditContainer';

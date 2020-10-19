@@ -11,7 +11,7 @@ import { Section } from 'src/components/admin-ui/Section/Section';
 import { Subtitle } from 'src/components/admin-ui/Subtitle/Subtitle';
 import { Tag } from 'src/components/admin-ui/Tag/Tag';
 import { Title } from 'src/components/admin-ui/Title/Title';
-import { AdminMenuContainer } from 'src/components/admin/Menu/AdminMenuContainer';
+import { AdminMenuContainer } from 'src/components/admin/menu/AdminMenuContainer';
 import { AdminBanners } from 'src/components/admin/pages/Banners/AdminBanners';
 import { AdminCategories } from 'src/components/admin/pages/Categories/AdminCategories';
 import { NewCategoryButton } from 'src/components/admin/pages/Categories/List/AdminCategoriesListView';

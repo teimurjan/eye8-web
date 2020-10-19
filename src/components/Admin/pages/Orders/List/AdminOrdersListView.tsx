@@ -4,8 +4,8 @@ import { useIntl } from 'react-intl';
 
 import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataAvaiable';
 import { Section } from 'src/components/admin-ui/Section/Section';
-import { AdminTable } from 'src/components/admin/AdminTable';
 import { IViewProps as IProps } from 'src/components/admin/pages/Orders/List/AdminOrdersListPresenter';
+import { AdminTable } from 'src/components/admin/table/AdminTable';
 
 const NoOrdersAvialable = () => {
   const intl = useIntl();

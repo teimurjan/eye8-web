@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 
-import { ModalForm } from 'src/components/admin/ModalForm';
+import { ModalForm } from 'src/components/admin/form/ModalForm';
 import { IViewProps as IProps } from 'src/components/admin/pages/Products/Create/AdminProductsCreatePresenter';
 import { Fields } from 'src/components/admin/pages/Products/Create/Fields';
 
