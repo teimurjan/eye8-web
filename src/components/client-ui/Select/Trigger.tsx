@@ -30,7 +30,7 @@ export type ITriggerComponentType<T extends HTMLElement> = React.ComponentType<
 >;
 
 export const SimpleSelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProps>(
-  ({ selectedOptions, onClick, isOpen, placeholder }, ref) => {
+  ({ selectedOptions, onFocus, onClick, isOpen, placeholder }, ref) => {
     const theme = useTheme<ClientUITheme>();
 
     return (
@@ -61,6 +61,7 @@ export const SimpleSelectTrigger = React.forwardRef<HTMLDivElement, ISelectTrigg
           }
         `}
         onClick={onClick}
+        onFocus={onFocus}
       >
         {selectedOptions.length > 0 ? selectedOptions[0].name : placeholder}
         <IconWrapper
