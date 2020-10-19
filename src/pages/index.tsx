@@ -1,8 +1,8 @@
 import { GetServerSideProps } from 'next';
 import * as React from 'react';
 
-import { HomeContainer } from 'src/components/Client/Home/HomeContainer';
-import { Layout } from 'src/components/Client/Layout';
+import { HomeContainer } from 'src/components/client/Home/HomeContainer';
+import { Layout } from 'src/components/client/Layout';
 import { dependenciesFactory } from 'src/DI/DependenciesContainer';
 import { logTimeStart, logTimeFinish } from 'src/utils/log';
 

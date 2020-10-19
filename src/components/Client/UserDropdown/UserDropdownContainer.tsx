@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { UserDropdownPresenter } from 'src/components/Client/UserDropdown/UserDropdownPresenter';
-import { UserDropdownView } from 'src/components/Client/UserDropdown/UserDropdownView';
+import { UserDropdownPresenter } from 'src/components/client/UserDropdown/UserDropdownPresenter';
+import { UserDropdownView } from 'src/components/client/UserDropdown/UserDropdownView';
 import { useAuthModalState } from 'src/state/AuthModalState';
 import { useUserState } from 'src/state/UserState';
 

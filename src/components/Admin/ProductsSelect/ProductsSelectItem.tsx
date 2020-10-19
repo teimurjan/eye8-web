@@ -46,7 +46,7 @@ export const ProductsSelectItem = ({ id, name, onChange, footer }: IProps) => {
             {name}
           </Subtitle>{' '}
           {id && (
-            <Link to={`/admin/products/edit/${id}`}>
+            <Link to={`/admin/pages/products/edits/edit/${id}`}>
               <IconWrapper
                 css={css`
                   margin-left: 5px;

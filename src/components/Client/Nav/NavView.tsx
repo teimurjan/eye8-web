@@ -7,7 +7,7 @@ import { useIntl } from 'react-intl';
 import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
 import { Button } from 'src/components/client-ui/Button/Button';
 import { Menu } from 'src/components/client-ui/Menu/Menu';
-import { IViewProps as IProps } from 'src/components/Client/Nav/NavPresenter';
+import { IViewProps as IProps } from 'src/components/client/Nav/NavPresenter';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { mediaQueries } from 'src/styles/media';
 

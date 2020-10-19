@@ -2,8 +2,8 @@ import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { forceSSR } from 'src/_app/forceSSR';
-import { Layout } from 'src/components/Client/Layout';
-import { Profile } from 'src/components/Client/Profile/Profile';
+import { Layout } from 'src/components/client/Layout';
+import { Profile } from 'src/components/client/Profile/Profile';
 import { safeWindow } from 'src/utils/dom';
 
 const Profile_ = () => (

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 
-import { useSearchParams } from 'src/components/Admin/hooks/useSearchParams';
+import { useSearchParams } from 'src/components/admin/hooks/useSearchParams';
 
 interface IPreloadDataArgs {
   id: number;
@@ -17,7 +17,7 @@ interface IBackPathArgs {
 }
 
 export interface IProps {
-  View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
+  View: React.ComponentType<IViewProps>;
   deleteEntity: (id: number, forever?: boolean) => Promise<void>;
   preloadData: (args: IPreloadDataArgs) => Promise<void>;
   getErrorMessageID?: (e: Error) => string;

@@ -9,8 +9,8 @@ import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout
 import { Pagination } from 'src/components/client-ui/Pagination/Pagination';
 import { Subtitle } from 'src/components/client-ui/Subtitle/Subtitle';
 import { Title } from 'src/components/client-ui/Title/Title';
-import { OrderItem } from 'src/components/Client/Profile/Orders/OrderItem/OrderItem';
-import { IViewProps as IProps } from 'src/components/Client/Profile/Orders/OrdersPresenter';
+import { OrderItem } from 'src/components/client/Profile/Orders/OrderItem/OrderItem';
+import { IViewProps as IProps } from 'src/components/client/Profile/Orders/OrdersPresenter';
 
 export const OrdersView: React.FC<IProps> = ({ isLoading, orders, error, currentPage, onPageChange, pagesCount }) => {
   const intl = useIntl();

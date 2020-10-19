@@ -7,7 +7,6 @@ import { Trash as TrashIcon, Edit2 as Edit2Icon } from 'react-feather';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 
-import { PriceText } from 'src/components//Client/Price/Price';
 import { ControlledPagination } from 'src/components/admin-ui/ControlledPagination/ControlledPagination';
 import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextField';
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
@@ -16,6 +15,7 @@ import { Title } from 'src/components/admin-ui/Title/Title';
 import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout';
 import { Tooltip } from 'src/components/client-ui/Tooltip/Tooltip';
+import { PriceText } from 'src/components/client/Price/Price';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { IconSizes } from 'src/styles/icon';
@@ -79,7 +79,13 @@ export class IntlRenderer<T> implements IRenderer<T> {
 
 export class BooleanRenderer<T> extends DefaultRenderer<T> {
   public renderEntity = (entity: T, { colKey, componentKey }: IAdminTableRendererRequiredArgs) => (
-    <Table.Cell>{entity[colKey] === true ? '✅' : '❌'}</Table.Cell>
+    <Table.Cell
+      css={css`
+        text-align: center !important;
+      `}
+    >
+      {entity[colKey] === true ? '✅' : '❌'}
+    </Table.Cell>
   );
 }
 

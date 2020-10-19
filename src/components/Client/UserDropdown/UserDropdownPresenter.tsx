@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useIntl } from 'react-intl';
 
-import { ToastId } from 'src/components/Toast/ids';
-import { toast } from 'src/components/Toast/ToastContainer';
+import { ToastId } from 'src/components/common-ui/Toast/ids';
+import { toast } from 'src/components/common-ui/Toast/ToastContainer';
 import { IContextValue as AuthModalStateContextValue } from 'src/state/AuthModalState';
 import { User, IContextValue as UserStateContextValue } from 'src/state/UserState';
 
 interface IProps extends UserStateContextValue, AuthModalStateContextValue {
-  View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
+  View: React.ComponentType<IViewProps>;
 }
 
 export interface IViewProps {

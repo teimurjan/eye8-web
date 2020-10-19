@@ -9,8 +9,8 @@ import { HelpText } from 'src/components/client-ui/HelpText/HelpText';
 import { Image } from 'src/components/client-ui/Image/Image';
 import { Subtitle } from 'src/components/client-ui/Subtitle/Subtitle';
 import { Title } from 'src/components/client-ui/Title/Title';
-import { Quantity } from 'src/components/Client/Cart/CartItem/Quantity';
-import { PriceCrossedText, PriceText } from 'src/components/Client/Price/Price';
+import { Quantity } from 'src/components/client/Cart/CartItem/Quantity';
+import { PriceCrossedText, PriceText } from 'src/components/client/Price/Price';
 import { isPromoCodeApplicableForProduct } from 'src/utils/promoCode';
 
 interface IProps {

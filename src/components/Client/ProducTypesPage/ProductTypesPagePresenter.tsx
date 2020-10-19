@@ -8,8 +8,8 @@ import {
   ProductTypeSortingType,
   queryValueOfSortingType,
 } from 'src/api/ProductTypeAPI';
-import { IProps as IListViewProps } from 'src/components/Client/ProductType/ProductTypesList/ProductTypesListView';
-import { ProductTypesPageFilterContainer as ProductTypesPageFilter } from 'src/components/Client/ProducTypesPage/ProductTypesPageFilter/ProductTypesPageFilterContainer';
+import { IProps as IListViewProps } from 'src/components/client/ProductType/ProductTypesList/ProductTypesListView';
+import { ProductTypesPageFilterContainer as ProductTypesPageFilter } from 'src/components/client/ProducTypesPage/ProductTypesPageFilter/ProductTypesPageFilterContainer';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 import { buildSearchString } from 'src/utils/queryString';

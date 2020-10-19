@@ -10,7 +10,7 @@ import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
 import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { Tag } from 'src/components/client-ui/Tag/Tag';
 import { Tooltip } from 'src/components/client-ui/Tooltip/Tooltip';
-import { PriceText } from 'src/components/Client/Price/Price';
+import { PriceText } from 'src/components/client/Price/Price';
 import { IconSizes } from 'src/styles/icon';
 import { getOrderTotalPrice } from 'src/utils/order';
 

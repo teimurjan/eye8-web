@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { withRouter } from 'react-router';
 
-import { DeleteModalPresenter, IProps as IPresenterProps } from 'src/components/Admin/DeleteModal/DeleteModalPresenter';
-import { DeleteModalView } from 'src/components/Admin/DeleteModal/DeleteModalView';
+import { DeleteModalPresenter, IProps as IPresenterProps } from 'src/components/admin/DeleteModal/DeleteModalPresenter';
+import { DeleteModalView } from 'src/components/admin/DeleteModal/DeleteModalView';
 
 const ConnectedDeleteModalPresenter = withRouter(DeleteModalPresenter);
 

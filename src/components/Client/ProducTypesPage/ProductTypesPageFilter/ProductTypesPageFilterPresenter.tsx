@@ -22,7 +22,7 @@ export interface IViewProps
 export interface IProps {
   onSortingTypeChange: (sortingType: ProductTypeSortingType) => void;
   onCharacteristicValuesChange: (characteristicValueId: number[]) => void;
-  View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
+  View: React.ComponentType<IViewProps>;
   characteristicService: ICharacteristicService;
   characteristicValueService: ICharacteristicValueService;
   sortingType: ProductTypeSortingType;

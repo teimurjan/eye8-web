@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ProductTypesPageFilterView } from 'src/components/Client/ProducTypesPage/ProductTypesPageFilter/ProductTypesPageFilterView';
+import { ProductTypesPageFilterView } from 'src/components/client/ProducTypesPage/ProductTypesPageFilter/ProductTypesPageFilterView';
 import { useDependencies } from 'src/DI/DI';
 
 import { ProductTypesPageFilterPresenter, IProps as IPresenterProps } from './ProductTypesPageFilterPresenter';

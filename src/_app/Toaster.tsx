@@ -1,8 +1,8 @@
 import { ClassNames } from '@emotion/core';
 import * as React from 'react';
 
-import { MessageToast } from 'src/components/Toast/MessageToast';
-import { ToastContainer } from 'src/components/Toast/ToastContainer';
+import { MessageToast } from 'src/components/common-ui/Toast/MessageToast';
+import { ToastContainer } from 'src/components/common-ui/Toast/ToastContainer';
 import { mediaQueries } from 'src/styles/media';
 
 export const Toaster = () => (

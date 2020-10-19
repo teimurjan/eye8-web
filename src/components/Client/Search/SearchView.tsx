@@ -14,7 +14,7 @@ import { Popover } from 'src/components/client-ui/Popover/Popover';
 import { Subtitle } from 'src/components/client-ui/Subtitle/Subtitle';
 import { Tag } from 'src/components/client-ui/Tag/Tag';
 import { WithIcon } from 'src/components/client-ui/WithIcon/WithIcon';
-import { IViewProps as IProps } from 'src/components/Client/Search/SearchPresenter';
+import { IViewProps as IProps } from 'src/components/client/Search/SearchPresenter';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { IconSizes } from 'src/styles/icon';

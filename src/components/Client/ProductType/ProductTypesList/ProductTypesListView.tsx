@@ -13,7 +13,7 @@ import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout
 import { NotFound } from 'src/components/client-ui/NotFound/NotFound';
 import { Pagination } from 'src/components/client-ui/Pagination/Pagination';
 import { Title } from 'src/components/client-ui/Title/Title';
-import { ProductTypeCard } from 'src/components/Client/ProductType/ProductTypeCard/ProductTypeCard';
+import { ProductTypeCard } from 'src/components/client/ProductType/ProductTypeCard/ProductTypeCard';
 import { mediaQueries } from 'src/styles/media';
 
 export interface IProps {

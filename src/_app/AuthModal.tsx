@@ -1,8 +1,8 @@
 import * as React from 'react';
 
+import { LoginContainer } from 'src/components/auth/Login/LoginContainer';
+import { SignUpContainer } from 'src/components/auth/SignUp/SignUpContainer';
 import { Modal } from 'src/components/client-ui/Modal/Modal';
-import { LoginContainer } from 'src/components/Login/LoginContainer';
-import { SignUpContainer } from 'src/components/SignUp/SignUpContainer';
 import { useLazyInitialization } from 'src/hooks/useLazyInitialization';
 import { useAuthModalState } from 'src/state/AuthModalState';
 

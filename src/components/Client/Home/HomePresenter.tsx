@@ -8,7 +8,7 @@ import { IContextValue as AppStateContextValue } from 'src/state/AppState';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 export interface IProps extends AppStateContextValue {
-  View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
+  View: React.ComponentType<IViewProps>;
   bannerService: IBannerService;
   productTypeService: IProductTypeService;
   initialProps?: {

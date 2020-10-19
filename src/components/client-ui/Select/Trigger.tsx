@@ -15,7 +15,8 @@ const RIGHT_PADDING_PX = 24;
 
 export interface ISelectTriggerProps {
   placeholder?: string;
-  onClick: React.MouseEventHandler;
+  onClick?: React.MouseEventHandler;
+  onFocus: React.FocusEventHandler;
   isOpen: boolean;
   change: (options: Array<IOption>) => void;
   onSearch?: (query: string) => void;

@@ -310,7 +310,7 @@
   "AdminProductTypes.categoriesSelect.placeholder": "Выберите категорию",
   "theme.dark": "Тёмная тема",
   "common.deleted": "Удалено",
-  "AdminProducts.availabilityFilter": "Только в наличии",
+  "common.availabilityFilter": "Только в наличии",
   "AdminCharacteristics.notFound.cta": "Создать атрибут",
   "AdminCharacteristics.notFound.title": "Атрибуты не найдены",
   "AdminCharacteristics.notFound.description": "Кажется вы не добавили ни одного атрибута. Нажмите ниже, чтобы исправить это.",

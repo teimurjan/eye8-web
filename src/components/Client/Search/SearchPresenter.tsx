@@ -8,7 +8,7 @@ import { ISearchService } from 'src/services/SearchService';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 export interface IProps {
-  View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
+  View: React.ComponentType<IViewProps>;
   service: ISearchService;
 }
 

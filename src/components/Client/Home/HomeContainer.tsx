@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { HomePresenter, IProps as IPresenterProps } from 'src/components/Client/Home/HomePresenter';
-import { HomeView } from 'src/components/Client/Home/HomeView';
+import { HomePresenter, IProps as IPresenterProps } from 'src/components/client/Home/HomePresenter';
+import { HomeView } from 'src/components/client/Home/HomeView';
 import { useDependencies } from 'src/DI/DI';
 import { useAppState } from 'src/state/AppState';
 

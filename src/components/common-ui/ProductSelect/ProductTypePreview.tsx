@@ -4,8 +4,8 @@ import { useIntl } from 'react-intl';
 import {
   ProductTypePagePresenter,
   IProps as IPresenterProps,
-} from 'src/components/Client/ProductTypePage/ProductTypePagePresenter';
-import { ProductTypePageView } from 'src/components/Client/ProductTypePage/ProductTypePageView';
+} from 'src/components/client/ProductTypePage/ProductTypePagePresenter';
+import { ProductTypePageView } from 'src/components/client/ProductTypePage/ProductTypePageView';
 import { useDependencies } from 'src/DI/DI';
 
 export interface IProps {

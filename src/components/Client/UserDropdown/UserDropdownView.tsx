@@ -7,7 +7,7 @@ import { useIntl } from 'react-intl';
 import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
 import { Popover, TriggerHoverProps as PopoverTriggerProps } from 'src/components/client-ui/Popover/Popover';
 import { WithIcon } from 'src/components/client-ui/WithIcon/WithIcon';
-import { IViewProps as IProps } from 'src/components/Client/UserDropdown/UserDropdownPresenter';
+import { IViewProps as IProps } from 'src/components/client/UserDropdown/UserDropdownPresenter';
 import { isUserAuthorized } from 'src/helpers/user';
 import { IconSizes } from 'src/styles/icon';
 

@@ -3,8 +3,8 @@ import { css, jsx } from '@emotion/core';
 import * as React from 'react';
 
 import { NAVBAR_HEIGHT_PX, NAVBAR_HEIGHT_MOBILE_PX } from 'src/components/client-ui/Navbar/Navbar';
-import { FooterView, getFooterHeight } from 'src/components/Client/Footer/FooterView';
-import { HeaderContainer } from 'src/components/Client/Header/HeaderContainer';
+import { FooterView, getFooterHeight } from 'src/components/client/Footer/FooterView';
+import { HeaderContainer } from 'src/components/client/Header/HeaderContainer';
 import { useLazyInitialization } from 'src/hooks/useLazyInitialization';
 import { mediaQueries } from 'src/styles/media';
 

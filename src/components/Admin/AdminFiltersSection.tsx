@@ -10,6 +10,8 @@ export const AdminFiltersSection = ({ children }: IProps) => (
   <div
     css={css`
       margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
     `}
   >
     {children}

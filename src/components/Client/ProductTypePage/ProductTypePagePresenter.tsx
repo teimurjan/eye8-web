@@ -7,7 +7,7 @@ import { IProductTypeService } from 'src/services/ProductTypeService';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 export interface IProps {
-  View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
+  View: React.ComponentType<IViewProps>;
   productTypeService: IProductTypeService;
   productService: IProductService;
   id?: number;

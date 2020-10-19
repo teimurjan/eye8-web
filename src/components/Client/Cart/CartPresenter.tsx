@@ -4,24 +4,31 @@ import * as yup from 'yup';
 
 import { IProductListResponseItem } from 'src/api/ProductAPI';
 import { IPromoCodeListResponseItem } from 'src/api/PromoCodeAPI';
-import { getErrorMessageID } from 'src/components/Admin/Orders/Edit/AdminOrdersEditPresenter';
-import * as schemaValidator from 'src/components/SchemaValidator';
 import { getUserPropertySafe } from 'src/helpers/user';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useForceUpdate } from 'src/hooks/useForceUpdate';
 import { useLazyInitialization } from 'src/hooks/useLazyInitialization';
 import { useMousetrap } from 'src/hooks/useMousetrap';
-import { IOrderService } from 'src/services/OrderService';
+import { IOrderService, errors as orderServiceErrors } from 'src/services/OrderService';
 import { IProductService } from 'src/services/ProductService';
 import { IPromoCodeService } from 'src/services/PromoCodeService';
 import { IContextValue as UserStateContextValue } from 'src/state/UserState';
 import { ICartStorage } from 'src/storage/CartStorage';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 import { PHONE_REGEX } from 'src/utils/phone';
+import * as schemaValidator from 'src/utils/schemaValidator';
 import { isTrimmed } from 'src/utils/validate';
 
+export const getErrorMessageID = (e: Error) => {
+  if (e instanceof orderServiceErrors.PromoCodeInvalid) {
+    return 'AdminOrders.errors.promoCodeInvalid';
+  }
+
+  return 'errors.common';
+};
+
 export interface IProps extends UserStateContextValue {
-  View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
+  View: React.ComponentType<IViewProps>;
   productService: IProductService;
   orderService: IOrderService;
   promoCodeService: IPromoCodeService;

@@ -17,9 +17,9 @@ import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout
 import { Message } from 'src/components/client-ui/Message/Message';
 import { Title } from 'src/components/client-ui/Title/Title';
 import { WithIcon } from 'src/components/client-ui/WithIcon/WithIcon';
-import { CartItem } from 'src/components/Client/Cart/CartItem/CartItem';
-import { IViewProps as IProps, IFormValues } from 'src/components/Client/Cart/CartPresenter';
-import { PriceText } from 'src/components/Client/Price/Price';
+import { CartItem } from 'src/components/client/Cart/CartItem/CartItem';
+import { IViewProps as IProps, IFormValues } from 'src/components/client/Cart/CartPresenter';
+import { PriceText } from 'src/components/client/Price/Price';
 import { IconSizes } from 'src/styles/icon';
 import { bounce, fadeInFromRight, fadeInFromLeft, expand } from 'src/styles/keyframes';
 import { easeOutCubic } from 'src/styles/timing-functions';

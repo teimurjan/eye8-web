@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 import { ProductTypeSortingType } from 'src/api/ProductTypeAPI';
 import { Filter } from 'src/components/client-ui/Filter/Filter';
 import { ScrollableContainer } from 'src/components/client-ui/ScrollableContainer/ScrollableContainer';
-import { IViewProps as IProps } from 'src/components/Client/ProducTypesPage/ProductTypesPageFilter/ProductTypesPageFilterPresenter';
+import { IViewProps as IProps } from 'src/components/client/ProducTypesPage/ProductTypesPageFilter/ProductTypesPageFilterPresenter';
 import { mediaQueries } from 'src/styles/media';
 
 export const ProductTypesPageFilterView = ({

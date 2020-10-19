@@ -4,7 +4,7 @@ import NextErrorComponent from 'next/error';
 import * as React from 'react';
 
 import { NotFound } from 'src/components/client-ui/NotFound/NotFound';
-import { Layout } from 'src/components/Client/Layout';
+import { Layout } from 'src/components/client/Layout';
 
 const NextNotFoundComponent = () => {
   return (

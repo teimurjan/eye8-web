@@ -4,9 +4,9 @@ import { GetServerSideProps } from 'next';
 import * as React from 'react';
 
 import { sortingTypeOfQueryValue, ProductTypeSortingQueryValue } from 'src/api/ProductTypeAPI';
-import { Layout } from 'src/components/Client/Layout';
-import { ProductTypesPageContainer } from 'src/components/Client/ProducTypesPage/ProductTypesPageContainer';
-import { getCharacteristicValuesIdsFromQuery } from 'src/components/Client/ProducTypesPage/ProductTypesPagePresenter';
+import { Layout } from 'src/components/client/Layout';
+import { ProductTypesPageContainer } from 'src/components/client/ProducTypesPage/ProductTypesPageContainer';
+import { getCharacteristicValuesIdsFromQuery } from 'src/components/client/ProducTypesPage/ProductTypesPagePresenter';
 import { dependenciesFactory } from 'src/DI/DependenciesContainer';
 import { logTimeStart, logTimeFinish } from 'src/utils/log';
 

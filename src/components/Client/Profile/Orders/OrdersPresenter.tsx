@@ -18,7 +18,7 @@ export interface IViewProps {
 
 interface IProps {
   service: IOrderService;
-  View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
+  View: React.ComponentType<IViewProps>;
   user: AuthorizedUser;
   history: History;
   location: Location;

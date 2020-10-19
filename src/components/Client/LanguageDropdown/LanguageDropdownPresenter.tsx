@@ -6,7 +6,7 @@ import { IIntlService } from 'src/services/IntlService';
 import { safeWindowOperation } from 'src/utils/dom';
 
 interface IProps {
-  View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
+  View: React.ComponentType<IViewProps>;
   intlService: IIntlService;
   TriggerComponent: React.ComponentType<TriggerClickProps> | React.ComponentType<TriggerHoverProps>;
 }

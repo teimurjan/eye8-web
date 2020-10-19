@@ -3,7 +3,7 @@ import { css, jsx } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { Toggle } from 'src/components/client-ui/Toggle/Toggle';
-import { IViewProps as IProps } from 'src/components/Client/ThemeToggle/ThemeTogglePresenter';
+import { IViewProps as IProps } from 'src/components/client/ThemeToggle/ThemeTogglePresenter';
 import { Theme } from 'src/storage/ThemeStorage';
 
 export const ThemeToggleView = ({ onThemeChange, theme }: IProps) => {

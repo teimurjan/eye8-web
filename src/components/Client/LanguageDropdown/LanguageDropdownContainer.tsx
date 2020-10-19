@@ -3,8 +3,8 @@ import * as React from 'react';
 import {
   LanguageDropdownPresenter,
   IViewProps,
-} from 'src/components/Client/LanguageDropdown/LanguageDropdownPresenter';
-import { LanguageDropdownView } from 'src/components/Client/LanguageDropdown/LanguageDropdownView';
+} from 'src/components/client/LanguageDropdown/LanguageDropdownPresenter';
+import { LanguageDropdownView } from 'src/components/client/LanguageDropdown/LanguageDropdownView';
 import { useDependencies } from 'src/DI/DI';
 
 export const LanguageDropdownContainer = React.forwardRef<

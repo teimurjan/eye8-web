@@ -214,7 +214,7 @@ export const Select = <T extends HTMLElement>({
           renderTrigger={({ toggle, ref, isOpen }) =>
             React.createElement(TriggerComponent, {
               ref,
-              onClick: toggle,
+              onFocus: toggle,
               isOpen,
               selectedOptions,
               searchQuery,

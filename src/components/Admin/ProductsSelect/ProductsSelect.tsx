@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 
 import { IProductListResponseItem } from 'src/api/ProductAPI';
 import { Button } from 'src/components/admin-ui/Button/Button';
-import { ProductsSelectItem } from 'src/components/Admin/ProductsSelect/ProductsSelectItem';
+import { ProductsSelectItem } from 'src/components/admin/ProductsSelect/ProductsSelectItem';
 import { ProductSelectContainer } from 'src/components/common-ui/ProductSelect/ProductSelectContainer';
 
 interface IProps {

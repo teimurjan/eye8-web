@@ -1,8 +1,8 @@
 import { GetServerSideProps } from 'next';
 import * as React from 'react';
 
-import { Layout } from 'src/components/Client/Layout';
-import { ProductTypePageContainer } from 'src/components/Client/ProductTypePage/ProductTypePageContainer';
+import { Layout } from 'src/components/client/Layout';
+import { ProductTypePageContainer } from 'src/components/client/ProductTypePage/ProductTypePageContainer';
 import { dependenciesFactory } from 'src/DI/DependenciesContainer';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 import { logTimeStart, logTimeFinish } from 'src/utils/log';

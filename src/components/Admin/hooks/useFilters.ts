@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 
-import { useSearchParams } from 'src/components/Admin/hooks/useSearchParams';
+import { useSearchParams } from 'src/components/admin/hooks/useSearchParams';
 import { buildSearchString, ISearchParams } from 'src/utils/queryString';
 
 interface IArgs<T extends string> {

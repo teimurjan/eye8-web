@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router';
 import * as React from 'react';
 
-import { ProductTypesListView } from 'src/components/Client/ProductType/ProductTypesList/ProductTypesListView';
+import { ProductTypesListView } from 'src/components/client/ProductType/ProductTypesList/ProductTypesListView';
 import {
   ProductTypesPagePresenter,
   IProps as IPresenterProps,
-} from 'src/components/Client/ProducTypesPage/ProductTypesPagePresenter';
+} from 'src/components/client/ProducTypesPage/ProductTypesPagePresenter';
 import { useDependencies } from 'src/DI/DI';
 
 interface IProps {

@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import * as React from 'react';
 
-import { ThemeTogglePresenter } from 'src/components/Client/ThemeToggle/ThemeTogglePresenter';
-import { ThemeToggleView } from 'src/components/Client/ThemeToggle/ThemeToggleView';
+import { ThemeTogglePresenter } from 'src/components/client/ThemeToggle/ThemeTogglePresenter';
+import { ThemeToggleView } from 'src/components/client/ThemeToggle/ThemeToggleView';
 import { useDependencies } from 'src/DI/DI';
 
 export const ThemeToggleContainer = () => {

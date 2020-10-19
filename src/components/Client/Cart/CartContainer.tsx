@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { CartPresenter } from 'src/components/Client/Cart/CartPresenter';
-import { CartView } from 'src/components/Client/Cart/CartView';
+import { CartPresenter } from 'src/components/client/Cart/CartPresenter';
+import { CartView } from 'src/components/client/Cart/CartView';
 import { useDependencies } from 'src/DI/DI';
 import { useUserState } from 'src/state/UserState';
 

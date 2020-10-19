@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 
 import { forceSSR } from 'src/_app/forceSSR';
 import { Story } from 'src/components/client-ui/Story/Story';
-import { Layout } from 'src/components/Client/Layout';
+import { Layout } from 'src/components/client/Layout';
 import { withPublicURL } from 'src/utils/url';
 
 const HowItWorks = () => {

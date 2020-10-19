@@ -310,7 +310,7 @@
   "AdminProductTypes.categoriesSelect.placeholder": "Choose a category",
   "theme.dark": "Dark Mode",
   "common.deleted": "Deleted",
-  "AdminProducts.availabilityFilter": "In stock only",
+  "common.availabilityFilter": "In stock only",
   "AdminCharacteristics.notFound.cta": "Create characteristic",
   "AdminCharacteristics.notFound.title": "No characteristics found",
   "AdminCharacteristics.notFound.description": "It seems that you've not added a characteristic. Click below to fix it.",

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { IThemeStorage, Theme } from 'src/storage/ThemeStorage';
 
 export interface IProps {
-  View: React.ComponentClass<IViewProps> | React.SFC<IViewProps>;
+  View: React.ComponentType<IViewProps>;
   themeStorage: IThemeStorage;
   router: NextRouter;
 }

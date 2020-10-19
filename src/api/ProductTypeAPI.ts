@@ -173,6 +173,7 @@ export interface IGetForCategoryOptions {
 export interface IGetAllOptions {
   page: number;
   deleted?: boolean;
+  available?: boolean;
 }
 
 export interface IGetOneOptions {
@@ -251,10 +252,10 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   };
 
-  public getAll: IProductTypeAPI['getAll'] = async ({ page, deleted }) => {
+  public getAll: IProductTypeAPI['getAll'] = async ({ page, deleted, available = false }) => {
     try {
       const response = await this.client.get<IProductTypeListResponseData>(
-        `/api/product_types${buildSearchString({ page, deleted: deleted ? 1 : 0 })}`,
+        `/api/product_types${buildSearchString({ page, deleted: deleted ? 1 : 0, available: available ? 1 : 0 })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
@@ -337,10 +338,16 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   };
 
-  public getAllRawIntl: IProductTypeAPI['getAllRawIntl'] = async ({ page, deleted }) => {
+  public getAllRawIntl: IProductTypeAPI['getAllRawIntl'] = async ({ page, deleted, available = false }) => {
     try {
       const response = await this.client.get<IProductTypeListRawIntlResponseData>(
-        `/api/product_types${buildSearchString({ page, raw_intl: 1, limit: 10, deleted: deleted ? 1 : 0 })}`,
+        `/api/product_types${buildSearchString({
+          page,
+          raw_intl: 1,
+          limit: 10,
+          deleted: deleted ? 1 : 0,
+          available: available ? 1 : 0,
+        })}`,
         {
           headers: this.headersManager.getHeaders(),
         },

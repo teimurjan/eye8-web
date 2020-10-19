@@ -11,11 +11,15 @@ import { ISelectTriggerProps } from 'src/components/client-ui/Select/Trigger';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { IconSizes } from 'src/styles/icon';
 import { mediaQueries } from 'src/styles/media';
+import { noop } from 'src/utils/function';
 
 const TRIGGER_CLASSNAME = 'select-trigger';
 const TRIGGER_SELECTOR = `.${TRIGGER_CLASSNAME}`;
 export const SearchableSelectTrigger = React.forwardRef<HTMLDivElement, ISelectTriggerProps>(
-  ({ isOpen, searchQuery, onClick, placeholder, change, clearable, onSearch, selectedOptions }, ref) => {
+  (
+    { isOpen, searchQuery, onClick = noop, onFocus, placeholder, change, clearable, onSearch, selectedOptions },
+    ref,
+  ) => {
     const theme = useTheme<AdminUITheme>();
     const { value: isFocused, setPositive: focus, setNegative: blur } = useBoolean();
     const inputRef = React.useRef<HTMLInputElement>(null);
@@ -50,6 +54,14 @@ export const SearchableSelectTrigger = React.forwardRef<HTMLDivElement, ISelectT
         onClick(e);
       },
       [onClick, inputRef, isFocused],
+    );
+
+    const onFocus_: React.FocusEventHandler = React.useCallback(
+      (e) => {
+        focus();
+        onFocus(e);
+      },
+      [onFocus, focus],
     );
 
     const isEmpty = selectedOptions.length === 0;
@@ -91,7 +103,7 @@ export const SearchableSelectTrigger = React.forwardRef<HTMLDivElement, ISelectT
             min-height: 2.25em;
 
             ${TRIGGER_SELECTOR}:not([data-empty='true'])[data-clearable='true'] > & {
-              padding-left: 44px;
+              padding-left: 58px;
             }
           `}
         >
@@ -123,7 +135,7 @@ export const SearchableSelectTrigger = React.forwardRef<HTMLDivElement, ISelectT
             size={isEmpty ? undefined : inputSize}
             placeholder={isEmpty ? placeholder : undefined}
             onChange={onSearchChange}
-            onFocus={focus}
+            onFocus={onFocus_}
             onBlur={blur}
             value={query}
             onKeyDown={onSearchKeyDown}

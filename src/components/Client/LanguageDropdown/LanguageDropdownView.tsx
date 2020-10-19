@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { Anchor } from 'src/components/client-ui/Anchor/Anchor';
 import { Popover } from 'src/components/client-ui/Popover/Popover';
 import { Select } from 'src/components/client-ui/Select/Select';
-import { IViewProps as IProps } from 'src/components/Client/LanguageDropdown/LanguageDropdownPresenter';
+import { IViewProps as IProps } from 'src/components/client/LanguageDropdown/LanguageDropdownPresenter';
 import { availableLocales, getLocaleName } from 'src/utils/locale';
 
 export const LanguageDropdownView = React.forwardRef<HTMLDivElement, IProps>(

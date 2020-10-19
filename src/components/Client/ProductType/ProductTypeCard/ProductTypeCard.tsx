@@ -12,7 +12,7 @@ import { Image } from 'src/components/client-ui/Image/Image';
 import { LinkPassingProps } from 'src/components/client-ui/LinkPassingProps/LinkPassingProps';
 import { Tag } from 'src/components/client-ui/Tag/Tag';
 import { Title } from 'src/components/client-ui/Title/Title';
-import { usePriceRangeText } from 'src/components/Client/Price/Price';
+import { usePriceRangeText } from 'src/components/client/Price/Price';
 import { mediaQueries } from 'src/styles/media';
 import { formatMediaURL } from 'src/utils/url';
 
