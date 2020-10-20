@@ -334,5 +334,7 @@
   "AdminCharacteristicValues.edit.title": "Изменить значение атрибута",
   "AdminProductTypes.characteristicValuesSelect.label": "Значения атрибутов",
   "AdminProductTypes.characteristicValuesSelect.placeholder": "Выберите значения атрибутов",
-  "common.reset": "Сбросить"
+  "common.reset": "Сбросить",
+  "AdminProducts.features": "Характеристики",
+  "common.clickToEdit": "Нажми чтобы редактировать"
 }

@@ -8,6 +8,8 @@ import { NoDataAvailable } from 'src/components/admin-ui/NoDataAvailable/NoDataA
 import { Section } from 'src/components/admin-ui/Section/Section';
 import { ProductTypeSelectView } from 'src/components/admin/form/ProductTypeSelect/ProductTypeSelectView';
 import { IViewProps as IProps } from 'src/components/admin/pages/Products/List/AdminProductsListPresenter';
+import { ProductFeaturesRenderer } from 'src/components/admin/pages/Products/List/ProductFeaturesRenderer';
+import { ProductProductTypeRenderer } from 'src/components/admin/pages/Products/List/ProductProductTypeRenderer';
 import { AdminFiltersSection } from 'src/components/admin/table/AdminFiltersSection';
 import { AdminTable, PriceRenderer } from 'src/components/admin/table/AdminTable';
 import { noop } from 'src/utils/function';
@@ -112,7 +114,12 @@ export const AdminProductsListView = ({
         <AdminTable.Col<Product>
           key_="product_type"
           title={intl.formatMessage({ id: 'common.productType' })}
-          render={(product) => product.product_type.name}
+          renderer={new ProductProductTypeRenderer()}
+        />
+        <AdminTable.Col<Product>
+          key_="product_type"
+          title={intl.formatMessage({ id: 'AdminProducts.features' })}
+          renderer={new ProductFeaturesRenderer()}
         />
       </AdminTable>
 

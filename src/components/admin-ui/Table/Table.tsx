@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -21,7 +23,13 @@ Table.Row = ({ children, ...props }: React.HTMLAttributes<HTMLTableRowElement>) 
 
 Table.Cell = React.forwardRef<HTMLTableCellElement, React.HTMLAttributes<HTMLTableCellElement>>(
   ({ children, ...props }, ref) => (
-    <td ref={ref} {...props}>
+    <td
+      ref={ref}
+      css={css`
+        vertical-align: middle !important;
+      `}
+      {...props}
+    >
       {children}
     </td>
   ),

@@ -2,6 +2,7 @@
 
 import { css, jsx } from '@emotion/core';
 import classNames from 'classnames';
+import { useTheme } from 'emotion-theming';
 import * as React from 'react';
 import { Trash as TrashIcon, Edit2 as Edit2Icon } from 'react-feather';
 import { useIntl } from 'react-intl';
@@ -87,15 +88,35 @@ export class BooleanRenderer<T> extends DefaultRenderer<T> {
   );
 }
 
+interface IPriceTooltipTriggerProps {
+  onMouseEnter: React.MouseEventHandler;
+  price: number;
+}
+
+const PriceTooltipTrigger = React.forwardRef<HTMLTableCellElement, IPriceTooltipTriggerProps>(
+  ({ onMouseEnter, price }, ref) => {
+    const theme = useTheme<AdminUITheme>();
+    return (
+      <Table.Cell
+        css={css`
+          font-weight: bold;
+          color: ${theme.success};
+        `}
+        ref={ref}
+        onMouseEnter={onMouseEnter}
+      >
+        <PriceText price={price} />
+      </Table.Cell>
+    );
+  },
+);
+
 export class PriceRenderer<T> extends DefaultRenderer<T> {
   public renderEntity = (entity: T, { colKey, componentKey }: IAdminTableRendererRequiredArgs) => (
     <Tooltip<HTMLTableCellElement>
+      key={componentKey}
       placement="left"
-      renderTrigger={({ open, ref }) => (
-        <Table.Cell ref={ref} onMouseEnter={open} key={componentKey}>
-          <PriceText price={entity[colKey]} />
-        </Table.Cell>
-      )}
+      renderTrigger={({ open, ref }) => <PriceTooltipTrigger ref={ref} onMouseEnter={open} price={entity[colKey]} />}
     >
       {availableLocales.map((locale) => (
         <div key={locale}>
