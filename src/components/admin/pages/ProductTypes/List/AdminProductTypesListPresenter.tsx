@@ -1,14 +1,12 @@
 import * as React from 'react';
 
-import { IProductTypeListRawIntlResponseItem } from 'src/api/ProductTypeAPI';
 import { useAdminProductTypesFilters } from 'src/components/admin/pages/ProductTypes/useAdminProductTypesFilters';
-import { ISearchService } from 'src/services/SearchService';
+import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminProductTypesStateContextValue } from 'src/state/Admin/AdminProductTypesState';
-import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 export interface IProps {
   View: React.ComponentType<IViewProps>;
-  searchService: ISearchService;
+  service: IProductTypeService;
   adminProductTypesState: AdminProductTypesStateContextValue['state'];
 }
 
@@ -20,7 +18,7 @@ export interface IViewProps {
   onPageChange: (page: number) => void;
   onDeletedModeChange: () => void;
   onAvailabilityChange: () => void;
-  search: (query: string) => Promise<IProductTypeListRawIntlResponseItem[]>;
+  onSearchChange: (query: string) => void;
   isDeletedMode: boolean;
   available: boolean;
 }
@@ -28,7 +26,7 @@ export interface IViewProps {
 export const AdminProductTypesListPresenter = ({
   View,
   adminProductTypesState: { isListLoading, entities: productTypes, get: getProductTypes, hasListLoaded, meta },
-  searchService,
+  service,
 }: IProps) => {
   const {
     filters: { deleted, forever, available },
@@ -56,21 +54,11 @@ export const AdminProductTypesListPresenter = ({
     [getProductTypes, isDeletedMode, available],
   );
 
-  const search = React.useCallback(
+  const onSearchChange = React.useCallback(
     async (query: string) => {
-      const {
-        entities: { productTypes },
-        result: { productTypes: productTypesOrder },
-      } = await searchService.searchRawIntl(query);
-
-      return agregateOrderedMapToArray(productTypes, productTypesOrder, (productType) => ({
-        ...productType,
-        name: productType.name,
-        description: productType.short_description,
-        short_description: productType.short_description,
-      })) as IProductTypeListRawIntlResponseItem[];
+      getProductTypes({ page: 1, deleted: isDeletedMode, available: !!available, query });
     },
-    [searchService],
+    [available, getProductTypes, isDeletedMode],
   );
 
   return (
@@ -83,7 +71,7 @@ export const AdminProductTypesListPresenter = ({
       productTypes={productTypes}
       onPageChange={onPageChange}
       isDeletedMode={isDeletedMode}
-      search={search}
+      onSearchChange={onSearchChange}
       available={!!available}
     />
   );

@@ -40,6 +40,30 @@ export interface IProductTypeService {
     };
     result: number[];
   }>;
+  search(
+    query: string,
+    options?: productTypeAPI.ISearchOptions,
+  ): Promise<{
+    entities: {
+      productTypes: {
+        [key: string]: productTypeAPI.IProductTypeListResponseItem;
+      };
+    };
+    result: number[];
+    meta: productTypeAPI.IProductTypeListResponseMeta;
+  }>;
+  searchRawIntl(
+    query: string,
+    options?: productTypeAPI.ISearchOptions,
+  ): Promise<{
+    entities: {
+      productTypes: {
+        [key: string]: productTypeAPI.IProductTypeListRawIntlResponseItem;
+      };
+    };
+    result: number[];
+    meta: productTypeAPI.IProductTypeListResponseMeta;
+  }>;
   getNewest(): Promise<{
     entities: {
       productTypes: {
@@ -114,6 +138,22 @@ export class ProductTypeService implements IProductTypeService {
 
   public getAll: IProductTypeService['getAll'] = async (options) => {
     const productTypes = await this.API.getAll(options);
+    return {
+      ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
+      meta: productTypes.meta,
+    };
+  };
+
+  public search: IProductTypeService['search'] = async (query, options = {}) => {
+    const productTypes = await this.API.search(query, options);
+    return {
+      ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
+      meta: productTypes.meta,
+    };
+  };
+
+  public searchRawIntl: IProductTypeService['searchRawIntl'] = async (query, options = {}) => {
+    const productTypes = await this.API.searchRawIntl(query, options);
     return {
       ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
       meta: productTypes.meta,

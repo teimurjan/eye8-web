@@ -7,14 +7,25 @@ export type ContextValue = IContextValue<
   IProductTypeListRawIntlResponseItem,
   IProductTypeListRawIntlResponseItem,
   IProductTypeListResponseMeta,
-  { page: number; deleted?: boolean; available?: boolean }
+  { page: number; deleted?: boolean; available?: boolean; query?: string }
 >;
 
 const Context = React.createContext<ContextValue | null>(null);
 
 export const AdminProductTypesStateProvider = makeEntityState(
   Context,
-  (d, params = { page: 1 }) => d.dependencies.services.productType.getAllRawIntl(params),
+  (d, params = { page: 1 }) => {
+    const { productType: productTypeService } = d.dependencies.services;
+    if (params.query) {
+      return productTypeService.searchRawIntl(params.query, {
+        page: params.page,
+        available: params.available,
+        deleted: params.deleted,
+      });
+    }
+
+    return productTypeService.getAllRawIntl(params);
+  },
   'productTypes',
 );
 

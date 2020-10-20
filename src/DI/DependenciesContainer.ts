@@ -14,7 +14,6 @@ import * as productAPI from 'src/api/ProductAPI';
 import * as productTypeAPI from 'src/api/ProductTypeAPI';
 import * as promoCodeAPI from 'src/api/PromoCodeAPI';
 import * as rateAPI from 'src/api/RateAPI';
-import * as searchAPI from 'src/api/SearchAPI';
 import { ToastId } from 'src/components/common-ui/Toast/ids';
 import { toast } from 'src/components/common-ui/Toast/ToastContainer';
 import { HeadersManager } from 'src/manager/HeadersManager';
@@ -31,7 +30,6 @@ import * as productService from 'src/services/ProductService';
 import * as productTypeService from 'src/services/ProductTypeService';
 import * as promoCodeService from 'src/services/PromoCodeService';
 import * as rateService from 'src/services/RateService';
-import * as searchService from 'src/services/SearchService';
 import * as authStorage from 'src/storage/AuthStorage';
 import * as cartStorage from 'src/storage/CartStorage';
 import { CookieStorage } from 'src/storage/cookie/CookieStorage';
@@ -53,7 +51,6 @@ export interface IAPIsContainer {
   characteristicValue: characteristicValueAPI.ICharacteristicValueAPI;
   featureType: featureTypeAPI.IFeatureTypeAPI;
   featureValue: featureValueAPI.IFeatureValueAPI;
-  search: searchAPI.ISearchAPI;
   banner: bannerAPI.IBannerAPI;
   order: orderAPI.IOrderAPI;
   promoCode: promoCodeAPI.IPromoCodeAPI;
@@ -70,7 +67,6 @@ export interface IServicesContainer {
   featureType: featureTypeService.IFeatureTypeService;
   featureValue: featureValueService.IFeatureValueService;
   intl: intlService.IIntlService;
-  search: searchService.ISearchService;
   banner: bannerService.IBannerService;
   order: orderService.IOrderService;
   promoCode: promoCodeService.IPromoCodeService;
@@ -176,7 +172,6 @@ export const dependenciesFactory = ({ req, res }: IDependenciesFactoryArgs = {})
     featureValue: new featureValueAPI.FeatureValueAPI(APIClient, headersManager),
     productType: new productTypeAPI.ProductTypeAPI(APIClient, headersManager),
     product: new productAPI.ProductAPI(APIClient, headersManager),
-    search: new searchAPI.SearchAPI(APIClient, headersManager),
     banner: new bannerAPI.BannerAPI(APIClient, headersManager),
     order: new orderAPI.OrderAPI(APIClient, headersManager),
     promoCode: new promoCodeAPI.PromoCodeAPI(APIClient, headersManager),
@@ -193,7 +188,6 @@ export const dependenciesFactory = ({ req, res }: IDependenciesFactoryArgs = {})
     intl: new intlService.IntlService(storagesContainer.intl),
     productType: new productTypeService.ProductTypeService(APIsContainer.productType),
     product: new productService.ProductService(APIsContainer.product),
-    search: new searchService.SearchService(APIsContainer.search),
     banner: new bannerService.BannerService(APIsContainer.banner),
     order: new orderService.OrderService(APIsContainer.order),
     promoCode: new promoCodeService.PromoCodeService(APIsContainer.promoCode),

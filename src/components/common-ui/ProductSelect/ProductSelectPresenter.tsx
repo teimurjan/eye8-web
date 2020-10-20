@@ -2,12 +2,12 @@ import * as React from 'react';
 
 import { IProductListResponseItem } from 'src/api/ProductAPI';
 import { IProductTypeListResponseItem } from 'src/api/ProductTypeAPI';
-import { ISearchService } from 'src/services/SearchService';
+import { IProductTypeService } from 'src/services/ProductTypeService';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 export interface IProps {
   View: React.ComponentType<IViewProps>;
-  searchService: ISearchService;
+  productTypeService: IProductTypeService;
   onChange: (product: IProductListResponseItem) => void;
   placeholder?: string;
   className?: string;
@@ -25,7 +25,7 @@ export interface IViewProps {
   className?: string;
 }
 
-export const ProductSelectPresenter = ({ searchService, onChange, View, placeholder, className }: IProps) => {
+export const ProductSelectPresenter = ({ productTypeService, onChange, View, placeholder, className }: IProps) => {
   const [selectedProductType, setSelectedProductType] = React.useState<IProductTypeListResponseItem | undefined>(
     undefined,
   );
@@ -46,8 +46,11 @@ export const ProductSelectPresenter = ({ searchService, onChange, View, placehol
         if (value.length === 0) {
           setData({ entities: {}, order: [] });
         } else {
-          const { entities, result } = await searchService.search(value);
-          setData({ entities: entities.productTypes, order: result.productTypes });
+          const { entities, result } = await productTypeService.search(value);
+          setData({
+            entities: entities.productTypes,
+            order: result,
+          });
         }
       } catch (e) {
         setError('errors.common');
@@ -55,7 +58,7 @@ export const ProductSelectPresenter = ({ searchService, onChange, View, placehol
         setLoading(false);
       }
     },
-    [searchService],
+    [productTypeService],
   );
 
   const selectProductType: IViewProps['selectProductType'] = React.useCallback(async (productType) => {

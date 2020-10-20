@@ -190,8 +190,19 @@ export interface IGetAllRawIntlMinifiedOptions {
   available?: boolean;
 }
 
+interface IPrivateSearchOptions {
+  page?: number;
+  available?: boolean;
+  deleted?: boolean;
+  rawIntl?: boolean;
+}
+
+export type ISearchOptions = Omit<IPrivateSearchOptions, 'rawIntl'>;
+
 export interface IProductTypeAPI {
   getForCategory(categorySlug: string, options: IGetForCategoryOptions): Promise<IProductTypeListResponseData>;
+  search(query: string, options: ISearchOptions): Promise<IProductTypeListResponseData>;
+  searchRawIntl(query: string, options: ISearchOptions): Promise<IProductTypeListRawIntlResponseData>;
   getAll(options: IGetAllOptions): Promise<IProductTypeListResponseData>;
   getNewest(): Promise<IProductTypeListResponseData>;
   getByID(id: number, options: IGetOneOptions): Promise<IProductTypeDetailResponseItemData>;
@@ -241,6 +252,34 @@ export class ProductTypeAPI implements IProductTypeAPI {
           products: 1,
           available: available ? 1 : 0,
           characteristics: characteristicValuesIds,
+        })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
+      return response.data;
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  public search: IProductTypeAPI['search'] = async (query, options) =>
+    this.search_<IProductTypeListResponseData>(query, options);
+
+  public searchRawIntl: IProductTypeAPI['searchRawIntl'] = async (query, options) =>
+    this.search_<IProductTypeListRawIntlResponseData>(query, { ...options, rawIntl: true });
+
+  private search_ = async <T extends IProductTypeListRawIntlResponseData | IProductTypeListResponseData>(
+    query: string,
+    { page, rawIntl = false, available = true, deleted = false }: IPrivateSearchOptions,
+  ) => {
+    try {
+      const response = await this.client.get<T>(
+        `/api/product_types/search/${query}${buildSearchString({
+          page,
+          available: available ? 1 : 0,
+          raw_intl: rawIntl ? 1 : 0,
+          deleted: deleted ? 1 : 0,
         })}`,
         {
           headers: this.headersManager.getHeaders(),

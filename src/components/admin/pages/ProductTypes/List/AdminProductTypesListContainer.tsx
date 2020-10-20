@@ -9,7 +9,7 @@ export const AdminProductTypesListContainer = () => {
   const { state: adminProductTypesState } = useAdminProductTypesState();
   const {
     dependencies: {
-      services: { search: searchService },
+      services: { productType: productTypeService },
     },
   } = useDependencies();
 
@@ -17,7 +17,7 @@ export const AdminProductTypesListContainer = () => {
     <AdminProductTypesListPresenter
       View={AdminProductTypesListView}
       adminProductTypesState={adminProductTypesState}
-      searchService={searchService}
+      service={productTypeService}
     />
   );
 };

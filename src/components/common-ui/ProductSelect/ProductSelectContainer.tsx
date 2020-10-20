@@ -21,7 +21,7 @@ export const ProductSelectContainer = ({ onChange, placeholder, className }: IPr
       className={className}
       onChange={onChange}
       View={ProductSelectView}
-      searchService={dependencies.services.search}
+      productTypeService={dependencies.services.productType}
       placeholder={placeholder}
     />
   );

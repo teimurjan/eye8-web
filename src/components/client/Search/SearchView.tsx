@@ -12,7 +12,6 @@ import { LinkPassingProps } from 'src/components/client-ui/LinkPassingProps/Link
 import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout';
 import { Popover } from 'src/components/client-ui/Popover/Popover';
 import { Subtitle } from 'src/components/client-ui/Subtitle/Subtitle';
-import { Tag } from 'src/components/client-ui/Tag/Tag';
 import { WithIcon } from 'src/components/client-ui/WithIcon/WithIcon';
 import { IViewProps as IProps } from 'src/components/client/Search/SearchPresenter';
 import { useBoolean } from 'src/hooks/useBoolean';
@@ -45,7 +44,6 @@ const SearchTrigger = React.forwardRef<HTMLSpanElement>((props, ref) => {
 });
 
 export const SearchView: React.FC<IProps> = ({
-  categories,
   productTypes,
   isLoading,
   error,
@@ -79,21 +77,6 @@ export const SearchView: React.FC<IProps> = ({
 
     return (
       <React.Fragment>
-        {categories.length > 0 &&
-          categories.map((category) => (
-            <Popover.Item
-              Component={LinkPassingProps}
-              key={category.id}
-              as={`/categories/${category.slug}/products`}
-              href="/categories/[slug]/products"
-              passHref
-              css={css`
-                display: block;
-              `}
-            >
-              {category.name} <Tag>{intl.formatMessage({ id: 'common.category' })}</Tag>
-            </Popover.Item>
-          ))}
         {productTypes.length > 0 &&
           productTypes.map((productType) => (
             <Popover.Item
@@ -120,12 +103,12 @@ export const SearchView: React.FC<IProps> = ({
               <Subtitle size={5}>{productType.name}</Subtitle>
             </Popover.Item>
           ))}
-        {categories.length === 0 && productTypes.length === 0 && (
+        {productTypes.length === 0 && (
           <Popover.Item Component="div">{intl.formatMessage({ id: 'common.noResults' })}</Popover.Item>
         )}
       </React.Fragment>
     );
-  }, [categories, error, intl, isLoading, productTypes]);
+  }, [error, intl, isLoading, productTypes]);
 
   return (
     <>

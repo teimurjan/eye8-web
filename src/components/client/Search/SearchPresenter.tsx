@@ -1,19 +1,17 @@
 import * as React from 'react';
 
-import { ICategoryListResponseItem } from 'src/api/CategoryAPI';
 import { IProductTypeListResponseItem } from 'src/api/ProductTypeAPI';
 import { useBoolean } from 'src/hooks/useBoolean';
 import { useMousetrap } from 'src/hooks/useMousetrap';
-import { ISearchService } from 'src/services/SearchService';
+import { IProductTypeService } from 'src/services/ProductTypeService';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
 
 export interface IProps {
   View: React.ComponentType<IViewProps>;
-  service: ISearchService;
+  service: IProductTypeService;
 }
 
 export interface IViewProps {
-  categories: ICategoryListResponseItem[];
   productTypes: IProductTypeListResponseItem[];
   error: string | undefined;
   isLoading: boolean;
@@ -26,9 +24,9 @@ export interface IViewProps {
 export const SearchPresenter = ({ service, View }: IProps) => {
   const { value: isOpen, setPositive: open, setNegative: close } = useBoolean();
   const [data, setData] = React.useState<{
-    categories: { entities: { [id: string]: ICategoryListResponseItem }; order: number[] };
-    productTypes: { entities: { [id: string]: IProductTypeListResponseItem }; order: number[] };
-  }>({ categories: { entities: {}, order: [] }, productTypes: { entities: {}, order: [] } });
+    entities: { [id: string]: IProductTypeListResponseItem };
+    order: number[];
+  }>({ entities: {}, order: [] });
   const [isLoading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>(undefined);
 
@@ -48,12 +46,12 @@ export const SearchPresenter = ({ service, View }: IProps) => {
       setLoading(true);
       try {
         if (value.length === 0) {
-          setData({ categories: { entities: {}, order: [] }, productTypes: { entities: {}, order: [] } });
+          setData({ entities: {}, order: [] });
         } else {
           const { entities, result } = await service.search(value);
           setData({
-            categories: { entities: entities.categories, order: result.categories },
-            productTypes: { entities: entities.productTypes, order: result.productTypes },
+            entities: entities.productTypes,
+            order: result,
           });
         }
       } catch (e) {
@@ -71,8 +69,7 @@ export const SearchPresenter = ({ service, View }: IProps) => {
       open={open}
       close={close}
       isLoading={isLoading}
-      categories={agregateOrderedMapToArray(data.categories.entities, data.categories.order)}
-      productTypes={agregateOrderedMapToArray(data.productTypes.entities, data.productTypes.order)}
+      productTypes={agregateOrderedMapToArray(data.entities, data.order)}
       onSearchValueChange={onSearchValueChange}
       error={error}
     />

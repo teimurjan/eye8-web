@@ -11,12 +11,10 @@ import { ControlledPagination } from 'src/components/admin-ui/ControlledPaginati
 import { FormTextField } from 'src/components/admin-ui/FormTextField/FormTextField';
 import { ReactRouterLinkButton } from 'src/components/admin-ui/LinkButton/LinkButton';
 import { Table } from 'src/components/admin-ui/Table/Table';
-import { Title } from 'src/components/admin-ui/Title/Title';
 import { IconWrapper } from 'src/components/client-ui/IconWrapper/IconWrapper';
 import { LoaderLayout } from 'src/components/client-ui/LoaderLayout/LoaderLayout';
 import { Tooltip } from 'src/components/client-ui/Tooltip/Tooltip';
 import { PriceText } from 'src/components/client/Price/Price';
-import { useBoolean } from 'src/hooks/useBoolean';
 import { useDebounce } from 'src/hooks/useDebounce';
 import { IconSizes } from 'src/styles/icon';
 import { mediaQueries } from 'src/styles/media';
@@ -168,7 +166,7 @@ interface IProps<T> {
   hideSubheader?: boolean;
   hideDelete?: boolean;
   hideEdit?: boolean;
-  search?: (query: string) => Promise<T[]>;
+  onSearchChange?: (query: string) => void;
   isDeletedMode?: boolean;
 }
 
@@ -187,49 +185,30 @@ export const AdminTable = <T extends { id: number }>({
   hideSubheader = false,
   hideDelete = false,
   hideEdit = false,
-  search,
+  onSearchChange,
   isDeletedMode,
 }: IProps<T>) => {
   const intl = useIntl();
-  const { value: isSearching, setPositive: setSearching, setNegative: setIdle } = useBoolean();
-  const [error, setError] = React.useState<string | undefined>(undefined);
   const [searchValue, setSearchValue] = React.useState('');
   const debouncedSearchValue = useDebounce(searchValue, 500);
-  const onSearchChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
+  const onSearchChange_: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     (e) => setSearchValue(e.currentTarget.value),
     [],
   );
-  const [searchResults, setSearchResults] = React.useState<T[]>([]);
 
   React.useEffect(() => {
-    (async () => {
-      if (search && debouncedSearchValue.length > 0) {
-        try {
-          setSearching();
-          setSearchResults(await search(debouncedSearchValue));
-        } catch (e) {
-          setError('errors.common');
-        } finally {
-          setIdle();
-        }
-      }
-    })();
+    onSearchChange && onSearchChange(debouncedSearchValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearchValue]);
 
   const renderContent = () => {
-    if (isLoading || isSearching) {
+    if (isLoading) {
       return <LoaderLayout />;
     }
 
     const isEmpty = entities.length === 0 && isDataLoaded;
-    const isSearchResultsEmpty = debouncedSearchValue.length > 0 && !isSearching && searchResults.length === 0;
-    if (isEmpty || isSearchResultsEmpty) {
+    if (isEmpty) {
       return renderNoData();
-    }
-
-    if (error) {
-      return <Title size={4}>{intl.formatMessage({ id: error })}</Title>;
     }
 
     const getDeletePath = (id: number) => {
@@ -265,7 +244,7 @@ export const AdminTable = <T extends { id: number }>({
             )}
           </Table.Head>
           <Table.Body>
-            {(debouncedSearchValue.length > 0 ? searchResults : entities).map((entity) => (
+            {entities.map((entity) => (
               <Table.Row key={entity.id}>
                 {React.Children.map(children, ({ props: { key_, renderer, render } }) =>
                   render ? (
@@ -332,10 +311,10 @@ export const AdminTable = <T extends { id: number }>({
 
   return (
     <>
-      {search && (
+      {onSearchChange && (
         <FormTextField
           labelProps={{ children: intl.formatMessage({ id: 'common.search' }) }}
-          inputProps={{ onChange: onSearchChange, value: searchValue }}
+          inputProps={{ onChange: onSearchChange_, value: searchValue }}
         />
       )}
 

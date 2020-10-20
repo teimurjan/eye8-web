@@ -48,7 +48,7 @@ export const AdminProductTypesListView = ({
   onPageChange,
   onDeletedModeChange,
   onAvailabilityChange,
-  search,
+  onSearchChange,
   available,
   isDeletedMode,
 }: IProps) => {
@@ -80,7 +80,7 @@ export const AdminProductTypesListView = ({
         currentPage={meta?.page}
         pagesCount={meta?.pages_count}
         onPageChange={onPageChange}
-        search={search}
+        onSearchChange={onSearchChange}
         isDeletedMode={isDeletedMode}
       >
         <AdminTable.Col<ProductType> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />

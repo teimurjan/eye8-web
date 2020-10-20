@@ -7,5 +7,5 @@ import { useDependencies } from 'src/DI/DI';
 export const SearchContainer = () => {
   const { dependencies } = useDependencies();
 
-  return <SearchPresenter View={SearchView} service={dependencies.services.search} />;
+  return <SearchPresenter View={SearchView} service={dependencies.services.productType} />;
 };
