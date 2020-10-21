@@ -12,7 +12,7 @@ import { IProps as IListViewProps } from 'src/components/client/ProductType/Prod
 import { ProductTypesPageFilterContainer as ProductTypesPageFilter } from 'src/components/client/ProducTypesPage/ProductTypesPageFilter/ProductTypesPageFilterContainer';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { agregateOrderedMapToArray } from 'src/utils/agregate';
-import { buildSearchString } from 'src/utils/queryString';
+import { buildSearchString } from 'src/utils/searchString';
 
 export interface IProps {
   ListView: React.ComponentClass<IListViewProps> | React.SFC<IListViewProps>;

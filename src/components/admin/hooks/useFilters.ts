@@ -2,31 +2,33 @@ import React from 'react';
 import { useHistory } from 'react-router';
 
 import { useSearchParams } from 'src/components/admin/hooks/useSearchParams';
-import { buildSearchString, ISearchParams } from 'src/utils/queryString';
+import { buildSearchString } from 'src/utils/searchString';
 
-interface IArgs<T extends string> {
-  initialFilters: ISearchParams<T>;
+interface IArgs<I extends object> {
+  initialFilters: I;
   relyOn: 'location' | 'state';
   initialFrom?: 'location' | 'state';
 }
 
-export const useFilters = <T extends string>({ initialFilters, relyOn, initialFrom = relyOn }: IArgs<T>) => {
+export const useFilters = <I extends object>({ initialFilters, relyOn, initialFrom = relyOn }: IArgs<I>) => {
   const history = useHistory();
-  const filtersFromURL = useSearchParams(...Object.keys(initialFilters));
-  const [filters, setFilters] = React.useState(initialFrom === 'location' ? filtersFromURL : initialFilters);
+  const filtersFromSearch = useSearchParams(Object.keys(initialFilters)) as {
+    [key in keyof typeof initialFilters]: typeof initialFilters[key];
+  };
+  const [filters, setFilters] = React.useState(initialFrom === 'location' ? filtersFromSearch : initialFilters);
 
   const sync = React.useCallback(() => {
     if (relyOn === 'location') {
-      setFilters(filtersFromURL);
+      setFilters(filtersFromSearch);
     } else {
       history.push(`${history.location.pathname}${buildSearchString(filters)}`);
     }
-  }, [filtersFromURL, history, filters, relyOn]);
+  }, [filtersFromSearch, history, filters, relyOn]);
 
   React.useEffect(() => {
     sync();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filtersFromURL, filters]);
+  }, [filtersFromSearch, filters]);
 
   return { filters, setFilters };
 };

@@ -19,7 +19,7 @@ const NewPromoCodeButton = () => {
   );
 };
 
-const NoPromoCodesAvialable = ({ isDeletedMode }: Pick<IProps, 'isDeletedMode'>) => {
+const NoPromoCodesAvialable = () => {
   const intl = useIntl();
   return (
     <NoDataAvailable
@@ -29,13 +29,7 @@ const NoPromoCodesAvialable = ({ isDeletedMode }: Pick<IProps, 'isDeletedMode'>)
   );
 };
 
-export const AdminPromoCodesListView = ({
-  promoCodes,
-  isLoading,
-  isDataLoaded,
-  isDeletedMode,
-  onDeletedModeChange,
-}: IProps) => {
+export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded, deleted, onDeletedChange }: IProps) => {
   const intl = useIntl();
   return (
     <Section
@@ -45,9 +39,9 @@ export const AdminPromoCodesListView = ({
     >
       <AdminFiltersSection>
         <Checkbox
-          label={intl.formatMessage({ id: 'common.isDeletedMode' })}
-          onChange={onDeletedModeChange}
-          checked={isDeletedMode}
+          label={intl.formatMessage({ id: 'common.showDeleted' })}
+          onChange={onDeletedChange}
+          checked={deleted}
         />
       </AdminFiltersSection>
 
@@ -57,8 +51,7 @@ export const AdminPromoCodesListView = ({
         isLoading={isLoading}
         isDataLoaded={isDataLoaded}
         entities={promoCodes}
-        renderNoData={() => <NoPromoCodesAvialable isDeletedMode={isDeletedMode} />}
-        isDeletedMode={isDeletedMode}
+        renderNoData={() => <NoPromoCodesAvialable />}
       >
         <AdminTable.Col<PromoCode> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
         <AdminTable.Col<PromoCode> key_="value" title={intl.formatMessage({ id: 'AdminPromoCodes.value' })} />

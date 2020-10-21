@@ -6,6 +6,7 @@ import { useTheme } from 'emotion-theming';
 import * as React from 'react';
 import { Trash as TrashIcon, Edit2 as Edit2Icon } from 'react-feather';
 import { useIntl } from 'react-intl';
+import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import { ControlledPagination } from 'src/components/admin-ui/ControlledPagination/ControlledPagination';
@@ -20,7 +21,6 @@ import { useDebounce } from 'src/hooks/useDebounce';
 import { IconSizes } from 'src/styles/icon';
 import { mediaQueries } from 'src/styles/media';
 import { availableLocales } from 'src/utils/locale';
-import { buildSearchString } from 'src/utils/queryString';
 import { formatMediaURL } from 'src/utils/url';
 
 interface IAdminTableRendererRequiredArgs {
@@ -188,7 +188,6 @@ interface IProps<T> {
   hideDelete?: boolean;
   hideEdit?: boolean;
   onSearchChange?: (query: string) => void;
-  isDeletedMode?: boolean;
 }
 
 const defaultRenderer = new DefaultRenderer();
@@ -207,8 +206,9 @@ export const AdminTable = <T extends { id: number }>({
   hideDelete = false,
   hideEdit = false,
   onSearchChange,
-  isDeletedMode,
 }: IProps<T>) => {
+  const location = useLocation();
+
   const intl = useIntl();
   const [searchValue, setSearchValue] = React.useState('');
   const debouncedSearchValue = useDebounce(searchValue, 500);
@@ -232,12 +232,7 @@ export const AdminTable = <T extends { id: number }>({
       return renderNoData();
     }
 
-    const getDeletePath = (id: number) => {
-      return `${pathPrefix}/delete/${id}${buildSearchString({
-        // Currently, search works only for non-deleted entities
-        forever: debouncedSearchValue.length === 0 ? Boolean(isDeletedMode).toString() : false,
-      })}`;
-    };
+    const getDeletePath = (id: number) => `${pathPrefix}/delete/${id}${location.search}`;
 
     return (
       <>
@@ -287,7 +282,7 @@ export const AdminTable = <T extends { id: number }>({
                 >
                   {!hideEdit && (
                     <ReactRouterLinkButton
-                      to={`${pathPrefix}/edit/${entity.id}`}
+                      to={`${pathPrefix}/edit/${entity.id}${location.search}`}
                       css={css`
                         margin-right: 0.5rem;
 

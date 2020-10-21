@@ -33,11 +33,11 @@ export interface IProductService {
     };
     result: number[];
   }>;
-  delete(id: number): Promise<{}>;
+  delete(id: number, options?: productAPI.IDeleteOptions): Promise<{}>;
   create(payload: productAPI.IProductCreatePayload): Promise<productAPI.IProductListResponseItem>;
   edit(id: number, payload: productAPI.IProductEditPayload): Promise<productAPI.IProductListResponseItem>;
-  exists(id: number): Promise<boolean>;
-  getOne(id: number): Promise<productAPI.IProductListResponseItem | undefined>;
+  exists(id: number, options?: productAPI.IGetOneOptions): Promise<boolean>;
+  getOne(id: number, options?: productAPI.IGetOneOptions): Promise<productAPI.IProductListResponseItem | undefined>;
   getForProductType(
     productTypeID: number,
     options?: productAPI.IGetForProductTypeOptions,
@@ -85,9 +85,9 @@ export class ProductService implements IProductService {
     return normalize(products.data, [new schema.Entity('products')]);
   };
 
-  public delete(id: number) {
+  public delete: IProductService['delete'] = async (id, options = {}) => {
     try {
-      return this.API.delete(id);
+      return this.API.delete(id, options);
     } catch (e) {
       if (e instanceof productAPI.errors.ProductNotFound) {
         throw new errors.ProductNotExists();
@@ -95,7 +95,7 @@ export class ProductService implements IProductService {
 
       throw e;
     }
-  }
+  };
 
   public create: IProductService['create'] = async (payload) => {
     return (await this.API.create(payload)).data;
@@ -113,9 +113,9 @@ export class ProductService implements IProductService {
     }
   };
 
-  public exists: IProductService['exists'] = async (id) => {
+  public exists: IProductService['exists'] = async (id, options = {}) => {
     try {
-      await this.API.status(id);
+      await this.API.status(id, options);
       return true;
     } catch (e) {
       if (e instanceof productAPI.errors.ProductNotFound) {
@@ -126,9 +126,9 @@ export class ProductService implements IProductService {
     }
   };
 
-  public getOne: IProductService['getOne'] = async (id) => {
+  public getOne: IProductService['getOne'] = async (id, options = {}) => {
     try {
-      return (await this.API.getOne(id)).data;
+      return (await this.API.getOne(id, options)).data;
     } catch (e) {
       if (e instanceof productAPI.errors.ProductNotFound) {
         return undefined;

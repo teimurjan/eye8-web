@@ -10,32 +10,14 @@ export const AdminProductsDeleteContainer = () => {
     state: { remove: deleteProduct },
   } = useAdminProductsState();
 
-  const deleteEntity = React.useCallback(
-    async (id: number) => {
-      await dependencies.services.product.delete(id);
-      deleteProduct(id);
-    },
-    [deleteProduct, dependencies.services.product],
-  );
-
-  const preloadData = React.useCallback(
-    async ({ id, setError, setIsLoading }) => {
-      try {
-        setIsLoading(true);
-        const isExists = await dependencies.services.product.exists(id);
-        if (!isExists) {
-          setError('AdminProducts.notFound');
-        }
-      } catch (e) {
-        setError('errors.common');
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [dependencies.services.product],
-  );
-
   return (
-    <DeleteModalContainer deleteEntity={deleteEntity} preloadData={preloadData} getBackPath={() => '/admin/products'} />
+    <DeleteModalContainer
+      deleteEntity={async ({ id, deleted }) => {
+        await dependencies.services.product.delete(id, { forever: deleted });
+        deleteProduct(id);
+      }}
+      checkExistence={({ id, deleted }) => dependencies.services.product.exists(id, { deleted })}
+      getBackPath={() => '/admin/products'}
+    />
   );
 };

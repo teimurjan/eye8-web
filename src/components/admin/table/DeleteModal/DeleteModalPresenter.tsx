@@ -3,23 +3,25 @@ import { RouteComponentProps } from 'react-router';
 
 import { useSearchParams } from 'src/components/admin/hooks/useSearchParams';
 
-interface IPreloadDataArgs {
+interface ICheckExistenceDataArgs {
   id: number;
-  setError: (error: string | undefined) => void;
-  setIsLoading: (isLoading: boolean) => void;
-  close: () => void;
-  forever?: boolean;
+  deleted: boolean;
+}
+
+interface IDeleteArgs {
+  id: number;
+  deleted: boolean;
 }
 
 interface IBackPathArgs {
   id: number;
-  forever?: boolean;
+  deleted: boolean;
 }
 
 export interface IProps {
   View: React.ComponentType<IViewProps>;
-  deleteEntity: (id: number, forever?: boolean) => Promise<void>;
-  preloadData: (args: IPreloadDataArgs) => Promise<void>;
+  deleteEntity: (args: IDeleteArgs) => Promise<void>;
+  checkExistence: (args: ICheckExistenceDataArgs) => Promise<boolean>;
   getErrorMessageID?: (e: Error) => string;
   getBackPath: (args: IBackPathArgs) => string;
 }
@@ -36,36 +38,48 @@ export const DeleteModalPresenter = ({
   View,
   match,
   history,
-  preloadData,
-  getBackPath,
   deleteEntity,
+  getBackPath,
+  checkExistence,
   getErrorMessageID,
 }: IProps & RouteComponentProps<{ id: string }>) => {
-  const forever = useSearchParams('forever').forever as boolean;
+  const { deleted } = useSearchParams<'deleted', boolean>(['deleted']);
 
   const id = parseInt(match.params.id, 10);
 
-  const backPath = React.useMemo(() => getBackPath({ id, forever }), [id, forever, getBackPath]);
+  const backPath = React.useMemo(() => getBackPath({ id, deleted }), [id, getBackPath, deleted]);
   const close = React.useCallback(() => history.push(backPath), [backPath, history]);
 
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
-    preloadData({ id, close, setError, setIsLoading, forever });
-  }, [close, id, preloadData, forever]);
+    (async () => {
+      try {
+        setIsLoading(true);
+        const isExists = await checkExistence({ id, deleted });
+        if (!isExists) {
+          setError('AdminCategories.notFound');
+        }
+      } catch (e) {
+        setError('errors.common');
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, [close, id, checkExistence, deleted]);
 
   const remove = React.useCallback(async () => {
     try {
       setIsLoading(true);
-      await deleteEntity(id, forever);
+      await deleteEntity({ id, deleted });
       setIsLoading(false);
       close();
     } catch (e) {
       setIsLoading(false);
       setError(getErrorMessageID ? getErrorMessageID(e) : 'errors.common');
     }
-  }, [close, deleteEntity, getErrorMessageID, id, forever]);
+  }, [close, deleteEntity, getErrorMessageID, id, deleted]);
 
   return <View isOpen={!!id} onConfirm={remove} onClose={close} error={error} isLoading={isLoading} />;
 };

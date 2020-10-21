@@ -1,7 +1,7 @@
 import { Client } from 'ttypes/http';
 
 import { IHeadersManager } from 'src/manager/HeadersManager';
-import { buildSearchString } from 'src/utils/queryString';
+import { buildSearchString } from 'src/utils/searchString';
 
 export interface ICategoryListResponseItem {
   id: number;

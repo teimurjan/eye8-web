@@ -12,8 +12,8 @@ export interface IViewProps {
   promoCodes: AdminPromoCodesStateContextValue['state']['entities'];
   isDataLoaded: boolean;
   isLoading: boolean;
-  isDeletedMode: boolean;
-  onDeletedModeChange: () => void;
+  deleted: boolean;
+  onDeletedChange: () => void;
 }
 
 export const AdminPromoCodesListPresenter = ({
@@ -21,27 +21,26 @@ export const AdminPromoCodesListPresenter = ({
   adminPromoCodesState: { isListLoading, entities: promoCodes, get: getPromoCodes, hasListLoaded },
 }: IProps) => {
   const {
-    filters: { deleted, forever },
+    filters: { deleted },
     setFilters,
   } = useAdminPromoCodesFilters();
-  const isDeletedMode = deleted === true || forever === true;
 
   React.useEffect(() => {
-    getPromoCodes({ deleted: isDeletedMode });
+    getPromoCodes({ deleted });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDeletedMode]);
+  }, [deleted]);
 
-  const onDeletedModeChange = React.useCallback(() => {
-    setFilters({ forever, deleted: !deleted });
-  }, [forever, deleted, setFilters]);
+  const onDeletedChange = React.useCallback(() => {
+    setFilters({ deleted: !deleted });
+  }, [deleted, setFilters]);
 
   return (
     <View
-      onDeletedModeChange={onDeletedModeChange}
+      onDeletedChange={onDeletedChange}
       isDataLoaded={hasListLoaded}
       isLoading={isListLoading}
       promoCodes={promoCodes}
-      isDeletedMode={isDeletedMode}
+      deleted={deleted}
     />
   );
 };

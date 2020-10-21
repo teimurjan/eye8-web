@@ -1,7 +1,7 @@
 import { Client } from 'ttypes/http';
 
 import { IHeadersManager } from 'src/manager/HeadersManager';
-import { buildSearchString } from 'src/utils/queryString';
+import { flagToSearchStringValue, buildSearchString } from 'src/utils/searchString';
 
 export interface IPromoCodeListResponseItem {
   id: number;
@@ -86,7 +86,7 @@ export class PromoCodeAPI implements IPromoCodeAPI {
   public getAll: IPromoCodeAPI['getAll'] = async (deleted = false) => {
     try {
       const response = await this.client.get<IPromoCodeListResponseData>(
-        `/api/promo_codes${buildSearchString({ deleted: deleted ? 1 : 0 })}`,
+        `/api/promo_codes${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
@@ -100,7 +100,7 @@ export class PromoCodeAPI implements IPromoCodeAPI {
   public delete: IPromoCodeAPI['delete'] = async (id, forever = false) => {
     try {
       const response = await this.client.delete<{}>(
-        `/api/promo_codes/${id}${buildSearchString({ forever: forever ? 1 : 0 })}`,
+        `/api/promo_codes/${id}${buildSearchString({ forever: flagToSearchStringValue(forever) })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
@@ -154,7 +154,7 @@ export class PromoCodeAPI implements IPromoCodeAPI {
   public getOne: IPromoCodeAPI['getOne'] = async (id, options) => {
     try {
       const response = await this.client.get<IPromoCodeDetailResponseData>(
-        `/api/promo_codes/${id}${buildSearchString({ deleted: options.deleted ? 1 : 0 })}`,
+        `/api/promo_codes/${id}${buildSearchString({ deleted: flagToSearchStringValue(options.deleted) })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
@@ -185,7 +185,7 @@ export class PromoCodeAPI implements IPromoCodeAPI {
   public status: IPromoCodeAPI['status'] = async (id, deleted = false) => {
     try {
       const response = await this.client.head<{}>(
-        `/api/promo_codes/${id}${buildSearchString({ deleted: deleted ? 1 : 0 })}`,
+        `/api/promo_codes/${id}${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,
         {
           headers: this.headersManager.getHeaders(),
         },

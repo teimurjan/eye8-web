@@ -2,7 +2,7 @@ import { Client } from 'ttypes/http';
 
 import { ICharacteristicListRawIntlResponseItem, ICharacteristicListResponseItem } from 'src/api/CharacteristicAPI';
 import { IHeadersManager } from 'src/manager/HeadersManager';
-import { buildSearchString } from 'src/utils/queryString';
+import { buildSearchString } from 'src/utils/searchString';
 
 export interface ICharacteristicValueListResponseItem {
   id: number;

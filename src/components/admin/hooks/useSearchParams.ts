@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router';
 
 import { arrayAsDep } from 'src/utils/hooks';
-import { ISearchParams } from 'src/utils/queryString';
+import { ISearchParams } from 'src/utils/searchString';
 
 const deserialize = (value: string | null) => {
   if (value === 'true') return true;
@@ -11,7 +11,7 @@ const deserialize = (value: string | null) => {
   return value;
 };
 
-export const useSearchParams = <T extends string>(...params: T[]) => {
+export const useSearchParams = <K extends string, V>(params: K[]) => {
   const location = useLocation();
   const searchParams = React.useMemo(() => new URLSearchParams(location.search), [location.search]);
   const paramsDep = arrayAsDep(params);
@@ -19,7 +19,7 @@ export const useSearchParams = <T extends string>(...params: T[]) => {
     () =>
       params.reduce(
         (acc, param) => ({ ...acc, [param]: deserialize(searchParams.get(param)) }),
-        {} as ISearchParams<T>,
+        {} as ISearchParams<K, V>,
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchParams, paramsDep],

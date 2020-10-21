@@ -10,35 +10,13 @@ export const AdminFeatureTypesDeleteContainer = () => {
     state: { remove: deleteFeatureType },
   } = useAdminFeatureTypesState();
 
-  const deleteEntity = React.useCallback(
-    async (id: number) => {
-      await dependencies.services.featureType.delete(id);
-      deleteFeatureType(id);
-    },
-    [deleteFeatureType, dependencies.services.featureType],
-  );
-
-  const preloadData = React.useCallback(
-    async ({ id, setError, setIsLoading }) => {
-      try {
-        setIsLoading(true);
-        const isExists = await dependencies.services.featureType.exists(id);
-        if (!isExists) {
-          setError('AdminFeatureTypes.notFound');
-        }
-      } catch (e) {
-        setError('errors.common');
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [dependencies.services.featureType],
-  );
-
   return (
     <DeleteModalContainer
-      deleteEntity={deleteEntity}
-      preloadData={preloadData}
+      deleteEntity={async ({ id }) => {
+        await dependencies.services.featureType.delete(id);
+        deleteFeatureType(id);
+      }}
+      checkExistence={({ id }) => dependencies.services.featureType.exists(id)}
       getBackPath={() => '/admin/featureTypes'}
     />
   );

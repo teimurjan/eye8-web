@@ -46,11 +46,11 @@ export const AdminProductTypesListView = ({
   isDataLoaded,
   meta,
   onPageChange,
-  onDeletedModeChange,
+  onDeletedChange,
   onAvailabilityChange,
   onSearchChange,
   available,
-  isDeletedMode,
+  deleted,
 }: IProps) => {
   const intl = useIntl();
   return (
@@ -61,9 +61,9 @@ export const AdminProductTypesListView = ({
     >
       <AdminFiltersSection>
         <Checkbox
-          label={intl.formatMessage({ id: 'common.isDeletedMode' })}
-          onChange={onDeletedModeChange}
-          checked={isDeletedMode}
+          label={intl.formatMessage({ id: 'common.showDeleted' })}
+          onChange={onDeletedChange}
+          checked={deleted}
         />
         <Checkbox
           label={intl.formatMessage({ id: 'common.availabilityFilter' })}
@@ -81,7 +81,6 @@ export const AdminProductTypesListView = ({
         pagesCount={meta?.pages_count}
         onPageChange={onPageChange}
         onSearchChange={onSearchChange}
-        isDeletedMode={isDeletedMode}
       >
         <AdminTable.Col<ProductType> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
         <AdminTable.Col<ProductType>

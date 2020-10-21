@@ -22,36 +22,14 @@ export const AdminCategoriesDeleteContainer = () => {
     state: { remove: deleteCategory },
   } = useAdminCategoriesState();
 
-  const deleteEntity = React.useCallback(
-    async (id: number) => {
-      await dependencies.services.category.delete(id);
-      deleteCategory(id);
-    },
-    [deleteCategory, dependencies.services.category],
-  );
-
-  const preloadData = React.useCallback(
-    async ({ id, setError, setIsLoading }) => {
-      try {
-        setIsLoading(true);
-        const isExists = await dependencies.services.category.exists(id);
-        if (!isExists) {
-          setError('AdminCategories.notFound');
-        }
-      } catch (e) {
-        setError('errors.common');
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [dependencies.services.category],
-  );
-
   return (
     <DeleteModalContainer
       getErrorMessageID={getErrorMessageID}
-      deleteEntity={deleteEntity}
-      preloadData={preloadData}
+      deleteEntity={async ({ id }) => {
+        await dependencies.services.category.delete(id);
+        deleteCategory(id);
+      }}
+      checkExistence={({ id }) => dependencies.services.category.exists(id)}
       getBackPath={() => '/admin/categories'}
     />
   );

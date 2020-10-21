@@ -10,32 +10,14 @@ export const AdminOrdersDeleteContainer = () => {
     state: { remove: deleteOrder },
   } = useAdminOrdersState();
 
-  const deleteEntity = React.useCallback(
-    async (id: number) => {
-      await dependencies.services.order.delete(id);
-      deleteOrder(id);
-    },
-    [deleteOrder, dependencies.services.order],
-  );
-
-  const preloadData = React.useCallback(
-    async ({ id, setError, setIsLoading }) => {
-      try {
-        setIsLoading(true);
-        const isExists = await dependencies.services.order.exists(id);
-        if (!isExists) {
-          setError('AdminOrders.notFound');
-        }
-      } catch (e) {
-        setError('errors.common');
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [dependencies.services.order],
-  );
-
   return (
-    <DeleteModalContainer deleteEntity={deleteEntity} preloadData={preloadData} getBackPath={() => '/admin/orders'} />
+    <DeleteModalContainer
+      deleteEntity={async ({ id }) => {
+        await dependencies.services.order.delete(id);
+        deleteOrder(id);
+      }}
+      checkExistence={({ id }) => dependencies.services.order.exists(id)}
+      getBackPath={() => '/admin/orders'}
+    />
   );
 };

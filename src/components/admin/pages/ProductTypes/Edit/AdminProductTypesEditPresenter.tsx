@@ -10,7 +10,7 @@ import {
   PRODUCT_TYPE_DESCRIPTION_FIELD_KEY,
   PRODUCT_TYPE_SHORT_DESCRIPTION_FIELD_KEY,
 } from 'src/components/admin/pages/ProductTypes/Create/AdminProductTypesCreatePresenter';
-import { useAdminPromoCodesFilters } from 'src/components/admin/pages/PromoCodes/useAdminPromoCodesFilters';
+import { useAdminProductTypesFilters } from 'src/components/admin/pages/ProductTypes/useAdminProductTypesFilters';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminCategoriesStateContextValue } from 'src/state/Admin/AdminCategoriesState';
 import { ContextValue as AdminCharacteristicValuesStateContextValue } from 'src/state/Admin/AdminCharacteristicValuesState';
@@ -119,7 +119,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
 }) => {
   const {
     filters: { deleted },
-  } = useAdminPromoCodesFilters();
+  } = useAdminProductTypesFilters();
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [productType, setProductType] = React.useState<IProductTypeDetailRawIntlResponseItem | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
@@ -133,7 +133,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
       try {
         setLoading(true);
 
-        const productType = await service.getOneRawIntl(productTypeId, { deleted: !!deleted });
+        const productType = await service.getOneRawIntl(productTypeId, { deleted });
         if (productType) {
           const promises = [];
           if (!hasCategoriesLoaded) {

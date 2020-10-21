@@ -1,7 +1,7 @@
 import { Client } from 'ttypes/http';
 
 import { IHeadersManager } from 'src/manager/HeadersManager';
-import { buildSearchString } from 'src/utils/queryString';
+import { flagToSearchStringValue, buildSearchString } from 'src/utils/searchString';
 
 // LIST
 export interface IProductListResponseMeta {
@@ -56,21 +56,30 @@ export type IProductEditPayload = IProductCreatePayload;
 export interface IGetAllOptions {
   page: number;
   available?: boolean;
+  deleted?: boolean;
 }
 
 export interface IGetForProductTypeOptions {
   available?: boolean;
 }
 
+export interface IGetOneOptions {
+  deleted?: boolean;
+}
+
+export interface IDeleteOptions {
+  forever?: boolean;
+}
+
 export interface IProductAPI {
   getAll(options: IGetAllOptions): Promise<IProductListResponseData>;
   getSome(ids: number[]): Promise<IProductListResponseData>;
   getForCart(ids: number[]): Promise<IProductListResponseData>;
-  delete(id: number): Promise<{}>;
+  delete(id: number, options: IDeleteOptions): Promise<{}>;
   create(payload: IProductCreatePayload): Promise<IProductResponseData>;
   edit(id: number, payload: IProductEditPayload): Promise<IProductResponseData>;
-  status(id: number): Promise<{}>;
-  getOne(id: number): Promise<IProductResponseData>;
+  status(id: number, options: IGetOneOptions): Promise<{}>;
+  getOne(id: number, options: IGetOneOptions): Promise<IProductResponseData>;
   getForProductType(
     productTypeID: number,
     options: IGetForProductTypeOptions,
@@ -95,12 +104,13 @@ export class ProductAPI implements IProductAPI {
     this.headersManager = headersManager;
   }
 
-  public getAll: IProductAPI['getAll'] = async ({ page, available = false }) => {
+  public getAll: IProductAPI['getAll'] = async ({ page, available = false, deleted = false }) => {
     try {
       const response = await this.client.get<IProductListResponseData>(
         `/api/products${buildSearchString({
           page,
-          available: available ? 1 : 0,
+          available: flagToSearchStringValue(available),
+          deleted: flagToSearchStringValue(deleted),
         })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -134,11 +144,14 @@ export class ProductAPI implements IProductAPI {
     }
   };
 
-  public delete: IProductAPI['delete'] = async (id) => {
+  public delete: IProductAPI['delete'] = async (id, { forever = false }) => {
     try {
-      const response = await this.client.delete<{}>(`/api/products/${id}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.delete<{}>(
+        `/api/products/${id}${buildSearchString({ forever: flagToSearchStringValue(forever) })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
@@ -183,11 +196,14 @@ export class ProductAPI implements IProductAPI {
     }
   };
 
-  public status: IProductAPI['status'] = async (id) => {
+  public status: IProductAPI['status'] = async (id, { deleted = false }) => {
     try {
-      const response = await this.client.head<{}>(`/api/products/${id}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.head<{}>(
+        `/api/products/${id}${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
@@ -197,11 +213,14 @@ export class ProductAPI implements IProductAPI {
     }
   };
 
-  public getOne: IProductAPI['getOne'] = async (id) => {
+  public getOne: IProductAPI['getOne'] = async (id, { deleted = false }) => {
     try {
-      const response = await this.client.get<IProductResponseData>(`/api/products/${id}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.get<IProductResponseData>(
+        `/api/products/${id}${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
@@ -213,7 +232,9 @@ export class ProductAPI implements IProductAPI {
 
   public getForProductType: IProductAPI['getForProductType'] = async (productTypeID, { available = false }) => {
     const response = await this.client.get<IProductForProductTypeResponseData>(
-      `/api/product_types/${productTypeID}/products${buildSearchString({ available: available ? 1 : 0 })}`,
+      `/api/product_types/${productTypeID}/products${buildSearchString({
+        available: flagToSearchStringValue(available),
+      })}`,
       { headers: this.headersManager.getHeaders() },
     );
     return response.data;

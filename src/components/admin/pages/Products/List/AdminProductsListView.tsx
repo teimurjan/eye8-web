@@ -56,6 +56,8 @@ export const AdminProductsListView = ({
   productTypes,
   onProductTypeChange,
   onAvailabilityChange,
+  onDeletedChange,
+  deleted,
   available,
 }: IProps) => {
   const intl = useIntl();
@@ -85,6 +87,11 @@ export const AdminProductsListView = ({
           label={intl.formatMessage({ id: 'common.availabilityFilter' })}
           onChange={onAvailabilityChange}
           checked={available}
+        />
+        <Checkbox
+          label={intl.formatMessage({ id: 'common.showDeleted' })}
+          onChange={onDeletedChange}
+          checked={deleted}
         />
       </AdminFiltersSection>
 

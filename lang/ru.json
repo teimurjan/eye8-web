@@ -303,7 +303,7 @@
   "AdminProducts.productTypeFilter": "Показаны продукты для {productType}",
   "common.showAll": "Показать все",
   "common.empty": "Здесь пока пусто 🤷‍♂️",
-  "common.isDeletedMode": "Показать архив",
+  "common.showDeleted": "Показать архив",
   "common.showCurrent": "Показать текущие",
   "AdminProducts.productTypeSelect.placeholder": "Выберите тип продукта",
   "AdminProductTypes.featureTypesSelect.placeholder": "Выберите тип продукта",

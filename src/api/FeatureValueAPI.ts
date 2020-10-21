@@ -2,7 +2,7 @@ import { Client } from 'ttypes/http';
 
 import { IFeatureTypeListRawIntlResponseItem, IFeatureTypeListResponseItem } from 'src/api/FeatureTypeAPI';
 import { IHeadersManager } from 'src/manager/HeadersManager';
-import { buildSearchString } from 'src/utils/queryString';
+import { buildSearchString } from 'src/utils/searchString';
 
 export interface IFeatureValueListResponseItem {
   id: number;

@@ -1,7 +1,7 @@
 import { Client } from 'ttypes/http';
 
 import { IHeadersManager } from 'src/manager/HeadersManager';
-import { buildSearchString } from 'src/utils/queryString';
+import { flagToSearchStringValue, buildSearchString } from 'src/utils/searchString';
 
 // LIST
 export interface IProductTypeListResponseMeta {
@@ -250,7 +250,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
           page,
           sort_by: queryValueOfSortingType[sortingType],
           products: 1,
-          available: available ? 1 : 0,
+          available: flagToSearchStringValue(available),
           characteristics: characteristicValuesIds,
         })}`,
         {
@@ -277,9 +277,9 @@ export class ProductTypeAPI implements IProductTypeAPI {
       const response = await this.client.get<T>(
         `/api/product_types/search/${query}${buildSearchString({
           page,
-          available: available ? 1 : 0,
-          raw_intl: rawIntl ? 1 : 0,
-          deleted: deleted ? 1 : 0,
+          available: flagToSearchStringValue(available),
+          raw_intl: flagToSearchStringValue(rawIntl),
+          deleted: flagToSearchStringValue(deleted),
         })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -294,7 +294,11 @@ export class ProductTypeAPI implements IProductTypeAPI {
   public getAll: IProductTypeAPI['getAll'] = async ({ page, deleted, available = false }) => {
     try {
       const response = await this.client.get<IProductTypeListResponseData>(
-        `/api/product_types${buildSearchString({ page, deleted: deleted ? 1 : 0, available: available ? 1 : 0 })}`,
+        `/api/product_types${buildSearchString({
+          page,
+          deleted: flagToSearchStringValue(deleted),
+          available: flagToSearchStringValue(available),
+        })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
@@ -328,7 +332,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
   public getByID: IProductTypeAPI['getByID'] = async (id: number, { deleted }) => {
     try {
       const response = await this.client.get<IProductTypeDetailResponseItemData>(
-        `/api/product_types/${id}${buildSearchString({ deleted: deleted ? 1 : 0 })}`,
+        `/api/product_types/${id}${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
@@ -365,7 +369,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
           page,
           limit: typeof page !== 'undefined' ? 10 : undefined,
           sort_by: sortingType ? queryValueOfSortingType[sortingType] : undefined,
-          available: available ? 1 : 0,
+          available: flagToSearchStringValue(available),
         })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -384,8 +388,8 @@ export class ProductTypeAPI implements IProductTypeAPI {
           page,
           raw_intl: 1,
           limit: 10,
-          deleted: deleted ? 1 : 0,
-          available: available ? 1 : 0,
+          deleted: flagToSearchStringValue(deleted),
+          available: flagToSearchStringValue(available),
         })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -400,7 +404,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
   public delete: IProductTypeAPI['delete'] = async (id: number, { forever }) => {
     try {
       const response = await this.client.delete<{}>(
-        `/api/product_types/${id}${buildSearchString({ forever: forever ? 1 : 0 })}`,
+        `/api/product_types/${id}${buildSearchString({ forever: flagToSearchStringValue(forever) })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
@@ -456,7 +460,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
   public status: IProductTypeAPI['status'] = async (id: number, { deleted }) => {
     try {
       const response = await this.client.head<{}>(
-        `/api/product_types/${id}${buildSearchString({ deleted: deleted ? 1 : 0 })}`,
+        `/api/product_types/${id}${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,
         {
           headers: this.headersManager.getHeaders(),
         },
@@ -473,7 +477,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
   public getOneRawIntl: IProductTypeAPI['getOneRawIntl'] = async (id: number, { deleted }) => {
     try {
       const response = await this.client.get<IProductTypeRawIntlResponseData>(
-        `/api/product_types/${id}${buildSearchString({ raw_intl: 1, deleted: deleted ? 1 : 0 })}`,
+        `/api/product_types/${id}${buildSearchString({ raw_intl: 1, deleted: flagToSearchStringValue(deleted) })}`,
         {
           headers: this.headersManager.getHeaders(),
         },

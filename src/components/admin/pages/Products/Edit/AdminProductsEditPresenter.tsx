@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { IProductListResponseItem } from 'src/api/ProductAPI';
 import { IProductTypeListRawIntlMinifiedResponseItem } from 'src/api/ProductTypeAPI';
 import { useSelectProductTypes } from 'src/components/admin/form/ProductTypeSelect/useSelectProductTypes';
+import { useAdminProductsFilters } from 'src/components/admin/pages/Products/useAdminProductFilters';
 import { IProductService } from 'src/services/ProductService';
 import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminFeatureValuesStateContextValue } from 'src/state/Admin/AdminFeatureValuesState';
@@ -50,7 +51,6 @@ export interface IViewProps {
 
 export const AdminProductsEditPresenter: React.FC<IProps> = ({
   productId,
-  history,
   adminFeatureValuesState: {
     get: getFeatureValues,
     entities: featureValues,
@@ -77,6 +77,9 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
     productTypeService,
     mandatoryProductTypeId: product?.product_type.id,
   });
+  const {
+    filters: { deleted },
+  } = useAdminProductsFilters();
 
   const validator = new schemaValidator.SchemaValidator(
     yup.object().shape({
@@ -103,7 +106,7 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
     (async () => {
       try {
         setLoading(true);
-        const product = await productService.getOne(productId);
+        const product = await productService.getOne(productId, { deleted });
         if (product) {
           setProduct(product);
           if (!isDataLoaded) {

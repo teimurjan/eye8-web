@@ -26,7 +26,9 @@ export interface IViewProps {
   productTypesLoading: boolean;
   onProductTypeChange: (id?: number) => void;
   onAvailabilityChange: () => void;
+  onDeletedChange: () => void;
   available: boolean;
+  deleted: boolean;
 }
 
 export const AdminProductsListPresenter = ({
@@ -34,26 +36,30 @@ export const AdminProductsListPresenter = ({
   adminProductsState: { isListLoading, entities: products, get: getProducts, hasListLoaded, meta },
   productTypeService,
 }: IProps) => {
-  const { filters, setFilters } = useAdminProductsFilters();
+  const {
+    filters: { available, productTypeId, deleted },
+    setFilters,
+  } = useAdminProductsFilters();
 
-  const productTypeId = filters.productTypeId as number;
-  const available = filters.available as boolean;
+  const onDeletedChange = React.useCallback(() => {
+    setFilters({ productTypeId, available, deleted: !deleted });
+  }, [productTypeId, available, deleted, setFilters]);
 
   const onProductTypeChange = React.useCallback(
-    (productTypeId_?: number) => {
-      setFilters({ ...filters, productTypeId: productTypeId_ });
+    (newProductTypeId?: number) => {
+      setFilters({ available, deleted, productTypeId: parseInt(`${newProductTypeId}`, 10) });
     },
-    [setFilters, filters],
+    [available, deleted, setFilters],
   );
 
   const onAvailabilityChange = React.useCallback(() => {
-    setFilters({ ...filters, available: !available });
-  }, [setFilters, filters, available]);
+    setFilters({ productTypeId, available: !available, deleted });
+  }, [available, deleted, productTypeId, setFilters]);
 
   React.useEffect(() => {
-    getProducts({ productTypeId, page: 1, available });
+    getProducts({ productTypeId: productTypeId, page: 1, available, deleted });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productTypeId, available]);
+  }, [productTypeId, available, deleted]);
 
   const { productTypes, isLoading: productTypesLoading, loadMore: LoadMoreProductTypes } = useSelectProductTypes({
     productTypeService,
@@ -62,13 +68,14 @@ export const AdminProductsListPresenter = ({
 
   const onPageChange = React.useCallback(
     (page: number) => {
-      getProducts({ page, available });
+      getProducts({ page, available, deleted });
     },
-    [getProducts, available],
+    [getProducts, available, deleted],
   );
 
   return (
     <View
+      deleted={deleted}
       available={available}
       onAvailabilityChange={onAvailabilityChange}
       selectedProductTypeId={productTypeId}
@@ -81,6 +88,7 @@ export const AdminProductsListPresenter = ({
       productTypesLoading={productTypesLoading}
       LoadMoreProductTypes={LoadMoreProductTypes}
       onProductTypeChange={onProductTypeChange}
+      onDeletedChange={onDeletedChange}
     />
   );
 };

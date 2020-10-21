@@ -55,7 +55,7 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
     (async () => {
       setLoading(true);
       try {
-        const promoCode = await service.getOne(promoCodeId, { deleted: !!deleted });
+        const promoCode = await service.getOne(promoCodeId, { deleted });
         if (promoCode) {
           setPromoCode(promoCode);
 

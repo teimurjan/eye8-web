@@ -1,12 +1,10 @@
 import * as React from 'react';
 
 import { useAdminProductTypesFilters } from 'src/components/admin/pages/ProductTypes/useAdminProductTypesFilters';
-import { IProductTypeService } from 'src/services/ProductTypeService';
 import { ContextValue as AdminProductTypesStateContextValue } from 'src/state/Admin/AdminProductTypesState';
 
 export interface IProps {
   View: React.ComponentType<IViewProps>;
-  service: IProductTypeService;
   adminProductTypesState: AdminProductTypesStateContextValue['state'];
 }
 
@@ -16,63 +14,61 @@ export interface IViewProps {
   isDataLoaded: boolean;
   isLoading: boolean;
   onPageChange: (page: number) => void;
-  onDeletedModeChange: () => void;
+  onDeletedChange: () => void;
   onAvailabilityChange: () => void;
   onSearchChange: (query: string) => void;
-  isDeletedMode: boolean;
+  deleted: boolean;
   available: boolean;
 }
 
 export const AdminProductTypesListPresenter = ({
   View,
   adminProductTypesState: { isListLoading, entities: productTypes, get: getProductTypes, hasListLoaded, meta },
-  service,
 }: IProps) => {
   const {
-    filters: { deleted, forever, available },
+    filters: { deleted, available },
     setFilters,
   } = useAdminProductTypesFilters();
-  const isDeletedMode = deleted === true || forever === true;
 
   React.useEffect(() => {
-    getProductTypes({ page: 1, deleted: isDeletedMode, available: !!available });
+    getProductTypes({ page: 1, deleted: deleted, available });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDeletedMode, available]);
+  }, [deleted, available]);
 
-  const onDeletedModeChange = React.useCallback(() => {
-    setFilters({ forever, available, deleted: !deleted });
-  }, [forever, deleted, available, setFilters]);
+  const onDeletedChange = React.useCallback(() => {
+    setFilters({ available, deleted: !deleted });
+  }, [deleted, available, setFilters]);
 
   const onAvailabilityChange = React.useCallback(() => {
-    setFilters({ forever, available: !available, deleted });
-  }, [forever, deleted, available, setFilters]);
+    setFilters({ available: !available, deleted });
+  }, [deleted, available, setFilters]);
 
   const onPageChange = React.useCallback(
     (page: number) => {
-      getProductTypes({ page, deleted: isDeletedMode, available: !!available });
+      getProductTypes({ page, deleted: deleted, available });
     },
-    [getProductTypes, isDeletedMode, available],
+    [getProductTypes, deleted, available],
   );
 
   const onSearchChange = React.useCallback(
     async (query: string) => {
-      getProductTypes({ page: 1, deleted: isDeletedMode, available: !!available, query });
+      getProductTypes({ page: 1, deleted: deleted, available, query });
     },
-    [available, getProductTypes, isDeletedMode],
+    [available, getProductTypes, deleted],
   );
 
   return (
     <View
-      onDeletedModeChange={onDeletedModeChange}
+      onDeletedChange={onDeletedChange}
       onAvailabilityChange={onAvailabilityChange}
       meta={meta}
       isDataLoaded={hasListLoaded}
       isLoading={isListLoading}
       productTypes={productTypes}
       onPageChange={onPageChange}
-      isDeletedMode={isDeletedMode}
+      deleted={deleted}
       onSearchChange={onSearchChange}
-      available={!!available}
+      available={available}
     />
   );
 };
