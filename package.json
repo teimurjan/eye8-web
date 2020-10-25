@@ -44,7 +44,7 @@
     "final-form": "^4.18.6",
     "intl": "^1.2.5",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.20",
     "mousetrap": "^1.6.5",
     "negotiator": "^0.6.2",
     "next": "^9.5.4",
