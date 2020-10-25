@@ -88,7 +88,7 @@
     "@types/yup": "^0.26.4",
     "@typescript-eslint/eslint-plugin": "2.x",
     "@typescript-eslint/parser": "2.x",
-    "@welldone-software/why-did-you-render": "^4.2.5",
+    "@welldone-software/why-did-you-render": "^5.0.0",
     "babel-eslint": "10.x",
     "babel-plugin-emotion": "^10.0.5",
     "eslint": "6.x",
