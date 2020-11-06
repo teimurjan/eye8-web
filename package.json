@@ -65,7 +65,7 @@
     "react-spinners": "^0.5.1",
     "react-swipeable": "^5.5.1",
     "react-transition-group": "4.4.1",
-    "sass": "^1.26.10",
+    "sass": "^1.29.0",
     "universal-cookie": "^4.0.3",
     "yup": "^0.26.6"
   },
