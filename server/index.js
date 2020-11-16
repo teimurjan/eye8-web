@@ -84,7 +84,7 @@ const XCache = {
 const renderAndCache = (req, res, parsedUrl) => {
   const key = getCacheKey(req);
 
-  if (!key || dev || true) {
+  if (!key || dev) {
     handle(req, res, parsedUrl);
     return;
   }

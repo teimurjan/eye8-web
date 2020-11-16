@@ -104,6 +104,7 @@ export const InstagramPost = ({ className, url, id, size }: IProps) => {
       onAfterRender={() => {
         setRendered(true);
       }}
+      clientAccessToken={process.env.FB_CLIENT_ACCESS_TOKEN!}
     />
   );
 };

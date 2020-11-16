@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import * as React from 'react';
 
 import { HomeContainer } from 'src/components/client/Home/HomeContainer';
@@ -20,7 +20,7 @@ const Index = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps = async ({ req, res }: GetServerSidePropsContext) => {
   const {
     services: { banner: bannerService, productType: productTypeService },
   } = dependenciesFactory({ req, res });

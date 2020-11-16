@@ -1,6 +1,6 @@
 import url from 'url';
 
-import { GetServerSideProps } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import * as React from 'react';
 
 import { sortingTypeOfQueryValue, ProductTypeSortingQueryValue } from 'src/api/ProductTypeAPI';
@@ -38,7 +38,7 @@ const Products = ({
   </Layout>
 );
 
-export const getServerSideProps: GetServerSideProps = async ({ params = {}, req, res }) => {
+export const getServerSideProps = async ({ params = {}, req, res }: GetServerSidePropsContext) => {
   const parsedUrl = url.parse(req.url ?? '', true);
   const { page = '1', sort_by: sortBy = ProductTypeSortingQueryValue.RECENT } = parsedUrl.query;
 
@@ -76,6 +76,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params = {}, req,
         productTypes: {},
         productTypesOrder: [],
         categorySlug: undefined,
+        category: undefined,
         page: 1,
         sortingType: undefined,
         characteristicValuesIds: [],

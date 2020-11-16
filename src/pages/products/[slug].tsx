@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import * as React from 'react';
 
 import { Layout } from 'src/components/client/Layout';
@@ -13,7 +13,7 @@ const Product = ({ productType, products, error }: Then<ReturnType<typeof getSer
   </Layout>
 );
 
-export const getServerSideProps: GetServerSideProps = async ({ params = {}, req, res }) => {
+export const getServerSideProps = async ({ params = {}, req, res }: GetServerSidePropsContext) => {
   const dependencies = dependenciesFactory({ req, res });
 
   try {
