@@ -16,41 +16,41 @@ export const GlobalStyles = () => {
   return (
     <Global
       styles={css`
-      html {
-        overflow: auto;
-        background: ${theme.backgroundPrimaryColor};
-        transition: background 300ms;
-      }
+        html {
+          overflow: auto;
+          background: ${theme.backgroundPrimaryColor};
+          transition: background 300ms;
+        }
 
-      html.admin {
-        background: unset;
-      }
+        html.admin {
+          background: unset;
+        }
 
-      * {
-        scrollbar-width: thin;
-        scrollbar-color: ${theme.thumbColor} ${theme.thumbBackgroundColor};
-      }
-      ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: ${theme.thumbBackgroundColor};
-      }
-      ::-webkit-scrollbar-thumb {
-        background-color: ${theme.thumbColor} ;
-        border-radius: 6px;
-        border: 2px solid ${theme.thumbBackgroundColor};
-      }
+        * {
+          scrollbar-width: thin;
+          scrollbar-color: ${theme.thumbColor} ${theme.thumbBackgroundColor};
+        }
+        ::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+          background: ${theme.thumbBackgroundColor};
+        }
+        ::-webkit-scrollbar-thumb {
+          background-color: ${theme.thumbColor};
+          border-radius: 6px;
+          border: 2px solid ${theme.thumbBackgroundColor};
+        }
 
-      body {
-        @import url('https://fonts.googleapis.com/css2?family=${FONT_FAMILY.replace(
-          ' ',
-          '+',
-        )}:wght@300;400;500;700&display=swap');
-        font-family: '${FONT_FAMILY}', sans-serif;
-      }
-    `}
+        body {
+          @import url('https://fonts.googleapis.com/css2?family=${FONT_FAMILY.replace(
+            ' ',
+            '+',
+          )}:wght@300;400;500;700&display=swap');
+          font-family: '${FONT_FAMILY}', sans-serif;
+        }
+      `}
     />
   );
 };
