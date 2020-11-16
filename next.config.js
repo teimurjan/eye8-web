@@ -21,7 +21,7 @@ module.exports = withPWA(
           CLIENT_API_URL: process.env.CLIENT_API_URL,
           YM_ACCOUNT_ID: process.env.YM_ACCOUNT_ID,
           FB_PIXEL_ID: process.env.FB_PIXEL_ID,
-          FACEBOOK_CLIENT_ACCESS_TOKEN: process.env.FACEBOOK_CLIENT_ACCESS_TOKEN,
+          FB_CLIENT_ACCESS_TOKEN: process.env.FB_CLIENT_ACCESS_TOKEN,
         },
         webpack: (config, options) => {
           if (!options.isServer) {
