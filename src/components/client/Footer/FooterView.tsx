@@ -63,7 +63,7 @@ export const FooterView = () => {
           >
             <Anchor
               plain
-              href="https://www.instagram.com/eye8_collection/"
+              href={process.env.INSTAGRAM_URL}
               rel="noopener noreferrer"
               target="_blank"
               weight={Anchor.Weight.Bold}

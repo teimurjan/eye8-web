@@ -53,18 +53,24 @@ export const CustomHead = () => {
       <link rel="icon" type="image/png" sizes="16x16" href={withPublicURL('favicon-16x16.png')} />
       <link rel="shortcut icon" href={withPublicURL('favicon.ico')} />
       <link rel="manifest" href={withPublicURL('manifest.json')} />
-      <title>{intl.formatMessage({ id: 'Meta.title' })}</title>
+      <title>{intl.formatMessage({ id: 'Meta.title' }, { shopName: process.env.SHOP_NAME })}</title>
       <meta name="description" content={intl.formatMessage({ id: 'Meta.description' })} />
-      <meta name="keywords" content={intl.formatMessage({ id: 'Meta.keywords' })} />
-      <meta name="og:site_name" content="Eye8" />
+      <meta
+        name="keywords"
+        content={intl.formatMessage({ id: 'Meta.keywords' }, { shopName: process.env.SHOP_NAME })}
+      />
+      <meta name="og:site_name" content={process.env.SHOP_NAME} />
       <meta name="og:url" content={withPublicURL(router.asPath)} />
-      <meta name="og:title" content={intl.formatMessage({ id: 'Meta.title' })} />
+      <meta name="og:title" content={intl.formatMessage({ id: 'Meta.title' }, { shopName: process.env.SHOP_NAME })} />
       <meta name="og:description" content={intl.formatMessage({ id: 'Meta.description' })} />
       <meta name="og:image" content={withPublicURL('img/preview.jpg')} />
       <meta name="og:type" content="website" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content={withPublicURL(router.asPath)} />
-      <meta name="twitter:title" content={intl.formatMessage({ id: 'Meta.title' })} />
+      <meta
+        name="twitter:title"
+        content={intl.formatMessage({ id: 'Meta.title' }, { shopName: process.env.SHOP_NAME })}
+      />
       <meta name="twitter:description" content={intl.formatMessage({ id: 'Meta.description' })} />
       <meta name="twitter:image:src" content={withPublicURL('img/preview.jpg')} />
     </Head>

@@ -22,6 +22,9 @@ module.exports = withPWA(
           YM_ACCOUNT_ID: process.env.YM_ACCOUNT_ID,
           FB_PIXEL_ID: process.env.FB_PIXEL_ID,
           FB_CLIENT_ACCESS_TOKEN: process.env.FB_CLIENT_ACCESS_TOKEN,
+          SHOP_NAME: process.env.SHOP_NAME,
+          SERVER_API_URL: process.env.SERVER_API_URL,
+          INSTAGRAM_URL: process.env.INSTAGRAM_URL,
         },
         webpack: (config, options) => {
           if (!options.isServer) {
@@ -62,8 +65,8 @@ module.exports = withPWA(
         },
         manifest: {
           output: './public',
-          name: 'Eye8',
-          short_name: 'Eye8',
+          name: process.env.SHOP_NAME,
+          short_name: process.env.SHOP_NAME,
           theme_color: '#fff',
           background_color: '#fff',
           display: 'browser',

@@ -34,7 +34,7 @@ export const CacheBuster = () => {
         id: ToastId.CacheBuster,
         children: (
           <>
-            {intl.formatMessage({ id: 'cacheBuster.refresh' })}
+            {intl.formatMessage({ id: 'cacheBuster.refresh' }, { shopName: process.env.SHOP_NAME })}
             <br />
             <Button
               css={css`

@@ -14,7 +14,11 @@ const HowItWorks = () => {
       <Story
         type={Story.SourceType.Video}
         src={withPublicURL('/video/making-order.mov')}
-        title={<Story.Title>{intl.formatMessage({ id: 'HowItWorks.makingOrder.title' })}</Story.Title>}
+        title={
+          <Story.Title>
+            {intl.formatMessage({ id: 'HowItWorks.makingOrder.title' }, { shopName: process.env.SHOP_NAME })}
+          </Story.Title>
+        }
         description={
           <Story.Description>
             {[1, 2, 3, 4].map((i) => (

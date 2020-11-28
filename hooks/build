@@ -7,6 +7,9 @@ docker build \
 --build-arg YM_ACCOUNT_ID=$YM_ACCOUNT_ID \
 --build-arg FB_PIXEL_ID=$FB_PIXEL_ID \
 --build-arg FB_CLIENT_ACCESS_TOKEN="$FB_CLIENT_ACCESS_TOKEN" \
+--build-arg SHOP_NAME="$SHOP_NAME" \
 --build-arg RELEASE_VERSION=$DOCKER_TAG \
+--build-arg PUBLIC_URL=$PUBLIC_URL \
+--build-arg SERVER_URL=$SERVER_URL \
 -f $DOCKERFILE_PATH \
 -t $IMAGE_NAME .
