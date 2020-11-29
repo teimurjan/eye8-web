@@ -1,2 +1,4 @@
 sw.js*
 workbox-*
+manifest.json
+robots.txt

@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
@@ -6,6 +9,12 @@ const withSourceMaps = require('@zeit/next-source-maps');
 const withManifest = require('next-manifest');
 const withPWA = require('next-pwa');
 const runtimeCaching = require('next-pwa/cache');
+
+const generateRobotsTxt = () =>
+  fs.writeFileSync(
+    path.resolve('./public/robots.txt'),
+    `User-agent: *\nSitemap: ${process.env.PUBLIC_URL}/sitemap.xml`,
+  );
 
 module.exports = withPWA(
   withManifest(
@@ -56,6 +65,8 @@ module.exports = withPWA(
             use: ['@svgr/webpack'],
           });
 
+          generateRobotsTxt();
+
           return config;
         },
         pwa: {
@@ -64,7 +75,7 @@ module.exports = withPWA(
           runtimeCaching,
         },
         manifest: {
-          output: './public',
+          output: path.resolve('./public'),
           name: process.env.SHOP_NAME,
           short_name: process.env.SHOP_NAME,
           theme_color: '#fff',
