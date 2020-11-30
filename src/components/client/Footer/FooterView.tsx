@@ -53,7 +53,10 @@ export const FooterView = () => {
               font-weight: bold;
             `}
           >
-            {intl.formatMessage({ id: 'Footer.copy' }, { year: new Date().getFullYear() })}
+            {intl.formatMessage(
+              { id: 'Footer.copy' },
+              { year: new Date().getFullYear(), shopName: process.env.SHOP_NAME },
+            )}
           </div>
 
           <div

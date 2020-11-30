@@ -29,6 +29,7 @@ export interface IViewProps {
   error?: string;
   close: () => void;
   validate?: (values: object) => object | Promise<object>;
+  initialValues: object;
 }
 
 const validator = new schemaValidator.SchemaValidator(
@@ -98,6 +99,7 @@ export const AdminPromoCodesCreatePresenter: React.FC<IProps> = ({
       isCreating={isCreating}
       close={close}
       validate={validator.validate}
+      initialValues={{ products: [] }}
     />
   );
 };
