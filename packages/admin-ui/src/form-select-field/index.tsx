@@ -22,7 +22,7 @@ export interface IProps<M extends boolean> {
   labelProps?: ILabelProps;
 }
 
-export default <M extends boolean>({
+const Index = <M extends boolean>({
   controlProps = {},
   fieldProps = {},
   selectProps,
@@ -47,3 +47,5 @@ export default <M extends boolean>({
     </Field>
   );
 };
+
+export default Index;

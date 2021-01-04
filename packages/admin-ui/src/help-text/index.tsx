@@ -6,8 +6,10 @@ export interface IProps extends React.HTMLAttributes<HTMLParagraphElement> {
   type?: 'is-danger' | 'is-success';
 }
 
-export default ({ children, type, className, ...props }: IProps) => (
+const Index = ({ children, type, className, ...props }: IProps) => (
   <p className={classNames('help', className, type)} {...props}>
     {children}
   </p>
 );
+
+export default Index;

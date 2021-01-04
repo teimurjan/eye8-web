@@ -6,7 +6,7 @@ export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   isActive: boolean;
 }
 
-export default ({ children, className, isActive, ...props }: IProps) => (
+const Index = ({ children, className, isActive, ...props }: IProps) => (
   <div
     className={classNames('navbar-menu', className, {
       'is-active': isActive,
@@ -16,3 +16,5 @@ export default ({ children, className, isActive, ...props }: IProps) => (
     {children}
   </div>
 );
+
+export default Index;

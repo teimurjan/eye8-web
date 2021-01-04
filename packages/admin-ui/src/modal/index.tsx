@@ -54,7 +54,7 @@ export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;
 }
 
-export default ({ children, className, isOpen, ...props }: IProps) => {
+const Modal = ({ children, className, isOpen, ...props }: IProps) => {
   const modalRoot = safeDocument((d) => d.getElementById('modalRoot'), null);
 
   return modalRoot
@@ -68,3 +68,5 @@ export default ({ children, className, isOpen, ...props }: IProps) => {
       )
     : null;
 };
+
+export default Modal;

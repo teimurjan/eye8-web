@@ -34,7 +34,7 @@ const TooltipContent = React.forwardRef<HTMLDivElement, ITooltipContentProps>(({
 
 export type IProps<T extends HTMLElement> = IPopoverProps<T>;
 
-export default <T extends HTMLElement>({ children, ...props }: IProps<T>) => {
+const Index = <T extends HTMLElement>({ children, ...props }: IProps<T>) => {
   const theme = useTheme<ClientUITheme>();
   const contentRef = React.useRef<HTMLDivElement>(null);
 
@@ -62,3 +62,5 @@ export default <T extends HTMLElement>({ children, ...props }: IProps<T>) => {
     </ClassNames>
   );
 };
+
+export default Index;

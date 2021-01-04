@@ -6,8 +6,10 @@ export interface IProps extends React.HTMLProps<HTMLInputElement> {
   label?: string;
 }
 
-export default ({ className, label, ...props }: IProps) => (
+const Index = ({ className, label, ...props }: IProps) => (
   <label className={classNames('checkbox', className)}>
     <input type="checkbox" {...props} /> {label}
   </label>
 );
+
+export default Index;

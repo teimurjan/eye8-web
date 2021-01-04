@@ -21,7 +21,7 @@ export interface IProps {
   labelProps?: ILabelProps;
 }
 
-export default ({
+const Index = ({
   controlProps = {},
   fieldProps = {},
   labelProps = {},
@@ -38,3 +38,5 @@ export default ({
     </Field>
   );
 };
+
+export default Index;

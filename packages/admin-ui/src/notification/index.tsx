@@ -6,8 +6,10 @@ export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   color?: string;
 }
 
-export default ({ children, className, color, ...props }: IProps) => (
+const Index = ({ children, className, color, ...props }: IProps) => (
   <div className={classNames('notification', className, color)} {...props}>
     {children}
   </div>
 );
+
+export default Index;

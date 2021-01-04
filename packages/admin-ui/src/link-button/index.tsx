@@ -7,8 +7,10 @@ export interface IProps extends ReactRouterLinkProps {
   outlined?: boolean;
 }
 
-export default ({ children, color, className, outlined, ...props }: IProps) => (
+const Index = ({ children, color, className, outlined, ...props }: IProps) => (
   <ReactRouterLink className={classNames('button', className, color, { 'is-outlined': outlined })} {...props}>
     {children}
   </ReactRouterLink>
 );
+
+export default Index;

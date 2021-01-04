@@ -5,8 +5,10 @@ export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
-export default ({ children, className, ...props }: IProps) => (
+const Index = ({ children, className, ...props }: IProps) => (
   <div className={classNames('hero', className)} {...props}>
     {children}
   </div>
 );
+
+export default Index;

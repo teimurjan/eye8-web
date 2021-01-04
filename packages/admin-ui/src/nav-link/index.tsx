@@ -8,9 +8,11 @@ export interface IProps extends LinkProps {
   children?: React.ReactNode;
 }
 
-export default ({ children, className, active, ...props }: IProps) => (
+const Index = ({ children, className, active, ...props }: IProps) => (
   <Link {...props}>
     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
     <a className={classNames(className, { 'is-active': active })}>{children}</a>
   </Link>
 );
+
+export default Index;

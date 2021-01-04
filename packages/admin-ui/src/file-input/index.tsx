@@ -23,7 +23,7 @@ const Filename = ({ file }: { file: IProps['value'] }) => {
   return null;
 };
 
-export default ({ defaultValue, value = defaultValue, showPreview = true, onChange, accept, placeholder }: IProps) => {
+const Index = ({ defaultValue, value = defaultValue, showPreview = true, onChange, accept, placeholder }: IProps) => {
   const intl = useIntl();
   const [previewURL, setPreviewURL] = React.useState<string | undefined>(undefined);
 
@@ -68,3 +68,5 @@ export default ({ defaultValue, value = defaultValue, showPreview = true, onChan
     </div>
   );
 };
+
+export default Index;

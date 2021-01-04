@@ -24,7 +24,7 @@ export interface IProps {
   addons?: React.ReactNode;
 }
 
-export default ({
+const Index = ({
   controlProps = {},
   fieldProps = {},
   inputProps = {},
@@ -53,3 +53,5 @@ export default ({
     </Field>
   );
 };
+
+export default Index;

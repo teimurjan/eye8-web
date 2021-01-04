@@ -12,7 +12,7 @@ export interface IProps {
   className?: string;
 }
 
-export default ({ onClick, icon, className, href }: IProps) => {
+const Index = ({ onClick, icon, className, href }: IProps) => {
   const theme = useTheme<AdminUITheme>();
   const preventedOnClick = usePreventedDefault(onClick);
 
@@ -34,3 +34,5 @@ export default ({ onClick, icon, className, href }: IProps) => {
     </a>
   );
 };
+
+export default Index;

@@ -54,7 +54,7 @@ const Loader = ({ status, timeout, className, color, ...props }: ILoaderProps) =
   );
 };
 
-export default ({ timeout = 500, isActive, ...props }: IProps) =>
+const PageLoader = ({ timeout = 500, isActive, ...props }: IProps) =>
   safeDocument(
     (d) =>
       ReactDOM.createPortal(
@@ -65,3 +65,5 @@ export default ({ timeout = 500, isActive, ...props }: IProps) =>
       ),
     null,
   );
+
+export default PageLoader;

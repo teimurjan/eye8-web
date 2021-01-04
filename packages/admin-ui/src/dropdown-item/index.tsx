@@ -9,7 +9,7 @@ export interface IProps {
   elementType?: 'a' | 'div';
 }
 
-export default ({ elementType = 'a', children, className, onClick, href }: IProps) => {
+const DropdownItem = ({ elementType = 'a', children, className, onClick, href }: IProps) => {
   const handleClick = React.useCallback(
     (e: React.SyntheticEvent<HTMLAnchorElement>) => {
       if (!href) {
@@ -29,3 +29,5 @@ export default ({ elementType = 'a', children, className, onClick, href }: IProp
     children,
   );
 };
+
+export default DropdownItem;

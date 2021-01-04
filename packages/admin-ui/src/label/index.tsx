@@ -5,8 +5,10 @@ export interface IProps extends React.HTMLAttributes<HTMLLabelElement> {
   children?: React.ReactNode;
 }
 
-export default ({ children, className, ...props }: IProps) => (
+const Index = ({ children, className, ...props }: IProps) => (
   <label className={classNames('label', className)} {...props}>
     {children}
   </label>
 );
+
+export default Index;

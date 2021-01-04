@@ -18,7 +18,7 @@ export interface IProps {
   type?: 'submit' | 'reset' | 'button';
 }
 
-export default ({
+const Index = ({
   children,
   color,
   className,
@@ -38,3 +38,5 @@ export default ({
     {children}
   </button>
 );
+
+export default Index;

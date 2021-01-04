@@ -10,7 +10,7 @@ export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   onPageChange?: (index: number) => any;
 }
 
-export default ({ length, page, onPageChange, ...props }: IProps) => {
+const Index = ({ length, page, onPageChange, ...props }: IProps) => {
   const intl = useIntl();
 
   const currentIndex = page - 1;
@@ -50,3 +50,5 @@ export default ({ length, page, onPageChange, ...props }: IProps) => {
     </Pagination>
   );
 };
+
+export default Index;

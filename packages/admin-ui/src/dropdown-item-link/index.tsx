@@ -8,9 +8,11 @@ export interface IProps extends LinkProps {
   className?: string;
 }
 
-export default ({ children, className, href, as: as_, ...props }: IProps) => (
+const Index = ({ children, className, href, as: as_, ...props }: IProps) => (
   <Link href={href} as={as_} {...props}>
     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
     <a className={classNames('dropdown-item', className)}>{children}</a>
   </Link>
 );
+
+export default Index;

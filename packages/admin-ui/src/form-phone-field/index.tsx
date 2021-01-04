@@ -9,7 +9,7 @@ export interface IProps {
   label: string;
 }
 
-export default ({ input, meta, label }: FieldRenderProps<string> & IProps) => {
+const Index = ({ input, meta, label }: FieldRenderProps<string> & IProps) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
   const inputProps = {
@@ -36,3 +36,5 @@ export default ({ input, meta, label }: FieldRenderProps<string> & IProps) => {
     />
   );
 };
+
+export default Index;

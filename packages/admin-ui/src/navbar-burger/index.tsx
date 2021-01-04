@@ -12,7 +12,7 @@ const spanCSS = css`
   height: 2px !important;
 `;
 
-export default ({ className, isActive, ...props }: IProps) => (
+const Index = ({ className, isActive, ...props }: IProps) => (
   <button
     css={css`
       background-color: transparent;
@@ -33,3 +33,5 @@ export default ({ className, isActive, ...props }: IProps) => (
     <span css={spanCSS} aria-hidden="true" />
   </button>
 );
+
+export default Index;

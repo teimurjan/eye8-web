@@ -12,7 +12,7 @@ export interface IProps {
   CTA?: React.ReactNode | undefined;
 }
 
-export default ({ title, description, CTA }: IProps) => (
+const Index = ({ title, description, CTA }: IProps) => (
   <Hero className={classNames('is-large')}>
     <HeroBody
       css={css`
@@ -38,3 +38,5 @@ export default ({ title, description, CTA }: IProps) => (
     </HeroBody>
   </Hero>
 );
+
+export default Index;
