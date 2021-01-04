@@ -1,5 +1,7 @@
 #! /bin/bash
-version=$(cat ./package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')
+
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+version=$(cat $dir/package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')
 
 if [ "$version" != "" ]; then
     if [ $(git tag -l "v$version") ]; then
