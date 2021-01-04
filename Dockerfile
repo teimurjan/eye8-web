@@ -24,6 +24,7 @@ COPY packages/storage /app/packages/storage
 RUN lerna bootstrap
 
 COPY tsconfig.json /app/tsconfig.json
+COPY @types /app/@types
 
 ARG SENTRY_DSN
 ARG SENTRY_AUTH_TOKEN
