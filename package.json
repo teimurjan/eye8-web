@@ -97,10 +97,10 @@
     "build": "lerna run build --stream --parallel"
   },
   "lint-staged": {
-    "./**/*.{ts,tsx,js,jsx,json}": [
+    "./packages/**/src/**/*.{ts,tsx,js,jsx,json}": [
       "npm run prettier"
     ],
-    "./src/**/*.{ts,tsx,js,jsx}": [
+    "./packages/**/src/**/*.{ts,tsx,js,jsx}": [
       "npm run lint:fix",
       "npm run lint"
     ]
