@@ -4,13 +4,32 @@ import ReactDOM from 'react-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import { MessageToast } from '@eye8/client/components/message-toast';
-import { IToastsProps, ToastsContext } from '@eye8/shared/context/toast';
+import { ToastsContext } from '@eye8/shared/context/toast';
 import { useLazyInitialization } from '@eye8/shared/hooks';
 import { mediaQueries } from '@eye8/shared/styles';
 import { safeDocument } from '@eye8/shared/utils';
 
 const DEFAULT_TRANSITION_DURATION = 700;
 const DEFAULT_TRANSITION_CLASSNAME = 'toast';
+
+export interface IToastProps {
+  componentKey: string;
+  status: string;
+  close: () => void;
+  children: React.ReactNode;
+  type: string;
+  duration?: number;
+  transitionDuration: number;
+  transitionClassName: string;
+}
+
+export interface IToastsProps {
+  className?: string;
+  render?: (props: IToastProps) => React.ReactNode;
+  Component?: React.ComponentClass<IToastProps> | React.SFC<IToastProps>;
+  transitionDuration?: number;
+  transitionClassName?: string;
+}
 
 export const Toasts: React.FC<IToastsProps> = ({
   className,

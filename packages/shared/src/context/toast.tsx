@@ -83,23 +83,4 @@ export const ToastsProvider = ({ children }: IToastsContextProviderProps) => {
   return <ToastsContext.Provider value={{ toasts, toast: toastFn, hideToast }}>{children}</ToastsContext.Provider>;
 };
 
-export interface IToastProps {
-  componentKey: string;
-  status: string;
-  close: () => void;
-  children: React.ReactNode;
-  type: string;
-  duration?: number;
-  transitionDuration: number;
-  transitionClassName: string;
-}
-
-export interface IToastsProps {
-  className?: string;
-  render?: (props: IToastProps) => React.ReactNode;
-  Component?: React.ComponentClass<IToastProps> | React.SFC<IToastProps>;
-  transitionDuration?: number;
-  transitionClassName?: string;
-}
-
 export const useToast = () => React.useContext(ToastsContext).toast;
