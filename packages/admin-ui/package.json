@@ -1,0 +1,24 @@
+{
+  "name": "@eye8/admin-ui",
+  "version": "0.0.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teimurjan/eye8-web.git"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Teimur Gasanov",
+    "email": "teymurgg321@gmail.com",
+    "url": "https://teimurjan.github.io"
+  },
+  "homepage": "https://eye8.kg",
+  "dependencies": {
+    "bulma": "^0.9.1",
+    "@eye8/shared": "0.0.0",
+    "@eye8/client-ui": "0.0.0"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc -p ./tsconfig.build.json"
+  }
+}

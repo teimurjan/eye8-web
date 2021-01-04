@@ -1,12 +1,10 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
+    "declaration": true,
     "baseUrl": ".",
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -20,20 +18,22 @@
     "noEmit": true,
     "jsx": "preserve",
     "suppressImplicitAnyIndexErrors": true,
-    "rootDirs": [
-      "src"
-    ],
-    "typeRoots": [
-      "node_modules/@types",
-      "ttypes"
-    ]
-  },
-  "include": [
-    "src",
-    "global.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "build"
-  ]
+    "typeRoots": ["node_modules/@types", "@types"],
+    "paths": {
+      "@eye8/admin": ["packages/admin/src"],
+      "@eye8/admin/*": ["packages/admin/src/*"],
+      "@eye8/admin-ui": ["packages/admin-ui/src"],
+      "@eye8/admin-ui/*": ["packages/admin-ui/src/*"],
+      "@eye8/api/*": ["packages/api/src/*"],
+      "@eye8/client/*": ["packages/client/src/*"],
+      "@eye8/client-ui": ["packages/client-ui/src"],
+      "@eye8/client-ui/*": ["packages/client-ui/src/*"],
+      "@eye8/di": ["packages/di/src"],
+      "@eye8/di/*": ["packages/di/src/*"],
+      "@eye8/service/*": ["packages/service/src/*"],
+      "@eye8/shared/*": ["packages/shared/src/*"],
+      "@eye8/storage/*": ["packages/storage/src/*"],
+      "@eye8/manager/*": ["packages/manager/src/*"]
+    }
+  }
 }

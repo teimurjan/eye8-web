@@ -1,9 +1,26 @@
 FROM node:12.14.0-alpine
 WORKDIR /app
-ENV PATH /app/node_modules/.bin:$PATH
-COPY package.json /app/package.json
-COPY yarn.lock /app/yarn.lock
+
 RUN set http_proxy= && set https_proxy= && yarn config delete proxy && npm config rm https-proxy && npm config rm proxy
-RUN yarn
-COPY . /app
-CMD env SERVER_API_URL=http://backend:5000 CLIENT_API_URL=http://localhost:5000 yarn dev
+ENV PATH /app/node_modules/.bin:$PATH
+
+RUN npm i lerna -g
+
+COPY package.json /app/package.json
+COPY lerna.json /app/lerna.json
+COPY packages/admin /app/packages/admin
+COPY packages/admin-ui /app/packages/admin-ui
+COPY packages/api /app/packages/api
+COPY packages/app /app/packages/app
+COPY packages/client /app/packages/client
+COPY packages/client-ui /app/packages/client-ui
+COPY packages/di /app/packages/di
+COPY packages/manager /app/packages/manager
+COPY packages/service /app/packages/service
+COPY packages/shared /app/packages/shared
+COPY packages/storage /app/packages/storage
+RUN lerna bootstrap
+
+COPY tsconfig.json /app/tsconfig.json
+
+CMD env SERVER_API_URL=http://backend:5000 CLIENT_API_URL=http://localhost:5000 lerna run --scope "@eye8/app" start

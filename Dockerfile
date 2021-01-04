@@ -1,12 +1,27 @@
 FROM node:12.14.0-alpine as builder
 WORKDIR /app
+
 RUN npm config set unsafe-perm true
+RUN set http_proxy= && set https_proxy= && yarn config delete proxy && npm config rm https-proxy && npm config rm proxy
 ENV PATH /app/node_modules/.bin:$PATH
+
+RUN yarn add lerna -g
+
 COPY package.json /app/package.json
 COPY yarn.lock /app/yarn.lock
-RUN set http_proxy= && set https_proxy= && yarn config delete proxy && npm config rm https-proxy && npm config rm proxy
-RUN yarn --network-timeout 1000000
-COPY . /app
+COPY lerna.json /app/lerna.json
+COPY packages/admin /app/packages/admin
+COPY packages/admin-ui /app/packages/admin-ui
+COPY packages/api /app/packages/api
+COPY packages/app /app/packages/app
+COPY packages/client /app/packages/client
+COPY packages/client-ui /app/packages/client-ui
+COPY packages/di /app/packages/di
+COPY packages/manager /app/packages/manager
+COPY packages/service /app/packages/service
+COPY packages/shared /app/packages/shared
+COPY packages/storage /app/packages/storage
+RUN lerna bootstrap
 
 ARG SENTRY_DSN
 ARG SENTRY_AUTH_TOKEN
@@ -44,7 +59,7 @@ RUN env \
   PUBLIC_URL="$_PUBLIC_URL" \
   SHOP_NAME="$_SHOP_NAME" \
   INSTAGRAM_URL="$_INSTAGRAM_URL" \
-  yarn build
+  lerna run --scope "@eye8/app" build:next
 
 EXPOSE 3000
 
@@ -61,4 +76,4 @@ CMD env \
   PUBLIC_URL="$_PUBLIC_URL" \
   SHOP_NAME="$_SHOP_NAME" \
   INSTAGRAM_URL="$_INSTAGRAM_URL" \
-  yarn start
+  lerna run --scope "@eye8/app" start:next

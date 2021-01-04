@@ -2,17 +2,18 @@ module.exports = {
   extends: 'react-app',
   plugins: ['import'],
   rules: {
+    'no-duplicate-imports': 'error',
     'import/order': [
       'error',
       {
         pathGroups: [
           {
-            pattern: '~(src|.)/**',
+            pattern: '~(@eye8|.)/**',
             group: 'builtin',
             position: 'after',
           },
           {
-            pattern: 'src/**',
+            pattern: '@eye8/**',
             group: 'external',
             position: 'after',
           },
