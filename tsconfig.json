@@ -25,6 +25,7 @@
       "@eye8/admin-ui": ["packages/admin-ui/src"],
       "@eye8/admin-ui/*": ["packages/admin-ui/src/*"],
       "@eye8/api/*": ["packages/api/src/*"],
+      "@eye8/client": ["packages/client/src"],
       "@eye8/client/*": ["packages/client/src/*"],
       "@eye8/client-ui": ["packages/client-ui/src"],
       "@eye8/client-ui/*": ["packages/client-ui/src/*"],
