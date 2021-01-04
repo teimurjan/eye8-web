@@ -96,12 +96,6 @@
     "lint": "eslint \"./packages/**/*.{ts,tsx,js,jsx}\"",
     "build": "lerna run build --stream --parallel"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsc && lint-staged",
-      "post-commit": "./next-tag.sh"
-    }
-  },
   "lint-staged": {
     "./**/*.{ts,tsx,js,jsx,json}": [
       "npm run prettier"
@@ -110,6 +104,11 @@
       "npm run lint:fix",
       "npm run lint"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsc && lint-staged"
+    }
   },
   "browserslist": {
     "production": [

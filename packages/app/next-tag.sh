@@ -1,5 +1,5 @@
 #! /bin/bash
-version=$(cat packages/app/package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')
+version=$(cat ./package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')
 
 if [ "$version" != "" ]; then
     if [ $(git tag -l "v$version") ]; then
