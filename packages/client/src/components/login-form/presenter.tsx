@@ -5,7 +5,7 @@ import * as yup from 'yup';
 
 import { IContextValue as AuthModalStateContextValue } from '@eye8/client/state/auth-modal';
 import { IAuthService, InvalidCredentialsError } from '@eye8/service/auth';
-import { toast, ToastId } from '@eye8/shared/components/toaster';
+import { useToast, ToastId } from '@eye8/shared/context/toast';
 import { isUserAdmin } from '@eye8/shared/helpers';
 import { IContextValue as UserStateContextValue } from '@eye8/shared/state/user';
 import { SchemaValidator } from '@eye8/shared/utils';
@@ -50,6 +50,7 @@ export const LoginPresenter = ({
   authModalState: { open: openAuthModal, close: closeAuthModal },
 }: IProps) => {
   const intl = useIntl();
+  const toast = useToast();
   const [error, setError] = React.useState<undefined | string>(undefined);
   const [_, setLoading] = React.useState(false);
   const openSignup = React.useCallback(() => {
@@ -82,7 +83,7 @@ export const LoginPresenter = ({
         setLoading(false);
       }
     },
-    [closeAuthModal, intl, router, service, userState],
+    [closeAuthModal, intl, router, service, userState, toast],
   );
 
   return <View onSubmit={onSubmit} globalError={error} validate={validator.validate} openSignup={openSignup} />;

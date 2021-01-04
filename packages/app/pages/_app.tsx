@@ -15,9 +15,11 @@ import {
 import { RatesStateProvider, IProviderProps as IRatesStateProviderProps } from '@eye8/client/state/rates';
 import { dependenciesFactory, IDependenciesFactoryArgs, DIProvider } from '@eye8/di';
 import { PageProgressBar, Toaster } from '@eye8/shared/components';
+import { ToastsProvider } from '@eye8/shared/context/toast';
 import { UserStateProvider } from '@eye8/shared/state/user';
 import { isWindowDefined, safeWindowOperation, getGlobal, logPerformance } from '@eye8/shared/utils';
 
+import AuthInterceptor from '../src/auth-interceptor';
 import { CustomHead } from '../src/custom-head';
 import { EntryPoint } from '../src/entry-point';
 import { GlobalStyles } from '../src/global-style';
@@ -66,39 +68,43 @@ const CustomNextApp = ({ Component, pageProps, ...rest }: AppProps) => {
   );
 
   return (
-    <CacheProvider value={cache}>
-      <DIProvider value={{ dependencies }}>
-        <ThemeProvider>
-          <RawIntlProvider value={intl}>
-            <RatesStateProvider
-              initialProps={customData.states.initialProps.rates as IRatesStateProviderProps['initialProps']}
-            >
-              <UserStateProvider>
-                <CategoriesStateProvider
-                  initialProps={
-                    customData.states.initialProps.categories as ICategoriesStateProviderProps['initialProps']
-                  }
+    <ToastsProvider>
+      <CacheProvider value={cache}>
+        <DIProvider value={{ dependencies }}>
+          <AuthInterceptor>
+            <ThemeProvider>
+              <RawIntlProvider value={intl}>
+                <RatesStateProvider
+                  initialProps={customData.states.initialProps.rates as IRatesStateProviderProps['initialProps']}
                 >
-                  <AuthModalStateProvider>
-                    <EntryPoint>
-                      <ScrollRestorationWrapper>
-                        <CustomHead />
-                        <GlobalStyles />
-                        <PageProgressBar />
-                        <Component {...pageProps} />
-                        <Toaster />
-                        <AuthModal />
-                        <CacheBuster />
-                      </ScrollRestorationWrapper>
-                    </EntryPoint>
-                  </AuthModalStateProvider>
-                </CategoriesStateProvider>
-              </UserStateProvider>
-            </RatesStateProvider>
-          </RawIntlProvider>
-        </ThemeProvider>
-      </DIProvider>
-    </CacheProvider>
+                  <UserStateProvider>
+                    <CategoriesStateProvider
+                      initialProps={
+                        customData.states.initialProps.categories as ICategoriesStateProviderProps['initialProps']
+                      }
+                    >
+                      <AuthModalStateProvider>
+                        <EntryPoint>
+                          <ScrollRestorationWrapper>
+                            <CustomHead />
+                            <GlobalStyles />
+                            <PageProgressBar />
+                            <Component {...pageProps} />
+                            <Toaster />
+                            <AuthModal />
+                            <CacheBuster />
+                          </ScrollRestorationWrapper>
+                        </EntryPoint>
+                      </AuthModalStateProvider>
+                    </CategoriesStateProvider>
+                  </UserStateProvider>
+                </RatesStateProvider>
+              </RawIntlProvider>
+            </ThemeProvider>
+          </AuthInterceptor>
+        </DIProvider>
+      </CacheProvider>
+    </ToastsProvider>
   );
 };
 

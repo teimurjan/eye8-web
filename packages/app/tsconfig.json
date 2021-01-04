@@ -1,6 +1,8 @@
 {
   "extends": "../../tsconfig.json",
-  "compilerOptions": {},
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": [".next"]
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "exclude": ["dist", ".next", "next.config.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

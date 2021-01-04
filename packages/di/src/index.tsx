@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 
-import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import React from 'react';
 
 import { AuthAPI, IAuthAPI } from '@eye8/api/auth';
@@ -29,8 +29,7 @@ import { IProductService, ProductService } from '@eye8/service/product';
 import { IProductTypeService, ProductTypeService } from '@eye8/service/product-type';
 import { IPromoCodeService, PromoCodeService } from '@eye8/service/promo-code';
 import { IRateService, RateService } from '@eye8/service/rate';
-import { toast, ToastId } from '@eye8/shared/components/toaster';
-import { safeWindow, WatchingValue } from '@eye8/shared/utils';
+import { safeWindow } from '@eye8/shared/utils';
 import { AuthStorage, IAuthStorage } from '@eye8/storage/auth';
 import { CartStorage, ICartStorage } from '@eye8/storage/cart';
 import { CookieStorage } from '@eye8/storage/cookie';
@@ -82,53 +81,28 @@ export interface IStoragesContainer {
 }
 
 export interface IDependenciesContainer {
+  __APIClient: AxiosInstance;
+  __headersManager: HeadersManager;
   APIs: IAPIsContainer;
   services: IServicesContainer;
   storages: IStoragesContainer;
 }
 
-enum Status {
-  Idle,
-  Busy,
-}
-
-const tokensRefreshStatusWV = new WatchingValue<Status>(Status.Idle);
-const makeResponseErrorInterceptor = (
-  authService: IAuthService,
-  APIClient: AxiosInstance,
-  headersManager: HeadersManager,
-) => async (error: { response?: AxiosResponse; config: AxiosRequestConfig }) => {
-  if (error.response && error.response.status === 429) {
-    toast({ id: ToastId.TooManyRequests, children: '429: Too many requests error.', type: 'error' });
-  }
-
-  if (error.response && error.response.status === 401) {
-    if (tokensRefreshStatusWV.get() === Status.Idle) {
-      try {
-        tokensRefreshStatusWV.set(Status.Busy);
-        await authService.refreshTokens();
-      } catch (e) {
-        authService.logOut();
-      } finally {
-        tokensRefreshStatusWV.set(Status.Idle);
-      }
-    } else if (tokensRefreshStatusWV.get() === Status.Busy) {
-      await tokensRefreshStatusWV.blockUntil((status) => status === Status.Idle);
-    }
-
-    error.config.headers = headersManager.getHeaders();
-
-    return APIClient.request(error.config);
-  }
-
-  throw error;
-};
-
 class DependenciesContainer implements IDependenciesContainer {
+  public __APIClient: AxiosInstance;
+  public __headersManager: HeadersManager;
   public APIs: IAPIsContainer;
   public services: IServicesContainer;
   public storages: IStoragesContainer;
-  constructor(APIs: IAPIsContainer, storages: IStoragesContainer, services: IServicesContainer) {
+  constructor(
+    __APIClient: AxiosInstance,
+    __headersManager: HeadersManager,
+    APIs: IAPIsContainer,
+    storages: IStoragesContainer,
+    services: IServicesContainer,
+  ) {
+    this.__APIClient = __APIClient;
+    this.__headersManager = __headersManager;
     this.APIs = APIs;
     this.storages = storages;
     this.services = services;
@@ -193,12 +167,7 @@ export const dependenciesFactory = ({ req, res }: IDependenciesFactoryArgs = {})
     rate: new RateService(APIsContainer.rate, storagesContainer.stateCache),
   };
 
-  APIClient.interceptors.response.use(
-    undefined,
-    makeResponseErrorInterceptor(servicesContainer.auth, APIClient, headersManager),
-  );
-
-  return new DependenciesContainer(APIsContainer, storagesContainer, servicesContainer);
+  return new DependenciesContainer(APIClient, headersManager, APIsContainer, storagesContainer, servicesContainer);
 };
 
 export interface IContextValue {

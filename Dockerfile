@@ -59,7 +59,7 @@ RUN env \
   PUBLIC_URL="$_PUBLIC_URL" \
   SHOP_NAME="$_SHOP_NAME" \
   INSTAGRAM_URL="$_INSTAGRAM_URL" \
-  lerna run --scope "@eye8/app" build:next
+  lerna run --scope "@eye8/app" build:next --stream
 
 EXPOSE 3000
 
@@ -76,4 +76,4 @@ CMD env \
   PUBLIC_URL="$_PUBLIC_URL" \
   SHOP_NAME="$_SHOP_NAME" \
   INSTAGRAM_URL="$_INSTAGRAM_URL" \
-  lerna run --scope "@eye8/app" start:next
+  lerna run --scope "@eye8/app" start:next --stream

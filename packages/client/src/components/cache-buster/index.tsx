@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 
 import { Button } from '@eye8/client-ui';
 import { useDependencies } from '@eye8/di';
-import { toast, ToastId } from '@eye8/shared/components/toaster';
+import { useToast, ToastId } from '@eye8/shared/context/toast';
 import { safeWindowOperation } from '@eye8/shared/utils';
 
 const CACHE_DATE = new Date(2020, 7, 21);
@@ -19,6 +19,8 @@ export const CacheBuster = () => {
       storages: { version: versionStorage },
     },
   } = useDependencies();
+
+  const toast = useToast()
 
   React.useEffect(() => {
     const currentVersion = versionStorage.getVersion();
