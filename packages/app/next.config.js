@@ -19,25 +19,29 @@ const generateRobotsTxt = () =>
 
 const workspace = path.join(__dirname, '..');
 
+const env = {
+  SENTRY_DSN: process.env.SENTRY_DSN,
+  SENTRY_ORG: process.env.SENTRY_ORG,
+  SENTRY_PROJECT: process.env.SENTRY_PROJECT,
+  SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
+  RELEASE_VERSION: process.env.RELEASE_VERSION,
+  PUBLIC_URL: process.env.PUBLIC_URL,
+  CLIENT_API_URL: process.env.CLIENT_API_URL,
+  YM_ACCOUNT_ID: process.env.YM_ACCOUNT_ID,
+  FB_PIXEL_ID: process.env.FB_PIXEL_ID,
+  FB_CLIENT_ACCESS_TOKEN: process.env.FB_CLIENT_ACCESS_TOKEN,
+  SHOP_NAME: process.env.SHOP_NAME,
+  SERVER_API_URL: process.env.SERVER_API_URL,
+  INSTAGRAM_URL: process.env.INSTAGRAM_URL,
+};
+
+console.log(env);
+
 module.exports = withPWA(
   withManifest(
     withBundleAnalyzer(
       withSourceMaps()({
-        env: {
-          SENTRY_DSN: process.env.SENTRY_DSN,
-          SENTRY_ORG: process.env.SENTRY_ORG,
-          SENTRY_PROJECT: process.env.SENTRY_PROJECT,
-          SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
-          RELEASE_VERSION: process.env.RELEASE_VERSION,
-          PUBLIC_URL: process.env.PUBLIC_URL,
-          CLIENT_API_URL: process.env.CLIENT_API_URL,
-          YM_ACCOUNT_ID: process.env.YM_ACCOUNT_ID,
-          FB_PIXEL_ID: process.env.FB_PIXEL_ID,
-          FB_CLIENT_ACCESS_TOKEN: process.env.FB_CLIENT_ACCESS_TOKEN,
-          SHOP_NAME: process.env.SHOP_NAME,
-          SERVER_API_URL: process.env.SERVER_API_URL,
-          INSTAGRAM_URL: process.env.INSTAGRAM_URL,
-        },
+        env,
         webpack: (config, options) => {
           /** Allows import modules from packages in workspace. */
           config.module = {

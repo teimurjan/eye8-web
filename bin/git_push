@@ -1,6 +1,0 @@
-#! /bin/bash
-
-remote=${1:-origin}
-branch=${2:-master}
-
-git push $remote $branch --follow-tags

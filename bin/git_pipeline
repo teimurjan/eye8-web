@@ -1,0 +1,63 @@
+#! /bin/bash
+
+help() {
+  echo
+  echo "git_pipeline - adds, commits and pushes the code and tags."
+  echo
+  echo "Syntax: ./bin/git_pipeline --message \"Hello world\" --update_type \"patch\" "
+  echo "options:"
+  echo "-m|--message         Commit message (required)"
+  echo "-h|--help            Print the help message"
+  echo "-u|--update-type     Update type (patch, minor or major)"
+  echo "-r|--remote          Remote to push to"
+  echo "-b|--branch          Branch to push to"
+  echo
+}
+
+remote="origin"
+branch="master"
+message=""
+update_type=""
+
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+  -h | --help)
+    help
+    exit
+    ;;
+  -u | --update-type)
+    update_type=$2
+    shift 2
+    ;;
+  -m | --message)
+    message=$2
+    shift 2
+    ;;
+  -r | --remote)
+    remote=$2
+    shift 2
+    ;;
+  -b | --branch)
+    branch=$2
+    shift 2
+    ;;
+  esac
+  shift
+done
+
+if [ "$message" == "" ]; then
+  RED='\033[0;31m'
+  COLOR_UNSET='\033[0m'
+
+  echo -e "${RED}error${COLOR_UNSET}: Commit message should not be empty"
+  help
+  exit 0
+fi
+
+git add . && git commit -m "$message"
+
+if [ "$update_type" != "" ]; then
+  yarn version $update_type
+fi
+
+git push $remote $branch --follow-tags
