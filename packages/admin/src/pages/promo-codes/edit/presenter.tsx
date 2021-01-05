@@ -80,7 +80,6 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
   const edit: IViewProps['edit'] = React.useCallback(
     async (values) => {
       setUpdating(true);
-      console.log(values);
       const formattedValues = {
         is_active: values.isActive,
         disable_on_use: values.disableOnUse,
@@ -100,7 +99,6 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
     [service, setPromoCodeToState, close, promoCodeId],
   );
 
-  console.log(promoCode);
   return (
     <View
       isOpen={true}

@@ -35,8 +35,6 @@ const env = {
   INSTAGRAM_URL: process.env.INSTAGRAM_URL,
 };
 
-console.log(env);
-
 module.exports = withPWA(
   withManifest(
     withBundleAnalyzer(
