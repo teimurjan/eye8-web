@@ -42,7 +42,6 @@ while [[ "$#" -gt 0 ]]; do
     shift 2
     ;;
   esac
-  shift
 done
 
 if [ "$message" == "" ]; then
@@ -56,8 +55,10 @@ fi
 
 git add . && git commit -m "$message"
 
+echo "$update_type"
+
 if [ "$update_type" != "" ]; then
-  yarn version $update_type
+  npm version $update_type
 fi
 
 git push $remote $branch --follow-tags
