@@ -8,8 +8,6 @@ if [ "$version" != "" ]; then
         echo "Tag already exists (v$version)"
     else
         git tag -a "v$version" -m "`git log -1 --format=%s`"
-        git push --tags
-        echo "New tag pushed (v$version)"
+        echo "New tag created (v$version)"
     fi
-
 fi

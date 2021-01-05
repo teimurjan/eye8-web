@@ -1,6 +1,6 @@
 {
   "name": "@eye8/root",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "private": true,
   "repository": {
     "type": "git",
@@ -105,7 +105,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "tsc && lint-staged"
+      "pre-commit": "tsc && lint-staged",
+      "post-commit": "./bin/create-git-tag"
     }
   },
   "browserslist": {
