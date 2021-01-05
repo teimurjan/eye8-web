@@ -27,21 +27,18 @@ while [[ "$#" -gt 0 ]]; do
     ;;
   -u | --update-type)
     update_type=$2
-    shift 2
     ;;
   -m | --message)
     message=$2
-    shift 2
     ;;
   -r | --remote)
     remote=$2
-    shift 2
     ;;
   -b | --branch)
     branch=$2
-    shift 2
     ;;
   esac
+  shift 2
 done
 
 if [ "$message" == "" ]; then
@@ -54,8 +51,6 @@ if [ "$message" == "" ]; then
 fi
 
 git add . && git commit -m "$message"
-
-echo "$update_type"
 
 if [ "$update_type" != "" ]; then
   npm version $update_type
