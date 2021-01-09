@@ -13,7 +13,6 @@ import {
   ErrorLayout,
   LinkPassingProps,
   NotFound,
-  Select,
   SelectTrigger,
   Subtitle,
   Tag,
@@ -23,7 +22,7 @@ import { InstagramPost } from '@eye8/client/components/instagram-post';
 import { PriceCrossedText } from '@eye8/client/components/price';
 import { ProductTypeImageCarousel } from '@eye8/client/components/product-type-image-carousel';
 import { ViewProps as Props } from '@eye8/client/pages/product-type/presenter';
-import { LoaderLayout } from '@eye8/shared/components';
+import { LoaderLayout, Select } from '@eye8/shared/components';
 import { fadeInFromLeft, fadeInFromRight, fadeInFromBottom, easeOutCubic, mediaQueries } from '@eye8/shared/styles';
 import { formatMediaURL } from '@eye8/shared/utils';
 

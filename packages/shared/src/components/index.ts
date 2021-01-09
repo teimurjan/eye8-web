@@ -2,6 +2,7 @@ export { default as Toaster } from './toaster';
 export type { ToastProps } from './toaster';
 export { default as PageProgressBar } from './page-progress-bar';
 export { default as IconWrapper } from './icon-wrapper';
+export type { default as IconWrapperProps } from './icon-wrapper';
 export { default as Popover } from './popover';
 export type {
   Props as PopoverProps,
@@ -11,6 +12,7 @@ export type {
 } from './popover';
 export { default as Select } from './select';
 export type {
+  Props as SelectProps,
   OptionProps as SelectOptionProps,
   OptionChild as SelectOptionChild,
   SingleValue as SelectSingleValue,

@@ -37,8 +37,6 @@ export { default as PasswordInput } from '@eye8/client-ui/password-input';
 export type { Props as PasswordInputProps } from '@eye8/client-ui/password-input';
 export { default as ScrollableContainer } from '@eye8/client-ui/scrollable-container';
 export type { Props as ScrollableContainerProps } from '@eye8/client-ui/scrollable-container';
-export { default as Select } from '@eye8/shared/src/components/select';
-export type { Props as SelectProps } from '@eye8/shared/src/components/select';
 export { default as SelectTrigger } from '@eye8/client-ui/select-trigger';
 export { default as Story } from '@eye8/client-ui/story';
 export type { Props as StoryProps } from '@eye8/client-ui/story';

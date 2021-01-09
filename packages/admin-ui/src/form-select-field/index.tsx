@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ControlProps, Control, FieldProps, Field, HelpTextProps, HelpText, LabelProps, Label } from '@eye8/admin-ui';
-import { SelectProps, Select } from '@eye8/client-ui';
+import { SelectProps, Select } from '@eye8/shared/components';
 
 export interface Props {
   controlProps?: ControlProps;
