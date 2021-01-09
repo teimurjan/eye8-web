@@ -3,12 +3,12 @@ import React from 'react';
 import { useAdminProductTypesFilters } from '@eye8/admin/hooks/use-admin-product-types-filters';
 import { ContextValue as AdminProductTypesStateContextValue } from '@eye8/admin/state/product-types';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
   adminProductTypesState: AdminProductTypesStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   productTypes: AdminProductTypesStateContextValue['state']['entities'];
   meta: AdminProductTypesStateContextValue['state']['meta'];
   isDataLoaded: boolean;
@@ -24,7 +24,7 @@ export interface IViewProps {
 export const AdminProductTypesListPresenter = ({
   View,
   adminProductTypesState: { isListLoading, entities: productTypes, get: getProductTypes, hasListLoaded, meta },
-}: IProps) => {
+}: Props) => {
   const {
     filters: { deleted, available },
     setFilters,

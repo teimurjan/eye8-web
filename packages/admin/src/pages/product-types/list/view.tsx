@@ -2,11 +2,11 @@
 import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
-import { Checkbox, NoDataAvailable, Section } from '@eye8/admin-ui/index';
+import { Checkbox, NoDataAvailable, Section } from '@eye8/admin-ui';
 import { AdminFiltersSection } from '@eye8/admin/components/filters-section';
 import { NewButton } from '@eye8/admin/components/new-button';
 import { AdminTable, IntlRenderer, ImageRenderer, LinkRenderer, BooleanRenderer } from '@eye8/admin/components/table';
-import { IViewProps as IProps } from '@eye8/admin/pages/product-types/list/presenter';
+import { ViewProps as Props } from '@eye8/admin/pages/product-types/list/presenter';
 
 export const NewProductTypeButton = () => {
   const intl = useIntl();
@@ -30,7 +30,7 @@ const NoProductTypesAvialable = () => {
   );
 };
 
-type ProductType = IProps['productTypes'][0];
+type ProductType = Props['productTypes'][0];
 
 export const AdminProductTypesListView = ({
   productTypes,
@@ -43,7 +43,7 @@ export const AdminProductTypesListView = ({
   onSearchChange,
   available,
   deleted,
-}: IProps) => {
+}: Props) => {
   const intl = useIntl();
   return (
     <Section

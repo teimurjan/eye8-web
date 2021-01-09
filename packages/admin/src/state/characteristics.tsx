@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { ICharacteristicListRawIntlResponseItem } from '@eye8/api/characteristic';
-import { makeEntityState, IContextValue } from '@eye8/shared/utils';
+import { CharacteristicListRawIntlResponseItem } from '@eye8/api/characteristic';
+import { makeEntityState, EntityContextValue } from '@eye8/shared/utils';
 
-export type ContextValue = IContextValue<
-  ICharacteristicListRawIntlResponseItem,
-  ICharacteristicListRawIntlResponseItem
+export type ContextValue = EntityContextValue<
+  CharacteristicListRawIntlResponseItem,
+  CharacteristicListRawIntlResponseItem
 >;
 
 const Context = React.createContext<ContextValue | null>(null);

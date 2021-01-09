@@ -14,14 +14,14 @@ type RenderChildren = (props: {
   isOpen: boolean;
 }) => React.ReactNode;
 
-export type ITriggerProps = {
+export type TriggerProps = {
   className?: string;
   onClick: React.MouseEventHandler;
 };
 
-export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode | RenderChildren;
-  TriggerComponent?: React.ComponentClass<ITriggerProps> | React.StatelessComponent<ITriggerProps>;
+  TriggerComponent?: React.ComponentClass<TriggerProps> | React.StatelessComponent<TriggerProps>;
   trigger?: React.ReactNode | RenderChildren;
   menuClassName?: string;
   align?: 'left' | 'right';
@@ -35,7 +35,7 @@ const Dropdown = ({
   trigger: triggerProp,
   align = 'left',
   ...props
-}: IProps) => {
+}: Props) => {
   const { value: isOpen, toggle, setNegative: close, setPositive: open } = useBoolean();
   const triggerRef = React.useRef(null);
   const contentRef = React.useRef(null);
@@ -70,7 +70,7 @@ const Dropdown = ({
   );
 };
 
-const IconTrigger = ({ onClick, icon, className }: ITriggerProps & { icon: React.ReactNode }) => {
+const IconTrigger = ({ onClick, icon, className }: TriggerProps & { icon: React.ReactNode }) => {
   const modifiedOnClick = React.useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();

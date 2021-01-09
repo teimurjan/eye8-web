@@ -5,17 +5,17 @@ import { useTheme } from 'emotion-theming';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { IProductTypeListResponseItem } from '@eye8/api/product-type';
+import { ProductTypeListResponseItem } from '@eye8/api/product-type';
 import { Button, HelpText, Image, LinkPassingProps, Tag, Title } from '@eye8/client-ui';
 import { usePriceRangeText } from '@eye8/client/components/price';
 import { mediaQueries } from '@eye8/shared/styles';
 import { formatMediaURL } from '@eye8/shared/utils';
 
-export interface IProps {
-  productType: IProductTypeListResponseItem;
+export interface Props {
+  productType: ProductTypeListResponseItem;
 }
 
-export const ProductTypeCard = ({ productType }: IProps) => {
+export const ProductTypeCard = ({ productType }: Props) => {
   const theme = useTheme<ClientUITheme>();
   const intl = useIntl();
   const as = `/products/${productType.slug}`;

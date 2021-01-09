@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import { useTheme } from 'emotion-theming';
 import React from 'react';
 
-import { Title, Container } from '@eye8/admin-ui/index';
+import { Title, Container } from '@eye8/client-ui';
 
-interface IProps {
+interface Props {
   background: string;
   color?: string;
   title: string;
@@ -14,7 +14,7 @@ interface IProps {
   centered?: boolean;
 }
 
-export const FullSizePage = ({ title, color, background, children, centered }: IProps) => {
+export const FullSizePage = ({ title, color, background, children, centered }: Props) => {
   const theme = useTheme<ClientUITheme>();
 
   return (

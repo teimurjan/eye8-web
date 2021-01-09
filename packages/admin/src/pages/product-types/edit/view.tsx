@@ -8,7 +8,7 @@ import {
   PRODUCT_TYPE_DESCRIPTION_FIELD_KEY,
   PRODUCT_TYPE_SHORT_DESCRIPTION_FIELD_KEY,
 } from '@eye8/admin/pages/product-types/create/presenter';
-import { IViewProps as IProps } from '@eye8/admin/pages/product-types/edit/presenter';
+import { ViewProps as Props } from '@eye8/admin/pages/product-types/edit/presenter';
 
 export const AdminProductTypesEditView = ({
   isOpen,
@@ -23,7 +23,7 @@ export const AdminProductTypesEditView = ({
   initialValues,
   featureTypes,
   characteristicValues,
-}: IProps) => {
+}: Props) => {
   const intl = useIntl();
 
   return (

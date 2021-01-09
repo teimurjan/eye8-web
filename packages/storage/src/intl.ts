@@ -1,14 +1,14 @@
-import { ICookieStorage } from '@eye8/storage/cookie';
+import { CookieStorage } from '@eye8/storage/cookie';
 
-export interface IIntlStorage {
+export interface IntlStorage {
   getLocale(): string | null;
   setLocale(locale: string): void;
   clearLocale(): void;
 }
 
-export class IntlStorage implements IIntlStorage {
-  private storage: ICookieStorage;
-  constructor(storage: ICookieStorage) {
+export default class implements IntlStorage {
+  private storage: CookieStorage;
+  constructor(storage: CookieStorage) {
     this.storage = storage;
   }
 

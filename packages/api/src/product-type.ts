@@ -1,16 +1,16 @@
 import { Client } from '@eye8/api/types';
-import { IHeadersManager } from '@eye8/manager/headers';
+import { HeadersManager } from '@eye8/manager/headers';
 import { flagToSearchStringValue, buildSearchString } from '@eye8/shared/utils';
 
 // LIST
-export interface IProductTypeListResponseMeta {
+export interface ProductTypeListResponseMeta {
   count: number;
   pages_count: number;
   page: number;
   limit: number;
 }
 
-export interface IProductTypeListResponseItem {
+export interface ProductTypeListResponseItem {
   id: number;
   name: string;
   description: string;
@@ -32,13 +32,13 @@ export interface IProductTypeListResponseItem {
   is_deleted: boolean | null;
 }
 
-export interface IProductTypeListResponseData {
-  data: IProductTypeListResponseItem[];
-  meta: IProductTypeListResponseMeta;
+export interface ProductTypeListResponseData {
+  data: ProductTypeListResponseItem[];
+  meta: ProductTypeListResponseMeta;
 }
 
 // DETAIL
-export interface IProductTypeDetailResponseItem {
+export interface ProductTypeDetailResponseItem {
   id: number;
   name: string;
   description: string;
@@ -60,12 +60,12 @@ export interface IProductTypeDetailResponseItem {
   is_deleted: boolean | null;
 }
 
-export interface IProductTypeDetailResponseItemData {
-  data: IProductTypeDetailResponseItem;
+export interface ProductTypeDetailResponseItemData {
+  data: ProductTypeDetailResponseItem;
 }
 
 // LIST RAW INTL
-export interface IProductTypeListRawIntlResponseItem {
+export interface ProductTypeListRawIntlResponseItem {
   id: number;
   name: { [key: string]: string };
   description: { [key: string]: string };
@@ -80,13 +80,13 @@ export interface IProductTypeListRawIntlResponseItem {
   is_deleted: boolean | null;
 }
 
-export interface IProductTypeListRawIntlResponseData {
-  data: IProductTypeListRawIntlResponseItem[];
-  meta: IProductTypeListResponseMeta;
+export interface ProductTypeListRawIntlResponseData {
+  data: ProductTypeListRawIntlResponseItem[];
+  meta: ProductTypeListResponseMeta;
 }
 
 // DETAIL RAW INTL
-export interface IProductTypeDetailRawIntlResponseItem {
+export interface ProductTypeDetailRawIntlResponseItem {
   id: number;
   name: { [key: string]: string };
   description: { [key: string]: string };
@@ -102,12 +102,12 @@ export interface IProductTypeDetailRawIntlResponseItem {
   is_deleted: boolean | null;
 }
 
-export interface IProductTypeRawIntlResponseData {
-  data: IProductTypeDetailRawIntlResponseItem;
+export interface ProductTypeRawIntlResponseData {
+  data: ProductTypeDetailRawIntlResponseItem;
 }
 
 // LIST RAW INTL MINIFIED
-export interface IProductTypeListRawIntlMinifiedResponseItem {
+export interface ProductTypeListRawIntlMinifiedResponseItem {
   id: number;
   name: {
     [key: string]: string;
@@ -115,12 +115,12 @@ export interface IProductTypeListRawIntlMinifiedResponseItem {
   feature_types: number[];
 }
 
-export interface IProductTypeListRawIntlMinifiedResponseData {
-  data: IProductTypeListRawIntlMinifiedResponseItem[];
-  meta: IProductTypeListResponseMeta;
+export interface ProductTypeListRawIntlMinifiedResponseData {
+  data: ProductTypeListRawIntlMinifiedResponseItem[];
+  meta: ProductTypeListResponseMeta;
 }
 
-export interface IProductTypeCreatePayload {
+export interface ProductTypeCreatePayload {
   names: {
     [key: string]: string;
   };
@@ -136,7 +136,7 @@ export interface IProductTypeCreatePayload {
   instagram_links: string[];
 }
 
-export type IProductTypeEditPayload = IProductTypeCreatePayload;
+export type ProductTypeEditPayload = ProductTypeCreatePayload;
 
 export enum ProductTypeSortingType {
   PRICE_ASCENDING,
@@ -162,57 +162,57 @@ export const sortingTypeOfQueryValue = {
   [ProductTypeSortingQueryValue.PRICE_DESCENDING]: ProductTypeSortingType.PRICE_DESCENDING,
 };
 
-export interface IGetForCategoryOptions {
+export interface GetForCategoryOptions {
   page: number;
   sortingType?: ProductTypeSortingType;
   characteristicValuesIds?: number[];
   available?: boolean;
 }
 
-export interface IGetAllOptions {
+export interface GetAllOptions {
   page: number;
   deleted?: boolean;
   available?: boolean;
 }
 
-export interface IGetOneOptions {
+export interface GetOneOptions {
   deleted?: boolean;
 }
 
-export interface IDeleteOptions {
+export interface DeleteOptions {
   forever?: boolean;
 }
 
-export interface IGetAllRawIntlMinifiedOptions {
+export interface GetAllRawIntlMinifiedOptions {
   page: number;
   sortingType?: ProductTypeSortingType;
   available?: boolean;
 }
 
-interface IPrivateSearchOptions {
+interface PrivateSearchOptions {
   page?: number;
   available?: boolean;
   deleted?: boolean;
   rawIntl?: boolean;
 }
 
-export type ISearchOptions = Omit<IPrivateSearchOptions, 'rawIntl'>;
+export type SearchOptions = Omit<PrivateSearchOptions, 'rawIntl'>;
 
-export interface IProductTypeAPI {
-  getForCategory(categorySlug: string, options: IGetForCategoryOptions): Promise<IProductTypeListResponseData>;
-  search(query: string, options: ISearchOptions): Promise<IProductTypeListResponseData>;
-  searchRawIntl(query: string, options: ISearchOptions): Promise<IProductTypeListRawIntlResponseData>;
-  getAll(options: IGetAllOptions): Promise<IProductTypeListResponseData>;
-  getNewest(): Promise<IProductTypeListResponseData>;
-  getByID(id: number, options: IGetOneOptions): Promise<IProductTypeDetailResponseItemData>;
-  getBySlug(slug: string): Promise<IProductTypeDetailResponseItemData>;
-  getAllRawIntlMinified(options: IGetAllRawIntlMinifiedOptions): Promise<IProductTypeListRawIntlMinifiedResponseData>;
-  getAllRawIntl(options: IGetAllOptions): Promise<IProductTypeListRawIntlResponseData>;
-  delete(id: number, options: IDeleteOptions): Promise<{}>;
-  create(payload: IProductTypeCreatePayload): Promise<IProductTypeRawIntlResponseData>;
-  edit(id: number, payload: IProductTypeEditPayload): Promise<IProductTypeRawIntlResponseData>;
-  status(id: number, options: IGetOneOptions): Promise<{}>;
-  getOneRawIntl(id: number, options: IGetOneOptions): Promise<IProductTypeRawIntlResponseData>;
+export interface ProductTypeAPI {
+  getForCategory(categorySlug: string, options: GetForCategoryOptions): Promise<ProductTypeListResponseData>;
+  search(query: string, options: SearchOptions): Promise<ProductTypeListResponseData>;
+  searchRawIntl(query: string, options: SearchOptions): Promise<ProductTypeListRawIntlResponseData>;
+  getAll(options: GetAllOptions): Promise<ProductTypeListResponseData>;
+  getNewest(): Promise<ProductTypeListResponseData>;
+  getByID(id: number, options: GetOneOptions): Promise<ProductTypeDetailResponseItemData>;
+  getBySlug(slug: string): Promise<ProductTypeDetailResponseItemData>;
+  getAllRawIntlMinified(options: GetAllRawIntlMinifiedOptions): Promise<ProductTypeListRawIntlMinifiedResponseData>;
+  getAllRawIntl(options: GetAllOptions): Promise<ProductTypeListRawIntlResponseData>;
+  delete(id: number, options: DeleteOptions): Promise<{}>;
+  create(payload: ProductTypeCreatePayload): Promise<ProductTypeRawIntlResponseData>;
+  edit(id: number, payload: ProductTypeEditPayload): Promise<ProductTypeRawIntlResponseData>;
+  status(id: number, options: GetOneOptions): Promise<{}>;
+  getOneRawIntl(id: number, options: GetOneOptions): Promise<ProductTypeRawIntlResponseData>;
 }
 
 export class ProductTypeNotFoundError extends Error {
@@ -228,21 +228,21 @@ export class ProductTypeWithProductsNotDeletedError extends Error {
   }
 }
 
-export class ProductTypeAPI implements IProductTypeAPI {
+export default class implements ProductTypeAPI {
   private client: Client;
-  private headersManager: IHeadersManager;
+  private headersManager: HeadersManager;
 
-  constructor(client: Client, headersManager: IHeadersManager) {
+  constructor(client: Client, headersManager: HeadersManager) {
     this.client = client;
     this.headersManager = headersManager;
   }
 
-  public getForCategory: IProductTypeAPI['getForCategory'] = async (
+  public getForCategory: ProductTypeAPI['getForCategory'] = async (
     categorySlug: string,
     { page, sortingType = ProductTypeSortingType.RECENT, characteristicValuesIds = [], available = true },
   ) => {
     try {
-      const response = await this.client.get<IProductTypeListResponseData>(
+      const response = await this.client.get<ProductTypeListResponseData>(
         `/api/categories/${categorySlug}/product_types${buildSearchString({
           page,
           sort_by: queryValueOfSortingType[sortingType],
@@ -260,15 +260,15 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   };
 
-  public search: IProductTypeAPI['search'] = async (query, options) =>
-    this.search_<IProductTypeListResponseData>(query, options);
+  public search: ProductTypeAPI['search'] = async (query, options) =>
+    this.search_<ProductTypeListResponseData>(query, options);
 
-  public searchRawIntl: IProductTypeAPI['searchRawIntl'] = async (query, options) =>
-    this.search_<IProductTypeListRawIntlResponseData>(query, { ...options, rawIntl: true });
+  public searchRawIntl: ProductTypeAPI['searchRawIntl'] = async (query, options) =>
+    this.search_<ProductTypeListRawIntlResponseData>(query, { ...options, rawIntl: true });
 
-  private search_ = async <T extends IProductTypeListRawIntlResponseData | IProductTypeListResponseData>(
+  private search_ = async <T extends ProductTypeListRawIntlResponseData | ProductTypeListResponseData>(
     query: string,
-    { page, rawIntl = false, available = true, deleted = false }: IPrivateSearchOptions,
+    { page, rawIntl = false, available = true, deleted = false }: PrivateSearchOptions,
   ) => {
     try {
       const response = await this.client.get<T>(
@@ -288,9 +288,9 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   };
 
-  public getAll: IProductTypeAPI['getAll'] = async ({ page, deleted, available = false }) => {
+  public getAll: ProductTypeAPI['getAll'] = async ({ page, deleted, available = false }) => {
     try {
-      const response = await this.client.get<IProductTypeListResponseData>(
+      const response = await this.client.get<ProductTypeListResponseData>(
         `/api/product_types${buildSearchString({
           page,
           deleted: flagToSearchStringValue(deleted),
@@ -306,9 +306,9 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   };
 
-  public getNewest: IProductTypeAPI['getNewest'] = async () => {
+  public getNewest: ProductTypeAPI['getNewest'] = async () => {
     try {
-      const response = await this.client.get<IProductTypeListResponseData>(
+      const response = await this.client.get<ProductTypeListResponseData>(
         `/api/product_types${buildSearchString({
           page: 1,
           sort_by: queryValueOfSortingType[ProductTypeSortingType.RECENT],
@@ -326,9 +326,9 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   };
 
-  public getByID: IProductTypeAPI['getByID'] = async (id: number, { deleted }) => {
+  public getByID: ProductTypeAPI['getByID'] = async (id: number, { deleted }) => {
     try {
-      const response = await this.client.get<IProductTypeDetailResponseItemData>(
+      const response = await this.client.get<ProductTypeDetailResponseItemData>(
         `/api/product_types/${id}${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -343,9 +343,9 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   };
 
-  public getBySlug: IProductTypeAPI['getBySlug'] = async (slug) => {
+  public getBySlug: ProductTypeAPI['getBySlug'] = async (slug) => {
     try {
-      const response = await this.client.get<IProductTypeDetailResponseItemData>(`/api/product_types/${slug}`, {
+      const response = await this.client.get<ProductTypeDetailResponseItemData>(`/api/product_types/${slug}`, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -357,9 +357,9 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   };
 
-  public getAllRawIntlMinified: IProductTypeAPI['getAllRawIntlMinified'] = async ({ page, sortingType, available }) => {
+  public getAllRawIntlMinified: ProductTypeAPI['getAllRawIntlMinified'] = async ({ page, sortingType, available }) => {
     try {
-      const response = await this.client.get<IProductTypeListRawIntlMinifiedResponseData>(
+      const response = await this.client.get<ProductTypeListRawIntlMinifiedResponseData>(
         `/api/product_types${buildSearchString({
           fields: ['id', 'name', 'feature_types'],
           raw_intl: 1,
@@ -378,9 +378,9 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   };
 
-  public getAllRawIntl: IProductTypeAPI['getAllRawIntl'] = async ({ page, deleted, available = false }) => {
+  public getAllRawIntl: ProductTypeAPI['getAllRawIntl'] = async ({ page, deleted, available = false }) => {
     try {
-      const response = await this.client.get<IProductTypeListRawIntlResponseData>(
+      const response = await this.client.get<ProductTypeListRawIntlResponseData>(
         `/api/product_types${buildSearchString({
           page,
           raw_intl: 1,
@@ -398,7 +398,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   };
 
-  public delete: IProductTypeAPI['delete'] = async (id: number, { forever }) => {
+  public delete: ProductTypeAPI['delete'] = async (id: number, { forever }) => {
     try {
       const response = await this.client.delete<{}>(
         `/api/product_types/${id}${buildSearchString({ forever: flagToSearchStringValue(forever) })}`,
@@ -419,12 +419,12 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   };
 
-  public create: IProductTypeAPI['create'] = async ({ image, ...json }) => {
+  public create: ProductTypeAPI['create'] = async ({ image, ...json }) => {
     try {
       const formData = new FormData();
       formData.append('json', JSON.stringify(json));
       formData.append('image', image);
-      const response = await this.client.post<IProductTypeRawIntlResponseData>(`/api/product_types`, formData, {
+      const response = await this.client.post<ProductTypeRawIntlResponseData>(`/api/product_types`, formData, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -433,12 +433,12 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   };
 
-  public edit: IProductTypeAPI['edit'] = async (id: number, { image, ...json }) => {
+  public edit: ProductTypeAPI['edit'] = async (id: number, { image, ...json }) => {
     try {
       const formData = new FormData();
       formData.append('json', JSON.stringify(json));
       formData.append('image', image);
-      const response = await this.client.put<IProductTypeRawIntlResponseData>(
+      const response = await this.client.put<ProductTypeRawIntlResponseData>(
         `/api/product_types/${id}${buildSearchString({ raw_intl: 1 })}`,
         formData,
         {
@@ -454,7 +454,7 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   };
 
-  public status: IProductTypeAPI['status'] = async (id: number, { deleted }) => {
+  public status: ProductTypeAPI['status'] = async (id: number, { deleted }) => {
     try {
       const response = await this.client.head<{}>(
         `/api/product_types/${id}${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,
@@ -471,9 +471,9 @@ export class ProductTypeAPI implements IProductTypeAPI {
     }
   };
 
-  public getOneRawIntl: IProductTypeAPI['getOneRawIntl'] = async (id: number, { deleted }) => {
+  public getOneRawIntl: ProductTypeAPI['getOneRawIntl'] = async (id: number, { deleted }) => {
     try {
-      const response = await this.client.get<IProductTypeRawIntlResponseData>(
+      const response = await this.client.get<ProductTypeRawIntlResponseData>(
         `/api/product_types/${id}${buildSearchString({ raw_intl: 1, deleted: flagToSearchStringValue(deleted) })}`,
         {
           headers: this.headersManager.getHeaders(),

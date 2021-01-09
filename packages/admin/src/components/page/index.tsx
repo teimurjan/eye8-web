@@ -1,14 +1,14 @@
 import React from 'react';
 import { Route, useRouteMatch } from 'react-router';
 
-interface IProps {
+interface Props {
   ListComponent: React.ComponentType<any>;
   CreateComponent: React.ComponentType<any>;
   EditComponent: React.ComponentType<any>;
   DeleteComponent: React.ComponentType<any>;
 }
 
-export const AdminPage = ({ ListComponent, CreateComponent, EditComponent, DeleteComponent }: IProps) => {
+export const AdminPage = ({ ListComponent, CreateComponent, EditComponent, DeleteComponent }: Props) => {
   const match = useRouteMatch();
   return (
     <>

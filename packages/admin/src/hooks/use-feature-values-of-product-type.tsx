@@ -1,11 +1,11 @@
 import { useFormState } from 'react-final-form';
 
-import { IFieldsProps } from '@eye8/admin/pages/products/create/fields';
+import { FieldsProps } from '@eye8/admin/pages/products/create/fields';
 
 export const useFeatureValuesOfProductType = ({
   productTypes,
   featureValues,
-}: Pick<IFieldsProps, 'productTypes' | 'featureValues'>) => {
+}: Pick<FieldsProps, 'productTypes' | 'featureValues'>) => {
   const {
     values: { product_type_id: productTypeID },
   } = useFormState();

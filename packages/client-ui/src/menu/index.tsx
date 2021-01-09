@@ -6,21 +6,21 @@ import React from 'react';
 import { Divider } from '@eye8/client-ui';
 import { mediaQueries } from '@eye8/shared/styles';
 
-export interface IProps {
+export interface Props {
   children?: React.ReactNode;
   className?: string;
 }
 
-const Menu = ({ children, className }: IProps) => <aside className={className}>{children}</aside>;
+const Menu = ({ children, className }: Props) => <aside className={className}>{children}</aside>;
 
-export interface IMenuListProps {
+export interface MenuListProps {
   className?: string;
   children?: React.ReactNode | HTMLCollection;
   collapsed?: boolean;
   direction?: 'column' | 'row';
 }
 
-const List = ({ children, className, collapsed, direction = 'column' }: IMenuListProps) => {
+const List = ({ children, className, collapsed, direction = 'column' }: MenuListProps) => {
   const ref = React.useRef<HTMLUListElement>(null);
   const [height, setHeight] = React.useState<number | undefined | 'auto'>(collapsed ? 0 : ref.current?.scrollHeight);
 
@@ -66,12 +66,12 @@ const List = ({ children, className, collapsed, direction = 'column' }: IMenuLis
 
 Menu.List = List;
 
-export interface IMenuItemProps extends React.HTMLAttributes<HTMLLIElement> {
+export interface MenuItemProps extends React.HTMLAttributes<HTMLLIElement> {
   className?: string;
   children?: React.ReactNode | HTMLCollection;
 }
 
-const Item = ({ children, className }: IMenuItemProps) => <li className={className}>{children}</li>;
+const Item = ({ children, className }: MenuItemProps) => <li className={className}>{children}</li>;
 
 Menu.Item = Item;
 Menu.Divider = Divider;

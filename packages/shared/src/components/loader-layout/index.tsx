@@ -5,11 +5,11 @@ import { useTheme } from 'emotion-theming';
 import React from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 
-export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   color?: string;
 }
 
-const LoaderLayout = ({ color, ...props }: IProps) => {
+const LoaderLayout = ({ color, ...props }: Props) => {
   const theme = useTheme<ClientUITheme>();
 
   return (

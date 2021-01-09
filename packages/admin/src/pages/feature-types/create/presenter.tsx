@@ -4,17 +4,17 @@ import * as yup from 'yup';
 
 import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
 import { ContextValue as AdminFeatureTypesStateContextValue } from '@eye8/admin/state/feature-types';
-import { IFeatureTypeService } from '@eye8/service/feature-type';
-import { availableLocales, SchemaValidator } from '@eye8/shared/utils';
+import { FeatureTypeService } from '@eye8/service/feature-type';
+import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: IFeatureTypeService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: FeatureTypeService;
   history: History;
   adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
   create: (values: { names: { [key: string]: string } }) => any;
   isLoading: boolean;
@@ -37,7 +37,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminFeatureTypesCreatePresenter: React.FC<IProps> = ({
+export const AdminFeatureTypesCreatePresenter: React.FC<Props> = ({
   View,
   history,
   service,
@@ -48,7 +48,7 @@ export const AdminFeatureTypesCreatePresenter: React.FC<IProps> = ({
 
   const close = React.useCallback(() => history.push('/admin/featureTypes'), [history]);
 
-  const create: IViewProps['create'] = React.useCallback(
+  const create: ViewProps['create'] = React.useCallback(
     async (values) => {
       setCreating(true);
 

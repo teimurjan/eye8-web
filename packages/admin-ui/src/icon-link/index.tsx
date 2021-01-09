@@ -5,14 +5,14 @@ import React from 'react';
 
 import { usePreventedDefault } from '@eye8/shared/hooks';
 
-export interface IProps {
+export interface Props {
   href?: string;
   onClick?: React.MouseEventHandler;
   icon: React.ReactNode;
   className?: string;
 }
 
-const Index = ({ onClick, icon, className, href }: IProps) => {
+const IconLink = ({ onClick, icon, className, href }: Props) => {
   const theme = useTheme<AdminUITheme>();
   const preventedOnClick = usePreventedDefault(onClick);
 
@@ -35,4 +35,4 @@ const Index = ({ onClick, icon, className, href }: IProps) => {
   );
 };
 
-export default Index;
+export default IconLink;

@@ -5,20 +5,20 @@ import * as yup from 'yup';
 import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
 import { ContextValue as AdminFeatureTypesStateContextValue } from '@eye8/admin/state/feature-types';
 import { ContextValue as AdminFeatureValuesStateContextValue } from '@eye8/admin/state/feature-values';
-import { IFeatureValueListRawIntlResponseItem } from '@eye8/api/feature-value';
-import { IFeatureValueService } from '@eye8/service/feature-value';
-import { availableLocales, SchemaValidator } from '@eye8/shared/utils';
+import { FeatureValueListRawIntlResponseItem } from '@eye8/api/feature-value';
+import { FeatureValueService } from '@eye8/service/feature-value';
+import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
-export interface IProps {
+export interface Props {
   featureValueId: number;
   history: History;
-  View: React.ComponentType<IViewProps>;
-  service: IFeatureValueService;
+  View: React.ComponentType<ViewProps>;
+  service: FeatureValueService;
   adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
   adminFeatureValuesState: AdminFeatureValuesStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
   edit: (values: { names: { [key: string]: string }; feature_type_id: string }) => void;
   isLoading: boolean;
@@ -47,7 +47,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminFeatureValuesEditPresenter: React.FC<IProps> = ({
+export const AdminFeatureValuesEditPresenter: React.FC<Props> = ({
   featureValueId,
 
   service,
@@ -65,7 +65,7 @@ export const AdminFeatureValuesEditPresenter: React.FC<IProps> = ({
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
-  const [featureValue, setFeatureValue] = React.useState<undefined | IFeatureValueListRawIntlResponseItem>(undefined);
+  const [featureValue, setFeatureValue] = React.useState<undefined | FeatureValueListRawIntlResponseItem>(undefined);
 
   React.useEffect(() => {
     (async () => {
@@ -92,7 +92,7 @@ export const AdminFeatureValuesEditPresenter: React.FC<IProps> = ({
 
   const close = React.useCallback(() => history.push('/admin/featureValues'), [history]);
 
-  const edit: IViewProps['edit'] = async (values) => {
+  const edit: ViewProps['edit'] = async (values) => {
     const formattedValues = Object.keys(values).reduce(
       (acc, fieldName) => {
         const { key, locale } = parseFieldName(fieldName);

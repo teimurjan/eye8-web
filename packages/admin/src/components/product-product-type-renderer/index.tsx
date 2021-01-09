@@ -3,19 +3,19 @@ import { css, jsx } from '@emotion/core';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 
-import { Table } from '@eye8/admin-ui/index';
-import { IRenderer } from '@eye8/admin/components/table';
-import { IProductListResponseItem } from '@eye8/api/product';
-import { Tooltip } from '@eye8/client-ui';
+import { Table } from '@eye8/admin-ui';
+import { Renderer } from '@eye8/admin/components/table';
+import { ProductListResponseItem } from '@eye8/api/product';
+import { Tooltip } from '@eye8/shared/components';
 import { formatMediaURL } from '@eye8/shared/utils';
 
-type BaseRenderer = IRenderer<IProductListResponseItem>;
+type BaseRenderer = Renderer<ProductListResponseItem>;
 
-interface IProductTypeLinkProps {
-  productType: IProductListResponseItem['product_type'];
+interface ProductTypeLinkProps {
+  productType: ProductListResponseItem['product_type'];
 }
 
-const ProductTypeLink = ({ productType }: IProductTypeLinkProps) => {
+const ProductTypeLink = ({ productType }: ProductTypeLinkProps) => {
   const intl = useIntl();
   return (
     <Tooltip<HTMLAnchorElement>

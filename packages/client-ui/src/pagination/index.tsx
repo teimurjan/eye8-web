@@ -4,14 +4,14 @@ import times from 'lodash/times';
 
 import { Button } from '@eye8/client-ui';
 
-export interface IProps {
+export interface Props {
   length: number;
   page: number;
   onChange?: (page: number) => void;
   className?: string;
 }
 
-const Pagination = ({ className, length, page, onChange }: IProps) => {
+const Pagination = ({ className, length, page, onChange }: Props) => {
   return (
     <div
       className={className}

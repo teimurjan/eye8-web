@@ -1,26 +1,26 @@
 import React from 'react';
 
-import { IPopoverTriggerClickProps, IPopoverPlacement, IPopoverTriggerHoverProps } from '@eye8/client-ui';
-import { IIntlService } from '@eye8/service/intl';
+import { IntlService } from '@eye8/service/intl';
+import { PopoverTriggerClickProps, PopoverPlacement, PopoverTriggerHoverProps } from '@eye8/shared/components';
 import { safeWindowOperation } from '@eye8/shared/utils';
 
-interface IProps {
-  View: React.ComponentType<IViewProps>;
-  intlService: IIntlService;
-  TriggerComponent: React.ComponentType<IPopoverTriggerClickProps> | React.ComponentType<IPopoverTriggerHoverProps>;
+interface Props {
+  View: React.ComponentType<ViewProps>;
+  intlService: IntlService;
+  TriggerComponent: React.ComponentType<PopoverTriggerClickProps> | React.ComponentType<PopoverTriggerHoverProps>;
 }
 
-export interface IViewProps {
-  changeLocale: IIntlService['setLocale'];
-  TriggerComponent: IProps['TriggerComponent'];
+export interface ViewProps {
+  changeLocale: IntlService['setLocale'];
+  TriggerComponent: Props['TriggerComponent'];
   className?: string;
   triggerClassName?: string;
   openOnHover?: boolean;
-  placement?: IPopoverPlacement;
+  placement?: PopoverPlacement;
   offset?: number[];
 }
 
-export const LanguageDropdownPresenter = ({ View, intlService, TriggerComponent, ...viewProps }: IProps) => {
+export const LanguageDropdownPresenter = ({ View, intlService, TriggerComponent, ...viewProps }: Props) => {
   const changeLocale = React.useCallback(
     (newLocale: string) => {
       if (intlService.getLocale() !== newLocale) {

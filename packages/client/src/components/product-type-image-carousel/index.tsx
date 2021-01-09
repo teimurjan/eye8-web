@@ -9,7 +9,7 @@ const CONTROL_IMAGE_SIZE = '8vw';
 const CONTROL_IMAGE_MOBILE_SIZE = '25vw';
 const MAX_CONTROL_IMAGE_SIZE = '100px';
 
-interface IProps<T> {
+interface Props<T> {
   images: T[];
   getImageProps: (image: T) => { src: string; alt: string };
   activeImageIndex: number;
@@ -21,7 +21,7 @@ export const ProductTypeImageCarousel = <T extends any = string>({
   activeImageIndex,
   onChange,
   getImageProps,
-}: IProps<T>) => {
+}: Props<T>) => {
   const theme = useTheme<ClientUITheme>();
   return (
     <div

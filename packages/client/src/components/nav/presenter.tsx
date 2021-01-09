@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { IContextValue as CategoriesStateContextValue } from '@eye8/client/state/categories';
+import { ContextValue as CategoriesStateContextValue } from '@eye8/client/state/categories';
 
-export interface IProps extends CategoriesStateContextValue {
-  View: React.ComponentType<IViewProps>;
+export interface Props extends CategoriesStateContextValue {
+  View: React.ComponentType<ViewProps>;
 }
 
-export interface IViewProps {
+export interface ViewProps {
   categories: CategoriesStateContextValue['categoriesState']['categories'];
 }
 
-export const NavPresenter = ({ categoriesState, View }: IProps) => {
+export const NavPresenter = ({ categoriesState, View }: Props) => {
   return <View categories={categoriesState.categories} />;
 };

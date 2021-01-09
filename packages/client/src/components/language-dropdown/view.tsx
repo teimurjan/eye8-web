@@ -1,11 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Anchor, Popover, Select } from '@eye8/client-ui';
-import { IViewProps as IProps } from '@eye8/client/components/language-dropdown/presenter';
+import { Anchor, Select } from '@eye8/client-ui';
+import { ViewProps as Props } from '@eye8/client/components/language-dropdown/presenter';
+import { Popover } from '@eye8/shared/components';
 import { availableLocales, getLocaleName } from '@eye8/shared/utils';
 
-export const LanguageDropdownView = React.forwardRef<HTMLDivElement, IProps>(
+export const LanguageDropdownView = React.forwardRef<HTMLDivElement, Props>(
   ({ className, changeLocale, TriggerComponent, openOnHover, placement, offset }, ref) => {
     const intl = useIntl();
 

@@ -3,22 +3,22 @@ import { css, jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
 import { useIntl } from 'react-intl';
 
-import { IProductListResponseItem } from '@eye8/api/product';
-import { IPromoCodeListResponseItem } from '@eye8/api/promo-code';
+import { ProductListResponseItem } from '@eye8/api/product';
+import { PromoCodeListResponseItem } from '@eye8/api/promo-code';
 import { HelpText, Image, Subtitle, Title } from '@eye8/client-ui';
 import { Quantity } from '@eye8/client/components/cart-item-quantity';
 import { PriceCrossedText, PriceText } from '@eye8/client/components/price';
 import { isPromoCodeApplicableForProduct } from '@eye8/shared/helpers';
 
-interface IProps {
-  product: IProductListResponseItem;
+interface Props {
+  product: ProductListResponseItem;
   count: number;
   onRemoveClick: () => void;
   onAddClick: () => void;
-  promoCode?: IPromoCodeListResponseItem;
+  promoCode?: PromoCodeListResponseItem;
 }
 
-export const CartItem = ({ product, count, onRemoveClick, onAddClick, promoCode }: IProps) => {
+export const CartItem = ({ product, count, onRemoveClick, onAddClick, promoCode }: Props) => {
   const theme = useTheme<ClientUITheme>();
   const intl = useIntl();
 

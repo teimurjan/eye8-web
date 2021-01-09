@@ -4,7 +4,7 @@ import { css, jsx } from '@emotion/core';
 import classNames from 'classnames';
 import React from 'react';
 
-export interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
+export interface Props extends React.HTMLAttributes<HTMLButtonElement> {
   isActive: boolean;
 }
 
@@ -12,7 +12,7 @@ const spanCSS = css`
   height: 2px !important;
 `;
 
-const Index = ({ className, isActive, ...props }: IProps) => (
+const NavbarBurger = ({ className, isActive, ...props }: Props) => (
   <button
     css={css`
       background-color: transparent;
@@ -34,4 +34,4 @@ const Index = ({ className, isActive, ...props }: IProps) => (
   </button>
 );
 
-export default Index;
+export default NavbarBurger;

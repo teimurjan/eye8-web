@@ -4,18 +4,18 @@ import * as yup from 'yup';
 import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
 import { ContextValue as AdminFeatureTypesStateContextValue } from '@eye8/admin/state/feature-types';
 import { ContextValue as AdminFeatureValuesStateContextValue } from '@eye8/admin/state/feature-values';
-import { IFeatureValueService } from '@eye8/service/feature-value';
-import { availableLocales, SchemaValidator } from '@eye8/shared/utils';
+import { FeatureValueService } from '@eye8/service/feature-value';
+import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: IFeatureValueService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: FeatureValueService;
   close: () => void;
   adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
   adminFeatureValuesState: AdminFeatureValuesStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
   create: (values: { names: { [key: string]: string }; feature_type_id: string }) => void;
   isCreating: boolean;
@@ -42,7 +42,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminFeatureValuesCreatePresenter: React.FC<IProps> = ({
+export const AdminFeatureValuesCreatePresenter: React.FC<Props> = ({
   adminFeatureTypesState: {
     get: getFeatureTypes,
     isListLoading: featureTypesLoading,
@@ -64,7 +64,7 @@ export const AdminFeatureValuesCreatePresenter: React.FC<IProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const create: IViewProps['create'] = React.useCallback(
+  const create: ViewProps['create'] = React.useCallback(
     async (values) => {
       const formattedValues = Object.keys(values).reduce(
         (acc, fieldName) => {

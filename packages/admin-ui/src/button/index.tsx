@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-export interface IProps {
+export interface Props {
   color?:
     | 'is-primary'
     | 'is-link'
@@ -18,7 +18,7 @@ export interface IProps {
   type?: 'submit' | 'reset' | 'button';
 }
 
-const Index = ({
+const Button = ({
   children,
   color,
   className,
@@ -26,7 +26,7 @@ const Index = ({
   outlined,
   type = 'button',
   ...props
-}: IProps & React.HTMLProps<HTMLButtonElement>) => (
+}: Props & React.HTMLProps<HTMLButtonElement>) => (
   <button
     className={classNames('button', className, color, {
       'is-loading': isLoading,
@@ -39,4 +39,4 @@ const Index = ({
   </button>
 );
 
-export default Index;
+export default Button;

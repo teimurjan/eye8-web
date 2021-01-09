@@ -6,11 +6,11 @@ import { useToast, ToastId } from '@eye8/shared/context/toast';
 
 let blockRequestsPromise: Promise<void>;
 
-export interface IProps {
+export interface Props {
   children: React.ReactElement;
 }
 
-const AuthInterceptor = ({ children }: IProps) => {
+const AuthInterceptor = ({ children }: Props) => {
   const {
     dependencies: {
       __APIClient,

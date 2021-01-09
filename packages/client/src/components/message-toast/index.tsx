@@ -3,7 +3,7 @@ import { css, jsx } from '@emotion/core';
 import React from 'react';
 
 import { Message } from '@eye8/client-ui';
-import { IToastProps } from '@eye8/shared/components';
+import { ToastProps } from '@eye8/shared/components';
 import { expandHorizontally, mediaQueries, easeOutCubic } from '@eye8/shared/styles';
 
 export const MessageToast = ({
@@ -14,7 +14,7 @@ export const MessageToast = ({
   duration,
   transitionDuration,
   transitionClassName,
-}: IToastProps) => {
+}: ToastProps) => {
   const color = React.useMemo(() => {
     if (type === 'error') {
       return 'error';

@@ -1,11 +1,11 @@
 import classNames from 'classnames';
 import React from 'react';
 
-export interface IProps extends React.HTMLAttributes<HTMLAnchorElement> {
+export interface Props extends React.HTMLAttributes<HTMLAnchorElement> {
   children?: React.ReactNode;
 }
 
-const PagintationPrev = ({ children, className, ...props }: IProps) => (
+const PagintationPrev = ({ children, className, ...props }: Props) => (
   <a className={classNames('pagination-previous', className)} {...props}>
     {children}
   </a>

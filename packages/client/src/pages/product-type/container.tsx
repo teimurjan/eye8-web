@@ -2,23 +2,23 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { ProductTypePagePresenter, IProps as IPresenterProps } from '@eye8/client/pages/product-type/presenter';
+import { ProductTypePagePresenter, Props as PresenterProps } from '@eye8/client/pages/product-type/presenter';
 import { ProductTypePageView } from '@eye8/client/pages/product-type/view';
 import { useDependencies } from '@eye8/di';
 
-interface IProps {
-  initialProps?: IPresenterProps['initialProps'];
+interface Props {
+  initialProps?: PresenterProps['initialProps'];
 }
 
 let addToCartTimeoutID: NodeJS.Timeout;
-export const ProductTypePageContainer: React.FC<IProps> = ({ initialProps }) => {
+export const ProductTypePageContainer: React.FC<Props> = ({ initialProps }) => {
   const { dependencies } = useDependencies();
   const router = useRouter();
   const { id } = router.query;
   const intl = useIntl();
 
   const [showAddedText, setShowAddedText] = React.useState(false);
-  const action: IPresenterProps['action'] = React.useCallback(
+  const action: PresenterProps['action'] = React.useCallback(
     (product) => {
       dependencies.storages.cart.add(product);
       setShowAddedText(true);

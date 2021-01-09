@@ -3,26 +3,26 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import * as yup from 'yup';
 
-import { IContextValue as AuthModalStateContextValue } from '@eye8/client/state/auth-modal';
-import { IAuthService, InvalidCredentialsError } from '@eye8/service/auth';
+import { ContextValue as AuthModalStateContextValue } from '@eye8/client/state/auth-modal';
+import { AuthService, InvalidCredentialsError } from '@eye8/service/auth';
 import { useToast, ToastId } from '@eye8/shared/context/toast';
 import { isUserAdmin } from '@eye8/shared/helpers';
-import { IContextValue as UserStateContextValue } from '@eye8/shared/state/user';
+import { ContextValue as UserStateContextValue } from '@eye8/shared/state/user';
 import { SchemaValidator } from '@eye8/shared/utils';
 
-export interface IProps extends UserStateContextValue, AuthModalStateContextValue {
-  service: IAuthService;
-  View: React.ComponentType<IViewProps>;
+export interface Props extends UserStateContextValue, AuthModalStateContextValue {
+  service: AuthService;
+  View: React.ComponentType<ViewProps>;
   router: NextRouter;
 }
 
-export interface IFormValues {
+export interface FormValues {
   email: string;
   password: string;
 }
 
-export interface IViewProps {
-  onSubmit: (values: IFormValues) => void;
+export interface ViewProps {
+  onSubmit: (values: FormValues) => void;
   globalError: string | undefined;
   validate: (values: object) => object | Promise<object>;
   openSignup: () => void;
@@ -48,7 +48,7 @@ export const LoginPresenter = ({
   userState,
   router,
   authModalState: { open: openAuthModal, close: closeAuthModal },
-}: IProps) => {
+}: Props) => {
   const intl = useIntl();
   const toast = useToast();
   const [error, setError] = React.useState<undefined | string>(undefined);

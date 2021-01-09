@@ -3,9 +3,11 @@ import { IncomingMessage, ServerResponse } from 'http';
 import Cookies, { CookieSetOptions } from 'universal-cookie';
 
 import { getCookieDomain } from '@eye8/shared/utils';
-import { ICookieStorage } from '@eye8/storage/cookie';
+import { CookieStorage } from '@eye8/storage/cookie';
 
-export class ServerCookieStorage implements ICookieStorage {
+export type ServerCookieStorage = CookieStorage;
+
+export default class implements CookieStorage {
   private res: ServerResponse;
   private cookies: Cookies;
 

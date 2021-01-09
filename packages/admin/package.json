@@ -15,7 +15,6 @@
   "homepage": "https://eye8.kg",
   "dependencies": {
     "@eye8/shared": "0.0.0",
-    "@eye8/client-ui": "0.0.0",
     "@eye8/admin-ui": "0.0.0",
     "@eye8/service": "0.0.0",
     "@eye8/api": "0.0.0",

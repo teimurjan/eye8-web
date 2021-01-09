@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 
 import { ModalForm } from '@eye8/admin/components/modal-form';
 import { Fields } from '@eye8/admin/pages/orders/edit/fields';
-import { IViewProps as IProps } from '@eye8/admin/pages/orders/edit/presenter';
+import { ViewProps as Props } from '@eye8/admin/pages/orders/edit/presenter';
 
 export const AdminOrdersEditView = ({
   isOpen,
@@ -16,7 +16,7 @@ export const AdminOrdersEditView = ({
   isUpdating,
   initialValues,
   ...promoCodeProps
-}: IProps) => {
+}: Props) => {
   const intl = useIntl();
   return (
     <ModalForm

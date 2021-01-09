@@ -1,14 +1,14 @@
-import { IOrderItem } from '@eye8/api/order';
-import { IProductListResponseItem } from '@eye8/api/product';
-import { IPromoCodeListResponseItem } from '@eye8/api/promo-code';
+import { OrderItem } from '@eye8/api/order';
+import { ProductListResponseItem } from '@eye8/api/product';
+import { PromoCodeListResponseItem } from '@eye8/api/promo-code';
 import { isPromoCodeApplicableForProduct } from '@eye8/shared/helpers/promo-code';
 import { calculateDiscountedPrice } from '@eye8/shared/utils';
 
-type ValuableProductProps = Pick<IProductListResponseItem, 'id' | 'price' | 'discount'>;
-type ValuablePromoCodeProps = Pick<IPromoCodeListResponseItem, 'products' | 'amount' | 'value' | 'discount'>;
+type ValuableProductProps = Pick<ProductListResponseItem, 'id' | 'price' | 'discount'>;
+type ValuablePromoCodeProps = Pick<PromoCodeListResponseItem, 'products' | 'amount' | 'value' | 'discount'>;
 type ProductCountGetter = (productId: number) => number;
 
-export const getOrderTotalPrice = (items: IOrderItem[], promoCode?: ValuablePromoCodeProps) => {
+export const getOrderTotalPrice = (items: OrderItem[], promoCode?: ValuablePromoCodeProps) => {
   const products = items.map((item) => ({
     id: item.product ? item.product.id : NaN,
     price: item.product_price_per_item,

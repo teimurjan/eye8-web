@@ -4,8 +4,8 @@ import { useTheme } from 'emotion-theming';
 import React from 'react';
 import { ChevronDown as ChevronDownIcon, X as XIcon } from 'react-feather';
 
-import { Button, Tag } from '@eye8/admin-ui/index';
-import { IconWrapper, ISelectTriggerProps } from '@eye8/client-ui';
+import { Button, Tag } from '@eye8/admin-ui';
+import { IconWrapper, SelectTriggerProps } from '@eye8/shared/components';
 import { useBoolean } from '@eye8/shared/hooks';
 import { IconSize, mediaQueries } from '@eye8/shared/styles';
 import { noop } from '@eye8/shared/utils';
@@ -13,9 +13,7 @@ import { noop } from '@eye8/shared/utils';
 const TRIGGER_CLASSNAME = 'select-trigger';
 const TRIGGER_SELECTOR = `.${TRIGGER_CLASSNAME}`;
 
-export type IProps = ISelectTriggerProps;
-
-export default React.forwardRef<HTMLDivElement, IProps>(
+export default React.forwardRef<HTMLDivElement, SelectTriggerProps>(
   (
     { isOpen, searchQuery, onClick = noop, onFocus, placeholder, change, clearable, onSearch, selectedOptions },
     ref,
@@ -159,7 +157,7 @@ export default React.forwardRef<HTMLDivElement, IProps>(
             </IconWrapper>
           </Button>
         )}
-        <IconWrapper
+        <span
           css={css`
             position: absolute;
             right: 10px;
@@ -175,7 +173,7 @@ export default React.forwardRef<HTMLDivElement, IProps>(
           `}
         >
           <ChevronDownIcon size={IconSize.Medium} />
-        </IconWrapper>
+        </span>
       </div>
     );
   },

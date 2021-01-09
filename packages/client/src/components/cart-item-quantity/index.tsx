@@ -3,18 +3,19 @@ import { css, jsx } from '@emotion/core';
 import { Plus as PlusIcon, Minus as MinusIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
-import { Button, HelpText, IconWrapper, Title } from '@eye8/client-ui';
+import { Button, HelpText, Title } from '@eye8/client-ui';
+import { IconWrapper } from '@eye8/shared/components';
 import { IconSize } from '@eye8/shared/styles';
 import { preventDefault } from '@eye8/shared/utils';
 
-interface IProps {
+interface Props {
   count: number;
   allowedCount: number;
   onAddClick: () => void;
   onRemoveClick: () => void;
 }
 
-export const Quantity = ({ count, allowedCount, onAddClick, onRemoveClick }: IProps) => {
+export const Quantity = ({ count, allowedCount, onAddClick, onRemoveClick }: Props) => {
   const intl = useIntl();
 
   return (

@@ -5,7 +5,7 @@ type SetOptions = { expireIn: number };
 
 type Listener = (key: string, value: object | undefined, options?: SetOptions) => void;
 
-export interface IStateCacheStorage {
+export interface StateCacheStorage {
   get(key: string): object | null;
   set(key: string, value: object | undefined, options?: SetOptions): void;
   clear(key: string): void;
@@ -13,7 +13,7 @@ export interface IStateCacheStorage {
   addChangeListener(listener: Listener): void;
 }
 
-export class StateCacheStorage implements IStateCacheStorage {
+export default class implements StateCacheStorage {
   private listeners: Set<Listener>;
   private storage: Storage;
   constructor(storage: Storage) {
@@ -41,7 +41,7 @@ export class StateCacheStorage implements IStateCacheStorage {
     return value;
   }
 
-  public set: IStateCacheStorage['set'] = (key, value, options) => {
+  public set: StateCacheStorage['set'] = (key, value, options) => {
     const cachedState = this.getCachedState();
     if (options && options.expireIn) {
       const currentTimestamp = getCurrentTimestamp();

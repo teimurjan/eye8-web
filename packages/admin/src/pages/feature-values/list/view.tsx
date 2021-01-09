@@ -2,10 +2,10 @@
 import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
-import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui/index';
+import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
 import { FeatureValueTypeRenderer } from '@eye8/admin/components/feature-value-type-renderer';
 import { AdminTable, IntlRenderer } from '@eye8/admin/components/table';
-import { IViewProps as IProps } from '@eye8/admin/pages/feature-values/list/presenter';
+import { ViewProps as Props } from '@eye8/admin/pages/feature-values/list/presenter';
 
 export const NewFeatureValueButton = () => {
   const intl = useIntl();
@@ -31,9 +31,9 @@ const NoFeatureValuesAvialable = () => {
 
 const renderNoData = () => <NoFeatureValuesAvialable />;
 
-type FeatureValue = IProps['featureValues'][0];
+type FeatureValue = Props['featureValues'][0];
 
-export const AdminFeatureValuesListView = ({ featureValues, isLoading, isDataLoaded }: IProps) => {
+export const AdminFeatureValuesListView = ({ featureValues, isLoading, isDataLoaded }: Props) => {
   const intl = useIntl();
   return (
     <Section

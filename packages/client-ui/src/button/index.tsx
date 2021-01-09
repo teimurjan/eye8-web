@@ -6,7 +6,7 @@ import React from 'react';
 
 import { mediaQueries } from '@eye8/shared/styles';
 
-export interface IProps {
+export interface Props {
   color?: 'default' | 'dark' | 'primary' | 'info';
   size?: 'default' | 'mini' | 'large' | 'small';
   loading?: boolean;
@@ -21,7 +21,7 @@ export interface IProps {
   onMouseEnter?: React.MouseEventHandler;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, IProps>(
+const Button = React.forwardRef<HTMLButtonElement, Props>(
   (
     {
       children,

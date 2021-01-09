@@ -1,11 +1,11 @@
 import { normalize, schema } from 'normalizr';
 
 import {
-  IOrderAPI,
-  IOrderListResponseItem,
-  IOrderListResponseMeta,
-  IOrderCreatePayload,
-  IOrderEditPayload,
+  OrderAPI,
+  OrderListResponseItem,
+  OrderListResponseMeta,
+  OrderCreatePayload,
+  OrderEditPayload,
   PromoCodeIsNotSetError,
   OrderNotFoundError,
 } from '@eye8/api/order';
@@ -23,11 +23,11 @@ export class PromoCodeInvalidError extends Error {
   }
 }
 
-export interface IOrderService {
+export interface OrderService {
   getAll(): Promise<{
     entities: {
       orders: {
-        [key: string]: IOrderListResponseItem;
+        [key: string]: OrderListResponseItem;
       };
     };
     result: number[];
@@ -38,36 +38,36 @@ export interface IOrderService {
   ): Promise<{
     entities: {
       orders: {
-        [key: string]: IOrderListResponseItem;
+        [key: string]: OrderListResponseItem;
       };
     };
     result: number[];
-    meta: IOrderListResponseMeta;
+    meta: OrderListResponseMeta;
   }>;
-  create(payload: IOrderCreatePayload): Promise<IOrderListResponseItem>;
-  edit(id: number, payload: IOrderEditPayload): Promise<IOrderListResponseItem>;
+  create(payload: OrderCreatePayload): Promise<OrderListResponseItem>;
+  edit(id: number, payload: OrderEditPayload): Promise<OrderListResponseItem>;
   delete(id: number): Promise<{}>;
   exists(id: number): Promise<boolean>;
-  getOne(id: number): Promise<IOrderListResponseItem | undefined>;
+  getOne(id: number): Promise<OrderListResponseItem | undefined>;
 }
 
-export class OrderService implements IOrderService {
-  private API: IOrderAPI;
-  constructor(API: IOrderAPI) {
+export default class implements OrderService {
+  private API: OrderAPI;
+  constructor(API: OrderAPI) {
     this.API = API;
   }
 
-  public getAll: IOrderService['getAll'] = async () => {
+  public getAll: OrderService['getAll'] = async () => {
     const orders = await this.API.getAll();
     return normalize(orders.data, [new schema.Entity('orders')]);
   };
 
-  public getForUser: IOrderService['getForUser'] = async (userID, page) => {
+  public getForUser: OrderService['getForUser'] = async (userID, page) => {
     const orders = await this.API.getForUser(userID, page);
     return { ...normalize(orders.data, [new schema.Entity('orders')]), meta: orders.meta };
   };
 
-  public create: IOrderService['create'] = async (payload) => {
+  public create: OrderService['create'] = async (payload) => {
     try {
       return (await this.API.create(payload)).data;
     } catch (e) {
@@ -78,7 +78,7 @@ export class OrderService implements IOrderService {
     }
   };
 
-  public edit: IOrderService['edit'] = async (id, payload) => {
+  public edit: OrderService['edit'] = async (id, payload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
@@ -92,7 +92,7 @@ export class OrderService implements IOrderService {
     }
   };
 
-  public delete: IOrderService['delete'] = async (id) => {
+  public delete: OrderService['delete'] = async (id) => {
     try {
       return await this.API.delete(id);
     } catch (e) {
@@ -103,7 +103,7 @@ export class OrderService implements IOrderService {
     }
   };
 
-  public exists: IOrderService['exists'] = async (id) => {
+  public exists: OrderService['exists'] = async (id) => {
     try {
       await this.API.status(id);
       return true;
@@ -115,7 +115,7 @@ export class OrderService implements IOrderService {
     }
   };
 
-  public getOne: IOrderService['getOne'] = async (id) => {
+  public getOne: OrderService['getOne'] = async (id) => {
     try {
       return (await this.API.getOne(id)).data;
     } catch (e) {

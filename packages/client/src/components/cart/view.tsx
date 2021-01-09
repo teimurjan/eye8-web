@@ -7,21 +7,11 @@ import { Form, Field as FinalFormField, FieldRenderProps, FormRenderProps } from
 import { useIntl } from 'react-intl';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import {
-  Anchor,
-  Button,
-  Drawer,
-  UnderlinedInput,
-  HelpText,
-  IconWrapper,
-  LoaderLayout,
-  Message,
-  Title,
-  WithIcon,
-} from '@eye8/client-ui';
+import { Anchor, Button, UnderlinedInput, HelpText, Message, Title, WithIcon } from '@eye8/client-ui';
 import { CartItem } from '@eye8/client/components/cart-item';
-import { IViewProps as IProps, IFormValues } from '@eye8/client/components/cart/presenter';
+import { ViewProps as Props, FormValues } from '@eye8/client/components/cart/presenter';
 import { PriceText } from '@eye8/client/components/price';
+import { IconWrapper, Drawer, LoaderLayout } from '@eye8/shared/components';
 import { IconSize, bounce, fadeInFromRight, fadeInFromLeft, expand, easeOutCubic } from '@eye8/shared/styles';
 import { getCartTotalPrice, parsePhoneNumber } from '@eye8/shared/utils';
 
@@ -40,7 +30,7 @@ const CartTrigger = React.forwardRef<HTMLSpanElement>((props, ref) => {
   );
 });
 
-const Total: React.FC<Pick<IProps, 'getProductCount' | 'products' | 'promoCode'>> = ({
+const Total: React.FC<Pick<Props, 'getProductCount' | 'products' | 'promoCode'>> = ({
   products,
   getProductCount,
   promoCode,
@@ -61,7 +51,7 @@ const Total: React.FC<Pick<IProps, 'getProductCount' | 'products' | 'promoCode'>
   );
 };
 
-const PromoCodeField = ({ onPromoCodeApply }: Pick<IProps, 'onPromoCodeApply'>) => {
+const PromoCodeField = ({ onPromoCodeApply }: Pick<Props, 'onPromoCodeApply'>) => {
   const intl = useIntl();
   const [value, setValue] = React.useState('');
 
@@ -113,7 +103,7 @@ const PromoCodeField = ({ onPromoCodeApply }: Pick<IProps, 'onPromoCodeApply'>) 
   );
 };
 
-const FirstStep: React.FC<IProps> = ({
+const FirstStep: React.FC<Props> = ({
   isLoading,
   products,
   getProductCount,
@@ -204,7 +194,7 @@ const InnerForm = ({
   products,
   getProductCount,
   promoCode,
-}: FormRenderProps<IFormValues> & Pick<IProps, 'error' | 'products' | 'getProductCount' | 'promoCode'>) => {
+}: FormRenderProps<FormValues> & Pick<Props, 'error' | 'products' | 'getProductCount' | 'promoCode'>) => {
   const intl = useIntl();
 
   return (
@@ -227,11 +217,11 @@ const InnerForm = ({
   );
 };
 
-const getInnerFormRenderer = (props: Pick<IProps, 'error' | 'products' | 'getProductCount' | 'promoCode'>) => (
-  props_: FormRenderProps<IFormValues>,
+const getInnerFormRenderer = (props: Pick<Props, 'error' | 'products' | 'getProductCount' | 'promoCode'>) => (
+  props_: FormRenderProps<FormValues>,
 ) => <InnerForm {...{ ...props, ...props_ }} />;
 
-const SecondStep: React.FC<IProps> = ({
+const SecondStep: React.FC<Props> = ({
   validator,
   initialValues,
   onSubmit,
@@ -241,16 +231,16 @@ const SecondStep: React.FC<IProps> = ({
   promoCode,
 }) => {
   return (
-    <Form<IFormValues>
+    <Form<FormValues>
       onSubmit={onSubmit}
-      initialValues={initialValues as IFormValues}
+      initialValues={initialValues as FormValues}
       validate={validator.validate}
       render={getInnerFormRenderer({ products, error, getProductCount, promoCode })}
     />
   );
 };
 
-const ThirdStep: React.FC<IProps> = () => {
+const ThirdStep: React.FC<Props> = () => {
   const intl = useIntl();
 
   return (
@@ -269,7 +259,7 @@ const ThirdStep: React.FC<IProps> = () => {
   );
 };
 
-export const CartView: React.FC<IProps> = (props) => {
+export const CartView: React.FC<Props> = (props) => {
   const { isOpen, open, close, step, cartItemsCount, goToPrevStep } = props;
   const theme = useTheme<ClientUITheme>();
   return (

@@ -1,27 +1,27 @@
 import { schema, normalize } from 'normalizr';
 
 import {
-  IRateAPI,
-  IRateListResponseItem,
-  IRatesCreatePayload,
+  RateAPI,
+  RateListResponseItem,
+  RatesCreatePayload,
   RateNotFoundError,
   RateWithOrdersNotDeletedError,
   RateCreationNotAllowedError,
 } from '@eye8/api/rate';
-import { IStateCacheStorage } from '@eye8/storage/state-cache';
+import { StateCacheStorage } from '@eye8/storage/state-cache';
 
-export interface IGroupedRates {
-  [key: string]: IRateListResponseItem[];
+export interface GroupedRates {
+  [key: string]: RateListResponseItem[];
 }
 
-export interface IRateService {
-  getAll(): Promise<{ entities: { rates: { [key: string]: IRateListResponseItem } }; result: number[] }>;
+export interface RateService {
+  getAll(): Promise<{ entities: { rates: { [key: string]: RateListResponseItem } }; result: number[] }>;
   delete(id: number): Promise<void>;
   exists(id: number): Promise<boolean>;
-  create(payload: IRatesCreatePayload): Promise<IRateListResponseItem>;
-  getAllGrouped(): Promise<IGroupedRates>;
-  getAllCached(): IGroupedRates;
-  addChangeListener: IStateCacheStorage['addChangeListener'];
+  create(payload: RatesCreatePayload): Promise<RateListResponseItem>;
+  getAllGrouped(): Promise<GroupedRates>;
+  getAllCached(): GroupedRates;
+  addChangeListener: StateCacheStorage['addChangeListener'];
 }
 
 export class RateLimitExceededError extends Error {
@@ -43,21 +43,21 @@ export class RateHasOrdersError extends Error {
   }
 }
 
-export class RateService implements IRateService {
-  private storage: IStateCacheStorage;
-  private API: IRateAPI;
+export default class implements RateService {
+  private storage: StateCacheStorage;
+  private API: RateAPI;
 
-  constructor(API: IRateAPI, storage: IStateCacheStorage) {
+  constructor(API: RateAPI, storage: StateCacheStorage) {
     this.API = API;
     this.storage = storage;
   }
 
-  public getAll: IRateService['getAll'] = async () => {
+  public getAll: RateService['getAll'] = async () => {
     const rates = await this.API.getAll();
     return normalize(rates.data, [new schema.Entity('rates')]);
   };
 
-  public delete: IRateService['delete'] = async (id) => {
+  public delete: RateService['delete'] = async (id) => {
     try {
       await this.API.delete(id);
     } catch (e) {
@@ -71,7 +71,7 @@ export class RateService implements IRateService {
     }
   };
 
-  public exists: IRateService['exists'] = async (id) => {
+  public exists: RateService['exists'] = async (id) => {
     try {
       await this.API.status(id);
       return true;
@@ -83,7 +83,7 @@ export class RateService implements IRateService {
     }
   };
 
-  public create: IRateService['create'] = async (payload) => {
+  public create: RateService['create'] = async (payload) => {
     try {
       const rate = await this.API.create(payload);
       return rate.data;
@@ -95,7 +95,7 @@ export class RateService implements IRateService {
     }
   };
 
-  public getAllGrouped: IRateService['getAllGrouped'] = async () => {
+  public getAllGrouped: RateService['getAllGrouped'] = async () => {
     const rates = await this.API.getAll();
     const formattedRates = rates.data.reduce((acc, rate) => {
       return { ...acc, [rate.name]: [...(acc[rate.name] || []), rate] };
@@ -104,11 +104,11 @@ export class RateService implements IRateService {
     return formattedRates;
   };
 
-  public getAllCached: IRateService['getAllCached'] = () => {
-    return (this.storage.get('rates') || {}) as IGroupedRates;
+  public getAllCached: RateService['getAllCached'] = () => {
+    return (this.storage.get('rates') || {}) as GroupedRates;
   };
 
-  public addChangeListener: IRateService['addChangeListener'] = (listener) => {
+  public addChangeListener: RateService['addChangeListener'] = (listener) => {
     return this.storage.addChangeListener((key, value, options) => {
       if (key === 'rates') {
         listener(key, value, options);

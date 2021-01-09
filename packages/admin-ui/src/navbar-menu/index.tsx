@@ -1,12 +1,12 @@
 import classNames from 'classnames';
 import React from 'react';
 
-export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   isActive: boolean;
 }
 
-const Index = ({ children, className, isActive, ...props }: IProps) => (
+const NavbarMenu = ({ children, className, isActive, ...props }: Props) => (
   <div
     className={classNames('navbar-menu', className, {
       'is-active': isActive,
@@ -17,4 +17,4 @@ const Index = ({ children, className, isActive, ...props }: IProps) => (
   </div>
 );
 
-export default Index;
+export default NavbarMenu;

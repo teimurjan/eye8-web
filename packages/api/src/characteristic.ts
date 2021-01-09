@@ -1,15 +1,15 @@
 import { Client } from '@eye8/api/types';
-import { IHeadersManager } from '@eye8/manager/headers';
+import { HeadersManager } from '@eye8/manager/headers';
 import { buildSearchString } from '@eye8/shared/utils';
 
-export interface ICharacteristicListResponseItem {
+export interface CharacteristicListResponseItem {
   id: number;
   name: string;
   created_on: string;
   updated_on: string;
 }
 
-export interface ICharacteristicListRawIntlResponseItem {
+export interface CharacteristicListRawIntlResponseItem {
   id: number;
   name: {
     [key: string]: string;
@@ -18,38 +18,38 @@ export interface ICharacteristicListRawIntlResponseItem {
   updated_on: string;
 }
 
-export interface ICharacteristicListResponseData {
-  data: ICharacteristicListResponseItem[];
+export interface CharacteristicListResponseData {
+  data: CharacteristicListResponseItem[];
 }
 
-export interface ICharacteristicListRawIntlResponseData {
-  data: ICharacteristicListRawIntlResponseItem[];
+export interface CharacteristicListRawIntlResponseData {
+  data: CharacteristicListRawIntlResponseItem[];
 }
 
-export interface ICharacteristicRawIntlResponseData {
-  data: ICharacteristicListRawIntlResponseItem;
+export interface CharacteristicRawIntlResponseData {
+  data: CharacteristicListRawIntlResponseItem;
 }
 
-export interface ICharacteristicCreatePayload {
+export interface CharacteristicCreatePayload {
   names: {
     [key: string]: string;
   };
 }
 
-export interface ICharacteristicEditPayload {
+export interface CharacteristicEditPayload {
   names: {
     [key: string]: string;
   };
 }
 
-export interface ICharacteristicAPI {
-  getAll(): Promise<ICharacteristicListResponseData>;
-  getAllRawIntl(): Promise<ICharacteristicListRawIntlResponseData>;
+export interface CharacteristicAPI {
+  getAll(): Promise<CharacteristicListResponseData>;
+  getAllRawIntl(): Promise<CharacteristicListRawIntlResponseData>;
   delete(id: number): Promise<{}>;
-  create(payload: ICharacteristicCreatePayload): Promise<ICharacteristicRawIntlResponseData>;
-  edit(id: number, payload: ICharacteristicEditPayload): Promise<ICharacteristicRawIntlResponseData>;
+  create(payload: CharacteristicCreatePayload): Promise<CharacteristicRawIntlResponseData>;
+  edit(id: number, payload: CharacteristicEditPayload): Promise<CharacteristicRawIntlResponseData>;
   status(id: number): Promise<{}>;
-  getOneRawIntl(id: number): Promise<ICharacteristicRawIntlResponseData>;
+  getOneRawIntl(id: number): Promise<CharacteristicRawIntlResponseData>;
 }
 
 export class CharacteristicNotFoundError extends Error {
@@ -59,18 +59,18 @@ export class CharacteristicNotFoundError extends Error {
   }
 }
 
-export class CharacteristicAPI implements ICharacteristicAPI {
+export default class implements CharacteristicAPI {
   private client: Client;
-  private headersManager: IHeadersManager;
+  private headersManager: HeadersManager;
 
-  constructor(client: Client, headersManager: IHeadersManager) {
+  constructor(client: Client, headersManager: HeadersManager) {
     this.client = client;
     this.headersManager = headersManager;
   }
 
-  public getAll: ICharacteristicAPI['getAll'] = async () => {
+  public getAll: CharacteristicAPI['getAll'] = async () => {
     try {
-      const response = await this.client.get<ICharacteristicListResponseData>('/api/characteristics', {
+      const response = await this.client.get<CharacteristicListResponseData>('/api/characteristics', {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -79,9 +79,9 @@ export class CharacteristicAPI implements ICharacteristicAPI {
     }
   };
 
-  public getAllRawIntl: ICharacteristicAPI['getAllRawIntl'] = async () => {
+  public getAllRawIntl: CharacteristicAPI['getAllRawIntl'] = async () => {
     try {
-      const response = await this.client.get<ICharacteristicListRawIntlResponseData>(
+      const response = await this.client.get<CharacteristicListRawIntlResponseData>(
         `/api/characteristics${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -94,7 +94,7 @@ export class CharacteristicAPI implements ICharacteristicAPI {
     }
   };
 
-  public delete: ICharacteristicAPI['delete'] = async (id) => {
+  public delete: CharacteristicAPI['delete'] = async (id) => {
     try {
       const response = await this.client.delete<{}>(`/api/characteristics/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -108,9 +108,9 @@ export class CharacteristicAPI implements ICharacteristicAPI {
     }
   };
 
-  public create: ICharacteristicAPI['create'] = async (payload) => {
+  public create: CharacteristicAPI['create'] = async (payload) => {
     try {
-      const response = await this.client.post<ICharacteristicRawIntlResponseData>(`/api/characteristics`, payload, {
+      const response = await this.client.post<CharacteristicRawIntlResponseData>(`/api/characteristics`, payload, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -119,9 +119,9 @@ export class CharacteristicAPI implements ICharacteristicAPI {
     }
   };
 
-  public edit: ICharacteristicAPI['edit'] = async (id, payload) => {
+  public edit: CharacteristicAPI['edit'] = async (id, payload) => {
     try {
-      const response = await this.client.put<ICharacteristicRawIntlResponseData>(
+      const response = await this.client.put<CharacteristicRawIntlResponseData>(
         `/api/characteristics/${id}${buildSearchString({ raw_intl: 1 })}`,
         payload,
         {
@@ -137,7 +137,7 @@ export class CharacteristicAPI implements ICharacteristicAPI {
     }
   };
 
-  public status: ICharacteristicAPI['status'] = async (id) => {
+  public status: CharacteristicAPI['status'] = async (id) => {
     try {
       const response = await this.client.head<{}>(`/api/characteristics/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -151,9 +151,9 @@ export class CharacteristicAPI implements ICharacteristicAPI {
     }
   };
 
-  public getOneRawIntl: ICharacteristicAPI['getOneRawIntl'] = async (id) => {
+  public getOneRawIntl: CharacteristicAPI['getOneRawIntl'] = async (id) => {
     try {
-      const response = await this.client.get<ICharacteristicRawIntlResponseData>(
+      const response = await this.client.get<CharacteristicRawIntlResponseData>(
         `/api/characteristics/${id}${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),

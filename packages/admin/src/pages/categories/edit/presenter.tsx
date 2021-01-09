@@ -4,19 +4,19 @@ import * as yup from 'yup';
 
 import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
 import { ContextValue as AdminCategoriesStateContextValue } from '@eye8/admin/state/categories';
-import { ICategoryListRawIntlResponseItem } from '@eye8/api/category';
-import { ICategoryService } from '@eye8/service/category';
-import { availableLocales, SchemaValidator } from '@eye8/shared/utils';
+import { CategoryListRawIntlResponseItem } from '@eye8/api/category';
+import { CategoryService } from '@eye8/service/category';
+import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: ICategoryService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: CategoryService;
   history: History;
   categoryId: number;
   adminCategoriesState: AdminCategoriesStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
   edit: (values: { names: { [key: string]: string }; parent_category_id?: string }) => void;
   error?: string;
@@ -45,7 +45,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminCategoriesEditPresenter: React.FC<IProps> = ({
+export const AdminCategoriesEditPresenter: React.FC<Props> = ({
   history,
   adminCategoriesState: { entities: categories, set: setCategoryToState, isListLoading: categoriesLoading },
 
@@ -54,7 +54,7 @@ export const AdminCategoriesEditPresenter: React.FC<IProps> = ({
   categoryId,
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
-  const [category, setCategory] = React.useState<ICategoryListRawIntlResponseItem | undefined>(undefined);
+  const [category, setCategory] = React.useState<CategoryListRawIntlResponseItem | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
@@ -81,7 +81,7 @@ export const AdminCategoriesEditPresenter: React.FC<IProps> = ({
 
   const close = React.useCallback(() => history.push('/admin/categories'), [history]);
 
-  const edit: IViewProps['edit'] = React.useCallback(
+  const edit: ViewProps['edit'] = React.useCallback(
     async (values) => {
       setUpdating(true);
 

@@ -1,7 +1,7 @@
 import { Client } from '@eye8/api/types';
-import { IHeadersManager } from '@eye8/manager/headers';
+import { HeadersManager } from '@eye8/manager/headers';
 
-export interface IRateListResponseItem {
+export interface RateListResponseItem {
   id: number;
   name: string;
   value: number;
@@ -10,15 +10,15 @@ export interface IRateListResponseItem {
   is_deleted: boolean | null;
 }
 
-export interface IRateListResponseData {
-  data: IRateListResponseItem[];
+export interface RateListResponseData {
+  data: RateListResponseItem[];
 }
 
-export interface IRateDetailResponseData {
-  data: IRateListResponseItem;
+export interface RateDetailResponseData {
+  data: RateListResponseItem;
 }
 
-export interface IRatesCreatePayload {
+export interface RatesCreatePayload {
   name: string;
   value: number;
 }
@@ -42,30 +42,30 @@ export class RateNotFoundError extends Error {
   }
 }
 
-export interface IRateAPI {
-  getAll(): Promise<IRateListResponseData>;
+export interface RateAPI {
+  getAll(): Promise<RateListResponseData>;
   delete(id: number): Promise<void>;
   status(id: number): Promise<void>;
-  create(payload: IRatesCreatePayload): Promise<IRateDetailResponseData>;
+  create(payload: RatesCreatePayload): Promise<RateDetailResponseData>;
 }
 
-export class RateAPI implements IRateAPI {
+export default class implements RateAPI {
   private client: Client;
-  private headersManager: IHeadersManager;
+  private headersManager: HeadersManager;
 
-  constructor(client: Client, headersManager: IHeadersManager) {
+  constructor(client: Client, headersManager: HeadersManager) {
     this.client = client;
     this.headersManager = headersManager;
   }
 
-  public getAll: IRateAPI['getAll'] = async () => {
-    const response = await this.client.get<IRateListResponseData>('/api/currency_rates', {
+  public getAll: RateAPI['getAll'] = async () => {
+    const response = await this.client.get<RateListResponseData>('/api/currency_rates', {
       headers: this.headersManager.getHeaders(),
     });
     return response.data;
   };
 
-  public delete: IRateAPI['delete'] = async (id) => {
+  public delete: RateAPI['delete'] = async (id) => {
     try {
       await this.client.delete<{}>(`/api/currency_rates/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -81,7 +81,7 @@ export class RateAPI implements IRateAPI {
     }
   };
 
-  public status: IRateAPI['status'] = async (id) => {
+  public status: RateAPI['status'] = async (id) => {
     try {
       await this.client.head<{}>(`/api/currency_rates/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -94,9 +94,9 @@ export class RateAPI implements IRateAPI {
     }
   };
 
-  public create: IRateAPI['create'] = async (payload) => {
+  public create: RateAPI['create'] = async (payload) => {
     try {
-      const response = await this.client.post<IRateDetailResponseData>('/api/currency_rates', payload, {
+      const response = await this.client.post<RateDetailResponseData>('/api/currency_rates', payload, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;

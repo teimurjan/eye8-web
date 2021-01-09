@@ -26,7 +26,7 @@ export const getServerSideProps = async ({ req, res }: GetServerSidePropsContext
   } = dependenciesFactory({ req, res });
 
   try {
-    logTimeStart('Index.getServerSideProps');
+    logTimeStart('ndex.getServerSideProps');
 
     const bannersPromise = bannerService.getAll();
     const productTypesPromise = productTypeService.getNewest();
@@ -42,7 +42,7 @@ export const getServerSideProps = async ({ req, res }: GetServerSidePropsContext
       },
     ] = await Promise.all([bannersPromise, productTypesPromise]);
 
-    logTimeFinish('Index.getServerSideProps');
+    logTimeFinish('ndex.getServerSideProps');
 
     return { props: { banners, bannersOrder, productTypes, productTypesOrder } };
   } catch (e) {

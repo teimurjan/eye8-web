@@ -6,10 +6,10 @@ import { Fields } from '@eye8/admin/pages/banners/create/fields';
 import {
   BANNER_TEXT_FIELD_KEY,
   BANNER_LINK_TEXT_FIELD_KEY,
-  IViewProps as IProps,
+  ViewProps as Props,
 } from '@eye8/admin/pages/banners/create/presenter';
 
-export const AdminBannersCreateView = ({ isOpen, create, close, error, validate, isCreating }: IProps) => {
+export const AdminBannersCreateView = ({ isOpen, create, close, error, validate, isCreating }: Props) => {
   const intl = useIntl();
 
   return (

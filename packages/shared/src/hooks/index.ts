@@ -16,4 +16,5 @@ export { default as usePreventedDefault } from './use-prevented-default';
 export { default as useProtectedResource } from './use-protected-resource';
 export { default as useRouteChangeStatus, RouteChangeStatus } from './use-route-change-status';
 export { default as useScrollPosition } from './use-scroll-position';
+export { default as useSelect } from './use-select';
 export { default as useWindowScroll } from './use-window-scroll';

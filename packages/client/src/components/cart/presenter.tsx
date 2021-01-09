@@ -2,16 +2,16 @@ import reject from 'lodash/reject';
 import React from 'react';
 import * as yup from 'yup';
 
-import { IProductListResponseItem } from '@eye8/api/product';
-import { IPromoCodeListResponseItem } from '@eye8/api/promo-code';
-import { IOrderService, PromoCodeInvalidError } from '@eye8/service/order';
-import { IProductService } from '@eye8/service/product';
-import { IPromoCodeService } from '@eye8/service/promo-code';
+import { ProductListResponseItem } from '@eye8/api/product';
+import { PromoCodeListResponseItem } from '@eye8/api/promo-code';
+import { OrderService, PromoCodeInvalidError } from '@eye8/service/order';
+import { ProductService } from '@eye8/service/product';
+import { PromoCodeService } from '@eye8/service/promo-code';
 import { getUserPropertySafe } from '@eye8/shared/helpers';
 import { useBoolean, useForceUpdate, useLazyInitialization, useMousetrap } from '@eye8/shared/hooks';
-import { IContextValue as UserStateContextValue } from '@eye8/shared/state/user';
+import { ContextValue as UserStateContextValue } from '@eye8/shared/state/user';
 import { agregateOrderedMapToArray, SchemaValidator, isTrimmed, PHONE_REGEX } from '@eye8/shared/utils';
-import { ICartStorage } from '@eye8/storage/cart';
+import { CartStorage } from '@eye8/storage/cart';
 
 export const getErrorMessageID = (e: Error) => {
   if (e instanceof PromoCodeInvalidError) {
@@ -21,33 +21,33 @@ export const getErrorMessageID = (e: Error) => {
   return 'errors.common';
 };
 
-export interface IProps extends UserStateContextValue {
-  View: React.ComponentType<IViewProps>;
-  productService: IProductService;
-  orderService: IOrderService;
-  promoCodeService: IPromoCodeService;
-  storage: ICartStorage;
+export interface Props extends UserStateContextValue {
+  View: React.ComponentType<ViewProps>;
+  productService: ProductService;
+  orderService: OrderService;
+  promoCodeService: PromoCodeService;
+  storage: CartStorage;
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
   open: () => void;
   close: () => void;
   toggle: () => void;
-  products: IProductListResponseItem[];
+  products: ProductListResponseItem[];
   isLoading: boolean;
   error?: string;
-  addMore: (product: IProductListResponseItem) => void;
-  remove: (product: IProductListResponseItem) => void;
+  addMore: (product: ProductListResponseItem) => void;
+  remove: (product: ProductListResponseItem) => void;
   getProductCount: (id: number) => number;
   cartItemsCount: number;
   step: number;
   goToNextStep: () => void;
   goToPrevStep: () => void;
   validator: SchemaValidator;
-  initialValues: Partial<IFormValues>;
-  onSubmit: (values: IFormValues) => Promise<void>;
-  promoCode?: IPromoCodeListResponseItem;
+  initialValues: Partial<FormValues>;
+  onSubmit: (values: FormValues) => Promise<void>;
+  promoCode?: PromoCodeListResponseItem;
   onPromoCodeApply: (newPromoCode: string) => void;
 }
 
@@ -62,13 +62,13 @@ const validator = new SchemaValidator(
   }),
 );
 
-export interface IFormValues {
+export interface FormValues {
   name: string;
   phone: string;
   address: string;
 }
 
-export const CartPresenter: React.FC<IProps> = ({
+export const CartPresenter: React.FC<Props> = ({
   View,
   productService,
   orderService,
@@ -80,10 +80,10 @@ export const CartPresenter: React.FC<IProps> = ({
 
   const [step, setStep] = React.useState(0);
   const [isLoading, setLoading] = React.useState(true);
-  const [promoCode, setPromoCode] = React.useState<IPromoCodeListResponseItem | undefined>(undefined);
+  const [promoCode, setPromoCode] = React.useState<PromoCodeListResponseItem | undefined>(undefined);
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [data, setData] = React.useState<{
-    entities: { [key: number]: IProductListResponseItem };
+    entities: { [key: number]: ProductListResponseItem };
     order: number[];
   }>({ entities: {}, order: [] });
   const { update } = useForceUpdate();
@@ -116,14 +116,14 @@ export const CartPresenter: React.FC<IProps> = ({
   }, [isOpen]);
 
   const addMore = React.useCallback(
-    (product: IProductListResponseItem) => {
+    (product: ProductListResponseItem) => {
       storage.add(product);
     },
     [storage],
   );
 
   const remove = React.useCallback(
-    (product: IProductListResponseItem) => {
+    (product: ProductListResponseItem) => {
       const newCount = storage.remove(product);
       if (newCount === 0) {
         setData({
@@ -144,7 +144,7 @@ export const CartPresenter: React.FC<IProps> = ({
   }, [step]);
 
   const onSubmit = React.useCallback(
-    async ({ name, phone, address }: IFormValues) => {
+    async ({ name, phone, address }: FormValues) => {
       const cartItems = storage.getItems();
       const itemsToSubmit = cartItems.map(({ id, count }) => ({
         product_id: id,
@@ -172,7 +172,7 @@ export const CartPresenter: React.FC<IProps> = ({
   const totalCartItemsCount = storage.getItems().reduce((acc, item) => acc + (item.count || 0), 0);
   const { value: lazyTotalCartItemsCount } = useLazyInitialization(totalCartItemsCount, 0);
 
-  const onPromoCodeApply: IViewProps['onPromoCodeApply'] = React.useCallback(
+  const onPromoCodeApply: ViewProps['onPromoCodeApply'] = React.useCallback(
     async (value) => {
       setError(undefined);
       if (value.length > 0) {

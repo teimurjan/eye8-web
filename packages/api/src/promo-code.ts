@@ -1,8 +1,8 @@
 import { Client } from '@eye8/api/types';
-import { IHeadersManager } from '@eye8/manager/headers';
+import { HeadersManager } from '@eye8/manager/headers';
 import { flagToSearchStringValue, buildSearchString } from '@eye8/shared/utils';
 
-export interface IPromoCodeListResponseItem {
+export interface PromoCodeListResponseItem {
   id: number;
   discount: number;
   amount?: number;
@@ -15,15 +15,15 @@ export interface IPromoCodeListResponseItem {
   is_deleted: boolean | null;
 }
 
-export interface IPromoCodeListResponseData {
-  data: IPromoCodeListResponseItem[];
+export interface PromoCodeListResponseData {
+  data: PromoCodeListResponseItem[];
 }
 
-export interface IPromoCodeDetailResponseData {
-  data: IPromoCodeListResponseItem;
+export interface PromoCodeDetailResponseData {
+  data: PromoCodeListResponseItem;
 }
 
-export interface IPromoCodeCreatePayload {
+export interface PromoCodeCreatePayload {
   discount: number;
   amount?: number;
   value: string;
@@ -32,23 +32,23 @@ export interface IPromoCodeCreatePayload {
   products: number[];
 }
 
-export interface IPromoCodeEditPayload {
+export interface PromoCodeEditPayload {
   is_active: boolean;
   disable_on_use: boolean;
   products: number[];
 }
 
-export interface IGetOneOptions {
+export interface GetOneOptions {
   deleted?: boolean;
 }
 
-export interface IPromoCodeAPI {
-  getAll(deleted?: boolean): Promise<IPromoCodeListResponseData>;
-  getOne(id: number, options: IGetOneOptions): Promise<IPromoCodeDetailResponseData>;
-  getByValue(value: string): Promise<IPromoCodeDetailResponseData>;
+export interface PromoCodeAPI {
+  getAll(deleted?: boolean): Promise<PromoCodeListResponseData>;
+  getOne(id: number, options: GetOneOptions): Promise<PromoCodeDetailResponseData>;
+  getByValue(value: string): Promise<PromoCodeDetailResponseData>;
   delete(id: number, forever?: boolean): Promise<{}>;
-  create(payload: IPromoCodeCreatePayload): Promise<IPromoCodeDetailResponseData>;
-  edit(id: number, payload: IPromoCodeEditPayload): Promise<IPromoCodeDetailResponseData>;
+  create(payload: PromoCodeCreatePayload): Promise<PromoCodeDetailResponseData>;
+  edit(id: number, payload: PromoCodeEditPayload): Promise<PromoCodeDetailResponseData>;
   status(id: number, deleted?: boolean): Promise<{}>;
 }
 
@@ -71,18 +71,18 @@ export class PromoCodeWithOrdersNotDeletedError extends Error {
   }
 }
 
-export class PromoCodeAPI implements IPromoCodeAPI {
+export default class implements PromoCodeAPI {
   private client: Client;
-  private headersManager: IHeadersManager;
+  private headersManager: HeadersManager;
 
-  constructor(client: Client, headersManager: IHeadersManager) {
+  constructor(client: Client, headersManager: HeadersManager) {
     this.client = client;
     this.headersManager = headersManager;
   }
 
-  public getAll: IPromoCodeAPI['getAll'] = async (deleted = false) => {
+  public getAll: PromoCodeAPI['getAll'] = async (deleted = false) => {
     try {
-      const response = await this.client.get<IPromoCodeListResponseData>(
+      const response = await this.client.get<PromoCodeListResponseData>(
         `/api/promo_codes${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -94,7 +94,7 @@ export class PromoCodeAPI implements IPromoCodeAPI {
     }
   };
 
-  public delete: IPromoCodeAPI['delete'] = async (id, forever = false) => {
+  public delete: PromoCodeAPI['delete'] = async (id, forever = false) => {
     try {
       const response = await this.client.delete<{}>(
         `/api/promo_codes/${id}${buildSearchString({ forever: flagToSearchStringValue(forever) })}`,
@@ -114,9 +114,9 @@ export class PromoCodeAPI implements IPromoCodeAPI {
     }
   };
 
-  public create: IPromoCodeAPI['create'] = async (payload) => {
+  public create: PromoCodeAPI['create'] = async (payload) => {
     try {
-      const response = await this.client.post<IPromoCodeDetailResponseData>(`/api/promo_codes`, payload, {
+      const response = await this.client.post<PromoCodeDetailResponseData>(`/api/promo_codes`, payload, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -128,9 +128,9 @@ export class PromoCodeAPI implements IPromoCodeAPI {
     }
   };
 
-  public edit: IPromoCodeAPI['edit'] = async (id, payload) => {
+  public edit: PromoCodeAPI['edit'] = async (id, payload) => {
     try {
-      const response = await this.client.put<IPromoCodeDetailResponseData>(`/api/promo_codes/${id}`, payload, {
+      const response = await this.client.put<PromoCodeDetailResponseData>(`/api/promo_codes/${id}`, payload, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -148,9 +148,9 @@ export class PromoCodeAPI implements IPromoCodeAPI {
     }
   };
 
-  public getOne: IPromoCodeAPI['getOne'] = async (id, options) => {
+  public getOne: PromoCodeAPI['getOne'] = async (id, options) => {
     try {
-      const response = await this.client.get<IPromoCodeDetailResponseData>(
+      const response = await this.client.get<PromoCodeDetailResponseData>(
         `/api/promo_codes/${id}${buildSearchString({ deleted: flagToSearchStringValue(options.deleted) })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -165,9 +165,9 @@ export class PromoCodeAPI implements IPromoCodeAPI {
     }
   };
 
-  public getByValue: IPromoCodeAPI['getByValue'] = async (value) => {
+  public getByValue: PromoCodeAPI['getByValue'] = async (value) => {
     try {
-      const response = await this.client.get<IPromoCodeDetailResponseData>(`/api/promo_codes/${value}`, {
+      const response = await this.client.get<PromoCodeDetailResponseData>(`/api/promo_codes/${value}`, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -179,7 +179,7 @@ export class PromoCodeAPI implements IPromoCodeAPI {
     }
   };
 
-  public status: IPromoCodeAPI['status'] = async (id, deleted = false) => {
+  public status: PromoCodeAPI['status'] = async (id, deleted = false) => {
     try {
       const response = await this.client.head<{}>(
         `/api/promo_codes/${id}${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,

@@ -5,9 +5,9 @@ import classNames from 'classnames';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { HelpText } from '@eye8/admin-ui/index';
+import { HelpText } from '@eye8/admin-ui';
 
-export interface IProps<T = boolean> {
+export interface Props<T = boolean> {
   children: Array<React.ReactElement<typeof Option>>;
   className?: string;
   wrapperClassName?: string;
@@ -17,7 +17,7 @@ export interface IProps<T = boolean> {
   onChange?: (e: React.SyntheticEvent<HTMLSelectElement>) => any;
 }
 
-const NativeSelect = ({ children, wrapperClassName, onChange, isMultiple = false, size, className, value }: IProps) => {
+const NativeSelect = ({ children, wrapperClassName, onChange, isMultiple = false, size, className, value }: Props) => {
   const intl = useIntl();
   return (
     <div
@@ -62,11 +62,11 @@ const NativeSelect = ({ children, wrapperClassName, onChange, isMultiple = false
   );
 };
 
-interface IOptionProps extends React.HTMLProps<HTMLOptionElement> {
+interface OptionProps extends React.HTMLProps<HTMLOptionElement> {
   children?: React.ReactNode;
 }
 
-export const NativeSelectOption = ({ children, className, ...props }: IOptionProps) => (
+export const NativeSelectOption = ({ children, className, ...props }: OptionProps) => (
   <option className={className} {...props}>
     {children}
   </option>

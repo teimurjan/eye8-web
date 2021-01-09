@@ -49,12 +49,12 @@ const fadingCSS = css`
   }
 `;
 
-export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   isOpen: boolean;
 }
 
-const Modal = ({ children, className, isOpen, ...props }: IProps) => {
+const Modal = ({ children, className, isOpen, ...props }: Props) => {
   const modalRoot = safeDocument((d) => d.getElementById('modalRoot'), null);
 
   return modalRoot

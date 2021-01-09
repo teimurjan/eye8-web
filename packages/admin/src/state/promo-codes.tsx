@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { IPromoCodeListResponseItem } from '@eye8/api/promo-code';
-import { makeEntityState, IContextValue } from '@eye8/shared/utils';
+import { PromoCodeListResponseItem } from '@eye8/api/promo-code';
+import { makeEntityState, EntityContextValue } from '@eye8/shared/utils';
 
-export type ContextValue = IContextValue<
-  IPromoCodeListResponseItem,
-  IPromoCodeListResponseItem,
+export type ContextValue = EntityContextValue<
+  PromoCodeListResponseItem,
+  PromoCodeListResponseItem,
   undefined,
   { deleted: boolean }
 >;

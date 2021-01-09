@@ -3,18 +3,18 @@ import React from 'react';
 import * as yup from 'yup';
 
 import { ContextValue as AdminPromoCodesStateContextValue } from '@eye8/admin/state/promo-codes';
-import { IProductListResponseItem } from '@eye8/api/product';
-import { IPromoCodeService, PromoCodeValueAlreadyExistsError, PromoCodeHasOrdersError } from '@eye8/service/promo-code';
+import { ProductListResponseItem } from '@eye8/api/product';
+import { PromoCodeService, PromoCodeValueAlreadyExistsError, PromoCodeHasOrdersError } from '@eye8/service/promo-code';
 import { SchemaValidator } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: IPromoCodeService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: PromoCodeService;
   history: History;
   adminPromoCodesState: AdminPromoCodesStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
   create: (values: {
     discount: string;
@@ -22,7 +22,7 @@ export interface IViewProps {
     value: string;
     isActive: boolean;
     disableOnUse: boolean;
-    products: IProductListResponseItem[];
+    products: ProductListResponseItem[];
   }) => void;
   isCreating: boolean;
   error?: string;
@@ -54,7 +54,7 @@ export const getErrorMessageID = (e: Error) => {
   return 'errors.common';
 };
 
-export const AdminPromoCodesCreatePresenter: React.FC<IProps> = ({
+export const AdminPromoCodesCreatePresenter: React.FC<Props> = ({
   history,
   adminPromoCodesState: { get: getPromoCodes },
   service,
@@ -65,7 +65,7 @@ export const AdminPromoCodesCreatePresenter: React.FC<IProps> = ({
 
   const close = React.useCallback(() => history.push('/admin/promoCodes'), [history]);
 
-  const create: IViewProps['create'] = React.useCallback(
+  const create: ViewProps['create'] = React.useCallback(
     async (values) => {
       setCreating(true);
       const formattedValues = {

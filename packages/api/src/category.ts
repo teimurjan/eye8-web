@@ -1,8 +1,8 @@
 import { Client } from '@eye8/api/types';
-import { IHeadersManager } from '@eye8/manager/headers';
+import { HeadersManager } from '@eye8/manager/headers';
 import { buildSearchString } from '@eye8/shared/utils';
 
-export interface ICategoryListResponseItem {
+export interface CategoryListResponseItem {
   id: number;
   name: string;
   parent_category_id: number | null;
@@ -11,7 +11,7 @@ export interface ICategoryListResponseItem {
   updated_on: string;
 }
 
-export interface ICategoryListRawIntlResponseItem {
+export interface CategoryListRawIntlResponseItem {
   id: number;
   name: {
     [key: string]: string;
@@ -22,39 +22,39 @@ export interface ICategoryListRawIntlResponseItem {
   updated_on: string;
 }
 
-export interface ICategoryListResponseData {
-  data: ICategoryListResponseItem[];
+export interface CategoryListResponseData {
+  data: CategoryListResponseItem[];
 }
 
-export interface ICategoryDetailResponseData {
-  data: ICategoryListResponseItem;
+export interface CategoryDetailResponseData {
+  data: CategoryListResponseItem;
 }
 
-export interface ICategoryListRawIntlResponseData {
-  data: ICategoryListRawIntlResponseItem[];
+export interface CategoryListRawIntlResponseData {
+  data: CategoryListRawIntlResponseItem[];
 }
 
-export interface ICategoryRawIntlResponseData {
-  data: ICategoryListRawIntlResponseItem;
+export interface CategoryRawIntlResponseData {
+  data: CategoryListRawIntlResponseItem;
 }
 
-export interface ICategoryCreatePayload {
+export interface CategoryCreatePayload {
   names: {
     [key: string]: string;
   };
   parent_category_id?: number;
 }
 
-export interface ICategoryAPI {
-  getAll(): Promise<ICategoryListResponseData>;
-  getAllRawIntl(): Promise<ICategoryListRawIntlResponseData>;
+export interface CategoryAPI {
+  getAll(): Promise<CategoryListResponseData>;
+  getAllRawIntl(): Promise<CategoryListRawIntlResponseData>;
   delete(id: number): Promise<{}>;
-  create(payload: ICategoryCreatePayload): Promise<ICategoryRawIntlResponseData>;
-  edit(id: number, payload: ICategoryCreatePayload): Promise<ICategoryRawIntlResponseData>;
+  create(payload: CategoryCreatePayload): Promise<CategoryRawIntlResponseData>;
+  edit(id: number, payload: CategoryCreatePayload): Promise<CategoryRawIntlResponseData>;
   status(id: number): Promise<{}>;
-  getOneRawIntl(id: number): Promise<ICategoryRawIntlResponseData>;
-  getOne(id: number): Promise<ICategoryDetailResponseData>;
-  getOneBySlug(slug: string): Promise<ICategoryDetailResponseData>;
+  getOneRawIntl(id: number): Promise<CategoryRawIntlResponseData>;
+  getOne(id: number): Promise<CategoryDetailResponseData>;
+  getOneBySlug(slug: string): Promise<CategoryDetailResponseData>;
 }
 
 export class CategoryNotFoundError extends Error {
@@ -76,18 +76,18 @@ export class CategoryWithProductTypesNotDeletedError extends Error {
   }
 }
 
-export class CategoryAPI implements ICategoryAPI {
+export default class implements CategoryAPI {
   private client: Client;
-  private headersManager: IHeadersManager;
+  private headersManager: HeadersManager;
 
-  constructor(client: Client, headersManager: IHeadersManager) {
+  constructor(client: Client, headersManager: HeadersManager) {
     this.client = client;
     this.headersManager = headersManager;
   }
 
-  public getAll: ICategoryAPI['getAll'] = async () => {
+  public getAll: CategoryAPI['getAll'] = async () => {
     try {
-      const response = await this.client.get<ICategoryListResponseData>('/api/categories', {
+      const response = await this.client.get<CategoryListResponseData>('/api/categories', {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -96,9 +96,9 @@ export class CategoryAPI implements ICategoryAPI {
     }
   };
 
-  public getAllRawIntl: ICategoryAPI['getAllRawIntl'] = async () => {
+  public getAllRawIntl: CategoryAPI['getAllRawIntl'] = async () => {
     try {
-      const response = await this.client.get<ICategoryListRawIntlResponseData>(
+      const response = await this.client.get<CategoryListRawIntlResponseData>(
         `/api/categories${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -110,7 +110,7 @@ export class CategoryAPI implements ICategoryAPI {
     }
   };
 
-  public delete: ICategoryAPI['delete'] = async (id) => {
+  public delete: CategoryAPI['delete'] = async (id) => {
     try {
       const response = await this.client.delete<{}>(`/api/categories/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -131,7 +131,7 @@ export class CategoryAPI implements ICategoryAPI {
     }
   };
 
-  public status: ICategoryAPI['status'] = async (id) => {
+  public status: CategoryAPI['status'] = async (id) => {
     try {
       const response = await this.client.head<{}>(`/api/categories/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -145,9 +145,9 @@ export class CategoryAPI implements ICategoryAPI {
     }
   };
 
-  public create: ICategoryAPI['create'] = async (payload) => {
+  public create: CategoryAPI['create'] = async (payload) => {
     try {
-      const response = await this.client.post<ICategoryRawIntlResponseData>(`/api/categories`, payload, {
+      const response = await this.client.post<CategoryRawIntlResponseData>(`/api/categories`, payload, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -156,9 +156,9 @@ export class CategoryAPI implements ICategoryAPI {
     }
   };
 
-  public edit: ICategoryAPI['edit'] = async (id, payload) => {
+  public edit: CategoryAPI['edit'] = async (id, payload) => {
     try {
-      const response = await this.client.put<ICategoryRawIntlResponseData>(
+      const response = await this.client.put<CategoryRawIntlResponseData>(
         `/api/categories/${id}${buildSearchString({ raw_intl: 1 })}`,
         payload,
         {
@@ -174,9 +174,9 @@ export class CategoryAPI implements ICategoryAPI {
     }
   };
 
-  public getOneRawIntl: ICategoryAPI['getOneRawIntl'] = async (id) => {
+  public getOneRawIntl: CategoryAPI['getOneRawIntl'] = async (id) => {
     try {
-      const response = await this.client.get<ICategoryRawIntlResponseData>(
+      const response = await this.client.get<CategoryRawIntlResponseData>(
         `/api/categories/${id}${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -191,9 +191,9 @@ export class CategoryAPI implements ICategoryAPI {
     }
   };
 
-  public getOneBySlug: ICategoryAPI['getOneBySlug'] = async (slug) => {
+  public getOneBySlug: CategoryAPI['getOneBySlug'] = async (slug) => {
     try {
-      const response = await this.client.get<ICategoryDetailResponseData>(`/api/categories/${slug}`, {
+      const response = await this.client.get<CategoryDetailResponseData>(`/api/categories/${slug}`, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -205,7 +205,7 @@ export class CategoryAPI implements ICategoryAPI {
     }
   };
 
-  public getOne: ICategoryAPI['getOne'] = async (id) => {
+  public getOne: CategoryAPI['getOne'] = async (id) => {
     return this.getOneBySlug(id.toString());
   };
 }

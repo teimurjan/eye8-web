@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Table } from '@eye8/admin-ui/index';
-import { IRenderer } from '@eye8/admin/components/table';
-import { ICharacteristicValueListRawIntlResponseItem } from '@eye8/api/characteristic-value';
+import { Table } from '@eye8/admin-ui';
+import { Renderer } from '@eye8/admin/components/table';
+import { CharacteristicValueListRawIntlResponseItem } from '@eye8/api/characteristic-value';
 
-type BaseRenderer = IRenderer<ICharacteristicValueListRawIntlResponseItem>;
+type BaseRenderer = Renderer<CharacteristicValueListRawIntlResponseItem>;
 
 export class CharacteristicRenderer implements BaseRenderer {
   private locale: string;

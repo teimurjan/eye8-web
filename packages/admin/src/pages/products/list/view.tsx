@@ -2,13 +2,13 @@
 import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
-import { Checkbox, LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui/index';
+import { Checkbox, LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
 import { AdminFiltersSection } from '@eye8/admin/components/filters-section';
 import { ProductFeaturesRenderer } from '@eye8/admin/components/product-features-renderer';
 import { ProductProductTypeRenderer } from '@eye8/admin/components/product-product-type-renderer';
 import { ProductTypeSelectView } from '@eye8/admin/components/product-type-select';
 import { AdminTable, PriceRenderer } from '@eye8/admin/components/table';
-import { IViewProps as IProps } from '@eye8/admin/pages/products/list/presenter';
+import { ViewProps as Props } from '@eye8/admin/pages/products/list/presenter';
 import { noop } from '@eye8/shared/utils';
 
 export const NewProductButton = () => {
@@ -39,7 +39,7 @@ const NoProductsAvialable = () => {
 
 const renderNoData = () => <NoProductsAvialable />;
 
-type Product = IProps['products'][0];
+type Product = Props['products'][0];
 
 export const AdminProductsListView = ({
   products,
@@ -56,7 +56,7 @@ export const AdminProductsListView = ({
   onDeletedChange,
   deleted,
   available,
-}: IProps) => {
+}: Props) => {
   const intl = useIntl();
   return (
     <Section

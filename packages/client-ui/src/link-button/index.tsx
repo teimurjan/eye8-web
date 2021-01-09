@@ -1,11 +1,11 @@
 import Link, { LinkProps } from 'next/link';
 import React from 'react';
 
-import { Button, IButtonProps } from '@eye8/client-ui';
+import { Button, ButtonProps } from '@eye8/client-ui';
 
-export type IProps = LinkProps & IButtonProps;
+export type Props = LinkProps & ButtonProps;
 
-const LinkButton = React.forwardRef<HTMLButtonElement, IProps>(
+const LinkButton = React.forwardRef<HTMLButtonElement, Props>(
   (
     {
       className,

@@ -10,11 +10,11 @@ enum Color {
   Gray = 'gray',
 }
 
-export interface IProps extends React.HTMLAttributes<HTMLSpanElement> {
+export interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   color?: Color;
 }
 
-const HelpText = ({ children, className, color = Color.Gray, ...props }: IProps) => {
+const HelpText = ({ children, className, color = Color.Gray, ...props }: Props) => {
   const theme = useTheme<ClientUITheme>();
   return (
     <small

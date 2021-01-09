@@ -5,25 +5,26 @@ import { useTheme } from 'emotion-theming';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Button, Drawer, Title } from '@eye8/client-ui';
+import { Button, Title } from '@eye8/client-ui';
+import { Drawer } from '@eye8/shared/components';
 import { useLazyInitialization, useMedia, useBoolean } from '@eye8/shared/hooks';
 import { mediaQueries } from '@eye8/shared/styles';
 
-interface IFilterItemProps {
+interface FilterItemProps {
   children: React.ReactNode;
   active?: boolean;
   onClick?: React.MouseEventHandler;
   squared?: boolean;
 }
 
-interface IFilterItemGroupProps {
+interface FilterItemGroupProps {
   title: string;
-  children: React.ReactElement<IFilterItemProps> | Array<React.ReactElement<IFilterItemProps>>;
+  children: React.ReactElement<FilterItemProps> | Array<React.ReactElement<FilterItemProps>>;
 }
 
-type FilterItenGroupChild = React.ReactElement<IFilterItemGroupProps> | null;
+type FilterItenGroupChild = React.ReactElement<FilterItemGroupProps> | null;
 
-export interface IProps {
+export interface Props {
   className?: string;
   title?: string;
   children: FilterItenGroupChild | FilterItenGroupChild[];
@@ -31,7 +32,7 @@ export interface IProps {
   onReset?: () => void;
 }
 
-const Filter = ({ className, title, children, disabled, onReset }: IProps) => {
+const Filter = ({ className, title, children, disabled, onReset }: Props) => {
   const intl = useIntl();
   const theme = useTheme<ClientUITheme>();
   const isMobile = useMedia([mediaQueries.maxWidth768], [true], false);
@@ -109,7 +110,7 @@ const Filter = ({ className, title, children, disabled, onReset }: IProps) => {
   );
 };
 
-const FilterItemGroup = ({ title, children }: IFilterItemGroupProps) => {
+const FilterItemGroup = ({ title, children }: FilterItemGroupProps) => {
   const theme = useTheme<ClientUITheme>();
 
   return (
@@ -135,7 +136,7 @@ const FilterItemGroup = ({ title, children }: IFilterItemGroupProps) => {
 
 const OUTER_CIRCLE_SIZE_PX = 20;
 const INNER_CIRCLE_SIZE_PX = 12;
-const FilterItem = ({ children, active, onClick, squared }: IFilterItemProps) => {
+const FilterItem = ({ children, active, onClick, squared }: FilterItemProps) => {
   const theme = useTheme<ClientUITheme>();
 
   return (

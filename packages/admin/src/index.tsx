@@ -6,7 +6,7 @@ import { ArrowDown as ArrowDownIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 import { Route, Switch } from 'react-router';
 
-import { Button, Section, Subtitle, Tag, Title } from '@eye8/admin-ui/index';
+import { Button, Section, Subtitle, Tag, Title } from '@eye8/admin-ui';
 import { AdminMenuContainer } from '@eye8/admin/components/menu/container';
 import { AdminBanners } from '@eye8/admin/pages/banners';
 import { AdminCategories } from '@eye8/admin/pages/categories';
@@ -35,7 +35,7 @@ import { AdminProductTypesStateProvider } from '@eye8/admin/state/product-types'
 import { AdminProductsStateProvider } from '@eye8/admin/state/products';
 import { AdminPromoCodesStateProvider } from '@eye8/admin/state/promo-codes';
 import { AdminRatesStateProvider } from '@eye8/admin/state/rates';
-import { Drawer, IconWrapper } from '@eye8/client-ui';
+import { IconWrapper, Drawer } from '@eye8/shared/components';
 import { isUserSetAsManagerOrAdmin, isUserSetAsClient, isUserSetAsAdmin } from '@eye8/shared/helpers';
 import { useBoolean, useMedia, useProtectedResource } from '@eye8/shared/hooks';
 import { IconSize, mediaQueries } from '@eye8/shared/styles';
@@ -53,12 +53,12 @@ const arrowDivider = (
   </IconWrapper>
 );
 
-interface IStepProps {
+interface StepProps {
   subtitle: React.ReactNode;
   button_: React.ReactNode;
 }
 
-const Step = ({ button_, subtitle }: IStepProps) => (
+const Step = ({ button_, subtitle }: StepProps) => (
   <div
     css={css`
       display: flex;

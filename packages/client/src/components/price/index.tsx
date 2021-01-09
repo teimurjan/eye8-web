@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 import { useRatesState } from '@eye8/client/state/rates';
 import { Locale, calculateDiscountedPrice } from '@eye8/shared/utils';
 
-interface IPriceProps {
+interface PriceProps {
   price: number;
   discount?: number | number[];
   date?: Date;
@@ -13,8 +13,8 @@ interface IPriceProps {
   alwaysConvertToPrimary?: boolean;
 }
 
-interface IPriceRangeTextProps {
-  range: IPriceProps[];
+interface PriceRangeTextProps {
+  range: PriceProps[];
 }
 
 const useRateOnDate = ({ date, name }: { date?: Date; name?: string }) => {
@@ -42,7 +42,7 @@ const rateNameByLocale: { [key in Locale]: RateName | undefined } = {
   [Locale.Secondary]: undefined,
 };
 
-const useFormattedPrice = ({ price, discount, date, locale, alwaysConvertToPrimary = true }: IPriceProps) => {
+const useFormattedPrice = ({ price, discount, date, locale, alwaysConvertToPrimary = true }: PriceProps) => {
   const intl = useIntl();
   const reliableLocale = locale ?? intl.locale;
 
@@ -66,7 +66,7 @@ const useFormattedPrice = ({ price, discount, date, locale, alwaysConvertToPrima
   );
 };
 
-const usePriceRange = ({ range }: IPriceRangeTextProps) => {
+const usePriceRange = ({ range }: PriceRangeTextProps) => {
   const calculatedRange = range.map((price) => calculateDiscountedPrice(price.price, price.discount || 0));
   const uniqueRange = uniq(calculatedRange);
   const discounts = range
@@ -93,7 +93,7 @@ const usePriceRange = ({ range }: IPriceRangeTextProps) => {
   };
 };
 
-export const usePriceRangeText = ({ range }: IPriceRangeTextProps) => {
+export const usePriceRangeText = ({ range }: PriceRangeTextProps) => {
   const intl = useIntl();
 
   const { calculatedRange, biggestFormattedPrice, lowestFormattedPrice, uniqueRange, uniqueDiscounts } = usePriceRange({
@@ -135,7 +135,7 @@ export const usePriceRangeText = ({ range }: IPriceRangeTextProps) => {
   };
 };
 
-export const PriceCrossedText = ({ price, discount, date, locale }: IPriceProps) => {
+export const PriceCrossedText = ({ price, discount, date, locale }: PriceProps) => {
   const formattedPrice = useFormattedPrice({ price, discount, date, locale });
   const formattedInitialPrice = useFormattedPrice({ price, discount: 0, date });
 
@@ -150,5 +150,5 @@ export const PriceCrossedText = ({ price, discount, date, locale }: IPriceProps)
   );
 };
 
-export const PriceText = ({ price, date, locale, alwaysConvertToPrimary }: IPriceProps) =>
+export const PriceText = ({ price, date, locale, alwaysConvertToPrimary }: PriceProps) =>
   useFormattedPrice({ price, discount: 0, date, locale, alwaysConvertToPrimary });

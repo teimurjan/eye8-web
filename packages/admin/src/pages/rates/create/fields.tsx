@@ -5,7 +5,7 @@ import React from 'react';
 import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
-import { FormTextField } from '@eye8/admin-ui/index';
+import { FormTextField } from '@eye8/admin-ui';
 
 const ValueField = ({ input, meta, disabled }: FieldRenderProps<string>) => {
   const intl = useIntl();

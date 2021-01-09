@@ -1,34 +1,25 @@
 import React from 'react';
 
-import {
-  IControlProps,
-  Control,
-  IFieldProps,
-  Field,
-  IHelpTextProps,
-  HelpText,
-  ILabelProps,
-  Label,
-} from '@eye8/admin-ui/index';
-import { ISelectProps, Select } from '@eye8/client-ui';
+import { ControlProps, Control, FieldProps, Field, HelpTextProps, HelpText, LabelProps, Label } from '@eye8/admin-ui';
+import { SelectProps, Select } from '@eye8/client-ui';
 
-export interface IProps<M extends boolean> {
-  controlProps?: IControlProps;
-  fieldProps?: IFieldProps;
-  helpTextProps?: IHelpTextProps;
+export interface Props {
+  controlProps?: ControlProps;
+  fieldProps?: FieldProps;
+  helpTextProps?: HelpTextProps;
   selectProps: {
     options: Array<{ title: string; value: string }>;
-  } & Omit<ISelectProps<HTMLDivElement>, 'children'>;
-  labelProps?: ILabelProps;
+  } & Omit<SelectProps<HTMLDivElement>, 'children'>;
+  labelProps?: LabelProps;
 }
 
-const Index = <M extends boolean>({
+const FormSelectField = ({
   controlProps = {},
   fieldProps = {},
   selectProps,
   labelProps = {},
   helpTextProps = {},
-}: IProps<M>) => {
+}: Props) => {
   const { options, ...selectPropsToPass } = selectProps;
 
   const selectOptions = options.map(({ title, value }) => (
@@ -48,4 +39,4 @@ const Index = <M extends boolean>({
   );
 };
 
-export default Index;
+export default FormSelectField;

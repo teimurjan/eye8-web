@@ -3,38 +3,36 @@ import { css, jsx } from '@emotion/core';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 
-import { Hero, HeroBody } from '@eye8/admin-ui/index';
 import { Title, LinkButton } from '@eye8/client-ui';
 
-export interface IProps {
+export interface Props {
   title?: string;
   ctaText?: string;
   ctaHref?: string;
 }
 
-const NotFound = ({ title, ctaText, ctaHref }: IProps) => {
+const NotFound = ({ title, ctaText, ctaHref }: Props) => {
   const intl = useIntl();
 
   return (
-    <Hero
+    <div
       css={css`
-        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 50px;
+        width: 100%;
       `}
-      className={classNames('is-large')}
     >
-      <HeroBody
-        css={css`
-          text-align: center;
-        `}
-      >
-        <Title className="is-uppercase" size={2} tag={1}>
-          {title ?? intl.formatMessage({ id: 'NotFound.title' })}
-        </Title>
-        <LinkButton className={classNames('is-medium', 'is-uppercase')} color="dark" href={ctaHref ?? '/'}>
-          {ctaText ?? intl.formatMessage({ id: 'NotFound.goHome.text' })}
-        </LinkButton>
-      </HeroBody>
-    </Hero>
+      <Title className="is-uppercase" size={2} tag={1}>
+        {title ?? intl.formatMessage({ id: 'NotFound.title' })}
+      </Title>
+      <LinkButton className={classNames('is-medium', 'is-uppercase')} color="dark" href={ctaHref ?? '/'}>
+        {ctaText ?? intl.formatMessage({ id: 'NotFound.goHome.text' })}
+      </LinkButton>
+    </div>
   );
 };
 

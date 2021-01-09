@@ -5,11 +5,11 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { Anchor, Button, Menu } from '@eye8/client-ui';
-import { IViewProps as IProps } from '@eye8/client/components/nav/presenter';
+import { ViewProps as Props } from '@eye8/client/components/nav/presenter';
 import { useBoolean } from '@eye8/shared/hooks';
 import { mediaQueries } from '@eye8/shared/styles';
 
-interface ICategoryMenuItemProps {
+interface CategoryMenuItemProps {
   active: boolean;
   as: string;
   renderChildren: (renderProps: { collapsed: boolean }) => React.ReactNode;
@@ -32,7 +32,7 @@ const CategoryMenuItem = ({
   name,
   active,
   defaultCollpsed = false,
-}: ICategoryMenuItemProps) => {
+}: CategoryMenuItemProps) => {
   const { value: collapsed, toggle } = useBoolean(defaultCollpsed);
   const intl = useIntl();
 
@@ -81,8 +81,8 @@ const CategoryMenuItem = ({
   );
 };
 
-interface ICategoryMenuListProps {
-  categories: IProps['categories'];
+interface CategoryMenuListProps {
+  categories: Props['categories'];
   router: NextRouter;
   parentId?: number | null;
   level?: number;
@@ -95,7 +95,7 @@ const renderCategoryMenuList = ({
   collapsed = false,
   parentId = null,
   level = 0,
-}: ICategoryMenuListProps) => {
+}: CategoryMenuListProps) => {
   const parentCategories = categories.filter((category) => category.parent_category_id === parentId);
   if (parentCategories.length === 0) {
     return null;
@@ -134,7 +134,7 @@ const renderCategoryMenuList = ({
   );
 };
 
-export const NavView = ({ categories, router }: IProps & { router: NextRouter }) => {
+export const NavView = ({ categories, router }: Props & { router: NextRouter }) => {
   return (
     <Menu
       css={css`

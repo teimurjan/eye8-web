@@ -63,7 +63,7 @@ type TriggerHoverComponent<T> = React.ComponentType<TriggerHoverProps & React.Re
 
 export type PopoverPlacement = Placement;
 
-export interface IProps<T> {
+export interface Props<T> {
   TriggerComponent?: TriggerClickComponent<T> | TriggerHoverComponent<T>;
   renderTrigger?: RenderTrigger<T>;
   hasArrow?: boolean;
@@ -116,7 +116,7 @@ const Popover = <T extends HTMLElement>({
   widthSameAsReference,
   boxShadow = BoxShadow.Default,
   mouseOutsideOffset,
-}: IProps<T>) => {
+}: Props<T>) => {
   const popoverRoot = safeDocument((d) => d.getElementById('popoverRoot'), null);
 
   const { value: isOpen, toggle, setNegative: close, setPositive: open } = useBoolean();
@@ -283,13 +283,13 @@ const Popover = <T extends HTMLElement>({
   );
 };
 
-export interface IPopoverContentProps {
+export interface PopoverContentProps {
   className?: string;
   children?: React.ReactNode;
   style?: React.CSSProperties;
 }
 
-const PopoverContent = React.forwardRef<HTMLDivElement, IPopoverContentProps>(({ children, className, style }, ref) => {
+const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(({ children, className, style }, ref) => {
   const theme = useTheme<ClientUITheme>();
 
   return (
@@ -315,7 +315,7 @@ enum Color {
   Dark = 'dark',
 }
 
-export interface IPopoverItemProps<T> {
+export interface PopoverItemProps<T> {
   className?: string;
   children?: React.ReactNode;
   Component: React.ComponentType<T> | 'div';
@@ -327,7 +327,7 @@ const PopoverItem = <T extends object = {}>({
   Component,
   color = Color.Default,
   ...props
-}: IPopoverItemProps<T> & T) => {
+}: PopoverItemProps<T> & T) => {
   const theme = useTheme<ClientUITheme>();
 
   return (

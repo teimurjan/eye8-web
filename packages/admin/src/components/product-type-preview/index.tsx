@@ -1,16 +1,16 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { ProductTypePagePresenter, IProps as IPresenterProps } from '@eye8/client/pages/product-type/presenter';
+import { ProductTypePagePresenter, Props as PresenterProps } from '@eye8/client/pages/product-type/presenter';
 import { ProductTypePageView } from '@eye8/client/pages/product-type/view';
 import { useDependencies } from '@eye8/di';
 
-export interface IProps {
+export interface Props {
   id: number;
-  action: IPresenterProps['action'];
+  action: PresenterProps['action'];
 }
 
-export const ProductTypePreview = ({ id, action }: IProps) => {
+export const ProductTypePreview = ({ id, action }: Props) => {
   const { dependencies } = useDependencies();
 
   const intl = useIntl();

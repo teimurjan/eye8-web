@@ -5,10 +5,10 @@ import React from 'react';
 import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
-import { Field, FormPhoneField, FormSelectField, FormTextField, HelpText, Label, Trigger } from '@eye8/admin-ui/index';
+import { Field, FormPhoneField, FormSelectField, FormTextField, HelpText, Label, SelectTrigger } from '@eye8/admin-ui';
 import { ProductsSelectItem } from '@eye8/admin/components/product-select-item';
 import { ProductSelectContainer } from '@eye8/admin/components/product-select/container';
-import { IOrderListResponseItem } from '@eye8/api/order';
+import { OrderListResponseItem } from '@eye8/api/order';
 import { Quantity } from '@eye8/client/components/cart-item-quantity';
 import { PriceText } from '@eye8/client/components/price';
 import { getOrderTotalPrice, parsePhoneNumber } from '@eye8/shared/utils';
@@ -111,7 +111,7 @@ const StatusSelectField = ({ input, meta }: FieldRenderProps<string>) => {
             value: 'rejected',
           },
         ],
-        TriggerComponent: Trigger,
+        TriggerComponent: SelectTrigger,
       }}
       helpTextProps={{
         children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
@@ -128,27 +128,27 @@ const OrderItemsField = ({
   promo_code_discount: promoCodeDiscount,
   promo_code_products: promoCodeProductsIds,
   promo_code_value: promoCodeValue,
-}: FieldRenderProps<IOrderListResponseItem['items']> & FieldsProps) => {
+}: FieldRenderProps<OrderListResponseItem['items']> & FieldsProps) => {
   const intl = useIntl();
 
   const showError = meta.touched && meta.error;
 
   const setOrderItem = React.useCallback(
-    (id: number, orderItem: IOrderListResponseItem['items'][0]) => {
+    (id: number, orderItem: OrderListResponseItem['items'][0]) => {
       input.onChange(input.value.map((orderItem_) => (orderItem_.id === id ? orderItem : orderItem_)));
     },
     [input],
   );
 
   const removeOrderItem = React.useCallback(
-    (orderItem: IOrderListResponseItem['items'][0]) => {
+    (orderItem: OrderListResponseItem['items'][0]) => {
       input.onChange(input.value.filter((orderItem_) => orderItem_.id !== orderItem.id));
     },
     [input],
   );
 
   const addOrderItem = React.useCallback(
-    (orderItem: IOrderListResponseItem['items'][0]) => {
+    (orderItem: OrderListResponseItem['items'][0]) => {
       const itemWithProduct = input.value.find(
         (orderItem_) => orderItem_.product && orderItem.product && orderItem_.product.id === orderItem.product.id,
       );
@@ -237,7 +237,7 @@ const OrderItemsField = ({
 };
 
 type FieldsProps = Pick<
-  IOrderListResponseItem,
+  OrderListResponseItem,
   'promo_code_amount' | 'promo_code_discount' | 'promo_code_products' | 'promo_code_value'
 >;
 

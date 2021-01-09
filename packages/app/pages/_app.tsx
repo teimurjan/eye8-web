@@ -8,12 +8,9 @@ import { createIntl, createIntlCache, RawIntlProvider } from 'react-intl';
 import { AuthModal } from '@eye8/client/components/auth-modal';
 import { CacheBuster } from '@eye8/client/components/cache-buster';
 import { AuthModalStateProvider } from '@eye8/client/state/auth-modal';
-import {
-  CategoriesStateProvider,
-  IProviderProps as ICategoriesStateProviderProps,
-} from '@eye8/client/state/categories';
-import { RatesStateProvider, IProviderProps as IRatesStateProviderProps } from '@eye8/client/state/rates';
-import { dependenciesFactory, IDependenciesFactoryArgs, DIProvider } from '@eye8/di';
+import { CategoriesStateProvider, ProviderProps as CategoriesStateProviderProps } from '@eye8/client/state/categories';
+import { RatesStateProvider, ProviderProps as RatesStateProviderProps } from '@eye8/client/state/rates';
+import { dependenciesFactory, DependenciesFactoryArgs, DIProvider } from '@eye8/di';
 import { PageProgressBar, Toaster } from '@eye8/shared/components';
 import { ToastsProvider } from '@eye8/shared/context/toast';
 import { UserStateProvider } from '@eye8/shared/state/user';
@@ -27,6 +24,7 @@ import { ScrollRestorationWrapper } from '../src/scroll-restoration';
 import { ThemeProvider } from '../src/theme-provider';
 
 import '@eye8/admin-ui/index.sass';
+import '@eye8/client-ui/index.sass';
 
 export function reportWebVitals(metric: object) {
   logPerformance(metric);
@@ -51,7 +49,7 @@ Sentry.init({
   release: process.env.RELEASE_VERSION,
 });
 
-const _DEPENDENCIES_SERVER_PROPS: IDependenciesFactoryArgs = {};
+const _DEPENDENCIES_SERVER_PROPS: DependenciesFactoryArgs = {};
 
 const CustomNextApp = ({ Component, pageProps, ...rest }: AppProps) => {
   const customData = getGlobal('__CUSTOM_DATA__') as Window['__CUSTOM_DATA__'];
@@ -75,12 +73,12 @@ const CustomNextApp = ({ Component, pageProps, ...rest }: AppProps) => {
             <ThemeProvider>
               <RawIntlProvider value={intl}>
                 <RatesStateProvider
-                  initialProps={customData.states.initialProps.rates as IRatesStateProviderProps['initialProps']}
+                  initialProps={customData.states.initialProps.rates as RatesStateProviderProps['initialProps']}
                 >
                   <UserStateProvider>
                     <CategoriesStateProvider
                       initialProps={
-                        customData.states.initialProps.categories as ICategoriesStateProviderProps['initialProps']
+                        customData.states.initialProps.categories as CategoriesStateProviderProps['initialProps']
                       }
                     >
                       <AuthModalStateProvider>

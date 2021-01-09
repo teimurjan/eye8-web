@@ -2,15 +2,15 @@ import times from 'lodash/times';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Pagination, PaginationLink, PaginationList, PaginationNext, PaginationPrev } from '@eye8/admin-ui/index';
+import { Pagination, PaginationLink, PaginationList, PaginationNext, PaginationPrev } from '@eye8/admin-ui';
 
-export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   length: number;
   page: number;
   onPageChange?: (index: number) => any;
 }
 
-const Index = ({ length, page, onPageChange, ...props }: IProps) => {
+const ControlledPagination = ({ length, page, onPageChange, ...props }: Props) => {
   const intl = useIntl();
 
   const currentIndex = page - 1;
@@ -51,4 +51,4 @@ const Index = ({ length, page, onPageChange, ...props }: IProps) => {
   );
 };
 
-export default Index;
+export default ControlledPagination;

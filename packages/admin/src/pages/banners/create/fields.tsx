@@ -2,12 +2,12 @@ import React from 'react';
 import { FieldRenderProps, Field as FinalFormField } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
-import { Field, FileInput, FormTextField, HelpText, Label, Tag } from '@eye8/admin-ui/index';
-import { IntlField, IProps as IIntlFieldProps } from '@eye8/admin/components/intl-field';
-import { Wysiwyg } from '@eye8/client-ui';
+import { Field, FileInput, FormTextField, HelpText, Label, Tag } from '@eye8/admin-ui';
+import { IntlField, Props as IntlFieldProps } from '@eye8/admin/components/intl-field';
+import { Wysiwyg } from '@eye8/shared/components';
 import { isAllowedForNumberInput } from '@eye8/shared/utils';
 
-export interface IFieldsProps {
+export interface FieldsProps {
   textFieldKey: string;
   linkTextFieldKey: string;
 }
@@ -104,7 +104,7 @@ const getOffsetFieldRenderer = (label: string, placeholder: string) => ({ input,
   );
 };
 
-const TextField: IIntlFieldProps['component'] = ({ input, meta, label, placeholder, locale }) => {
+const TextField: IntlFieldProps['component'] = ({ input, meta, label, placeholder, locale }) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
@@ -135,7 +135,7 @@ const TextField: IIntlFieldProps['component'] = ({ input, meta, label, placehold
   );
 };
 
-export const Fields = ({ textFieldKey, linkTextFieldKey }: IFieldsProps) => {
+export const Fields = ({ textFieldKey, linkTextFieldKey }: FieldsProps) => {
   const intl = useIntl();
 
   return (

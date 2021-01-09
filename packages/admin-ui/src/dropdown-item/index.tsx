@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-export interface IProps {
+export interface Props {
   children?: React.ReactNode;
   className?: string;
   href?: string;
@@ -9,7 +9,7 @@ export interface IProps {
   elementType?: 'a' | 'div';
 }
 
-const DropdownItem = ({ elementType = 'a', children, className, onClick, href }: IProps) => {
+const DropdownItem = ({ elementType = 'a', children, className, onClick, href }: Props) => {
   const handleClick = React.useCallback(
     (e: React.SyntheticEvent<HTMLAnchorElement>) => {
       if (!href) {

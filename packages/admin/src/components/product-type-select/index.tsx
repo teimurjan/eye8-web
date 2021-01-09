@@ -2,11 +2,11 @@ import React from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
-import { FormSelectField, Trigger } from '@eye8/admin-ui/index';
-import { IProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
+import { FormSelectField, SelectTrigger } from '@eye8/admin-ui';
+import { ProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
 
-interface IProps {
-  productTypes: IProductTypeListRawIntlMinifiedResponseItem[];
+interface Props {
+  productTypes: ProductTypeListRawIntlMinifiedResponseItem[];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
   clearable?: boolean;
@@ -19,7 +19,7 @@ export const ProductTypeSelectView = <T extends string | undefined = string>({
   LoadMoreProductTypes,
   productTypesLoading,
   clearable,
-}: IProps & FieldRenderProps<T>) => {
+}: Props & FieldRenderProps<T>) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
@@ -38,7 +38,7 @@ export const ProductTypeSelectView = <T extends string | undefined = string>({
       selectProps={{
         ...input,
         options,
-        TriggerComponent: Trigger,
+        TriggerComponent: SelectTrigger,
         onLoadMore: LoadMoreProductTypes,
         isLoading: productTypesLoading,
         clearable,

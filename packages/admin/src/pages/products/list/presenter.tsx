@@ -4,24 +4,24 @@ import React from 'react';
 import { useAdminProductsFilters } from '@eye8/admin/hooks/use-admin-product-filters';
 import { useSelectProductTypes } from '@eye8/admin/hooks/use-select-product-types';
 import { ContextValue as AdminProductsStateContextValue } from '@eye8/admin/state/products';
-import { IProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
-import { IProductTypeService } from '@eye8/service/product-type';
+import { ProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
+import { ProductTypeService } from '@eye8/service/product-type';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
   adminProductsState: AdminProductsStateContextValue['state'];
-  productTypeService: IProductTypeService;
+  productTypeService: ProductTypeService;
   history: History;
 }
 
-export interface IViewProps {
+export interface ViewProps {
   products: AdminProductsStateContextValue['state']['entities'];
   meta: AdminProductsStateContextValue['state']['meta'];
   isDataLoaded: boolean;
   isLoading: boolean;
   onPageChange: (page: number) => void;
   selectedProductTypeId?: number;
-  productTypes: IProductTypeListRawIntlMinifiedResponseItem[];
+  productTypes: ProductTypeListRawIntlMinifiedResponseItem[];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
   onProductTypeChange: (id?: number) => void;
@@ -35,7 +35,7 @@ export const AdminProductsListPresenter = ({
   View,
   adminProductsState: { isListLoading, entities: products, get: getProducts, hasListLoaded, meta },
   productTypeService,
-}: IProps) => {
+}: Props) => {
   const {
     filters: { available, productTypeId, deleted },
     setFilters,

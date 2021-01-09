@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 
-import { Modal } from '@eye8/client-ui';
+import { Modal } from '@eye8/shared/components';
 import { useClickOutside, useModalScrollLock, useMousetrap } from '@eye8/shared/hooks';
 import { safeDocument } from '@eye8/shared/utils';
 
@@ -159,7 +159,7 @@ const getSlidingCSS = (from: FromSide) => {
   };
 };
 
-export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   isOpen: boolean;
   backdrop?: boolean;
@@ -189,7 +189,7 @@ const Drawer = ({
   showClose = true,
   fixed,
   ...props
-}: IProps) => {
+}: Props) => {
   const theme = useTheme<ClientUITheme>();
   useModalScrollLock(isOpen, lockScroll);
 

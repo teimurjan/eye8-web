@@ -8,12 +8,12 @@ export enum Color {
   lightGray = 'lightGray',
 }
 
-export interface IProps extends React.HTMLAttributes<HTMLHRElement> {
+export interface Props extends React.HTMLAttributes<HTMLHRElement> {
   className?: string;
   color?: Color;
 }
 
-const Divider = ({ className, color }: IProps) => {
+const Divider = ({ className, color }: Props) => {
   const theme = useTheme<ClientUITheme>();
   return (
     <hr

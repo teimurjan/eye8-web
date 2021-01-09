@@ -4,17 +4,17 @@ import * as yup from 'yup';
 
 import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
 import { ContextValue as AdminCategoriesStateContextValue } from '@eye8/admin/state/categories';
-import { ICategoryService } from '@eye8/service/category';
-import { availableLocales, SchemaValidator } from '@eye8/shared/utils';
+import { CategoryService } from '@eye8/service/category';
+import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: ICategoryService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: CategoryService;
   history: History;
   adminCategoriesState: AdminCategoriesStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
   create: (values: { names: { [key: string]: string }; parent_category_id?: string }) => void;
   isLoading: boolean;
@@ -42,7 +42,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminCategoriesCreatePresenter: React.FC<IProps> = ({
+export const AdminCategoriesCreatePresenter: React.FC<Props> = ({
   history,
   adminCategoriesState: { entities: categories, add: addCategory, isListLoading: categoriesLoading, listError },
   service,
@@ -53,7 +53,7 @@ export const AdminCategoriesCreatePresenter: React.FC<IProps> = ({
 
   const close = React.useCallback(() => history.push('/admin/categories'), [history]);
 
-  const create: IViewProps['create'] = React.useCallback(
+  const create: ViewProps['create'] = React.useCallback(
     async (values) => {
       setCreating(true);
 

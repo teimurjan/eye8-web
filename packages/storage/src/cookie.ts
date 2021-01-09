@@ -5,7 +5,7 @@ import { Storage } from '@eye8/storage/types';
 
 const cookies = new Cookies();
 
-export interface ICookieStorage extends Storage {
+export interface CookieStorage extends Storage {
   length: number;
   clear(): void;
   getItem(key: string, options?: CookieGetOptions): string | null;
@@ -15,7 +15,7 @@ export interface ICookieStorage extends Storage {
   [key: string]: any;
 }
 
-export class CookieStorage implements ICookieStorage {
+export default class implements CookieStorage {
   get length() {
     return Object.keys(cookies.getAll()).length;
   }

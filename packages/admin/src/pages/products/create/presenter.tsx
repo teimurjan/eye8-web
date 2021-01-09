@@ -5,21 +5,21 @@ import * as yup from 'yup';
 import { useSelectProductTypes } from '@eye8/admin/hooks/use-select-product-types';
 import { ContextValue as AdminFeatureValuesStateContextValue } from '@eye8/admin/state/feature-values';
 import { ContextValue as AdminProductsStateContextValue } from '@eye8/admin/state/products';
-import { IProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
-import { IProductService } from '@eye8/service/product';
-import { IProductTypeService } from '@eye8/service/product-type';
+import { ProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
+import { ProductService } from '@eye8/service/product';
+import { ProductTypeService } from '@eye8/service/product-type';
 import { SchemaValidator } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  productService: IProductService;
-  productTypeService: IProductTypeService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  productService: ProductService;
+  productTypeService: ProductTypeService;
   history: History;
   adminProductsState: AdminProductsStateContextValue['state'];
   adminFeatureValuesState: AdminFeatureValuesStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
   create: (values: {
     quantity: string;
@@ -35,13 +35,13 @@ export interface IViewProps {
   close: () => void;
   validate?: (values: object) => object | Promise<object>;
   featureValues: AdminFeatureValuesStateContextValue['state']['entities'];
-  productTypes: IProductTypeListRawIntlMinifiedResponseItem[];
+  productTypes: ProductTypeListRawIntlMinifiedResponseItem[];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
   featureValuesLoading: boolean;
 }
 
-export const AdminProductsCreatePresenter: React.FC<IProps> = ({
+export const AdminProductsCreatePresenter: React.FC<Props> = ({
   history,
   adminFeatureValuesState: {
     get: getFeatureValues,
@@ -104,7 +104,7 @@ export const AdminProductsCreatePresenter: React.FC<IProps> = ({
 
   const close = React.useCallback(() => history.push('/admin/products'), [history]);
 
-  const create: IViewProps['create'] = React.useCallback(
+  const create: ViewProps['create'] = React.useCallback(
     async (values) => {
       setCreating(true);
 

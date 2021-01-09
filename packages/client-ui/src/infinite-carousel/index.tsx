@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { Carousel, ICarouselProps } from '@eye8/client-ui';
+import { Carousel, CarouselProps } from '@eye8/client-ui';
 
-export interface IProps extends Omit<ICarouselProps, 'children' | 'activeIndex' | 'swipeableOptions'> {
+export interface Props extends Omit<CarouselProps, 'children' | 'activeIndex' | 'swipeableOptions'> {
   children: React.ReactElement | React.ReactElement[];
   delay?: number;
   swipeable?: boolean;
 }
 
-const InfiniteCarousel = ({ children, delay, controls, onEnter, onEntered, swipeable, ...props }: IProps) => {
+const InfiniteCarousel = ({ children, delay, controls, onEnter, onEntered, swipeable, ...props }: Props) => {
   const [isTransitioning, setTransitioning] = React.useState(false);
 
   const childrenCount = React.Children.count(children);

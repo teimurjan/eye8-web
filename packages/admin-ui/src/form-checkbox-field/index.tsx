@@ -1,33 +1,33 @@
 import React from 'react';
 
 import {
-  ICheckboxProps,
+  CheckboxProps,
   Checkbox,
-  IControlProps,
+  ControlProps,
   Control,
-  IFieldProps,
+  FieldProps,
   Field,
-  IHelpTextProps,
+  HelpTextProps,
   HelpText,
-  ILabelProps,
+  LabelProps,
   Label,
-} from '@eye8/admin-ui/index';
+} from '@eye8/admin-ui';
 
-export interface IProps {
-  controlProps?: IControlProps;
-  fieldProps?: IFieldProps;
-  helpTextProps?: IHelpTextProps;
-  checkboxProps: ICheckboxProps;
-  labelProps?: ILabelProps;
+export interface Props {
+  controlProps?: ControlProps;
+  fieldProps?: FieldProps;
+  helpTextProps?: HelpTextProps;
+  checkboxProps: CheckboxProps;
+  labelProps?: LabelProps;
 }
 
-const Index = ({
+const FormCheckboxField = ({
   controlProps = {},
   fieldProps = {},
   labelProps = {},
   helpTextProps = {},
   checkboxProps = {},
-}: IProps) => {
+}: Props) => {
   return (
     <Field {...fieldProps}>
       <Label {...labelProps} />
@@ -39,4 +39,4 @@ const Index = ({
   );
 };
 
-export default Index;
+export default FormCheckboxField;

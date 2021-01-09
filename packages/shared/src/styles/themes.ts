@@ -79,6 +79,8 @@ class DefaultTheme implements AdminUITheme, ClientUITheme {
   // - thumb
   public thumbColor = color(this.lightGrayColor).darken(0.3).hex();
   public thumbBackgroundColor = this.lightGrayColor;
+  // - modal
+  public modalBackgroundColor = 'rgba(10,10,10,.86)';
 }
 
 class DarkTheme implements AdminUITheme, ClientUITheme {
@@ -160,6 +162,8 @@ class DarkTheme implements AdminUITheme, ClientUITheme {
   // - thumb
   public thumbColor = this.grayColor;
   public thumbBackgroundColor = this.lightGrayColor;
+  // - modal
+  public modalBackgroundColor = 'rgba(10,10,10,.86)';
 }
 
 export const defaultTheme = new DefaultTheme();

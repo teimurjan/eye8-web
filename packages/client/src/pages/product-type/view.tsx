@@ -6,13 +6,12 @@ import Head from 'next/head';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Container } from '@eye8/admin-ui/index';
 import {
+  Container,
   Anchor,
   Button,
   ErrorLayout,
   LinkPassingProps,
-  LoaderLayout,
   NotFound,
   Select,
   SelectTrigger,
@@ -23,15 +22,16 @@ import {
 import { InstagramPost } from '@eye8/client/components/instagram-post';
 import { PriceCrossedText } from '@eye8/client/components/price';
 import { ProductTypeImageCarousel } from '@eye8/client/components/product-type-image-carousel';
-import { IViewProps as IProps } from '@eye8/client/pages/product-type/presenter';
+import { ViewProps as Props } from '@eye8/client/pages/product-type/presenter';
+import { LoaderLayout } from '@eye8/shared/components';
 import { fadeInFromLeft, fadeInFromRight, fadeInFromBottom, easeOutCubic, mediaQueries } from '@eye8/shared/styles';
 import { formatMediaURL } from '@eye8/shared/utils';
 
 const getAllFeatureValuesGroupedByType = (
-  products: IProps['products'],
-  allFeatureTypes: Array<IProps['products'][0]['feature_values'][0]['feature_type']>,
+  products: Props['products'],
+  allFeatureTypes: Array<Props['products'][0]['feature_values'][0]['feature_type']>,
 ) =>
-  allFeatureTypes.reduce<{ [key: string]: IProps['products'][0]['feature_values'] }>(
+  allFeatureTypes.reduce<{ [key: string]: Props['products'][0]['feature_values'] }>(
     (acc, featureType) => ({
       ...acc,
       [featureType.id]: products.reduce(
@@ -43,13 +43,13 @@ const getAllFeatureValuesGroupedByType = (
             ],
             'id',
           ),
-        [] as IProps['products'][0]['feature_values'],
+        [] as Props['products'][0]['feature_values'],
       ),
     }),
     {},
   );
 
-export const ProductTypePageView = ({ productType, products, error, isLoading, action, actionText }: IProps) => {
+export const ProductTypePageView = ({ productType, products, error, isLoading, action, actionText }: Props) => {
   const intl = useIntl();
   const theme = useTheme<ClientUITheme>();
   const [activeImageIndex, setActiveImageIndex] = React.useState(0);
@@ -154,7 +154,7 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
     return <ErrorLayout>{intl.formatMessage({ id: error })}</ErrorLayout>;
   }
 
-  const getOptions = (featureType: IProps['products'][0]['feature_values'][0]['feature_type']) =>
+  const getOptions = (featureType: Props['products'][0]['feature_values'][0]['feature_type']) =>
     allFeatureValuesGroupedByFeatureType[featureType.id].map((featureValue) => ({
       title: featureValue.name,
       value: featureValue.id.toString(),

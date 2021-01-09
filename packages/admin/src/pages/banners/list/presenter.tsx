@@ -2,12 +2,12 @@ import React from 'react';
 
 import { ContextValue as AdminBannersStateContextValue } from '@eye8/admin/state/banners';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
   adminBannersState: AdminBannersStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   banners: AdminBannersStateContextValue['state']['entities'];
   isDataLoaded: boolean;
   isLoading: boolean;
@@ -16,7 +16,7 @@ export interface IViewProps {
 export const AdminBannersListPresenter = ({
   View,
   adminBannersState: { isListLoading, entities: banners, get: getBanners, hasListLoaded },
-}: IProps) => {
+}: Props) => {
   React.useEffect(() => {
     getBanners();
     // eslint-disable-next-line react-hooks/exhaustive-deps

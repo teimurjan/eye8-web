@@ -3,27 +3,27 @@ import { css, jsx } from '@emotion/core';
 import classNames from 'classnames';
 import React from 'react';
 
-export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
-const Menu = ({ children, className, ...props }: IProps) => (
+const Menu = ({ children, className, ...props }: Props) => (
   <aside className={classNames('menu', className)} {...props}>
     {children}
   </aside>
 );
 
-export interface IMenuLabelProps extends React.HTMLAttributes<HTMLParagraphElement> {
+export interface MenuLabelProps extends React.HTMLAttributes<HTMLParagraphElement> {
   children?: React.ReactNode;
 }
 
-Menu.Label = ({ children, className, ...props }: IMenuLabelProps) => (
+Menu.Label = ({ children, className, ...props }: MenuLabelProps) => (
   <p className={classNames('menu-label', className)} {...props}>
     {children}
   </p>
 );
 
-export interface IMenuListProps extends React.HTMLAttributes<HTMLUListElement> {
+export interface MenuListProps extends React.HTMLAttributes<HTMLUListElement> {
   className?: string;
   children?: React.ReactNode | HTMLCollection;
   collapsed?: boolean;
@@ -32,7 +32,7 @@ export interface IMenuListProps extends React.HTMLAttributes<HTMLUListElement> {
 let heightAutoTimeoutID: NodeJS.Timeout;
 let height0TimeoutID: NodeJS.Timeout;
 
-const List = ({ children, className, collapsed }: IMenuListProps) => {
+const List = ({ children, className, collapsed }: MenuListProps) => {
   const ref = React.useRef<HTMLUListElement>(null);
   const [height, setHeight] = React.useState<number | undefined | 'auto'>(collapsed ? 0 : ref.current?.scrollHeight);
 
@@ -66,12 +66,12 @@ const List = ({ children, className, collapsed }: IMenuListProps) => {
 
 Menu.List = List;
 
-export interface IMenuItemProps extends React.HTMLAttributes<HTMLLIElement> {
+export interface MenuItemProps extends React.HTMLAttributes<HTMLLIElement> {
   className?: string;
   children?: React.ReactNode | HTMLCollection;
 }
 
-Menu.Item = ({ children, className }: IMenuListProps) => (
+Menu.Item = ({ children, className }: MenuListProps) => (
   <li className={classNames('menu-item', className)}>{children}</li>
 );
 

@@ -2,14 +2,14 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 import { ProductTypesListView } from '@eye8/client/components/product-type-list';
-import { ProductTypesPagePresenter, IProps as IPresenterProps } from '@eye8/client/pages/product-types/presenter';
+import { ProductTypesPagePresenter, Props as PresenterProps } from '@eye8/client/pages/product-types/presenter';
 import { useDependencies } from '@eye8/di';
 
-interface IProps {
-  initialProps: IPresenterProps['initialProps'];
+interface Props {
+  initialProps: PresenterProps['initialProps'];
 }
 
-export const ProductTypesPageContainer = ({ initialProps }: IProps) => {
+export const ProductTypesPageContainer = ({ initialProps }: Props) => {
   const { dependencies } = useDependencies();
   const router = useRouter();
 

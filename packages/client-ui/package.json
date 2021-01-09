@@ -15,7 +15,7 @@
   "homepage": "https://eye8.kg",
   "dependencies": {
     "@eye8/shared": "0.0.0",
-    "@eye8/admin-ui": "0.0.0"
+    "flexboxgrid2": "^7.2.1"
   },
   "scripts": {
     "build": "rm -rf dist && tsc -p ./tsconfig.build.json"

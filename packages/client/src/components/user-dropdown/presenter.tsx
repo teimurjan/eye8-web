@@ -1,15 +1,15 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { IContextValue as AuthModalStateContextValue } from '@eye8/client/state/auth-modal';
+import { ContextValue as AuthModalStateContextValue } from '@eye8/client/state/auth-modal';
 import { useToast, ToastId } from '@eye8/shared/context/toast';
-import { User, IContextValue as UserStateContextValue } from '@eye8/shared/state/user';
+import { User, ContextValue as UserStateContextValue } from '@eye8/shared/state/user';
 
-interface IProps extends UserStateContextValue, AuthModalStateContextValue {
-  View: React.ComponentType<IViewProps>;
+interface Props extends UserStateContextValue, AuthModalStateContextValue {
+  View: React.ComponentType<ViewProps>;
 }
 
-export interface IViewProps {
+export interface ViewProps {
   user: User;
   onLogoutClick: () => void;
   openAuthModal: AuthModalStateContextValue['authModalState']['open'];
@@ -19,7 +19,7 @@ export const UserDropdownPresenter = ({
   View,
   userState: { clearUser, user },
   authModalState: { open: openAuthModal },
-}: IProps) => {
+}: Props) => {
   const intl = useIntl();
   const toast = useToast();
 

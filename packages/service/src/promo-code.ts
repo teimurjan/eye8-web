@@ -1,11 +1,11 @@
 import { normalize, schema } from 'normalizr';
 
 import {
-  IPromoCodeAPI,
-  IPromoCodeListResponseItem,
-  IPromoCodeCreatePayload,
-  IPromoCodeEditPayload,
-  IGetOneOptions,
+  PromoCodeAPI,
+  PromoCodeListResponseItem,
+  PromoCodeCreatePayload,
+  PromoCodeEditPayload,
+  GetOneOptions,
   PromoCodeNotFoundError,
   PromoCodeValueDuplicatedError,
   PromoCodeWithOrdersNotDeletedError,
@@ -30,37 +30,37 @@ export class PromoCodeHasOrdersError extends Error {
   }
 }
 
-export interface IPromoCodeService {
+export interface PromoCodeService {
   getAll(
     deleted?: boolean,
   ): Promise<{
     entities: {
       promoCodes: {
-        [key: string]: IPromoCodeListResponseItem;
+        [key: string]: PromoCodeListResponseItem;
       };
     };
     result: number[];
   }>;
-  create(payload: IPromoCodeCreatePayload): Promise<IPromoCodeListResponseItem>;
-  edit(id: number, payload: IPromoCodeEditPayload): Promise<IPromoCodeListResponseItem>;
+  create(payload: PromoCodeCreatePayload): Promise<PromoCodeListResponseItem>;
+  edit(id: number, payload: PromoCodeEditPayload): Promise<PromoCodeListResponseItem>;
   delete(id: number, forever?: boolean): Promise<{}>;
   exists(id: number, deleted?: boolean): Promise<boolean>;
-  getOne(id: number, options?: IGetOneOptions): Promise<IPromoCodeListResponseItem | undefined>;
-  getByValue(value: string): Promise<IPromoCodeListResponseItem | undefined>;
+  getOne(id: number, options?: GetOneOptions): Promise<PromoCodeListResponseItem | undefined>;
+  getByValue(value: string): Promise<PromoCodeListResponseItem | undefined>;
 }
 
-export class PromoCodeService implements IPromoCodeService {
-  private API: IPromoCodeAPI;
-  constructor(API: IPromoCodeAPI) {
+export default class implements PromoCodeService {
+  private API: PromoCodeAPI;
+  constructor(API: PromoCodeAPI) {
     this.API = API;
   }
 
-  public getAll: IPromoCodeService['getAll'] = async (deleted) => {
+  public getAll: PromoCodeService['getAll'] = async (deleted) => {
     const products = await this.API.getAll(deleted);
     return normalize(products.data, [new schema.Entity('promoCodes')]);
   };
 
-  public create: IPromoCodeService['create'] = async (payload) => {
+  public create: PromoCodeService['create'] = async (payload) => {
     try {
       return (await this.API.create(payload)).data;
     } catch (e) {
@@ -71,7 +71,7 @@ export class PromoCodeService implements IPromoCodeService {
     }
   };
 
-  public edit: IPromoCodeService['edit'] = async (id, payload) => {
+  public edit: PromoCodeService['edit'] = async (id, payload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
@@ -88,7 +88,7 @@ export class PromoCodeService implements IPromoCodeService {
     }
   };
 
-  public delete: IPromoCodeService['delete'] = async (id, forever) => {
+  public delete: PromoCodeService['delete'] = async (id, forever) => {
     try {
       return await this.API.delete(id, forever);
     } catch (e) {
@@ -102,7 +102,7 @@ export class PromoCodeService implements IPromoCodeService {
     }
   };
 
-  public exists: IPromoCodeService['exists'] = async (id, deleted) => {
+  public exists: PromoCodeService['exists'] = async (id, deleted) => {
     try {
       await this.API.status(id, deleted);
       return true;
@@ -114,7 +114,7 @@ export class PromoCodeService implements IPromoCodeService {
     }
   };
 
-  public getOne: IPromoCodeService['getOne'] = async (id, options = {}) => {
+  public getOne: PromoCodeService['getOne'] = async (id, options = {}) => {
     try {
       return (await this.API.getOne(id, options)).data;
     } catch (e) {
@@ -125,7 +125,7 @@ export class PromoCodeService implements IPromoCodeService {
     }
   };
 
-  public getByValue: IPromoCodeService['getByValue'] = async (value) => {
+  public getByValue: PromoCodeService['getByValue'] = async (value) => {
     try {
       return (await this.API.getByValue(value)).data;
     } catch (e) {

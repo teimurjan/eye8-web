@@ -14,13 +14,13 @@ import { ContextValue as AdminCategoriesStateContextValue } from '@eye8/admin/st
 import { ContextValue as AdminCharacteristicValuesStateContextValue } from '@eye8/admin/state/characteristic-values';
 import { ContextValue as AdminFeatureTypesStateContextValue } from '@eye8/admin/state/feature-types';
 import { ContextValue as AdminProductTypesStateContextValue } from '@eye8/admin/state/product-types';
-import { IProductTypeDetailRawIntlResponseItem } from '@eye8/api/product-type';
-import { IProductTypeService } from '@eye8/service/product-type';
-import { availableLocales, SchemaValidator } from '@eye8/shared/utils';
+import { ProductTypeDetailRawIntlResponseItem } from '@eye8/api/product-type';
+import { ProductTypeService } from '@eye8/service/product-type';
+import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: IProductTypeService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: ProductTypeService;
   history: History;
   productTypeId: number;
   adminCategoriesState: AdminCategoriesStateContextValue['state'];
@@ -29,7 +29,7 @@ export interface IProps {
   adminCharacteristicValuesState: AdminCharacteristicValuesStateContextValue['state'];
 }
 
-interface IFormValues {
+interface FormValues {
   names: { [key: string]: string };
   descriptions: { [key: string]: string };
   short_descriptions: { [key: string]: string };
@@ -40,19 +40,19 @@ interface IFormValues {
   image: string;
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
-  edit: (values: IFormValues) => void;
+  edit: (values: FormValues) => void;
   isLoading: boolean;
   isUpdating: boolean;
   error?: string;
   preloadingError?: string;
   close: () => void;
-  validate?: (values: IFormValues) => object | Promise<object>;
+  validate?: (values: FormValues) => object | Promise<object>;
   categories: AdminCategoriesStateContextValue['state']['entities'];
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
   characteristicValues: AdminCharacteristicValuesStateContextValue['state']['entities'];
-  initialValues: Partial<IFormValues>;
+  initialValues: Partial<FormValues>;
 }
 
 export const CATEGORY_NAME_FIELD_KEY = 'name';
@@ -91,7 +91,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
+export const AdminProductTypesEditPresenter: React.FC<Props> = ({
   history,
   adminCategoriesState: {
     get: getCategories,
@@ -120,7 +120,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
     filters: { deleted },
   } = useAdminProductTypesFilters();
   const [error, setError] = React.useState<string | undefined>(undefined);
-  const [productType, setProductType] = React.useState<IProductTypeDetailRawIntlResponseItem | undefined>(undefined);
+  const [productType, setProductType] = React.useState<ProductTypeDetailRawIntlResponseItem | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
@@ -162,7 +162,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
 
   const close = React.useCallback(() => history.push('/admin/productTypes'), [history]);
 
-  const edit: IViewProps['edit'] = React.useCallback(
+  const edit: ViewProps['edit'] = React.useCallback(
     async (values) => {
       setUpdating(true);
 
@@ -224,7 +224,7 @@ export const AdminProductTypesEditPresenter: React.FC<IProps> = ({
         feature_types: productType.feature_types.map((id) => id.toString()),
         characteristic_values: productType.characteristic_values.map((id) => id.toString()),
         image: productType.image,
-      } as IViewProps['initialValues'];
+      } as ViewProps['initialValues'];
     }
 
     return {};

@@ -15,8 +15,7 @@
   "homepage": "https://eye8.kg",
   "dependencies": {
     "bulma": "^0.9.1",
-    "@eye8/shared": "0.0.0",
-    "@eye8/client-ui": "0.0.0"
+    "@eye8/shared": "0.0.0"
   },
   "scripts": {
     "build": "rm -rf dist && tsc -p ./tsconfig.build.json"

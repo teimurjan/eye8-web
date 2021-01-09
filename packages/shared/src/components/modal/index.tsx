@@ -7,15 +7,14 @@ import ReactDOM from 'react-dom';
 import { X as XIcon } from 'react-feather';
 import { CSSTransition } from 'react-transition-group';
 
-import { ModalBackground } from '@eye8/admin-ui/index';
-import { IconWrapper, Tooltip } from '@eye8/client-ui';
+import { IconWrapper, Tooltip } from '@eye8/shared/components';
 import { useClickOutside, useDebounce, useModalScrollLock, useMousetrap } from '@eye8/shared/hooks';
 import { mediaQueries } from '@eye8/shared/styles';
 import { safeDocument } from '@eye8/shared/utils';
 
-interface IModalCloseProps extends React.HTMLProps<HTMLOrSVGElement> {}
+interface ModalCloseProps extends React.HTMLProps<HTMLOrSVGElement> {}
 
-const ModalClose = ({ className, onClick }: IModalCloseProps) => {
+const ModalClose = ({ className, onClick }: ModalCloseProps) => {
   return (
     <Tooltip
       offset={[0, -10]}
@@ -40,6 +39,26 @@ const ModalClose = ({ className, onClick }: IModalCloseProps) => {
     >
       esc
     </Tooltip>
+  );
+};
+
+interface ModalBackgroundProps extends React.HTMLProps<HTMLDivElement> {
+  fixed?: boolean;
+}
+
+const ModalBackground = ({ fixed, ...props }: ModalBackgroundProps) => {
+  const theme = useTheme<ClientUITheme>();
+
+  return (
+    <div
+      css={css`
+        background-color: ${theme.modalBackgroundColor};
+        opacity: 1;
+        position: ${fixed ? 'fixed' : 'absolute'};
+        z-index: 98;
+        transition: opacity 175ms ease-in-out;
+      `}
+    />
   );
 };
 
@@ -109,8 +128,6 @@ const modalContentCSS = css`
 
 const backdropCSS = css`
   opacity: 0;
-  z-index: 98;
-  transition: opacity 175ms ease-in-out;
 
   &.fixed {
     position: fixed;
@@ -154,7 +171,7 @@ const modalCloseCSS = css`
   }
 `;
 
-export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   isOpen: boolean;
   backdrop?: boolean;
@@ -186,7 +203,7 @@ const Modal = ({
   debounceChildrenOnClose = false,
   fullScreen,
   ...props
-}: IProps) => {
+}: Props) => {
   const theme = useTheme<ClientUITheme>();
   useModalScrollLock(isOpen, lockScroll);
 
@@ -245,7 +262,7 @@ const Modal = ({
                 onClick={close}
               />
             )}
-            {backdrop && <ModalBackground className={classNames({ fixed })} css={backdropCSS}></ModalBackground>}
+            {backdrop && <ModalBackground css={backdropCSS} fixed={fixed} />}
           </div>
         </CSSTransition>,
         modalRoot,

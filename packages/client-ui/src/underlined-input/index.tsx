@@ -8,7 +8,7 @@ import { HelpText } from '@eye8/client-ui';
 import { useBoolean, useDebounce, useMultipleRefs } from '@eye8/shared/hooks';
 import { isIOS } from '@eye8/shared/utils';
 
-export interface IProps {
+export interface Props {
   error?: string;
   className?: string;
   type?: string;
@@ -29,7 +29,7 @@ export interface IProps {
 const VERTICAL_PADDING_PX = 7.5;
 const HORIZONTAL_PADDING_PX = 2.5;
 
-export default React.forwardRef<HTMLInputElement, IProps>(
+export default React.forwardRef<HTMLInputElement, Props>(
   (
     {
       containerRef,
@@ -53,14 +53,14 @@ export default React.forwardRef<HTMLInputElement, IProps>(
     // Debounce error so it does not disappear till the closing transition is finished
     const debouncedError = useDebounce(error, 300);
 
-    const onFocus_: IProps['onFocus'] = React.useCallback(
+    const onFocus_: Props['onFocus'] = React.useCallback(
       (e) => {
         focus();
         onFocus && onFocus(e);
       },
       [focus, onFocus],
     );
-    const onBlur_: IProps['onBlur'] = React.useCallback(
+    const onBlur_: Props['onBlur'] = React.useCallback(
       (e) => {
         blur();
         onBlur && onBlur(e);

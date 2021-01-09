@@ -5,14 +5,14 @@ import React from 'react';
 
 import { mediaQueries } from '@eye8/shared/styles';
 
-export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
 export const NAVBAR_HEIGHT_PX = 100;
 export const NAVBAR_HEIGHT_MOBILE_PX = 92;
 
-const Navbar = ({ children, className, ...props }: IProps) => {
+const Navbar = ({ children, className, ...props }: Props) => {
   const theme = useTheme<ClientUITheme>();
 
   return (
@@ -39,12 +39,12 @@ const Navbar = ({ children, className, ...props }: IProps) => {
   );
 };
 
-interface ISectionProps {
+interface SectionProps {
   className?: string;
   children: React.ReactNode;
 }
 
-const Section = ({ className, children }: ISectionProps) => (
+const Section = ({ className, children }: SectionProps) => (
   <div
     className={className}
     css={css`

@@ -14,7 +14,7 @@ export type User = AuthorizedUser | EmptyUser | AnonymousUser;
 
 export const decodeAccessToken = (accessToken: string): AuthorizedUser => jwtDecode(accessToken);
 
-export interface IContextValue {
+export interface ContextValue {
   userState: {
     clearUser: () => void;
     syncUser: () => void;
@@ -22,16 +22,16 @@ export interface IContextValue {
   };
 }
 
-const Context = React.createContext<IContextValue | null>(null);
+const Context = React.createContext<ContextValue | null>(null);
 
-interface IProviderProps {
+interface ProviderProps {
   children?: React.ReactNode;
 }
 
 const USER_NOT_SET_STATE: EmptyUser = null;
 const USER_ANONYMOUS_STATE: AnonymousUser = {};
 
-export const UserStateProvider: React.SFC<IProviderProps> = ({ children }) => {
+export const UserStateProvider: React.SFC<ProviderProps> = ({ children }) => {
   const {
     dependencies: {
       services: { auth: service },
@@ -71,4 +71,4 @@ export const UserStateProvider: React.SFC<IProviderProps> = ({ children }) => {
   );
 };
 
-export const useUserState = () => React.useContext(Context) as IContextValue;
+export const useUserState = () => React.useContext(Context) as ContextValue;

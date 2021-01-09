@@ -5,7 +5,7 @@ import { IntlField } from '@eye8/admin/components/intl-field';
 import { ModalForm } from '@eye8/admin/components/modal-form';
 import {
   CHARACTERISTIC_NAME_FIELD_KEY,
-  IViewProps as IProps,
+  ViewProps as Props,
 } from '@eye8/admin/pages/characteristics/create/presenter';
 
 const Fields = () => {
@@ -24,7 +24,7 @@ const Fields = () => {
   );
 };
 
-export const AdminCharacteristicsCreateView = ({ isOpen, create, close, isLoading, error, validate }: IProps) => {
+export const AdminCharacteristicsCreateView = ({ isOpen, create, close, isLoading, error, validate }: Props) => {
   const intl = useIntl();
 
   return (

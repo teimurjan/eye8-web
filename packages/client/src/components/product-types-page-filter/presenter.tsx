@@ -1,30 +1,30 @@
 import React from 'react';
 
-import { ICharacteristicListResponseItem } from '@eye8/api/characteristic';
-import { ICharacteristicValueListResponseItem } from '@eye8/api/characteristic-value';
+import { CharacteristicListResponseItem } from '@eye8/api/characteristic';
+import { CharacteristicValueListResponseItem } from '@eye8/api/characteristic-value';
 import { ProductTypeSortingType } from '@eye8/api/product-type';
-import { ICharacteristicService } from '@eye8/service/characteristic';
-import { ICharacteristicValueService } from '@eye8/service/characteristic-value';
+import { CharacteristicService } from '@eye8/service/characteristic';
+import { CharacteristicValueService } from '@eye8/service/characteristic-value';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
-export interface IViewProps
+export interface ViewProps
   extends Pick<
-    IProps,
+    Props,
     'sortingType' | 'onSortingTypeChange' | 'onCharacteristicValuesChange' | 'characteristicValuesIds' | 'disabled'
   > {
   groupedCharacteristics: {
-    [key: string]: { name: string; values: ICharacteristicValueListResponseItem[] };
+    [key: string]: { name: string; values: CharacteristicValueListResponseItem[] };
   };
   isLoading: boolean;
   error: string | undefined;
 }
 
-export interface IProps {
+export interface Props {
   onSortingTypeChange: (sortingType: ProductTypeSortingType) => void;
   onCharacteristicValuesChange: (characteristicValueId: number[]) => void;
-  View: React.ComponentType<IViewProps>;
-  characteristicService: ICharacteristicService;
-  characteristicValueService: ICharacteristicValueService;
+  View: React.ComponentType<ViewProps>;
+  characteristicService: CharacteristicService;
+  characteristicValueService: CharacteristicValueService;
   sortingType: ProductTypeSortingType;
   characteristicValuesIds: number[];
   disabled: boolean;
@@ -39,16 +39,16 @@ export const ProductTypesPageFilterPresenter = ({
   characteristicValuesIds,
   sortingType,
   disabled,
-}: IProps) => {
+}: Props) => {
   const [characteristicsData, setCharacteristicsData] = React.useState<{
     entities: {
-      [key: string]: ICharacteristicListResponseItem;
+      [key: string]: CharacteristicListResponseItem;
     };
     order: number[];
   }>({ entities: {}, order: [] });
   const [characteristicValuesData, setCharacteristicValuesData] = React.useState<{
     entities: {
-      [key: string]: ICharacteristicValueListResponseItem;
+      [key: string]: CharacteristicValueListResponseItem;
     };
     order: number[];
   }>({ entities: {}, order: [] });
@@ -92,7 +92,7 @@ export const ProductTypesPageFilterPresenter = ({
         ],
       },
     };
-  }, {} as IViewProps['groupedCharacteristics']);
+  }, {} as ViewProps['groupedCharacteristics']);
 
   return (
     <View

@@ -14,7 +14,7 @@ enum Color {
   Default = 'default',
 }
 
-export interface IProps {
+export interface Props {
   size?: Size;
   color?: Color;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
@@ -54,7 +54,7 @@ const useDimensions = (size: Size) => {
   };
 };
 
-const Toggle = ({ size = Size.Default, color = Color.Default, onChange, initialChecked, className }: IProps) => {
+const Toggle = ({ size = Size.Default, color = Color.Default, onChange, initialChecked, className }: Props) => {
   const theme = useTheme<ClientUITheme>();
   const { switchWidthPx, switchHeightPx, dotOffsetLeftPx, dotOffsetBottomPx, dotSizePx } = useDimensions(size);
   const [checked, setChecked] = React.useState(initialChecked);

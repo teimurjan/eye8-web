@@ -5,11 +5,11 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { FullSizePage } from '@eye8/client-ui/full-size-page';
-import { IViewProps as IProps } from '@eye8/client/components/confirm-signup/presenter';
+import { ViewProps as Props } from '@eye8/client/components/confirm-signup/presenter';
 import { useDebounce } from '@eye8/shared/hooks';
 import { PAGE_LOADER_ID } from '@eye8/shared/utils';
 
-export const ConfirmSignupView = ({ isLoading, error }: IProps) => {
+export const ConfirmSignupView = ({ isLoading, error }: Props) => {
   const intl = useIntl();
   const theme = useTheme<ClientUITheme>();
 

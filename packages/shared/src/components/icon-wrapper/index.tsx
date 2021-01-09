@@ -2,11 +2,11 @@
 import { css, jsx } from '@emotion/core';
 import React from 'react';
 
-export interface IProps extends React.HTMLProps<HTMLSpanElement> {
+export interface Props extends React.HTMLProps<HTMLSpanElement> {
   children: React.ReactNode;
 }
 
-export default React.forwardRef<HTMLSpanElement, IProps>(({ children, ...props }, ref) => {
+const IconWrapper = React.forwardRef<HTMLSpanElement, Props>(({ children, ...props }, ref) => {
   return (
     <span
       ref={ref}
@@ -21,3 +21,5 @@ export default React.forwardRef<HTMLSpanElement, IProps>(({ children, ...props }
     </span>
   );
 });
+
+export default IconWrapper;

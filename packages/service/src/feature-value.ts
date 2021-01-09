@@ -1,19 +1,19 @@
 import { normalize, schema } from 'normalizr';
 
 import {
-  IFeatureValueListResponseItem,
-  IFeatureValueListRawIntlResponseItem,
-  IFeatureValueCreatePayload,
-  IFeatureValueEditPayload,
-  IFeatureValueAPI,
+  FeatureValueListResponseItem,
+  FeatureValueListRawIntlResponseItem,
+  FeatureValueCreatePayload,
+  FeatureValueEditPayload,
+  FeatureValueAPI,
   FeatureValueNotFound,
 } from '@eye8/api/feature-value';
 
-export interface IFeatureValueService {
+export interface FeatureValueService {
   getAll(): Promise<{
     entities: {
       featureValues: {
-        [key: string]: IFeatureValueListResponseItem;
+        [key: string]: FeatureValueListResponseItem;
       };
     };
     result: number[];
@@ -21,16 +21,16 @@ export interface IFeatureValueService {
   getAllRawIntl(): Promise<{
     entities: {
       featureValues: {
-        [key: string]: IFeatureValueListRawIntlResponseItem;
+        [key: string]: FeatureValueListRawIntlResponseItem;
       };
     };
     result: number[];
   }>;
   delete(id: number): Promise<{}>;
-  create(payload: IFeatureValueCreatePayload): Promise<IFeatureValueListRawIntlResponseItem>;
-  edit(id: number, payload: IFeatureValueEditPayload): Promise<IFeatureValueListRawIntlResponseItem>;
+  create(payload: FeatureValueCreatePayload): Promise<FeatureValueListRawIntlResponseItem>;
+  edit(id: number, payload: FeatureValueEditPayload): Promise<FeatureValueListRawIntlResponseItem>;
   exists(id: number): Promise<boolean>;
-  getOneRawIntl(id: number): Promise<IFeatureValueListRawIntlResponseItem | undefined>;
+  getOneRawIntl(id: number): Promise<FeatureValueListRawIntlResponseItem | undefined>;
 }
 
 export class FeatureValueNotExistsError extends Error {
@@ -40,23 +40,23 @@ export class FeatureValueNotExistsError extends Error {
   }
 }
 
-export class FeatureValueService implements IFeatureValueService {
-  private API: IFeatureValueAPI;
-  constructor(API: IFeatureValueAPI) {
+export default class implements FeatureValueService {
+  private API: FeatureValueAPI;
+  constructor(API: FeatureValueAPI) {
     this.API = API;
   }
 
-  public getAll: IFeatureValueService['getAll'] = async () => {
+  public getAll: FeatureValueService['getAll'] = async () => {
     const featureValues = await this.API.getAll();
     return normalize(featureValues.data, [new schema.Entity('featureValues')]);
   };
 
-  public getAllRawIntl: IFeatureValueService['getAllRawIntl'] = async () => {
+  public getAllRawIntl: FeatureValueService['getAllRawIntl'] = async () => {
     const featureValues = await this.API.getAllRawIntl();
     return normalize(featureValues.data, [new schema.Entity('featureValues')]);
   };
 
-  public delete: IFeatureValueService['delete'] = async (id) => {
+  public delete: FeatureValueService['delete'] = async (id) => {
     try {
       return this.API.delete(id);
     } catch (e) {
@@ -68,11 +68,11 @@ export class FeatureValueService implements IFeatureValueService {
     }
   };
 
-  public create: IFeatureValueService['create'] = async (payload) => {
+  public create: FeatureValueService['create'] = async (payload) => {
     return (await this.API.create(payload)).data;
   };
 
-  public edit: IFeatureValueService['edit'] = async (id, payload) => {
+  public edit: FeatureValueService['edit'] = async (id, payload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
@@ -84,7 +84,7 @@ export class FeatureValueService implements IFeatureValueService {
     }
   };
 
-  public exists: IFeatureValueService['exists'] = async (id) => {
+  public exists: FeatureValueService['exists'] = async (id) => {
     try {
       await this.API.status(id);
       return true;
@@ -97,7 +97,7 @@ export class FeatureValueService implements IFeatureValueService {
     }
   };
 
-  public getOneRawIntl: IFeatureValueService['getOneRawIntl'] = async (id) => {
+  public getOneRawIntl: FeatureValueService['getOneRawIntl'] = async (id) => {
     try {
       return (await this.API.getOneRawIntl(id)).data;
     } catch (e) {

@@ -4,12 +4,13 @@ import React from 'react';
 import { User as UserIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
-import { Anchor, WithIcon, Popover, IPopoverTriggerHoverProps } from '@eye8/client-ui';
-import { IViewProps as IProps } from '@eye8/client/components/user-dropdown/presenter';
+import { Anchor, WithIcon } from '@eye8/client-ui';
+import { ViewProps as Props } from '@eye8/client/components/user-dropdown/presenter';
+import { PopoverTriggerHoverProps, Popover } from '@eye8/shared/components';
 import { isUserAuthorized } from '@eye8/shared/helpers';
 import { IconSize } from '@eye8/shared/styles';
 
-const Trigger = React.forwardRef<HTMLAnchorElement, IPopoverTriggerHoverProps>((props, ref) => {
+const Trigger = React.forwardRef<HTMLAnchorElement, PopoverTriggerHoverProps>((props, ref) => {
   const intl = useIntl();
   return (
     <Anchor ref={ref} weight={Anchor.Weight.Bold} noHoverOnTouch {...props}>
@@ -20,7 +21,7 @@ const Trigger = React.forwardRef<HTMLAnchorElement, IPopoverTriggerHoverProps>((
   );
 });
 
-export const UserDropdownView = ({ user, onLogoutClick, openAuthModal }: IProps) => {
+export const UserDropdownView = ({ user, onLogoutClick, openAuthModal }: Props) => {
   const intl = useIntl();
 
   const items = [];

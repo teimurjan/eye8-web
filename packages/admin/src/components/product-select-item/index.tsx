@@ -5,20 +5,20 @@ import { ExternalLink as ExternalLinkIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 
-import { Subtitle } from '@eye8/admin-ui/index';
+import { Subtitle } from '@eye8/admin-ui';
 import { ProductSelectContainer } from '@eye8/admin/components/product-select/container';
-import { IProductListResponseItem } from '@eye8/api/product';
-import { IconWrapper } from '@eye8/client-ui';
+import { ProductListResponseItem } from '@eye8/api/product';
+import { IconWrapper } from '@eye8/shared/components';
 import { IconSize } from '@eye8/shared/styles';
 
-interface IProps {
+interface Props {
   id?: number;
   name: string;
-  onChange: (product: IProductListResponseItem) => void;
+  onChange: (product: ProductListResponseItem) => void;
   footer: React.ReactNode;
 }
 
-export const ProductsSelectItem = ({ id, name, onChange, footer }: IProps) => {
+export const ProductsSelectItem = ({ id, name, onChange, footer }: Props) => {
   const intl = useIntl();
   const theme = useTheme<AdminUITheme>();
 

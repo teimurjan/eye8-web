@@ -2,12 +2,12 @@ import React from 'react';
 import { Field, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
-import { FormSelectField, Trigger } from '@eye8/admin-ui/index';
+import { FormSelectField, SelectTrigger } from '@eye8/admin-ui';
 import { IntlField } from '@eye8/admin/components/intl-field';
 import { CHARACTERISTIC_VALUE_NAME_FIELD_KEY } from '@eye8/admin/pages/characteristic-values/create/presenter';
 import { ContextValue as AdminCharacteristicsStateContextValue } from '@eye8/admin/state/characteristics';
 
-export interface IFieldsProps {
+export interface FieldsProps {
   characteristics: AdminCharacteristicsStateContextValue['state']['entities'];
 }
 
@@ -15,7 +15,7 @@ const CharacteristicSelect = ({
   characteristics,
   input,
   meta,
-}: FieldRenderProps<string> & Pick<IFieldsProps, 'characteristics'>) => {
+}: FieldRenderProps<string> & Pick<FieldsProps, 'characteristics'>) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
@@ -39,7 +39,7 @@ const CharacteristicSelect = ({
           title: name[intl.locale],
           value: `${id}`,
         })),
-        TriggerComponent: Trigger,
+        TriggerComponent: SelectTrigger,
       }}
       helpTextProps={{
         children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
@@ -49,7 +49,7 @@ const CharacteristicSelect = ({
   );
 };
 
-export const Fields = ({ characteristics }: IFieldsProps) => {
+export const Fields = ({ characteristics }: FieldsProps) => {
   const intl = useIntl();
   return (
     <>

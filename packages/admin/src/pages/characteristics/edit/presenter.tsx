@@ -4,19 +4,19 @@ import * as yup from 'yup';
 
 import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
 import { ContextValue as AdminCharacteristicsStateContextValue } from '@eye8/admin/state/characteristics';
-import { ICharacteristicListRawIntlResponseItem } from '@eye8/api/characteristic';
-import { ICharacteristicService } from '@eye8/service/characteristic';
-import { availableLocales, SchemaValidator } from '@eye8/shared/utils';
+import { CharacteristicListRawIntlResponseItem } from '@eye8/api/characteristic';
+import { CharacteristicService } from '@eye8/service/characteristic';
+import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: ICharacteristicService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: CharacteristicService;
   characteristicId: number;
   history: History;
   adminCharacteristicsState: AdminCharacteristicsStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
   edit: (values: { names: { [key: string]: string } }) => void;
   isLoading: boolean;
@@ -42,7 +42,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminCharacteristicsEditPresenter: React.FC<IProps> = ({
+export const AdminCharacteristicsEditPresenter: React.FC<Props> = ({
   View,
   history,
   service,
@@ -51,7 +51,7 @@ export const AdminCharacteristicsEditPresenter: React.FC<IProps> = ({
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
-  const [characteristic, setCharacteristic] = React.useState<ICharacteristicListRawIntlResponseItem | undefined>(
+  const [characteristic, setCharacteristic] = React.useState<CharacteristicListRawIntlResponseItem | undefined>(
     undefined,
   );
   const [isUpdating, setUpdating] = React.useState(false);
@@ -76,7 +76,7 @@ export const AdminCharacteristicsEditPresenter: React.FC<IProps> = ({
   }, [characteristicId, service]);
 
   const close = React.useCallback(() => history.push('/admin/characteristics'), [history]);
-  const edit: IViewProps['edit'] = async (values) => {
+  const edit: ViewProps['edit'] = async (values) => {
     const formattedValues = Object.keys(values).reduce(
       (acc, fieldName) => {
         const { key, locale } = parseFieldName(fieldName);

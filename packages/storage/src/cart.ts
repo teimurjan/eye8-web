@@ -1,31 +1,31 @@
-import { IStateCacheStorage } from '@eye8/storage/state-cache';
+import { StateCacheStorage } from '@eye8/storage/state-cache';
 
-export interface ICartItem {
+export interface CartItem {
   id: number;
   count?: number;
 }
 
-export interface ICartStorage {
-  getItems(): ICartItem[];
-  getItem(id: number): ICartItem | undefined;
-  add(item: ICartItem): number;
-  remove(item: ICartItem): number;
-  setItems(items: ICartItem[]): void;
+export interface CartStorage {
+  getItems(): CartItem[];
+  getItem(id: number): CartItem | undefined;
+  add(item: CartItem): number;
+  remove(item: CartItem): number;
+  setItems(items: CartItem[]): void;
   clear(): void;
-  addChangeListener: IStateCacheStorage['addChangeListener'];
+  addChangeListener: StateCacheStorage['addChangeListener'];
 }
 
-export class CartStorage implements ICartStorage {
-  private storage: IStateCacheStorage;
-  constructor(storage: IStateCacheStorage) {
+export default class implements CartStorage {
+  private storage: StateCacheStorage;
+  constructor(storage: StateCacheStorage) {
     this.storage = storage;
   }
 
-  public getItems(): ICartItem[] {
-    return (this.storage.get('cart') || []) as ICartItem[];
+  public getItems(): CartItem[] {
+    return (this.storage.get('cart') || []) as CartItem[];
   }
 
-  public setItems(items: ICartItem[]) {
+  public setItems(items: CartItem[]) {
     this.storage.set('cart', items);
   }
 
@@ -34,7 +34,7 @@ export class CartStorage implements ICartStorage {
     return cartItems.find((cartItem) => cartItem.id === id);
   }
 
-  private updateItem(item: ICartItem, delta: number) {
+  private updateItem(item: CartItem, delta: number) {
     const cartItems = this.getItems();
     const existingItem = this.getItem(item.id);
     if (existingItem) {
@@ -53,11 +53,11 @@ export class CartStorage implements ICartStorage {
     return 0;
   }
 
-  public add = (item: ICartItem) => {
+  public add = (item: CartItem) => {
     return this.updateItem(item, 1);
   };
 
-  public remove(item: ICartItem) {
+  public remove(item: CartItem) {
     return this.updateItem(item, -1);
   }
 
@@ -65,7 +65,7 @@ export class CartStorage implements ICartStorage {
     this.storage.clear('cart');
   }
 
-  public addChangeListener: IStateCacheStorage['addChangeListener'] = (listener) => {
+  public addChangeListener: StateCacheStorage['addChangeListener'] = (listener) => {
     return this.storage.addChangeListener(listener);
   };
 }

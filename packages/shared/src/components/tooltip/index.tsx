@@ -3,14 +3,14 @@ import { css, jsx, ClassNames } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
 import React from 'react';
 
-import { Popover, IPopoverProps } from '@eye8/client-ui';
+import { PopoverProps, Popover } from '@eye8/shared/components';
 import { mediaQueries } from '@eye8/shared/styles';
 
-export interface ITooltipContentProps {
+export interface TooltipContentProps {
   children?: React.ReactNode;
 }
 
-const TooltipContent = React.forwardRef<HTMLDivElement, ITooltipContentProps>(({ children }, ref) => {
+const TooltipContent = React.forwardRef<HTMLDivElement, TooltipContentProps>(({ children }, ref) => {
   const theme = useTheme<ClientUITheme>();
 
   return (
@@ -32,9 +32,9 @@ const TooltipContent = React.forwardRef<HTMLDivElement, ITooltipContentProps>(({
   );
 });
 
-export type IProps<T extends HTMLElement> = IPopoverProps<T>;
+export type Props<T extends HTMLElement> = PopoverProps<T>;
 
-const Index = <T extends HTMLElement>({ children, ...props }: IProps<T>) => {
+const Tooltip = <T extends HTMLElement>({ children, ...props }: Props<T>) => {
   const theme = useTheme<ClientUITheme>();
   const contentRef = React.useRef<HTMLDivElement>(null);
 
@@ -63,4 +63,4 @@ const Index = <T extends HTMLElement>({ children, ...props }: IProps<T>) => {
   );
 };
 
-export default Index;
+export default Tooltip;

@@ -3,7 +3,7 @@ import React from 'react';
 
 type ModalType = 'login' | 'signup';
 
-export interface IContextValue {
+export interface ContextValue {
   authModalState: {
     modalType?: ModalType;
     close: () => void;
@@ -11,13 +11,13 @@ export interface IContextValue {
   };
 }
 
-const Context = React.createContext<IContextValue | null>(null);
+const Context = React.createContext<ContextValue | null>(null);
 
-interface IProviderProps {
+interface ProviderProps {
   children: React.ReactNode;
 }
 
-export const AuthModalStateProvider: React.SFC<IProviderProps> = ({ children }) => {
+export const AuthModalStateProvider: React.SFC<ProviderProps> = ({ children }) => {
   const router = useRouter();
 
   const [modalType, setModalType] = React.useState<ModalType | undefined>(undefined);
@@ -57,4 +57,4 @@ export const AuthModalStateProvider: React.SFC<IProviderProps> = ({ children }) 
   );
 };
 
-export const useAuthModalState = () => React.useContext(Context) as IContextValue;
+export const useAuthModalState = () => React.useContext(Context) as ContextValue;

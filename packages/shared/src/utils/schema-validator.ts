@@ -2,11 +2,11 @@ import * as yup from 'yup';
 
 import { logError } from '@eye8/shared/utils';
 
-interface ISchemaValidator {
+export interface SchemaValidator {
   validate(values: object): object;
 }
 
-export class SchemaValidator implements ISchemaValidator {
+export default class implements SchemaValidator {
   private schema: yup.ObjectSchema<object> | yup.Lazy;
   constructor(schema: yup.ObjectSchema<object> | yup.Lazy) {
     this.schema = schema;

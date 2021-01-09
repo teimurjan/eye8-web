@@ -2,21 +2,21 @@ import React from 'react';
 import { Field as FinalFormField, FieldRenderProps, useFormState } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
-import { Field, FileInput, FormSelectField, FormTextField, HelpText, Label, Tag, Trigger } from '@eye8/admin-ui/index';
-import { IntlField, IProps as IIntlFieldProps } from '@eye8/admin/components/intl-field';
+import { Field, FileInput, FormSelectField, FormTextField, HelpText, Label, Tag, SelectTrigger } from '@eye8/admin-ui';
+import { IntlField, Props as IntlFieldProps } from '@eye8/admin/components/intl-field';
 import { LinksInput, Link } from '@eye8/admin/components/links-input';
 import { ContextValue as AdminCategoriesStateContextValue } from '@eye8/admin/state/categories';
 import { ContextValue as AdminCharacteristicValuesStateContextValue } from '@eye8/admin/state/characteristic-values';
 import { ContextValue as AdminFeatureTypesStateContextValue } from '@eye8/admin/state/feature-types';
-import { Wysiwyg } from '@eye8/client-ui';
 import { InstagramPost } from '@eye8/client/components/instagram-post';
+import { Wysiwyg } from '@eye8/shared/components';
 import { arePropsEqual, lengthCompare, defaultCompare } from '@eye8/shared/utils';
 
-interface ICharacteristicValuesSelectProps extends FieldRenderProps<string[]> {
+interface CharacteristicValuesSelectProps extends FieldRenderProps<string[]> {
   characteristicValues: AdminCharacteristicValuesStateContextValue['state']['entities'];
 }
 
-const CharacteristicValuesSelect = ({ characteristicValues, input, meta }: ICharacteristicValuesSelectProps) => {
+const CharacteristicValuesSelect = ({ characteristicValues, input, meta }: CharacteristicValuesSelectProps) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
@@ -38,7 +38,7 @@ const CharacteristicValuesSelect = ({ characteristicValues, input, meta }: IChar
           title: `${characteristic.name[intl.locale]}: ${name[intl.locale]}`,
           value: id.toString(),
         })),
-        TriggerComponent: Trigger,
+        TriggerComponent: SelectTrigger,
         searchable: true,
         clearable: true,
         placeholder: intl.formatMessage({ id: 'AdminProductTypes.characteristicValuesSelect.placeholder' }),
@@ -51,11 +51,11 @@ const CharacteristicValuesSelect = ({ characteristicValues, input, meta }: IChar
   );
 };
 
-interface IFeatureTypesSelectProps extends FieldRenderProps<string[]> {
+interface FeatureTypesSelectProps extends FieldRenderProps<string[]> {
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
 }
 
-const FeatureTypesSelect = ({ featureTypes, input, meta }: IFeatureTypesSelectProps) => {
+const FeatureTypesSelect = ({ featureTypes, input, meta }: FeatureTypesSelectProps) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
@@ -77,7 +77,7 @@ const FeatureTypesSelect = ({ featureTypes, input, meta }: IFeatureTypesSelectPr
           title: name[intl.locale],
           value: id.toString(),
         })),
-        TriggerComponent: Trigger,
+        TriggerComponent: SelectTrigger,
         searchable: true,
         clearable: true,
         placeholder: intl.formatMessage({ id: 'AdminProductTypes.featureTypesSelect.placeholder' }),
@@ -90,11 +90,11 @@ const FeatureTypesSelect = ({ featureTypes, input, meta }: IFeatureTypesSelectPr
   );
 };
 
-interface ICategoriesSelectProps extends FieldRenderProps<string[]> {
+interface CategoriesSelectProps extends FieldRenderProps<string[]> {
   categories: AdminCategoriesStateContextValue['state']['entities'];
 }
 
-const CategoriesSelect = ({ categories, input, meta }: ICategoriesSelectProps) => {
+const CategoriesSelect = ({ categories, input, meta }: CategoriesSelectProps) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
@@ -116,7 +116,7 @@ const CategoriesSelect = ({ categories, input, meta }: ICategoriesSelectProps) =
           title: name[intl.locale],
           value: id.toString(),
         })),
-        TriggerComponent: Trigger,
+        TriggerComponent: SelectTrigger,
         placeholder: intl.formatMessage({ id: 'AdminProductTypes.categoriesSelect.placeholder' }),
         searchable: true,
         clearable: true,
@@ -149,7 +149,7 @@ const ImageField = ({ input, meta }: FieldRenderProps<File>) => {
   );
 };
 
-const DescriptionField: IIntlFieldProps['component'] = ({ input, meta, label, placeholder, locale }) => {
+const DescriptionField: IntlFieldProps['component'] = ({ input, meta, label, placeholder, locale }) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
@@ -222,7 +222,7 @@ const InstagramLinksField = ({ input, meta }: FieldRenderProps<Link[]>) => {
   );
 };
 
-export interface IFieldsProps {
+export interface FieldsProps {
   categories: AdminCategoriesStateContextValue['state']['entities'];
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
   characteristicValues: AdminCharacteristicValuesStateContextValue['state']['entities'];
@@ -231,7 +231,7 @@ export interface IFieldsProps {
   shortDescriptionFieldKey: string;
 }
 
-export const Fields: React.SFC<IFieldsProps> = React.memo(
+export const Fields: React.SFC<FieldsProps> = React.memo(
   ({ categories, featureTypes, nameFieldKey, descriptionFieldKey, shortDescriptionFieldKey, characteristicValues }) => {
     const intl = useIntl();
 

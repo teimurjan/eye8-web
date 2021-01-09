@@ -4,34 +4,34 @@ import {
   CategoryNotFoundError,
   CategoryWithChildrenNotDeletedError,
   CategoryWithProductTypesNotDeletedError,
-  ICategoryListResponseItem,
-  ICategoryListRawIntlResponseItem,
-  ICategoryCreatePayload,
-  ICategoryAPI,
+  CategoryListResponseItem,
+  CategoryListRawIntlResponseItem,
+  CategoryCreatePayload,
+  CategoryAPI,
 } from '@eye8/api/category';
 
-export interface ICategoryService {
+export interface CategoryService {
   getAll(): Promise<{
     entities: {
-      categories: { [key: string]: ICategoryListResponseItem };
+      categories: { [key: string]: CategoryListResponseItem };
     };
     result: number[];
   }>;
   getAllRawIntl(): Promise<{
     entities: {
       categories: {
-        [key: string]: ICategoryListRawIntlResponseItem;
+        [key: string]: CategoryListRawIntlResponseItem;
       };
     };
     result: number[];
   }>;
   delete(id: number): Promise<{}>;
-  create(payload: ICategoryCreatePayload): Promise<ICategoryListRawIntlResponseItem>;
+  create(payload: CategoryCreatePayload): Promise<CategoryListRawIntlResponseItem>;
   exists(id: number): Promise<boolean>;
-  getOneRawIntl(id: number): Promise<ICategoryListRawIntlResponseItem | undefined>;
-  getOne(id: number): Promise<ICategoryListResponseItem | undefined>;
-  getOneBySlug(slug: string): Promise<ICategoryListResponseItem | undefined>;
-  edit(id: number, payload: ICategoryCreatePayload): Promise<ICategoryListRawIntlResponseItem>;
+  getOneRawIntl(id: number): Promise<CategoryListRawIntlResponseItem | undefined>;
+  getOne(id: number): Promise<CategoryListResponseItem | undefined>;
+  getOneBySlug(slug: string): Promise<CategoryListResponseItem | undefined>;
+  edit(id: number, payload: CategoryCreatePayload): Promise<CategoryListRawIntlResponseItem>;
 }
 
 export class CategoryNotExistsError extends Error {
@@ -53,23 +53,23 @@ export class CategoryHasProductTypesError extends Error {
   }
 }
 
-export class CategoryService implements ICategoryService {
-  private API: ICategoryAPI;
-  constructor(API: ICategoryAPI) {
+export default class implements CategoryService {
+  private API: CategoryAPI;
+  constructor(API: CategoryAPI) {
     this.API = API;
   }
 
-  public getAll: ICategoryService['getAll'] = async () => {
+  public getAll: CategoryService['getAll'] = async () => {
     const categories = await this.API.getAll();
     return normalize(categories.data, [new schema.Entity('categories')]);
   };
 
-  public getAllRawIntl: ICategoryService['getAllRawIntl'] = async () => {
+  public getAllRawIntl: CategoryService['getAllRawIntl'] = async () => {
     const categories = await this.API.getAllRawIntl();
     return normalize(categories.data, [new schema.Entity('categories')]);
   };
 
-  public delete: ICategoryService['delete'] = async (id) => {
+  public delete: CategoryService['delete'] = async (id) => {
     try {
       return await this.API.delete(id);
     } catch (e) {
@@ -87,11 +87,11 @@ export class CategoryService implements ICategoryService {
     }
   };
 
-  public create: ICategoryService['create'] = async (payload) => {
+  public create: CategoryService['create'] = async (payload) => {
     return (await this.API.create(payload)).data;
   };
 
-  public exists: ICategoryService['exists'] = async (id) => {
+  public exists: CategoryService['exists'] = async (id) => {
     try {
       await this.API.status(id);
       return true;
@@ -104,7 +104,7 @@ export class CategoryService implements ICategoryService {
     }
   };
 
-  public edit: ICategoryService['edit'] = async (id, payload) => {
+  public edit: CategoryService['edit'] = async (id, payload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
@@ -116,7 +116,7 @@ export class CategoryService implements ICategoryService {
     }
   };
 
-  public getOneRawIntl: ICategoryService['getOneRawIntl'] = async (id) => {
+  public getOneRawIntl: CategoryService['getOneRawIntl'] = async (id) => {
     try {
       return (await this.API.getOneRawIntl(id)).data;
     } catch (e) {
@@ -128,7 +128,7 @@ export class CategoryService implements ICategoryService {
     }
   };
 
-  public getOne: ICategoryService['getOne'] = async (id) => {
+  public getOne: CategoryService['getOne'] = async (id) => {
     try {
       return (await this.API.getOne(id)).data;
     } catch (e) {
@@ -140,7 +140,7 @@ export class CategoryService implements ICategoryService {
     }
   };
 
-  public getOneBySlug: ICategoryService['getOneBySlug'] = async (slug) => {
+  public getOneBySlug: CategoryService['getOneBySlug'] = async (slug) => {
     try {
       return (await this.API.getOneBySlug(slug)).data;
     } catch (e) {

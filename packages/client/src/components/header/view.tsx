@@ -6,19 +6,9 @@ import React from 'react';
 import { Zap as ZapIcon, Menu as MenuIcon, Globe as GlobeIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
-import { Container } from '@eye8/admin-ui/index';
-import {
-  Anchor,
-  Divider,
-  Drawer,
-  IconWrapper,
-  Menu,
-  Navbar,
-  Popover,
-  IPopoverTriggerHoverProps,
-} from '@eye8/client-ui';
+import { Container, Anchor, Divider, Menu, Navbar } from '@eye8/client-ui';
 import { CartContainer } from '@eye8/client/components/cart/container';
-import { IViewProps as IProps } from '@eye8/client/components/header/presenter';
+import { ViewProps as Props } from '@eye8/client/components/header/presenter';
 import { LanguageDropdownContainer as LanguageDropdown } from '@eye8/client/components/language-dropdown/container';
 import { NavContainer } from '@eye8/client/components/nav/container';
 import { navItemCSS } from '@eye8/client/components/nav/view';
@@ -26,12 +16,13 @@ import { SearchContainer } from '@eye8/client/components/search/container';
 import { ThemeToggleContainer as ThemeToggle } from '@eye8/client/components/theme-toggle/container';
 import { UserDropdownContainer as UserDropdown } from '@eye8/client/components/user-dropdown/container';
 import LogoSVG from '@eye8/client/svg/logo.svg';
+import { IconWrapper, Popover, PopoverTriggerHoverProps, Drawer } from '@eye8/shared/components';
 import { isUserAdminOrManager } from '@eye8/shared/helpers';
 import { useLazyInitialization, useMedia, useBoolean } from '@eye8/shared/hooks';
 import { IconSize, mediaQueries } from '@eye8/shared/styles';
 import { shouldUseThemeToggle } from '@eye8/shared/utils';
 
-const CategoriesTrigger = React.forwardRef<HTMLAnchorElement, IPopoverTriggerHoverProps>((props, ref) => {
+const CategoriesTrigger = React.forwardRef<HTMLAnchorElement, PopoverTriggerHoverProps>((props, ref) => {
   const intl = useIntl();
   return (
     <Anchor ref={ref} weight={Anchor.Weight.Bold} {...props}>
@@ -98,12 +89,12 @@ const MobileNav = () => {
   );
 };
 
-interface IPreHeaderItemProps extends IPopoverTriggerHoverProps {
+interface PreHeaderItemProps extends PopoverTriggerHoverProps {
   children: React.ReactNode;
   className?: string;
 }
 
-const PreHeaderItem = React.forwardRef<HTMLDivElement, IPreHeaderItemProps>(
+const PreHeaderItem = React.forwardRef<HTMLDivElement, PreHeaderItemProps>(
   ({ children, className, onClick, onMouseEnter }, ref) => {
     const theme = useTheme<ClientUITheme>();
 
@@ -131,7 +122,7 @@ const PreHeaderItem = React.forwardRef<HTMLDivElement, IPreHeaderItemProps>(
   },
 );
 
-const LanguagePreHeaderItem = React.forwardRef<HTMLDivElement, IPopoverTriggerHoverProps>((props, ref) => {
+const LanguagePreHeaderItem = React.forwardRef<HTMLDivElement, PopoverTriggerHoverProps>((props, ref) => {
   const intl = useIntl();
 
   return (
@@ -149,11 +140,11 @@ const LanguagePreHeaderItem = React.forwardRef<HTMLDivElement, IPopoverTriggerHo
   );
 });
 
-interface IPreHeaderProps {
-  user: IProps['user'];
+interface PreHeaderProps {
+  user: Props['user'];
 }
 
-const PreHeader = ({ user }: IPreHeaderProps) => {
+const PreHeader = ({ user }: PreHeaderProps) => {
   const intl = useIntl();
 
   return (
@@ -204,7 +195,7 @@ const PreHeader = ({ user }: IPreHeaderProps) => {
   );
 };
 
-export const HeaderView = ({ user }: IProps) => {
+export const HeaderView = ({ user }: Props) => {
   const theme = useTheme<ClientUITheme>();
 
   const isMobile = useMedia([mediaQueries.maxWidth768], [true], false);

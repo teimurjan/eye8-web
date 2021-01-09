@@ -4,18 +4,18 @@ import * as yup from 'yup';
 import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
 import { ContextValue as AdminCharacteristicValuesStateContextValue } from '@eye8/admin/state/characteristic-values';
 import { ContextValue as AdminCharacteristicsStateContextValue } from '@eye8/admin/state/characteristics';
-import { ICharacteristicValueService } from '@eye8/service/characteristic-value';
-import { availableLocales, SchemaValidator } from '@eye8/shared/utils';
+import { CharacteristicValueService } from '@eye8/service/characteristic-value';
+import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: ICharacteristicValueService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: CharacteristicValueService;
   close: () => void;
   adminCharacteristicsState: AdminCharacteristicsStateContextValue['state'];
   adminCharacteristicValuesState: AdminCharacteristicValuesStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
   create: (values: { names: { [key: string]: string }; characteristic_id: string }) => void;
   isCreating: boolean;
@@ -42,7 +42,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminCharacteristicValuesCreatePresenter: React.FC<IProps> = ({
+export const AdminCharacteristicValuesCreatePresenter: React.FC<Props> = ({
   adminCharacteristicsState: {
     get: getCharacteristics,
     isListLoading: characteristicsLoading,
@@ -64,7 +64,7 @@ export const AdminCharacteristicValuesCreatePresenter: React.FC<IProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const create: IViewProps['create'] = React.useCallback(
+  const create: ViewProps['create'] = React.useCallback(
     async (values) => {
       const formattedValues = Object.keys(values).reduce(
         (acc, fieldName) => {

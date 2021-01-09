@@ -1,8 +1,8 @@
 import { Client } from '@eye8/api/types';
-import { IHeadersManager } from '@eye8/manager/headers';
+import { HeadersManager } from '@eye8/manager/headers';
 import { buildSearchString } from '@eye8/shared/utils';
 
-export interface IBannerListResponseItem {
+export interface BannerListResponseItem {
   id: number;
   text: string;
   link_text: string;
@@ -17,7 +17,7 @@ export interface IBannerListResponseItem {
   updated_on: string;
 }
 
-export interface IBannerListRawIntlResponseItem {
+export interface BannerListRawIntlResponseItem {
   id: number;
   text: {
     [key: string]: string;
@@ -36,19 +36,19 @@ export interface IBannerListRawIntlResponseItem {
   updated_on: string;
 }
 
-export interface IBannerListResponseData {
-  data: IBannerListResponseItem[];
+export interface BannerListResponseData {
+  data: BannerListResponseItem[];
 }
 
-export interface IBannerListRawIntlResponseData {
-  data: IBannerListRawIntlResponseItem[];
+export interface BannerListRawIntlResponseData {
+  data: BannerListRawIntlResponseItem[];
 }
 
-export interface IBannerRawIntlResponseData {
-  data: IBannerListRawIntlResponseItem;
+export interface BannerRawIntlResponseData {
+  data: BannerListRawIntlResponseItem;
 }
 
-export interface IBannerCreatePayload {
+export interface BannerCreatePayload {
   texts: {
     [key: string]: string;
   };
@@ -64,14 +64,14 @@ export interface IBannerCreatePayload {
   text_bottom_offset: number | null;
 }
 
-export interface IBannerAPI {
-  getAll(): Promise<IBannerListResponseData>;
-  getAllRawIntl(): Promise<IBannerListRawIntlResponseData>;
+export interface BannerAPI {
+  getAll(): Promise<BannerListResponseData>;
+  getAllRawIntl(): Promise<BannerListRawIntlResponseData>;
   delete(id: number): Promise<{}>;
-  create(payload: IBannerCreatePayload): Promise<IBannerRawIntlResponseData>;
-  edit(id: number, payload: IBannerCreatePayload): Promise<IBannerRawIntlResponseData>;
+  create(payload: BannerCreatePayload): Promise<BannerRawIntlResponseData>;
+  edit(id: number, payload: BannerCreatePayload): Promise<BannerRawIntlResponseData>;
   status(id: number): Promise<{}>;
-  getOneRawIntl(id: number): Promise<IBannerRawIntlResponseData>;
+  getOneRawIntl(id: number): Promise<BannerRawIntlResponseData>;
 }
 
 export class BannerNotFoundError extends Error {
@@ -81,18 +81,18 @@ export class BannerNotFoundError extends Error {
   }
 }
 
-export class BannerAPI implements IBannerAPI {
+export default class implements BannerAPI {
   private client: Client;
-  private headersManager: IHeadersManager;
+  private headersManager: HeadersManager;
 
-  constructor(client: Client, headersManager: IHeadersManager) {
+  constructor(client: Client, headersManager: HeadersManager) {
     this.client = client;
     this.headersManager = headersManager;
   }
 
-  public getAll: IBannerAPI['getAll'] = async () => {
+  public getAll: BannerAPI['getAll'] = async () => {
     try {
-      const response = await this.client.get<IBannerListResponseData>('/api/banners', {
+      const response = await this.client.get<BannerListResponseData>('/api/banners', {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -101,9 +101,9 @@ export class BannerAPI implements IBannerAPI {
     }
   };
 
-  public getAllRawIntl: IBannerAPI['getAllRawIntl'] = async () => {
+  public getAllRawIntl: BannerAPI['getAllRawIntl'] = async () => {
     try {
-      const response = await this.client.get<IBannerListRawIntlResponseData>(
+      const response = await this.client.get<BannerListRawIntlResponseData>(
         `/api/banners${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -115,7 +115,7 @@ export class BannerAPI implements IBannerAPI {
     }
   };
 
-  public delete: IBannerAPI['delete'] = async (id) => {
+  public delete: BannerAPI['delete'] = async (id) => {
     try {
       const response = await this.client.delete<{}>(`/api/banners/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -130,7 +130,7 @@ export class BannerAPI implements IBannerAPI {
     }
   };
 
-  public status: IBannerAPI['status'] = async (id) => {
+  public status: BannerAPI['status'] = async (id) => {
     try {
       const response = await this.client.head<{}>(`/api/banners/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -144,12 +144,12 @@ export class BannerAPI implements IBannerAPI {
     }
   };
 
-  public create: IBannerAPI['create'] = async ({ image, ...json }) => {
+  public create: BannerAPI['create'] = async ({ image, ...json }) => {
     try {
       const formData = new FormData();
       formData.append('json', JSON.stringify(json));
       formData.append('image', image);
-      const response = await this.client.post<IBannerRawIntlResponseData>(`/api/banners`, formData, {
+      const response = await this.client.post<BannerRawIntlResponseData>(`/api/banners`, formData, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -158,12 +158,12 @@ export class BannerAPI implements IBannerAPI {
     }
   };
 
-  public edit: IBannerAPI['edit'] = async (id: number, { image, ...json }) => {
+  public edit: BannerAPI['edit'] = async (id: number, { image, ...json }) => {
     try {
       const formData = new FormData();
       formData.append('json', JSON.stringify(json));
       formData.append('image', image);
-      const response = await this.client.put<IBannerRawIntlResponseData>(
+      const response = await this.client.put<BannerRawIntlResponseData>(
         `/api/banners/${id}${buildSearchString({ raw_intl: 1 })}`,
         formData,
         {
@@ -179,9 +179,9 @@ export class BannerAPI implements IBannerAPI {
     }
   };
 
-  public getOneRawIntl: IBannerAPI['getOneRawIntl'] = async (id) => {
+  public getOneRawIntl: BannerAPI['getOneRawIntl'] = async (id) => {
     try {
-      const response = await this.client.get<IBannerRawIntlResponseData>(
+      const response = await this.client.get<BannerRawIntlResponseData>(
         `/api/banners/${id}${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),

@@ -4,27 +4,27 @@ import * as yup from 'yup';
 
 import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
 import { Link } from '@eye8/admin/components/links-input';
-import { IProps as IModalFormProps } from '@eye8/admin/components/modal-form';
+import { Props as ModalFormProps } from '@eye8/admin/components/modal-form';
 import { ContextValue as AdminCategoriesStateContextValue } from '@eye8/admin/state/categories';
 import { ContextValue as AdminCharacteristicValuesStateContextValue } from '@eye8/admin/state/characteristic-values';
 import { ContextValue as AdminFeatureTypesStateContextValue } from '@eye8/admin/state/feature-types';
 import { ContextValue as AdminProductTypesStateContextValue } from '@eye8/admin/state/product-types';
-import { IProductTypeService } from '@eye8/service/product-type';
+import { ProductTypeService } from '@eye8/service/product-type';
 import { availableLocales, objectWithout, SchemaValidator } from '@eye8/shared/utils';
-import { IStateCacheStorage } from '@eye8/storage/state-cache';
+import { StateCacheStorage } from '@eye8/storage/state-cache';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: IProductTypeService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: ProductTypeService;
   history: History;
-  stateCacheStorage: IStateCacheStorage;
+  stateCacheStorage: StateCacheStorage;
   adminCategoriesState: AdminCategoriesStateContextValue['state'];
   adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
   adminProductTypesState: AdminProductTypesStateContextValue['state'];
   adminCharacteristicValuesState: AdminCharacteristicValuesStateContextValue['state'];
 }
 
-interface IFormValues {
+interface FormValues {
   names: { [key: string]: string };
   descriptions: { [key: string]: string };
   short_descriptions: { [key: string]: string };
@@ -35,20 +35,20 @@ interface IFormValues {
   image: string;
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
-  create: (values: IFormValues) => void;
+  create: (values: FormValues) => void;
   isLoading: boolean;
   isCreating: boolean;
   error?: string;
   preloadingError?: string;
   close: () => void;
-  validate?: (values: IFormValues) => object | Promise<object>;
+  validate?: (values: FormValues) => object | Promise<object>;
   categories: AdminCategoriesStateContextValue['state']['entities'];
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
   characteristicValues: AdminCharacteristicValuesStateContextValue['state']['entities'];
-  onChange: IModalFormProps<IFormValues>['onChange'];
-  initialValues: Partial<IFormValues>;
+  onChange: ModalFormProps<FormValues>['onChange'];
+  initialValues: Partial<FormValues>;
 }
 
 export const PRODUCT_TYPE_NAME_FIELD_KEY = 'name';
@@ -91,7 +91,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
+export const AdminProductTypesCreatePresenter: React.FC<Props> = ({
   history,
   adminCategoriesState: {
     get: getCategories,
@@ -146,7 +146,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
 
   const close = React.useCallback(() => history.push('/admin/productTypes'), [history]);
 
-  const create: IViewProps['create'] = React.useCallback(
+  const create: ViewProps['create'] = React.useCallback(
     async (values) => {
       setCreating(true);
 
@@ -193,7 +193,7 @@ export const AdminProductTypesCreatePresenter: React.FC<IProps> = ({
     [getProductTypes, close, service],
   );
 
-  const onChange: IViewProps['onChange'] = React.useCallback(
+  const onChange: ViewProps['onChange'] = React.useCallback(
     (values) => {
       // Filter if cached feature type and category does not exist anymore
       values.feature_types = values.feature_types

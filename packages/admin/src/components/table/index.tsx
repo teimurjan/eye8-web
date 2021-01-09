@@ -8,58 +8,58 @@ import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 
-import { ControlledPagination, LinkButton, FormTextField, Table } from '@eye8/admin-ui/index';
-import { IconWrapper, LoaderLayout, Tooltip } from '@eye8/client-ui';
+import { ControlledPagination, LinkButton, FormTextField, Table } from '@eye8/admin-ui';
 import { PriceText } from '@eye8/client/components/price';
+import { LoaderLayout, IconWrapper, Tooltip } from '@eye8/shared/components';
 import { useDebounce } from '@eye8/shared/hooks';
 import { IconSize, mediaQueries } from '@eye8/shared/styles';
 import { availableLocales, formatMediaURL } from '@eye8/shared/utils';
 
-interface IAdminTableRendererRequiredArgs {
+interface AdminTableRendererRequiredArgs {
   componentKey: string;
   colKey: string;
 }
 
-interface IAdminTableColProps<T> {
+interface AdminTableColProps<T> {
   title: string;
   key_: keyof T;
-  renderer?: IRenderer<T>;
+  renderer?: Renderer<T>;
   render?: (entity: T) => React.ReactNode;
 }
 
-const AdminTableCol = <T extends any>(_: IAdminTableColProps<T>) => null;
+const AdminTableCol = <T extends any>(_: AdminTableColProps<T>) => null;
 
-export interface IRenderer<T> {
-  renderHeader: (title: string, { componentKey }: IAdminTableRendererRequiredArgs) => React.ReactNode;
+export interface Renderer<T> {
+  renderHeader: (title: string, { componentKey }: AdminTableRendererRequiredArgs) => React.ReactNode;
 
-  renderSubheader: ({ componentKey }: IAdminTableRendererRequiredArgs) => React.ReactNode;
+  renderSubheader: ({ componentKey }: AdminTableRendererRequiredArgs) => React.ReactNode;
 
-  renderEntity: (entity: T, { colKey, componentKey }: IAdminTableRendererRequiredArgs) => React.ReactNode;
+  renderEntity: (entity: T, { colKey, componentKey }: AdminTableRendererRequiredArgs) => React.ReactNode;
 }
 
-class DefaultRenderer<T> implements IRenderer<T> {
-  public renderHeader = (title: string, { componentKey }: IAdminTableRendererRequiredArgs) => (
+class DefaultRenderer<T> implements Renderer<T> {
+  public renderHeader = (title: string, { componentKey }: AdminTableRendererRequiredArgs) => (
     <Table.HeadCell key={componentKey}>{title}</Table.HeadCell>
   );
 
-  public renderSubheader = ({ componentKey }: IAdminTableRendererRequiredArgs) => <Table.HeadCell key={componentKey} />;
+  public renderSubheader = ({ componentKey }: AdminTableRendererRequiredArgs) => <Table.HeadCell key={componentKey} />;
 
-  public renderEntity = (entity: T, { colKey, componentKey }: IAdminTableRendererRequiredArgs) => (
+  public renderEntity = (entity: T, { colKey, componentKey }: AdminTableRendererRequiredArgs) => (
     <Table.Cell key={componentKey}>{entity[colKey]}</Table.Cell>
   );
 }
 
-export class IntlRenderer<T> implements IRenderer<T> {
-  public renderHeader = (title: string, { componentKey }: IAdminTableRendererRequiredArgs) => (
+export class IntlRenderer<T> implements Renderer<T> {
+  public renderHeader = (title: string, { componentKey }: AdminTableRendererRequiredArgs) => (
     <Table.HeadCell key={componentKey} colSpan={availableLocales.length}>
       {title}
     </Table.HeadCell>
   );
 
-  public renderSubheader = ({ componentKey }: IAdminTableRendererRequiredArgs) =>
+  public renderSubheader = ({ componentKey }: AdminTableRendererRequiredArgs) =>
     availableLocales.map((locale) => <Table.HeadCell key={`${componentKey}-${locale}`}>{locale}</Table.HeadCell>);
 
-  public renderEntity = (entity: T, { colKey, componentKey }: IAdminTableRendererRequiredArgs) => (
+  public renderEntity = (entity: T, { colKey, componentKey }: AdminTableRendererRequiredArgs) => (
     <React.Fragment key={componentKey}>
       {availableLocales.map((locale) => (
         <Table.Cell key={locale}>{entity[colKey][locale]}</Table.Cell>
@@ -69,7 +69,7 @@ export class IntlRenderer<T> implements IRenderer<T> {
 }
 
 export class BooleanRenderer<T> extends DefaultRenderer<T> {
-  public renderEntity = (entity: T, { colKey, componentKey }: IAdminTableRendererRequiredArgs) => (
+  public renderEntity = (entity: T, { colKey, componentKey }: AdminTableRendererRequiredArgs) => (
     <Table.Cell
       css={css`
         text-align: center !important;
@@ -80,12 +80,12 @@ export class BooleanRenderer<T> extends DefaultRenderer<T> {
   );
 }
 
-interface IPriceTooltipTriggerProps {
+interface PriceTooltipTriggerProps {
   onMouseEnter: React.MouseEventHandler;
   price: number;
 }
 
-const PriceTooltipTrigger = React.forwardRef<HTMLTableCellElement, IPriceTooltipTriggerProps>(
+const PriceTooltipTrigger = React.forwardRef<HTMLTableCellElement, PriceTooltipTriggerProps>(
   ({ onMouseEnter, price }, ref) => {
     const theme = useTheme<AdminUITheme>();
     return (
@@ -104,7 +104,7 @@ const PriceTooltipTrigger = React.forwardRef<HTMLTableCellElement, IPriceTooltip
 );
 
 export class PriceRenderer<T> extends DefaultRenderer<T> {
-  public renderEntity = (entity: T, { colKey, componentKey }: IAdminTableRendererRequiredArgs) => (
+  public renderEntity = (entity: T, { colKey, componentKey }: AdminTableRendererRequiredArgs) => (
     <Tooltip<HTMLTableCellElement>
       key={componentKey}
       placement="left"
@@ -127,7 +127,7 @@ export class LinkRenderer<T> extends DefaultRenderer<T> {
     this.getLink = getLink;
   }
 
-  public renderEntity = (entity: T, { colKey }: IAdminTableRendererRequiredArgs) => {
+  public renderEntity = (entity: T, { colKey }: AdminTableRendererRequiredArgs) => {
     const { to, text } = this.getLink(entity);
     return (
       <Table.Cell
@@ -151,7 +151,7 @@ export class ImageRenderer<T> extends DefaultRenderer<T> {
     this.getAlt = getAlt;
   }
 
-  public renderEntity = (entity: T, { colKey }: IAdminTableRendererRequiredArgs) => (
+  public renderEntity = (entity: T, { colKey }: AdminTableRendererRequiredArgs) => (
     <Table.Cell>
       <img
         alt={this.getAlt(entity)}
@@ -166,13 +166,13 @@ export class ImageRenderer<T> extends DefaultRenderer<T> {
   );
 }
 
-interface IProps<T> {
+interface Props<T> {
   isLoading: boolean;
   isDataLoaded: boolean;
   pathPrefix: string;
   renderNoData: () => React.ReactElement;
   entities: T[];
-  children: Array<React.ReactElement<IAdminTableColProps<T>>>;
+  children: Array<React.ReactElement<AdminTableColProps<T>>>;
   pagesCount?: number;
   currentPage?: number;
   onPageChange?: (newPage: number) => void;
@@ -198,7 +198,7 @@ export const AdminTable = <T extends { id: number }>({
   hideDelete = false,
   hideEdit = false,
   onSearchChange,
-}: IProps<T>) => {
+}: Props<T>) => {
   const location = useLocation();
 
   const intl = useIntl();

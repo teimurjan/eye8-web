@@ -7,7 +7,7 @@ import {
   PRODUCT_TYPE_NAME_FIELD_KEY,
   PRODUCT_TYPE_DESCRIPTION_FIELD_KEY,
   PRODUCT_TYPE_SHORT_DESCRIPTION_FIELD_KEY,
-  IViewProps as IProps,
+  ViewProps as Props,
 } from '@eye8/admin/pages/product-types/create/presenter';
 
 export const AdminProductTypesCreateView = ({
@@ -24,7 +24,7 @@ export const AdminProductTypesCreateView = ({
   onChange,
   initialValues,
   characteristicValues,
-}: IProps) => {
+}: Props) => {
   const intl = useIntl();
   return (
     <ModalForm

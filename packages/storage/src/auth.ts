@@ -1,6 +1,6 @@
-import { ICookieStorage } from '@eye8/storage/cookie';
+import { CookieStorage } from '@eye8/storage/cookie';
 
-export interface IAuthStorage {
+export interface AuthStorage {
   getAccessToken(): string | null;
   getRefreshToken(): string | null;
   setAccessToken(token: string): void;
@@ -9,9 +9,9 @@ export interface IAuthStorage {
   clearRefreshToken(): void;
 }
 
-export class AuthStorage implements IAuthStorage {
-  private storage: ICookieStorage;
-  constructor(storage: ICookieStorage) {
+export default class implements AuthStorage {
+  private storage: CookieStorage;
+  constructor(storage: CookieStorage) {
     this.storage = storage;
   }
 

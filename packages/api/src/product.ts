@@ -1,16 +1,16 @@
 import { Client } from '@eye8/api/types';
-import { IHeadersManager } from '@eye8/manager/headers';
+import { HeadersManager } from '@eye8/manager/headers';
 import { flagToSearchStringValue, buildSearchString } from '@eye8/shared/utils';
 
 // LIST
-export interface IProductListResponseMeta {
+export interface ProductListResponseMeta {
   count: number;
   pages_count: number;
   page: number;
   limit: number;
 }
 
-export interface IProductListResponseItem {
+export interface ProductListResponseItem {
   id: number;
   discount: number;
   price: number;
@@ -26,23 +26,23 @@ export interface IProductListResponseItem {
   updated_on: string;
 }
 
-export interface IProductListResponseData {
-  data: IProductListResponseItem[];
-  meta: IProductListResponseMeta;
+export interface ProductListResponseData {
+  data: ProductListResponseItem[];
+  meta: ProductListResponseMeta;
 }
 
 // DETAIL
-export interface IProductResponseData {
-  data: IProductListResponseItem;
+export interface ProductResponseData {
+  data: ProductListResponseItem;
 }
 
 // FOR PRODUCT TYPE
-export interface IProductForProductTypeResponseData {
-  data: IProductListResponseItem[];
+export interface ProductForProductTypeResponseData {
+  data: ProductListResponseItem[];
 }
 
 // PAYLOADS
-export interface IProductCreatePayload {
+export interface ProductCreatePayload {
   discount: number;
   price: number;
   quantity: number;
@@ -50,39 +50,39 @@ export interface IProductCreatePayload {
   images?: Array<File | string>;
 }
 
-export type IProductEditPayload = IProductCreatePayload;
+export type ProductEditPayload = ProductCreatePayload;
 
-export interface IGetAllOptions {
+export interface GetAllOptions {
   page: number;
   available?: boolean;
   deleted?: boolean;
 }
 
-export interface IGetForProductTypeOptions {
+export interface GetForProductTypeOptions {
   available?: boolean;
 }
 
-export interface IGetOneOptions {
+export interface GetOneOptions {
   deleted?: boolean;
 }
 
-export interface IDeleteOptions {
+export interface DeleteOptions {
   forever?: boolean;
 }
 
-export interface IProductAPI {
-  getAll(options: IGetAllOptions): Promise<IProductListResponseData>;
-  getSome(ids: number[]): Promise<IProductListResponseData>;
-  getForCart(ids: number[]): Promise<IProductListResponseData>;
-  delete(id: number, options: IDeleteOptions): Promise<{}>;
-  create(payload: IProductCreatePayload): Promise<IProductResponseData>;
-  edit(id: number, payload: IProductEditPayload): Promise<IProductResponseData>;
-  status(id: number, options: IGetOneOptions): Promise<{}>;
-  getOne(id: number, options: IGetOneOptions): Promise<IProductResponseData>;
+export interface ProductAPI {
+  getAll(options: GetAllOptions): Promise<ProductListResponseData>;
+  getSome(ids: number[]): Promise<ProductListResponseData>;
+  getForCart(ids: number[]): Promise<ProductListResponseData>;
+  delete(id: number, options: DeleteOptions): Promise<{}>;
+  create(payload: ProductCreatePayload): Promise<ProductResponseData>;
+  edit(id: number, payload: ProductEditPayload): Promise<ProductResponseData>;
+  status(id: number, options: GetOneOptions): Promise<{}>;
+  getOne(id: number, options: GetOneOptions): Promise<ProductResponseData>;
   getForProductType(
     productTypeID: number,
-    options: IGetForProductTypeOptions,
-  ): Promise<IProductForProductTypeResponseData>;
+    options: GetForProductTypeOptions,
+  ): Promise<ProductForProductTypeResponseData>;
 }
 
 export class ProductNotFoundError extends Error {
@@ -92,18 +92,18 @@ export class ProductNotFoundError extends Error {
   }
 }
 
-export class ProductAPI implements IProductAPI {
+export default class implements ProductAPI {
   private client: Client;
-  private headersManager: IHeadersManager;
+  private headersManager: HeadersManager;
 
-  constructor(client: Client, headersManager: IHeadersManager) {
+  constructor(client: Client, headersManager: HeadersManager) {
     this.client = client;
     this.headersManager = headersManager;
   }
 
-  public getAll: IProductAPI['getAll'] = async ({ page, available = false, deleted = false }) => {
+  public getAll: ProductAPI['getAll'] = async ({ page, available = false, deleted = false }) => {
     try {
-      const response = await this.client.get<IProductListResponseData>(
+      const response = await this.client.get<ProductListResponseData>(
         `/api/products${buildSearchString({
           page,
           available: flagToSearchStringValue(available),
@@ -119,9 +119,9 @@ export class ProductAPI implements IProductAPI {
     }
   };
 
-  public getSome: IProductAPI['getSome'] = async (ids) => {
+  public getSome: ProductAPI['getSome'] = async (ids) => {
     try {
-      const response = await this.client.get<IProductListResponseData>(`/api/products${buildSearchString({ ids })}`, {
+      const response = await this.client.get<ProductListResponseData>(`/api/products${buildSearchString({ ids })}`, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -130,9 +130,9 @@ export class ProductAPI implements IProductAPI {
     }
   };
 
-  public getForCart: IProductAPI['getForCart'] = async (ids) => {
+  public getForCart: ProductAPI['getForCart'] = async (ids) => {
     try {
-      const response = await this.client.get<IProductListResponseData>(`/api/products${buildSearchString({ ids })}`, {
+      const response = await this.client.get<ProductListResponseData>(`/api/products${buildSearchString({ ids })}`, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -141,7 +141,7 @@ export class ProductAPI implements IProductAPI {
     }
   };
 
-  public delete: IProductAPI['delete'] = async (id, { forever = false }) => {
+  public delete: ProductAPI['delete'] = async (id, { forever = false }) => {
     try {
       const response = await this.client.delete<{}>(
         `/api/products/${id}${buildSearchString({ forever: flagToSearchStringValue(forever) })}`,
@@ -158,14 +158,14 @@ export class ProductAPI implements IProductAPI {
     }
   };
 
-  public create: IProductAPI['create'] = async ({ images, ...json }) => {
+  public create: ProductAPI['create'] = async ({ images, ...json }) => {
     try {
       const formData = new FormData();
       formData.append('json', JSON.stringify(json));
       if (images) {
         images.forEach((image) => formData.append('images', image));
       }
-      const response = await this.client.post<IProductResponseData>(`/api/products`, formData, {
+      const response = await this.client.post<ProductResponseData>(`/api/products`, formData, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -174,14 +174,14 @@ export class ProductAPI implements IProductAPI {
     }
   };
 
-  public edit: IProductAPI['edit'] = async (id: number, { images, ...json }) => {
+  public edit: ProductAPI['edit'] = async (id: number, { images, ...json }) => {
     try {
       const formData = new FormData();
       formData.append('json', JSON.stringify(json));
       if (images) {
         images.forEach((image) => formData.append('images', image));
       }
-      const response = await this.client.put<IProductResponseData>(`/api/products/${id}`, formData, {
+      const response = await this.client.put<ProductResponseData>(`/api/products/${id}`, formData, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -193,7 +193,7 @@ export class ProductAPI implements IProductAPI {
     }
   };
 
-  public status: IProductAPI['status'] = async (id, { deleted = false }) => {
+  public status: ProductAPI['status'] = async (id, { deleted = false }) => {
     try {
       const response = await this.client.head<{}>(
         `/api/products/${id}${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,
@@ -210,9 +210,9 @@ export class ProductAPI implements IProductAPI {
     }
   };
 
-  public getOne: IProductAPI['getOne'] = async (id, { deleted = false }) => {
+  public getOne: ProductAPI['getOne'] = async (id, { deleted = false }) => {
     try {
-      const response = await this.client.get<IProductResponseData>(
+      const response = await this.client.get<ProductResponseData>(
         `/api/products/${id}${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -227,8 +227,8 @@ export class ProductAPI implements IProductAPI {
     }
   };
 
-  public getForProductType: IProductAPI['getForProductType'] = async (productTypeID, { available = false }) => {
-    const response = await this.client.get<IProductForProductTypeResponseData>(
+  public getForProductType: ProductAPI['getForProductType'] = async (productTypeID, { available = false }) => {
+    const response = await this.client.get<ProductForProductTypeResponseData>(
       `/api/product_types/${productTypeID}/products${buildSearchString({
         available: flagToSearchStringValue(available),
       })}`,

@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 
 import { ModalForm } from '@eye8/admin/components/modal-form';
 import { Fields } from '@eye8/admin/pages/characteristic-values/create/fields';
-import { IViewProps as IProps } from '@eye8/admin/pages/characteristic-values/create/presenter';
+import { ViewProps as Props } from '@eye8/admin/pages/characteristic-values/create/presenter';
 
 export const AdminCharacteristicValuesCreateView = ({
   isOpen,
@@ -14,7 +14,7 @@ export const AdminCharacteristicValuesCreateView = ({
   error,
   characteristics,
   validate,
-}: IProps) => {
+}: Props) => {
   const intl = useIntl();
 
   return (

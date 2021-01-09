@@ -4,8 +4,7 @@ import { useTheme } from 'emotion-theming';
 import { Instagram as InstagramIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
-import { Container } from '@eye8/admin-ui/index';
-import { Anchor, WithIcon } from '@eye8/client-ui';
+import { Container, Anchor, WithIcon } from '@eye8/client-ui';
 import { IconSize, mediaQueries } from '@eye8/shared/styles';
 import { safeDocument } from '@eye8/shared/utils';
 

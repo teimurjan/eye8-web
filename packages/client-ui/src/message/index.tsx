@@ -5,16 +5,16 @@ import { useTheme } from 'emotion-theming';
 import React from 'react';
 import { X as XIcon } from 'react-feather';
 
-import { IconWrapper } from '@eye8/client-ui';
+import { IconWrapper } from '@eye8/shared/components';
 import { IconSize } from '@eye8/shared/styles';
 
-export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   color?: 'default' | 'primary' | 'error';
   size?: 'default' | 'large';
   onCloseClick?: React.MouseEventHandler;
 }
 
-const Message = ({ color = 'default', size = 'default', onCloseClick, children, className, ...props }: IProps) => {
+const Message = ({ color = 'default', size = 'default', onCloseClick, children, className, ...props }: Props) => {
   const theme = useTheme<ClientUITheme>();
 
   return (

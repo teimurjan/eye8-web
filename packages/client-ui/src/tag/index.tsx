@@ -6,11 +6,11 @@ import React from 'react';
 
 import { mediaQueries } from '@eye8/shared/styles';
 
-export interface IProps extends React.HTMLAttributes<HTMLSpanElement> {
+export interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   color?: 'default';
 }
 
-export default React.forwardRef<HTMLSpanElement, IProps>(({ children, className, color, ...props }, ref) => {
+export default React.forwardRef<HTMLSpanElement, Props>(({ children, className, color, ...props }, ref) => {
   const theme = useTheme<ClientUITheme>();
   return (
     <small

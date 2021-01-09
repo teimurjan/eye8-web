@@ -3,12 +3,12 @@ import React from 'react';
 import { useAdminPromoCodesFilters } from '@eye8/admin/hooks/use-admin-promo-codes-filters';
 import { ContextValue as AdminPromoCodesStateContextValue } from '@eye8/admin/state/promo-codes';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
   adminPromoCodesState: AdminPromoCodesStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   promoCodes: AdminPromoCodesStateContextValue['state']['entities'];
   isDataLoaded: boolean;
   isLoading: boolean;
@@ -19,7 +19,7 @@ export interface IViewProps {
 export const AdminPromoCodesListPresenter = ({
   View,
   adminPromoCodesState: { isListLoading, entities: promoCodes, get: getPromoCodes, hasListLoaded },
-}: IProps) => {
+}: Props) => {
   const {
     filters: { deleted },
     setFilters,

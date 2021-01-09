@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 
 import { IntlField } from '@eye8/admin/components/intl-field';
 import { ModalForm } from '@eye8/admin/components/modal-form';
-import { FEATURE_TYPE_NAME_FIELD_KEY, IViewProps as IProps } from '@eye8/admin/pages/feature-types/create/presenter';
+import { FEATURE_TYPE_NAME_FIELD_KEY, ViewProps as Props } from '@eye8/admin/pages/feature-types/create/presenter';
 
 const Fields = () => {
   const intl = useIntl();
@@ -20,7 +20,7 @@ const Fields = () => {
   );
 };
 
-export const AdminFeatureTypesCreateView = ({ isOpen, create, close, isLoading, error, validate }: IProps) => {
+export const AdminFeatureTypesCreateView = ({ isOpen, create, close, isLoading, error, validate }: Props) => {
   const intl = useIntl();
   return (
     <ModalForm

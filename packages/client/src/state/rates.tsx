@@ -1,28 +1,28 @@
 import React from 'react';
 
 import { useDependencies } from '@eye8/di';
-import { IGroupedRates } from '@eye8/service/rate';
+import { GroupedRates } from '@eye8/service/rate';
 
-export interface IContextValue {
+export interface ContextValue {
   ratesState: {
-    rates: IGroupedRates;
+    rates: GroupedRates;
     isLoading: boolean;
     error?: string;
     fetchRates: (date?: string) => Promise<void>;
   };
 }
 
-const Context = React.createContext<IContextValue | null>(null);
+const Context = React.createContext<ContextValue | null>(null);
 
-export interface IProviderProps {
+export interface ProviderProps {
   children: React.ReactNode;
   initialProps?: {
-    rates: IGroupedRates;
+    rates: GroupedRates;
     error?: string;
   };
 }
 
-export const RatesStateProvider: React.SFC<IProviderProps> = ({ initialProps, children }) => {
+export const RatesStateProvider: React.SFC<ProviderProps> = ({ initialProps, children }) => {
   const {
     dependencies: {
       services: { rate: rateService },
@@ -46,7 +46,7 @@ export const RatesStateProvider: React.SFC<IProviderProps> = ({ initialProps, ch
   };
 
   React.useEffect(() => {
-    return rateService.addChangeListener((_, rates) => setRates(rates as IGroupedRates));
+    return rateService.addChangeListener((_, rates) => setRates(rates as GroupedRates));
   }, [rateService]);
 
   return (
@@ -65,4 +65,4 @@ export const RatesStateProvider: React.SFC<IProviderProps> = ({ initialProps, ch
   );
 };
 
-export const useRatesState = () => React.useContext(Context) as IContextValue;
+export const useRatesState = () => React.useContext(Context) as ContextValue;

@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 
 import { ModalForm } from '@eye8/admin/components/modal-form';
 import { Fields } from '@eye8/admin/pages/products/create/fields';
-import { IViewProps as IProps } from '@eye8/admin/pages/products/create/presenter';
+import { ViewProps as Props } from '@eye8/admin/pages/products/create/presenter';
 
 export const AdminProductsCreateView = ({
   isOpen,
@@ -18,7 +18,7 @@ export const AdminProductsCreateView = ({
   productTypes,
   LoadMoreProductTypes,
   productTypesLoading,
-}: IProps) => {
+}: Props) => {
   const intl = useIntl();
   return (
     <ModalForm

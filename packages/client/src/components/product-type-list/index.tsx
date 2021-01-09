@@ -1,19 +1,18 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
-import classNames from 'classnames';
 import { useIntl } from 'react-intl';
 
-import { Column, Columns, Container } from '@eye8/admin-ui/index';
-import { ICategoryListResponseItem } from '@eye8/api/category';
-import { IProductTypeListResponseItem, IProductTypeListResponseMeta } from '@eye8/api/product-type';
-import { ErrorLayout, LoaderLayout, NotFound, Pagination, Title } from '@eye8/client-ui';
+import { CategoryListResponseItem } from '@eye8/api/category';
+import { ProductTypeListResponseItem, ProductTypeListResponseMeta } from '@eye8/api/product-type';
+import { ErrorLayout, NotFound, Pagination, Title, Container, Grid } from '@eye8/client-ui';
 import { ProductTypeCard } from '@eye8/client/components/product-type-card';
+import { LoaderLayout } from '@eye8/shared/components';
 import { mediaQueries } from '@eye8/shared/styles';
 
-export interface IProps {
-  productTypes: IProductTypeListResponseItem[];
-  category?: ICategoryListResponseItem;
-  meta?: IProductTypeListResponseMeta;
+export interface Props {
+  productTypes: ProductTypeListResponseItem[];
+  category?: CategoryListResponseItem;
+  meta?: ProductTypeListResponseMeta;
   error?: string;
   isLoading: boolean;
   onPageChange?: (page: number) => void;
@@ -28,7 +27,7 @@ export const ProductTypesListView = ({
   meta,
   onPageChange,
   category,
-}: IProps) => {
+}: Props) => {
   const intl = useIntl();
 
   const renderContent = () => {
@@ -51,20 +50,13 @@ export const ProductTypesListView = ({
           width: 100%;
         `}
       >
-        <Columns className="is-multiline is-mobile">
+        <Grid.Row>
           {productTypes.map((productType) => (
-            <Column
-              key={productType.id}
-              className={
-                filter
-                  ? classNames('is-half-mobile', 'is-one-third-desktop', 'is-one-quarter-widescreen')
-                  : classNames('is-half-mobile', 'is-one-quarter-desktop', 'is-one-fifths-widescreen')
-              }
-            >
+            <Grid.Col key={productType.id} xs={6} sm={6} md={4} lg={3}>
               <ProductTypeCard productType={productType} />
-            </Column>
+            </Grid.Col>
           ))}
-        </Columns>
+        </Grid.Row>
         {meta && meta.pages_count > 1 && (
           <Pagination
             css={css`

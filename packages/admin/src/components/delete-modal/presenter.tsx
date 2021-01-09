@@ -3,30 +3,30 @@ import { RouteComponentProps } from 'react-router';
 
 import { useSearchParams } from '@eye8/admin/hooks/use-search-params';
 
-interface ICheckExistenceDataArgs {
+interface CheckExistenceDataArgs {
   id: number;
   deleted: boolean;
 }
 
-interface IDeleteArgs {
+interface DeleteArgs {
   id: number;
   deleted: boolean;
 }
 
-interface IBackPathArgs {
+interface BackPathArgs {
   id: number;
   deleted: boolean;
 }
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  deleteEntity: (args: IDeleteArgs) => Promise<void>;
-  checkExistence: (args: ICheckExistenceDataArgs) => Promise<boolean>;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  deleteEntity: (args: DeleteArgs) => Promise<void>;
+  checkExistence: (args: CheckExistenceDataArgs) => Promise<boolean>;
   getErrorMessageID?: (e: Error) => string;
-  getBackPath: (args: IBackPathArgs) => string;
+  getBackPath: (args: BackPathArgs) => string;
 }
 
-export interface IViewProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ViewProps extends React.HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -44,7 +44,7 @@ export const DeleteModalPresenter = ({
   getBackPath,
   checkExistence,
   getErrorMessageID,
-}: IProps & RouteComponentProps<{ id: string }>) => {
+}: Props & RouteComponentProps<{ id: string }>) => {
   const { deleted } = useSearchParams(DEFAULT_SEARCH_PARAMS);
 
   const id = parseInt(match.params.id, 10);

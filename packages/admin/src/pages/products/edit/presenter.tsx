@@ -6,16 +6,16 @@ import { useAdminProductsFilters } from '@eye8/admin/hooks/use-admin-product-fil
 import { useSelectProductTypes } from '@eye8/admin/hooks/use-select-product-types';
 import { ContextValue as AdminFeatureValuesStateContextValue } from '@eye8/admin/state/feature-values';
 import { ContextValue as AdminProductsStateContextValue } from '@eye8/admin/state/products';
-import { IProductListResponseItem } from '@eye8/api/product';
-import { IProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
-import { IProductService } from '@eye8/service/product';
-import { IProductTypeService } from '@eye8/service/product-type';
+import { ProductListResponseItem } from '@eye8/api/product';
+import { ProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
+import { ProductService } from '@eye8/service/product';
+import { ProductTypeService } from '@eye8/service/product-type';
 import { SchemaValidator } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  productService: IProductService;
-  productTypeService: IProductTypeService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  productService: ProductService;
+  productTypeService: ProductTypeService;
   history: History;
   productId: number;
   adminProductsState: AdminProductsStateContextValue['state'];
@@ -23,7 +23,7 @@ export interface IProps {
   close: () => void;
 }
 
-interface IFormValues {
+interface FormValues {
   quantity: string;
   discount: string;
   price: string;
@@ -32,9 +32,9 @@ interface IFormValues {
   images: Array<string | File>;
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
-  edit: (values: IFormValues) => void;
+  edit: (values: FormValues) => void;
   isLoading: boolean;
   isUpdating: boolean;
   error?: string;
@@ -42,14 +42,14 @@ export interface IViewProps {
   close: () => void;
   validate?: (values: object) => object | Promise<object>;
   featureValues: AdminFeatureValuesStateContextValue['state']['entities'];
-  productTypes: IProductTypeListRawIntlMinifiedResponseItem[];
-  initialValues?: IFormValues;
+  productTypes: ProductTypeListRawIntlMinifiedResponseItem[];
+  initialValues?: FormValues;
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
   featureValuesLoading: boolean;
 }
 
-export const AdminProductsEditPresenter: React.FC<IProps> = ({
+export const AdminProductsEditPresenter: React.FC<Props> = ({
   productId,
   adminFeatureValuesState: {
     get: getFeatureValues,
@@ -63,7 +63,7 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
   View,
   close,
 }) => {
-  const [product, setProduct] = React.useState<IProductListResponseItem | undefined>(undefined);
+  const [product, setProduct] = React.useState<ProductListResponseItem | undefined>(undefined);
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(true);
@@ -124,7 +124,7 @@ export const AdminProductsEditPresenter: React.FC<IProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const edit: IViewProps['edit'] = React.useCallback(
+  const edit: ViewProps['edit'] = React.useCallback(
     async (values) => {
       setUpdating(true);
 

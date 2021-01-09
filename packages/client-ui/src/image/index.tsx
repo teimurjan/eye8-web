@@ -6,19 +6,19 @@ import React from 'react';
 import { AlertTriangle as AlertTriangleIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
-import { IconWrapper, Tooltip } from '@eye8/client-ui';
+import { IconWrapper, Tooltip } from '@eye8/shared/components';
 import { useBoolean } from '@eye8/shared/hooks';
 import { IconSize } from '@eye8/shared/styles';
 import { arePropsEqual } from '@eye8/shared/utils';
 
-export interface IProps {
+export interface Props {
   src: string;
   alt: string;
   className?: string;
   squared?: boolean;
 }
 
-const Image = ({ src, alt, className, squared = true }: IProps) => {
+const Image = ({ src, alt, className, squared = true }: Props) => {
   const intl = useIntl();
   const imageRef = React.useRef<HTMLImageElement>(null);
   const theme = useTheme<ClientUITheme>();
@@ -108,6 +108,6 @@ const Image = ({ src, alt, className, squared = true }: IProps) => {
   );
 };
 
-const MemoizedImage = React.memo<IProps>(Image, (prevProps, nextProps) => arePropsEqual(prevProps, nextProps));
+const MemoizedImage = React.memo<Props>(Image, (prevProps, nextProps) => arePropsEqual(prevProps, nextProps));
 
 export { MemoizedImage as default };

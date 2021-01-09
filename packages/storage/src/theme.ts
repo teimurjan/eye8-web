@@ -1,6 +1,6 @@
-import { ICookieStorage } from '@eye8/storage/cookie';
+import { CookieStorage } from '@eye8/storage/cookie';
 
-export interface IThemeStorage {
+export interface ThemeStorage {
   getTheme(): Theme | null;
   setTheme(version: string): void;
   toggle(): void;
@@ -11,9 +11,9 @@ export enum Theme {
   Light = 'light',
 }
 
-export class ThemeStorage implements IThemeStorage {
-  private storage: ICookieStorage;
-  constructor(storage: ICookieStorage) {
+export default class implements ThemeStorage {
+  private storage: CookieStorage;
+  constructor(storage: CookieStorage) {
     this.storage = storage;
   }
 

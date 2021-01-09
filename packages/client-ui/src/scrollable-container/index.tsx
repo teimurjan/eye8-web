@@ -5,13 +5,13 @@ import React from 'react';
 import { useMedia } from '@eye8/shared/hooks';
 import { mediaQueries } from '@eye8/shared/styles';
 
-export interface IProps {
+export interface Props {
   maxHeight: number;
   mobileMaxHeight?: number;
   children: React.ReactNode;
 }
 
-const ScrollableContainer = ({ mobileMaxHeight, maxHeight, children }: IProps) => {
+const ScrollableContainer = ({ mobileMaxHeight, maxHeight, children }: Props) => {
   const maxHeight_ = useMedia([mediaQueries.maxHeight700], [mobileMaxHeight], maxHeight);
   return (
     <div

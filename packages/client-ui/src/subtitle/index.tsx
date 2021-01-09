@@ -6,7 +6,7 @@ import React from 'react';
 
 import { mediaQueries } from '@eye8/shared/styles';
 
-export interface IProps {
+export interface Props {
   children?: React.ReactNode | string;
   size: 1 | 2 | 3 | 4 | 5 | 6;
   tag?: 1 | 2 | 3 | 4 | 5 | 6;
@@ -31,7 +31,7 @@ const mobileFontSizes = {
   6: 14,
 };
 
-const Subtitle = ({ children, size, tag = size, className }: IProps) => {
+const Subtitle = ({ children, size, tag = size, className }: Props) => {
   const theme = useTheme<ClientUITheme>();
   return (
     <ClassNames>

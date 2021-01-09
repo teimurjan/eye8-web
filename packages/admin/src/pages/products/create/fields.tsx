@@ -14,17 +14,17 @@ import {
   FormTextField,
   HelpText,
   Label,
-  Trigger,
-} from '@eye8/admin-ui/index';
+  SelectTrigger,
+} from '@eye8/admin-ui';
 import { ColorDecoration } from '@eye8/admin/components/color-decoration';
 import { ProductTypeSelectView } from '@eye8/admin/components/product-type-select';
 import { useFeatureValuesOfProductType } from '@eye8/admin/hooks/use-feature-values-of-product-type';
 import { AdminFeatureValuesCreateContainer } from '@eye8/admin/pages/feature-values/create/container';
 import { ContextValue as AdminFeatureValuesStateContextValue } from '@eye8/admin/state/feature-values';
-import { IFeatureTypeListRawIntlResponseItem } from '@eye8/api/feature-type';
-import { IFeatureValueListRawIntlResponseItem } from '@eye8/api/feature-value';
-import { IProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
-import { IconWrapper, Popover } from '@eye8/client-ui';
+import { FeatureTypeListRawIntlResponseItem } from '@eye8/api/feature-type';
+import { FeatureValueListRawIntlResponseItem } from '@eye8/api/feature-value';
+import { ProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
+import { IconWrapper, Popover } from '@eye8/shared/components';
 import { IconSize } from '@eye8/shared/styles';
 import {
   Accept,
@@ -113,7 +113,7 @@ const PriceField = ({ input, meta }: FieldRenderProps<string>) => {
   );
 };
 
-const useGroupedFeatureValuesByFeatureType = (featureValues: IFieldsProps['featureValues']) => {
+const useGroupedFeatureValuesByFeatureType = (featureValues: FieldsProps['featureValues']) => {
   return featureValues.reduce((acc, featureValue) => {
     const existingFeatureValues = acc[featureValue.feature_type.id]?.featureValues || [];
     return {
@@ -123,15 +123,15 @@ const useGroupedFeatureValuesByFeatureType = (featureValues: IFieldsProps['featu
         featureValues: [...existingFeatureValues, featureValue],
       },
     };
-  }, {} as { [key: string]: { featureType: IFeatureTypeListRawIntlResponseItem; featureValues: IFeatureValueListRawIntlResponseItem[] } });
+  }, {} as { [key: string]: { featureType: FeatureTypeListRawIntlResponseItem; featureValues: FeatureValueListRawIntlResponseItem[] } });
 };
 
-interface IFeatureValuesSelectProps extends FieldRenderProps<string[]> {
-  featureValues: IFieldsProps['featureValues'];
+interface FeatureValuesSelectProps extends FieldRenderProps<string[]> {
+  featureValues: FieldsProps['featureValues'];
   featureValuesLoading: boolean;
 }
 
-const FeatureValuesSelect = ({ featureValues, featureValuesLoading, input, meta }: IFeatureValuesSelectProps) => {
+const FeatureValuesSelect = ({ featureValues, featureValuesLoading, input, meta }: FeatureValuesSelectProps) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
   const [isAddingFeatureValue, setAddingFeatureValue] = React.useState(false);
@@ -190,7 +190,7 @@ const FeatureValuesSelect = ({ featureValues, featureValuesLoading, input, meta 
                 );
                 input.onChange([...valueWithoutCurrentGroup, id]);
               },
-              TriggerComponent: Trigger,
+              TriggerComponent: SelectTrigger,
             }}
           />
         );
@@ -267,15 +267,15 @@ const ImagesInput = React.memo<FieldRenderProps<Array<File | undefined>>>(
   (prevProps, nextProps) => arePropsEqual(prevProps, nextProps, { input: defaultCompare }),
 );
 
-export interface IFieldsProps {
-  productTypes: IProductTypeListRawIntlMinifiedResponseItem[];
+export interface FieldsProps {
+  productTypes: ProductTypeListRawIntlMinifiedResponseItem[];
   featureValues: AdminFeatureValuesStateContextValue['state']['entities'];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
   featureValuesLoading: boolean;
 }
 
-export const Fields: React.SFC<IFieldsProps> = React.memo(
+export const Fields: React.SFC<FieldsProps> = React.memo(
   ({ productTypes, featureValues, LoadMoreProductTypes, productTypesLoading, featureValuesLoading }) => {
     const featureValuesOfProductType = useFeatureValuesOfProductType({ productTypes, featureValues });
     return (

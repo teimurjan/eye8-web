@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 
 import { ProductTypeSortingType } from '@eye8/api/product-type';
 import { Filter, ScrollableContainer } from '@eye8/client-ui';
-import { IViewProps as IProps } from '@eye8/client/components/product-types-page-filter/presenter';
+import { ViewProps as Props } from '@eye8/client/components/product-types-page-filter/presenter';
 import { mediaQueries } from '@eye8/shared/styles';
 
 export const ProductTypesPageFilterView = ({
@@ -15,7 +15,7 @@ export const ProductTypesPageFilterView = ({
   characteristicValuesIds,
   groupedCharacteristics,
   disabled,
-}: IProps) => {
+}: Props) => {
   const intl = useIntl();
 
   const sortingFilterGroup = (

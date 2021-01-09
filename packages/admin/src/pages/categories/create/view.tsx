@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 
 import { ModalForm } from '@eye8/admin/components/modal-form';
 import { Fields } from '@eye8/admin/pages/categories/create/fields';
-import { CATEGORY_NAME_FIELD_KEY, IViewProps as IProps } from '@eye8/admin/pages/categories/create/presenter';
+import { CATEGORY_NAME_FIELD_KEY, ViewProps as Props } from '@eye8/admin/pages/categories/create/presenter';
 
 export const AdminCategoriesCreateView = ({
   isOpen,
@@ -15,7 +15,7 @@ export const AdminCategoriesCreateView = ({
   categories,
   preloadingError,
   isCreating,
-}: IProps) => {
+}: Props) => {
   const intl = useIntl();
   return (
     <ModalForm

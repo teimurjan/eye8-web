@@ -1,14 +1,14 @@
 import classNames from 'classnames';
 import React from 'react';
 
-export interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
+export interface Props extends React.HTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
 }
 
-const Index = ({ children, className, ...props }: IProps) => (
+const ModalClose = ({ children, className, ...props }: Props) => (
   <button className={classNames('modal-close', className)} {...props}>
     {children}
   </button>
 );
 
-export default Index;
+export default ModalClose;

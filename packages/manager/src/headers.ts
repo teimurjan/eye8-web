@@ -1,24 +1,24 @@
-import { IAuthStorage } from '@eye8/storage/auth';
-import { IIntlStorage } from '@eye8/storage/intl';
+import { AuthStorage } from '@eye8/storage/auth';
+import { IntlStorage } from '@eye8/storage/intl';
 
-interface IHeaders {
+interface Headers {
   [key: string]: string | null | undefined;
 }
 
-export interface IHeadersManager {
-  getHeaders(): IHeaders;
+export interface HeadersManager {
+  getHeaders(): Headers;
 }
 
-export class HeadersManager implements IHeadersManager {
-  private authStorage: IAuthStorage;
-  private intlStorage: IIntlStorage;
+export default class implements HeadersManager {
+  private authStorage: AuthStorage;
+  private intlStorage: IntlStorage;
 
-  constructor(authStorage: IAuthStorage, intlStorage: IIntlStorage) {
+  constructor(authStorage: AuthStorage, intlStorage: IntlStorage) {
     this.authStorage = authStorage;
     this.intlStorage = intlStorage;
   }
 
-  private filterHeaders = (headers: IHeaders) =>
+  private filterHeaders = (headers: Headers) =>
     Object.keys(headers).reduce(
       (acc, headerKey) => (headers[headerKey] ? { ...acc, [headerKey]: headers[headerKey] } : acc),
       {},

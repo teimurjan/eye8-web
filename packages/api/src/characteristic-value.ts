@@ -1,60 +1,60 @@
-import { ICharacteristicListRawIntlResponseItem, ICharacteristicListResponseItem } from '@eye8/api/characteristic';
+import { CharacteristicListRawIntlResponseItem, CharacteristicListResponseItem } from '@eye8/api/characteristic';
 import { Client } from '@eye8/api/types';
-import { IHeadersManager } from '@eye8/manager/headers';
+import { HeadersManager } from '@eye8/manager/headers';
 import { buildSearchString } from '@eye8/shared/utils';
 
-export interface ICharacteristicValueListResponseItem {
+export interface CharacteristicValueListResponseItem {
   id: number;
   name: string;
-  characteristic: ICharacteristicListResponseItem;
+  characteristic: CharacteristicListResponseItem;
   created_on: string;
   updated_on: string;
 }
 
-export interface ICharacteristicValueListRawIntlResponseItem {
+export interface CharacteristicValueListRawIntlResponseItem {
   id: number;
   name: {
     [key: string]: string;
   };
-  characteristic: ICharacteristicListRawIntlResponseItem;
+  characteristic: CharacteristicListRawIntlResponseItem;
   created_on: string;
   updated_on: string;
 }
 
-export interface ICharacteristicValueListResponseData {
-  data: ICharacteristicValueListResponseItem[];
+export interface CharacteristicValueListResponseData {
+  data: CharacteristicValueListResponseItem[];
 }
 
-export interface ICharacteristicValueListRawIntlResponseData {
-  data: ICharacteristicValueListRawIntlResponseItem[];
+export interface CharacteristicValueListRawIntlResponseData {
+  data: CharacteristicValueListRawIntlResponseItem[];
 }
 
-export interface ICharacteristicValueRawIntlResponseData {
-  data: ICharacteristicValueListRawIntlResponseItem;
+export interface CharacteristicValueRawIntlResponseData {
+  data: CharacteristicValueListRawIntlResponseItem;
 }
 
-export interface ICharacteristicValueCreatePayload {
+export interface CharacteristicValueCreatePayload {
   names: {
     [key: string]: string;
   };
   characteristic_id: number;
 }
 
-export interface ICharacteristicValueEditPayload {
+export interface CharacteristicValueEditPayload {
   names: {
     [key: string]: string;
   };
   characteristic_id: number;
 }
 
-export interface ICharacteristicValueAPI {
-  getAll(): Promise<ICharacteristicValueListResponseData>;
-  getAllRawIntl(): Promise<ICharacteristicValueListRawIntlResponseData>;
+export interface CharacteristicValueAPI {
+  getAll(): Promise<CharacteristicValueListResponseData>;
+  getAllRawIntl(): Promise<CharacteristicValueListRawIntlResponseData>;
   delete(id: number): Promise<{}>;
-  create(payload: ICharacteristicValueCreatePayload): Promise<ICharacteristicValueRawIntlResponseData>;
-  edit(id: number, payload: ICharacteristicValueEditPayload): Promise<ICharacteristicValueRawIntlResponseData>;
+  create(payload: CharacteristicValueCreatePayload): Promise<CharacteristicValueRawIntlResponseData>;
+  edit(id: number, payload: CharacteristicValueEditPayload): Promise<CharacteristicValueRawIntlResponseData>;
   status(id: number): Promise<{}>;
-  getOneRawIntl(id: number): Promise<ICharacteristicValueRawIntlResponseData>;
+  getOneRawIntl(id: number): Promise<CharacteristicValueRawIntlResponseData>;
 }
 
 export class CharacteristicValueNotFoundError extends Error {
@@ -64,18 +64,18 @@ export class CharacteristicValueNotFoundError extends Error {
   }
 }
 
-export class CharacteristicValueAPI implements ICharacteristicValueAPI {
+export default class implements CharacteristicValueAPI {
   private client: Client;
-  private headersManager: IHeadersManager;
+  private headersManager: HeadersManager;
 
-  constructor(client: Client, headersManager: IHeadersManager) {
+  constructor(client: Client, headersManager: HeadersManager) {
     this.client = client;
     this.headersManager = headersManager;
   }
 
-  public getAll: ICharacteristicValueAPI['getAll'] = async () => {
+  public getAll: CharacteristicValueAPI['getAll'] = async () => {
     try {
-      const response = await this.client.get<ICharacteristicValueListResponseData>('/api/characteristic_values', {
+      const response = await this.client.get<CharacteristicValueListResponseData>('/api/characteristic_values', {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -84,9 +84,9 @@ export class CharacteristicValueAPI implements ICharacteristicValueAPI {
     }
   };
 
-  public getAllRawIntl: ICharacteristicValueAPI['getAllRawIntl'] = async () => {
+  public getAllRawIntl: CharacteristicValueAPI['getAllRawIntl'] = async () => {
     try {
-      const response = await this.client.get<ICharacteristicValueListRawIntlResponseData>(
+      const response = await this.client.get<CharacteristicValueListRawIntlResponseData>(
         `/api/characteristic_values${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -99,7 +99,7 @@ export class CharacteristicValueAPI implements ICharacteristicValueAPI {
     }
   };
 
-  public delete: ICharacteristicValueAPI['delete'] = async (id) => {
+  public delete: CharacteristicValueAPI['delete'] = async (id) => {
     try {
       const response = await this.client.delete<{}>(`/api/characteristic_values/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -113,9 +113,9 @@ export class CharacteristicValueAPI implements ICharacteristicValueAPI {
     }
   };
 
-  public create: ICharacteristicValueAPI['create'] = async (payload) => {
+  public create: CharacteristicValueAPI['create'] = async (payload) => {
     try {
-      const response = await this.client.post<ICharacteristicValueRawIntlResponseData>(
+      const response = await this.client.post<CharacteristicValueRawIntlResponseData>(
         `/api/characteristic_values`,
         payload,
         {
@@ -128,9 +128,9 @@ export class CharacteristicValueAPI implements ICharacteristicValueAPI {
     }
   };
 
-  public edit: ICharacteristicValueAPI['edit'] = async (id, payload) => {
+  public edit: CharacteristicValueAPI['edit'] = async (id, payload) => {
     try {
-      const response = await this.client.put<ICharacteristicValueRawIntlResponseData>(
+      const response = await this.client.put<CharacteristicValueRawIntlResponseData>(
         `/api/characteristic_values/${id}${buildSearchString({ raw_intl: 1 })}`,
         payload,
         {
@@ -146,7 +146,7 @@ export class CharacteristicValueAPI implements ICharacteristicValueAPI {
     }
   };
 
-  public status: ICharacteristicValueAPI['status'] = async (id) => {
+  public status: CharacteristicValueAPI['status'] = async (id) => {
     try {
       const response = await this.client.head<{}>(`/api/characteristic_values/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -160,9 +160,9 @@ export class CharacteristicValueAPI implements ICharacteristicValueAPI {
     }
   };
 
-  public getOneRawIntl: ICharacteristicValueAPI['getOneRawIntl'] = async (id: number) => {
+  public getOneRawIntl: CharacteristicValueAPI['getOneRawIntl'] = async (id: number) => {
     try {
-      const response = await this.client.get<ICharacteristicValueRawIntlResponseData>(
+      const response = await this.client.get<CharacteristicValueRawIntlResponseData>(
         `/api/characteristic_values/${id}${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),

@@ -2,12 +2,12 @@ import React from 'react';
 
 import { ContextValue as AdminOrdersStateContextValue } from '@eye8/admin/state/orders';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
   adminOrdersState: AdminOrdersStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   orders: AdminOrdersStateContextValue['state']['entities'];
   isDataLoaded: boolean;
   isLoading: boolean;
@@ -16,7 +16,7 @@ export interface IViewProps {
 export const AdminOrdersListPresenter = ({
   View,
   adminOrdersState: { isListLoading, entities: orders, get: getOrders, hasListLoaded },
-}: IProps) => {
+}: Props) => {
   React.useEffect(() => {
     getOrders();
     // eslint-disable-next-line react-hooks/exhaustive-deps

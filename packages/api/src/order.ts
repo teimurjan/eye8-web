@@ -1,8 +1,8 @@
 import { Client } from '@eye8/api/types';
-import { IHeadersManager } from '@eye8/manager/headers';
+import { HeadersManager } from '@eye8/manager/headers';
 import { buildSearchString } from '@eye8/shared/utils';
 
-export interface IOrderItem {
+export interface OrderItem {
   id: number;
   quantity: number;
   product_price_per_item: number;
@@ -19,7 +19,7 @@ export interface IOrderItem {
 }
 
 // LIST
-export interface IOrderListResponseItem {
+export interface OrderListResponseItem {
   id: number;
   user_name: string;
   user_phone_number: string;
@@ -27,7 +27,7 @@ export interface IOrderListResponseItem {
   created_on: string;
   updated_on: string;
   is_deleted: boolean | null;
-  items: IOrderItem[];
+  items: OrderItem[];
   status: 'idle' | 'completed' | 'approved' | 'rejected';
   promo_code_value?: string;
   promo_code_products?: number[];
@@ -35,25 +35,25 @@ export interface IOrderListResponseItem {
   promo_code_amount?: number;
 }
 
-export interface IOrderListResponseMeta {
+export interface OrderListResponseMeta {
   count: number;
   pages_count: number;
   limit: number;
   page: number;
 }
 
-export interface IOrderListResponseData {
-  data: IOrderListResponseItem[];
-  meta: IOrderListResponseMeta;
+export interface OrderListResponseData {
+  data: OrderListResponseItem[];
+  meta: OrderListResponseMeta;
 }
 
 // DETAIL
-export interface IOrderResponseData {
-  data: IOrderListResponseItem;
+export interface OrderResponseData {
+  data: OrderListResponseItem;
 }
 
 // PAYLOADS
-export interface IOrderCreatePayload {
+export interface OrderCreatePayload {
   user_name: string;
   user_phone_number: string;
   user_address: string;
@@ -64,7 +64,7 @@ export interface IOrderCreatePayload {
   promo_code?: string;
 }
 
-export interface IOrderEditPayload {
+export interface OrderEditPayload {
   user_name: string;
   user_phone_number: string;
   user_address: string;
@@ -79,12 +79,12 @@ export interface IOrderEditPayload {
   promo_code?: string;
 }
 
-export interface IOrderAPI {
-  getAll(): Promise<IOrderListResponseData>;
-  getForUser(userID: number, page: number): Promise<IOrderListResponseData>;
-  create(payload: IOrderCreatePayload): Promise<IOrderResponseData>;
-  edit(orderID: number, payload: IOrderEditPayload): Promise<IOrderResponseData>;
-  getOne(orderID: number): Promise<IOrderResponseData>;
+export interface OrderAPI {
+  getAll(): Promise<OrderListResponseData>;
+  getForUser(userID: number, page: number): Promise<OrderListResponseData>;
+  create(payload: OrderCreatePayload): Promise<OrderResponseData>;
+  edit(orderID: number, payload: OrderEditPayload): Promise<OrderResponseData>;
+  getOne(orderID: number): Promise<OrderResponseData>;
   status(id: number): Promise<{}>;
   delete(id: number): Promise<{}>;
 }
@@ -102,18 +102,18 @@ export class PromoCodeIsNotSetError extends Error {
   }
 }
 
-export class OrderAPI implements IOrderAPI {
+export default class implements OrderAPI {
   private client: Client;
-  private headersManager: IHeadersManager;
+  private headersManager: HeadersManager;
 
-  constructor(client: Client, headersManager: IHeadersManager) {
+  constructor(client: Client, headersManager: HeadersManager) {
     this.client = client;
     this.headersManager = headersManager;
   }
 
-  public getAll: IOrderAPI['getAll'] = async () => {
+  public getAll: OrderAPI['getAll'] = async () => {
     try {
-      const response = await this.client.get<IOrderListResponseData>(`/api/orders`, {
+      const response = await this.client.get<OrderListResponseData>(`/api/orders`, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -122,9 +122,9 @@ export class OrderAPI implements IOrderAPI {
     }
   };
 
-  public create: IOrderAPI['create'] = async (data) => {
+  public create: OrderAPI['create'] = async (data) => {
     try {
-      const response = await this.client.post<IOrderResponseData>(`/api/orders`, data, {
+      const response = await this.client.post<OrderResponseData>(`/api/orders`, data, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -136,9 +136,9 @@ export class OrderAPI implements IOrderAPI {
     }
   };
 
-  public edit: IOrderAPI['edit'] = async (orderID, data) => {
+  public edit: OrderAPI['edit'] = async (orderID, data) => {
     try {
-      const response = await this.client.put<IOrderResponseData>(`/api/orders/${orderID}`, data, {
+      const response = await this.client.put<OrderResponseData>(`/api/orders/${orderID}`, data, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -153,9 +153,9 @@ export class OrderAPI implements IOrderAPI {
     }
   };
 
-  public getForUser: IOrderAPI['getForUser'] = async (userID, page) => {
+  public getForUser: OrderAPI['getForUser'] = async (userID, page) => {
     try {
-      const response = await this.client.get<IOrderListResponseData>(
+      const response = await this.client.get<OrderListResponseData>(
         `/api/users/${userID}/orders${buildSearchString({ page, limit: 10 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -167,9 +167,9 @@ export class OrderAPI implements IOrderAPI {
     }
   };
 
-  public getOne: IOrderAPI['getOne'] = async (orderID) => {
+  public getOne: OrderAPI['getOne'] = async (orderID) => {
     try {
-      const response = await this.client.get<IOrderResponseData>(`/api/orders/${orderID}`, {
+      const response = await this.client.get<OrderResponseData>(`/api/orders/${orderID}`, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -181,7 +181,7 @@ export class OrderAPI implements IOrderAPI {
     }
   };
 
-  public status: IOrderAPI['status'] = async (orderID) => {
+  public status: OrderAPI['status'] = async (orderID) => {
     try {
       await this.client.head(`/api/orders/${orderID}`, {
         headers: this.headersManager.getHeaders(),
@@ -195,7 +195,7 @@ export class OrderAPI implements IOrderAPI {
     }
   };
 
-  public delete: IOrderAPI['delete'] = async (orderID) => {
+  public delete: OrderAPI['delete'] = async (orderID) => {
     try {
       await this.client.delete(`/api/orders/${orderID}`, {
         headers: this.headersManager.getHeaders(),

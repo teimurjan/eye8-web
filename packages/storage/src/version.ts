@@ -1,11 +1,11 @@
 import { Storage } from '@eye8/storage/types';
 
-export interface IVersionStorage {
+export interface VersionStorage {
   getVersion(): string | null;
   setVersion(version: string): void;
 }
 
-export class VersionStorage implements IVersionStorage {
+export default class implements VersionStorage {
   private storage: Storage;
   constructor(storage: Storage) {
     this.storage = storage;

@@ -4,24 +4,24 @@ import React from 'react';
 import { useAdminPromoCodesFilters } from '@eye8/admin/hooks/use-admin-promo-codes-filters';
 import { getErrorMessageID } from '@eye8/admin/pages/promo-codes/create/presenter';
 import { ContextValue as AdminPromoCodesStateContextValue } from '@eye8/admin/state/promo-codes';
-import { IProductListResponseItem } from '@eye8/api/product';
-import { IPromoCodeListResponseItem } from '@eye8/api/promo-code';
-import { IProductService } from '@eye8/service/product';
-import { IPromoCodeService } from '@eye8/service/promo-code';
+import { ProductListResponseItem } from '@eye8/api/product';
+import { PromoCodeListResponseItem } from '@eye8/api/promo-code';
+import { ProductService } from '@eye8/service/product';
+import { PromoCodeService } from '@eye8/service/promo-code';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: IPromoCodeService;
-  productService: IProductService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: PromoCodeService;
+  productService: ProductService;
   history: History;
   promoCodeId: number;
   adminPromoCodesState: AdminPromoCodesStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
-  edit: (values: { isActive: boolean; disableOnUse: boolean; products: IProductListResponseItem[] }) => void;
+  edit: (values: { isActive: boolean; disableOnUse: boolean; products: ProductListResponseItem[] }) => void;
   isUpdating: boolean;
   isLoading: boolean;
   error?: string;
@@ -30,7 +30,7 @@ export interface IViewProps {
   initialValues: object;
 }
 
-export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
+export const AdminPromoCodesEditPresenter: React.FC<Props> = ({
   history,
   adminPromoCodesState: { set: setPromoCodeToState },
   service,
@@ -43,9 +43,9 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
   } = useAdminPromoCodesFilters();
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
-  const [promoCode, setPromoCode] = React.useState<IPromoCodeListResponseItem | undefined>(undefined);
+  const [promoCode, setPromoCode] = React.useState<PromoCodeListResponseItem | undefined>(undefined);
   const [productsData, setProductsData] = React.useState<{
-    entities: { [key: string]: IProductListResponseItem };
+    entities: { [key: string]: ProductListResponseItem };
     order: number[];
   }>({ entities: {}, order: [] });
   const [isLoading, setLoading] = React.useState(false);
@@ -77,7 +77,7 @@ export const AdminPromoCodesEditPresenter: React.FC<IProps> = ({
 
   const close = React.useCallback(() => history.push('/admin/promoCodes'), [history]);
 
-  const edit: IViewProps['edit'] = React.useCallback(
+  const edit: ViewProps['edit'] = React.useCallback(
     async (values) => {
       setUpdating(true);
       const formattedValues = {

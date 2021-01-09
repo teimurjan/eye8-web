@@ -5,15 +5,16 @@ import React from 'react';
 import { ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon } from 'react-feather';
 import { useSwipeable, SwipeableOptions } from 'react-swipeable';
 
-import { Button, IconWrapper } from '@eye8/client-ui';
+import { Button } from '@eye8/client-ui';
+import { IconWrapper } from '@eye8/shared/components';
 import { IconSize, mediaQueries } from '@eye8/shared/styles';
 
-interface ICarouselItemProps {
+interface CarouselItemProps {
   className?: string;
   children: React.ReactNode;
 }
 
-const CarouselItem = React.forwardRef<HTMLDivElement, ICarouselItemProps>(({ children, className }, ref) => {
+const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(({ children, className }, ref) => {
   const item = (
     <div
       className={classNames(className)}
@@ -30,14 +31,14 @@ const CarouselItem = React.forwardRef<HTMLDivElement, ICarouselItemProps>(({ chi
   return item;
 });
 
-export interface IProps {
+export interface Props {
   activeIndex: number;
   fullWidth?: boolean;
   className?: string;
   onEnter?: () => void;
   onEntered?: () => void;
   children?: React.ReactNode;
-  controls?: React.ReactElement<ICarouselControlsProps>;
+  controls?: React.ReactElement<CarouselControlsProps>;
   swipeableOptions?: SwipeableOptions;
 }
 
@@ -50,7 +51,7 @@ const Carousel = ({
   onEntered,
   controls,
   swipeableOptions,
-}: IProps) => {
+}: Props) => {
   const swipeableHandlers = useSwipeable(swipeableOptions || {});
   const width = React.useMemo(() => {
     if (fullWidth) {
@@ -94,7 +95,7 @@ const Carousel = ({
   );
 };
 
-interface ICarouselControlsProps {
+interface CarouselControlsProps {
   onNextClick?: React.MouseEventHandler;
   onPrevClick?: React.MouseEventHandler;
 }
@@ -109,7 +110,7 @@ const controlsCSS = css`
   }
 `;
 
-Carousel.Controls = ({ onNextClick, onPrevClick }: ICarouselControlsProps) => (
+Carousel.Controls = ({ onNextClick, onPrevClick }: CarouselControlsProps) => (
   <>
     <Button
       css={css`

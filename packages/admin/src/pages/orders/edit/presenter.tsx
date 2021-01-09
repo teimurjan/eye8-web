@@ -4,21 +4,21 @@ import React from 'react';
 import * as yup from 'yup';
 
 import { ContextValue as AdminOrdersStateContextValue } from '@eye8/admin/state/orders';
-import { IOrderListResponseItem } from '@eye8/api/order';
-import { IOrderService, PromoCodeInvalidError } from '@eye8/service/order';
+import { OrderListResponseItem } from '@eye8/api/order';
+import { OrderService, PromoCodeInvalidError } from '@eye8/service/order';
 import { PHONE_REGEX, SchemaValidator } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: IOrderService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: OrderService;
   history: History;
   orderId: number;
   adminOrdersState: AdminOrdersStateContextValue['state'];
 }
 
-export interface IViewProps
+export interface ViewProps
   extends Pick<
-    IOrderListResponseItem,
+    OrderListResponseItem,
     'promo_code_amount' | 'promo_code_discount' | 'promo_code_products' | 'promo_code_value'
   > {
   isOpen: boolean;
@@ -63,7 +63,7 @@ export const getErrorMessageID = (e: Error) => {
   return 'errors.common';
 };
 
-export const AdminOrdersEditPresenter: React.FC<IProps> = ({
+export const AdminOrdersEditPresenter: React.FC<Props> = ({
   history,
   adminOrdersState: { set: setOrderToState },
   service,
@@ -71,7 +71,7 @@ export const AdminOrdersEditPresenter: React.FC<IProps> = ({
   orderId,
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
-  const [order, setOrder] = React.useState<IOrderListResponseItem | undefined>(undefined);
+  const [order, setOrder] = React.useState<OrderListResponseItem | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
@@ -91,7 +91,7 @@ export const AdminOrdersEditPresenter: React.FC<IProps> = ({
 
   const close = React.useCallback(() => history.push('/admin/orders'), [history]);
 
-  const edit: IViewProps['edit'] = React.useCallback(
+  const edit: ViewProps['edit'] = React.useCallback(
     async (values) => {
       setUpdating(true);
 

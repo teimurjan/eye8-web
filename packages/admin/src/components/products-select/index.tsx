@@ -3,36 +3,36 @@ import { css, jsx } from '@emotion/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Button } from '@eye8/admin-ui/index';
+import { Button } from '@eye8/admin-ui';
 import { ProductsSelectItem } from '@eye8/admin/components/product-select-item';
 import { ProductSelectContainer } from '@eye8/admin/components/product-select/container';
-import { IProductListResponseItem } from '@eye8/api/product';
+import { ProductListResponseItem } from '@eye8/api/product';
 
-interface IProps {
-  products: IProductListResponseItem[];
-  onChange: (products: IProductListResponseItem[]) => void;
+interface Props {
+  products: ProductListResponseItem[];
+  onChange: (products: ProductListResponseItem[]) => void;
   allowAddition?: boolean;
 }
 
-export const ProductsSelect = ({ products, onChange, allowAddition = true }: IProps) => {
+export const ProductsSelect = ({ products, onChange, allowAddition = true }: Props) => {
   const intl = useIntl();
 
   const setProduct = React.useCallback(
-    (product: IProductListResponseItem) => {
+    (product: ProductListResponseItem) => {
       onChange(products.map((product_) => (product_.id === product.id ? product : product_)));
     },
     [onChange, products],
   );
 
   const removeProduct = React.useCallback(
-    (product: IProductListResponseItem) => {
+    (product: ProductListResponseItem) => {
       onChange(products.filter((product_) => product_.id !== product.id));
     },
     [onChange, products],
   );
 
   const addProduct = React.useCallback(
-    (product: IProductListResponseItem) => {
+    (product: ProductListResponseItem) => {
       onChange([...products, product]);
     },
     [onChange, products],

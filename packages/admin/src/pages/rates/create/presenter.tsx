@@ -4,17 +4,17 @@ import * as yup from 'yup';
 
 import { ContextValue as AdminRatesStateContextValue } from '@eye8/admin/state/rates';
 import { RateName } from '@eye8/client/components/price';
-import { IRateService, RateLimitExceededError } from '@eye8/service/rate';
+import { RateService, RateLimitExceededError } from '@eye8/service/rate';
 import { SchemaValidator } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: IRateService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: RateService;
   history: History;
   adminRatesState: AdminRatesStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
   create: (values: { value: string; name: string }) => void;
   isCreating: boolean;
@@ -41,7 +41,7 @@ export const getErrorMessageID = (e: Error) => {
   return 'errors.common';
 };
 
-export const AdminRatesCreatePresenter: React.FC<IProps> = ({
+export const AdminRatesCreatePresenter: React.FC<Props> = ({
   history,
   adminRatesState: { get: getRates },
   service,
@@ -52,7 +52,7 @@ export const AdminRatesCreatePresenter: React.FC<IProps> = ({
 
   const close = React.useCallback(() => history.push('/admin/rates'), [history]);
 
-  const create: IViewProps['create'] = React.useCallback(
+  const create: ViewProps['create'] = React.useCallback(
     async (values) => {
       setCreating(true);
       try {

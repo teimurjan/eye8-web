@@ -21,23 +21,23 @@ type Toast = {
 };
 type KeyedToast = Toast & { key: number };
 
-interface IToastsContextValue {
+interface ToastsContextValue {
   toasts: { [key: string]: KeyedToast };
   toast: (toast: Toast) => void;
   hideToast: (toast: Toast) => void;
 }
 
-interface IToastsContextProviderProps {
+interface ToastsContextProviderProps {
   children: React.ReactElement;
 }
 
-export const ToastsContext = React.createContext<IToastsContextValue>({ toasts: {}, toast: noop, hideToast: noop });
+export const ToastsContext = React.createContext<ToastsContextValue>({ toasts: {}, toast: noop, hideToast: noop });
 
 let toastKey = 0;
 const durationTimeoutIds: { [key: string]: NodeJS.Timeout } = {};
 const delayTimeoutIds: { [key: string]: NodeJS.Timeout } = {};
 
-export const ToastsProvider = ({ children }: IToastsContextProviderProps) => {
+export const ToastsProvider = ({ children }: ToastsContextProviderProps) => {
   const [toasts, setToasts] = React.useState<{ [key: string]: KeyedToast }>({});
 
   const hideToast = React.useCallback(

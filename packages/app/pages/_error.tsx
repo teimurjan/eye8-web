@@ -57,7 +57,7 @@ const getInitialProps = async (pageContext: NextPageContext) => {
     return { ...errorInitialProps, hasGetInitialPropsRun, err: pageContext.err };
   }
 
-  // If this point is reached, getInitialProps was called without any
+  // f this point is reached, getInitialProps was called without any
   // information about what the error might be. This is unexpected and may
   // indicate a bug introduced in Next.js, so record it in Sentry
   Sentry.captureException(new Error(`_error.js getInitialProps missing data at path: ${pageContext.asPath}`));

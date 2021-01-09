@@ -4,19 +4,19 @@ import * as yup from 'yup';
 
 import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
 import { ContextValue as AdminBannersStateContextValue } from '@eye8/admin/state/banners';
-import { IBannerListRawIntlResponseItem } from '@eye8/api/banner';
-import { IBannerService } from '@eye8/service/banner';
-import { availableLocales, SchemaValidator } from '@eye8/shared/utils';
+import { BannerListRawIntlResponseItem } from '@eye8/api/banner';
+import { BannerService } from '@eye8/service/banner';
+import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: IBannerService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: BannerService;
   history: History;
   bannerId: number;
   adminBannersState: AdminBannersStateContextValue['state'];
 }
 
-interface IFormValues {
+interface FormValues {
   texts: {
     [key: string]: string;
   };
@@ -32,16 +32,16 @@ interface IFormValues {
   text_bottom_offset?: string;
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
-  edit: (values: IFormValues) => void;
+  edit: (values: FormValues) => void;
   error?: string;
   close: () => void;
-  validate?: (values: IFormValues) => object | Promise<object>;
+  validate?: (values: FormValues) => object | Promise<object>;
   isLoading: boolean;
   isUpdating: boolean;
   preloadingError?: string;
-  initialValues?: Partial<IFormValues>;
+  initialValues?: Partial<FormValues>;
 }
 
 export const BANNER_TEXT_FIELD_KEY = 'text';
@@ -62,7 +62,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminBannersEditPresenter: React.FC<IProps> = ({
+export const AdminBannersEditPresenter: React.FC<Props> = ({
   history,
   adminBannersState: { set: setBannerToState },
   service,
@@ -70,7 +70,7 @@ export const AdminBannersEditPresenter: React.FC<IProps> = ({
   bannerId,
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
-  const [banner, setBanner] = React.useState<IBannerListRawIntlResponseItem | undefined>(undefined);
+  const [banner, setBanner] = React.useState<BannerListRawIntlResponseItem | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
@@ -96,7 +96,7 @@ export const AdminBannersEditPresenter: React.FC<IProps> = ({
 
   const close = React.useCallback(() => history.push('/admin/banners'), [history]);
 
-  const edit: IViewProps['edit'] = React.useCallback(
+  const edit: ViewProps['edit'] = React.useCallback(
     async (values) => {
       setUpdating(true);
 

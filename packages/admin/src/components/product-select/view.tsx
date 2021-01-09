@@ -3,10 +3,10 @@ import { css, jsx } from '@emotion/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Dropdown, DropdownItem, Input, Modal, ModalBackground, ModalCard, ModalContent } from '@eye8/admin-ui/index';
-import { IViewProps as IProps } from '@eye8/admin/components/product-select/presenter';
-import { ProductTypePreview, IProps as IProductTypePreviewProps } from '@eye8/admin/components/product-type-preview';
-import { LoaderLayout } from '@eye8/client-ui';
+import { Dropdown, DropdownItem, Input, Modal, ModalBackground, ModalCard, ModalContent } from '@eye8/admin-ui';
+import { ViewProps as Props } from '@eye8/admin/components/product-select/presenter';
+import { ProductTypePreview, Props as ProductTypePreviewProps } from '@eye8/admin/components/product-type-preview';
+import { LoaderLayout } from '@eye8/shared/components';
 import { useDebounce } from '@eye8/shared/hooks';
 import { mediaQueries } from '@eye8/shared/styles';
 import { formatMediaURL } from '@eye8/shared/utils';
@@ -20,7 +20,7 @@ const dropdownCSS = css`
   }
 `;
 
-export const ProductSelectView: React.FC<IProps> = ({
+export const ProductSelectView: React.FC<Props> = ({
   className,
   productTypes,
   isLoading,
@@ -38,7 +38,7 @@ export const ProductSelectView: React.FC<IProps> = ({
     [],
   );
   const close = React.useCallback(() => selectProductType(undefined), [selectProductType]);
-  const productTypePreviewAction: IProductTypePreviewProps['action'] = React.useCallback(
+  const productTypePreviewAction: ProductTypePreviewProps['action'] = React.useCallback(
     (product) => {
       onChange(product);
       setSearchValue('');

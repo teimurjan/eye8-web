@@ -1,14 +1,14 @@
 import classNames from 'classnames';
 import React from 'react';
 
-export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
-const Index = ({ children, className, ...props }: IProps) => (
+const Navbar = ({ children, className, ...props }: Props) => (
   <nav className={classNames('navbar', className)} role="navigation" {...props}>
     {children}
   </nav>
 );
 
-export default Index;
+export default Navbar;

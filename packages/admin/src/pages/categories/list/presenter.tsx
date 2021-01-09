@@ -2,12 +2,12 @@ import React from 'react';
 
 import { ContextValue as AdminCategoriesStateContextValue } from '@eye8/admin/state/categories';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
   adminCategoriesState: AdminCategoriesStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   categories: AdminCategoriesStateContextValue['state']['entities'];
   isDataLoaded: boolean;
   isLoading: boolean;
@@ -16,7 +16,7 @@ export interface IViewProps {
 export const AdminCategoriesListPresenter = ({
   View,
   adminCategoriesState: { isListLoading, entities, get, hasListLoaded },
-}: IProps) => {
+}: Props) => {
   React.useEffect(() => {
     get();
   }, [get]);

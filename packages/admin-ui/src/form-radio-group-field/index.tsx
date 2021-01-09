@@ -1,27 +1,33 @@
 import React from 'react';
 
 import {
-  IRadioProps,
+  RadioProps,
   Radio,
-  IControlProps,
+  ControlProps,
   Control,
-  IFieldProps,
+  FieldProps,
   Field,
-  IHelpTextProps,
+  HelpTextProps,
   HelpText,
-  ILabelProps,
+  LabelProps,
   Label,
-} from '@eye8/admin-ui/index';
+} from '@eye8/admin-ui';
 
-export interface IProps {
-  controlProps?: IControlProps;
-  fieldProps?: IFieldProps;
-  helpTextProps?: IHelpTextProps;
-  radioPropsList: IRadioProps[];
-  labelProps?: ILabelProps;
+export interface Props {
+  controlProps?: ControlProps;
+  fieldProps?: FieldProps;
+  helpTextProps?: HelpTextProps;
+  radioPropsList: RadioProps[];
+  labelProps?: LabelProps;
 }
 
-const Index = ({ controlProps = {}, fieldProps = {}, radioPropsList, labelProps = {}, helpTextProps = {} }: IProps) => {
+const FormRadioGroupField = ({
+  controlProps = {},
+  fieldProps = {},
+  radioPropsList,
+  labelProps = {},
+  helpTextProps = {},
+}: Props) => {
   return (
     <Field {...fieldProps}>
       <Label {...labelProps} />
@@ -35,4 +41,4 @@ const Index = ({ controlProps = {}, fieldProps = {}, radioPropsList, labelProps 
   );
 };
 
-export default Index;
+export default FormRadioGroupField;

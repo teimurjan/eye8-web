@@ -1,30 +1,30 @@
 import { Client } from '@eye8/api/types';
-import { IHeadersManager } from '@eye8/manager/headers';
+import { HeadersManager } from '@eye8/manager/headers';
 
-export interface IAuthResponseData {
+export interface AuthResponseData {
   access_token: string;
   refresh_token: string;
 }
 
-export interface ILogInPayload {
+export interface LogInPayload {
   email: string;
   password: string;
 }
 
-export interface ISignUpPayload {
+export interface SignUpPayload {
   name: string;
   email: string;
   password: string;
 }
 
-export interface IAuthAPI {
+export interface AuthAPI {
   logIn(
-    payload: ILogInPayload,
+    payload: LogInPayload,
   ): Promise<{
     accessToken: string;
     refreshToken: string;
   }>;
-  signUp(payload: ISignUpPayload): Promise<{}>;
+  signUp(payload: SignUpPayload): Promise<{}>;
   confirmSignup(token: string): Promise<{}>;
   refreshTokens(
     refreshToken: string,
@@ -53,18 +53,18 @@ export class EmailOrPasswordInvalidError extends Error {
   }
 }
 
-export class AuthAPI implements IAuthAPI {
+export default class implements AuthAPI {
   private client: Client;
-  private headersManager: IHeadersManager;
+  private headersManager: HeadersManager;
 
-  constructor(client: Client, headersManager: IHeadersManager) {
+  constructor(client: Client, headersManager: HeadersManager) {
     this.client = client;
     this.headersManager = headersManager;
   }
 
-  public logIn: IAuthAPI['logIn'] = async ({ email, password }) => {
+  public logIn: AuthAPI['logIn'] = async ({ email, password }) => {
     try {
-      const response = await this.client.post<IAuthResponseData>(
+      const response = await this.client.post<AuthResponseData>(
         '/api/auth/login',
         {
           email,
@@ -85,7 +85,7 @@ export class AuthAPI implements IAuthAPI {
     }
   };
 
-  public signUp: IAuthAPI['signUp'] = async ({ name, email, password }) => {
+  public signUp: AuthAPI['signUp'] = async ({ name, email, password }) => {
     try {
       await this.client.post(
         '/api/auth/register',
@@ -118,7 +118,7 @@ export class AuthAPI implements IAuthAPI {
   }
 
   public async refreshTokens(refreshToken: string) {
-    const response = await this.client.post<IAuthResponseData>(
+    const response = await this.client.post<AuthResponseData>(
       '/api/auth/refresh',
       {
         refresh_token: refreshToken,

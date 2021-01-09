@@ -51,7 +51,7 @@ module.exports = withPWA(
                 include: [workspace],
                 exclude: /node_modules/,
                 use: options.defaultLoaders.babel,
-              },
+              }
             ],
           };
 

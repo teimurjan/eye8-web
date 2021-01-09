@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { IOrderListResponseItem } from '@eye8/api/order';
-import { makeEntityState, IContextValue } from '@eye8/shared/utils';
+import { OrderListResponseItem } from '@eye8/api/order';
+import { makeEntityState, EntityContextValue } from '@eye8/shared/utils';
 
-export type ContextValue = IContextValue<IOrderListResponseItem, IOrderListResponseItem>;
+export type ContextValue = EntityContextValue<OrderListResponseItem, OrderListResponseItem>;
 
 const Context = React.createContext<ContextValue | null>(null);
 

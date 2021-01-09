@@ -17,7 +17,7 @@ enum Size {
   Wide = 'wide',
 }
 
-interface IProps {
+interface Props {
   className?: string;
   url: string;
   id: number;
@@ -26,7 +26,7 @@ interface IProps {
 
 const IFRAME_HEIGHT_OFFSET_PX = 95;
 
-export const InstagramPost = ({ className, url, id, size }: IProps) => {
+export const InstagramPost = ({ className, url, id, size }: Props) => {
   const [response, setResponse] = React.useState<Response | undefined>(undefined);
   const [isRendered, setRendered] = React.useState(false);
 

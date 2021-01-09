@@ -2,12 +2,12 @@ import React from 'react';
 
 import { ContextValue as AdminFeatureTypesContextValue } from '@eye8/admin/state/feature-types';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
   adminFeatureTypesState: AdminFeatureTypesContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   featureTypes: AdminFeatureTypesContextValue['state']['entities'];
   isDataLoaded: boolean;
   isLoading: boolean;
@@ -16,7 +16,7 @@ export interface IViewProps {
 export const AdminFeatureTypesListPresenter = ({
   View,
   adminFeatureTypesState: { isListLoading, entities: featureTypes, get: getFeatureTypes, hasListLoaded },
-}: IProps) => {
+}: Props) => {
   React.useEffect(() => {
     getFeatureTypes();
     // eslint-disable-next-line react-hooks/exhaustive-deps

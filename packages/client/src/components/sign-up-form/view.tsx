@@ -12,7 +12,7 @@ import { useIntl } from 'react-intl';
 
 import { Anchor, Button, PasswordInput, UnderlinedInput, HelpText, Message, Title } from '@eye8/client-ui';
 import { authButtonsContainerCSS } from '@eye8/client/components/login-form/view';
-import { IViewProps as IProps, IFormValues } from '@eye8/client/components/sign-up-form/presenter';
+import { ViewProps as Props, FormValues } from '@eye8/client/components/sign-up-form/presenter';
 
 const NameField = ({ input, meta }: FieldRenderProps<string>) => {
   const intl = useIntl();
@@ -61,7 +61,7 @@ const InnerForm = ({
   submitting,
   globalError,
   openLogin,
-}: FormRenderProps<IFormValues> & Pick<IProps, 'globalError' | 'openLogin'>) => {
+}: FormRenderProps<FormValues> & Pick<Props, 'globalError' | 'openLogin'>) => {
   const intl = useIntl();
   return (
     <form onSubmit={handleSubmit}>
@@ -87,9 +87,9 @@ const InnerForm = ({
   );
 };
 
-const TypedFinalForm = FinalForm as React.FC<FormProps<IFormValues> & Pick<IProps, 'globalError' | 'openLogin'>>;
+const TypedFinalForm = FinalForm as React.FC<FormProps<FormValues> & Pick<Props, 'globalError' | 'openLogin'>>;
 
-export const SignUpView = (props: IProps) => {
+export const SignUpView = (props: Props) => {
   const intl = useIntl();
   const { onSubmit, validate, globalError, isSuccess, openLogin } = props;
 
@@ -113,7 +113,7 @@ export const SignUpView = (props: IProps) => {
           <TypedFinalForm
             validate={validate}
             onSubmit={onSubmit}
-            component={InnerForm as React.FC<FormRenderProps<IFormValues>>}
+            component={InnerForm as React.FC<FormRenderProps<FormValues>>}
             globalError={globalError}
             openLogin={openLogin}
           />

@@ -1,18 +1,18 @@
-import { IIntlStorage } from '@eye8/storage/intl';
+import { IntlStorage } from '@eye8/storage/intl';
 
-export interface IIntlService {
+export interface IntlService {
   getLocale(): string | null;
   setLocale(locale: string): void;
 }
 
-export class IntlService implements IIntlService {
-  private storage: IIntlStorage;
+export default class implements IntlService {
+  private storage: IntlStorage;
 
-  constructor(storage: IIntlStorage) {
+  constructor(storage: IntlStorage) {
     this.storage = storage;
   }
 
-  public getLocale: IIntlService['getLocale'] = () => this.storage.getLocale();
+  public getLocale: IntlService['getLocale'] = () => this.storage.getLocale();
 
-  public setLocale: IIntlService['setLocale'] = (locale) => this.storage.setLocale(locale);
+  public setLocale: IntlService['setLocale'] = (locale) => this.storage.setLocale(locale);
 }

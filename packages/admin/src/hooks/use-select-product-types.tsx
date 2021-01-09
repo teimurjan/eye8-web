@@ -2,26 +2,26 @@ import uniq from 'lodash/uniq';
 import React from 'react';
 
 import {
-  IProductTypeListRawIntlMinifiedResponseItem,
-  IProductTypeListResponseMeta,
+  ProductTypeListRawIntlMinifiedResponseItem,
+  ProductTypeListResponseMeta,
   ProductTypeSortingType,
 } from '@eye8/api/product-type';
-import { IProductTypeService } from '@eye8/service/product-type';
+import { ProductTypeService } from '@eye8/service/product-type';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
-interface IArgs {
-  productTypeService: IProductTypeService;
+interface Args {
+  productTypeService: ProductTypeService;
   mandatoryProductTypeId?: number;
 }
 
-export const useSelectProductTypes = ({ productTypeService, mandatoryProductTypeId }: IArgs) => {
+export const useSelectProductTypes = ({ productTypeService, mandatoryProductTypeId }: Args) => {
   const [data, setData] = React.useState<{
-    entities: { [id: string]: IProductTypeListRawIntlMinifiedResponseItem };
+    entities: { [id: string]: ProductTypeListRawIntlMinifiedResponseItem };
     order: number[];
   }>({ entities: {}, order: [] });
   const [isLoading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>(undefined);
-  const [meta, setMeta] = React.useState<IProductTypeListResponseMeta>({
+  const [meta, setMeta] = React.useState<ProductTypeListResponseMeta>({
     count: 0,
     pages_count: 0,
     page: 0,

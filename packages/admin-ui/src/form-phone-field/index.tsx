@@ -3,13 +3,13 @@ import { FieldRenderProps } from 'react-final-form';
 import InputMask from 'react-input-mask';
 import { useIntl } from 'react-intl';
 
-import { FormTextField, Input } from '@eye8/admin-ui/index';
+import { FormTextField, Input } from '@eye8/admin-ui';
 
-export interface IProps {
+export interface Props {
   label: string;
 }
 
-const Index = ({ input, meta, label }: FieldRenderProps<string> & IProps) => {
+const FormPhoneField = ({ input, meta, label }: FieldRenderProps<string> & Props) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
   const inputProps = {
@@ -37,4 +37,4 @@ const Index = ({ input, meta, label }: FieldRenderProps<string> & IProps) => {
   );
 };
 
-export default Index;
+export default FormPhoneField;

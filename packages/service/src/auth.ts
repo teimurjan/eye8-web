@@ -1,18 +1,18 @@
 import {
-  IAuthAPI,
-  ILogInPayload,
-  ISignUpPayload,
+  AuthAPI,
+  LogInPayload,
+  SignUpPayload,
   EmailOrPasswordInvalidError,
   DuplicateEmailError,
   SignupNotFoundError,
 } from '@eye8/api/auth';
 import { decodeAccessToken, AuthorizedUser } from '@eye8/shared/state/user';
-import { IAuthStorage } from '@eye8/storage/auth';
-import { IStateCacheStorage } from '@eye8/storage/state-cache';
+import { AuthStorage } from '@eye8/storage/auth';
+import { StateCacheStorage } from '@eye8/storage/state-cache';
 
-export interface IAuthService {
-  logIn(payload: ILogInPayload): Promise<AuthorizedUser>;
-  signUp(payload: ISignUpPayload): Promise<void>;
+export interface AuthService {
+  logIn(payload: LogInPayload): Promise<AuthorizedUser>;
+  signUp(payload: SignUpPayload): Promise<void>;
   confirmSignup(token: string): Promise<void>;
   refreshTokens(): Promise<void>;
   getAccessToken(): string | null;
@@ -44,18 +44,18 @@ export class NoRefreshTokenError extends Error {
   }
 }
 
-export class AuthService implements IAuthService {
-  private API: IAuthAPI;
-  private storage: IAuthStorage;
-  private stateCacheStorage_: IStateCacheStorage;
+export default class implements AuthService {
+  private API: AuthAPI;
+  private storage: AuthStorage;
+  private stateCacheStorage_: StateCacheStorage;
 
-  constructor(API: IAuthAPI, storage: IAuthStorage, stateCacheStorage_: IStateCacheStorage) {
+  constructor(API: AuthAPI, storage: AuthStorage, stateCacheStorage_: StateCacheStorage) {
     this.API = API;
     this.storage = storage;
     this.stateCacheStorage_ = stateCacheStorage_;
   }
 
-  public logIn: IAuthService['logIn'] = async (payload) => {
+  public logIn: AuthService['logIn'] = async (payload) => {
     try {
       const { accessToken, refreshToken } = await this.API.logIn(payload);
 
@@ -71,7 +71,7 @@ export class AuthService implements IAuthService {
     }
   };
 
-  public signUp: IAuthService['signUp'] = async (payload) => {
+  public signUp: AuthService['signUp'] = async (payload) => {
     try {
       await this.API.signUp(payload);
     } catch (e) {
@@ -82,7 +82,7 @@ export class AuthService implements IAuthService {
     }
   };
 
-  public confirmSignup: IAuthService['confirmSignup'] = async (token) => {
+  public confirmSignup: AuthService['confirmSignup'] = async (token) => {
     try {
       await this.API.confirmSignup(token);
     } catch (e) {
@@ -93,7 +93,7 @@ export class AuthService implements IAuthService {
     }
   };
 
-  public refreshTokens: IAuthService['refreshTokens'] = async () => {
+  public refreshTokens: AuthService['refreshTokens'] = async () => {
     const oldRefreshToken = this.storage.getRefreshToken();
     if (oldRefreshToken) {
       const { accessToken, refreshToken } = await this.API.refreshTokens(oldRefreshToken);

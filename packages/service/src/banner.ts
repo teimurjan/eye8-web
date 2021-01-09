@@ -1,33 +1,33 @@
 import { normalize, schema } from 'normalizr';
 
 import {
-  IBannerAPI,
+  BannerAPI,
   BannerNotFoundError,
-  IBannerListResponseItem,
-  IBannerListRawIntlResponseItem,
-  IBannerCreatePayload,
+  BannerListResponseItem,
+  BannerListRawIntlResponseItem,
+  BannerCreatePayload,
 } from '@eye8/api/banner';
 
-export interface IBannerService {
+export interface BannerService {
   getAll(): Promise<{
     entities: {
-      banners: { [key: string]: IBannerListResponseItem };
+      banners: { [key: string]: BannerListResponseItem };
     };
     result: number[];
   }>;
   getAllRawIntl(): Promise<{
     entities: {
       banners: {
-        [key: string]: IBannerListRawIntlResponseItem;
+        [key: string]: BannerListRawIntlResponseItem;
       };
     };
     result: number[];
   }>;
   delete(id: number): Promise<{}>;
-  create(payload: IBannerCreatePayload): Promise<IBannerListRawIntlResponseItem>;
+  create(payload: BannerCreatePayload): Promise<BannerListRawIntlResponseItem>;
   exists(id: number): Promise<boolean>;
-  getOneRawIntl(id: number): Promise<IBannerListRawIntlResponseItem | undefined>;
-  edit(id: number, payload: IBannerCreatePayload): Promise<IBannerListRawIntlResponseItem>;
+  getOneRawIntl(id: number): Promise<BannerListRawIntlResponseItem | undefined>;
+  edit(id: number, payload: BannerCreatePayload): Promise<BannerListRawIntlResponseItem>;
 }
 
 class BannerNotExistsError extends Error {
@@ -37,23 +37,23 @@ class BannerNotExistsError extends Error {
   }
 }
 
-export class BannerService implements IBannerService {
-  private API: IBannerAPI;
-  constructor(API: IBannerAPI) {
+export default class implements BannerService {
+  private API: BannerAPI;
+  constructor(API: BannerAPI) {
     this.API = API;
   }
 
-  public getAll: IBannerService['getAll'] = async () => {
+  public getAll: BannerService['getAll'] = async () => {
     const banners = await this.API.getAll();
     return normalize(banners.data, [new schema.Entity('banners')]);
   };
 
-  public getAllRawIntl: IBannerService['getAllRawIntl'] = async () => {
+  public getAllRawIntl: BannerService['getAllRawIntl'] = async () => {
     const banners = await this.API.getAllRawIntl();
     return normalize(banners.data, [new schema.Entity('banners')]);
   };
 
-  public delete: IBannerService['delete'] = async (id) => {
+  public delete: BannerService['delete'] = async (id) => {
     try {
       return await this.API.delete(id);
     } catch (e) {
@@ -65,11 +65,11 @@ export class BannerService implements IBannerService {
     }
   };
 
-  public create: IBannerService['create'] = async (payload) => {
+  public create: BannerService['create'] = async (payload) => {
     return (await this.API.create(payload)).data;
   };
 
-  public exists: IBannerService['exists'] = async (id) => {
+  public exists: BannerService['exists'] = async (id) => {
     try {
       await this.API.status(id);
       return true;
@@ -82,7 +82,7 @@ export class BannerService implements IBannerService {
     }
   };
 
-  public edit: IBannerService['edit'] = async (id, payload) => {
+  public edit: BannerService['edit'] = async (id, payload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
@@ -94,7 +94,7 @@ export class BannerService implements IBannerService {
     }
   };
 
-  public getOneRawIntl: IBannerService['getOneRawIntl'] = async (id: number) => {
+  public getOneRawIntl: BannerService['getOneRawIntl'] = async (id: number) => {
     try {
       return (await this.API.getOneRawIntl(id)).data;
     } catch (e) {

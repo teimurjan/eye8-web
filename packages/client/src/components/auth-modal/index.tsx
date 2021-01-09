@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Modal } from '@eye8/client-ui';
 import { LoginContainer } from '@eye8/client/components/login-form/container';
 import { SignUpContainer } from '@eye8/client/components/sign-up-form/container';
 import { useAuthModalState } from '@eye8/client/state/auth-modal';
+import { Modal } from '@eye8/shared/components';
 import { useLazyInitialization } from '@eye8/shared/hooks';
 
 export const AuthModal = () => {

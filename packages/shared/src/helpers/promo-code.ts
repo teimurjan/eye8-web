@@ -1,7 +1,7 @@
-import { IPromoCodeListResponseItem } from '@eye8/api/promo-code';
+import { PromoCodeListResponseItem } from '@eye8/api/promo-code';
 
 export const isPromoCodeApplicableForProduct = (
-  promoCodeProductsIds: IPromoCodeListResponseItem['products'],
+  promoCodeProductsIds: PromoCodeListResponseItem['products'],
   product: { id: number },
 ) => {
   return (

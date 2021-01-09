@@ -4,19 +4,19 @@ import * as yup from 'yup';
 
 import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
 import { ContextValue as AdminFeatureTypesStateContextValue } from '@eye8/admin/state/feature-types';
-import { IFeatureTypeListRawIntlResponseItem } from '@eye8/api/feature-type';
-import { IFeatureTypeService } from '@eye8/service/feature-type';
-import { availableLocales, SchemaValidator } from '@eye8/shared/utils';
+import { FeatureTypeListRawIntlResponseItem } from '@eye8/api/feature-type';
+import { FeatureTypeService } from '@eye8/service/feature-type';
+import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: IFeatureTypeService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: FeatureTypeService;
   featureTypeId: number;
   history: History;
   adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
   edit: (values: { names: { [key: string]: string } }) => void;
   isLoading: boolean;
@@ -42,7 +42,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminFeatureTypesEditPresenter: React.FC<IProps> = ({
+export const AdminFeatureTypesEditPresenter: React.FC<Props> = ({
   View,
   history,
   service,
@@ -51,7 +51,7 @@ export const AdminFeatureTypesEditPresenter: React.FC<IProps> = ({
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
-  const [featureType, setFeatureType] = React.useState<IFeatureTypeListRawIntlResponseItem | undefined>(undefined);
+  const [featureType, setFeatureType] = React.useState<FeatureTypeListRawIntlResponseItem | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
 
@@ -74,7 +74,7 @@ export const AdminFeatureTypesEditPresenter: React.FC<IProps> = ({
   }, [featureTypeId, service]);
 
   const close = React.useCallback(() => history.push('/admin/featureTypes'), [history]);
-  const edit: IViewProps['edit'] = async (values) => {
+  const edit: ViewProps['edit'] = async (values) => {
     const formattedValues = Object.keys(values).reduce(
       (acc, fieldName) => {
         const { key, locale } = parseFieldName(fieldName);

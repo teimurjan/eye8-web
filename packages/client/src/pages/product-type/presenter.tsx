@@ -1,35 +1,35 @@
 import React from 'react';
 
-import { IProductListResponseItem } from '@eye8/api/product';
-import { IProductTypeDetailResponseItem } from '@eye8/api/product-type';
-import { IProductService } from '@eye8/service/product';
-import { IProductTypeService } from '@eye8/service/product-type';
+import { ProductListResponseItem } from '@eye8/api/product';
+import { ProductTypeDetailResponseItem } from '@eye8/api/product-type';
+import { ProductService } from '@eye8/service/product';
+import { ProductTypeService } from '@eye8/service/product-type';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  productTypeService: IProductTypeService;
-  productService: IProductService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  productTypeService: ProductTypeService;
+  productService: ProductService;
   id?: number;
   actionText: string;
-  action?: (product: IProductListResponseItem) => void;
+  action?: (product: ProductListResponseItem) => void;
   initialProps?: {
-    productType: IProductTypeDetailResponseItem | null;
-    products: IProductListResponseItem[];
+    productType: ProductTypeDetailResponseItem | null;
+    products: ProductListResponseItem[];
     error?: string;
   };
 }
 
-export interface IViewProps {
-  productType: IProductTypeDetailResponseItem | null;
-  products: IProductListResponseItem[];
+export interface ViewProps {
+  productType: ProductTypeDetailResponseItem | null;
+  products: ProductListResponseItem[];
   error: string | undefined;
   isLoading: boolean;
-  action: IProps['action'];
-  actionText: IProps['actionText'];
+  action: Props['action'];
+  actionText: Props['actionText'];
 }
 
-export const ProductTypePagePresenter: React.FC<IProps> = ({
+export const ProductTypePagePresenter: React.FC<Props> = ({
   View,
   productService,
   productTypeService,
@@ -40,10 +40,10 @@ export const ProductTypePagePresenter: React.FC<IProps> = ({
 }) => {
   const [error, setError] = React.useState<string | undefined>(initialProps ? initialProps.error : undefined);
   const [isLoading, setLoading] = React.useState<boolean>(initialProps ? false : true);
-  const [productType, setProductType] = React.useState<null | IProductTypeDetailResponseItem>(
+  const [productType, setProductType] = React.useState<null | ProductTypeDetailResponseItem>(
     initialProps ? initialProps.productType : null,
   );
-  const [products, setProducts] = React.useState<IProductListResponseItem[]>(initialProps ? initialProps.products : []);
+  const [products, setProducts] = React.useState<ProductListResponseItem[]>(initialProps ? initialProps.products : []);
 
   React.useEffect(() => {
     if (initialProps && !initialProps.productType) {

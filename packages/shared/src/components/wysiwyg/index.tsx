@@ -3,9 +3,9 @@ import { Global, css, jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
 import React from 'react';
 
-import { LoaderLayout } from '@eye8/client-ui';
+import { LoaderLayout } from '@eye8/shared/components';
 
-export interface IProps {
+export interface Props {
   className?: string;
   placeholder?: string;
   onChange?: (serializedContent: string) => void;
@@ -15,7 +15,7 @@ export interface IProps {
   initialValue?: string;
 }
 
-interface IEditor {
+interface Editor {
   getData: () => string;
 }
 
@@ -26,7 +26,7 @@ const CKEditorLazy = React.lazy(async () => {
   return { default: (props: any) => <CKEditor editor={ClassicEditor} {...props} /> };
 });
 
-const Wysiwyg = ({ onChange, onBlur, onFocus, initialValue, placeholder, hasError }: IProps) => {
+const Wysiwyg = ({ onChange, onBlur, onFocus, initialValue, placeholder, hasError }: Props) => {
   const theme = useTheme<ClientUITheme>();
 
   return (
@@ -59,7 +59,7 @@ const Wysiwyg = ({ onChange, onBlur, onFocus, initialValue, placeholder, hasErro
             placeholder,
           }}
           data={initialValue}
-          onChange={(_: any, editor: IEditor) => {
+          onChange={(_: any, editor: Editor) => {
             const data = editor.getData();
             onChange && onChange(data);
           }}

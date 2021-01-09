@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
   ProductTypesPageFilterPresenter,
-  IProps as IPresenterProps,
+  Props as PresenterProps,
 } from '@eye8/client/components/product-types-page-filter/presenter';
 import { ProductTypesPageFilterView } from '@eye8/client/components/product-types-page-filter/view';
 import { useDependencies } from '@eye8/di';
@@ -14,7 +14,7 @@ export const ProductTypesPageFilterContainer = ({
   characteristicValuesIds,
   disabled,
 }: Pick<
-  IPresenterProps,
+  PresenterProps,
   'sortingType' | 'onSortingTypeChange' | 'onCharacteristicValuesChange' | 'characteristicValuesIds' | 'disabled'
 >) => {
   const {

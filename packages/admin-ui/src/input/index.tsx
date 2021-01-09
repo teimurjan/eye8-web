@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-export interface IProps {
+export interface Props {
   isDanger?: boolean;
   className?: string;
   type?: string;
@@ -13,6 +13,6 @@ export interface IProps {
   disabled?: boolean;
 }
 
-export default React.forwardRef<HTMLInputElement, IProps>(({ className, isDanger, ...props }, ref) => (
+export default React.forwardRef<HTMLInputElement, Props>(({ className, isDanger, ...props }, ref) => (
   <input ref={ref} className={classNames('input', className, { 'is-danger': isDanger })} {...props} />
 ));

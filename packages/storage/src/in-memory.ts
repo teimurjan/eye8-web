@@ -1,6 +1,8 @@
 import { Storage } from '@eye8/storage/types';
 
-export class InMemoryStorage implements Storage {
+export type InMemoryStorage = Storage;
+
+export default class implements Storage {
   private storage: { [key: string]: string | null } = {};
 
   get length() {

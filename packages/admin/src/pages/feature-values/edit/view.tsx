@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 
 import { ModalForm } from '@eye8/admin/components/modal-form';
 import { Fields } from '@eye8/admin/pages/feature-values/create/fields';
-import { IViewProps as IProps } from '@eye8/admin/pages/feature-values/edit/presenter';
+import { ViewProps as Props } from '@eye8/admin/pages/feature-values/edit/presenter';
 
 export const AdminFeatureValuesEditView = ({
   isOpen,
@@ -16,7 +16,7 @@ export const AdminFeatureValuesEditView = ({
   validate,
   preloadingError,
   featureTypes,
-}: IProps) => {
+}: Props) => {
   const intl = useIntl();
   return (
     <ModalForm

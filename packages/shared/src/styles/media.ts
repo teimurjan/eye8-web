@@ -5,6 +5,8 @@ export const mediaQueries = {
   minWidth768: '(min-width: 769px)',
   maxWidth1024: '(max-width: 1024px)',
   minWidth1024: '(min-width: 1025px)',
+  maxWidth1216: '(max-width: 1216px)',
+  minWidth1216: '(min-width: 1217px)',
   maxWidth1440: '(max-width: 1440px)',
   minWidth1440: '(min-width: 1441px)',
   minWidth1600: '(min-width: 1600px)',

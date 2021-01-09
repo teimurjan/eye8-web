@@ -4,17 +4,17 @@ import * as yup from 'yup';
 
 import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
 import { ContextValue as AdminBannersStateContextValue } from '@eye8/admin/state/banners';
-import { IBannerService } from '@eye8/service/banner';
-import { availableLocales, SchemaValidator } from '@eye8/shared/utils';
+import { BannerService } from '@eye8/service/banner';
+import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: IBannerService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: BannerService;
   history: History;
   adminBannersState: AdminBannersStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
   create: (values: {
     texts: {
@@ -56,7 +56,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminBannersCreatePresenter: React.FC<IProps> = ({
+export const AdminBannersCreatePresenter: React.FC<Props> = ({
   history,
   adminBannersState: { add: addBanner },
   service,
@@ -67,7 +67,7 @@ export const AdminBannersCreatePresenter: React.FC<IProps> = ({
 
   const close = React.useCallback(() => history.push('/admin/banners'), [history]);
 
-  const create: IViewProps['create'] = React.useCallback(
+  const create: ViewProps['create'] = React.useCallback(
     async (values) => {
       setCreating(true);
 

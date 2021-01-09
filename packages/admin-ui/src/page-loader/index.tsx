@@ -9,12 +9,12 @@ import Transition from 'react-transition-group/Transition';
 import { useModalScrollLock } from '@eye8/shared/hooks';
 import { PAGE_LOADER_ID, safeDocument } from '@eye8/shared/utils';
 
-export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   isActive: boolean;
   timeout?: number;
 }
 
-interface ILoaderProps extends React.HTMLAttributes<HTMLDivElement> {
+interface LoaderProps extends React.HTMLAttributes<HTMLDivElement> {
   timeout: number;
   status: string;
   color?: string;
@@ -41,7 +41,7 @@ const getCSS = (timeout: number, shouldShow: boolean) => (theme: AdminUITheme) =
   }
 `;
 
-const Loader = ({ status, timeout, className, color, ...props }: ILoaderProps) => {
+const Loader = ({ status, timeout, className, color, ...props }: LoaderProps) => {
   useModalScrollLock();
   const theme = useTheme<AdminUITheme>();
 
@@ -54,7 +54,7 @@ const Loader = ({ status, timeout, className, color, ...props }: ILoaderProps) =
   );
 };
 
-const PageLoader = ({ timeout = 500, isActive, ...props }: IProps) =>
+const PageLoader = ({ timeout = 500, isActive, ...props }: Props) =>
   safeDocument(
     (d) =>
       ReactDOM.createPortal(

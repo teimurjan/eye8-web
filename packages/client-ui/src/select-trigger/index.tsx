@@ -5,28 +5,14 @@ import { useTheme } from 'emotion-theming';
 import React from 'react';
 import { ChevronDown as ChevronDownIcon } from 'react-feather';
 
-import { ISelectOption, IconWrapper } from '@eye8/client-ui';
+import { IconWrapper, SelectTriggerProps } from '@eye8/shared/components';
 import { IconSize } from '@eye8/shared/styles';
 
 const VERTICAL_PADDING_PX = 7.5;
 const LEFT_PADDING_PX = 2.5;
 const RIGHT_PADDING_PX = 24;
 
-export interface IProps {
-  placeholder?: string;
-  onClick?: React.MouseEventHandler;
-  onFocus: React.FocusEventHandler;
-  isOpen: boolean;
-  change: (options: Array<ISelectOption>) => void;
-  onSearch?: (query: string) => void;
-  searchQuery?: string;
-  selectedOptions: Array<ISelectOption>;
-  clearable?: boolean;
-}
-
-export type ITriggerComponentType<T extends HTMLElement> = React.ComponentType<IProps & React.RefAttributes<T>>;
-
-export default React.forwardRef<HTMLDivElement, IProps>(
+export default React.forwardRef<HTMLDivElement, SelectTriggerProps>(
   ({ selectedOptions, onFocus, onClick, isOpen, placeholder }, ref) => {
     const theme = useTheme<ClientUITheme>();
 

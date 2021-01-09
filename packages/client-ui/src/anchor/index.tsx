@@ -14,7 +14,7 @@ enum Weight {
   Bold = 'bold',
 }
 
-export interface IProps {
+export interface Props {
   className?: string;
   href?: string;
   as?: string;
@@ -33,11 +33,11 @@ export interface IProps {
 }
 
 export interface AnchorComponent
-  extends React.ForwardRefExoticComponent<React.PropsWithoutRef<IProps> & React.RefAttributes<HTMLAnchorElement>> {
+  extends React.ForwardRefExoticComponent<React.PropsWithoutRef<Props> & React.RefAttributes<HTMLAnchorElement>> {
   Weight: typeof Weight;
 }
 
-const Anchor = React.forwardRef<HTMLAnchorElement, IProps>(
+const Anchor = React.forwardRef<HTMLAnchorElement, Props>(
   (
     {
       className,

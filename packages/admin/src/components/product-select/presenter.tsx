@@ -1,36 +1,36 @@
 import React from 'react';
 
-import { IProductListResponseItem } from '@eye8/api/product';
-import { IProductTypeListResponseItem } from '@eye8/api/product-type';
-import { IProductTypeService } from '@eye8/service/product-type';
+import { ProductListResponseItem } from '@eye8/api/product';
+import { ProductTypeListResponseItem } from '@eye8/api/product-type';
+import { ProductTypeService } from '@eye8/service/product-type';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  productTypeService: IProductTypeService;
-  onChange: (product: IProductListResponseItem) => void;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  productTypeService: ProductTypeService;
+  onChange: (product: ProductListResponseItem) => void;
   placeholder?: string;
   className?: string;
 }
 
-export interface IViewProps {
-  productTypes: IProductTypeListResponseItem[];
+export interface ViewProps {
+  productTypes: ProductTypeListResponseItem[];
   error: string | undefined;
   isLoading: boolean;
   onSearchValueChange: (value: string) => Promise<void>;
-  selectProductType: (productType?: IProductTypeListResponseItem) => void;
-  selectedProductType?: IProductTypeListResponseItem;
-  onChange: IProps['onChange'];
+  selectProductType: (productType?: ProductTypeListResponseItem) => void;
+  selectedProductType?: ProductTypeListResponseItem;
+  onChange: Props['onChange'];
   placeholder?: string;
   className?: string;
 }
 
-export const ProductSelectPresenter = ({ productTypeService, onChange, View, placeholder, className }: IProps) => {
-  const [selectedProductType, setSelectedProductType] = React.useState<IProductTypeListResponseItem | undefined>(
+export const ProductSelectPresenter = ({ productTypeService, onChange, View, placeholder, className }: Props) => {
+  const [selectedProductType, setSelectedProductType] = React.useState<ProductTypeListResponseItem | undefined>(
     undefined,
   );
   const [data, setData] = React.useState<{
-    entities: { [key: number]: IProductTypeListResponseItem };
+    entities: { [key: number]: ProductTypeListResponseItem };
     order: number[];
   }>({
     entities: {},
@@ -61,7 +61,7 @@ export const ProductSelectPresenter = ({ productTypeService, onChange, View, pla
     [productTypeService],
   );
 
-  const selectProductType: IViewProps['selectProductType'] = React.useCallback(async (productType) => {
+  const selectProductType: ViewProps['selectProductType'] = React.useCallback(async (productType) => {
     setSelectedProductType(productType);
   }, []);
 

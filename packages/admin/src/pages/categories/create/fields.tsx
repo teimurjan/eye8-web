@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
-import { FormSelectField, Trigger } from '@eye8/admin-ui/index';
+import { FormSelectField, SelectTrigger } from '@eye8/admin-ui';
 import { IntlField } from '@eye8/admin/components/intl-field';
 import { ContextValue as AdminCategoriesStateContextValue } from '@eye8/admin/state/categories';
 
@@ -10,7 +10,7 @@ const ParentCategorySelect = ({
   categories,
   input,
   meta,
-}: FieldRenderProps<string> & Pick<IFieldsProps, 'categories'>) => {
+}: FieldRenderProps<string> & Pick<FieldsProps, 'categories'>) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
@@ -34,7 +34,7 @@ const ParentCategorySelect = ({
           title: name[intl.locale],
           value: `${id}`,
         })),
-        TriggerComponent: Trigger,
+        TriggerComponent: SelectTrigger,
       }}
       helpTextProps={{
         children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
@@ -44,12 +44,12 @@ const ParentCategorySelect = ({
   );
 };
 
-export interface IFieldsProps {
+export interface FieldsProps {
   categories: AdminCategoriesStateContextValue['state']['entities'];
   nameFieldKey: string;
 }
 
-export const Fields = ({ categories, nameFieldKey }: IFieldsProps) => {
+export const Fields = ({ categories, nameFieldKey }: FieldsProps) => {
   const intl = useIntl();
   return (
     <>

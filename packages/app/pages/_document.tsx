@@ -4,12 +4,12 @@ import { extractCritical } from 'emotion-server';
 import Document, { Head, Main, Html, NextScript, DocumentContext, DocumentProps } from 'next/document';
 import React from 'react';
 
-import { IDependenciesFactoryArgs, dependenciesFactory } from '@eye8/di';
+import { DependenciesFactoryArgs, dependenciesFactory } from '@eye8/di';
 import { setGlobal, Locale, logTimeStart, logTimeFinish } from '@eye8/shared/utils';
 
-type IProps = DocumentProps & Then<ReturnType<typeof getInitialProps>>;
+type Props = DocumentProps & Then<ReturnType<typeof getInitialProps>>;
 
-const CustomNextDocument = ({ ids, css, localeDataScript, __CUSTOM_DATA__ }: IProps) => {
+const CustomNextDocument = ({ ids, css, localeDataScript, __CUSTOM_DATA__ }: Props) => {
   const polyfill = `https://cdn.polyfill.io/v3/polyfill.min.js?features=Intl.~locale.${__CUSTOM_DATA__.intl.locale}`;
 
   const customDataScript = `window.__CUSTOM_DATA__=${JSON.stringify(__CUSTOM_DATA__)};`;
@@ -78,7 +78,7 @@ const getInitialProps = async (ctx: DocumentContext) => {
 CustomNextDocument.getInitialProps = getInitialProps;
 CustomNextDocument.renderDocument = Document.renderDocument;
 
-const getStatesInitialProps = async (args: IDependenciesFactoryArgs) => {
+const getStatesInitialProps = async (args: DependenciesFactoryArgs) => {
   const {
     services: { category: categoryService, rate: rateService },
   } = dependenciesFactory(args);

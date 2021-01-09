@@ -2,11 +2,11 @@
 import { css, jsx } from '@emotion/core';
 import React from 'react';
 
-interface IProps {
+interface Props {
   children: React.ReactNode;
 }
 
-export const AdminFiltersSection = ({ children }: IProps) => (
+export const AdminFiltersSection = ({ children }: Props) => (
   <div
     css={css`
       margin-bottom: 20px;

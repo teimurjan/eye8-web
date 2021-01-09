@@ -1,26 +1,26 @@
 import { NextRouter } from 'next/router';
 import React from 'react';
 
-import { ICategoryListResponseItem } from '@eye8/api/category';
+import { CategoryListResponseItem } from '@eye8/api/category';
 import {
-  IProductTypeListResponseItem,
-  IProductTypeListResponseMeta,
+  ProductTypeListResponseItem,
+  ProductTypeListResponseMeta,
   ProductTypeSortingType,
   queryValueOfSortingType,
 } from '@eye8/api/product-type';
-import { IProps as IListViewProps } from '@eye8/client/components/product-type-list';
+import { Props as ListViewProps } from '@eye8/client/components/product-type-list';
 import { ProductTypesPageFilterContainer as ProductTypesPageFilter } from '@eye8/client/components/product-types-page-filter/container';
-import { IProductTypeService } from '@eye8/service/product-type';
+import { ProductTypeService } from '@eye8/service/product-type';
 import { agregateOrderedMapToArray, buildSearchString } from '@eye8/shared/utils';
 
-export interface IProps {
-  ListView: React.ComponentClass<IListViewProps> | React.SFC<IListViewProps>;
-  productTypeService: IProductTypeService;
+export interface Props {
+  ListView: React.ComponentClass<ListViewProps> | React.SFC<ListViewProps>;
+  productTypeService: ProductTypeService;
   router: NextRouter;
   initialProps: {
-    productTypes: { [key: string]: IProductTypeListResponseItem };
-    productTypesMeta: IProductTypeListResponseMeta;
-    category?: ICategoryListResponseItem;
+    productTypes: { [key: string]: ProductTypeListResponseItem };
+    productTypesMeta: ProductTypeListResponseMeta;
+    category?: CategoryListResponseItem;
     productTypesOrder: number[];
     error?: string;
     categorySlug?: string;
@@ -35,14 +35,14 @@ export const getCharacteristicValuesIdsFromQuery = (query: NextRouter['query']) 
     .map((id) => parseInt(id, 10))
     .filter((id) => !isNaN(id));
 
-export const ProductTypesPagePresenter = ({ ListView, productTypeService, initialProps, router }: IProps) => {
+export const ProductTypesPagePresenter = ({ ListView, productTypeService, initialProps, router }: Props) => {
   const [error, setError] = React.useState<string | undefined>(initialProps?.error);
   const [isLoading, setLoading] = React.useState(false);
-  const [category, setCategory] = React.useState<ICategoryListResponseItem | undefined>(initialProps?.category);
+  const [category, setCategory] = React.useState<CategoryListResponseItem | undefined>(initialProps?.category);
   const [productTypesData, setProductTypesData] = React.useState<{
-    entities: { [key: number]: IProductTypeListResponseItem };
+    entities: { [key: number]: ProductTypeListResponseItem };
     order: number[];
-    meta: IProductTypeListResponseMeta;
+    meta: ProductTypeListResponseMeta;
   }>({
     entities: initialProps?.productTypes ?? {},
     order: initialProps?.productTypesOrder ?? [],

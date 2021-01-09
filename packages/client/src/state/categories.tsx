@@ -1,36 +1,36 @@
 import React from 'react';
 
-import { ICategoryListResponseItem } from '@eye8/api/category';
+import { CategoryListResponseItem } from '@eye8/api/category';
 import { useDependencies } from '@eye8/di';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
-export interface IContextValue {
+export interface ContextValue {
   categoriesState: {
-    categories: ICategoryListResponseItem[];
+    categories: CategoryListResponseItem[];
     isLoading: boolean;
     error?: string;
   };
 }
 
-const Context = React.createContext<IContextValue | null>(null);
+const Context = React.createContext<ContextValue | null>(null);
 
-export interface IProviderProps {
+export interface ProviderProps {
   children?: React.ReactNode;
   initialProps?: {
-    categories: { [key: string]: ICategoryListResponseItem };
+    categories: { [key: string]: CategoryListResponseItem };
     categoriesOrder: number[];
     error?: string;
   };
 }
 
-export const CategoriesStateProvider: React.SFC<IProviderProps> = ({ children, initialProps }) => {
+export const CategoriesStateProvider: React.SFC<ProviderProps> = ({ children, initialProps }) => {
   const {
     dependencies: {
       services: { category: service },
     },
   } = useDependencies();
 
-  const [data, setData] = React.useState<{ entities: { [key: string]: ICategoryListResponseItem }; order: number[] }>({
+  const [data, setData] = React.useState<{ entities: { [key: string]: CategoryListResponseItem }; order: number[] }>({
     entities: initialProps?.categories ?? {},
     order: initialProps?.categoriesOrder ?? [],
   });
@@ -69,4 +69,4 @@ export const CategoriesStateProvider: React.SFC<IProviderProps> = ({ children, i
   );
 };
 
-export const useCategoriesState = () => React.useContext(Context) as IContextValue;
+export const useCategoriesState = () => React.useContext(Context) as ContextValue;

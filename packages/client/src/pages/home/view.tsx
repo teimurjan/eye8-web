@@ -4,15 +4,14 @@ import { useTheme } from 'emotion-theming';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Container } from '@eye8/admin-ui/index';
-import { LinkButton, Image, Title, InfiniteCarousel, Carousel } from '@eye8/client-ui';
+import { Container, LinkButton, Image, Title, InfiniteCarousel, Carousel } from '@eye8/client-ui';
 import { ProductTypesListView } from '@eye8/client/components/product-type-list';
-import { IViewProps as IProps } from '@eye8/client/pages/home/presenter';
+import { ViewProps as Props } from '@eye8/client/pages/home/presenter';
 import { useLazyInitialization, useMedia } from '@eye8/shared/hooks';
 import { mediaQueries } from '@eye8/shared/styles';
 import { arePropsEqual, guessPageHref } from '@eye8/shared/utils';
 
-const getTextPositioningCSS = (banner: IProps['banners'][0]) => {
+const getTextPositioningCSS = (banner: Props['banners'][0]) => {
   const horizontalRule = banner.text_left_offset
     ? { key: 'left', value: banner.text_left_offset, tranlate: -banner.text_left_offset }
     : { key: 'right', value: banner.text_right_offset, tranlate: banner.text_right_offset };
@@ -46,13 +45,13 @@ const getTextPositioningCSS = (banner: IProps['banners'][0]) => {
   `;
 };
 
-interface IBannerCarouselItemProps {
-  banner: IProps['banners'][0];
+interface BannerCarouselItemProps {
+  banner: Props['banners'][0];
   isMobile: boolean;
   dataKey?: string;
 }
 
-const BannerCarouselItem = ({ banner, isMobile, dataKey }: IBannerCarouselItemProps) => {
+const BannerCarouselItem = ({ banner, isMobile, dataKey }: BannerCarouselItemProps) => {
   const theme = useTheme<ClientUITheme>();
   return (
     <Carousel.Item
@@ -127,12 +126,12 @@ const BannerCarouselItem = ({ banner, isMobile, dataKey }: IBannerCarouselItemPr
   );
 };
 
-export interface IBannerButtonProps {
-  banner: IProps['banners'][0];
+export interface BannerButtonProps {
+  banner: Props['banners'][0];
   onMouseEnter: React.MouseEventHandler;
 }
 
-const HomeView = ({ banners, productTypes }: IProps) => {
+const HomeView = ({ banners, productTypes }: Props) => {
   const intl = useIntl();
   const isMobile = useMedia([mediaQueries.maxWidth768], [true], false);
   const { value: lazyIsMobile } = useLazyInitialization(isMobile, false);
@@ -170,7 +169,7 @@ const HomeView = ({ banners, productTypes }: IProps) => {
   );
 };
 
-const MemoizedHomeView = React.memo<IProps>(HomeView, (prevProps, nextProps) =>
+const MemoizedHomeView = React.memo<Props>(HomeView, (prevProps, nextProps) =>
   arePropsEqual(prevProps, nextProps, {
     banners: (prev, next) => prev.map(({ id }) => id).join('') === next.map(({ id }) => id).join(''),
     productTypes: (prev, next) => prev.map(({ id }) => id).join('') === next.map(({ id }) => id).join(''),

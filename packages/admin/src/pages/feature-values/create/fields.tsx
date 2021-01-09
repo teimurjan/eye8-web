@@ -2,12 +2,12 @@ import React from 'react';
 import { Field, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
-import { FormSelectField, Trigger } from '@eye8/admin-ui/index';
+import { FormSelectField, SelectTrigger } from '@eye8/admin-ui';
 import { IntlField } from '@eye8/admin/components/intl-field';
 import { FEATURE_VALUE_NAME_FIELD_KEY } from '@eye8/admin/pages/feature-values/create/presenter';
 import { ContextValue as AdminFeatureTypesStateContextValue } from '@eye8/admin/state/feature-types';
 
-export interface IFieldsProps {
+export interface FieldsProps {
   featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
 }
 
@@ -15,7 +15,7 @@ const FeatureTypeSelect = ({
   featureTypes,
   input,
   meta,
-}: FieldRenderProps<string> & Pick<IFieldsProps, 'featureTypes'>) => {
+}: FieldRenderProps<string> & Pick<FieldsProps, 'featureTypes'>) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
 
@@ -39,7 +39,7 @@ const FeatureTypeSelect = ({
           title: name[intl.locale],
           value: `${id}`,
         })),
-        TriggerComponent: Trigger,
+        TriggerComponent: SelectTrigger,
       }}
       helpTextProps={{
         children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
@@ -49,7 +49,7 @@ const FeatureTypeSelect = ({
   );
 };
 
-export const Fields = ({ featureTypes }: IFieldsProps) => {
+export const Fields = ({ featureTypes }: FieldsProps) => {
   const intl = useIntl();
   return (
     <>

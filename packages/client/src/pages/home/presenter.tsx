@@ -1,37 +1,37 @@
 import React from 'react';
 
-import { IBannerListResponseItem } from '@eye8/api/banner';
-import { IProductTypeListResponseItem } from '@eye8/api/product-type';
-import { IBannerService } from '@eye8/service/banner';
-import { IProductTypeService } from '@eye8/service/product-type';
+import { BannerListResponseItem } from '@eye8/api/banner';
+import { ProductTypeListResponseItem } from '@eye8/api/product-type';
+import { BannerService } from '@eye8/service/banner';
+import { ProductTypeService } from '@eye8/service/product-type';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  bannerService: IBannerService;
-  productTypeService: IProductTypeService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  bannerService: BannerService;
+  productTypeService: ProductTypeService;
   initialProps?: {
-    banners: { [key: string]: IBannerListResponseItem };
-    productTypes: { [key: string]: IProductTypeListResponseItem };
+    banners: { [key: string]: BannerListResponseItem };
+    productTypes: { [key: string]: ProductTypeListResponseItem };
     bannersOrder: number[];
     productTypesOrder: number[];
     error: string | undefined;
   };
 }
 
-export interface IViewProps {
-  banners: IBannerListResponseItem[];
-  productTypes: IProductTypeListResponseItem[];
+export interface ViewProps {
+  banners: BannerListResponseItem[];
+  productTypes: ProductTypeListResponseItem[];
   error?: string;
 }
 
-export const HomePresenter: React.FC<IProps> = ({ View, bannerService, productTypeService, initialProps }) => {
+export const HomePresenter: React.FC<Props> = ({ View, bannerService, productTypeService, initialProps }) => {
   const [bannersData, setBannersData] = React.useState<{
-    entities: { [key: number]: IBannerListResponseItem };
+    entities: { [key: number]: BannerListResponseItem };
     order: number[];
   }>({ entities: initialProps?.banners ?? {}, order: initialProps?.bannersOrder ?? [] });
   const [productTypesData, setProductTypesData] = React.useState<{
-    entities: { [key: number]: IProductTypeListResponseItem };
+    entities: { [key: number]: ProductTypeListResponseItem };
     order: number[];
   }>({ entities: initialProps?.productTypes ?? {}, order: initialProps?.productTypesOrder ?? [] });
   const [error, setError] = React.useState<string | undefined>(initialProps ? initialProps.error : undefined);

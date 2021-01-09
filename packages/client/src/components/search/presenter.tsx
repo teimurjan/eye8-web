@@ -1,17 +1,17 @@
 import React from 'react';
 
-import { IProductTypeListResponseItem } from '@eye8/api/product-type';
-import { IProductTypeService } from '@eye8/service/product-type';
+import { ProductTypeListResponseItem } from '@eye8/api/product-type';
+import { ProductTypeService } from '@eye8/service/product-type';
 import { useBoolean, useMousetrap } from '@eye8/shared/hooks';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
-export interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: IProductTypeService;
+export interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: ProductTypeService;
 }
 
-export interface IViewProps {
-  productTypes: IProductTypeListResponseItem[];
+export interface ViewProps {
+  productTypes: ProductTypeListResponseItem[];
   error: string | undefined;
   isLoading: boolean;
   onSearchValueChange: (value: string) => Promise<void>;
@@ -20,10 +20,10 @@ export interface IViewProps {
   open: () => void;
 }
 
-export const SearchPresenter = ({ service, View }: IProps) => {
+export const SearchPresenter = ({ service, View }: Props) => {
   const { value: isOpen, setPositive: open, setNegative: close } = useBoolean();
   const [data, setData] = React.useState<{
-    entities: { [id: string]: IProductTypeListResponseItem };
+    entities: { [id: string]: ProductTypeListResponseItem };
     order: number[];
   }>({ entities: {}, order: [] });
   const [isLoading, setLoading] = React.useState(false);

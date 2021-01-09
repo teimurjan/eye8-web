@@ -12,7 +12,7 @@ export const isEventInBounds = (e: MouseEvent, ref: React.RefObject<HTMLElement>
   }
 };
 
-interface IOptions {
+interface Options {
   attachHandler: boolean;
   offset?: number;
 }
@@ -22,7 +22,7 @@ const DEFAULT_OPTIONS = { attachHandler: true, offset: 30 };
 const useMouseOutside = (
   refs: React.RefObject<HTMLElement> | Array<React.RefObject<HTMLElement>>,
   callback: () => void,
-  options: IOptions = DEFAULT_OPTIONS,
+  options: Options = DEFAULT_OPTIONS,
 ) => {
   useEffect(
     () =>

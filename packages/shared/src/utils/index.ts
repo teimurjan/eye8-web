@@ -15,7 +15,7 @@ export * from './order';
 export * from './phone';
 export * from './platform';
 export * from './prop-equality';
-export * from './schema-validator';
+export { default as SchemaValidator } from './schema-validator';
 export * from './search-string';
 export * from './time';
 export * from './url';

@@ -3,11 +3,11 @@ import React from 'react';
 
 const Context = React.createContext<null>(null);
 
-interface IProps {
+interface Props {
   children: React.ReactNode;
 }
 
-export const ScrollRestorationWrapper: React.FC<IProps> = ({ children }) => {
+export const ScrollRestorationWrapper: React.FC<Props> = ({ children }) => {
   const router = useRouter();
 
   const cachedScrollPositions = React.useRef<Array<number[]>>([]);

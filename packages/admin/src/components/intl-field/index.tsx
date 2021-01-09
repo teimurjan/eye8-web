@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
-import { Tag, FormTextField } from '@eye8/admin-ui/index';
+import { Tag, FormTextField } from '@eye8/admin-ui';
 import { availableLocales, Locale } from '@eye8/shared/utils';
 
 export const getFieldName = (key: string, locale: Locale): string => `${key}-${locale}`;
@@ -14,21 +14,21 @@ export const parseFieldName = (fieldName: string): { locale: string; key: string
   };
 };
 
-interface IIntlFieldRendererProps {
+interface IntlFieldRendererProps {
   label: string;
   placeholder: string;
   locale: Locale;
   defaultValue?: string;
 }
 
-export interface IProps {
+export interface Props {
   key_: string;
   label: string;
   placeholder: string;
-  component?: React.SFC<FieldRenderProps<string> & IIntlFieldRendererProps>;
+  component?: React.SFC<FieldRenderProps<string> & IntlFieldRendererProps>;
 }
 
-const IntlField_: IProps['component'] = ({ input, meta, label, placeholder, locale }) => {
+const InnerIntlField: Props['component'] = ({ input, meta, label, placeholder, locale }) => {
   const intl = useIntl();
 
   const showError = meta.touched && meta.error;
@@ -56,7 +56,7 @@ const IntlField_: IProps['component'] = ({ input, meta, label, placeholder, loca
   );
 };
 
-export const IntlField = ({ component, label, placeholder, key_ }: IProps) => {
+export const IntlField = ({ component, label, placeholder, key_ }: Props) => {
   return (
     <>
       {availableLocales.map((locale) => (
@@ -66,7 +66,7 @@ export const IntlField = ({ component, label, placeholder, key_ }: IProps) => {
           label={label}
           locale={locale}
           placeholder={placeholder}
-          component={component ? component : IntlField_}
+          component={component ? component : InnerIntlField}
         />
       ))}
     </>

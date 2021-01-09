@@ -5,17 +5,9 @@ import React from 'react';
 import { Search as SearchIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
-import {
-  Anchor,
-  Drawer,
-  UnderlinedInput,
-  LinkPassingProps,
-  LoaderLayout,
-  Popover,
-  Subtitle,
-  WithIcon,
-} from '@eye8/client-ui';
-import { IViewProps as IProps } from '@eye8/client/components/search/presenter';
+import { Anchor, UnderlinedInput, LinkPassingProps, Subtitle, WithIcon } from '@eye8/client-ui';
+import { ViewProps as Props } from '@eye8/client/components/search/presenter';
+import { Popover, Drawer, LoaderLayout } from '@eye8/shared/components';
 import { useBoolean, useDebounce } from '@eye8/shared/hooks';
 import { IconSize, mediaQueries } from '@eye8/shared/styles';
 import { formatMediaURL } from '@eye8/shared/utils';
@@ -43,7 +35,7 @@ const SearchTrigger = React.forwardRef<HTMLSpanElement>((props, ref) => {
   );
 });
 
-export const SearchView: React.FC<IProps> = ({
+export const SearchView: React.FC<Props> = ({
   productTypes,
   isLoading,
   error,

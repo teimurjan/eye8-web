@@ -3,19 +3,19 @@ import { jsx, css } from '@emotion/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Button, FormTextField } from '@eye8/admin-ui/index';
+import { Button, FormTextField } from '@eye8/admin-ui';
 import { useDebounce } from '@eye8/shared/hooks';
 
 export type Link = { id: number; value: string };
 
-interface IProps {
+interface Props {
   links: Link[];
   onChange: (value: Link[]) => void;
   onAdd: () => void;
   renderPreview: (link: Link) => React.ReactNode;
 }
 
-export const LinksInput = ({ links, onChange, onAdd, renderPreview }: IProps) => {
+export const LinksInput = ({ links, onChange, onAdd, renderPreview }: Props) => {
   const intl = useIntl();
 
   const change = React.useCallback(

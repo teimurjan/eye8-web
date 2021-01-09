@@ -2,9 +2,9 @@
 import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
-import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui/index';
+import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
 import { AdminTable, IntlRenderer } from '@eye8/admin/components/table';
-import { IViewProps as IProps } from '@eye8/admin/pages/categories/list/presenter';
+import { ViewProps as Props } from '@eye8/admin/pages/categories/list/presenter';
 
 export const NewCategoryButton = () => {
   const intl = useIntl();
@@ -34,9 +34,9 @@ const NoCategoriesAvialable = () => {
 
 const renderNoData = () => <NoCategoriesAvialable />;
 
-type Category = IProps['categories'][0];
+type Category = Props['categories'][0];
 
-export const AdminCategoriesListView = ({ categories, isLoading, isDataLoaded }: IProps) => {
+export const AdminCategoriesListView = ({ categories, isLoading, isDataLoaded }: Props) => {
   const intl = useIntl();
   return (
     <Section

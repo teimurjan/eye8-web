@@ -4,14 +4,14 @@ import { useIntl } from 'react-intl';
 
 import { formatMediaURL } from '@eye8/shared/utils';
 
-export interface IProps extends Omit<React.HTMLProps<HTMLInputElement>, 'onChange' | 'value'> {
+export interface Props extends Omit<React.HTMLProps<HTMLInputElement>, 'onChange' | 'value'> {
   showPreview?: boolean;
   defaultValue?: string;
   onChange: (file: File | undefined) => void;
   value?: File | string;
 }
 
-const Filename = ({ file }: { file: IProps['value'] }) => {
+const Filename = ({ file }: { file: Props['value'] }) => {
   if (typeof file === 'string') {
     return <span className="file-name">{file}</span>;
   }
@@ -23,7 +23,14 @@ const Filename = ({ file }: { file: IProps['value'] }) => {
   return null;
 };
 
-const Index = ({ defaultValue, value = defaultValue, showPreview = true, onChange, accept, placeholder }: IProps) => {
+const FileInput = ({
+  defaultValue,
+  value = defaultValue,
+  showPreview = true,
+  onChange,
+  accept,
+  placeholder,
+}: Props) => {
   const intl = useIntl();
   const [previewURL, setPreviewURL] = React.useState<string | undefined>(undefined);
 
@@ -69,4 +76,4 @@ const Index = ({ defaultValue, value = defaultValue, showPreview = true, onChang
   );
 };
 
-export default Index;
+export default FileInput;

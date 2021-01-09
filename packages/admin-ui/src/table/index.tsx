@@ -3,9 +3,9 @@ import { css, jsx } from '@emotion/core';
 import classNames from 'classnames';
 import React from 'react';
 
-export type IProps = React.HTMLAttributes<HTMLTableElement>;
+export type Props = React.HTMLAttributes<HTMLTableElement>;
 
-const Table = ({ children, className, ...props }: IProps) => (
+const Table = ({ children, className, ...props }: Props) => (
   <table className={classNames('table', className)} {...props}>
     {children}
   </table>

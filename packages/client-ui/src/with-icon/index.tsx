@@ -2,15 +2,15 @@
 import { jsx, css } from '@emotion/core';
 import React from 'react';
 
-import { IconWrapper } from '@eye8/client-ui';
+import { IconWrapper } from '@eye8/shared/components';
 import { mediaQueries } from '@eye8/shared/styles';
 
-export interface IProps extends React.HTMLAttributes<HTMLSpanElement> {
+export interface Props extends React.HTMLAttributes<HTMLSpanElement> {
   icon: React.ReactNode;
   hideTextOnMobile?: boolean;
 }
 
-export default React.forwardRef<HTMLSpanElement, IProps>(
+export default React.forwardRef<HTMLSpanElement, Props>(
   ({ children, icon, hideTextOnMobile = false, ...props }, ref) => (
     <span
       ref={ref}

@@ -1,21 +1,21 @@
 import { normalize, schema } from 'normalizr';
 
 import {
-  IProductTypeAPI,
-  IGetForCategoryOptions,
-  IProductTypeListResponseItem,
-  IGetAllOptions,
-  ISearchOptions,
-  IProductTypeListResponseMeta,
-  IProductTypeListRawIntlResponseItem,
-  IGetOneOptions,
-  IProductTypeDetailResponseItem,
-  IGetAllRawIntlMinifiedOptions,
-  IDeleteOptions,
-  IProductTypeCreatePayload,
-  IProductTypeDetailRawIntlResponseItem,
-  IProductTypeEditPayload,
-  IProductTypeListRawIntlMinifiedResponseItem,
+  ProductTypeAPI,
+  GetForCategoryOptions,
+  ProductTypeListResponseItem,
+  GetAllOptions,
+  SearchOptions,
+  ProductTypeListResponseMeta,
+  ProductTypeListRawIntlResponseItem,
+  GetOneOptions,
+  ProductTypeDetailResponseItem,
+  GetAllRawIntlMinifiedOptions,
+  DeleteOptions,
+  ProductTypeCreatePayload,
+  ProductTypeDetailRawIntlResponseItem,
+  ProductTypeEditPayload,
+  ProductTypeListRawIntlMinifiedResponseItem,
   ProductTypeNotFoundError,
   ProductTypeWithProductsNotDeletedError,
 } from '@eye8/api/product-type';
@@ -33,99 +33,99 @@ export class ProductTypeHasProductsError extends Error {
   }
 }
 
-export interface IProductTypeService {
+export interface ProductTypeService {
   getForCategory(
     categorySlug: string,
-    options: IGetForCategoryOptions,
+    options: GetForCategoryOptions,
   ): Promise<{
     entities: {
       productTypes?: {
-        [key: string]: IProductTypeListResponseItem;
+        [key: string]: ProductTypeListResponseItem;
       };
     };
     result: number[];
-    meta: IProductTypeListResponseMeta;
+    meta: ProductTypeListResponseMeta;
   }>;
   getAll(
-    options: IGetAllOptions,
+    options: GetAllOptions,
   ): Promise<{
     entities: {
       productTypes: {
-        [key: string]: IProductTypeListResponseItem;
+        [key: string]: ProductTypeListResponseItem;
       };
     };
     result: number[];
   }>;
   search(
     query: string,
-    options?: ISearchOptions,
+    options?: SearchOptions,
   ): Promise<{
     entities: {
       productTypes: {
-        [key: string]: IProductTypeListResponseItem;
+        [key: string]: ProductTypeListResponseItem;
       };
     };
     result: number[];
-    meta: IProductTypeListResponseMeta;
+    meta: ProductTypeListResponseMeta;
   }>;
   searchRawIntl(
     query: string,
-    options?: ISearchOptions,
+    options?: SearchOptions,
   ): Promise<{
     entities: {
       productTypes: {
-        [key: string]: IProductTypeListRawIntlResponseItem;
+        [key: string]: ProductTypeListRawIntlResponseItem;
       };
     };
     result: number[];
-    meta: IProductTypeListResponseMeta;
+    meta: ProductTypeListResponseMeta;
   }>;
   getNewest(): Promise<{
     entities: {
       productTypes: {
-        [key: string]: IProductTypeListResponseItem;
+        [key: string]: ProductTypeListResponseItem;
       };
     };
     result: number[];
   }>;
-  getByID(id: number, options?: IGetOneOptions): Promise<IProductTypeDetailResponseItem | null>;
-  getBySlug(slug: string): Promise<IProductTypeDetailResponseItem | null>;
+  getByID(id: number, options?: GetOneOptions): Promise<ProductTypeDetailResponseItem | null>;
+  getBySlug(slug: string): Promise<ProductTypeDetailResponseItem | null>;
   getAllRawIntl(
-    options: IGetAllOptions,
+    options: GetAllOptions,
   ): Promise<{
     entities: {
       productTypes: {
-        [key: string]: IProductTypeListRawIntlResponseItem;
+        [key: string]: ProductTypeListRawIntlResponseItem;
       };
     };
     result: number[];
-    meta: IProductTypeListResponseMeta;
+    meta: ProductTypeListResponseMeta;
   }>;
   getAllRawIntlMinified(
-    options: IGetAllRawIntlMinifiedOptions,
+    options: GetAllRawIntlMinifiedOptions,
   ): Promise<{
     entities: {
       productTypes: {
-        [key: string]: IProductTypeListRawIntlMinifiedResponseItem;
+        [key: string]: ProductTypeListRawIntlMinifiedResponseItem;
       };
     };
     result: number[];
-    meta: IProductTypeListResponseMeta;
+    meta: ProductTypeListResponseMeta;
   }>;
-  delete(id: number, options?: IDeleteOptions): Promise<void>;
-  create(payload: IProductTypeCreatePayload): Promise<IProductTypeDetailRawIntlResponseItem>;
-  edit(id: number, payload: IProductTypeEditPayload): Promise<IProductTypeDetailRawIntlResponseItem>;
-  exists(id: number, options?: IGetOneOptions): Promise<boolean>;
-  getOneRawIntl(id: number, options?: IGetOneOptions): Promise<IProductTypeDetailRawIntlResponseItem | undefined>;
+  delete(id: number, options?: DeleteOptions): Promise<void>;
+  create(payload: ProductTypeCreatePayload): Promise<ProductTypeDetailRawIntlResponseItem>;
+  edit(id: number, payload: ProductTypeEditPayload): Promise<ProductTypeDetailRawIntlResponseItem>;
+  exists(id: number, options?: GetOneOptions): Promise<boolean>;
+  getOneRawIntl(id: number, options?: GetOneOptions): Promise<ProductTypeDetailRawIntlResponseItem | undefined>;
 }
 
-export class ProductTypeService implements IProductTypeService {
-  private API: IProductTypeAPI;
-  constructor(API: IProductTypeAPI) {
+export default class implements ProductTypeService {
+  private API: ProductTypeAPI;
+  constructor(API: ProductTypeAPI) {
     this.API = API;
   }
 
-  public getForCategory: IProductTypeService['getForCategory'] = async (
+  public getForCategory: ProductTypeService['getForCategory'] = async (
     categorySlug,
     { page, sortingType, characteristicValuesIds, available },
   ) => {
@@ -141,7 +141,7 @@ export class ProductTypeService implements IProductTypeService {
     };
   };
 
-  public getAll: IProductTypeService['getAll'] = async (options) => {
+  public getAll: ProductTypeService['getAll'] = async (options) => {
     const productTypes = await this.API.getAll(options);
     return {
       ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
@@ -149,7 +149,7 @@ export class ProductTypeService implements IProductTypeService {
     };
   };
 
-  public search: IProductTypeService['search'] = async (query, options = {}) => {
+  public search: ProductTypeService['search'] = async (query, options = {}) => {
     const productTypes = await this.API.search(query, options);
     return {
       ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
@@ -157,7 +157,7 @@ export class ProductTypeService implements IProductTypeService {
     };
   };
 
-  public searchRawIntl: IProductTypeService['searchRawIntl'] = async (query, options = {}) => {
+  public searchRawIntl: ProductTypeService['searchRawIntl'] = async (query, options = {}) => {
     const productTypes = await this.API.searchRawIntl(query, options);
     return {
       ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
@@ -165,7 +165,7 @@ export class ProductTypeService implements IProductTypeService {
     };
   };
 
-  public getAllRawIntlMinified: IProductTypeService['getAllRawIntlMinified'] = async (options) => {
+  public getAllRawIntlMinified: ProductTypeService['getAllRawIntlMinified'] = async (options) => {
     const productTypes = await this.API.getAllRawIntlMinified(options);
     return {
       ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
@@ -173,12 +173,12 @@ export class ProductTypeService implements IProductTypeService {
     };
   };
 
-  public getNewest: IProductTypeService['getNewest'] = async () => {
+  public getNewest: ProductTypeService['getNewest'] = async () => {
     const productTypes = await this.API.getNewest();
     return normalize(productTypes.data, [new schema.Entity('productTypes')]);
   };
 
-  public getByID: IProductTypeService['getByID'] = async (id, options = {}) => {
+  public getByID: ProductTypeService['getByID'] = async (id, options = {}) => {
     try {
       return (await this.API.getByID(id, options)).data;
     } catch (e) {
@@ -190,7 +190,7 @@ export class ProductTypeService implements IProductTypeService {
     }
   };
 
-  public getBySlug: IProductTypeService['getBySlug'] = async (slug) => {
+  public getBySlug: ProductTypeService['getBySlug'] = async (slug) => {
     try {
       return (await this.API.getBySlug(slug)).data;
     } catch (e) {
@@ -202,7 +202,7 @@ export class ProductTypeService implements IProductTypeService {
     }
   };
 
-  public getAllRawIntl: IProductTypeService['getAllRawIntl'] = async (options) => {
+  public getAllRawIntl: ProductTypeService['getAllRawIntl'] = async (options) => {
     const productTypes = await this.API.getAllRawIntl(options);
     return {
       ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
@@ -210,7 +210,7 @@ export class ProductTypeService implements IProductTypeService {
     };
   };
 
-  public delete: IProductTypeService['delete'] = async (id, options = {}) => {
+  public delete: ProductTypeService['delete'] = async (id, options = {}) => {
     try {
       await this.API.delete(id, options);
     } catch (e) {
@@ -225,11 +225,11 @@ export class ProductTypeService implements IProductTypeService {
     }
   };
 
-  public create: IProductTypeService['create'] = async (payload) => {
+  public create: ProductTypeService['create'] = async (payload) => {
     return (await this.API.create(payload)).data;
   };
 
-  public edit: IProductTypeService['edit'] = async (id, payload) => {
+  public edit: ProductTypeService['edit'] = async (id, payload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
@@ -241,7 +241,7 @@ export class ProductTypeService implements IProductTypeService {
     }
   };
 
-  public exists: IProductTypeService['exists'] = async (id, options = {}) => {
+  public exists: ProductTypeService['exists'] = async (id, options = {}) => {
     try {
       await this.API.status(id, options);
       return true;
@@ -254,7 +254,7 @@ export class ProductTypeService implements IProductTypeService {
     }
   };
 
-  public getOneRawIntl: IProductTypeService['getOneRawIntl'] = async (id, options = {}) => {
+  public getOneRawIntl: ProductTypeService['getOneRawIntl'] = async (id, options = {}) => {
     try {
       return (await this.API.getOneRawIntl(id, options)).data;
     } catch (e) {

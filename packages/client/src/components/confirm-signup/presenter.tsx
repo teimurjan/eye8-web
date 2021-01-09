@@ -1,20 +1,20 @@
 import { NextRouter } from 'next/router';
 import React from 'react';
 
-import { IAuthService, InvalidSignupTokenError } from '@eye8/service/auth';
+import { AuthService, InvalidSignupTokenError } from '@eye8/service/auth';
 
-interface IProps {
-  View: React.ComponentType<IViewProps>;
-  service: IAuthService;
+interface Props {
+  View: React.ComponentType<ViewProps>;
+  service: AuthService;
   router: NextRouter;
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isLoading: boolean;
   error?: string;
 }
 
-export const ConfirmSignupPresenter = ({ View, service, router }: IProps) => {
+export const ConfirmSignupPresenter = ({ View, service, router }: Props) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isLoading, setLoading] = React.useState(true);
 

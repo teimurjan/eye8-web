@@ -1,15 +1,15 @@
 import classNames from 'classnames';
 import React from 'react';
 
-export interface IProps extends React.HTMLAttributes<HTMLParagraphElement> {
+export interface Props extends React.HTMLAttributes<HTMLParagraphElement> {
   children?: React.ReactNode;
   type?: 'is-danger' | 'is-success';
 }
 
-const Index = ({ children, type, className, ...props }: IProps) => (
+const HelpText = ({ children, type, className, ...props }: Props) => (
   <p className={classNames('help', className, type)} {...props}>
     {children}
   </p>
 );
 
-export default Index;
+export default HelpText;

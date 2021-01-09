@@ -12,7 +12,7 @@ enum StorySourceType {
   Image,
 }
 
-export interface IProps {
+export interface Props {
   src: string;
   type?: StorySourceType;
   title: React.ReactNode;
@@ -28,7 +28,7 @@ const Story = ({
   rtl = false,
   backgroundPosition = 'center center',
   type = StorySourceType.Image,
-}: IProps) => {
+}: Props) => {
   const media =
     type === StorySourceType.Video ? (
       <div

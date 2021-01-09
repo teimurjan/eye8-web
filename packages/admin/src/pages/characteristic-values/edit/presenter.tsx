@@ -5,20 +5,20 @@ import * as yup from 'yup';
 import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
 import { ContextValue as AdminCharacteristicValuesStateContextValue } from '@eye8/admin/state/characteristic-values';
 import { ContextValue as AdminCharacteristicsStateContextValue } from '@eye8/admin/state/characteristics';
-import { ICharacteristicValueListRawIntlResponseItem } from '@eye8/api/characteristic-value';
-import { ICharacteristicValueService } from '@eye8/service/characteristic-value';
-import { availableLocales, SchemaValidator } from '@eye8/shared/utils';
+import { CharacteristicValueListRawIntlResponseItem } from '@eye8/api/characteristic-value';
+import { CharacteristicValueService } from '@eye8/service/characteristic-value';
+import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
-export interface IProps {
+export interface Props {
   characteristicValueId: number;
   history: History;
-  View: React.ComponentType<IViewProps>;
-  service: ICharacteristicValueService;
+  View: React.ComponentType<ViewProps>;
+  service: CharacteristicValueService;
   adminCharacteristicsState: AdminCharacteristicsStateContextValue['state'];
   adminCharacteristicValuesState: AdminCharacteristicValuesStateContextValue['state'];
 }
 
-export interface IViewProps {
+export interface ViewProps {
   isOpen: boolean;
   edit: (values: { names: { [key: string]: string }; characteristic_id: string }) => void;
   isLoading: boolean;
@@ -47,7 +47,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminCharacteristicValuesEditPresenter: React.FC<IProps> = ({
+export const AdminCharacteristicValuesEditPresenter: React.FC<Props> = ({
   characteristicValueId,
 
   service,
@@ -66,7 +66,7 @@ export const AdminCharacteristicValuesEditPresenter: React.FC<IProps> = ({
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
   const [characteristicValue, setCharacteristicValue] = React.useState<
-    undefined | ICharacteristicValueListRawIntlResponseItem
+    undefined | CharacteristicValueListRawIntlResponseItem
   >(undefined);
 
   React.useEffect(() => {
@@ -94,7 +94,7 @@ export const AdminCharacteristicValuesEditPresenter: React.FC<IProps> = ({
 
   const close = React.useCallback(() => history.push('/admin/characteristicValues'), [history]);
 
-  const edit: IViewProps['edit'] = async (values) => {
+  const edit: ViewProps['edit'] = async (values) => {
     const formattedValues = Object.keys(values).reduce(
       (acc, fieldName) => {
         const { key, locale } = parseFieldName(fieldName);

@@ -5,11 +5,11 @@ import React from 'react';
 
 import { mediaQueries } from '@eye8/shared/styles';
 
-export interface IProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
-const Index = ({ children, className, ...props }: IProps) => (
+const Container = ({ children, className, ...props }: Props) => (
   <div
     css={css`
       box-sizing: border-box;
@@ -26,4 +26,4 @@ const Index = ({ children, className, ...props }: IProps) => (
   </div>
 );
 
-export default Index;
+export default Container;

@@ -5,18 +5,19 @@ import React from 'react';
 import { ExternalLink as ExternalLinkIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
-import { IOrderListResponseItem } from '@eye8/api/order';
-import { Anchor, IconWrapper, Tag, Tooltip } from '@eye8/client-ui';
+import { OrderListResponseItem } from '@eye8/api/order';
+import { Anchor, Tag } from '@eye8/client-ui';
 import { PriceText } from '@eye8/client/components/price';
+import { IconWrapper, Tooltip } from '@eye8/shared/components';
 import { IconSize } from '@eye8/shared/styles';
 import { getOrderTotalPrice } from '@eye8/shared/utils';
 
-interface IProps {
-  order: IOrderListResponseItem;
+interface Props {
+  order: OrderListResponseItem;
   className?: string;
 }
 
-const OrderStatus = ({ status }: { status: IOrderListResponseItem['status'] }) => {
+const OrderStatus = ({ status }: { status: OrderListResponseItem['status'] }) => {
   const intl = useIntl();
 
   return status === 'rejected' || status === 'completed' ? (
@@ -49,7 +50,7 @@ const OrderStatus = ({ status }: { status: IOrderListResponseItem['status'] }) =
   );
 };
 
-export const OrderItem: React.FC<IProps> = ({ order, className }) => {
+export const OrderItem: React.FC<Props> = ({ order, className }) => {
   const theme = useTheme<ClientUITheme>();
   const intl = useIntl();
   const total = getOrderTotalPrice(

@@ -6,11 +6,11 @@ import { darkTheme, defaultTheme } from '@eye8/shared/styles';
 import { shouldUseThemeToggle } from '@eye8/shared/utils';
 import { Theme } from '@eye8/storage/theme';
 
-interface IProps {
+interface Props {
   children: React.ReactNode;
 }
 
-export const ThemeProvider = ({ children }: IProps) => {
+export const ThemeProvider = ({ children }: Props) => {
   const {
     dependencies: {
       storages: { theme: themeStorage },

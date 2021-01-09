@@ -2,9 +2,9 @@
 import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
-import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui/index';
+import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
 import { AdminTable, ImageRenderer } from '@eye8/admin/components/table';
-import { IViewProps as IProps } from '@eye8/admin/pages/banners/list/presenter';
+import { ViewProps as Props } from '@eye8/admin/pages/banners/list/presenter';
 
 export const NewBannerButton = () => {
   const intl = useIntl();
@@ -30,9 +30,9 @@ const NoBannersAvialable = () => {
 
 const renderNoData = () => <NoBannersAvialable />;
 
-type Banner = IProps['banners'][0];
+type Banner = Props['banners'][0];
 
-export const AdminBannersListView = ({ banners, isLoading, isDataLoaded }: IProps) => {
+export const AdminBannersListView = ({ banners, isLoading, isDataLoaded }: Props) => {
   const intl = useIntl();
   return (
     <Section

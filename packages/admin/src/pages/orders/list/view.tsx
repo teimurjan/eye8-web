@@ -2,9 +2,9 @@
 import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
-import { NoDataAvailable, Section } from '@eye8/admin-ui/index';
+import { NoDataAvailable, Section } from '@eye8/admin-ui';
 import { AdminTable } from '@eye8/admin/components/table';
-import { IViewProps as IProps } from '@eye8/admin/pages/orders/list/presenter';
+import { ViewProps as Props } from '@eye8/admin/pages/orders/list/presenter';
 
 const NoOrdersAvialable = () => {
   const intl = useIntl();
@@ -13,9 +13,9 @@ const NoOrdersAvialable = () => {
 
 const renderNoData = () => <NoOrdersAvialable />;
 
-type Order = IProps['orders'][0];
+type Order = Props['orders'][0];
 
-export const AdminOrdersListView = ({ orders, isLoading, isDataLoaded }: IProps) => {
+export const AdminOrdersListView = ({ orders, isLoading, isDataLoaded }: Props) => {
   const intl = useIntl();
   return (
     <Section

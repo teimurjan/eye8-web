@@ -1,30 +1,30 @@
 import React from 'react';
 
 import {
-  IInputProps,
+  InputProps,
   Input,
-  IControlProps,
+  ControlProps,
   Control,
-  IFieldProps,
+  FieldProps,
   Field,
-  IHelpTextProps,
+  HelpTextProps,
   HelpText,
-  ILabelProps,
+  LabelProps,
   Label,
-} from '@eye8/admin-ui/index';
+} from '@eye8/admin-ui';
 
-export interface IProps {
-  controlProps?: IControlProps;
-  fieldProps?: IFieldProps;
-  helpTextProps?: IHelpTextProps;
-  inputProps?: IInputProps;
-  labelProps?: ILabelProps;
+export interface Props {
+  controlProps?: ControlProps;
+  fieldProps?: FieldProps;
+  helpTextProps?: HelpTextProps;
+  inputProps?: InputProps;
+  labelProps?: LabelProps;
   renderInput?: () => React.ReactNode;
   allowValue?: (value: string) => boolean;
   addons?: React.ReactNode;
 }
 
-const Index = ({
+const FormTextField = ({
   controlProps = {},
   fieldProps = {},
   inputProps = {},
@@ -33,7 +33,7 @@ const Index = ({
   allowValue,
   renderInput,
   addons,
-}: IProps) => {
+}: Props) => {
   const onChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(
     (e) => {
       if (allowValue && !allowValue(e.currentTarget.value)) {
@@ -54,4 +54,4 @@ const Index = ({
   );
 };
 
-export default Index;
+export default FormTextField;

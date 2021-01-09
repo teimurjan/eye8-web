@@ -1,14 +1,14 @@
 import { History, Location } from 'history';
 import React from 'react';
 
-import { IOrderListResponseItem, IOrderListResponseMeta } from '@eye8/api/order';
-import { IOrderService } from '@eye8/service/order';
+import { OrderListResponseItem, OrderListResponseMeta } from '@eye8/api/order';
+import { OrderService } from '@eye8/service/order';
 import { isUserAuthorized } from '@eye8/shared/helpers';
 import { AuthorizedUser } from '@eye8/shared/state/user';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
-export interface IViewProps {
-  orders: IOrderListResponseItem[];
+export interface ViewProps {
+  orders: OrderListResponseItem[];
   isLoading?: boolean;
   error?: string;
   currentPage: number;
@@ -16,20 +16,20 @@ export interface IViewProps {
   onPageChange: (page: number) => void;
 }
 
-interface IProps {
-  service: IOrderService;
-  View: React.ComponentType<IViewProps>;
+interface Props {
+  service: OrderService;
+  View: React.ComponentType<ViewProps>;
   user: AuthorizedUser;
   history: History;
   location: Location;
 }
 
-export const OrdersPresenter: React.FC<IProps> = ({ service, View, user, history, location }) => {
+export const OrdersPresenter: React.FC<Props> = ({ service, View, user, history, location }) => {
   const [isLoading, setLoading] = React.useState(true);
   const [ordersData, setOrdersData] = React.useState<{
-    entities: { [key: number]: IOrderListResponseItem };
+    entities: { [key: number]: OrderListResponseItem };
     order: number[];
-    meta: IOrderListResponseMeta;
+    meta: OrderListResponseMeta;
   }>({
     entities: {},
     order: [],

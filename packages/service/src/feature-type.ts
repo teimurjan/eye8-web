@@ -1,19 +1,19 @@
 import { normalize, schema } from 'normalizr';
 
 import {
-  IFeatureTypeAPI,
-  IFeatureTypeListResponseItem,
-  IFeatureTypeListRawIntlResponseItem,
-  IFeatureTypeCreatePayload,
-  IFeatureTypeEditPayload,
+  FeatureTypeAPI,
+  FeatureTypeListResponseItem,
+  FeatureTypeListRawIntlResponseItem,
+  FeatureTypeCreatePayload,
+  FeatureTypeEditPayload,
   FeatureTypeNotFoundError,
 } from '@eye8/api/feature-type';
 
-export interface IFeatureTypeService {
+export interface FeatureTypeService {
   getAll(): Promise<{
     entities: {
       featureTypes: {
-        [key: string]: IFeatureTypeListResponseItem;
+        [key: string]: FeatureTypeListResponseItem;
       };
     };
     result: number[];
@@ -21,16 +21,16 @@ export interface IFeatureTypeService {
   getAllRawIntl(): Promise<{
     entities: {
       featureTypes: {
-        [key: string]: IFeatureTypeListRawIntlResponseItem;
+        [key: string]: FeatureTypeListRawIntlResponseItem;
       };
     };
     result: number[];
   }>;
   delete(id: number): Promise<{}>;
-  create(payload: IFeatureTypeCreatePayload): Promise<IFeatureTypeListRawIntlResponseItem>;
-  edit(id: number, payload: IFeatureTypeEditPayload): Promise<IFeatureTypeListRawIntlResponseItem>;
+  create(payload: FeatureTypeCreatePayload): Promise<FeatureTypeListRawIntlResponseItem>;
+  edit(id: number, payload: FeatureTypeEditPayload): Promise<FeatureTypeListRawIntlResponseItem>;
   exists(id: number): Promise<boolean>;
-  getOneRawIntl(id: number): Promise<IFeatureTypeListRawIntlResponseItem | undefined>;
+  getOneRawIntl(id: number): Promise<FeatureTypeListRawIntlResponseItem | undefined>;
 }
 
 export class FeatureTypeNotExistsError extends Error {
@@ -40,23 +40,23 @@ export class FeatureTypeNotExistsError extends Error {
   }
 }
 
-export class FeatureTypeService implements IFeatureTypeService {
-  private API: IFeatureTypeAPI;
-  constructor(API: IFeatureTypeAPI) {
+export default class implements FeatureTypeService {
+  private API: FeatureTypeAPI;
+  constructor(API: FeatureTypeAPI) {
     this.API = API;
   }
 
-  public getAll: IFeatureTypeService['getAll'] = async () => {
+  public getAll: FeatureTypeService['getAll'] = async () => {
     const featureTypes = await this.API.getAll();
     return normalize(featureTypes.data, [new schema.Entity('featureTypes')]);
   };
 
-  public getAllRawIntl: IFeatureTypeService['getAllRawIntl'] = async () => {
+  public getAllRawIntl: FeatureTypeService['getAllRawIntl'] = async () => {
     const featureTypes = await this.API.getAllRawIntl();
     return normalize(featureTypes.data, [new schema.Entity('featureTypes')]);
   };
 
-  public delete: IFeatureTypeService['delete'] = async (id) => {
+  public delete: FeatureTypeService['delete'] = async (id) => {
     try {
       return this.API.delete(id);
     } catch (e) {
@@ -68,11 +68,11 @@ export class FeatureTypeService implements IFeatureTypeService {
     }
   };
 
-  public create: IFeatureTypeService['create'] = async (payload) => {
+  public create: FeatureTypeService['create'] = async (payload) => {
     return (await this.API.create(payload)).data;
   };
 
-  public edit: IFeatureTypeService['edit'] = async (id, payload) => {
+  public edit: FeatureTypeService['edit'] = async (id, payload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
@@ -84,7 +84,7 @@ export class FeatureTypeService implements IFeatureTypeService {
     }
   };
 
-  public exists: IFeatureTypeService['exists'] = async (id) => {
+  public exists: FeatureTypeService['exists'] = async (id) => {
     try {
       await this.API.status(id);
       return true;
@@ -97,7 +97,7 @@ export class FeatureTypeService implements IFeatureTypeService {
     }
   };
 
-  public getOneRawIntl: IFeatureTypeService['getOneRawIntl'] = async (id) => {
+  public getOneRawIntl: FeatureTypeService['getOneRawIntl'] = async (id) => {
     try {
       return (await this.API.getOneRawIntl(id)).data;
     } catch (e) {

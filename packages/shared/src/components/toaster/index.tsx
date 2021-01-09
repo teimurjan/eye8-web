@@ -12,7 +12,7 @@ import { safeDocument } from '@eye8/shared/utils';
 const DEFAULT_TRANSITION_DURATION = 700;
 const DEFAULT_TRANSITION_CLASSNAME = 'toast';
 
-export interface IToastProps {
+export interface ToastProps {
   componentKey: string;
   status: string;
   close: () => void;
@@ -23,15 +23,15 @@ export interface IToastProps {
   transitionClassName: string;
 }
 
-export interface IToastsProps {
+export interface ToastsProps {
   className?: string;
-  render?: (props: IToastProps) => React.ReactNode;
-  Component?: React.ComponentClass<IToastProps> | React.SFC<IToastProps>;
+  render?: (props: ToastProps) => React.ReactNode;
+  Component?: React.ComponentClass<ToastProps> | React.SFC<ToastProps>;
   transitionDuration?: number;
   transitionClassName?: string;
 }
 
-export const Toasts: React.FC<IToastsProps> = ({
+export const Toasts: React.FC<ToastsProps> = ({
   className,
   render,
   Component,

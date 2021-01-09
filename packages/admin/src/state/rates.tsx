@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { IRateListResponseItem } from '@eye8/api/rate';
-import { makeEntityState, IContextValue } from '@eye8/shared/utils';
+import { RateListResponseItem } from '@eye8/api/rate';
+import { makeEntityState, EntityContextValue } from '@eye8/shared/utils';
 
-export type ContextValue = IContextValue<IRateListResponseItem, IRateListResponseItem>;
+export type ContextValue = EntityContextValue<RateListResponseItem, RateListResponseItem>;
 
 const Context = React.createContext<ContextValue | null>(null);
 

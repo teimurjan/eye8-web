@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { useDependencies, IContextValue as IDependenciesContextValue } from '@eye8/di';
+import { useDependencies, ContextValue as DependenciesContextValue } from '@eye8/di';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
-export interface IContextValue<Entity, AgregatedEntity, Meta = undefined, Params = {}> {
+export interface EntityContextValue<Entity, AgregatedEntity, Meta = undefined, Params = {}> {
   state: {
     entities: AgregatedEntity[];
     isListLoading: boolean;
@@ -17,7 +17,7 @@ export interface IContextValue<Entity, AgregatedEntity, Meta = undefined, Params
   };
 }
 
-export interface IProviderProps {
+export interface ProviderProps {
   children?: React.ReactNode;
 }
 
@@ -28,14 +28,14 @@ export const makeEntityState = <
   Meta = undefined,
   Params = {}
 >(
-  Context: React.Context<IContextValue<Entity, AgregatedEntity, Meta, Params> | null>,
+  Context: React.Context<EntityContextValue<Entity, AgregatedEntity, Meta, Params> | null>,
   getter: (
-    d: IDependenciesContextValue,
+    d: DependenciesContextValue,
     params?: Params,
   ) => Promise<{ entities: { [key in Key]: { [key: string]: Entity } }; result: number[]; meta?: Meta }>,
   key: Key,
   agregate?: (entity: Entity) => AgregatedEntity,
-): React.SFC<IProviderProps> => ({ children }) => {
+): React.SFC<ProviderProps> => ({ children }) => {
   const dependenciesContextValue = useDependencies();
 
   const [meta, setMeta] = React.useState<Meta | undefined>(undefined);

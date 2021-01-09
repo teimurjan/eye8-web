@@ -1,15 +1,15 @@
 import { Client } from '@eye8/api/types';
-import { IHeadersManager } from '@eye8/manager/headers';
+import { HeadersManager } from '@eye8/manager/headers';
 import { buildSearchString } from '@eye8/shared/utils';
 
-export interface IFeatureTypeListResponseItem {
+export interface FeatureTypeListResponseItem {
   id: number;
   name: string;
   created_on: string;
   updated_on: string;
 }
 
-export interface IFeatureTypeListRawIntlResponseItem {
+export interface FeatureTypeListRawIntlResponseItem {
   id: number;
   name: {
     [key: string]: string;
@@ -18,38 +18,38 @@ export interface IFeatureTypeListRawIntlResponseItem {
   updated_on: string;
 }
 
-export interface IFeatureTypeListResponseData {
-  data: IFeatureTypeListResponseItem[];
+export interface FeatureTypeListResponseData {
+  data: FeatureTypeListResponseItem[];
 }
 
-export interface IFeatureTypeListRawIntlResponseData {
-  data: IFeatureTypeListRawIntlResponseItem[];
+export interface FeatureTypeListRawIntlResponseData {
+  data: FeatureTypeListRawIntlResponseItem[];
 }
 
-export interface IFeatureTypeRawIntlResponseData {
-  data: IFeatureTypeListRawIntlResponseItem;
+export interface FeatureTypeRawIntlResponseData {
+  data: FeatureTypeListRawIntlResponseItem;
 }
 
-export interface IFeatureTypeCreatePayload {
+export interface FeatureTypeCreatePayload {
   names: {
     [key: string]: string;
   };
 }
 
-export interface IFeatureTypeEditPayload {
+export interface FeatureTypeEditPayload {
   names: {
     [key: string]: string;
   };
 }
 
-export interface IFeatureTypeAPI {
-  getAll(): Promise<IFeatureTypeListResponseData>;
-  getAllRawIntl(): Promise<IFeatureTypeListRawIntlResponseData>;
+export interface FeatureTypeAPI {
+  getAll(): Promise<FeatureTypeListResponseData>;
+  getAllRawIntl(): Promise<FeatureTypeListRawIntlResponseData>;
   delete(id: number): Promise<{}>;
-  create(payload: IFeatureTypeCreatePayload): Promise<IFeatureTypeRawIntlResponseData>;
-  edit(id: number, payload: IFeatureTypeEditPayload): Promise<IFeatureTypeRawIntlResponseData>;
+  create(payload: FeatureTypeCreatePayload): Promise<FeatureTypeRawIntlResponseData>;
+  edit(id: number, payload: FeatureTypeEditPayload): Promise<FeatureTypeRawIntlResponseData>;
   status(id: number): Promise<{}>;
-  getOneRawIntl(id: number): Promise<IFeatureTypeRawIntlResponseData>;
+  getOneRawIntl(id: number): Promise<FeatureTypeRawIntlResponseData>;
 }
 
 export class FeatureTypeNotFoundError extends Error {
@@ -59,18 +59,18 @@ export class FeatureTypeNotFoundError extends Error {
   }
 }
 
-export class FeatureTypeAPI implements IFeatureTypeAPI {
+export default class implements FeatureTypeAPI {
   private client: Client;
-  private headersManager: IHeadersManager;
+  private headersManager: HeadersManager;
 
-  constructor(client: Client, headersManager: IHeadersManager) {
+  constructor(client: Client, headersManager: HeadersManager) {
     this.client = client;
     this.headersManager = headersManager;
   }
 
-  public getAll: IFeatureTypeAPI['getAll'] = async () => {
+  public getAll: FeatureTypeAPI['getAll'] = async () => {
     try {
-      const response = await this.client.get<IFeatureTypeListResponseData>('/api/feature_types', {
+      const response = await this.client.get<FeatureTypeListResponseData>('/api/feature_types', {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -79,9 +79,9 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
     }
   };
 
-  public getAllRawIntl: IFeatureTypeAPI['getAllRawIntl'] = async () => {
+  public getAllRawIntl: FeatureTypeAPI['getAllRawIntl'] = async () => {
     try {
-      const response = await this.client.get<IFeatureTypeListRawIntlResponseData>(
+      const response = await this.client.get<FeatureTypeListRawIntlResponseData>(
         `/api/feature_types${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -94,7 +94,7 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
     }
   };
 
-  public delete: IFeatureTypeAPI['delete'] = async (id) => {
+  public delete: FeatureTypeAPI['delete'] = async (id) => {
     try {
       const response = await this.client.delete<{}>(`/api/feature_types/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -108,9 +108,9 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
     }
   };
 
-  public create: IFeatureTypeAPI['create'] = async (payload) => {
+  public create: FeatureTypeAPI['create'] = async (payload) => {
     try {
-      const response = await this.client.post<IFeatureTypeRawIntlResponseData>(`/api/feature_types`, payload, {
+      const response = await this.client.post<FeatureTypeRawIntlResponseData>(`/api/feature_types`, payload, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -119,9 +119,9 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
     }
   };
 
-  public edit: IFeatureTypeAPI['edit'] = async (id, payload) => {
+  public edit: FeatureTypeAPI['edit'] = async (id, payload) => {
     try {
-      const response = await this.client.put<IFeatureTypeRawIntlResponseData>(
+      const response = await this.client.put<FeatureTypeRawIntlResponseData>(
         `/api/feature_types/${id}${buildSearchString({ raw_intl: 1 })}`,
         payload,
         {
@@ -137,7 +137,7 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
     }
   };
 
-  public status: IFeatureTypeAPI['status'] = async (id) => {
+  public status: FeatureTypeAPI['status'] = async (id) => {
     try {
       const response = await this.client.head<{}>(`/api/feature_types/${id}`, {
         headers: this.headersManager.getHeaders(),
@@ -151,9 +151,9 @@ export class FeatureTypeAPI implements IFeatureTypeAPI {
     }
   };
 
-  public getOneRawIntl: IFeatureTypeAPI['getOneRawIntl'] = async (id) => {
+  public getOneRawIntl: FeatureTypeAPI['getOneRawIntl'] = async (id) => {
     try {
-      const response = await this.client.get<IFeatureTypeRawIntlResponseData>(
+      const response = await this.client.get<FeatureTypeRawIntlResponseData>(
         `/api/feature_types/${id}${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),

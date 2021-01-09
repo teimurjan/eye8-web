@@ -6,12 +6,12 @@ export const triggerDimensionsCorrect = () => safeWindowOperation((w) => w.dispa
 
 type Dimensions = { width: number; height: number };
 
-interface IArgs<T> {
+interface Args<T> {
   ref: React.RefObject<T | null>;
   onChange?: (dimensions: Dimensions) => void;
 }
 
-const useElementDimensions = <T extends HTMLElement = HTMLElement>({ ref, onChange }: IArgs<T>) => {
+const useElementDimensions = <T extends HTMLElement = HTMLElement>({ ref, onChange }: Args<T>) => {
   const [dimensions, setDimensions] = React.useState<Dimensions | undefined>(undefined);
 
   const correctDimensions = React.useCallback(() => {

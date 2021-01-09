@@ -4,14 +4,14 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { NavLink, Link } from 'react-router-dom';
 
-import { Menu } from '@eye8/admin-ui/index';
-import { IViewProps as IProps } from '@eye8/admin/components/menu/presenter';
-import { IPopoverTriggerClickProps } from '@eye8/client-ui';
+import { Menu } from '@eye8/admin-ui';
+import { ViewProps as Props } from '@eye8/admin/components/menu/presenter';
 import { LanguageDropdownContainer as LanguageDropdown } from '@eye8/client/components/language-dropdown/container';
+import { PopoverTriggerClickProps } from '@eye8/shared/components';
 import { isUserSetAsAdmin } from '@eye8/shared/helpers';
 import { mediaQueries } from '@eye8/shared/styles';
 
-const LanguageDrodownTrigger = React.forwardRef<any, IPopoverTriggerClickProps>((props, ref) => {
+const LanguageDrodownTrigger = React.forwardRef<any, PopoverTriggerClickProps>((props, ref) => {
   const intl = useIntl();
 
   const modifiedOnClick = React.useCallback(
@@ -39,7 +39,7 @@ const LanguageDrodownTrigger = React.forwardRef<any, IPopoverTriggerClickProps>(
   );
 });
 
-export const AdminMenuView = ({ onLogOutClick, user }: IProps) => {
+export const AdminMenuView = ({ onLogOutClick, user }: Props) => {
   const intl = useIntl();
 
   return (

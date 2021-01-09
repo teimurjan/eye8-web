@@ -2,9 +2,9 @@ import React from 'react';
 import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
-import { Checkbox, Control, Field, FormCheckboxField, FormTextField, HelpText, Label } from '@eye8/admin-ui/index';
+import { Checkbox, Control, Field, FormCheckboxField, FormTextField, HelpText, Label } from '@eye8/admin-ui';
 import { ProductsSelect } from '@eye8/admin/components/products-select';
-import { IProductListResponseItem } from '@eye8/api/product';
+import { ProductListResponseItem } from '@eye8/api/product';
 
 const DiscountField = ({ input, meta, disabled }: FieldRenderProps<string>) => {
   const intl = useIntl();
@@ -115,7 +115,7 @@ const DisableOnUseField = ({ input, meta }: FieldRenderProps<boolean>) => {
   );
 };
 
-const ProductsField = ({ input, meta }: FieldRenderProps<IProductListResponseItem[]>) => {
+const ProductsField = ({ input, meta }: FieldRenderProps<ProductListResponseItem[]>) => {
   const intl = useIntl();
 
   const [isAllSet, setAllSet] = React.useState(input.value.length === 0);
@@ -144,11 +144,11 @@ const ProductsField = ({ input, meta }: FieldRenderProps<IProductListResponseIte
   );
 };
 
-interface IProps {
+interface Props {
   isEdit?: boolean;
 }
 
-export const Fields: React.SFC<IProps> = ({ isEdit }) => {
+export const Fields: React.SFC<Props> = ({ isEdit }) => {
   return (
     <React.Fragment>
       <FinalFormField key="value" name="value" component={ValueField} disabled={isEdit} />

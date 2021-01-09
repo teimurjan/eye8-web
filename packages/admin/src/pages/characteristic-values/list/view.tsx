@@ -2,10 +2,10 @@
 import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
-import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui/index';
+import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
 import { CharacteristicRenderer } from '@eye8/admin/components/characteristic-renderer';
 import { AdminTable, IntlRenderer } from '@eye8/admin/components/table';
-import { IViewProps as IProps } from '@eye8/admin/pages/characteristic-values/list/presenter';
+import { ViewProps as Props } from '@eye8/admin/pages/characteristic-values/list/presenter';
 
 export const NewCharacteristicValueButton = () => {
   const intl = useIntl();
@@ -33,9 +33,9 @@ const NoCharacteristicValuesAvialable = () => {
 
 const renderNoData = () => <NoCharacteristicValuesAvialable />;
 
-type CharacteristicValue = IProps['characteristicValues'][0];
+type CharacteristicValue = Props['characteristicValues'][0];
 
-export const AdminCharacteristicValuesListView = ({ characteristicValues, isLoading, isDataLoaded }: IProps) => {
+export const AdminCharacteristicValuesListView = ({ characteristicValues, isLoading, isDataLoaded }: Props) => {
   const intl = useIntl();
 
   return (
