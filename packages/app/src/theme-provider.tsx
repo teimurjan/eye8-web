@@ -1,21 +1,20 @@
 import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming';
 import React from 'react';
 
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 import { darkTheme, defaultTheme } from '@eye8/shared/styles';
-import { shouldUseThemeToggle } from '@eye8/shared/utils';
-import { Theme } from '@eye8/storage/theme';
+import { shouldUseThemeToggle, Theme } from '@eye8/shared/utils';
 
 interface Props {
   children: React.ReactNode;
 }
 
-export const ThemeProvider = ({ children }: Props) => {
+const ThemeProvider = ({ children }: Props) => {
   const {
-    dependencies: {
-      storages: { theme: themeStorage },
+    di: {
+      storage: { theme: themeStorage },
     },
-  } = useDependencies();
+  } = useDI();
 
   const theme = shouldUseThemeToggle()
     ? themeStorage.getTheme() === Theme.Dark
@@ -25,3 +24,5 @@ export const ThemeProvider = ({ children }: Props) => {
 
   return <EmotionThemeProvider theme={theme}>{children}</EmotionThemeProvider>;
 };
+
+export default ThemeProvider;

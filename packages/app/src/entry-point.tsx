@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useUserState } from '@eye8/shared/state/user';
 
-export const EntryPoint = ({ children }: { children: React.ReactElement }) => {
+const EntryPoint = ({ children }: { children: React.ReactElement }) => {
   const {
     userState: { syncUser },
   } = useUserState();
@@ -14,3 +14,5 @@ export const EntryPoint = ({ children }: { children: React.ReactElement }) => {
 
   return children;
 };
+
+export default EntryPoint;

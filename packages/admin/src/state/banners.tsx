@@ -9,7 +9,7 @@ const Context = React.createContext<ContextValue | null>(null);
 
 export const AdminBannersStateProvider = makeEntityState(
   Context,
-  (d) => d.dependencies.services.banner.getAllRawIntl(),
+  (d) => d.di.service.banner.getAllRawIntl(),
   'banners',
 );
 

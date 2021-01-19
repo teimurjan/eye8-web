@@ -1,3 +1,5 @@
 import { GetServerSideProps } from 'next';
 
-export const forceSSR: GetServerSideProps = () => Promise.resolve({ props: {} });
+const forceSSR: GetServerSideProps = () => Promise.resolve({ props: {} });
+
+export default forceSSR;

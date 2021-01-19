@@ -33,6 +33,7 @@ const env = {
   SHOP_NAME: process.env.SHOP_NAME,
   SERVER_API_URL: process.env.SERVER_API_URL,
   INSTAGRAM_URL: process.env.INSTAGRAM_URL,
+  TIKTOK_URL: process.env.TIKTOK_URL,
 };
 
 module.exports = withPWA(

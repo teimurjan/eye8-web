@@ -5,12 +5,12 @@ import { AdminProductsCreatePresenter } from '@eye8/admin/pages/products/create/
 import { AdminProductsCreateView } from '@eye8/admin/pages/products/create/view';
 import { useAdminFeatureValuesState } from '@eye8/admin/state/feature-values';
 import { useAdminProductsState } from '@eye8/admin/state/products';
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 
 export const AdminProductsCreateContainer = () => {
   const history = useHistory();
 
-  const { dependencies } = useDependencies();
+  const { di } = useDI();
   const { state: adminFeatureValuesState } = useAdminFeatureValuesState();
   const { state: adminProductsState } = useAdminProductsState();
 
@@ -18,8 +18,8 @@ export const AdminProductsCreateContainer = () => {
     <AdminProductsCreatePresenter
       history={history}
       View={AdminProductsCreateView}
-      productService={dependencies.services.product}
-      productTypeService={dependencies.services.productType}
+      productService={di.service.product}
+      productTypeService={di.service.productType}
       adminProductsState={adminProductsState}
       adminFeatureValuesState={adminFeatureValuesState}
     />

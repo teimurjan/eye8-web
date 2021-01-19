@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 import { GroupedRates } from '@eye8/service/rate';
 
 export interface ContextValue {
@@ -24,10 +24,10 @@ export interface ProviderProps {
 
 export const RatesStateProvider: React.SFC<ProviderProps> = ({ initialProps, children }) => {
   const {
-    dependencies: {
-      services: { rate: rateService },
+    di: {
+      service: { rate: rateService },
     },
-  } = useDependencies();
+  } = useDI();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoading, setLoading] = React.useState(false);

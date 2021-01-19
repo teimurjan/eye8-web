@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { CategoryListResponseItem } from '@eye8/api/category';
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 export interface ContextValue {
@@ -25,10 +25,10 @@ export interface ProviderProps {
 
 export const CategoriesStateProvider: React.SFC<ProviderProps> = ({ children, initialProps }) => {
   const {
-    dependencies: {
-      services: { category: service },
+    di: {
+      service: { category: service },
     },
-  } = useDependencies();
+  } = useDI();
 
   const [data, setData] = React.useState<{ entities: { [key: string]: CategoryListResponseItem }; order: number[] }>({
     entities: initialProps?.categories ?? {},

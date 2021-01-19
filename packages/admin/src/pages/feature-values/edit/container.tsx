@@ -5,13 +5,13 @@ import { AdminFeatureValuesEditPresenter } from '@eye8/admin/pages/feature-value
 import { AdminFeatureValuesEditView } from '@eye8/admin/pages/feature-values/edit/view';
 import { useAdminFeatureTypesState } from '@eye8/admin/state/feature-types';
 import { useAdminFeatureValuesState } from '@eye8/admin/state/feature-values';
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 
 export const AdminFeatureValuesEditContainer = () => {
   const history = useHistory();
   const params = useParams<{ id: string }>();
 
-  const { dependencies } = useDependencies();
+  const { di } = useDI();
   const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
   const { state: adminFeatureValuesState } = useAdminFeatureValuesState();
 
@@ -20,7 +20,7 @@ export const AdminFeatureValuesEditContainer = () => {
       featureValueId={parseInt(params.id, 10)}
       history={history}
       View={AdminFeatureValuesEditView}
-      service={dependencies.services.featureValue}
+      service={di.service.featureValue}
       adminFeatureTypesState={adminFeatureTypesState}
       adminFeatureValuesState={adminFeatureValuesState}
     />

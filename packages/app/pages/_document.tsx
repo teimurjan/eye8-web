@@ -1,18 +1,17 @@
-import { IncomingMessage } from 'http';
-
 import { extractCritical } from 'emotion-server';
-import Document, { Head, Main, Html, NextScript, DocumentContext, DocumentProps } from 'next/document';
+import Document, { Head, Main, Html, NextScript, DocumentProps, DocumentContext } from 'next/document';
 import React from 'react';
 
-import { DependenciesFactoryArgs, dependenciesFactory } from '@eye8/di';
-import { setGlobal, Locale, logTimeStart, logTimeFinish } from '@eye8/shared/utils';
+import { DI } from '@eye8/di';
+import { logTimeStart, logTimeFinish, setGlobal } from '@eye8/shared/utils';
+
+import { getNewDIInstance } from '../src/new-di-instance';
+import { getRequestCustomData } from '../src/request-custom-data';
 
 type Props = DocumentProps & Then<ReturnType<typeof getInitialProps>>;
 
-const CustomNextDocument = ({ ids, css, localeDataScript, __CUSTOM_DATA__ }: Props) => {
-  const polyfill = `https://cdn.polyfill.io/v3/polyfill.min.js?features=Intl.~locale.${__CUSTOM_DATA__.intl.locale}`;
-
-  const customDataScript = `window.__CUSTOM_DATA__=${JSON.stringify(__CUSTOM_DATA__)};`;
+const CustomNextDocument = ({ ids, css, locale, localeDataScript, messages, data }: Props) => {
+  const polyfill = `https://cdn.polyfill.io/v3/polyfill.min.js?features=Intl.~locale.${locale}`;
 
   return (
     <Html>
@@ -27,7 +26,12 @@ const CustomNextDocument = ({ ids, css, localeDataScript, __CUSTOM_DATA__ }: Pro
             __html: localeDataScript,
           }}
         />
-        <script id="__CUSTOM_DATA__" dangerouslySetInnerHTML={{ __html: customDataScript }} />
+        <script
+          id="__MESSAGES__"
+          dangerouslySetInnerHTML={{ __html: `window.__MESSAGES__=${JSON.stringify(messages)};` }}
+        />
+        <script id="__DATA__" dangerouslySetInnerHTML={{ __html: `window.__DATA__=${JSON.stringify(data)};` }} />
+        <script id="__LOCALE__" dangerouslySetInnerHTML={{ __html: `window.__LOCALE__=${JSON.stringify(locale)};` }} />
         <NextScript />
         <div id="modalRoot"></div>
         <div id="toastRoot"></div>
@@ -39,26 +43,28 @@ const CustomNextDocument = ({ ids, css, localeDataScript, __CUSTOM_DATA__ }: Pro
 };
 
 const getInitialProps = async (ctx: DocumentContext) => {
+  const req = ctx.req;
+  const { locale, localeDataScript, theme } = getRequestCustomData({ req });
+
+  const di = getNewDIInstance({ locale });
+
   logTimeStart('Document.getInitialProps');
-  const statesInitialProps = await getStatesInitialProps(ctx);
+  const initialData = await getInitialData(di);
   logTimeFinish('Document.getInitialProps');
 
-  const req = ctx.req as (IncomingMessage & { locale: string; localeDataScript: string }) | undefined;
-
-  const locale = req ? req.locale : Locale.Primary;
-  const __CUSTOM_DATA__: Window['__CUSTOM_DATA__'] = {
-    intl: { messages: require(`../lang/${locale}.json`), locale: locale, isFallback: true },
-    states: {
-      initialProps: {
-        categories: statesInitialProps.categoriesState,
-        rates: statesInitialProps.ratesState,
-      },
-    },
+  const messages = require(`../lang/${locale}.json`);
+  const data = {
+    categories: initialData.categories,
+    rates: initialData.rates,
   };
 
   const page = await ctx.renderPage({
     enhanceApp: (app) => {
-      setGlobal('__CUSTOM_DATA__', __CUSTOM_DATA__);
+      // Set global data on both server and client so App uses the correct globals
+      setGlobal('__MESSAGES__', messages);
+      setGlobal('__DATA__', data);
+      setGlobal('__LOCALE__', locale);
+
       return app;
     },
   });
@@ -70,31 +76,37 @@ const getInitialProps = async (ctx: DocumentContext) => {
     ...props,
     ...page,
     ...styles,
-    __CUSTOM_DATA__,
-    localeDataScript: req ? req.localeDataScript : '',
+    locale,
+    localeDataScript,
+    theme,
+    messages: require(`../lang/${locale}.json`),
+    data: {
+      categories: initialData.categories,
+      rates: initialData.rates,
+    },
   };
 };
 
 CustomNextDocument.getInitialProps = getInitialProps;
 CustomNextDocument.renderDocument = Document.renderDocument;
 
-const getStatesInitialProps = async (args: DependenciesFactoryArgs) => {
+const getInitialData = async (di: DI) => {
   const {
-    services: { category: categoryService, rate: rateService },
-  } = dependenciesFactory(args);
+    service: { category: categoryService, rate: rateService },
+  } = di;
   try {
     const categoriesPromise = categoryService.getAll();
-    const ratesPromise = await rateService.getAllGrouped();
+    const ratesPromise = rateService.getAllGrouped();
     const [{ entities, result }, rates] = await Promise.all([categoriesPromise, ratesPromise]);
     return {
-      categoriesState: { categories: entities.categories, categoriesOrder: result },
-      ratesState: { rates },
+      categories: { categories: entities.categories, categoriesOrder: result },
+      rates: { rates },
     };
   } catch (e) {
     console.error(e);
     return {
-      categoriesState: { categories: {}, categoriesOrder: [], error: 'errors.common' },
-      ratesState: { rates: {}, error: 'errors.common' },
+      categories: { categories: {}, categoriesOrder: [], error: 'errors.common' },
+      rates: { rates: {}, error: 'errors.common' },
     };
   }
 };

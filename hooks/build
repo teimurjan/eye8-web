@@ -12,5 +12,6 @@ docker build \
 --build-arg PUBLIC_URL="$PUBLIC_URL" \
 --build-arg SERVER_API_URL="$SERVER_API_URL" \
 --build-arg INSTAGRAM_URL="$INSTAGRAM_URL" \
+--build-arg TIKTOK_URL="$TIKTOK_URL" \
 -f $DOCKERFILE_PATH \
 -t $IMAGE_NAME .

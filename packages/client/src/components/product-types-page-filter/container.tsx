@@ -5,7 +5,7 @@ import {
   Props as PresenterProps,
 } from '@eye8/client/components/product-types-page-filter/presenter';
 import { ProductTypesPageFilterView } from '@eye8/client/components/product-types-page-filter/view';
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 
 export const ProductTypesPageFilterContainer = ({
   onSortingTypeChange,
@@ -18,10 +18,10 @@ export const ProductTypesPageFilterContainer = ({
   'sortingType' | 'onSortingTypeChange' | 'onCharacteristicValuesChange' | 'characteristicValuesIds' | 'disabled'
 >) => {
   const {
-    dependencies: {
-      services: { characteristic: characteristicService, characteristicValue: characteristicValueService },
-    },
-  } = useDependencies();
+    di: {
+      service: { characteristic: characteristicService, characteristicValue: characteristicValueService },
+    }
+  } = useDI();
 
   return (
     <ProductTypesPageFilterPresenter

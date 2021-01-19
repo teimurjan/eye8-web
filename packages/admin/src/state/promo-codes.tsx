@@ -14,7 +14,7 @@ const Context = React.createContext<ContextValue | null>(null);
 
 export const AdminPromoCodesStateProvider = makeEntityState(
   Context,
-  (d, params = { deleted: false }) => d.dependencies.services.promoCode.getAll(params.deleted),
+  (d, params = { deleted: false }) => d.di.service.promoCode.getAll(params.deleted),
   'promoCodes',
 );
 

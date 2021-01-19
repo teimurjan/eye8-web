@@ -32,7 +32,7 @@ export interface Props {
 
 export const getCharacteristicValuesIdsFromQuery = (query: NextRouter['query']) =>
   (Array.isArray(query.characteristics) ? query.characteristics : [query.characteristics])
-    .map((id) => parseInt(id, 10))
+    .map((id) => id ? parseInt(id, 10) : NaN)
     .filter((id) => !isNaN(id));
 
 export const ProductTypesPagePresenter = ({ ListView, productTypeService, initialProps, router }: Props) => {

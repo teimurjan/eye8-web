@@ -7,8 +7,10 @@ import { sortingTypeOfQueryValue, ProductTypeSortingQueryValue } from '@eye8/api
 import { Layout } from '@eye8/client/components/layout';
 import { ProductTypesPageContainer } from '@eye8/client/pages/product-types/container';
 import { getCharacteristicValuesIdsFromQuery } from '@eye8/client/pages/product-types/presenter';
-import { dependenciesFactory } from '@eye8/di';
 import { logTimeStart, logTimeFinish } from '@eye8/shared/utils';
+
+import { getNewDIInstance } from '../../../src/new-di-instance';
+import { getRequestCustomData } from '../../../src/request-custom-data';
 
 const Products = ({
   productTypes,
@@ -38,11 +40,12 @@ const Products = ({
   </Layout>
 );
 
-export const getServerSideProps = async ({ params = {}, req, res }: GetServerSidePropsContext) => {
+export const getServerSideProps = async ({ params = {}, req }: GetServerSidePropsContext) => {
+  const { locale } = getRequestCustomData({ req });
+  const di = getNewDIInstance({ locale });
+
   const parsedUrl = url.parse(req.url ?? '', true);
   const { page = '1', sort_by: sortBy = ProductTypeSortingQueryValue.RECENT } = parsedUrl.query;
-
-  const dependencies = dependenciesFactory({ req, res });
 
   try {
     logTimeStart('CategoryProducts.getServerSideProps');
@@ -53,8 +56,8 @@ export const getServerSideProps = async ({ params = {}, req, res }: GetServerSid
       sortingType: sortingTypeOfQueryValue[sortBy as string],
       characteristicValuesIds: getCharacteristicValuesIdsFromQuery(parsedUrl.query),
     };
-    const { entities, meta, result } = await dependencies.services.productType.getForCategory(categorySlug, options);
-    const category = await dependencies.services.category.getOneBySlug(categorySlug);
+    const { entities, meta, result } = await di.service.productType.getForCategory(categorySlug, options);
+    const category = await di.service.category.getOneBySlug(categorySlug);
 
     logTimeFinish('CategoryProducts.getServerSideProps');
 

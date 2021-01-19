@@ -8,13 +8,13 @@ import {
 import { AdminFeatureValuesCreateView } from '@eye8/admin/pages/feature-values/create/view';
 import { useAdminFeatureTypesState } from '@eye8/admin/state/feature-types';
 import { useAdminFeatureValuesState } from '@eye8/admin/state/feature-values';
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 
 export const AdminFeatureValuesCreateContainer = ({ close }: Partial<Pick<PresenterProps, 'close'>>) => {
   const history = useHistory();
   const defaultClose = React.useCallback(() => history.push('/admin/featureValues'), [history]);
 
-  const { dependencies } = useDependencies();
+  const { di } = useDI();
   const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
   const { state: adminFeatureValuesState } = useAdminFeatureValuesState();
 
@@ -22,7 +22,7 @@ export const AdminFeatureValuesCreateContainer = ({ close }: Partial<Pick<Presen
     <AdminFeatureValuesCreatePresenter
       close={close ?? defaultClose}
       View={AdminFeatureValuesCreateView}
-      service={dependencies.services.featureValue}
+      service={di.service.featureValue}
       adminFeatureTypesState={adminFeatureTypesState}
       adminFeatureValuesState={adminFeatureValuesState}
     />

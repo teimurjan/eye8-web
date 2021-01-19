@@ -7,7 +7,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const ScrollRestorationWrapper: React.FC<Props> = ({ children }) => {
+const ScrollRestorationWrapper: React.FC<Props> = ({ children }) => {
   const router = useRouter();
 
   const cachedScrollPositions = React.useRef<Array<number[]>>([]);
@@ -45,3 +45,5 @@ export const ScrollRestorationWrapper: React.FC<Props> = ({ children }) => {
 
   return <Context.Provider value={null}>{children}</Context.Provider>;
 };
+
+export default ScrollRestorationWrapper;

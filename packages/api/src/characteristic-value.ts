@@ -1,5 +1,5 @@
 import { CharacteristicListRawIntlResponseItem, CharacteristicListResponseItem } from '@eye8/api/characteristic';
-import { Client } from '@eye8/api/types';
+import { APIClient } from '@eye8/api/client';
 import { HeadersManager } from '@eye8/manager/headers';
 import { buildSearchString } from '@eye8/shared/utils';
 
@@ -65,10 +65,10 @@ export class CharacteristicValueNotFoundError extends Error {
 }
 
 export default class implements CharacteristicValueAPI {
-  private client: Client;
+  private client: APIClient;
   private headersManager: HeadersManager;
 
-  constructor(client: Client, headersManager: HeadersManager) {
+  constructor(client: APIClient, headersManager: HeadersManager) {
     this.client = client;
     this.headersManager = headersManager;
   }

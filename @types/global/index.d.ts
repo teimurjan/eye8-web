@@ -64,10 +64,19 @@ declare type Then<T> = T extends PromiseLike<infer U> ? U : T;
 
 interface Window {
   __NEXT_DATA__: { props: object };
-  __CUSTOM_DATA__: {
-    intl: { messages: { [key: string]: string }; locale: string; isFallback: boolean };
-    states: { initialProps: { rates: object; categories: object } };
-  };
+  __MESSAGES__: Record<string, string>;
+  __DATA__: { rates: object; categories: object };
+  __LOCALE__: string;
+}
+
+declare module 'http' {
+  interface IncomingMessage {
+    __CUSTOM_DATA__: {
+      theme: string;
+      locale: string;
+      localeDataScript: string;
+    };
+  }
 }
 
 interface SvgrComponent extends React.StatelessComponent<React.SVGAttributes<SVGElement>> {}

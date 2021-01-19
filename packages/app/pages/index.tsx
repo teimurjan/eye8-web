@@ -3,8 +3,10 @@ import React from 'react';
 
 import { Layout } from '@eye8/client/components/layout';
 import { HomeContainer } from '@eye8/client/pages/home/container';
-import { dependenciesFactory } from '@eye8/di';
 import { logTimeStart, logTimeFinish } from '@eye8/shared/utils';
+
+import { getNewDIInstance } from '../src/new-di-instance';
+import { getRequestCustomData } from '../src/request-custom-data';
 
 const Index = ({
   banners,
@@ -20,13 +22,14 @@ const Index = ({
   );
 };
 
-export const getServerSideProps = async ({ req, res }: GetServerSidePropsContext) => {
+export const getServerSideProps = async ({ req }: GetServerSidePropsContext) => {
+  const { locale } = getRequestCustomData({ req });
   const {
-    services: { banner: bannerService, productType: productTypeService },
-  } = dependenciesFactory({ req, res });
+    service: { banner: bannerService, productType: productTypeService },
+  } = getNewDIInstance({ locale });
 
   try {
-    logTimeStart('ndex.getServerSideProps');
+    logTimeStart('Index.getServerSideProps');
 
     const bannersPromise = bannerService.getAll();
     const productTypesPromise = productTypeService.getNewest();
@@ -42,14 +45,14 @@ export const getServerSideProps = async ({ req, res }: GetServerSidePropsContext
       },
     ] = await Promise.all([bannersPromise, productTypesPromise]);
 
-    logTimeFinish('ndex.getServerSideProps');
-
     return { props: { banners, bannersOrder, productTypes, productTypesOrder } };
   } catch (e) {
     console.error(e);
     return {
       props: { error: 'errors.common', banners: {}, productTypes: {}, bannersOrder: [], productTypesOrder: [] },
     };
+  } finally {
+    logTimeFinish('Index.getServerSideProps');
   }
 };
 

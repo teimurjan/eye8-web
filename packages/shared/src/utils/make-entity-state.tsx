@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useDependencies, ContextValue as DependenciesContextValue } from '@eye8/di';
+import { useDI, ContextValue as DependenciesContextValue } from '@eye8/di';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 export interface EntityContextValue<Entity, AgregatedEntity, Meta = undefined, Params = {}> {
@@ -36,7 +36,7 @@ export const makeEntityState = <
   key: Key,
   agregate?: (entity: Entity) => AgregatedEntity,
 ): React.SFC<ProviderProps> => ({ children }) => {
-  const dependenciesContextValue = useDependencies();
+  const diContextValue = useDI();
 
   const [meta, setMeta] = React.useState<Meta | undefined>(undefined);
   const [data, setData] = React.useState<{ entities: { [key: string]: Entity }; order: number[] }>({
@@ -51,7 +51,7 @@ export const makeEntityState = <
     async (params?: Params) => {
       setListLoading(true);
       try {
-        const { entities, result, meta } = await getter(dependenciesContextValue, params);
+        const { entities, result, meta } = await getter(diContextValue, params);
         setData({ entities: entities[key], order: result });
         setMeta(meta);
       } catch (e) {
@@ -61,7 +61,7 @@ export const makeEntityState = <
         setListLoaded(true);
       }
     },
-    [dependenciesContextValue],
+    [diContextValue],
   );
 
   const add = React.useCallback(

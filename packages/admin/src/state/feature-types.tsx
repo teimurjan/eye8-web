@@ -9,7 +9,7 @@ const Context = React.createContext<ContextValue | null>(null);
 
 export const AdminFeatureTypesStateProvider = makeEntityState(
   Context,
-  (d) => d.dependencies.services.featureType.getAllRawIntl(),
+  (d) => d.di.service.featureType.getAllRawIntl(),
   'featureTypes',
 );
 

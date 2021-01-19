@@ -4,13 +4,13 @@ import { useHistory, useParams } from 'react-router';
 import { AdminBannersEditPresenter } from '@eye8/admin/pages/banners/edit/presenter';
 import { AdminBannersEditView } from '@eye8/admin/pages/banners/edit/view';
 import { useAdminBannersState } from '@eye8/admin/state/banners';
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 
 export const AdminBannersEditContainer = () => {
   const history = useHistory();
   const params = useParams<{ id: string }>();
 
-  const { dependencies } = useDependencies();
+  const { di } = useDI();
   const { state: adminBannersState } = useAdminBannersState();
 
   return (
@@ -18,7 +18,7 @@ export const AdminBannersEditContainer = () => {
       bannerId={parseInt(params.id, 10)}
       history={history}
       View={AdminBannersEditView}
-      service={dependencies.services.banner}
+      service={di.service.banner}
       adminBannersState={adminBannersState}
     />
   );

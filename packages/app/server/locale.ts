@@ -1,12 +1,13 @@
-const { readFileSync } = require('fs');
-const { basename, join } = require('path');
+import { readFileSync } from 'fs';
+import { basename, join } from 'path';
 
-const cookie = require('cookie');
-const glob = require('glob');
-const IntlPolyfill = require('intl');
-const Negotiator = require('negotiator');
+import cookie from 'cookie';
+import { Request, Response } from 'express';
+import glob from 'glob';
+import IntlPolyfill from 'intl';
+import Negotiator from 'negotiator';
 
-module.exports.initIntlPolyfills = () => {
+export const initIntlPolyfills = () => {
   Intl.NumberFormat = IntlPolyfill.NumberFormat;
   Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;
 };
@@ -15,7 +16,7 @@ const supportedLanguages = glob.sync(join(__dirname, '../lang/*.json')).map((f) 
 
 const localeDataCache = new Map();
 
-module.exports.getLocaleDataScript = (locale) => {
+export const getLocaleDataScript = (locale: string) => {
   const lang = locale.split('-')[0];
   if (!localeDataCache.has(lang)) {
     const localeDataFile = require.resolve(`@formatjs/intl-relativetimeformat/dist/locale-data/${lang}`);
@@ -26,7 +27,7 @@ module.exports.getLocaleDataScript = (locale) => {
 };
 
 // Use this function if you need locale detection base on the browser's language
-module.exports.detectLocale = (req) => {
+export const detectLocale = (req: Request) => {
   const negotiator = new Negotiator(req);
   const negotiatedLanguage = negotiator.language(supportedLanguages);
 
@@ -34,7 +35,7 @@ module.exports.detectLocale = (req) => {
 };
 
 const DEFAULT_LOCALE = 'ru';
-module.exports.getRequestLocale = (req) => {
+export const getRequestLocale = (req: Request) => {
   const cookieLocale = cookie.parse(req.headers.cookie || '').locale;
   if (cookieLocale) {
     const supportedCookieLocale = supportedLanguages.find((l) => l === cookieLocale);
@@ -46,9 +47,11 @@ module.exports.getRequestLocale = (req) => {
   return DEFAULT_LOCALE;
 };
 
-module.exports.localeMiddleware = (req, res, next) => {
-  const detectedLocale = module.exports.getRequestLocale(req);
-  req.locale = detectedLocale;
-  req.localeDataScript = module.exports.getLocaleDataScript(detectedLocale);
+export const localeMiddleware = (req: Request, res: Response, next: Function) => {
+  const detectedLocale = getRequestLocale(req);
+  req.__CUSTOM_DATA__ = Object.assign(req.__CUSTOM_DATA__ || {}, {
+    locale: detectedLocale,
+    localeDataScript: getLocaleDataScript(detectedLocale),
+  });
   next();
 };

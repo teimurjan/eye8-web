@@ -4,13 +4,13 @@ import { useHistory, useParams } from 'react-router';
 import { AdminPromoCodesEditPresenter } from '@eye8/admin/pages/promo-codes/edit/presenter';
 import { AdminPromoCodesEditView } from '@eye8/admin/pages/promo-codes/edit/view';
 import { useAdminPromoCodesState } from '@eye8/admin/state/promo-codes';
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 
 export const AdminPromoCodesEditContainer = () => {
   const history = useHistory();
   const params = useParams<{ id: string }>();
 
-  const { dependencies } = useDependencies();
+  const { di } = useDI();
   const { state: adminPromoCodesState } = useAdminPromoCodesState();
 
   return (
@@ -18,8 +18,8 @@ export const AdminPromoCodesEditContainer = () => {
       promoCodeId={parseInt(params.id, 10)}
       history={history}
       View={AdminPromoCodesEditView}
-      service={dependencies.services.promoCode}
-      productService={dependencies.services.product}
+      service={di.service.promoCode}
+      productService={di.service.product}
       adminPromoCodesState={adminPromoCodesState}
     />
   );

@@ -9,7 +9,7 @@ const Context = React.createContext<ContextValue | null>(null);
 
 export const AdminOrdersStateProvider = makeEntityState(
   Context,
-  (d) => d.dependencies.services.order.getAll(),
+  (d) => d.di.service.order.getAll(),
   'orders',
 );
 

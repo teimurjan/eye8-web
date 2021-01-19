@@ -29,7 +29,7 @@ fbq('init', '${process.env.FB_PIXEL_ID}');
 fbq('track', 'PageView');
 `;
 
-export const CustomHead = () => {
+const CustomHead = () => {
   const intl = useIntl();
   const router = useRouter();
 
@@ -76,3 +76,5 @@ export const CustomHead = () => {
     </Head>
   );
 };
+
+export default CustomHead;

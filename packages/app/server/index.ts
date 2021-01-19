@@ -1,12 +1,15 @@
-const fs = require('fs');
-const path = require('path');
-const { parse } = require('url');
+import fs from 'fs';
+import path from 'path';
+import { ParsedUrlQuery } from 'querystring';
+import { parse, UrlWithParsedQuery } from 'url';
 
-const express = require('express');
-const LRUCache = require('lru-cache');
-const next = require('next');
+import express, { Request, Response } from 'express';
+import LRUCache from 'lru-cache';
+import next from 'next';
 
-const { getRequestLocale, initIntlPolyfills, localeMiddleware } = require('./locale');
+import { authMiddleware } from './auth';
+import { initIntlPolyfills, localeMiddleware } from './locale';
+import { themeMiddleware } from './theme';
 
 initIntlPolyfills();
 
@@ -26,25 +29,27 @@ app
   .then(() => {
     const server = express();
 
+    server.use(authMiddleware);
     server.use(localeMiddleware);
+    server.use(themeMiddleware);
 
     server.get('/admin(/*)?', (req, res) => {
-      return app.render(req, res, '/admin', req.query);
+      return app.render(req, res, '/admin', req.query as ParsedUrlQuery);
     });
 
     server.get('/profile(/*)?', (req, res) => {
-      return app.render(req, res, '/profile', req.query);
+      return app.render(req, res, '/profile', req.query as ParsedUrlQuery);
     });
 
     server.get(['/login', '/signup'], (req, res) => {
-      return app.render(req, res, '/', req.query);
+      return app.render(req, res, '/', req.query as ParsedUrlQuery);
     });
 
     server.get('*', (req, res) => {
       const parsedUrl = parse(req.url, true);
       const { pathname } = parsedUrl;
 
-      if (pathname === '/sw.js' || pathname.startsWith('/workbox-')) {
+      if (pathname === '/sw.js' || pathname?.startsWith('/workbox-')) {
         const filePath = path.join(__dirname, '../public', pathname);
         app.serveStatic(req, res, filePath);
       } else {
@@ -52,8 +57,7 @@ app
       }
     });
 
-    server.listen(port, (e) => {
-      if (e) throw e;
+    server.listen(port, () => {
       console.log(`> Ready on http://localhost:${port}`);
     });
   })
@@ -62,16 +66,15 @@ app
     process.exit(1);
   });
 
-const isAssetUrl = (url) => fs.existsSync(path.join(__dirname, '../public', url));
-const isNextUrl = (url) => url.indexOf('_next') !== -1;
+const isAssetUrl = (url: string) => fs.existsSync(path.join(__dirname, '../public', url));
+const isNextUrl = (url: string) => url.indexOf('_next') !== -1;
 
-const getCacheKey = (req) => {
+const getCacheKey = (req: Request) => {
   if (isAssetUrl(req.url) || isNextUrl(req.url)) {
     return undefined;
   }
 
-  const detectedLocale = getRequestLocale(req);
-  return `{"url":"${req.url}","locale":"${detectedLocale}"}`;
+  return `{"url":"${req.url}","locale":"${req.__CUSTOM_DATA__.locale}"}`;
 };
 
 const XCACHE_KEY = 'X-Cache';
@@ -81,7 +84,7 @@ const XCache = {
   Miss: 'Miss',
 };
 
-const renderAndCache = (req, res, parsedUrl) => {
+const renderAndCache = (req: Request, res: Response, parsedUrl: UrlWithParsedQuery) => {
   const key = getCacheKey(req);
 
   if (!key || dev) {
@@ -99,7 +102,7 @@ const renderAndCache = (req, res, parsedUrl) => {
   try {
     // https://github.com/vercel/next.js/issues/12019
     const _resEnd = res.end.bind(res);
-    res.end = (payload) => {
+    res.end = <T>(payload: T) => {
       if (res.statusCode !== 200) {
         console.log(`Cache Skip: ${key}`);
         res.setHeader(XCACHE_KEY, XCache.Skip);
@@ -112,9 +115,9 @@ const renderAndCache = (req, res, parsedUrl) => {
 
     console.log(`Cache Miss: ${key}`);
     res.setHeader(XCACHE_KEY, XCache.Miss);
-    app.render(req, res, req.path, req.query);
+    app.render(req, res, req.path, req.query as ParsedUrlQuery);
   } catch (err) {
     console.error(err);
-    app.renderError(err, req, res, req.path, req.query);
+    app.renderError(err, req, res, req.path, req.query as ParsedUrlQuery);
   }
 };

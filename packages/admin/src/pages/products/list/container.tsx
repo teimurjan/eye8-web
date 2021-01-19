@@ -4,15 +4,15 @@ import { useHistory } from 'react-router';
 import { AdminProductsListPresenter } from '@eye8/admin/pages/products/list/presenter';
 import { AdminProductsListView } from '@eye8/admin/pages/products/list/view';
 import { useAdminProductsState } from '@eye8/admin/state/products';
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 
 export const AdminProductsListContainer = () => {
   const { state: adminProductsState } = useAdminProductsState();
   const {
-    dependencies: {
-      services: { productType: productTypeService },
+    di: {
+      service: { productType: productTypeService },
     },
-  } = useDependencies();
+  } = useDI();
 
   const history = useHistory();
 

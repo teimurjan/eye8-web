@@ -2,7 +2,7 @@ import React from 'react';
 
 import { DeleteModalContainer } from '@eye8/admin/components/delete-modal/container';
 import { useAdminCategoriesState } from '@eye8/admin/state/categories';
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 import { CategoryHasChildrenError, CategoryHasProductTypesError } from '@eye8/service/category';
 
 const getErrorMessageID = (e: Error) => {
@@ -17,7 +17,7 @@ const getErrorMessageID = (e: Error) => {
 };
 
 export const AdminCategoriesDeleteContainer = () => {
-  const { dependencies } = useDependencies();
+  const { di } = useDI();
   const {
     state: { remove: deleteCategory },
   } = useAdminCategoriesState();
@@ -26,10 +26,10 @@ export const AdminCategoriesDeleteContainer = () => {
     <DeleteModalContainer
       getErrorMessageID={getErrorMessageID}
       deleteEntity={async ({ id }) => {
-        await dependencies.services.category.delete(id);
+        await di.service.category.delete(id);
         deleteCategory(id);
       }}
-      checkExistence={({ id }) => dependencies.services.category.exists(id)}
+      checkExistence={({ id }) => di.service.category.exists(id)}
       getBackPath={() => '/admin/categories'}
     />
   );

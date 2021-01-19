@@ -4,7 +4,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { Button } from '@eye8/client-ui';
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 import { useToast, ToastId } from '@eye8/shared/context/toast';
 import { safeWindowOperation } from '@eye8/shared/utils';
 
@@ -15,10 +15,10 @@ export const CacheBuster = () => {
   const intl = useIntl();
 
   const {
-    dependencies: {
-      storages: { version: versionStorage },
+    di: {
+      storage: { version: versionStorage },
     },
-  } = useDependencies();
+  } = useDI();
 
   const toast = useToast()
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ProductSelectPresenter, Props as PresenterProps } from '@eye8/admin/components/product-select/presenter';
 import { ProductSelectView } from '@eye8/admin/components/product-select/view';
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 
 interface Props {
   onChange: PresenterProps['onChange'];
@@ -11,14 +11,14 @@ interface Props {
 }
 
 export const ProductSelectContainer = ({ onChange, placeholder, className }: Props) => {
-  const { dependencies } = useDependencies();
+  const { di } = useDI();
 
   return (
     <ProductSelectPresenter
       className={className}
       onChange={onChange}
       View={ProductSelectView}
-      productTypeService={dependencies.services.productType}
+      productTypeService={di.service.productType}
       placeholder={placeholder}
     />
   );

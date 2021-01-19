@@ -2,10 +2,10 @@ import React from 'react';
 
 import { DeleteModalContainer } from '@eye8/admin/components/delete-modal/container';
 import { useAdminBannersState } from '@eye8/admin/state/banners';
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 
 export const AdminBannersDeleteContainer = () => {
-  const { dependencies } = useDependencies();
+  const { di } = useDI();
   const {
     state: { remove: deleteBanner },
   } = useAdminBannersState();
@@ -13,10 +13,10 @@ export const AdminBannersDeleteContainer = () => {
   return (
     <DeleteModalContainer
       deleteEntity={async ({ id }) => {
-        await dependencies.services.banner.delete(id);
+        await di.service.banner.delete(id);
         deleteBanner(id);
       }}
-      checkExistence={({ id }) => dependencies.services.banner.exists(id)}
+      checkExistence={({ id }) => di.service.banner.exists(id)}
       getBackPath={() => '/admin/banners'}
     />
   );

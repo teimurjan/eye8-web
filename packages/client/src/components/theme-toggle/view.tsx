@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 
 import { Toggle } from '@eye8/client-ui';
 import { ViewProps as Props } from '@eye8/client/components/theme-toggle/presenter';
-import { Theme } from '@eye8/storage/theme';
+import { Theme } from '@eye8/shared/utils';
 
 export const ThemeToggleView = ({ onThemeChange, theme }: Props) => {
   const intl = useIntl();

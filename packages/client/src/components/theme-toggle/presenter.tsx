@@ -1,7 +1,8 @@
 import { NextRouter } from 'next/router';
 import React from 'react';
 
-import { ThemeStorage, Theme } from '@eye8/storage/theme';
+import { Theme } from '@eye8/shared/utils';
+import { ThemeStorage } from '@eye8/storage/theme';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;

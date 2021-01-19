@@ -15,7 +15,7 @@ const Context = React.createContext<ContextValue | null>(null);
 export const AdminProductTypesStateProvider = makeEntityState(
   Context,
   (d, params = { page: 1 }) => {
-    const { productType: productTypeService } = d.dependencies.services;
+    const { productType: productTypeService } = d.di.service;
     if (params.query) {
       return productTypeService.searchRawIntl(params.query, {
         page: params.page,

@@ -1,14 +1,10 @@
+import { Theme } from '@eye8/shared/utils';
 import { CookieStorage } from '@eye8/storage/cookie';
 
 export interface ThemeStorage {
   getTheme(): Theme | null;
   setTheme(version: string): void;
   toggle(): void;
-}
-
-export enum Theme {
-  Dark = 'dark',
-  Light = 'light',
 }
 
 export default class implements ThemeStorage {

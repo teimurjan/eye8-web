@@ -3,11 +3,11 @@ import React from 'react';
 
 import { ConfirmSignupPresenter } from '@eye8/client/components/confirm-signup/presenter';
 import { ConfirmSignupView } from '@eye8/client/components/confirm-signup/view';
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 
 export const ConfirmSignupContainer = () => {
-  const { dependencies } = useDependencies();
+  const { di } = useDI();
   const router = useRouter();
 
-  return <ConfirmSignupPresenter router={router} View={ConfirmSignupView} service={dependencies.services.auth} />;
+  return <ConfirmSignupPresenter router={router} View={ConfirmSignupView} service={di.service.auth} />;
 };

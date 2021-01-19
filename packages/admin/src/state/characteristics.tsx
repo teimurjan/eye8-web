@@ -12,7 +12,7 @@ const Context = React.createContext<ContextValue | null>(null);
 
 export const AdminCharacteristicsStateProvider = makeEntityState(
   Context,
-  (d) => d.dependencies.services.characteristic.getAllRawIntl(),
+  (d) => d.di.service.characteristic.getAllRawIntl(),
   'characteristics',
 );
 

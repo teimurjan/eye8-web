@@ -74,9 +74,9 @@ export const LoginPresenter = ({
           duration: 5000,
         });
 
-        if (isUserAdmin(user)) {
-          router.push('/admin');
-        }
+        // if (isUserAdmin(user)) {
+        //   router.push('/admin');
+        // }
       } catch (e) {
         setError(getErrorMessageID(e));
       } finally {

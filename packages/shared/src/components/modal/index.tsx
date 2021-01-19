@@ -57,7 +57,12 @@ const ModalBackground = ({ fixed, ...props }: ModalBackgroundProps) => {
         position: ${fixed ? 'fixed' : 'absolute'};
         z-index: 98;
         transition: opacity 175ms ease-in-out;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
       `}
+      {...props}
     />
   );
 };
@@ -128,10 +133,6 @@ const modalContentCSS = css`
 
 const backdropCSS = css`
   opacity: 0;
-
-  &.fixed {
-    position: fixed;
-  }
 
   .popping-enter & {
     opacity: 0;
@@ -255,9 +256,7 @@ const Modal = ({
 
                   ${getFullScreenStyles(`color: ${theme.textColor};`, (className) => `.${className} + & `)}
 
-                  &.fixed {
-                    position: fixed;
-                  }
+                  position: ${fixed ? 'fixed' : 'absolute'};
                 `}
                 onClick={close}
               />

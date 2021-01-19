@@ -21,3 +21,4 @@ export * from './time';
 export * from './url';
 export * from './validate';
 export * from './watching-value';
+export * from './theme';

@@ -1,6 +1,3 @@
-import { IncomingMessage, ServerResponse } from 'http';
-
-import axios, { AxiosInstance } from 'axios';
 import React from 'react';
 
 import AuthAPI from '@eye8/api/auth';
@@ -8,6 +5,7 @@ import BannerAPI from '@eye8/api/banner';
 import CategoryAPI from '@eye8/api/category';
 import CharacteristicAPI from '@eye8/api/characteristic';
 import CharacteristicValueAPI from '@eye8/api/characteristic-value';
+import APIClient from '@eye8/api/client';
 import FeatureTypeAPI from '@eye8/api/feature-type';
 import FeatureValueAPI from '@eye8/api/feature-value';
 import OrderAPI from '@eye8/api/order';
@@ -35,12 +33,11 @@ import CartStorage from '@eye8/storage/cart';
 import CookieStorage from '@eye8/storage/cookie';
 import InMemoryStorage from '@eye8/storage/in-memory';
 import IntlStorage from '@eye8/storage/intl';
-import ServerCookieStorage from '@eye8/storage/server-cookie';
 import StateCacheStorage from '@eye8/storage/state-cache';
 import ThemeStorage from '@eye8/storage/theme';
 import VersionStorage from '@eye8/storage/version';
 
-export interface APIsContainer {
+export interface ApiContainer {
   auth: AuthAPI;
   category: CategoryAPI;
   productType: ProductTypeAPI;
@@ -71,7 +68,7 @@ export interface ServicesContainer {
   rate: RateService;
 }
 
-export interface StoragesContainer {
+export interface StorageContainer {
   auth: AuthStorage;
   intl: IntlStorage;
   stateCache: StateCacheStorage;
@@ -80,102 +77,88 @@ export interface StoragesContainer {
   theme: ThemeStorage;
 }
 
-export interface IDependenciesContainer {
-  __APIClient: AxiosInstance;
-  __headersManager: HeadersManager;
-  APIs: APIsContainer;
-  services: ServicesContainer;
-  storages: StoragesContainer;
-}
-
-class DependenciesContainer implements IDependenciesContainer {
-  public __APIClient: AxiosInstance;
-  public __headersManager: HeadersManager;
-  public APIs: APIsContainer;
-  public services: ServicesContainer;
-  public storages: StoragesContainer;
-  constructor(
-    __APIClient: AxiosInstance,
-    __headersManager: HeadersManager,
-    APIs: APIsContainer,
-    storages: StoragesContainer,
-    services: ServicesContainer,
-  ) {
+export class DI {
+  public __APIClient: APIClient;
+  public api: ApiContainer;
+  public service: ServicesContainer;
+  public storage: StorageContainer;
+  constructor(__APIClient: APIClient, api: ApiContainer, storage: StorageContainer, service: ServicesContainer) {
     this.__APIClient = __APIClient;
-    this.__headersManager = __headersManager;
-    this.APIs = APIs;
-    this.storages = storages;
-    this.services = services;
+    this.api = api;
+    this.storage = storage;
+    this.service = service;
   }
 }
 
-export interface DependenciesFactoryArgs {
-  req?: IncomingMessage;
-  res?: ServerResponse;
+export class DIFactory {
+  private makeStorageContainer = () => {
+    const localStorage = safeWindow((w) => w.localStorage, new InMemoryStorage());
+    const cookieStorage = new CookieStorage();
+    const stateCacheStorage_ = new StateCacheStorage(localStorage);
+    return {
+      auth: new AuthStorage(cookieStorage),
+      intl: new IntlStorage(cookieStorage),
+      stateCache: stateCacheStorage_,
+      cart: new CartStorage(stateCacheStorage_),
+      version: new VersionStorage(localStorage),
+      theme: new ThemeStorage(cookieStorage),
+    };
+  };
+
+  private makeApiContainer = (apiClient: APIClient, headersManager: HeadersManager) => {
+    return {
+      auth: new AuthAPI(apiClient, headersManager),
+      category: new CategoryAPI(apiClient, headersManager),
+      characteristic: new CharacteristicAPI(apiClient, headersManager),
+      characteristicValue: new CharacteristicValueAPI(apiClient, headersManager),
+      featureType: new FeatureTypeAPI(apiClient, headersManager),
+      featureValue: new FeatureValueAPI(apiClient, headersManager),
+      productType: new ProductTypeAPI(apiClient, headersManager),
+      product: new ProductAPI(apiClient, headersManager),
+      banner: new BannerAPI(apiClient, headersManager),
+      order: new OrderAPI(apiClient, headersManager),
+      promoCode: new PromoCodeAPI(apiClient, headersManager),
+      rate: new RateAPI(apiClient, headersManager),
+    };
+  };
+
+  private makeServiceContainer = (api: ApiContainer, storage: StorageContainer) => {
+    return {
+      auth: new AuthService(api.auth, storage.auth, storage.stateCache),
+      category: new CategoryService(api.category),
+      characteristic: new CharacteristicService(api.characteristic),
+      characteristicValue: new CharacteristicValueService(api.characteristicValue),
+      featureType: new FeatureTypeService(api.featureType),
+      featureValue: new FeatureValueService(api.featureValue),
+      intl: new IntlService(storage.intl),
+      productType: new ProductTypeService(api.productType),
+      product: new ProductService(api.product),
+      banner: new BannerService(api.banner),
+      order: new OrderService(api.order),
+      promoCode: new PromoCodeService(api.promoCode),
+      rate: new RateService(api.rate, storage.stateCache),
+    };
+  };
+
+  make = () => {
+    const storage = this.makeStorageContainer();
+
+    const headersManager = new HeadersManager(storage.auth, storage.intl);
+    const apiClient = new APIClient({ baseURL: safeWindow(process.env.CLIENT_API_URL, process.env.SERVER_API_URL) });
+    const api = this.makeApiContainer(apiClient, headersManager);
+
+    const service = this.makeServiceContainer(api, storage);
+
+    return new DI(apiClient, api, storage, service);
+  };
 }
-
-export const dependenciesFactory = ({ req, res }: DependenciesFactoryArgs = {}): DependenciesContainer => {
-  const localStorage = safeWindow((w) => w.localStorage, new InMemoryStorage());
-  const cookieStorage = req && res ? new ServerCookieStorage(req, res) : new CookieStorage();
-  const stateCacheStorage_ = new StateCacheStorage(localStorage);
-  const storagesContainer = {
-    auth: new AuthStorage(cookieStorage),
-    intl: new IntlStorage(cookieStorage),
-    stateCache: stateCacheStorage_,
-    cart: new CartStorage(stateCacheStorage_),
-    version: new VersionStorage(localStorage),
-    theme: new ThemeStorage(cookieStorage),
-  };
-
-  // Set locale detected on server if the intl storage is empty
-  const reqLocale = req ? (req as IncomingMessage & { locale?: string }).locale : undefined;
-  if (reqLocale && !storagesContainer.intl.getLocale()) {
-    storagesContainer.intl.setLocale(reqLocale);
-  }
-
-  const headersManager = new HeadersManager(storagesContainer.auth, storagesContainer.intl);
-  const APIClient = axios.create({ baseURL: safeWindow(process.env.CLIENT_API_URL, process.env.SERVER_API_URL) });
-
-  const APIsContainer = {
-    auth: new AuthAPI(APIClient, headersManager),
-    category: new CategoryAPI(APIClient, headersManager),
-    characteristic: new CharacteristicAPI(APIClient, headersManager),
-    characteristicValue: new CharacteristicValueAPI(APIClient, headersManager),
-    featureType: new FeatureTypeAPI(APIClient, headersManager),
-    featureValue: new FeatureValueAPI(APIClient, headersManager),
-    productType: new ProductTypeAPI(APIClient, headersManager),
-    product: new ProductAPI(APIClient, headersManager),
-    banner: new BannerAPI(APIClient, headersManager),
-    order: new OrderAPI(APIClient, headersManager),
-    promoCode: new PromoCodeAPI(APIClient, headersManager),
-    rate: new RateAPI(APIClient, headersManager),
-  };
-
-  const servicesContainer = {
-    auth: new AuthService(APIsContainer.auth, storagesContainer.auth, storagesContainer.stateCache),
-    category: new CategoryService(APIsContainer.category),
-    characteristic: new CharacteristicService(APIsContainer.characteristic),
-    characteristicValue: new CharacteristicValueService(APIsContainer.characteristicValue),
-    featureType: new FeatureTypeService(APIsContainer.featureType),
-    featureValue: new FeatureValueService(APIsContainer.featureValue),
-    intl: new IntlService(storagesContainer.intl),
-    productType: new ProductTypeService(APIsContainer.productType),
-    product: new ProductService(APIsContainer.product),
-    banner: new BannerService(APIsContainer.banner),
-    order: new OrderService(APIsContainer.order),
-    promoCode: new PromoCodeService(APIsContainer.promoCode),
-    rate: new RateService(APIsContainer.rate, storagesContainer.stateCache),
-  };
-
-  return new DependenciesContainer(APIClient, headersManager, APIsContainer, storagesContainer, servicesContainer);
-};
 
 export interface ContextValue {
-  dependencies: DependenciesContainer;
+  di: DI;
 }
 
 const Context = React.createContext<ContextValue | null>(null);
 
 export const DIProvider = Context.Provider;
 
-export const useDependencies = () => React.useContext(Context) as ContextValue;
+export const useDI = () => React.useContext(Context) as ContextValue;

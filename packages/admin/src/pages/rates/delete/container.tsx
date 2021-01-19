@@ -2,7 +2,7 @@ import React from 'react';
 
 import { DeleteModalContainer } from '@eye8/admin/components/delete-modal/container';
 import { useAdminRatesState } from '@eye8/admin/state/rates';
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 import { RateHasOrdersError } from '@eye8/service/rate';
 
 const getErrorMessageID = (e: Error) => {
@@ -14,7 +14,7 @@ const getErrorMessageID = (e: Error) => {
 };
 
 export const AdminRatesDeleteContainer = () => {
-  const { dependencies } = useDependencies();
+  const { di } = useDI();
   const {
     state: { remove: deleteRate },
   } = useAdminRatesState();
@@ -23,10 +23,10 @@ export const AdminRatesDeleteContainer = () => {
     <DeleteModalContainer
       getErrorMessageID={getErrorMessageID}
       deleteEntity={async ({ id, deleted }) => {
-        await dependencies.services.rate.delete(id);
+        await di.service.rate.delete(id);
         deleteRate(id);
       }}
-      checkExistence={({ id, deleted }) => dependencies.services.rate.exists(id)}
+      checkExistence={({ id, deleted }) => di.service.rate.exists(id)}
       getBackPath={() => '/admin/rates'}
     />
   );

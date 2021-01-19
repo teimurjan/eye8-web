@@ -1,7 +1,7 @@
 import jwtDecode from 'jwt-decode';
 import React from 'react';
 
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 
 export type AuthorizedUser = {
   user_id: number;
@@ -33,11 +33,11 @@ const USER_ANONYMOUS_STATE: AnonymousUser = {};
 
 export const UserStateProvider: React.SFC<ProviderProps> = ({ children }) => {
   const {
-    dependencies: {
-      services: { auth: service },
-      storages: { auth: authStorage },
+    di: {
+      service: { auth: service },
+      storage: { auth: authStorage },
     },
-  } = useDependencies();
+  } = useDI();
 
   const [user, setUser] = React.useState<User>(USER_NOT_SET_STATE);
 

@@ -14,7 +14,6 @@ export interface AuthService {
   logIn(payload: LogInPayload): Promise<AuthorizedUser>;
   signUp(payload: SignUpPayload): Promise<void>;
   confirmSignup(token: string): Promise<void>;
-  refreshTokens(): Promise<void>;
   getAccessToken(): string | null;
   logOut(): void;
 }
@@ -37,12 +36,6 @@ export class InvalidSignupTokenError extends Error {
     Object.setPrototypeOf(this, new.target.prototype);
   }
 }
-export class NoRefreshTokenError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
 
 export default class implements AuthService {
   private API: AuthAPI;
@@ -57,9 +50,8 @@ export default class implements AuthService {
 
   public logIn: AuthService['logIn'] = async (payload) => {
     try {
-      const { accessToken, refreshToken } = await this.API.logIn(payload);
+      const { accessToken } = await this.API.logIn(payload);
 
-      this.storage.setRefreshToken(refreshToken);
       this.storage.setAccessToken(accessToken);
 
       return decodeAccessToken(accessToken);
@@ -93,25 +85,12 @@ export default class implements AuthService {
     }
   };
 
-  public refreshTokens: AuthService['refreshTokens'] = async () => {
-    const oldRefreshToken = this.storage.getRefreshToken();
-    if (oldRefreshToken) {
-      const { accessToken, refreshToken } = await this.API.refreshTokens(oldRefreshToken);
-
-      this.storage.setRefreshToken(refreshToken);
-      this.storage.setAccessToken(accessToken);
-    } else {
-      throw new NoRefreshTokenError();
-    }
-  };
-
   public getAccessToken() {
     return this.storage.getAccessToken();
   }
 
   public logOut() {
     this.storage.clearAccessToken();
-    this.storage.clearRefreshToken();
     this.stateCacheStorage_.clearAll();
   }
 }

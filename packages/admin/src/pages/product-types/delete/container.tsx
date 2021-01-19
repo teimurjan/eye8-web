@@ -2,7 +2,7 @@ import React from 'react';
 
 import { DeleteModalContainer } from '@eye8/admin/components/delete-modal/container';
 import { useAdminProductTypesState } from '@eye8/admin/state/product-types';
-import { useDependencies } from '@eye8/di';
+import { useDI } from '@eye8/di';
 import { ProductTypeHasProductsError } from '@eye8/service/product-type';
 
 const getErrorMessageID = (e: Error) => {
@@ -14,7 +14,7 @@ const getErrorMessageID = (e: Error) => {
 };
 
 export const AdminProductTypesDeleteContainer = () => {
-  const { dependencies } = useDependencies();
+  const { di } = useDI();
   const {
     state: { remove: deleteProductType },
   } = useAdminProductTypesState();
@@ -23,10 +23,10 @@ export const AdminProductTypesDeleteContainer = () => {
     <DeleteModalContainer
       getErrorMessageID={getErrorMessageID}
       deleteEntity={async ({ id, deleted }) => {
-        await dependencies.services.productType.delete(id, { forever: deleted });
+        await di.service.productType.delete(id, { forever: deleted });
         deleteProductType(id);
       }}
-      checkExistence={({ id, deleted }) => dependencies.services.productType.exists(id, { deleted })}
+      checkExistence={({ id, deleted }) => di.service.productType.exists(id, { deleted })}
       getBackPath={() => `/admin/productTypes`}
     />
   );

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 const FONT_FAMILY = 'Jost';
-export const GlobalStyles = () => {
+const GlobalStyles = () => {
   const theme = useTheme<ClientUITheme>();
 
   const isAdmin = useRouter().pathname.includes('admin');
@@ -54,3 +54,5 @@ export const GlobalStyles = () => {
     />
   );
 };
+
+export default GlobalStyles;
