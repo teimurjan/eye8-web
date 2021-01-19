@@ -41,7 +41,7 @@
     "@types/intl": "^1.2.0",
     "@types/lru-cache": "^5.1.0",
     "@types/negotiator": "^0.6.1",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "ts-node": "^9.1.1"
   }
 }
