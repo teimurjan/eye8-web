@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import { MessageToast } from '@eye8/client/components/message-toast';
+import { MessageToast } from '@eye8/client/components';
 import { ToastsContext } from '@eye8/shared/context/toast';
 import { useLazyInitialization } from '@eye8/shared/hooks';
 import { mediaQueries } from '@eye8/shared/styles';

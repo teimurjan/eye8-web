@@ -30,7 +30,7 @@ export interface Props {
   disabled: boolean;
 }
 
-export const ProductTypesPageFilterPresenter = ({
+const ProductTypesPageFilterPresenter = ({
   onSortingTypeChange,
   onCharacteristicValuesChange,
   View,
@@ -107,3 +107,5 @@ export const ProductTypesPageFilterPresenter = ({
     />
   );
 };
+
+export default ProductTypesPageFilterPresenter;

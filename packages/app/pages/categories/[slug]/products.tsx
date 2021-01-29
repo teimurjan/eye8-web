@@ -4,9 +4,8 @@ import { GetServerSidePropsContext } from 'next';
 import React from 'react';
 
 import { sortingTypeOfQueryValue, ProductTypeSortingQueryValue } from '@eye8/api/product-type';
-import { Layout } from '@eye8/client/components/layout';
-import { ProductTypesPageContainer } from '@eye8/client/pages/product-types/container';
-import { getCharacteristicValuesIdsFromQuery } from '@eye8/client/pages/product-types/presenter';
+import { Layout } from '@eye8/client/components';
+import { ProductTypes, getCharacteristicValuesIdsFromQuery } from '@eye8/client/pages';
 import { logTimeStart, logTimeFinish } from '@eye8/shared/utils';
 
 import { getNewDIInstance } from '../../../src/new-di-instance';
@@ -24,7 +23,7 @@ const Products = ({
   characteristicValuesIds,
 }: Then<ReturnType<typeof getServerSideProps>>['props']) => (
   <Layout>
-    <ProductTypesPageContainer
+    <ProductTypes
       initialProps={{
         productTypes,
         productTypesOrder,

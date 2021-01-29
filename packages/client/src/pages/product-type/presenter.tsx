@@ -29,7 +29,7 @@ export interface ViewProps {
   actionText: Props['actionText'];
 }
 
-export const ProductTypePagePresenter: React.FC<Props> = ({
+const ProductTypePagePresenter: React.FC<Props> = ({
   View,
   productService,
   productTypeService,
@@ -92,3 +92,5 @@ export const ProductTypePagePresenter: React.FC<Props> = ({
     />
   );
 };
+
+export default ProductTypePagePresenter;

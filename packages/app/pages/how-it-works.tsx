@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { Story } from '@eye8/client-ui';
-import { Layout } from '@eye8/client/components/layout';
+import { Layout } from '@eye8/client/components';
 import { withPublicURL } from '@eye8/shared/utils';
 
 import forceSSR from '../src/force-ssr';

@@ -3,10 +3,11 @@ import { css, jsx } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { Toggle } from '@eye8/client-ui';
-import { ViewProps as Props } from '@eye8/client/components/theme-toggle/presenter';
 import { Theme } from '@eye8/shared/utils';
 
-export const ThemeToggleView = ({ onThemeChange, theme }: Props) => {
+import { ViewProps as Props } from './presenter';
+
+const ThemeToggleView = ({ onThemeChange, theme }: Props) => {
   const intl = useIntl();
 
   return (
@@ -28,3 +29,5 @@ export const ThemeToggleView = ({ onThemeChange, theme }: Props) => {
     </div>
   );
 };
+
+export default ThemeToggleView;

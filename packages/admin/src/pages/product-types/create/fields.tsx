@@ -8,7 +8,7 @@ import { LinksInput, Link } from '@eye8/admin/components/links-input';
 import { ContextValue as AdminCategoriesStateContextValue } from '@eye8/admin/state/categories';
 import { ContextValue as AdminCharacteristicValuesStateContextValue } from '@eye8/admin/state/characteristic-values';
 import { ContextValue as AdminFeatureTypesStateContextValue } from '@eye8/admin/state/feature-types';
-import { InstagramPost } from '@eye8/client/components/instagram-post';
+import { InstagramPost } from '@eye8/client/components';
 import { Wysiwyg } from '@eye8/shared/components';
 import { arePropsEqual, lengthCompare, defaultCompare } from '@eye8/shared/utils';
 

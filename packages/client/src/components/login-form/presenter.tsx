@@ -3,7 +3,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import * as yup from 'yup';
 
-import { ContextValue as AuthModalStateContextValue } from '@eye8/client/state/auth-modal';
+import { AuthModalStateContextValue } from '@eye8/client/state';
 import { AuthService, InvalidCredentialsError } from '@eye8/service/auth';
 import { useToast, ToastId } from '@eye8/shared/context/toast';
 import { isUserAdmin } from '@eye8/shared/helpers';
@@ -42,7 +42,7 @@ const getErrorMessageID = (e: Error) => {
   return 'errors.common';
 };
 
-export const LoginPresenter = ({
+const LoginPresenter = ({
   View,
   service,
   userState,
@@ -74,9 +74,9 @@ export const LoginPresenter = ({
           duration: 5000,
         });
 
-        // if (isUserAdmin(user)) {
-        //   router.push('/admin');
-        // }
+        if (isUserAdmin(user)) {
+          router.push('/admin');
+        }
       } catch (e) {
         setError(getErrorMessageID(e));
       } finally {
@@ -88,3 +88,5 @@ export const LoginPresenter = ({
 
   return <View onSubmit={onSubmit} globalError={error} validate={validator.validate} openSignup={openSignup} />;
 };
+
+export default LoginPresenter;

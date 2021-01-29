@@ -10,6 +10,8 @@ export interface ViewProps {
   user: User;
 }
 
-export const HeaderPresenter: React.FC<Props> = ({ View, userState: { user }, ...viewProps }) => {
+const HeaderPresenter: React.FC<Props> = ({ View, userState: { user }, ...viewProps }) => {
   return <View user={user} {...viewProps} />;
 };
+
+export default HeaderPresenter;

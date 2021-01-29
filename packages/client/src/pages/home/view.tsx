@@ -5,11 +5,13 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { Container, LinkButton, Image, Title, InfiniteCarousel, Carousel } from '@eye8/client-ui';
-import { ProductTypesListView } from '@eye8/client/components/product-type-list';
-import { ViewProps as Props } from '@eye8/client/pages/home/presenter';
 import { useLazyInitialization, useMedia } from '@eye8/shared/hooks';
 import { mediaQueries } from '@eye8/shared/styles';
 import { arePropsEqual, guessPageHref } from '@eye8/shared/utils';
+
+import { ProductTypeList } from '../../components';
+
+import { ViewProps as Props } from './presenter';
 
 const getTextPositioningCSS = (banner: Props['banners'][0]) => {
   const horizontalRule = banner.text_left_offset
@@ -164,7 +166,7 @@ const HomeView = ({ banners, productTypes }: Props) => {
         </Title>
       </Container>
 
-      <ProductTypesListView productTypes={productTypes} isLoading={false} />
+      <ProductTypeList productTypes={productTypes} isLoading={false} />
     </div>
   );
 };
@@ -176,4 +178,4 @@ const MemoizedHomeView = React.memo<Props>(HomeView, (prevProps, nextProps) =>
   }),
 );
 
-export { MemoizedHomeView as HomeView };
+export default MemoizedHomeView;

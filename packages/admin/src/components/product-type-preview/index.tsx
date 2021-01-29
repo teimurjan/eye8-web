@@ -1,13 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { ProductTypePagePresenter, Props as PresenterProps } from '@eye8/client/pages/product-type/presenter';
-import { ProductTypePageView } from '@eye8/client/pages/product-type/view';
+import { ProductTypePresenter, ProductTypePresenterProps, ProductTypeView } from '@eye8/client/pages';
 import { useDI } from '@eye8/di';
 
 export interface Props {
   id: number;
-  action: PresenterProps['action'];
+  action: ProductTypePresenterProps['action'];
 }
 
 export const ProductTypePreview = ({ id, action }: Props) => {
@@ -16,13 +15,13 @@ export const ProductTypePreview = ({ id, action }: Props) => {
   const intl = useIntl();
 
   return (
-    <ProductTypePagePresenter
+    <ProductTypePresenter
       action={action}
       actionText={intl.formatMessage({ id: 'common.choose' })}
       id={id}
       productService={di.service.product}
       productTypeService={di.service.productType}
-      View={ProductTypePageView}
+      View={ProductTypeView}
     />
   );
 };

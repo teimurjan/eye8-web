@@ -13,7 +13,7 @@ export interface ContextValue {
 
 const Context = React.createContext<ContextValue | null>(null);
 
-interface ProviderProps {
+export interface ProviderProps {
   children: React.ReactNode;
 }
 

@@ -24,7 +24,7 @@ interface Props {
   location: Location;
 }
 
-export const OrdersPresenter: React.FC<Props> = ({ service, View, user, history, location }) => {
+const OrdersPresenter: React.FC<Props> = ({ service, View, user, history, location }) => {
   const [isLoading, setLoading] = React.useState(true);
   const [ordersData, setOrdersData] = React.useState<{
     entities: { [key: number]: OrderListResponseItem };
@@ -85,3 +85,5 @@ export const OrdersPresenter: React.FC<Props> = ({ service, View, user, history,
     />
   );
 };
+
+export default OrdersPresenter;

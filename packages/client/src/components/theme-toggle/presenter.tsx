@@ -15,7 +15,7 @@ export interface ViewProps {
   theme: Theme | null;
 }
 
-export const ThemeTogglePresenter: React.FC<Props> = ({ View, themeStorage, router }) => {
+const ThemeTogglePresenter: React.FC<Props> = ({ View, themeStorage, router }) => {
   const onThemeChange = React.useCallback(() => {
     themeStorage.toggle();
     router.reload();
@@ -23,3 +23,5 @@ export const ThemeTogglePresenter: React.FC<Props> = ({ View, themeStorage, rout
 
   return <View theme={themeStorage.getTheme()} onThemeChange={onThemeChange} />;
 };
+
+export default ThemeTogglePresenter;

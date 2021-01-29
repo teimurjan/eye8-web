@@ -9,7 +9,7 @@ import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import { ControlledPagination, LinkButton, FormTextField, Table } from '@eye8/admin-ui';
-import { PriceText } from '@eye8/client/components/price';
+import { PriceText } from '@eye8/client/components';
 import { LoaderLayout, IconWrapper, Tooltip } from '@eye8/shared/components';
 import { useDebounce } from '@eye8/shared/hooks';
 import { IconSize, mediaQueries } from '@eye8/shared/styles';

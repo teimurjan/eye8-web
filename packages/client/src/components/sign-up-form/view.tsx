@@ -11,8 +11,10 @@ import {
 import { useIntl } from 'react-intl';
 
 import { Anchor, Button, PasswordInput, UnderlinedInput, HelpText, Message, Title } from '@eye8/client-ui';
-import { authButtonsContainerCSS } from '@eye8/client/components/login-form/view';
-import { ViewProps as Props, FormValues } from '@eye8/client/components/sign-up-form/presenter';
+
+import { authButtonsContainerCSS } from '../login-form';
+
+import { ViewProps as Props, FormValues } from './presenter';
 
 const NameField = ({ input, meta }: FieldRenderProps<string>) => {
   const intl = useIntl();
@@ -89,7 +91,7 @@ const InnerForm = ({
 
 const TypedFinalForm = FinalForm as React.FC<FormProps<FormValues> & Pick<Props, 'globalError' | 'openLogin'>>;
 
-export const SignUpView = (props: Props) => {
+const SignUpView = (props: Props) => {
   const intl = useIntl();
   const { onSubmit, validate, globalError, isSuccess, openLogin } = props;
 
@@ -122,3 +124,5 @@ export const SignUpView = (props: Props) => {
     </>
   );
 };
+
+export default SignUpView;

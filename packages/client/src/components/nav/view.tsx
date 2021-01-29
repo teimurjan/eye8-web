@@ -5,9 +5,10 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { Anchor, Button, Menu } from '@eye8/client-ui';
-import { ViewProps as Props } from '@eye8/client/components/nav/presenter';
 import { useBoolean } from '@eye8/shared/hooks';
 import { mediaQueries } from '@eye8/shared/styles';
+
+import { ViewProps as Props } from './presenter';
 
 interface CategoryMenuItemProps {
   active: boolean;
@@ -134,7 +135,7 @@ const renderCategoryMenuList = ({
   );
 };
 
-export const NavView = ({ categories, router }: Props & { router: NextRouter }) => {
+const NavView = ({ categories, router }: Props & { router: NextRouter }) => {
   return (
     <Menu
       css={css`
@@ -150,3 +151,5 @@ export const NavView = ({ categories, router }: Props & { router: NextRouter }) 
     </Menu>
   );
 };
+
+export default NavView;

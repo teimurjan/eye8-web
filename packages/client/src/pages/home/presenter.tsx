@@ -25,7 +25,7 @@ export interface ViewProps {
   error?: string;
 }
 
-export const HomePresenter: React.FC<Props> = ({ View, bannerService, productTypeService, initialProps }) => {
+const HomePresenter: React.FC<Props> = ({ View, bannerService, productTypeService, initialProps }) => {
   const [bannersData, setBannersData] = React.useState<{
     entities: { [key: number]: BannerListResponseItem };
     order: number[];
@@ -68,3 +68,5 @@ export const HomePresenter: React.FC<Props> = ({ View, bannerService, productTyp
     />
   );
 };
+
+export default HomePresenter;

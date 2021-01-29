@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { LanguageDropdownPresenter, ViewProps } from '@eye8/client/components/language-dropdown/presenter';
-import { LanguageDropdownView } from '@eye8/client/components/language-dropdown/view';
 import { useDI } from '@eye8/di';
 
-export const LanguageDropdownContainer = React.forwardRef<
+import LanguageDropdownPresenter, { ViewProps } from './presenter';
+import LanguageDropdownView from './view';
+
+const LanguageDropdownContainer = React.forwardRef<
   HTMLDivElement,
   Pick<ViewProps, 'TriggerComponent' | 'className' | 'openOnHover' | 'placement' | 'offset'>
 >((viewProps, ref) => {
@@ -18,3 +19,5 @@ export const LanguageDropdownContainer = React.forwardRef<
     />
   );
 });
+
+export default LanguageDropdownContainer;

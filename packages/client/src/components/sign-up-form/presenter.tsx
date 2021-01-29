@@ -1,7 +1,7 @@
 import React from 'react';
 import * as yup from 'yup';
 
-import { ContextValue as AuthModalStateContextValue } from '@eye8/client/state/auth-modal';
+import { AuthModalStateContextValue } from '@eye8/client/state';
 import { EmailExistsError, AuthService } from '@eye8/service/auth';
 import { SchemaValidator } from '@eye8/shared/utils';
 
@@ -30,7 +30,7 @@ interface State {
   isSuccess: boolean;
 }
 
-export class SignUpPresenter extends React.Component<Props, State> {
+class SignUpPresenter extends React.Component<Props, State> {
   public state = {
     error: undefined,
     isLoading: false,
@@ -102,3 +102,5 @@ export class SignUpPresenter extends React.Component<Props, State> {
 
   private setGlobalError = (error: string | undefined) => this.setState({ error });
 }
+
+export default SignUpPresenter;

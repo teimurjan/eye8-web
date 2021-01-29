@@ -5,11 +5,14 @@ import { AppProps } from 'next/app';
 import React from 'react';
 import { createIntl, createIntlCache, RawIntlProvider } from 'react-intl';
 
-import { AuthModal } from '@eye8/client/components/auth-modal';
-import { CacheBuster } from '@eye8/client/components/cache-buster';
-import { AuthModalStateProvider } from '@eye8/client/state/auth-modal';
-import { CategoriesStateProvider, ProviderProps as CategoriesStateProviderProps } from '@eye8/client/state/categories';
-import { RatesStateProvider, ProviderProps as RatesStateProviderProps } from '@eye8/client/state/rates';
+import { AuthModal, CacheBuster } from '@eye8/client/components';
+import {
+  AuthModalStateProvider,
+  CategoriesStateProvider,
+  CategoriesStateProviderProps,
+  RatesStateProvider,
+  RatesStateProviderProps,
+} from '@eye8/client/state';
 import { DIProvider } from '@eye8/di';
 import { PageProgressBar, Toaster } from '@eye8/shared/components';
 import { ToastsProvider } from '@eye8/shared/context/toast';

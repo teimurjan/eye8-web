@@ -26,7 +26,7 @@ interface Props {
 
 const IFRAME_HEIGHT_OFFSET_PX = 95;
 
-export const InstagramPost = ({ className, url, id, size }: Props) => {
+const InstagramPost = ({ className, url, id, size }: Props) => {
   const [response, setResponse] = React.useState<Response | undefined>(undefined);
   const [isRendered, setRendered] = React.useState(false);
 
@@ -109,3 +109,5 @@ export const InstagramPost = ({ className, url, id, size }: Props) => {
 };
 
 InstagramPost.Size = Size;
+
+export default InstagramPost;

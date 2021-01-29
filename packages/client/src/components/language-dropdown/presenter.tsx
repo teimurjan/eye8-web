@@ -20,7 +20,7 @@ export interface ViewProps {
   offset?: number[];
 }
 
-export const LanguageDropdownPresenter = ({ View, intlService, TriggerComponent, ...viewProps }: Props) => {
+const LanguageDropdownPresenter = ({ View, intlService, TriggerComponent, ...viewProps }: Props) => {
   const changeLocale = React.useCallback(
     (newLocale: string) => {
       if (intlService.getLocale() !== newLocale) {
@@ -33,3 +33,5 @@ export const LanguageDropdownPresenter = ({ View, intlService, TriggerComponent,
 
   return <View changeLocale={changeLocale} TriggerComponent={TriggerComponent} {...viewProps} />;
 };
+
+export default LanguageDropdownPresenter;

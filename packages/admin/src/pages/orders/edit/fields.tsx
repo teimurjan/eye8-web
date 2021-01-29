@@ -9,8 +9,7 @@ import { Field, FormPhoneField, FormSelectField, FormTextField, HelpText, Label,
 import { ProductsSelectItem } from '@eye8/admin/components/product-select-item';
 import { ProductSelectContainer } from '@eye8/admin/components/product-select/container';
 import { OrderListResponseItem } from '@eye8/api/order';
-import { Quantity } from '@eye8/client/components/cart-item-quantity';
-import { PriceText } from '@eye8/client/components/price';
+import { CartItemQuantity, PriceText } from '@eye8/client/components';
 import { getOrderTotalPrice, parsePhoneNumber } from '@eye8/shared/utils';
 
 const UserNameField = ({ input, meta }: FieldRenderProps<string>) => {
@@ -198,7 +197,7 @@ const OrderItemsField = ({
                 })
               }
               footer={
-                <Quantity
+                <CartItemQuantity
                   count={orderItem.quantity}
                   allowedCount={orderItem.product ? orderItem.product.quantity : 0}
                   onAddClick={() => setOrderItem(orderItem.id, { ...orderItem, quantity: orderItem.quantity + 1 })}

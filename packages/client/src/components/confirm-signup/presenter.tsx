@@ -14,7 +14,7 @@ export interface ViewProps {
   error?: string;
 }
 
-export const ConfirmSignupPresenter = ({ View, service, router }: Props) => {
+const ConfirmSignupPresenter = ({ View, service, router }: Props) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isLoading, setLoading] = React.useState(true);
 
@@ -49,3 +49,5 @@ export const ConfirmSignupPresenter = ({ View, service, router }: Props) => {
 
   return <View isLoading={isLoading} error={error} />;
 };
+
+export default ConfirmSignupPresenter;

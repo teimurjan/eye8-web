@@ -5,10 +5,11 @@ import { useIntl } from 'react-intl';
 
 import { ProductTypeSortingType } from '@eye8/api/product-type';
 import { Filter, ScrollableContainer } from '@eye8/client-ui';
-import { ViewProps as Props } from '@eye8/client/components/product-types-page-filter/presenter';
 import { mediaQueries } from '@eye8/shared/styles';
 
-export const ProductTypesPageFilterView = ({
+import { ViewProps as Props } from './presenter';
+
+const ProductTypesPageFilterView = ({
   onSortingTypeChange,
   onCharacteristicValuesChange,
   sortingType,
@@ -96,3 +97,5 @@ export const ProductTypesPageFilterView = ({
     </>
   );
 };
+
+export default ProductTypesPageFilterView;

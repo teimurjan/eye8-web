@@ -6,7 +6,7 @@ import { NavLink, Link } from 'react-router-dom';
 
 import { Menu } from '@eye8/admin-ui';
 import { ViewProps as Props } from '@eye8/admin/components/menu/presenter';
-import { LanguageDropdownContainer as LanguageDropdown } from '@eye8/client/components/language-dropdown/container';
+import { LanguageDropdown } from '@eye8/client/components';
 import { PopoverTriggerClickProps } from '@eye8/shared/components';
 import { isUserSetAsAdmin } from '@eye8/shared/helpers';
 import { mediaQueries } from '@eye8/shared/styles';

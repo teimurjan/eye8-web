@@ -8,13 +8,13 @@ import {
   ProductTypeSortingType,
   queryValueOfSortingType,
 } from '@eye8/api/product-type';
-import { Props as ListViewProps } from '@eye8/client/components/product-type-list';
-import { ProductTypesPageFilterContainer as ProductTypesPageFilter } from '@eye8/client/components/product-types-page-filter/container';
 import { ProductTypeService } from '@eye8/service/product-type';
 import { agregateOrderedMapToArray, buildSearchString } from '@eye8/shared/utils';
 
+import { ProductTypeListViewProps, ProductTypesPageFilter } from '../../components';
+
 export interface Props {
-  ListView: React.ComponentClass<ListViewProps> | React.SFC<ListViewProps>;
+  ListView: React.ComponentClass<ProductTypeListViewProps> | React.SFC<ProductTypeListViewProps>;
   productTypeService: ProductTypeService;
   router: NextRouter;
   initialProps: {
@@ -32,10 +32,10 @@ export interface Props {
 
 export const getCharacteristicValuesIdsFromQuery = (query: NextRouter['query']) =>
   (Array.isArray(query.characteristics) ? query.characteristics : [query.characteristics])
-    .map((id) => id ? parseInt(id, 10) : NaN)
+    .map((id) => (id ? parseInt(id, 10) : NaN))
     .filter((id) => !isNaN(id));
 
-export const ProductTypesPagePresenter = ({ ListView, productTypeService, initialProps, router }: Props) => {
+const ProductTypesPagePresenter = ({ ListView, productTypeService, initialProps, router }: Props) => {
   const [error, setError] = React.useState<string | undefined>(initialProps?.error);
   const [isLoading, setLoading] = React.useState(false);
   const [category, setCategory] = React.useState<CategoryListResponseItem | undefined>(initialProps?.category);
@@ -172,3 +172,5 @@ export const ProductTypesPagePresenter = ({ ListView, productTypeService, initia
     />
   );
 };
+
+export default ProductTypesPagePresenter;

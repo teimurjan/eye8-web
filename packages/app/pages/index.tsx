@@ -1,8 +1,8 @@
 import { GetServerSidePropsContext } from 'next';
 import React from 'react';
 
-import { Layout } from '@eye8/client/components/layout';
-import { HomeContainer } from '@eye8/client/pages/home/container';
+import { Layout } from '@eye8/client/components';
+import { Home } from '@eye8/client/pages';
 import { logTimeStart, logTimeFinish } from '@eye8/shared/utils';
 
 import { getNewDIInstance } from '../src/new-di-instance';
@@ -17,7 +17,7 @@ const Index = ({
 }: Then<ReturnType<typeof getServerSideProps>>['props']) => {
   return (
     <Layout>
-      <HomeContainer initialProps={{ banners, productTypes, bannersOrder, productTypesOrder, error }} />
+      <Home initialProps={{ banners, productTypes, bannersOrder, productTypesOrder, error }} />
     </Layout>
   );
 };

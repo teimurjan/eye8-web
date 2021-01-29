@@ -20,7 +20,7 @@ export interface ViewProps {
   open: () => void;
 }
 
-export const SearchPresenter = ({ service, View }: Props) => {
+const SearchPresenter = ({ service, View }: Props) => {
   const { value: isOpen, setPositive: open, setNegative: close } = useBoolean();
   const [data, setData] = React.useState<{
     entities: { [id: string]: ProductTypeListResponseItem };
@@ -74,3 +74,5 @@ export const SearchPresenter = ({ service, View }: Props) => {
     />
   );
 };
+
+export default SearchPresenter;

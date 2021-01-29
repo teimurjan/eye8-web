@@ -1,13 +1,11 @@
 import React from 'react';
 
-import {
-  ProductTypesPageFilterPresenter,
-  Props as PresenterProps,
-} from '@eye8/client/components/product-types-page-filter/presenter';
-import { ProductTypesPageFilterView } from '@eye8/client/components/product-types-page-filter/view';
 import { useDI } from '@eye8/di';
 
-export const ProductTypesPageFilterContainer = ({
+import ProductTypesPageFilterPresenter, { Props as PresenterProps } from './presenter';
+import ProductTypesPageFilterView from './view';
+
+const ProductTypesPageFilterContainer = ({
   onSortingTypeChange,
   onCharacteristicValuesChange,
   sortingType,
@@ -20,7 +18,7 @@ export const ProductTypesPageFilterContainer = ({
   const {
     di: {
       service: { characteristic: characteristicService, characteristicValue: characteristicValueService },
-    }
+    },
   } = useDI();
 
   return (
@@ -36,3 +34,5 @@ export const ProductTypesPageFilterContainer = ({
     />
   );
 };
+
+export default ProductTypesPageFilterContainer;

@@ -68,7 +68,7 @@ export interface FormValues {
   address: string;
 }
 
-export const CartPresenter: React.FC<Props> = ({
+const CartPresenter: React.FC<Props> = ({
   View,
   productService,
   orderService,
@@ -216,3 +216,5 @@ export const CartPresenter: React.FC<Props> = ({
     />
   );
 };
+
+export default CartPresenter;

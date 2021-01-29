@@ -1,13 +1,14 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router';
 
-import { OrdersPresenter } from '@eye8/client/pages/orders/presenter';
-import { OrdersView } from '@eye8/client/pages/orders/view';
 import { useDI } from '@eye8/di';
 import { isUserAuthorized } from '@eye8/shared/helpers';
 import { useUserState, AuthorizedUser } from '@eye8/shared/state/user';
 
-export const OrdersContainer = () => {
+import OrdersPresenter from './presenter';
+import OrdersView from './view';
+
+const OrdersContainer = () => {
   const {
     di: {
       service: { order: orderService },
@@ -31,3 +32,5 @@ export const OrdersContainer = () => {
     />
   ) : null;
 };
+
+export default OrdersContainer;

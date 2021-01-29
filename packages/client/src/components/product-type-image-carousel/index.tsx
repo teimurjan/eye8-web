@@ -16,7 +16,7 @@ interface Props<T> {
   onChange: (index: number) => void;
 }
 
-export const ProductTypeImageCarousel = <T extends any = string>({
+const ProductTypeImageCarousel = <T extends any = string>({
   images,
   activeImageIndex,
   onChange,
@@ -119,3 +119,5 @@ export const ProductTypeImageCarousel = <T extends any = string>({
     </div>
   );
 };
+
+export default ProductTypeImageCarousel;

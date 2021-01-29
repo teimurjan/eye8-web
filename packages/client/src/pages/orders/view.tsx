@@ -4,11 +4,13 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { Container, ErrorLayout, Pagination, Subtitle, Title } from '@eye8/client-ui';
-import { OrderItem } from '@eye8/client/components/order-item';
-import { ViewProps as Props } from '@eye8/client/pages/orders/presenter';
 import { LoaderLayout } from '@eye8/shared/components';
 
-export const OrdersView: React.FC<Props> = ({ isLoading, orders, error, currentPage, onPageChange, pagesCount }) => {
+import { OrderItem } from '../../components';
+
+import { ViewProps as Props } from './presenter';
+
+const OrdersView: React.FC<Props> = ({ isLoading, orders, error, currentPage, onPageChange, pagesCount }) => {
   const intl = useIntl();
 
   if (isLoading) {
@@ -62,3 +64,5 @@ export const OrdersView: React.FC<Props> = ({ isLoading, orders, error, currentP
     </Container>
   );
 };
+
+export default OrdersView;

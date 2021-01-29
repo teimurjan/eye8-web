@@ -6,11 +6,12 @@ import { Search as SearchIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
 import { Anchor, UnderlinedInput, LinkPassingProps, Subtitle, WithIcon } from '@eye8/client-ui';
-import { ViewProps as Props } from '@eye8/client/components/search/presenter';
 import { Popover, Drawer, LoaderLayout } from '@eye8/shared/components';
 import { useBoolean, useDebounce } from '@eye8/shared/hooks';
 import { IconSize, mediaQueries } from '@eye8/shared/styles';
 import { formatMediaURL } from '@eye8/shared/utils';
+
+import { ViewProps as Props } from './presenter';
 
 const inputCSS = css`
   width: 400px !important;
@@ -35,15 +36,7 @@ const SearchTrigger = React.forwardRef<HTMLSpanElement>((props, ref) => {
   );
 });
 
-export const SearchView: React.FC<Props> = ({
-  productTypes,
-  isLoading,
-  error,
-  onSearchValueChange,
-  isOpen,
-  open,
-  close,
-}) => {
+const SearchView: React.FC<Props> = ({ productTypes, isLoading, error, onSearchValueChange, isOpen, open, close }) => {
   const { value: drawerOpened, setPositive: setDrawerOpened, setNegative: setDrawerClosed } = useBoolean();
   const theme = useTheme<ClientUITheme>();
   const intl = useIntl();
@@ -151,3 +144,5 @@ export const SearchView: React.FC<Props> = ({
     </>
   );
 };
+
+export default SearchView;

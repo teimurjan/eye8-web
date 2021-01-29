@@ -3,7 +3,7 @@ import React from 'react';
 import * as yup from 'yup';
 
 import { ContextValue as AdminRatesStateContextValue } from '@eye8/admin/state/rates';
-import { RateName } from '@eye8/client/components/price';
+import { RateName } from '@eye8/client/components';
 import { RateService, RateLimitExceededError } from '@eye8/service/rate';
 import { SchemaValidator } from '@eye8/shared/utils';
 

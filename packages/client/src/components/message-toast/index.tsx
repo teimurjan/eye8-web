@@ -6,7 +6,7 @@ import { Message } from '@eye8/client-ui';
 import { ToastProps } from '@eye8/shared/components';
 import { expandHorizontally, mediaQueries, easeOutCubic } from '@eye8/shared/styles';
 
-export const MessageToast = ({
+const MessageToast = ({
   componentKey,
   children,
   close,
@@ -83,3 +83,5 @@ export const MessageToast = ({
     </Message>
   );
 };
+
+export default MessageToast;

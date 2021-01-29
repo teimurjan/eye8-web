@@ -8,12 +8,14 @@ import { useIntl } from 'react-intl';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import { Anchor, Button, UnderlinedInput, HelpText, Message, Title, WithIcon } from '@eye8/client-ui';
-import { CartItem } from '@eye8/client/components/cart-item';
-import { ViewProps as Props, FormValues } from '@eye8/client/components/cart/presenter';
-import { PriceText } from '@eye8/client/components/price';
 import { IconWrapper, Drawer, LoaderLayout } from '@eye8/shared/components';
 import { IconSize, bounce, fadeInFromRight, fadeInFromLeft, expand, easeOutCubic } from '@eye8/shared/styles';
 import { getCartTotalPrice, parsePhoneNumber } from '@eye8/shared/utils';
+
+import CartItem from '../cart-item';
+import { PriceText } from '../price';
+
+import { ViewProps as Props, FormValues } from './presenter';
 
 const buttonCSS = css`
   display: block;
@@ -259,7 +261,7 @@ const ThirdStep: React.FC<Props> = () => {
   );
 };
 
-export const CartView: React.FC<Props> = (props) => {
+const CartView: React.FC<Props> = (props) => {
   const { isOpen, open, close, step, cartItemsCount, goToPrevStep } = props;
   const theme = useTheme<ClientUITheme>();
   return (
@@ -373,3 +375,5 @@ export const CartView: React.FC<Props> = (props) => {
     </React.Fragment>
   );
 };
+
+export default CartView;

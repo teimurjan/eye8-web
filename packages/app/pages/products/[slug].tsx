@@ -1,8 +1,8 @@
 import { GetServerSidePropsContext } from 'next';
 import React from 'react';
 
-import { Layout } from '@eye8/client/components/layout';
-import { ProductTypePageContainer } from '@eye8/client/pages/product-type/container';
+import { Layout } from '@eye8/client/components';
+import { ProductType } from '@eye8/client/pages';
 import { agregateOrderedMapToArray, logTimeStart, logTimeFinish } from '@eye8/shared/utils';
 
 import { getNewDIInstance } from '../../src/new-di-instance';
@@ -10,7 +10,7 @@ import { getRequestCustomData } from '../../src/request-custom-data';
 
 const Product = ({ productType, products, error }: Then<ReturnType<typeof getServerSideProps>>['props']) => (
   <Layout>
-    <ProductTypePageContainer initialProps={{ products, productType, error }} />
+    <ProductType initialProps={{ products, productType, error }} />
   </Layout>
 );
 

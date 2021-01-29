@@ -5,9 +5,10 @@ import { useIntl } from 'react-intl';
 import { CategoryListResponseItem } from '@eye8/api/category';
 import { ProductTypeListResponseItem, ProductTypeListResponseMeta } from '@eye8/api/product-type';
 import { ErrorLayout, NotFound, Pagination, Title, Container, Grid } from '@eye8/client-ui';
-import { ProductTypeCard } from '@eye8/client/components/product-type-card';
 import { LoaderLayout } from '@eye8/shared/components';
 import { mediaQueries } from '@eye8/shared/styles';
+
+import ProductTypeCard from '../product-type-card';
 
 export interface Props {
   productTypes: ProductTypeListResponseItem[];
@@ -19,15 +20,7 @@ export interface Props {
   filter?: React.ReactNode;
 }
 
-export const ProductTypesListView = ({
-  filter,
-  isLoading,
-  error,
-  productTypes,
-  meta,
-  onPageChange,
-  category,
-}: Props) => {
+const ProductTypesList = ({ filter, isLoading, error, productTypes, meta, onPageChange, category }: Props) => {
   const intl = useIntl();
 
   const renderContent = () => {
@@ -102,3 +95,5 @@ export const ProductTypesListView = ({
     </Container>
   );
 };
+
+export default ProductTypesList;

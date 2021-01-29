@@ -55,7 +55,7 @@ export const getFooterHeight = () => {
   }, 0);
 };
 
-export const FooterView = () => {
+const FooterView = () => {
   const intl = useIntl();
   const theme = useTheme<ClientUITheme>();
 
@@ -123,3 +123,5 @@ export const FooterView = () => {
     </footer>
   );
 };
+
+export default FooterView;

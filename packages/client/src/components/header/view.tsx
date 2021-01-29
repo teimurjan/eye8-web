@@ -7,20 +7,21 @@ import { Zap as ZapIcon, Menu as MenuIcon, Globe as GlobeIcon } from 'react-feat
 import { useIntl } from 'react-intl';
 
 import { Container, Anchor, Divider, Menu, Navbar } from '@eye8/client-ui';
-import { CartContainer } from '@eye8/client/components/cart/container';
-import { ViewProps as Props } from '@eye8/client/components/header/presenter';
-import { LanguageDropdownContainer as LanguageDropdown } from '@eye8/client/components/language-dropdown/container';
-import { NavContainer } from '@eye8/client/components/nav/container';
-import { navItemCSS } from '@eye8/client/components/nav/view';
-import { SearchContainer } from '@eye8/client/components/search/container';
-import { ThemeToggleContainer as ThemeToggle } from '@eye8/client/components/theme-toggle/container';
-import { UserDropdownContainer as UserDropdown } from '@eye8/client/components/user-dropdown/container';
-import LogoSVG from '@eye8/client/svg/logo.svg';
+import { LogoSVG } from '@eye8/client/svg';
 import { IconWrapper, Popover, PopoverTriggerHoverProps, Drawer } from '@eye8/shared/components';
 import { isUserAdminOrManager } from '@eye8/shared/helpers';
 import { useLazyInitialization, useMedia, useBoolean } from '@eye8/shared/hooks';
 import { IconSize, mediaQueries } from '@eye8/shared/styles';
 import { shouldUseThemeToggle } from '@eye8/shared/utils';
+
+import Cart from '../cart';
+import LanguageDropdown from '../language-dropdown';
+import Nav, { navItemCSS } from '../nav';
+import Search from '../search';
+import ThemeToggle from '../theme-toggle';
+import UserDropdown from '../user-dropdown';
+
+import { ViewProps as Props } from './presenter';
 
 const CategoriesTrigger = React.forwardRef<HTMLAnchorElement, PopoverTriggerHoverProps>((props, ref) => {
   const intl = useIntl();
@@ -45,7 +46,7 @@ const DesktopNav = () => {
           `}
         >
           <Container>
-            <NavContainer />
+            <Nav />
           </Container>
         </Popover.Content>
       </Popover>
@@ -70,7 +71,7 @@ const MobileNav = () => {
     >
       <Menu.List>
         <Menu.Item>
-          <NavContainer />
+          <Nav />
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item>
@@ -195,7 +196,7 @@ const PreHeader = ({ user }: PreHeaderProps) => {
   );
 };
 
-export const HeaderView = ({ user }: Props) => {
+const HeaderView = ({ user }: Props) => {
   const theme = useTheme<ClientUITheme>();
 
   const isMobile = useMedia([mediaQueries.maxWidth768], [true], false);
@@ -291,9 +292,9 @@ export const HeaderView = ({ user }: Props) => {
                 margin-left: auto;
               `}
             >
-              <SearchContainer />
+              <Search />
               <UserDropdown />
-              <CartContainer />
+              <Cart />
             </Navbar.Section>
           </div>
         </Container>
@@ -301,3 +302,5 @@ export const HeaderView = ({ user }: Props) => {
     </Navbar>
   );
 };
+
+export default HeaderView;

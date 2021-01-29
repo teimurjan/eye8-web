@@ -2,7 +2,7 @@ import uniq from 'lodash/uniq';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { useRatesState } from '@eye8/client/state/rates';
+import { useRatesState } from '@eye8/client/state';
 import { Locale, calculateDiscountedPrice } from '@eye8/shared/utils';
 
 interface PriceProps {

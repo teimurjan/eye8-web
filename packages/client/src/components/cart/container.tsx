@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { CartPresenter } from '@eye8/client/components/cart/presenter';
-import { CartView } from '@eye8/client/components/cart/view';
 import { useDI } from '@eye8/di';
 import { useUserState } from '@eye8/shared/state/user';
 
-export const CartContainer = () => {
+import CartPresenter from './presenter';
+import CartView from './view';
+
+const CartContainer = () => {
   const {
     di: {
       storage: { cart: cartStorage },
@@ -25,3 +26,5 @@ export const CartContainer = () => {
     />
   );
 };
+
+export default CartContainer;

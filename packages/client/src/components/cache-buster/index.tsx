@@ -11,7 +11,7 @@ import { safeWindowOperation } from '@eye8/shared/utils';
 const CACHE_DATE = new Date(2020, 7, 21);
 const CACHE_VERSION = CACHE_DATE.getTime().toString();
 
-export const CacheBuster = () => {
+const CacheBuster = () => {
   const intl = useIntl();
 
   const {
@@ -20,7 +20,7 @@ export const CacheBuster = () => {
     },
   } = useDI();
 
-  const toast = useToast()
+  const toast = useToast();
 
   React.useEffect(() => {
     const currentVersion = versionStorage.getVersion();
@@ -60,3 +60,5 @@ export const CacheBuster = () => {
 
   return null;
 };
+
+export default CacheBuster;

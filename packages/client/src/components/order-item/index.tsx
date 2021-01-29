@@ -7,10 +7,11 @@ import { useIntl } from 'react-intl';
 
 import { OrderListResponseItem } from '@eye8/api/order';
 import { Anchor, Tag } from '@eye8/client-ui';
-import { PriceText } from '@eye8/client/components/price';
 import { IconWrapper, Tooltip } from '@eye8/shared/components';
 import { IconSize } from '@eye8/shared/styles';
 import { getOrderTotalPrice } from '@eye8/shared/utils';
+
+import { PriceText } from '../price';
 
 interface Props {
   order: OrderListResponseItem;
@@ -50,7 +51,7 @@ const OrderStatus = ({ status }: { status: OrderListResponseItem['status'] }) =>
   );
 };
 
-export const OrderItem: React.FC<Props> = ({ order, className }) => {
+const OrderItem: React.FC<Props> = ({ order, className }) => {
   const theme = useTheme<ClientUITheme>();
   const intl = useIntl();
   const total = getOrderTotalPrice(
@@ -144,3 +145,5 @@ export const OrderItem: React.FC<Props> = ({ order, className }) => {
     </div>
   );
 };
+
+export default OrderItem;

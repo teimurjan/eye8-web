@@ -2,16 +2,17 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { ProductTypePagePresenter, Props as PresenterProps } from '@eye8/client/pages/product-type/presenter';
-import { ProductTypePageView } from '@eye8/client/pages/product-type/view';
 import { useDI } from '@eye8/di';
+
+import ProductTypePagePresenter, { Props as PresenterProps } from './presenter';
+import ProductTypePageView from './view';
 
 interface Props {
   initialProps?: PresenterProps['initialProps'];
 }
 
 let addToCartTimeoutID: NodeJS.Timeout;
-export const ProductTypePageContainer: React.FC<Props> = ({ initialProps }) => {
+const ProductTypePageContainer: React.FC<Props> = ({ initialProps }) => {
   const { di } = useDI();
   const router = useRouter();
   const { id } = router.query;
@@ -48,3 +49,5 @@ export const ProductTypePageContainer: React.FC<Props> = ({ initialProps }) => {
     />
   );
 };
+
+export default ProductTypePageContainer;

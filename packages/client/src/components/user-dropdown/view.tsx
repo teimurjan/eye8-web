@@ -5,10 +5,11 @@ import { User as UserIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
 import { Anchor, WithIcon } from '@eye8/client-ui';
-import { ViewProps as Props } from '@eye8/client/components/user-dropdown/presenter';
 import { PopoverTriggerHoverProps, Popover } from '@eye8/shared/components';
 import { isUserAuthorized } from '@eye8/shared/helpers';
 import { IconSize } from '@eye8/shared/styles';
+
+import { ViewProps as Props } from './presenter';
 
 const Trigger = React.forwardRef<HTMLAnchorElement, PopoverTriggerHoverProps>((props, ref) => {
   const intl = useIntl();
@@ -21,7 +22,7 @@ const Trigger = React.forwardRef<HTMLAnchorElement, PopoverTriggerHoverProps>((p
   );
 });
 
-export const UserDropdownView = ({ user, onLogoutClick, openAuthModal }: Props) => {
+const UserDropdownView = ({ user, onLogoutClick, openAuthModal }: Props) => {
   const intl = useIntl();
 
   const items = [];
@@ -52,3 +53,5 @@ export const UserDropdownView = ({ user, onLogoutClick, openAuthModal }: Props) 
     </Popover>
   );
 };
+
+export default UserDropdownView;

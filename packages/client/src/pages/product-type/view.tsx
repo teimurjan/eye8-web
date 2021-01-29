@@ -18,13 +18,13 @@ import {
   Tag,
   Title,
 } from '@eye8/client-ui';
-import { InstagramPost } from '@eye8/client/components/instagram-post';
-import { PriceCrossedText } from '@eye8/client/components/price';
-import { ProductTypeImageCarousel } from '@eye8/client/components/product-type-image-carousel';
-import { ViewProps as Props } from '@eye8/client/pages/product-type/presenter';
 import { LoaderLayout, Select } from '@eye8/shared/components';
 import { fadeInFromLeft, fadeInFromRight, fadeInFromBottom, easeOutCubic, mediaQueries } from '@eye8/shared/styles';
 import { formatMediaURL } from '@eye8/shared/utils';
+
+import { ProductTypeImageCarousel, PriceCrossedText, InstagramPost } from '../../components';
+
+import { ViewProps as Props } from './presenter';
 
 const getAllFeatureValuesGroupedByType = (
   products: Props['products'],
@@ -48,7 +48,7 @@ const getAllFeatureValuesGroupedByType = (
     {},
   );
 
-export const ProductTypePageView = ({ productType, products, error, isLoading, action, actionText }: Props) => {
+const ProductTypePageView = ({ productType, products, error, isLoading, action, actionText }: Props) => {
   const intl = useIntl();
   const theme = useTheme<ClientUITheme>();
   const [activeImageIndex, setActiveImageIndex] = React.useState(0);
@@ -449,3 +449,5 @@ export const ProductTypePageView = ({ productType, products, error, isLoading, a
     <NotFound />
   );
 };
+
+export default ProductTypePageView;

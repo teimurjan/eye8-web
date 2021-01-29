@@ -4,7 +4,7 @@ import NextErrorComponent from 'next/error';
 import React from 'react';
 
 import { NotFound } from '@eye8/client-ui';
-import { Layout } from '@eye8/client/components/layout';
+import { Layout } from '@eye8/client/components';
 
 const NextNotFoundComponent = () => {
   return (

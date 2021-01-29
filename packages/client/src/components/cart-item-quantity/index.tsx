@@ -15,7 +15,7 @@ interface Props {
   onRemoveClick: () => void;
 }
 
-export const Quantity = ({ count, allowedCount, onAddClick, onRemoveClick }: Props) => {
+const Quantity = ({ count, allowedCount, onAddClick, onRemoveClick }: Props) => {
   const intl = useIntl();
 
   return (
@@ -57,3 +57,5 @@ export const Quantity = ({ count, allowedCount, onAddClick, onRemoveClick }: Pro
     </div>
   );
 };
+
+export default Quantity;
