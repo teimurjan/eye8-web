@@ -211,7 +211,7 @@ const Modal = ({
   const ref = React.useRef<HTMLDivElement>(null);
 
   useClickOutside([ref], close, isOpen);
-  useMousetrap('esc', close);
+  useMousetrap('esc', close, isOpen);
 
   const modalRoot = safeDocument((d) => d.getElementById('modalRoot'), null);
 

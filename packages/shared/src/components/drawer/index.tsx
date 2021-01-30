@@ -196,7 +196,7 @@ const Drawer = ({
   const ref = React.useRef<HTMLDivElement>(null);
 
   useClickOutside([ref], close, isOpen);
-  useMousetrap('esc', close);
+  useMousetrap('esc', close, isOpen);
 
   const drawerRoot = safeDocument((d) => d.getElementById('drawerRoot'), null);
   const { drawerContentCSS, backdropCSS, modalCloseCSS } = getSlidingCSS(fromSide);
