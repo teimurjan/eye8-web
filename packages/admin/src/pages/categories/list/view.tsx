@@ -3,8 +3,9 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
-import { AdminTable, IntlRenderer } from '@eye8/admin/components/table';
 import { ViewProps as Props } from '@eye8/admin/pages/categories/list/presenter';
+
+import { Table, IntlRenderer } from '../../../components';
 
 export const NewCategoryButton = () => {
   const intl = useIntl();
@@ -44,26 +45,26 @@ export const AdminCategoriesListView = ({ categories, isLoading, isDataLoaded }:
         width: 100%;
       `}
     >
-      <AdminTable<Category>
+      <Table<Category>
         pathPrefix="/admin/categories"
         isLoading={isLoading}
         isDataLoaded={isDataLoaded}
         entities={categories}
         renderNoData={renderNoData}
       >
-        <AdminTable.Col<Category> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
-        <AdminTable.Col<Category>
+        <Table.Col<Category> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
+        <Table.Col<Category>
           key_="parent_category_id"
           title={intl.formatMessage({
             id: 'AdminCategories.parentCategoryID',
           })}
         />
-        <AdminTable.Col<Category>
+        <Table.Col<Category>
           key_="name"
           title={intl.formatMessage({ id: 'AdminCategories.names' })}
           renderer={new IntlRenderer()}
         />
-      </AdminTable>
+      </Table>
 
       {isDataLoaded && categories.length > 0 && <NewCategoryButton />}
     </Section>

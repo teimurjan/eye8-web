@@ -3,10 +3,17 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { Checkbox, NoDataAvailable, Section } from '@eye8/admin-ui';
-import { AdminFiltersSection } from '@eye8/admin/components/filters-section';
-import { NewButton } from '@eye8/admin/components/new-button';
-import { AdminTable, IntlRenderer, ImageRenderer, LinkRenderer, BooleanRenderer } from '@eye8/admin/components/table';
 import { ViewProps as Props } from '@eye8/admin/pages/product-types/list/presenter';
+
+import {
+  Table,
+  FiltersSection,
+  NewButton,
+  IntlRenderer,
+  ImageRenderer,
+  LinkRenderer,
+  BooleanRenderer,
+} from '../../../components';
 
 export const NewProductTypeButton = () => {
   const intl = useIntl();
@@ -51,7 +58,7 @@ export const AdminProductTypesListView = ({
         width: 100%;
       `}
     >
-      <AdminFiltersSection>
+      <FiltersSection>
         <Checkbox
           label={intl.formatMessage({ id: 'common.showDeleted' })}
           onChange={onDeletedChange}
@@ -62,8 +69,8 @@ export const AdminProductTypesListView = ({
           onChange={onAvailabilityChange}
           checked={available}
         />
-      </AdminFiltersSection>
-      <AdminTable<ProductType>
+      </FiltersSection>
+      <Table<ProductType>
         pathPrefix="/admin/productTypes"
         isLoading={isLoading}
         isDataLoaded={isDataLoaded}
@@ -74,18 +81,18 @@ export const AdminProductTypesListView = ({
         onPageChange={onPageChange}
         onSearchChange={onSearchChange}
       >
-        <AdminTable.Col<ProductType> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
-        <AdminTable.Col<ProductType>
+        <Table.Col<ProductType> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
+        <Table.Col<ProductType>
           key_="name"
           title={intl.formatMessage({ id: 'AdminProductTypes.names' })}
           renderer={new IntlRenderer()}
         />
-        <AdminTable.Col<ProductType>
+        <Table.Col<ProductType>
           key_="image"
           title={intl.formatMessage({ id: 'AdminProductTypes.image' })}
           renderer={new ImageRenderer((productType) => productType.name[intl.locale])}
         />
-        <AdminTable.Col<ProductType>
+        <Table.Col<ProductType>
           key_="id"
           title=""
           renderer={
@@ -95,12 +102,12 @@ export const AdminProductTypesListView = ({
             }))
           }
         />
-        <AdminTable.Col<ProductType>
+        <Table.Col<ProductType>
           key_="is_deleted"
           title={intl.formatMessage({ id: 'common.deleted' })}
           renderer={new BooleanRenderer()}
         />
-      </AdminTable>
+      </Table>
 
       {isDataLoaded && productTypes.length > 0 && <NewProductTypeButton />}
     </Section>

@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { ContextValue as AdminFeatureTypesContextValue } from '@eye8/admin/state/feature-types';
+import { AdminFeatureTypesState } from '../../../state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
-  adminFeatureTypesState: AdminFeatureTypesContextValue['state'];
+  adminFeatureTypesState: AdminFeatureTypesState;
 }
 
 export interface ViewProps {
-  featureTypes: AdminFeatureTypesContextValue['state']['entities'];
+  featureTypes: AdminFeatureTypesState['entities'];
   isDataLoaded: boolean;
   isLoading: boolean;
 }

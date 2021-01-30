@@ -4,11 +4,9 @@ import React from 'react';
 type ModalType = 'login' | 'signup';
 
 export interface ContextValue {
-  authModalState: {
-    modalType?: ModalType;
-    close: () => void;
-    open: (modalType: ModalType) => void;
-  };
+  modalType?: ModalType;
+  close: () => void;
+  open: (modalType: ModalType) => void;
 }
 
 const Context = React.createContext<ContextValue | null>(null);
@@ -45,11 +43,9 @@ export const AuthModalStateProvider: React.SFC<ProviderProps> = ({ children }) =
   return (
     <Context.Provider
       value={{
-        authModalState: {
-          modalType: modalTypeFromRoute ? modalTypeFromRoute : modalType,
-          close,
-          open,
-        },
+        modalType: modalTypeFromRoute ? modalTypeFromRoute : modalType,
+        close,
+        open,
       }}
     >
       {children}

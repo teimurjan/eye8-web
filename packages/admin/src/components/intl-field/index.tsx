@@ -56,7 +56,7 @@ const InnerIntlField: Props['component'] = ({ input, meta, label, placeholder, l
   );
 };
 
-export const IntlField = ({ component, label, placeholder, key_ }: Props) => {
+const IntlField = ({ component, label, placeholder, key_ }: Props) => {
   return (
     <>
       {availableLocales.map((locale) => (
@@ -72,3 +72,5 @@ export const IntlField = ({ component, label, placeholder, key_ }: Props) => {
     </>
   );
 };
+
+export default IntlField;

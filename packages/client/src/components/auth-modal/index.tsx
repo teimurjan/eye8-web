@@ -8,7 +8,7 @@ import LoginForm from '../login-form';
 import SignUpForm from '../sign-up-form';
 
 const AuthModal = () => {
-  const { authModalState } = useAuthModalState();
+  const authModalState = useAuthModalState();
 
   const isLoginOpen = authModalState.modalType === 'login';
   const isSignUpOpen = authModalState.modalType === 'signup';

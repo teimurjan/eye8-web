@@ -2,16 +2,17 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
-import { ContextValue as AdminCharacteristicsStateContextValue } from '@eye8/admin/state/characteristics';
 import { CharacteristicService } from '@eye8/service/characteristic';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
+
+import { getFieldName, parseFieldName } from '../../../components';
+import { AdminCharacteristicsState } from '../../../state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
   service: CharacteristicService;
   history: History;
-  adminCharacteristicsState: AdminCharacteristicsStateContextValue['state'];
+  adminCharacteristicsState: AdminCharacteristicsState;
 }
 
 export interface ViewProps {

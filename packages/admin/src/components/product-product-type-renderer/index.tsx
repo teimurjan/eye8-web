@@ -4,10 +4,11 @@ import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 
 import { Table } from '@eye8/admin-ui';
-import { Renderer } from '@eye8/admin/components/table';
 import { ProductListResponseItem } from '@eye8/api/product';
 import { Tooltip } from '@eye8/shared/components';
 import { formatMediaURL } from '@eye8/shared/utils';
+
+import { Renderer } from '../table';
 
 type BaseRenderer = Renderer<ProductListResponseItem>;
 
@@ -64,3 +65,5 @@ export class ProductProductTypeRenderer implements BaseRenderer {
     </Table.Cell>
   );
 }
+
+export default ProductProductTypeRenderer;

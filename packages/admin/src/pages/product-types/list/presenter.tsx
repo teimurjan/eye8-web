@@ -1,16 +1,17 @@
 import React from 'react';
 
-import { useAdminProductTypesFilters } from '@eye8/admin/hooks/use-admin-product-types-filters';
-import { ContextValue as AdminProductTypesStateContextValue } from '@eye8/admin/state/product-types';
+import { useAdminProductTypesFilters } from '@eye8/admin/hooks';
+
+import { AdminProductTypesState } from '../../../state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
-  adminProductTypesState: AdminProductTypesStateContextValue['state'];
+  adminProductTypesState: AdminProductTypesState;
 }
 
 export interface ViewProps {
-  productTypes: AdminProductTypesStateContextValue['state']['entities'];
-  meta: AdminProductTypesStateContextValue['state']['meta'];
+  productTypes: AdminProductTypesState['entities'];
+  meta: AdminProductTypesState['meta'];
   isDataLoaded: boolean;
   isLoading: boolean;
   onPageChange: (page: number) => void;

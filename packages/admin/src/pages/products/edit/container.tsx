@@ -3,17 +3,17 @@ import { useHistory, useParams } from 'react-router';
 
 import { AdminProductsEditPresenter } from '@eye8/admin/pages/products/edit/presenter';
 import { AdminProductsEditView } from '@eye8/admin/pages/products/edit/view';
-import { useAdminFeatureValuesState } from '@eye8/admin/state/feature-values';
-import { useAdminProductsState } from '@eye8/admin/state/products';
 import { useDI } from '@eye8/di';
+
+import { useAdminFeatureValuesState, useAdminProductsState } from '../../../state';
 
 export const AdminProductsEditContainer = () => {
   const history = useHistory();
   const params = useParams<{ id: string }>();
 
   const { di } = useDI();
-  const { state: adminFeatureValuesState } = useAdminFeatureValuesState();
-  const { state: adminProductsState } = useAdminProductsState();
+  const adminFeatureValuesState = useAdminFeatureValuesState();
+  const adminProductsState = useAdminProductsState();
 
   const close = React.useCallback(() => history.push('/admin/products'), [history]);
 

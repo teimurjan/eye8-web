@@ -2,16 +2,17 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
-import { ContextValue as AdminCategoriesStateContextValue } from '@eye8/admin/state/categories';
 import { CategoryService } from '@eye8/service/category';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
+
+import { getFieldName, parseFieldName } from '../../../components';
+import { AdminCategoriesState } from '../../../state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
   service: CategoryService;
   history: History;
-  adminCategoriesState: AdminCategoriesStateContextValue['state'];
+  adminCategoriesState: AdminCategoriesState;
 }
 
 export interface ViewProps {
@@ -23,7 +24,7 @@ export interface ViewProps {
   preloadingError?: string;
   close: () => void;
   validate?: (values: object) => object | Promise<object>;
-  categories: AdminCategoriesStateContextValue['state']['entities'];
+  categories: AdminCategoriesState['entities'];
 }
 
 export const CATEGORY_NAME_FIELD_KEY = 'name';

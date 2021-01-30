@@ -1,22 +1,22 @@
 import { History } from 'history';
 import React from 'react';
 
-import { useAdminProductsFilters } from '@eye8/admin/hooks/use-admin-product-filters';
-import { useSelectProductTypes } from '@eye8/admin/hooks/use-select-product-types';
-import { ContextValue as AdminProductsStateContextValue } from '@eye8/admin/state/products';
+import { useAdminProductsFilters, useSelectProductTypes } from '@eye8/admin/hooks';
 import { ProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
 import { ProductTypeService } from '@eye8/service/product-type';
 
+import { AdminProductsState } from '../../../state';
+
 export interface Props {
   View: React.ComponentType<ViewProps>;
-  adminProductsState: AdminProductsStateContextValue['state'];
+  adminProductsState: AdminProductsState;
   productTypeService: ProductTypeService;
   history: History;
 }
 
 export interface ViewProps {
-  products: AdminProductsStateContextValue['state']['entities'];
-  meta: AdminProductsStateContextValue['state']['meta'];
+  products: AdminProductsState['entities'];
+  meta: AdminProductsState['meta'];
   isDataLoaded: boolean;
   isLoading: boolean;
   onPageChange: (page: number) => void;

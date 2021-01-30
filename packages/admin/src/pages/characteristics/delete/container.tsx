@@ -1,17 +1,16 @@
 import React from 'react';
 
-import { DeleteModalContainer } from '@eye8/admin/components/delete-modal/container';
-import { useAdminCharacteristicsState } from '@eye8/admin/state/characteristics';
 import { useDI } from '@eye8/di';
+
+import { DeleteModal } from '../../../components';
+import { useAdminCharacteristicsState } from '../../../state';
 
 export const AdminCharacteristicsDeleteContainer = () => {
   const { di } = useDI();
-  const {
-    state: { remove: deleteCharacteristic },
-  } = useAdminCharacteristicsState();
+  const { remove: deleteCharacteristic } = useAdminCharacteristicsState();
 
   return (
-    <DeleteModalContainer
+    <DeleteModal
       deleteEntity={async ({ id }) => {
         await di.service.category.delete(id);
         deleteCharacteristic(id);

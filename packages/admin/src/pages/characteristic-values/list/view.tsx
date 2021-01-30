@@ -3,9 +3,9 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
-import { CharacteristicRenderer } from '@eye8/admin/components/characteristic-renderer';
-import { AdminTable, IntlRenderer } from '@eye8/admin/components/table';
 import { ViewProps as Props } from '@eye8/admin/pages/characteristic-values/list/presenter';
+
+import { Table, IntlRenderer, CharacteristicRenderer } from '../../../components';
 
 export const NewCharacteristicValueButton = () => {
   const intl = useIntl();
@@ -44,25 +44,25 @@ export const AdminCharacteristicValuesListView = ({ characteristicValues, isLoad
         width: 100%;
       `}
     >
-      <AdminTable<CharacteristicValue>
+      <Table<CharacteristicValue>
         pathPrefix="/admin/characteristicValues"
         isLoading={isLoading}
         isDataLoaded={isDataLoaded}
         entities={characteristicValues}
         renderNoData={renderNoData}
       >
-        <AdminTable.Col<CharacteristicValue> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
-        <AdminTable.Col<CharacteristicValue>
+        <Table.Col<CharacteristicValue> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
+        <Table.Col<CharacteristicValue>
           key_="name"
           title={intl.formatMessage({ id: 'AdminCharacteristicValues.names' })}
           renderer={new IntlRenderer()}
         />
-        <AdminTable.Col<CharacteristicValue>
+        <Table.Col<CharacteristicValue>
           key_="characteristic"
           title={intl.formatMessage({ id: 'AdminCharacteristicValues.characteristic' })}
           renderer={new CharacteristicRenderer(intl.locale)}
         />
-      </AdminTable>
+      </Table>
 
       {isDataLoaded && characteristicValues.length > 0 && <NewCharacteristicValueButton />}
     </Section>

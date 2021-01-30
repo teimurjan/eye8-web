@@ -6,17 +6,18 @@ import {
   Props as PresenterProps,
 } from '@eye8/admin/pages/characteristic-values/create/presenter';
 import { AdminCharacteristicValuesCreateView } from '@eye8/admin/pages/characteristic-values/create/view';
-import { useAdminCharacteristicValuesState } from '@eye8/admin/state/characteristic-values';
-import { useAdminCharacteristicsState } from '@eye8/admin/state/characteristics';
 import { useDI } from '@eye8/di';
+
+import { useAdminCharacteristicValuesState } from '../../../state';
+import { useAdminCharacteristicsState } from '../../../state';
 
 export const AdminCharacteristicValuesCreateContainer = ({ close }: Partial<Pick<PresenterProps, 'close'>>) => {
   const history = useHistory();
   const defaultClose = React.useCallback(() => history.push('/admin/characteristicValues'), [history]);
 
   const { di } = useDI();
-  const { state: adminCharacteristicsState } = useAdminCharacteristicsState();
-  const { state: adminCharacteristicValuesState } = useAdminCharacteristicValuesState();
+  const adminCharacteristicsState = useAdminCharacteristicsState();
+  const adminCharacteristicValuesState = useAdminCharacteristicValuesState();
 
   return (
     <AdminCharacteristicValuesCreatePresenter

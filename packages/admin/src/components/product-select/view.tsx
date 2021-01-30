@@ -4,12 +4,14 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { Dropdown, DropdownItem, Input, Modal, ModalBackground, ModalCard, ModalContent } from '@eye8/admin-ui';
-import { ViewProps as Props } from '@eye8/admin/components/product-select/presenter';
-import { ProductTypePreview, Props as ProductTypePreviewProps } from '@eye8/admin/components/product-type-preview';
 import { LoaderLayout } from '@eye8/shared/components';
 import { useDebounce } from '@eye8/shared/hooks';
 import { mediaQueries } from '@eye8/shared/styles';
 import { formatMediaURL } from '@eye8/shared/utils';
+
+import ProductTypePreview, { Props as ProductTypePreviewProps } from '../product-type-preview';
+
+import { ViewProps as Props } from './presenter';
 
 const dropdownCSS = css`
   width: 300px;
@@ -20,7 +22,7 @@ const dropdownCSS = css`
   }
 `;
 
-export const ProductSelectView: React.FC<Props> = ({
+const ProductSelectView: React.FC<Props> = ({
   className,
   productTypes,
   isLoading,
@@ -141,3 +143,5 @@ export const ProductSelectView: React.FC<Props> = ({
     </React.Fragment>
   );
 };
+
+export default ProductSelectView;

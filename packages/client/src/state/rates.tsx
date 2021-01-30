@@ -4,12 +4,10 @@ import { useDI } from '@eye8/di';
 import { GroupedRates } from '@eye8/service/rate';
 
 export interface ContextValue {
-  ratesState: {
-    rates: GroupedRates;
-    isLoading: boolean;
-    error?: string;
-    fetchRates: (date?: string) => Promise<void>;
-  };
+  rates: GroupedRates;
+  isLoading: boolean;
+  error?: string;
+  fetchRates: (date?: string) => Promise<void>;
 }
 
 const Context = React.createContext<ContextValue | null>(null);
@@ -52,12 +50,10 @@ export const RatesStateProvider: React.SFC<ProviderProps> = ({ initialProps, chi
   return (
     <Context.Provider
       value={{
-        ratesState: {
-          rates,
-          isLoading,
-          error,
-          fetchRates,
-        },
+        rates,
+        isLoading,
+        error,
+        fetchRates,
       }}
     >
       {children}

@@ -1,9 +1,10 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { ModalForm } from '@eye8/admin/components/modal-form';
 import { Fields } from '@eye8/admin/pages/categories/create/fields';
 import { CATEGORY_NAME_FIELD_KEY, ViewProps as Props } from '@eye8/admin/pages/categories/edit/presenter';
+
+import { ModalForm } from '../../../components';
 
 export const AdminCategoriesEditView = ({
   isOpen,

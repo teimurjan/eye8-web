@@ -16,11 +16,8 @@ import {
   Label,
   SelectTrigger,
 } from '@eye8/admin-ui';
-import { ColorDecoration } from '@eye8/admin/components/color-decoration';
-import { ProductTypeSelectView } from '@eye8/admin/components/product-type-select';
-import { useFeatureValuesOfProductType } from '@eye8/admin/hooks/use-feature-values-of-product-type';
+import { useFeatureValuesOfProductType } from '@eye8/admin/hooks';
 import { AdminFeatureValuesCreateContainer } from '@eye8/admin/pages/feature-values/create/container';
-import { ContextValue as AdminFeatureValuesStateContextValue } from '@eye8/admin/state/feature-values';
 import { FeatureTypeListRawIntlResponseItem } from '@eye8/api/feature-type';
 import { FeatureValueListRawIntlResponseItem } from '@eye8/api/feature-value';
 import { ProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
@@ -34,6 +31,9 @@ import {
   lengthCompare,
   defaultCompare,
 } from '@eye8/shared/utils';
+
+import { ColorDecoration, ProductTypeSelect } from '../../../components';
+import { AdminFeatureValuesState } from '../../../state';
 
 const QuantityField = ({ input, meta }: FieldRenderProps<string>) => {
   const intl = useIntl();
@@ -269,7 +269,7 @@ const ImagesInput = React.memo<FieldRenderProps<Array<File | undefined>>>(
 
 export interface FieldsProps {
   productTypes: ProductTypeListRawIntlMinifiedResponseItem[];
-  featureValues: AdminFeatureValuesStateContextValue['state']['entities'];
+  featureValues: AdminFeatureValuesState['entities'];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
   featureValuesLoading: boolean;
@@ -286,7 +286,7 @@ export const Fields: React.SFC<FieldsProps> = React.memo(
         <FinalFormField
           key="product_type_id"
           name="product_type_id"
-          component={ProductTypeSelectView}
+          component={ProductTypeSelect}
           productTypes={productTypes}
           LoadMoreProductTypes={LoadMoreProductTypes}
           productTypesLoading={productTypesLoading}

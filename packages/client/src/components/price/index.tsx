@@ -18,9 +18,7 @@ interface PriceRangeTextProps {
 }
 
 const useRateOnDate = ({ date, name }: { date?: Date; name?: string }) => {
-  const {
-    ratesState: { rates, error },
-  } = useRatesState();
+  const { rates, error } = useRatesState();
 
   if (!name || !rates[name]) {
     return {};

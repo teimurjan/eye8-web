@@ -3,17 +3,19 @@ import { Field as FinalFormField, FieldRenderProps, useFormState } from 'react-f
 import { useIntl } from 'react-intl';
 
 import { Field, FileInput, FormSelectField, FormTextField, HelpText, Label, Tag, SelectTrigger } from '@eye8/admin-ui';
-import { IntlField, Props as IntlFieldProps } from '@eye8/admin/components/intl-field';
-import { LinksInput, Link } from '@eye8/admin/components/links-input';
-import { ContextValue as AdminCategoriesStateContextValue } from '@eye8/admin/state/categories';
-import { ContextValue as AdminCharacteristicValuesStateContextValue } from '@eye8/admin/state/characteristic-values';
-import { ContextValue as AdminFeatureTypesStateContextValue } from '@eye8/admin/state/feature-types';
 import { InstagramPost } from '@eye8/client/components';
 import { Wysiwyg } from '@eye8/shared/components';
 import { arePropsEqual, lengthCompare, defaultCompare } from '@eye8/shared/utils';
 
+import { LinksInput, LinksInputProps, IntlField, IntlFieldProps } from '../../../components';
+import {
+  AdminFeatureTypesState,
+  AdminCharacteristicValuesState,
+  AdminCategoriesState,
+} from '../../../state';
+
 interface CharacteristicValuesSelectProps extends FieldRenderProps<string[]> {
-  characteristicValues: AdminCharacteristicValuesStateContextValue['state']['entities'];
+  characteristicValues: AdminCharacteristicValuesState['entities'];
 }
 
 const CharacteristicValuesSelect = ({ characteristicValues, input, meta }: CharacteristicValuesSelectProps) => {
@@ -52,7 +54,7 @@ const CharacteristicValuesSelect = ({ characteristicValues, input, meta }: Chara
 };
 
 interface FeatureTypesSelectProps extends FieldRenderProps<string[]> {
-  featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
+  featureTypes: AdminFeatureTypesState['entities'];
 }
 
 const FeatureTypesSelect = ({ featureTypes, input, meta }: FeatureTypesSelectProps) => {
@@ -91,7 +93,7 @@ const FeatureTypesSelect = ({ featureTypes, input, meta }: FeatureTypesSelectPro
 };
 
 interface CategoriesSelectProps extends FieldRenderProps<string[]> {
-  categories: AdminCategoriesStateContextValue['state']['entities'];
+  categories: AdminCategoriesState['entities'];
 }
 
 const CategoriesSelect = ({ categories, input, meta }: CategoriesSelectProps) => {
@@ -184,10 +186,10 @@ const getID = (() => {
   let i = 0;
   return () => ++i;
 })();
-const InstagramLinksField = ({ input, meta }: FieldRenderProps<Link[]>) => {
+const InstagramLinksField = ({ input, meta }: FieldRenderProps<LinksInputProps['links']>) => {
   const form = useFormState();
   const links = Array.isArray(input.value) ? input.value : [];
-  const initialLinks: Link[] = form.initialValues.instagram_links || [];
+  const initialLinks: LinksInputProps['links'] = form.initialValues.instagram_links || [];
   const existingLinkIDs = React.useMemo(() => new Set(initialLinks.map((link) => link.id)), [initialLinks]);
   const addLink = React.useCallback(() => {
     const id = (() => {
@@ -223,9 +225,9 @@ const InstagramLinksField = ({ input, meta }: FieldRenderProps<Link[]>) => {
 };
 
 export interface FieldsProps {
-  categories: AdminCategoriesStateContextValue['state']['entities'];
-  featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
-  characteristicValues: AdminCharacteristicValuesStateContextValue['state']['entities'];
+  categories: AdminCategoriesState['entities'];
+  featureTypes: AdminFeatureTypesState['entities'];
+  characteristicValues: AdminCharacteristicValuesState['entities'];
   nameFieldKey: string;
   descriptionFieldKey: string;
   shortDescriptionFieldKey: string;

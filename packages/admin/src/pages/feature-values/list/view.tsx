@@ -3,9 +3,9 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
-import { FeatureValueTypeRenderer } from '@eye8/admin/components/feature-value-type-renderer';
-import { AdminTable, IntlRenderer } from '@eye8/admin/components/table';
 import { ViewProps as Props } from '@eye8/admin/pages/feature-values/list/presenter';
+
+import { Table, IntlRenderer, FeatureValueTypeRenderer } from '../../../components';
 
 export const NewFeatureValueButton = () => {
   const intl = useIntl();
@@ -41,25 +41,25 @@ export const AdminFeatureValuesListView = ({ featureValues, isLoading, isDataLoa
         width: 100%;
       `}
     >
-      <AdminTable<FeatureValue>
+      <Table<FeatureValue>
         pathPrefix="/admin/featureValues"
         isLoading={isLoading}
         isDataLoaded={isDataLoaded}
         entities={featureValues}
         renderNoData={renderNoData}
       >
-        <AdminTable.Col<FeatureValue> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
-        <AdminTable.Col<FeatureValue>
+        <Table.Col<FeatureValue> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
+        <Table.Col<FeatureValue>
           key_="name"
           title={intl.formatMessage({ id: 'AdminFeatureValues.names' })}
           renderer={new IntlRenderer()}
         />
-        <AdminTable.Col<FeatureValue>
+        <Table.Col<FeatureValue>
           key_="feature_type"
           title={intl.formatMessage({ id: 'AdminFeatureValues.featureType' })}
           renderer={new FeatureValueTypeRenderer(intl.locale)}
         />
-      </AdminTable>
+      </Table>
 
       {isDataLoaded && featureValues.length > 0 && <NewFeatureValueButton />}
     </Section>

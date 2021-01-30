@@ -3,8 +3,9 @@ import { Field, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
 import { FormSelectField, SelectTrigger } from '@eye8/admin-ui';
-import { IntlField } from '@eye8/admin/components/intl-field';
-import { ContextValue as AdminCategoriesStateContextValue } from '@eye8/admin/state/categories';
+
+import { IntlField } from '../../../components';
+import { AdminCategoriesState } from '../../../state';
 
 const ParentCategorySelect = ({
   categories,
@@ -45,7 +46,7 @@ const ParentCategorySelect = ({
 };
 
 export interface FieldsProps {
-  categories: AdminCategoriesStateContextValue['state']['entities'];
+  categories: AdminCategoriesState['entities'];
   nameFieldKey: string;
 }
 

@@ -2,16 +2,17 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { ContextValue as AdminRatesStateContextValue } from '@eye8/admin/state/rates';
 import { RateName } from '@eye8/client/components';
 import { RateService, RateLimitExceededError } from '@eye8/service/rate';
 import { SchemaValidator } from '@eye8/shared/utils';
+
+import { AdminRatesState } from '../../../state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
   service: RateService;
   history: History;
-  adminRatesState: AdminRatesStateContextValue['state'];
+  adminRatesState: AdminRatesState;
 }
 
 export interface ViewProps {

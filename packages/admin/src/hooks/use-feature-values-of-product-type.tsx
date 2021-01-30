@@ -2,7 +2,7 @@ import { useFormState } from 'react-final-form';
 
 import { FieldsProps } from '@eye8/admin/pages/products/create/fields';
 
-export const useFeatureValuesOfProductType = ({
+const useFeatureValuesOfProductType = ({
   productTypes,
   featureValues,
 }: Pick<FieldsProps, 'productTypes' | 'featureValues'>) => {
@@ -16,3 +16,5 @@ export const useFeatureValuesOfProductType = ({
     productType ? productType.feature_types.indexOf(featureTypeID) !== -1 : false,
   );
 };
+
+export default useFeatureValuesOfProductType;

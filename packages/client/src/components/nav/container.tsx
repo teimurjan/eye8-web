@@ -8,7 +8,7 @@ import NavView from './view';
 
 const NavViewWithRouter = withRouter(NavView);
 const NavContainer = () => {
-  const { categoriesState } = useCategoriesState();
+  const categoriesState = useCategoriesState();
 
   return <NavPresenter View={NavViewWithRouter} categoriesState={categoriesState} />;
 };

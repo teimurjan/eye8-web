@@ -16,7 +16,7 @@ import {
 import { DIProvider } from '@eye8/di';
 import { PageProgressBar, Toaster } from '@eye8/shared/components';
 import { ToastsProvider } from '@eye8/shared/context/toast';
-import { UserStateProvider } from '@eye8/shared/state/user';
+import { UserStateProvider } from '@eye8/shared/state';
 import { isWindowDefined, safeWindowOperation, logPerformance, getGlobal } from '@eye8/shared/utils';
 
 import CustomHead from '../src/custom-head';

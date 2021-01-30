@@ -9,7 +9,7 @@ export interface Props {
   action: ProductTypePresenterProps['action'];
 }
 
-export const ProductTypePreview = ({ id, action }: Props) => {
+const ProductTypePreview = ({ id, action }: Props) => {
   const { di } = useDI();
 
   const intl = useIntl();
@@ -25,3 +25,5 @@ export const ProductTypePreview = ({ id, action }: Props) => {
     />
   );
 };
+
+export default ProductTypePreview;

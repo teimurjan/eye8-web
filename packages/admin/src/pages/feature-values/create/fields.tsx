@@ -3,12 +3,13 @@ import { Field, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
 import { FormSelectField, SelectTrigger } from '@eye8/admin-ui';
-import { IntlField } from '@eye8/admin/components/intl-field';
 import { FEATURE_VALUE_NAME_FIELD_KEY } from '@eye8/admin/pages/feature-values/create/presenter';
-import { ContextValue as AdminFeatureTypesStateContextValue } from '@eye8/admin/state/feature-types';
+
+import { IntlField } from '../../../components';
+import { AdminFeatureTypesState } from '../../../state';
 
 export interface FieldsProps {
-  featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
+  featureTypes: AdminFeatureTypesState['entities'];
 }
 
 const FeatureTypeSelect = ({

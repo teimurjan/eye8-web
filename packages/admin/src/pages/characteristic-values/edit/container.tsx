@@ -3,17 +3,18 @@ import { useHistory, useParams } from 'react-router';
 
 import { AdminCharacteristicValuesEditPresenter } from '@eye8/admin/pages/characteristic-values/edit/presenter';
 import { AdminCharacteristicValuesEditView } from '@eye8/admin/pages/characteristic-values/edit/view';
-import { useAdminCharacteristicValuesState } from '@eye8/admin/state/characteristic-values';
-import { useAdminCharacteristicsState } from '@eye8/admin/state/characteristics';
 import { useDI } from '@eye8/di';
+
+import { useAdminCharacteristicValuesState } from '../../../state';
+import { useAdminCharacteristicsState } from '../../../state';
 
 export const AdminCharacteristicValuesEditContainer = () => {
   const history = useHistory();
   const params = useParams<{ id: string }>();
 
   const { di } = useDI();
-  const { state: adminCharacteristicsState } = useAdminCharacteristicsState();
-  const { state: adminCharacteristicValuesState } = useAdminCharacteristicValuesState();
+  const adminCharacteristicsState = useAdminCharacteristicsState();
+  const adminCharacteristicValuesState = useAdminCharacteristicValuesState();
 
   return (
     <AdminCharacteristicValuesEditPresenter

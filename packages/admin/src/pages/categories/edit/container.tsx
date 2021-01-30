@@ -3,15 +3,16 @@ import { useHistory, useParams } from 'react-router';
 
 import { AdminCategoriesEditPresenter } from '@eye8/admin/pages/categories/edit/presenter';
 import { AdminCategoriesEditView } from '@eye8/admin/pages/categories/edit/view';
-import { useAdminCategoriesState } from '@eye8/admin/state/categories';
 import { useDI } from '@eye8/di';
+
+import { useAdminCategoriesState } from '../../../state';
 
 export const AdminCategoriesEditContainer = () => {
   const history = useHistory();
   const params = useParams<{ id: string }>();
 
   const { di } = useDI();
-  const { state: adminCategoriesState } = useAdminCategoriesState();
+  const adminCategoriesState = useAdminCategoriesState();
 
   return (
     <AdminCategoriesEditPresenter

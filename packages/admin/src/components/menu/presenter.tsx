@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { ContextValue as UserStateContextValue, User } from '@eye8/shared/state/user';
+import { UserState, User } from '@eye8/shared/state';
 
-export interface Props extends UserStateContextValue {
+export interface Props {
   View: React.ComponentType<ViewProps>;
+  userState: UserState;
 }
 
 export interface ViewProps {
@@ -11,10 +12,12 @@ export interface ViewProps {
   user: User;
 }
 
-export const AdminMenuPresenter = ({ userState: { clearUser, user }, View }: Props) => {
+const AdminMenuPresenter = ({ userState: { clearUser, user }, View }: Props) => {
   const onLogoutClick = React.useCallback(() => {
     clearUser();
   }, [clearUser]);
 
   return <View onLogOutClick={onLogoutClick} user={user} />;
 };
+
+export default AdminMenuPresenter;

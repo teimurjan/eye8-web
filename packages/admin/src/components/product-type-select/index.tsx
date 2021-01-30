@@ -12,7 +12,7 @@ interface Props {
   clearable?: boolean;
 }
 
-export const ProductTypeSelectView = <T extends string | undefined = string>({
+const ProductTypeSelectView = <T extends string | undefined = string>({
   productTypes,
   input,
   meta,
@@ -51,3 +51,5 @@ export const ProductTypeSelectView = <T extends string | undefined = string>({
     />
   );
 };
+
+export default ProductTypeSelectView;

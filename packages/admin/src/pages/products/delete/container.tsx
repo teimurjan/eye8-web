@@ -1,17 +1,16 @@
 import React from 'react';
 
-import { DeleteModalContainer } from '@eye8/admin/components/delete-modal/container';
-import { useAdminProductsState } from '@eye8/admin/state/products';
 import { useDI } from '@eye8/di';
+
+import { DeleteModal } from '../../../components';
+import { useAdminProductsState } from '../../../state';
 
 export const AdminProductsDeleteContainer = () => {
   const { di } = useDI();
-  const {
-    state: { remove: deleteProduct },
-  } = useAdminProductsState();
+  const { remove: deleteProduct } = useAdminProductsState();
 
   return (
-    <DeleteModalContainer
+    <DeleteModal
       deleteEntity={async ({ id, deleted }) => {
         await di.service.product.delete(id, { forever: deleted });
         deleteProduct(id);

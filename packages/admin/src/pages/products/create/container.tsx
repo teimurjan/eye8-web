@@ -3,16 +3,16 @@ import { useHistory } from 'react-router';
 
 import { AdminProductsCreatePresenter } from '@eye8/admin/pages/products/create/presenter';
 import { AdminProductsCreateView } from '@eye8/admin/pages/products/create/view';
-import { useAdminFeatureValuesState } from '@eye8/admin/state/feature-values';
-import { useAdminProductsState } from '@eye8/admin/state/products';
 import { useDI } from '@eye8/di';
+
+import { useAdminFeatureValuesState, useAdminProductsState } from '../../../state';
 
 export const AdminProductsCreateContainer = () => {
   const history = useHistory();
 
   const { di } = useDI();
-  const { state: adminFeatureValuesState } = useAdminFeatureValuesState();
-  const { state: adminProductsState } = useAdminProductsState();
+  const adminFeatureValuesState = useAdminFeatureValuesState();
+  const adminProductsState = useAdminProductsState();
 
   return (
     <AdminProductsCreatePresenter

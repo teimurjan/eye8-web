@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { DeleteModalContainer } from '@eye8/admin/components/delete-modal/container';
-import { useAdminProductTypesState } from '@eye8/admin/state/product-types';
 import { useDI } from '@eye8/di';
 import { ProductTypeHasProductsError } from '@eye8/service/product-type';
+
+import { DeleteModal } from '../../../components';
+import { useAdminProductTypesState } from '../../../state';
 
 const getErrorMessageID = (e: Error) => {
   if (e instanceof ProductTypeHasProductsError) {
@@ -15,12 +16,10 @@ const getErrorMessageID = (e: Error) => {
 
 export const AdminProductTypesDeleteContainer = () => {
   const { di } = useDI();
-  const {
-    state: { remove: deleteProductType },
-  } = useAdminProductTypesState();
+  const { remove: deleteProductType } = useAdminProductTypesState();
 
   return (
-    <DeleteModalContainer
+    <DeleteModal
       getErrorMessageID={getErrorMessageID}
       deleteEntity={async ({ id, deleted }) => {
         await di.service.productType.delete(id, { forever: deleted });

@@ -2,9 +2,10 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { Button, Message, Modal, ModalBackground, ModalCard, ModalContent } from '@eye8/admin-ui';
-import { ViewProps as Props } from '@eye8/admin/components/delete-modal/presenter';
 
-export const DeleteModalView = ({ isOpen, onClose, onConfirm, isLoading = false, error, ...props }: Props) => {
+import { ViewProps as Props } from './presenter';
+
+const DeleteModalView = ({ isOpen, onClose, onConfirm, isLoading = false, error, ...props }: Props) => {
   const intl = useIntl();
   const onConfirmClick = React.useCallback(() => onConfirm(), [onConfirm]);
 
@@ -40,3 +41,5 @@ export const DeleteModalView = ({ isOpen, onClose, onConfirm, isLoading = false,
     </Modal>
   );
 };
+
+export default DeleteModalView;

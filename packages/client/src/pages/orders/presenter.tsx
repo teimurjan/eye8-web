@@ -4,7 +4,7 @@ import React from 'react';
 import { OrderListResponseItem, OrderListResponseMeta } from '@eye8/api/order';
 import { OrderService } from '@eye8/service/order';
 import { isUserAuthorized } from '@eye8/shared/helpers';
-import { AuthorizedUser } from '@eye8/shared/state/user';
+import { AuthorizedUser } from '@eye8/shared/state';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 export interface ViewProps {

@@ -6,7 +6,7 @@ import { Circle as CircleIcon } from 'react-feather';
 import { IconWrapper } from '@eye8/shared/components';
 import { IconSize } from '@eye8/shared/styles';
 
-export const ColorDecoration = () => {
+const ColorDecoration = () => {
   const theme = useTheme<AdminUITheme>();
   return (
     <span>
@@ -37,3 +37,5 @@ export const ColorDecoration = () => {
     </span>
   );
 };
+
+export default ColorDecoration;

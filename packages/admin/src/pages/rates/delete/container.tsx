@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { DeleteModalContainer } from '@eye8/admin/components/delete-modal/container';
-import { useAdminRatesState } from '@eye8/admin/state/rates';
 import { useDI } from '@eye8/di';
 import { RateHasOrdersError } from '@eye8/service/rate';
+
+import { DeleteModal } from '../../../components';
+import { useAdminRatesState } from '../../../state';
 
 const getErrorMessageID = (e: Error) => {
   if (e instanceof RateHasOrdersError) {
@@ -15,12 +16,10 @@ const getErrorMessageID = (e: Error) => {
 
 export const AdminRatesDeleteContainer = () => {
   const { di } = useDI();
-  const {
-    state: { remove: deleteRate },
-  } = useAdminRatesState();
+  const { remove: deleteRate } = useAdminRatesState();
 
   return (
-    <DeleteModalContainer
+    <DeleteModal
       getErrorMessageID={getErrorMessageID}
       deleteEntity={async ({ id, deleted }) => {
         await di.service.rate.delete(id);

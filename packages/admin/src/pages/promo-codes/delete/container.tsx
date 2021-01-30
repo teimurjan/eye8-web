@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { DeleteModalContainer } from '@eye8/admin/components/delete-modal/container';
-import { useAdminPromoCodesState } from '@eye8/admin/state/promo-codes';
 import { useDI } from '@eye8/di';
 import { PromoCodeHasOrdersError } from '@eye8/service/promo-code';
+
+import { DeleteModal } from '../../../components';
+import { useAdminPromoCodesState } from '../../../state';
 
 const getErrorMessageID = (e: Error) => {
   if (e instanceof PromoCodeHasOrdersError) {
@@ -15,12 +16,10 @@ const getErrorMessageID = (e: Error) => {
 
 export const AdminPromoCodesDeleteContainer = () => {
   const { di } = useDI();
-  const {
-    state: { remove: deletePromoCode },
-  } = useAdminPromoCodesState();
+  const { remove: deletePromoCode } = useAdminPromoCodesState();
 
   return (
-    <DeleteModalContainer
+    <DeleteModal
       getErrorMessageID={getErrorMessageID}
       deleteEntity={async ({ id, deleted }) => {
         await di.service.promoCode.delete(id, deleted);

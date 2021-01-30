@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { ContextValue as AdminCharacteristicsContextValue } from '@eye8/admin/state/characteristics';
+import { AdminCharacteristicsState } from '../../../state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
-  adminCharacteristicsState: AdminCharacteristicsContextValue['state'];
+  adminCharacteristicsState: AdminCharacteristicsState;
 }
 
 export interface ViewProps {
-  characteristics: AdminCharacteristicsContextValue['state']['entities'];
+  characteristics: AdminCharacteristicsState['entities'];
   isDataLoaded: boolean;
   isLoading: boolean;
 }

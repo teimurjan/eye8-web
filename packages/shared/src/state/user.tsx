@@ -15,11 +15,9 @@ export type User = AuthorizedUser | EmptyUser | AnonymousUser;
 export const decodeAccessToken = (accessToken: string): AuthorizedUser => jwtDecode(accessToken);
 
 export interface ContextValue {
-  userState: {
-    clearUser: () => void;
-    syncUser: () => void;
-    user: User;
-  };
+  clearUser: () => void;
+  syncUser: () => void;
+  user: User;
 }
 
 const Context = React.createContext<ContextValue | null>(null);
@@ -59,11 +57,9 @@ export const UserStateProvider: React.SFC<ProviderProps> = ({ children }) => {
   return (
     <Context.Provider
       value={{
-        userState: {
-          clearUser,
-          syncUser,
-          user,
-        },
+        clearUser,
+        syncUser,
+        user,
       }}
     >
       {children}

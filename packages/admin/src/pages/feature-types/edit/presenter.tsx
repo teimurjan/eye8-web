@@ -2,18 +2,19 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
-import { ContextValue as AdminFeatureTypesStateContextValue } from '@eye8/admin/state/feature-types';
 import { FeatureTypeListRawIntlResponseItem } from '@eye8/api/feature-type';
 import { FeatureTypeService } from '@eye8/service/feature-type';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
+
+import { getFieldName, parseFieldName } from '../../../components';
+import { AdminFeatureTypesState } from '../../../state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
   service: FeatureTypeService;
   featureTypeId: number;
   history: History;
-  adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
+  adminFeatureTypesState: AdminFeatureTypesState;
 }
 
 export interface ViewProps {

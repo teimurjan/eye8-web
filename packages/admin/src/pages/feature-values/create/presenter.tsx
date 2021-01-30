@@ -1,18 +1,18 @@
 import React from 'react';
 import * as yup from 'yup';
 
-import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
-import { ContextValue as AdminFeatureTypesStateContextValue } from '@eye8/admin/state/feature-types';
-import { ContextValue as AdminFeatureValuesStateContextValue } from '@eye8/admin/state/feature-values';
 import { FeatureValueService } from '@eye8/service/feature-value';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
+
+import { getFieldName, parseFieldName } from '../../../components';
+import { AdminFeatureValuesState, AdminFeatureTypesState } from '../../../state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
   service: FeatureValueService;
   close: () => void;
-  adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
-  adminFeatureValuesState: AdminFeatureValuesStateContextValue['state'];
+  adminFeatureTypesState: AdminFeatureTypesState;
+  adminFeatureValuesState: AdminFeatureValuesState;
 }
 
 export interface ViewProps {
@@ -22,7 +22,7 @@ export interface ViewProps {
   isLoading: boolean;
   error: string | undefined;
   close: () => void;
-  featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
+  featureTypes: AdminFeatureTypesState['entities'];
   validate?: (values: object) => object | Promise<object>;
 }
 

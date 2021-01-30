@@ -9,7 +9,7 @@ import SignUpView from './view';
 const SignUpContainer = () => {
   const { di } = useDI();
 
-  const { authModalState } = useAuthModalState();
+  const authModalState = useAuthModalState();
 
   return <SignUpPresenter service={di.service.auth} View={SignUpView} authModalState={authModalState} />;
 };

@@ -5,11 +5,9 @@ import { useDI } from '@eye8/di';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 export interface ContextValue {
-  categoriesState: {
-    categories: CategoryListResponseItem[];
-    isLoading: boolean;
-    error?: string;
-  };
+  categories: CategoryListResponseItem[];
+  isLoading: boolean;
+  error?: string;
 }
 
 const Context = React.createContext<ContextValue | null>(null);
@@ -57,11 +55,9 @@ export const CategoriesStateProvider: React.SFC<ProviderProps> = ({ children, in
   return (
     <Context.Provider
       value={{
-        categoriesState: {
-          categories: agregateOrderedMapToArray(data.entities, data.order),
-          isLoading,
-          error,
-        },
+        categories: agregateOrderedMapToArray(data.entities, data.order),
+        isLoading,
+        error,
       }}
     >
       {children}

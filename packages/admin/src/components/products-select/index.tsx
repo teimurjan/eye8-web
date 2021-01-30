@@ -4,9 +4,10 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { Button } from '@eye8/admin-ui';
-import { ProductsSelectItem } from '@eye8/admin/components/product-select-item';
-import { ProductSelectContainer } from '@eye8/admin/components/product-select/container';
 import { ProductListResponseItem } from '@eye8/api/product';
+
+import ProductsSelectItem from '../product-select-item';
+import ProductSelectContainer from '../product-select/container';
 
 interface Props {
   products: ProductListResponseItem[];
@@ -14,7 +15,7 @@ interface Props {
   allowAddition?: boolean;
 }
 
-export const ProductsSelect = ({ products, onChange, allowAddition = true }: Props) => {
+const ProductsSelect = ({ products, onChange, allowAddition = true }: Props) => {
   const intl = useIntl();
 
   const setProduct = React.useCallback(
@@ -66,3 +67,5 @@ export const ProductsSelect = ({ products, onChange, allowAddition = true }: Pro
     </div>
   );
 };
+
+export default ProductsSelect;

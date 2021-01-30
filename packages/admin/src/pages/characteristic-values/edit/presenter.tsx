@@ -2,20 +2,20 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
-import { ContextValue as AdminCharacteristicValuesStateContextValue } from '@eye8/admin/state/characteristic-values';
-import { ContextValue as AdminCharacteristicsStateContextValue } from '@eye8/admin/state/characteristics';
 import { CharacteristicValueListRawIntlResponseItem } from '@eye8/api/characteristic-value';
 import { CharacteristicValueService } from '@eye8/service/characteristic-value';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
+
+import { getFieldName, parseFieldName } from '../../../components';
+import { AdminCharacteristicsState, AdminCharacteristicValuesState } from '../../../state';
 
 export interface Props {
   characteristicValueId: number;
   history: History;
   View: React.ComponentType<ViewProps>;
   service: CharacteristicValueService;
-  adminCharacteristicsState: AdminCharacteristicsStateContextValue['state'];
-  adminCharacteristicValuesState: AdminCharacteristicValuesStateContextValue['state'];
+  adminCharacteristicsState: AdminCharacteristicsState;
+  adminCharacteristicValuesState: AdminCharacteristicValuesState;
 }
 
 export interface ViewProps {
@@ -25,7 +25,7 @@ export interface ViewProps {
   isUpdating: boolean;
   error: string | undefined;
   close: () => void;
-  characteristics: AdminCharacteristicsStateContextValue['state']['entities'];
+  characteristics: AdminCharacteristicsState['entities'];
   validate?: (values: object) => object | Promise<object>;
   initialValues: object;
   preloadingError?: string;

@@ -3,17 +3,18 @@ import { useHistory, useParams } from 'react-router';
 
 import { AdminFeatureValuesEditPresenter } from '@eye8/admin/pages/feature-values/edit/presenter';
 import { AdminFeatureValuesEditView } from '@eye8/admin/pages/feature-values/edit/view';
-import { useAdminFeatureTypesState } from '@eye8/admin/state/feature-types';
-import { useAdminFeatureValuesState } from '@eye8/admin/state/feature-values';
 import { useDI } from '@eye8/di';
+
+import { useAdminFeatureTypesState } from '../../../state';
+import { useAdminFeatureValuesState } from '../../../state';
 
 export const AdminFeatureValuesEditContainer = () => {
   const history = useHistory();
   const params = useParams<{ id: string }>();
 
   const { di } = useDI();
-  const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
-  const { state: adminFeatureValuesState } = useAdminFeatureValuesState();
+  const adminFeatureTypesState = useAdminFeatureTypesState();
+  const adminFeatureValuesState = useAdminFeatureValuesState();
 
   return (
     <AdminFeatureValuesEditPresenter

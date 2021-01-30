@@ -3,8 +3,9 @@ import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
 import { Checkbox, Control, Field, FormCheckboxField, FormTextField, HelpText, Label } from '@eye8/admin-ui';
-import { ProductsSelect } from '@eye8/admin/components/products-select';
 import { ProductListResponseItem } from '@eye8/api/product';
+
+import { ProductsSelect } from '../../../components';
 
 const DiscountField = ({ input, meta, disabled }: FieldRenderProps<string>) => {
   const intl = useIntl();

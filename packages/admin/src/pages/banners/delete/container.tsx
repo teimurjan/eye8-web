@@ -1,17 +1,16 @@
 import React from 'react';
 
-import { DeleteModalContainer } from '@eye8/admin/components/delete-modal/container';
-import { useAdminBannersState } from '@eye8/admin/state/banners';
+import { useAdminBannersState } from '@eye8/admin/state';
 import { useDI } from '@eye8/di';
+
+import { DeleteModal } from '../../../components';
 
 export const AdminBannersDeleteContainer = () => {
   const { di } = useDI();
-  const {
-    state: { remove: deleteBanner },
-  } = useAdminBannersState();
+  const { remove: deleteBanner } = useAdminBannersState();
 
   return (
-    <DeleteModalContainer
+    <DeleteModal
       deleteEntity={async ({ id }) => {
         await di.service.banner.delete(id);
         deleteBanner(id);

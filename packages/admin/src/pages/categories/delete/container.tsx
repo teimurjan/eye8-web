@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { DeleteModalContainer } from '@eye8/admin/components/delete-modal/container';
-import { useAdminCategoriesState } from '@eye8/admin/state/categories';
 import { useDI } from '@eye8/di';
 import { CategoryHasChildrenError, CategoryHasProductTypesError } from '@eye8/service/category';
+
+import { DeleteModal } from '../../../components';
+import { useAdminCategoriesState } from '../../../state/categories';
 
 const getErrorMessageID = (e: Error) => {
   if (e instanceof CategoryHasChildrenError) {
@@ -18,12 +19,10 @@ const getErrorMessageID = (e: Error) => {
 
 export const AdminCategoriesDeleteContainer = () => {
   const { di } = useDI();
-  const {
-    state: { remove: deleteCategory },
-  } = useAdminCategoriesState();
+  const { remove: deleteCategory } = useAdminCategoriesState();
 
   return (
-    <DeleteModalContainer
+    <DeleteModal
       getErrorMessageID={getErrorMessageID}
       deleteEntity={async ({ id }) => {
         await di.service.category.delete(id);

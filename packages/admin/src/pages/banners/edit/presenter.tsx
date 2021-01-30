@@ -2,18 +2,19 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
-import { ContextValue as AdminBannersStateContextValue } from '@eye8/admin/state/banners';
+import { AdminBannersState } from '@eye8/admin/state';
 import { BannerListRawIntlResponseItem } from '@eye8/api/banner';
 import { BannerService } from '@eye8/service/banner';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
+
+import { getFieldName, parseFieldName } from '../../../components';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
   service: BannerService;
   history: History;
   bannerId: number;
-  adminBannersState: AdminBannersStateContextValue['state'];
+  adminBannersState: AdminBannersState;
 }
 
 interface FormValues {

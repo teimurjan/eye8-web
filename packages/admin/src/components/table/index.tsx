@@ -184,7 +184,7 @@ interface Props<T> {
 
 const defaultRenderer = new DefaultRenderer();
 
-export const AdminTable = <T extends { id: number }>({
+const AdminTable = <T extends { id: number }>({
   renderNoData,
   isLoading,
   isDataLoaded,
@@ -332,3 +332,5 @@ export const AdminTable = <T extends { id: number }>({
 };
 
 AdminTable.Col = AdminTableCol;
+
+export default AdminTable;

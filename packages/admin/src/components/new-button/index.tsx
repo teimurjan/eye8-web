@@ -7,10 +7,12 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const NewButton = ({ pathPrefix, children }: Props) => {
+const NewButton = ({ pathPrefix, children }: Props) => {
   return (
     <LinkButton to={`${pathPrefix}/new`} color="is-primary">
       {children}
     </LinkButton>
   );
 };
+
+export default NewButton;

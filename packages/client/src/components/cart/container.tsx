@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useDI } from '@eye8/di';
-import { useUserState } from '@eye8/shared/state/user';
+import { useUserState } from '@eye8/shared/state';
 
 import CartPresenter from './presenter';
 import CartView from './view';
@@ -13,7 +13,7 @@ const CartContainer = () => {
       service: { product: productService, order: orderService, promoCode: promoCodeService },
     },
   } = useDI();
-  const { userState } = useUserState();
+  const userState = useUserState();
 
   return (
     <CartPresenter

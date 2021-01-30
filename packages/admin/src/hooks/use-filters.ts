@@ -1,8 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 
-import { useSearchParams } from '@eye8/admin/hooks/use-search-params';
 import { buildSearchString } from '@eye8/shared/utils';
+
+import useSearchParams from './use-search-params';
 
 interface Args<T> {
   initialFilters: T;
@@ -10,7 +11,7 @@ interface Args<T> {
   initialFrom?: 'location' | 'state';
 }
 
-export const useFilters = <T>({ initialFilters, relyOn, initialFrom = relyOn }: Args<T>) => {
+const useFilters = <T>({ initialFilters, relyOn, initialFrom = relyOn }: Args<T>) => {
   const history = useHistory();
   const filtersFromSearch = useSearchParams(initialFilters);
   const [filters, setFilters] = React.useState(initialFrom === 'location' ? filtersFromSearch : initialFilters);
@@ -30,3 +31,5 @@ export const useFilters = <T>({ initialFilters, relyOn, initialFrom = relyOn }: 
 
   return { filters, setFilters };
 };
+
+export default useFilters;

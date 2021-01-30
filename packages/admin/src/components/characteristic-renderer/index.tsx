@@ -1,12 +1,13 @@
 import React from 'react';
 
 import { Table } from '@eye8/admin-ui';
-import { Renderer } from '@eye8/admin/components/table';
 import { CharacteristicValueListRawIntlResponseItem } from '@eye8/api/characteristic-value';
+
+import { Renderer } from '../table';
 
 type BaseRenderer = Renderer<CharacteristicValueListRawIntlResponseItem>;
 
-export class CharacteristicRenderer implements BaseRenderer {
+class CharacteristicRenderer implements BaseRenderer {
   private locale: string;
 
   constructor(locale: string) {
@@ -23,3 +24,5 @@ export class CharacteristicRenderer implements BaseRenderer {
     <Table.Cell key={componentKey}>{characteristicValue.characteristic.name[this.locale]}</Table.Cell>
   );
 }
+
+export default CharacteristicRenderer;

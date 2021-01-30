@@ -2,38 +2,40 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
-import { Link } from '@eye8/admin/components/links-input';
-import { useAdminProductTypesFilters } from '@eye8/admin/hooks/use-admin-product-types-filters';
+import { useAdminProductTypesFilters } from '@eye8/admin/hooks';
 import {
   PRODUCT_TYPE_NAME_FIELD_KEY,
   PRODUCT_TYPE_DESCRIPTION_FIELD_KEY,
   PRODUCT_TYPE_SHORT_DESCRIPTION_FIELD_KEY,
 } from '@eye8/admin/pages/product-types/create/presenter';
-import { ContextValue as AdminCategoriesStateContextValue } from '@eye8/admin/state/categories';
-import { ContextValue as AdminCharacteristicValuesStateContextValue } from '@eye8/admin/state/characteristic-values';
-import { ContextValue as AdminFeatureTypesStateContextValue } from '@eye8/admin/state/feature-types';
-import { ContextValue as AdminProductTypesStateContextValue } from '@eye8/admin/state/product-types';
 import { ProductTypeDetailRawIntlResponseItem } from '@eye8/api/product-type';
 import { ProductTypeService } from '@eye8/service/product-type';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
+
+import { LinksInputProps, getFieldName, parseFieldName } from '../../../components';
+import {
+  AdminFeatureTypesState,
+  AdminCharacteristicValuesState,
+  AdminProductTypesState,
+  AdminCategoriesState,
+} from '../../../state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
   service: ProductTypeService;
   history: History;
   productTypeId: number;
-  adminCategoriesState: AdminCategoriesStateContextValue['state'];
-  adminFeatureTypesState: AdminFeatureTypesStateContextValue['state'];
-  adminProductTypesState: AdminProductTypesStateContextValue['state'];
-  adminCharacteristicValuesState: AdminCharacteristicValuesStateContextValue['state'];
+  adminCategoriesState: AdminCategoriesState;
+  adminFeatureTypesState: AdminFeatureTypesState;
+  adminProductTypesState: AdminProductTypesState;
+  adminCharacteristicValuesState: AdminCharacteristicValuesState;
 }
 
 interface FormValues {
   names: { [key: string]: string };
   descriptions: { [key: string]: string };
   short_descriptions: { [key: string]: string };
-  instagram_links: Link[];
+  instagram_links: LinksInputProps['links'];
   feature_types: string[];
   characteristic_values: string[];
   categories?: string[];
@@ -49,9 +51,9 @@ export interface ViewProps {
   preloadingError?: string;
   close: () => void;
   validate?: (values: FormValues) => object | Promise<object>;
-  categories: AdminCategoriesStateContextValue['state']['entities'];
-  featureTypes: AdminFeatureTypesStateContextValue['state']['entities'];
-  characteristicValues: AdminCharacteristicValuesStateContextValue['state']['entities'];
+  categories: AdminCategoriesState['entities'];
+  featureTypes: AdminFeatureTypesState['entities'];
+  characteristicValues: AdminCharacteristicValuesState['entities'];
   initialValues: Partial<FormValues>;
 }
 
@@ -71,9 +73,13 @@ const validator = new SchemaValidator(
       {
         instagram_links: yup
           .array()
-          .test('areLinksValid', 'AdminProductTypes.errors.invalidInstagramLinks', (value: Link[] = []) => {
-            return value.every((link) => link.value.match(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/));
-          }),
+          .test(
+            'areLinksValid',
+            'AdminProductTypes.errors.invalidInstagramLinks',
+            (value: LinksInputProps['links'] = []) => {
+              return value.every((link) => link.value.match(/(https?:\/\/(?:www\.)?instagram\.com\/p\/([^/?#&]+)).*/));
+            },
+          ),
         categories: yup
           .array()
           .of(yup.number())

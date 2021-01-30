@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 
-import { useSearchParams } from '@eye8/admin/hooks/use-search-params';
+import { useSearchParams } from '@eye8/admin/hooks';
 
 interface CheckExistenceDataArgs {
   id: number;
@@ -36,7 +36,7 @@ export interface ViewProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const DEFAULT_SEARCH_PARAMS = { deleted: false };
 
-export const DeleteModalPresenter = ({
+const DeleteModalPresenter = ({
   View,
   match,
   history,
@@ -85,3 +85,5 @@ export const DeleteModalPresenter = ({
 
   return <View isOpen={!!id} onConfirm={remove} onClose={close} error={error} isLoading={isLoading} />;
 };
+
+export default DeleteModalPresenter;

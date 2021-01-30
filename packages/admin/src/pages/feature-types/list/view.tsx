@@ -3,8 +3,9 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
-import { AdminTable, IntlRenderer } from '@eye8/admin/components/table';
 import { ViewProps as Props } from '@eye8/admin/pages/feature-types/list/presenter';
+
+import { Table, IntlRenderer } from '../../../components';
 
 export const NewFeatureTypeButton = () => {
   const intl = useIntl();
@@ -40,20 +41,20 @@ export const AdminFeatureTypesListView = ({ featureTypes, isLoading, isDataLoade
         width: 100%;
       `}
     >
-      <AdminTable<FeatureType>
+      <Table<FeatureType>
         pathPrefix="/admin/featureTypes"
         isLoading={isLoading}
         isDataLoaded={isDataLoaded}
         entities={featureTypes}
         renderNoData={renderNoData}
       >
-        <AdminTable.Col<FeatureType> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
-        <AdminTable.Col<FeatureType>
+        <Table.Col<FeatureType> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
+        <Table.Col<FeatureType>
           key_="name"
           title={intl.formatMessage({ id: 'AdminFeatureTypes.names' })}
           renderer={new IntlRenderer()}
         />
-      </AdminTable>
+      </Table>
 
       {isDataLoaded && featureTypes.length > 0 && <NewFeatureTypeButton />}
     </Section>

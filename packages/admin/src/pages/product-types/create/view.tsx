@@ -1,7 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { ModalForm } from '@eye8/admin/components/modal-form';
 import { Fields } from '@eye8/admin/pages/product-types/create/fields';
 import {
   PRODUCT_TYPE_NAME_FIELD_KEY,
@@ -9,6 +8,8 @@ import {
   PRODUCT_TYPE_SHORT_DESCRIPTION_FIELD_KEY,
   ViewProps as Props,
 } from '@eye8/admin/pages/product-types/create/presenter';
+
+import { ModalForm } from '../../../components';
 
 export const AdminProductTypesCreateView = ({
   isOpen,

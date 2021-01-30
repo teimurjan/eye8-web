@@ -1,9 +1,10 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { IntlField } from '@eye8/admin/components/intl-field';
-import { ModalForm } from '@eye8/admin/components/modal-form';
 import { CHARACTERISTIC_NAME_FIELD_KEY, ViewProps as Props } from '@eye8/admin/pages/characteristics/edit/presenter';
+
+import { IntlField } from '../../../components';
+import { ModalForm } from '../../../components';
 
 const Fields = () => {
   const intl = useIntl();

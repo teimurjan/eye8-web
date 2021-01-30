@@ -9,7 +9,7 @@ import { ProductService } from '@eye8/service/product';
 import { PromoCodeService } from '@eye8/service/promo-code';
 import { getUserPropertySafe } from '@eye8/shared/helpers';
 import { useBoolean, useForceUpdate, useLazyInitialization, useMousetrap } from '@eye8/shared/hooks';
-import { ContextValue as UserStateContextValue } from '@eye8/shared/state/user';
+import { UserState } from '@eye8/shared/state';
 import { agregateOrderedMapToArray, SchemaValidator, isTrimmed, PHONE_REGEX } from '@eye8/shared/utils';
 import { CartStorage } from '@eye8/storage/cart';
 
@@ -21,12 +21,13 @@ export const getErrorMessageID = (e: Error) => {
   return 'errors.common';
 };
 
-export interface Props extends UserStateContextValue {
+export interface Props {
   View: React.ComponentType<ViewProps>;
   productService: ProductService;
   orderService: OrderService;
   promoCodeService: PromoCodeService;
   storage: CartStorage;
+  userState: UserState;
 }
 
 export interface ViewProps {

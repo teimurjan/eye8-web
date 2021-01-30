@@ -2,18 +2,19 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { getFieldName, parseFieldName } from '@eye8/admin/components/intl-field';
-import { ContextValue as AdminCategoriesStateContextValue } from '@eye8/admin/state/categories';
 import { CategoryListRawIntlResponseItem } from '@eye8/api/category';
 import { CategoryService } from '@eye8/service/category';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
+
+import { getFieldName, parseFieldName } from '../../../components';
+import { AdminCategoriesState } from '../../../state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
   service: CategoryService;
   history: History;
   categoryId: number;
-  adminCategoriesState: AdminCategoriesStateContextValue['state'];
+  adminCategoriesState: AdminCategoriesState;
 }
 
 export interface ViewProps {
@@ -22,7 +23,7 @@ export interface ViewProps {
   error?: string;
   close: () => void;
   validate?: (values: object) => object | Promise<object>;
-  categories: AdminCategoriesStateContextValue['state']['entities'];
+  categories: AdminCategoriesState['entities'];
   isLoading: boolean;
   isUpdating: boolean;
   preloadingError?: string;

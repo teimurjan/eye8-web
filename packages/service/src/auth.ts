@@ -6,7 +6,7 @@ import {
   DuplicateEmailError,
   SignupNotFoundError,
 } from '@eye8/api/auth';
-import { decodeAccessToken, AuthorizedUser } from '@eye8/shared/state/user';
+import { decodeAccessToken, AuthorizedUser } from '@eye8/shared/state';
 import { AuthStorage } from '@eye8/storage/auth';
 import { StateCacheStorage } from '@eye8/storage/state-cache';
 

@@ -3,8 +3,9 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
-import { AdminTable } from '@eye8/admin/components/table';
 import { ViewProps as Props } from '@eye8/admin/pages/rates/list/presenter';
+
+import { Table } from '../../../components';
 
 export const NewRateButton = () => {
   const intl = useIntl();
@@ -32,7 +33,7 @@ export const AdminRatesListView = ({ rates, isLoading, isDataLoaded }: Props) =>
         width: 100%;
       `}
     >
-      <AdminTable<Rate>
+      <Table<Rate>
         hideSubheader={true}
         pathPrefix="/admin/rates"
         isLoading={isLoading}
@@ -41,11 +42,11 @@ export const AdminRatesListView = ({ rates, isLoading, isDataLoaded }: Props) =>
         renderNoData={renderNoData}
         hideEdit
       >
-        <AdminTable.Col<Rate> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
-        <AdminTable.Col<Rate> key_="value" title={intl.formatMessage({ id: 'AdminRates.value' })} />
-        <AdminTable.Col<Rate> key_="name" title={intl.formatMessage({ id: 'AdminRates.name' })} />
-        <AdminTable.Col<Rate> key_="created_on" title={intl.formatMessage({ id: 'AdminRates.createdOn' })} />
-      </AdminTable>
+        <Table.Col<Rate> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
+        <Table.Col<Rate> key_="value" title={intl.formatMessage({ id: 'AdminRates.value' })} />
+        <Table.Col<Rate> key_="name" title={intl.formatMessage({ id: 'AdminRates.name' })} />
+        <Table.Col<Rate> key_="created_on" title={intl.formatMessage({ id: 'AdminRates.createdOn' })} />
+      </Table>
 
       {isDataLoaded && rates.length > 0 && <NewRateButton />}
     </Section>

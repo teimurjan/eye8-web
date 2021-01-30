@@ -3,9 +3,10 @@ import { FieldRenderProps, Field as FinalFormField } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
 import { Field, FileInput, FormTextField, HelpText, Label, Tag } from '@eye8/admin-ui';
-import { IntlField, Props as IntlFieldProps } from '@eye8/admin/components/intl-field';
 import { Wysiwyg } from '@eye8/shared/components';
 import { isAllowedForNumberInput } from '@eye8/shared/utils';
+
+import { IntlField, IntlFieldProps } from '../../../components';
 
 export interface FieldsProps {
   textFieldKey: string;

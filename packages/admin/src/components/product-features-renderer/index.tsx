@@ -1,12 +1,13 @@
 import React from 'react';
 
 import { Table } from '@eye8/admin-ui';
-import { Renderer } from '@eye8/admin/components/table';
 import { ProductListResponseItem } from '@eye8/api/product';
+
+import { Renderer } from '../table';
 
 type BaseRenderer = Renderer<ProductListResponseItem>;
 
-export class ProductFeaturesRenderer implements BaseRenderer {
+class ProductFeaturesRenderer implements BaseRenderer {
   public renderHeader: BaseRenderer['renderHeader'] = (title: string, { componentKey }) => (
     <Table.HeadCell key={componentKey}>{title}</Table.HeadCell>
   );
@@ -24,3 +25,5 @@ export class ProductFeaturesRenderer implements BaseRenderer {
     </Table.Cell>
   );
 }
+
+export default ProductFeaturesRenderer;

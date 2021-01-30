@@ -1,15 +1,13 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import { useUserState, User } from '@eye8/shared/state/user';
+import { useUserState, User } from '@eye8/shared/state';
 
 type Rule = (user: User) => boolean;
 
 const useProtectedResource = (showRule: Rule, redirectRule?: Rule, redirectPath = '/') => {
   const router = useRouter();
-  const {
-    userState: { user },
-  } = useUserState();
+  const { user } = useUserState();
 
   React.useEffect(() => {
     if (redirectRule && redirectRule(user)) {

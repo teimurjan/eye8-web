@@ -6,10 +6,11 @@ import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 
 import { Subtitle } from '@eye8/admin-ui';
-import { ProductSelectContainer } from '@eye8/admin/components/product-select/container';
 import { ProductListResponseItem } from '@eye8/api/product';
 import { IconWrapper } from '@eye8/shared/components';
 import { IconSize } from '@eye8/shared/styles';
+
+import ProductSelect from '../product-select/container';
 
 interface Props {
   id?: number;
@@ -18,7 +19,7 @@ interface Props {
   footer: React.ReactNode;
 }
 
-export const ProductsSelectItem = ({ id, name, onChange, footer }: Props) => {
+const ProductsSelectItem = ({ id, name, onChange, footer }: Props) => {
   const intl = useIntl();
   const theme = useTheme<AdminUITheme>();
 
@@ -57,7 +58,7 @@ export const ProductsSelectItem = ({ id, name, onChange, footer }: Props) => {
             </Link>
           )}
         </span>
-        <ProductSelectContainer
+        <ProductSelect
           placeholder={intl.formatMessage({ id: 'AdminPromoCodes.anotherProduct.placeholder' })}
           onChange={onChange}
         />
@@ -66,3 +67,5 @@ export const ProductsSelectItem = ({ id, name, onChange, footer }: Props) => {
     </div>
   );
 };
+
+export default ProductsSelectItem;

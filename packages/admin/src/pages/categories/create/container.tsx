@@ -3,14 +3,14 @@ import { useHistory } from 'react-router';
 
 import { AdminCategoriesCreatePresenter } from '@eye8/admin/pages/categories/create/presenter';
 import { AdminCategoriesCreateView } from '@eye8/admin/pages/categories/create/view';
-import { useAdminCategoriesState } from '@eye8/admin/state/categories';
+import { useAdminCategoriesState } from '@eye8/admin/state';
 import { useDI } from '@eye8/di';
 
 export const AdminCategoriesCreateContainer = () => {
   const history = useHistory();
 
   const { di } = useDI();
-  const { state: adminCategoriesState } = useAdminCategoriesState();
+  const adminCategoriesState = useAdminCategoriesState();
 
   return (
     <AdminCategoriesCreatePresenter

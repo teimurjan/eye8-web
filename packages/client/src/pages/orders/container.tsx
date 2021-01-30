@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router';
 
 import { useDI } from '@eye8/di';
 import { isUserAuthorized } from '@eye8/shared/helpers';
-import { useUserState, AuthorizedUser } from '@eye8/shared/state/user';
+import { useUserState, AuthorizedUser } from '@eye8/shared/state';
 
 import OrdersPresenter from './presenter';
 import OrdersView from './view';
@@ -15,9 +15,7 @@ const OrdersContainer = () => {
     },
   } = useDI();
 
-  const {
-    userState: { user },
-  } = useUserState();
+  const { user } = useUserState();
 
   const history = useHistory();
   const location = useLocation();

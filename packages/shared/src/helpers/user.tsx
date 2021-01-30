@@ -1,4 +1,4 @@
-import { User, AuthorizedUser } from '@eye8/shared/state/user';
+import { User, AuthorizedUser } from '@eye8/shared/state';
 
 export const isUserAdmin = (user: User) => !!user && 'group' in user && user.group === 'admin';
 

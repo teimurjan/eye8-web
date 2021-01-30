@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { ContextValue as AdminBannersStateContextValue } from '@eye8/admin/state/banners';
+import { AdminBannersState } from '@eye8/admin/state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
-  adminBannersState: AdminBannersStateContextValue['state'];
+  adminBannersState: AdminBannersState;
 }
 
 export interface ViewProps {
-  banners: AdminBannersStateContextValue['state']['entities'];
+  banners: AdminBannersState['entities'];
   isDataLoaded: boolean;
   isLoading: boolean;
 }

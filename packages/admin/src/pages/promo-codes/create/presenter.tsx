@@ -2,16 +2,17 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { ContextValue as AdminPromoCodesStateContextValue } from '@eye8/admin/state/promo-codes';
 import { ProductListResponseItem } from '@eye8/api/product';
 import { PromoCodeService, PromoCodeValueAlreadyExistsError, PromoCodeHasOrdersError } from '@eye8/service/promo-code';
 import { SchemaValidator } from '@eye8/shared/utils';
+
+import { AdminPromoCodesState } from '../../../state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
   service: PromoCodeService;
   history: History;
-  adminPromoCodesState: AdminPromoCodesStateContextValue['state'];
+  adminPromoCodesState: AdminPromoCodesState;
 }
 
 export interface ViewProps {

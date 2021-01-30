@@ -7,38 +7,41 @@ import { useIntl } from 'react-intl';
 import { Route, Switch } from 'react-router';
 
 import { Button, Section, Subtitle, Tag, Title } from '@eye8/admin-ui';
-import { AdminMenuContainer } from '@eye8/admin/components/menu/container';
-import { AdminBanners } from '@eye8/admin/pages/banners';
-import { AdminCategories } from '@eye8/admin/pages/categories';
-import { NewCategoryButton } from '@eye8/admin/pages/categories/list/view';
-import { AdminCharacteristicValues } from '@eye8/admin/pages/characteristic-values';
-import { AdminCharacteristics } from '@eye8/admin/pages/characteristics';
-import { AdminFeatureTypes } from '@eye8/admin/pages/feature-types';
-import { NewFeatureTypeButton } from '@eye8/admin/pages/feature-types/list/view';
-import { AdminFeatureValues } from '@eye8/admin/pages/feature-values';
-import { NewFeatureValueButton } from '@eye8/admin/pages/feature-values/list/view';
-import { AdminOrders } from '@eye8/admin/pages/orders';
-import { AdminProductTypes } from '@eye8/admin/pages/product-types';
-import { NewProductTypeButton } from '@eye8/admin/pages/product-types/list/view';
-import { AdminProducts } from '@eye8/admin/pages/products';
-import { NewProductButton } from '@eye8/admin/pages/products/list/view';
-import { AdminPromoCodes } from '@eye8/admin/pages/promo-codes';
-import { AdminRates } from '@eye8/admin/pages/rates';
-import { AdminBannersStateProvider } from '@eye8/admin/state/banners';
-import { AdminCategoriesStateProvider } from '@eye8/admin/state/categories';
-import { AdminCharacteristicValuesStateProvider } from '@eye8/admin/state/characteristic-values';
-import { AdminCharacteristicsStateProvider } from '@eye8/admin/state/characteristics';
-import { AdminFeatureTypesStateProvider } from '@eye8/admin/state/feature-types';
-import { AdminFeatureValuesStateProvider } from '@eye8/admin/state/feature-values';
-import { AdminOrdersStateProvider } from '@eye8/admin/state/orders';
-import { AdminProductTypesStateProvider } from '@eye8/admin/state/product-types';
-import { AdminProductsStateProvider } from '@eye8/admin/state/products';
-import { AdminPromoCodesStateProvider } from '@eye8/admin/state/promo-codes';
-import { AdminRatesStateProvider } from '@eye8/admin/state/rates';
 import { IconWrapper, Drawer } from '@eye8/shared/components';
 import { isUserSetAsManagerOrAdmin, isUserSetAsClient, isUserSetAsAdmin } from '@eye8/shared/helpers';
 import { useBoolean, useMedia, useProtectedResource } from '@eye8/shared/hooks';
 import { IconSize, mediaQueries } from '@eye8/shared/styles';
+
+import { Menu as AdminMenu } from './components';
+import { AdminBanners } from './pages/banners';
+import { AdminCategories } from './pages/categories';
+import { NewCategoryButton } from './pages/categories/list/view';
+import { AdminCharacteristicValues } from './pages/characteristic-values';
+import { AdminCharacteristics } from './pages/characteristics';
+import { AdminFeatureTypes } from './pages/feature-types';
+import { NewFeatureTypeButton } from './pages/feature-types/list/view';
+import { AdminFeatureValues } from './pages/feature-values';
+import { NewFeatureValueButton } from './pages/feature-values/list/view';
+import { AdminOrders } from './pages/orders';
+import { AdminProductTypes } from './pages/product-types';
+import { NewProductTypeButton } from './pages/product-types/list/view';
+import { AdminProducts } from './pages/products';
+import { NewProductButton } from './pages/products/list/view';
+import { AdminPromoCodes } from './pages/promo-codes';
+import { AdminRates } from './pages/rates';
+import {
+  AdminBannersStateProvider,
+  AdminCategoriesStateProvider,
+  AdminCharacteristicValuesStateProvider,
+  AdminCharacteristicsStateProvider,
+  AdminFeatureTypesStateProvider,
+  AdminFeatureValuesStateProvider,
+  AdminOrdersStateProvider,
+  AdminProductTypesStateProvider,
+  AdminProductsStateProvider,
+  AdminPromoCodesStateProvider,
+  AdminRatesStateProvider,
+} from './state';
 
 const arrowDivider = (
   <IconWrapper
@@ -163,7 +166,7 @@ const Menu = () => {
   const isMobile = useMedia([mediaQueries.maxWidth768], [true], false);
   const { value: isOpen, setPositive: openMobileMenu, setNegative: closeMobileMenu } = useBoolean();
 
-  const menu = <AdminMenuContainer />;
+  const menu = <AdminMenu />;
 
   return isMobile ? (
     <>

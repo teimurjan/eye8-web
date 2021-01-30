@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { ContextValue as AdminCategoriesStateContextValue } from '@eye8/admin/state/categories';
+import { AdminCategoriesState } from '../../../state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
-  adminCategoriesState: AdminCategoriesStateContextValue['state'];
+  adminCategoriesState: AdminCategoriesState;
 }
 
 export interface ViewProps {
-  categories: AdminCategoriesStateContextValue['state']['entities'];
+  categories: AdminCategoriesState['entities'];
   isDataLoaded: boolean;
   isLoading: boolean;
 }

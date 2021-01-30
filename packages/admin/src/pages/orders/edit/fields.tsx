@@ -6,11 +6,11 @@ import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
 import { Field, FormPhoneField, FormSelectField, FormTextField, HelpText, Label, SelectTrigger } from '@eye8/admin-ui';
-import { ProductsSelectItem } from '@eye8/admin/components/product-select-item';
-import { ProductSelectContainer } from '@eye8/admin/components/product-select/container';
 import { OrderListResponseItem } from '@eye8/api/order';
 import { CartItemQuantity, PriceText } from '@eye8/client/components';
 import { getOrderTotalPrice, parsePhoneNumber } from '@eye8/shared/utils';
+
+import { ProductSelectItem, ProductSelect } from '../../../components';
 
 const UserNameField = ({ input, meta }: FieldRenderProps<string>) => {
   const intl = useIntl();
@@ -181,7 +181,7 @@ const OrderItemsField = ({
       {input.value ? (
         <div>
           {input.value.map((orderItem) => (
-            <ProductsSelectItem
+            <ProductSelectItem
               key={orderItem.id}
               id={orderItem.product?.id}
               name={
@@ -212,7 +212,7 @@ const OrderItemsField = ({
           ))}
         </div>
       ) : null}
-      <ProductSelectContainer
+      <ProductSelect
         css={css`
           margin: 10px 0;
         `}

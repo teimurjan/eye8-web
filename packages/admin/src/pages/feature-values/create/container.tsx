@@ -6,17 +6,18 @@ import {
   Props as PresenterProps,
 } from '@eye8/admin/pages/feature-values/create/presenter';
 import { AdminFeatureValuesCreateView } from '@eye8/admin/pages/feature-values/create/view';
-import { useAdminFeatureTypesState } from '@eye8/admin/state/feature-types';
-import { useAdminFeatureValuesState } from '@eye8/admin/state/feature-values';
 import { useDI } from '@eye8/di';
+
+import { useAdminFeatureTypesState } from '../../../state';
+import { useAdminFeatureValuesState } from '../../../state';
 
 export const AdminFeatureValuesCreateContainer = ({ close }: Partial<Pick<PresenterProps, 'close'>>) => {
   const history = useHistory();
   const defaultClose = React.useCallback(() => history.push('/admin/featureValues'), [history]);
 
   const { di } = useDI();
-  const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
-  const { state: adminFeatureValuesState } = useAdminFeatureValuesState();
+  const adminFeatureTypesState = useAdminFeatureTypesState();
+  const adminFeatureValuesState = useAdminFeatureValuesState();
 
   return (
     <AdminFeatureValuesCreatePresenter

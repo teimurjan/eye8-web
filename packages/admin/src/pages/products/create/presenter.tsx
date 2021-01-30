@@ -2,21 +2,21 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { useSelectProductTypes } from '@eye8/admin/hooks/use-select-product-types';
-import { ContextValue as AdminFeatureValuesStateContextValue } from '@eye8/admin/state/feature-values';
-import { ContextValue as AdminProductsStateContextValue } from '@eye8/admin/state/products';
+import { useSelectProductTypes } from '@eye8/admin/hooks';
 import { ProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
 import { ProductService } from '@eye8/service/product';
 import { ProductTypeService } from '@eye8/service/product-type';
 import { SchemaValidator } from '@eye8/shared/utils';
+
+import { AdminProductsState, AdminFeatureValuesState } from '../../../state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
   productService: ProductService;
   productTypeService: ProductTypeService;
   history: History;
-  adminProductsState: AdminProductsStateContextValue['state'];
-  adminFeatureValuesState: AdminFeatureValuesStateContextValue['state'];
+  adminProductsState: AdminProductsState;
+  adminFeatureValuesState: AdminFeatureValuesState;
 }
 
 export interface ViewProps {
@@ -34,7 +34,7 @@ export interface ViewProps {
   preloadingError?: string;
   close: () => void;
   validate?: (values: object) => object | Promise<object>;
-  featureValues: AdminFeatureValuesStateContextValue['state']['entities'];
+  featureValues: AdminFeatureValuesState['entities'];
   productTypes: ProductTypeListRawIntlMinifiedResponseItem[];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;

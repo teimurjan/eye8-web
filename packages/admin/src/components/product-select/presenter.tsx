@@ -25,7 +25,7 @@ export interface ViewProps {
   className?: string;
 }
 
-export const ProductSelectPresenter = ({ productTypeService, onChange, View, placeholder, className }: Props) => {
+const ProductSelectPresenter = ({ productTypeService, onChange, View, placeholder, className }: Props) => {
   const [selectedProductType, setSelectedProductType] = React.useState<ProductTypeListResponseItem | undefined>(
     undefined,
   );
@@ -79,3 +79,5 @@ export const ProductSelectPresenter = ({ productTypeService, onChange, View, pla
     />
   );
 };
+
+export default ProductSelectPresenter;

@@ -8,7 +8,7 @@ interface Props {
   DeleteComponent: React.ComponentType<any>;
 }
 
-export const AdminPage = ({ ListComponent, CreateComponent, EditComponent, DeleteComponent }: Props) => {
+const Page = ({ ListComponent, CreateComponent, EditComponent, DeleteComponent }: Props) => {
   const match = useRouteMatch();
   return (
     <>
@@ -19,3 +19,5 @@ export const AdminPage = ({ ListComponent, CreateComponent, EditComponent, Delet
     </>
   );
 };
+
+export default Page;

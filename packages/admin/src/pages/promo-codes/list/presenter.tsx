@@ -1,15 +1,16 @@
 import React from 'react';
 
-import { useAdminPromoCodesFilters } from '@eye8/admin/hooks/use-admin-promo-codes-filters';
-import { ContextValue as AdminPromoCodesStateContextValue } from '@eye8/admin/state/promo-codes';
+import { useAdminPromoCodesFilters } from '@eye8/admin/hooks';
+
+import { AdminPromoCodesState } from '../../../state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
-  adminPromoCodesState: AdminPromoCodesStateContextValue['state'];
+  adminPromoCodesState: AdminPromoCodesState;
 }
 
 export interface ViewProps {
-  promoCodes: AdminPromoCodesStateContextValue['state']['entities'];
+  promoCodes: AdminPromoCodesState['entities'];
   isDataLoaded: boolean;
   isLoading: boolean;
   deleted: boolean;

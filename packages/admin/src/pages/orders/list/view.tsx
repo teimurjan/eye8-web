@@ -3,8 +3,9 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { NoDataAvailable, Section } from '@eye8/admin-ui';
-import { AdminTable } from '@eye8/admin/components/table';
 import { ViewProps as Props } from '@eye8/admin/pages/orders/list/presenter';
+
+import { Table } from '../../../components';
 
 const NoOrdersAvialable = () => {
   const intl = useIntl();
@@ -23,7 +24,7 @@ export const AdminOrdersListView = ({ orders, isLoading, isDataLoaded }: Props) 
         width: 100%;
       `}
     >
-      <AdminTable<Order>
+      <Table<Order>
         hideSubheader={true}
         pathPrefix="/admin/orders"
         isLoading={isLoading}
@@ -31,16 +32,16 @@ export const AdminOrdersListView = ({ orders, isLoading, isDataLoaded }: Props) 
         entities={orders}
         renderNoData={renderNoData}
       >
-        <AdminTable.Col<Order> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
-        <AdminTable.Col<Order> key_="user_name" title={intl.formatMessage({ id: 'AdminOrders.userName' })} />
-        <AdminTable.Col<Order>
+        <Table.Col<Order> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
+        <Table.Col<Order> key_="user_name" title={intl.formatMessage({ id: 'AdminOrders.userName' })} />
+        <Table.Col<Order>
           key_="user_phone_number"
           title={intl.formatMessage({ id: 'AdminOrders.userPhoneNumber' })}
         />
-        <AdminTable.Col<Order> key_="user_address" title={intl.formatMessage({ id: 'AdminOrders.userAddress' })} />
-        <AdminTable.Col<Order> key_="status" title={intl.formatMessage({ id: 'AdminOrders.status' })} />
-        <AdminTable.Col<Order> key_="created_on" title={intl.formatMessage({ id: 'AdminOrders.createdOn' })} />
-      </AdminTable>
+        <Table.Col<Order> key_="user_address" title={intl.formatMessage({ id: 'AdminOrders.userAddress' })} />
+        <Table.Col<Order> key_="status" title={intl.formatMessage({ id: 'AdminOrders.status' })} />
+        <Table.Col<Order> key_="created_on" title={intl.formatMessage({ id: 'AdminOrders.createdOn' })} />
+      </Table>
     </Section>
   );
 };

@@ -3,21 +3,24 @@ import { useHistory, useParams } from 'react-router';
 
 import { AdminProductTypesEditPresenter } from '@eye8/admin/pages/product-types/edit/presenter';
 import { AdminProductTypesEditView } from '@eye8/admin/pages/product-types/edit/view';
-import { useAdminCategoriesState } from '@eye8/admin/state/categories';
-import { useAdminCharacteristicValuesState } from '@eye8/admin/state/characteristic-values';
-import { useAdminFeatureTypesState } from '@eye8/admin/state/feature-types';
-import { useAdminProductTypesState } from '@eye8/admin/state/product-types';
 import { useDI } from '@eye8/di';
+
+import {
+  useAdminCharacteristicValuesState,
+  useAdminFeatureTypesState,
+  useAdminProductTypesState,
+  useAdminCategoriesState,
+} from '../../../state';
 
 export const AdminProductTypesEditContainer = () => {
   const history = useHistory();
   const params = useParams<{ id: string }>();
 
   const { di } = useDI();
-  const { state: adminCategoriesState } = useAdminCategoriesState();
-  const { state: adminFeatureTypesState } = useAdminFeatureTypesState();
-  const { state: adminProductTypesState } = useAdminProductTypesState();
-  const { state: adminCharacteristicValuesState } = useAdminCharacteristicValuesState();
+  const adminCategoriesState = useAdminCategoriesState();
+  const adminFeatureTypesState = useAdminFeatureTypesState();
+  const adminProductTypesState = useAdminProductTypesState();
+  const adminCharacteristicValuesState = useAdminCharacteristicValuesState();
 
   return (
     <AdminProductTypesEditPresenter

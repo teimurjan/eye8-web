@@ -3,8 +3,9 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
-import { AdminTable, IntlRenderer } from '@eye8/admin/components/table';
 import { ViewProps as Props } from '@eye8/admin/pages/characteristics/list/presenter';
+
+import { Table, IntlRenderer } from '../../../components';
 
 export const NewCharacteristicButton = () => {
   const intl = useIntl();
@@ -43,20 +44,20 @@ export const AdminCharacteristicsListView = ({ characteristics, isLoading, isDat
         width: 100%;
       `}
     >
-      <AdminTable<Characteristic>
+      <Table<Characteristic>
         pathPrefix="/admin/characteristics"
         isLoading={isLoading}
         isDataLoaded={isDataLoaded}
         entities={characteristics}
         renderNoData={renderNoData}
       >
-        <AdminTable.Col<Characteristic> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
-        <AdminTable.Col<Characteristic>
+        <Table.Col<Characteristic> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
+        <Table.Col<Characteristic>
           key_="name"
           title={intl.formatMessage({ id: 'AdminCharacteristics.names' })}
           renderer={new IntlRenderer()}
         />
-      </AdminTable>
+      </Table>
 
       {isDataLoaded && characteristics.length > 0 && <NewCharacteristicButton />}
     </Section>

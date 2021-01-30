@@ -3,17 +3,18 @@ import pick from 'lodash/pick';
 import React from 'react';
 import * as yup from 'yup';
 
-import { ContextValue as AdminOrdersStateContextValue } from '@eye8/admin/state/orders';
 import { OrderListResponseItem } from '@eye8/api/order';
 import { OrderService, PromoCodeInvalidError } from '@eye8/service/order';
 import { PHONE_REGEX, SchemaValidator } from '@eye8/shared/utils';
+
+import { AdminOrdersState } from '../../../state';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
   service: OrderService;
   history: History;
   orderId: number;
-  adminOrdersState: AdminOrdersStateContextValue['state'];
+  adminOrdersState: AdminOrdersState;
 }
 
 export interface ViewProps

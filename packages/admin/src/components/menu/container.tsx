@@ -1,11 +1,14 @@
 import React from 'react';
 
-import { AdminMenuPresenter } from '@eye8/admin/components/menu/presenter';
-import { AdminMenuView } from '@eye8/admin/components/menu/view';
-import { useUserState } from '@eye8/shared/state/user';
+import { useUserState } from '@eye8/shared/state';
 
-export const AdminMenuContainer = () => {
-  const { userState } = useUserState();
+import AdminMenuPresenter from './presenter';
+import AdminMenuView from './view';
+
+const AdminMenuContainer = () => {
+  const userState = useUserState();
 
   return <AdminMenuPresenter View={AdminMenuView} userState={userState} />;
 };
+
+export default AdminMenuContainer;

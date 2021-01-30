@@ -3,17 +3,19 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import * as yup from 'yup';
 
-import { AuthModalStateContextValue } from '@eye8/client/state';
+import { AuthModalState } from '@eye8/client/state';
 import { AuthService, InvalidCredentialsError } from '@eye8/service/auth';
 import { useToast, ToastId } from '@eye8/shared/context/toast';
 import { isUserAdmin } from '@eye8/shared/helpers';
-import { ContextValue as UserStateContextValue } from '@eye8/shared/state/user';
+import { UserState } from '@eye8/shared/state';
 import { SchemaValidator } from '@eye8/shared/utils';
 
-export interface Props extends UserStateContextValue, AuthModalStateContextValue {
+export interface Props {
   service: AuthService;
   View: React.ComponentType<ViewProps>;
   router: NextRouter;
+  authModalState: AuthModalState;
+  userState: UserState;
 }
 
 export interface FormValues {

@@ -6,7 +6,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const AdminFiltersSection = ({ children }: Props) => (
+const AdminFiltersSection = ({ children }: Props) => (
   <div
     css={css`
       margin-bottom: 20px;
@@ -17,3 +17,5 @@ export const AdminFiltersSection = ({ children }: Props) => (
     {children}
   </div>
 );
+
+export default AdminFiltersSection;

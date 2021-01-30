@@ -3,8 +3,9 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
-import { AdminTable, ImageRenderer } from '@eye8/admin/components/table';
 import { ViewProps as Props } from '@eye8/admin/pages/banners/list/presenter';
+
+import { Table, ImageRenderer } from '../../../components';
 
 export const NewBannerButton = () => {
   const intl = useIntl();
@@ -40,7 +41,7 @@ export const AdminBannersListView = ({ banners, isLoading, isDataLoaded }: Props
         width: 100%;
       `}
     >
-      <AdminTable<Banner>
+      <Table<Banner>
         hideSubheader={true}
         pathPrefix="/admin/banners"
         isLoading={isLoading}
@@ -48,21 +49,21 @@ export const AdminBannersListView = ({ banners, isLoading, isDataLoaded }: Props
         entities={banners}
         renderNoData={renderNoData}
       >
-        <AdminTable.Col<Banner> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
-        <AdminTable.Col<Banner>
+        <Table.Col<Banner> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
+        <Table.Col<Banner>
           key_="link"
           title={intl.formatMessage({
             id: 'AdminBanners.link',
           })}
         />
-        <AdminTable.Col<Banner>
+        <Table.Col<Banner>
           key_="image"
           title={intl.formatMessage({
             id: 'AdminBanners.image',
           })}
           renderer={new ImageRenderer((banner) => `Banner #${banner.id}`)}
         />
-      </AdminTable>
+      </Table>
 
       {isDataLoaded && banners.length > 0 && <NewBannerButton />}
     </Section>

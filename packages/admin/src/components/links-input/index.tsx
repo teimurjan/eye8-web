@@ -8,14 +8,14 @@ import { useDebounce } from '@eye8/shared/hooks';
 
 export type Link = { id: number; value: string };
 
-interface Props {
+export interface Props {
   links: Link[];
   onChange: (value: Link[]) => void;
   onAdd: () => void;
   renderPreview: (link: Link) => React.ReactNode;
 }
 
-export const LinksInput = ({ links, onChange, onAdd, renderPreview }: Props) => {
+const LinksInput = ({ links, onChange, onAdd, renderPreview }: Props) => {
   const intl = useIntl();
 
   const change = React.useCallback(
@@ -72,3 +72,5 @@ export const LinksInput = ({ links, onChange, onAdd, renderPreview }: Props) => 
     </>
   );
 };
+
+export default LinksInput;

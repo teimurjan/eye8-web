@@ -3,13 +3,17 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { Checkbox, LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
-import { AdminFiltersSection } from '@eye8/admin/components/filters-section';
-import { ProductFeaturesRenderer } from '@eye8/admin/components/product-features-renderer';
-import { ProductProductTypeRenderer } from '@eye8/admin/components/product-product-type-renderer';
-import { ProductTypeSelectView } from '@eye8/admin/components/product-type-select';
-import { AdminTable, PriceRenderer } from '@eye8/admin/components/table';
 import { ViewProps as Props } from '@eye8/admin/pages/products/list/presenter';
 import { noop } from '@eye8/shared/utils';
+
+import {
+  Table,
+  PriceRenderer,
+  FiltersSection,
+  ProductFeaturesRenderer,
+  ProductProductTypeRenderer,
+  ProductTypeSelect,
+} from '../../../components';
 
 export const NewProductButton = () => {
   const intl = useIntl();
@@ -64,8 +68,8 @@ export const AdminProductsListView = ({
         width: 100%;
       `}
     >
-      <AdminFiltersSection>
-        <ProductTypeSelectView<string | undefined>
+      <FiltersSection>
+        <ProductTypeSelect<string | undefined>
           meta={{}}
           input={{
             name: 'productTypeSelect',
@@ -90,9 +94,9 @@ export const AdminProductsListView = ({
           onChange={onDeletedChange}
           checked={deleted}
         />
-      </AdminFiltersSection>
+      </FiltersSection>
 
-      <AdminTable<Product>
+      <Table<Product>
         hideSubheader={true}
         pathPrefix="/admin/products"
         isLoading={isLoading}
@@ -103,29 +107,29 @@ export const AdminProductsListView = ({
         pagesCount={meta?.pages_count}
         onPageChange={onPageChange}
       >
-        <AdminTable.Col<Product> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
-        <AdminTable.Col<Product>
+        <Table.Col<Product> key_="id" title={intl.formatMessage({ id: 'common.ID' })} />
+        <Table.Col<Product>
           key_="price"
           title={intl.formatMessage({ id: 'AdminProducts.price' })}
           renderer={new PriceRenderer()}
         />
-        <AdminTable.Col<Product> key_="quantity" title={intl.formatMessage({ id: 'AdminProducts.quantity' })} />
-        <AdminTable.Col<Product>
+        <Table.Col<Product> key_="quantity" title={intl.formatMessage({ id: 'AdminProducts.quantity' })} />
+        <Table.Col<Product>
           key_="discount"
           title={intl.formatMessage({ id: 'common.discount' })}
           render={(product) => `${product.discount}%`}
         />
-        <AdminTable.Col<Product>
+        <Table.Col<Product>
           key_="product_type"
           title={intl.formatMessage({ id: 'common.productType' })}
           renderer={new ProductProductTypeRenderer()}
         />
-        <AdminTable.Col<Product>
+        <Table.Col<Product>
           key_="product_type"
           title={intl.formatMessage({ id: 'AdminProducts.features' })}
           renderer={new ProductFeaturesRenderer()}
         />
-      </AdminTable>
+      </Table>
 
       {isDataLoaded && !isLoading && products.length > 0 && <NewProductButton />}
     </Section>

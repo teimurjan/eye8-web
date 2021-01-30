@@ -1,11 +1,9 @@
 import React from 'react';
 
-import { useUserState } from '@eye8/shared/state/user';
+import { useUserState } from '@eye8/shared/state';
 
 const EntryPoint = ({ children }: { children: React.ReactElement }) => {
-  const {
-    userState: { syncUser },
-  } = useUserState();
+  const { syncUser } = useUserState();
 
   React.useEffect(() => {
     syncUser();

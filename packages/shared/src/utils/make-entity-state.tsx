@@ -4,17 +4,15 @@ import { useDI, ContextValue as DependenciesContextValue } from '@eye8/di';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 export interface EntityContextValue<Entity, AgregatedEntity, Meta = undefined, Params = {}> {
-  state: {
-    entities: AgregatedEntity[];
-    isListLoading: boolean;
-    hasListLoaded: boolean;
-    listError: undefined | string;
-    get: (params?: Params) => Promise<void>;
-    remove: (id: number) => void;
-    add: (entity: Entity) => void;
-    set: (entity: Entity) => void;
-    meta?: Meta;
-  };
+  entities: AgregatedEntity[];
+  isListLoading: boolean;
+  hasListLoaded: boolean;
+  listError: undefined | string;
+  get: (params?: Params) => Promise<void>;
+  remove: (id: number) => void;
+  add: (entity: Entity) => void;
+  set: (entity: Entity) => void;
+  meta?: Meta;
 }
 
 export interface ProviderProps {
@@ -109,21 +107,19 @@ export const makeEntityState = <
   return (
     <Context.Provider
       value={{
-        state: {
-          meta,
-          add,
-          remove,
-          entities: agregateOrderedMapToArray(
-            data.entities,
-            data.order,
-            agregate ? (e) => agregate(e) : undefined,
-          ) as AgregatedEntity[],
-          get,
-          hasListLoaded,
-          isListLoading,
-          listError,
-          set,
-        },
+        meta,
+        add,
+        remove,
+        entities: agregateOrderedMapToArray(
+          data.entities,
+          data.order,
+          agregate ? (e) => agregate(e) : undefined,
+        ) as AgregatedEntity[],
+        get,
+        hasListLoaded,
+        isListLoading,
+        listError,
+        set,
       }}
     >
       {children}

@@ -14,7 +14,7 @@ interface Args {
   mandatoryProductTypeId?: number;
 }
 
-export const useSelectProductTypes = ({ productTypeService, mandatoryProductTypeId }: Args) => {
+const useSelectProductTypes = ({ productTypeService, mandatoryProductTypeId }: Args) => {
   const [data, setData] = React.useState<{
     entities: { [id: string]: ProductTypeListRawIntlMinifiedResponseItem };
     order: number[];
@@ -90,3 +90,5 @@ export const useSelectProductTypes = ({ productTypeService, mandatoryProductType
     loadMore,
   };
 };
+
+export default useSelectProductTypes;

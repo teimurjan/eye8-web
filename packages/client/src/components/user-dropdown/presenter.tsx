@@ -1,18 +1,20 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { AuthModalStateContextValue } from '@eye8/client/state';
+import { AuthModalState } from '@eye8/client/state';
 import { useToast, ToastId } from '@eye8/shared/context/toast';
-import { User, ContextValue as UserStateContextValue } from '@eye8/shared/state/user';
+import { User, UserState } from '@eye8/shared/state';
 
-interface Props extends UserStateContextValue, AuthModalStateContextValue {
+interface Props {
   View: React.ComponentType<ViewProps>;
+  authModalState: AuthModalState;
+  userState: UserState;
 }
 
 export interface ViewProps {
   user: User;
   onLogoutClick: () => void;
-  openAuthModal: AuthModalStateContextValue['authModalState']['open'];
+  openAuthModal: AuthModalState['open'];
 }
 
 const UserDropdownPresenter = ({

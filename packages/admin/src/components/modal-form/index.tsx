@@ -121,7 +121,7 @@ const InnerForm = <T extends {}>({
   );
 };
 
-export const ModalForm = <T extends {}>(props: Props<T>) => {
+const ModalForm = <T extends {}>(props: Props<T>) => {
   const intl = useIntl();
 
   const modalCSS = useMedia(
@@ -165,3 +165,5 @@ export const ModalForm = <T extends {}>(props: Props<T>) => {
     </Modal>
   );
 };
+
+export default ModalForm;

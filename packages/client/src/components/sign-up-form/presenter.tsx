@@ -1,13 +1,14 @@
 import React from 'react';
 import * as yup from 'yup';
 
-import { AuthModalStateContextValue } from '@eye8/client/state';
+import { AuthModalState } from '@eye8/client/state';
 import { EmailExistsError, AuthService } from '@eye8/service/auth';
 import { SchemaValidator } from '@eye8/shared/utils';
 
-export interface Props extends AuthModalStateContextValue {
+export interface Props {
   service: AuthService;
   View: React.ComponentType<ViewProps>;
+  authModalState: AuthModalState;
 }
 
 export interface FormValues {
