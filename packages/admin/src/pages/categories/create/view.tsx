@@ -1,12 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Fields } from '@eye8/admin/pages/categories/create/fields';
-import { CATEGORY_NAME_FIELD_KEY, ViewProps as Props } from '@eye8/admin/pages/categories/create/presenter';
-
 import { ModalForm } from '../../../components';
 
-export const AdminCategoriesCreateView = ({
+import Fields from './fields';
+import { CATEGORY_NAME_FIELD_KEY, ViewProps as Props } from './presenter';
+
+const AdminCategoriesCreateView = ({
   isOpen,
   create,
   close,
@@ -34,3 +34,5 @@ export const AdminCategoriesCreateView = ({
     />
   );
 };
+
+export default AdminCategoriesCreateView;

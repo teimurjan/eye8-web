@@ -8,11 +8,7 @@ import { Wysiwyg } from '@eye8/shared/components';
 import { arePropsEqual, lengthCompare, defaultCompare } from '@eye8/shared/utils';
 
 import { LinksInput, LinksInputProps, IntlField, IntlFieldProps } from '../../../components';
-import {
-  AdminFeatureTypesState,
-  AdminCharacteristicValuesState,
-  AdminCategoriesState,
-} from '../../../state';
+import { AdminFeatureTypesState, AdminCharacteristicValuesState, AdminCategoriesState } from '../../../state';
 
 interface CharacteristicValuesSelectProps extends FieldRenderProps<string[]> {
   characteristicValues: AdminCharacteristicValuesState['entities'];
@@ -233,7 +229,7 @@ export interface FieldsProps {
   shortDescriptionFieldKey: string;
 }
 
-export const Fields: React.SFC<FieldsProps> = React.memo(
+const Fields: React.SFC<FieldsProps> = React.memo(
   ({ categories, featureTypes, nameFieldKey, descriptionFieldKey, shortDescriptionFieldKey, characteristicValues }) => {
     const intl = useIntl();
 
@@ -294,3 +290,5 @@ export const Fields: React.SFC<FieldsProps> = React.memo(
       featureTypes: lengthCompare,
     }),
 );
+
+export default Fields;

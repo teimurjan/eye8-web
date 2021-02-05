@@ -42,7 +42,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminCharacteristicValuesCreatePresenter: React.FC<Props> = ({
+const AdminCharacteristicValuesCreatePresenter: React.FC<Props> = ({
   adminCharacteristicsState: {
     get: getCharacteristics,
     isListLoading: characteristicsLoading,
@@ -107,3 +107,5 @@ export const AdminCharacteristicValuesCreatePresenter: React.FC<Props> = ({
     />
   );
 };
+
+export default AdminCharacteristicValuesCreatePresenter;

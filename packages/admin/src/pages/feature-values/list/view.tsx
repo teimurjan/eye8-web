@@ -3,9 +3,10 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
-import { ViewProps as Props } from '@eye8/admin/pages/feature-values/list/presenter';
 
 import { Table, IntlRenderer, FeatureValueTypeRenderer } from '../../../components';
+
+import { ViewProps as Props } from './presenter';
 
 export const NewFeatureValueButton = () => {
   const intl = useIntl();
@@ -33,7 +34,7 @@ const renderNoData = () => <NoFeatureValuesAvialable />;
 
 type FeatureValue = Props['featureValues'][0];
 
-export const AdminFeatureValuesListView = ({ featureValues, isLoading, isDataLoaded }: Props) => {
+const AdminFeatureValuesListView = ({ featureValues, isLoading, isDataLoaded }: Props) => {
   const intl = useIntl();
   return (
     <Section
@@ -65,3 +66,5 @@ export const AdminFeatureValuesListView = ({ featureValues, isLoading, isDataLoa
     </Section>
   );
 };
+
+export default AdminFeatureValuesListView;

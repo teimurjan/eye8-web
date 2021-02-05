@@ -1,17 +1,20 @@
 import React from 'react';
 
-import { AdminProductTypesCreateContainer } from '@eye8/admin/pages/product-types/create/container';
-import { AdminProductTypesDeleteContainer } from '@eye8/admin/pages/product-types/delete/container';
-import { AdminProductTypesEditContainer } from '@eye8/admin/pages/product-types/edit/container';
-import { AdminProductTypesListContainer } from '@eye8/admin/pages/product-types/list/container';
-
 import { Page } from '../../components';
 
-export const AdminProductTypes = () => (
+import AdminProductTypesCreate from './create';
+import AdminProductTypesDelete from './delete';
+import AdminProductTypesEdit from './edit';
+import AdminProductTypesList from './list';
+
+const AdminProductTypes = () => (
   <Page
-    ListComponent={AdminProductTypesListContainer}
-    CreateComponent={AdminProductTypesCreateContainer}
-    EditComponent={AdminProductTypesEditContainer}
-    DeleteComponent={AdminProductTypesDeleteContainer}
+    ListComponent={AdminProductTypesList}
+    CreateComponent={AdminProductTypesCreate}
+    EditComponent={AdminProductTypesEdit}
+    DeleteComponent={AdminProductTypesDelete}
   />
 );
+
+export default AdminProductTypes;
+export { NewProductTypeButton } from './list'

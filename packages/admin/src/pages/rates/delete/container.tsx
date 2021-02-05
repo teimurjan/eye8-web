@@ -14,7 +14,7 @@ const getErrorMessageID = (e: Error) => {
   return 'errors.common';
 };
 
-export const AdminRatesDeleteContainer = () => {
+const AdminRatesDeleteContainer = () => {
   const { di } = useDI();
   const { remove: deleteRate } = useAdminRatesState();
 
@@ -30,3 +30,5 @@ export const AdminRatesDeleteContainer = () => {
     />
   );
 };
+
+export default AdminRatesDeleteContainer;

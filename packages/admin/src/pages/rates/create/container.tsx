@@ -1,13 +1,14 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 
-import { AdminRatesCreatePresenter } from '@eye8/admin/pages/rates/create/presenter';
-import { AdminRatesCreateView } from '@eye8/admin/pages/rates/create/view';
 import { useDI } from '@eye8/di';
 
 import { useAdminRatesState } from '../../../state';
 
-export const AdminRatesCreateContainer = () => {
+import AdminRatesCreatePresenter from './presenter';
+import AdminRatesCreateView from './view';
+
+const AdminRatesCreateContainer = () => {
   const history = useHistory();
 
   const { di } = useDI();
@@ -22,3 +23,5 @@ export const AdminRatesCreateContainer = () => {
     />
   );
 };
+
+export default AdminRatesCreateContainer;

@@ -3,9 +3,10 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
-import { ViewProps as Props } from '@eye8/admin/pages/categories/list/presenter';
 
 import { Table, IntlRenderer } from '../../../components';
+
+import { ViewProps as Props } from './presenter';
 
 export const NewCategoryButton = () => {
   const intl = useIntl();
@@ -37,7 +38,7 @@ const renderNoData = () => <NoCategoriesAvialable />;
 
 type Category = Props['categories'][0];
 
-export const AdminCategoriesListView = ({ categories, isLoading, isDataLoaded }: Props) => {
+const AdminCategoriesListView = ({ categories, isLoading, isDataLoaded }: Props) => {
   const intl = useIntl();
   return (
     <Section
@@ -70,3 +71,5 @@ export const AdminCategoriesListView = ({ categories, isLoading, isDataLoaded }:
     </Section>
   );
 };
+
+export default AdminCategoriesListView;

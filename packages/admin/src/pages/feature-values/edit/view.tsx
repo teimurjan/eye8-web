@@ -1,12 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Fields } from '@eye8/admin/pages/feature-values/create/fields';
-import { ViewProps as Props } from '@eye8/admin/pages/feature-values/edit/presenter';
-
 import { ModalForm } from '../../../components';
+import { Fields } from '../create';
 
-export const AdminFeatureValuesEditView = ({
+import { ViewProps as Props } from './presenter';
+
+const AdminFeatureValuesEditView = ({
   isOpen,
   edit,
   close,
@@ -36,3 +36,5 @@ export const AdminFeatureValuesEditView = ({
     />
   );
 };
+
+export default AdminFeatureValuesEditView;

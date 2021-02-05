@@ -42,12 +42,7 @@ export const getErrorMessageID = (e: Error) => {
   return 'errors.common';
 };
 
-export const AdminRatesCreatePresenter: React.FC<Props> = ({
-  history,
-  adminRatesState: { get: getRates },
-  service,
-  View,
-}) => {
+const AdminRatesCreatePresenter: React.FC<Props> = ({ history, adminRatesState: { get: getRates }, service, View }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isCreating, setCreating] = React.useState(false);
 
@@ -81,3 +76,5 @@ export const AdminRatesCreatePresenter: React.FC<Props> = ({
     />
   );
 };
+
+export default AdminRatesCreatePresenter;

@@ -55,7 +55,7 @@ export const getErrorMessageID = (e: Error) => {
   return 'errors.common';
 };
 
-export const AdminPromoCodesCreatePresenter: React.FC<Props> = ({
+const AdminPromoCodesCreatePresenter: React.FC<Props> = ({
   history,
   adminPromoCodesState: { get: getPromoCodes },
   service,
@@ -103,3 +103,5 @@ export const AdminPromoCodesCreatePresenter: React.FC<Props> = ({
     />
   );
 };
+
+export default AdminPromoCodesCreatePresenter;

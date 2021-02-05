@@ -1,27 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { FEATURE_TYPE_NAME_FIELD_KEY, ViewProps as Props } from '@eye8/admin/pages/feature-types/create/presenter';
-
-import { IntlField } from '../../../components';
 import { ModalForm } from '../../../components';
 
-const Fields = () => {
-  const intl = useIntl();
-  return (
-    <IntlField
-      key_={FEATURE_TYPE_NAME_FIELD_KEY}
-      label={intl.formatMessage({
-        id: 'AdminFeatureTypes.nameInput.label',
-      })}
-      placeholder={intl.formatMessage({
-        id: 'AdminFeatureTypes.nameInput.placeholder',
-      })}
-    />
-  );
-};
+import Fields from './fields';
+import { ViewProps as Props } from './presenter';
 
-export const AdminFeatureTypesCreateView = ({ isOpen, create, close, isLoading, error, validate }: Props) => {
+const AdminFeatureTypesCreateView = ({ isOpen, create, close, isLoading, error, validate }: Props) => {
   const intl = useIntl();
   return (
     <ModalForm
@@ -37,3 +22,5 @@ export const AdminFeatureTypesCreateView = ({ isOpen, create, close, isLoading, 
     />
   );
 };
+
+export default AdminFeatureTypesCreateView;

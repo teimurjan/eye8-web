@@ -1,11 +1,15 @@
 import { useFormState } from 'react-final-form';
 
-import { FieldsProps } from '@eye8/admin/pages/products/create/fields';
+import { FeatureValueListRawIntlResponseItem } from '@eye8/api/feature-value';
+import { ProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
 
 const useFeatureValuesOfProductType = ({
   productTypes,
   featureValues,
-}: Pick<FieldsProps, 'productTypes' | 'featureValues'>) => {
+}: {
+  productTypes: ProductTypeListRawIntlMinifiedResponseItem[];
+  featureValues: FeatureValueListRawIntlResponseItem[];
+}) => {
   const {
     values: { product_type_id: productTypeID },
   } = useFormState();

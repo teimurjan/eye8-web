@@ -136,7 +136,7 @@ const TextField: IntlFieldProps['component'] = ({ input, meta, label, placeholde
   );
 };
 
-export const Fields = ({ textFieldKey, linkTextFieldKey }: FieldsProps) => {
+const Fields = ({ textFieldKey, linkTextFieldKey }: FieldsProps) => {
   const intl = useIntl();
 
   return (
@@ -186,3 +186,5 @@ export const Fields = ({ textFieldKey, linkTextFieldKey }: FieldsProps) => {
     </>
   );
 };
+
+export default Fields;

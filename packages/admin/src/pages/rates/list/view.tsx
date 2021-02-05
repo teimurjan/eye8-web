@@ -3,9 +3,10 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
-import { ViewProps as Props } from '@eye8/admin/pages/rates/list/presenter';
 
 import { Table } from '../../../components';
+
+import { ViewProps as Props } from './presenter';
 
 export const NewRateButton = () => {
   const intl = useIntl();
@@ -25,7 +26,7 @@ const renderNoData = () => <NoRatesAvialable />;
 
 type Rate = Props['rates'][0];
 
-export const AdminRatesListView = ({ rates, isLoading, isDataLoaded }: Props) => {
+const AdminRatesListView = ({ rates, isLoading, isDataLoaded }: Props) => {
   const intl = useIntl();
   return (
     <Section
@@ -52,3 +53,5 @@ export const AdminRatesListView = ({ rates, isLoading, isDataLoaded }: Props) =>
     </Section>
   );
 };
+
+export default AdminRatesListView;

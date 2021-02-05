@@ -43,7 +43,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminCategoriesCreatePresenter: React.FC<Props> = ({
+const AdminCategoriesCreatePresenter: React.FC<Props> = ({
   history,
   adminCategoriesState: { entities: categories, add: addCategory, isListLoading: categoriesLoading, listError },
   service,
@@ -100,3 +100,5 @@ export const AdminCategoriesCreatePresenter: React.FC<Props> = ({
     />
   );
 };
+
+export default AdminCategoriesCreatePresenter;

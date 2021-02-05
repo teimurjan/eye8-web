@@ -3,10 +3,12 @@ import { Field, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
 import { FormSelectField, SelectTrigger } from '@eye8/admin-ui';
-import { CHARACTERISTIC_VALUE_NAME_FIELD_KEY } from '@eye8/admin/pages/characteristic-values/create/presenter';
+
 
 import { IntlField } from '../../../components';
 import { AdminCharacteristicsState } from '../../../state';
+
+import { CHARACTERISTIC_VALUE_NAME_FIELD_KEY } from './presenter';
 
 export interface FieldsProps {
   characteristics: AdminCharacteristicsState['entities'];
@@ -50,7 +52,7 @@ const CharacteristicSelect = ({
   );
 };
 
-export const Fields = ({ characteristics }: FieldsProps) => {
+const Fields = ({ characteristics }: FieldsProps) => {
   const intl = useIntl();
   return (
     <>
@@ -72,3 +74,5 @@ export const Fields = ({ characteristics }: FieldsProps) => {
     </>
   );
 };
+
+export default Fields;

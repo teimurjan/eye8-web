@@ -3,9 +3,11 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
-import { ViewProps as Props } from '@eye8/admin/pages/banners/list/presenter';
 
 import { Table, ImageRenderer } from '../../../components';
+
+import { ViewProps as Props } from './presenter';
+
 
 export const NewBannerButton = () => {
   const intl = useIntl();
@@ -33,7 +35,7 @@ const renderNoData = () => <NoBannersAvialable />;
 
 type Banner = Props['banners'][0];
 
-export const AdminBannersListView = ({ banners, isLoading, isDataLoaded }: Props) => {
+const AdminBannersListView = ({ banners, isLoading, isDataLoaded }: Props) => {
   const intl = useIntl();
   return (
     <Section
@@ -69,3 +71,5 @@ export const AdminBannersListView = ({ banners, isLoading, isDataLoaded }: Props
     </Section>
   );
 };
+
+export default AdminBannersListView;

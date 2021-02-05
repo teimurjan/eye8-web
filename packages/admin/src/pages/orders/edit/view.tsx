@@ -1,12 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Fields } from '@eye8/admin/pages/orders/edit/fields';
-import { ViewProps as Props } from '@eye8/admin/pages/orders/edit/presenter';
-
 import { ModalForm } from '../../../components';
 
-export const AdminOrdersEditView = ({
+import Fields from './fields';
+import { ViewProps as Props } from './presenter';
+
+const AdminOrdersEditView = ({
   isOpen,
   edit,
   close,
@@ -37,3 +37,5 @@ export const AdminOrdersEditView = ({
     />
   );
 };
+
+export default AdminOrdersEditView;

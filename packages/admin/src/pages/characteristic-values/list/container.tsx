@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { AdminCharacteristicValuesListPresenter } from '@eye8/admin/pages/characteristic-values/list/presenter';
-import { AdminCharacteristicValuesListView } from '@eye8/admin/pages/characteristic-values/list/view';
-
 import { useAdminCharacteristicValuesState } from '../../../state';
 
-export const AdminCharacteristicValuesListContainer = () => {
+import AdminCharacteristicValuesListPresenter from './presenter';
+import AdminCharacteristicValuesListView from './view';
+
+
+const AdminCharacteristicValuesListContainer = () => {
   const adminCharacteristicValuesState = useAdminCharacteristicValuesState();
 
   return (
@@ -15,3 +16,5 @@ export const AdminCharacteristicValuesListContainer = () => {
     />
   );
 };
+
+export default AdminCharacteristicValuesListContainer;

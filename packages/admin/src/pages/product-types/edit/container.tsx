@@ -1,8 +1,6 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router';
 
-import { AdminProductTypesEditPresenter } from '@eye8/admin/pages/product-types/edit/presenter';
-import { AdminProductTypesEditView } from '@eye8/admin/pages/product-types/edit/view';
 import { useDI } from '@eye8/di';
 
 import {
@@ -12,7 +10,10 @@ import {
   useAdminCategoriesState,
 } from '../../../state';
 
-export const AdminProductTypesEditContainer = () => {
+import AdminProductTypesEditPresenter from './presenter';
+import AdminProductTypesEditView from './view';
+
+const AdminProductTypesEditContainer = () => {
   const history = useHistory();
   const params = useParams<{ id: string }>();
 
@@ -35,3 +36,5 @@ export const AdminProductTypesEditContainer = () => {
     />
   );
 };
+
+export default AdminProductTypesEditContainer;

@@ -64,7 +64,7 @@ export const getErrorMessageID = (e: Error) => {
   return 'errors.common';
 };
 
-export const AdminOrdersEditPresenter: React.FC<Props> = ({
+const AdminOrdersEditPresenter: React.FC<Props> = ({
   history,
   adminOrdersState: { set: setOrderToState },
   service,
@@ -143,3 +143,5 @@ export const AdminOrdersEditPresenter: React.FC<Props> = ({
     />
   );
 };
+
+export default AdminOrdersEditPresenter;

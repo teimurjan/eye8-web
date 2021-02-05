@@ -31,7 +31,7 @@ export interface ViewProps {
   deleted: boolean;
 }
 
-export const AdminProductsListPresenter = ({
+const AdminProductsListPresenter = ({
   View,
   adminProductsState: { isListLoading, entities: products, get: getProducts, hasListLoaded, meta },
   productTypeService,
@@ -92,3 +92,5 @@ export const AdminProductsListPresenter = ({
     />
   );
 };
+
+export default AdminProductsListPresenter;

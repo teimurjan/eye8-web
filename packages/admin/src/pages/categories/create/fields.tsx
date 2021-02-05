@@ -50,7 +50,7 @@ export interface FieldsProps {
   nameFieldKey: string;
 }
 
-export const Fields = ({ categories, nameFieldKey }: FieldsProps) => {
+const Fields = ({ categories, nameFieldKey }: FieldsProps) => {
   const intl = useIntl();
   return (
     <>
@@ -72,3 +72,5 @@ export const Fields = ({ categories, nameFieldKey }: FieldsProps) => {
     </>
   );
 };
+
+export default Fields;

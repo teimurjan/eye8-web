@@ -3,9 +3,10 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { Checkbox, NoDataAvailable, Section } from '@eye8/admin-ui';
-import { ViewProps as Props } from '@eye8/admin/pages/promo-codes/list/presenter';
 
 import { Table, BooleanRenderer, PriceRenderer, FiltersSection, NewButton } from '../../../components';
+
+import { ViewProps as Props } from './presenter';
 
 type PromoCode = Props['promoCodes'][0];
 
@@ -26,7 +27,7 @@ const NoPromoCodesAvialable = () => {
   );
 };
 
-export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded, deleted, onDeletedChange }: Props) => {
+const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded, deleted, onDeletedChange }: Props) => {
   const intl = useIntl();
   return (
     <Section
@@ -83,3 +84,5 @@ export const AdminPromoCodesListView = ({ promoCodes, isLoading, isDataLoaded, d
     </Section>
   );
 };
+
+export default AdminPromoCodesListView;

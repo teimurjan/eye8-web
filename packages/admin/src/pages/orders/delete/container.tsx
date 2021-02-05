@@ -5,7 +5,7 @@ import { useDI } from '@eye8/di';
 import { DeleteModal } from '../../../components';
 import { useAdminOrdersState } from '../../../state';
 
-export const AdminOrdersDeleteContainer = () => {
+const AdminOrdersDeleteContainer = () => {
   const { di } = useDI();
   const { remove: deleteOrder } = useAdminOrdersState();
 
@@ -20,3 +20,5 @@ export const AdminOrdersDeleteContainer = () => {
     />
   );
 };
+
+export default AdminOrdersDeleteContainer;

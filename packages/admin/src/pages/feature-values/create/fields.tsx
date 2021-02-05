@@ -3,10 +3,11 @@ import { Field, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
 import { FormSelectField, SelectTrigger } from '@eye8/admin-ui';
-import { FEATURE_VALUE_NAME_FIELD_KEY } from '@eye8/admin/pages/feature-values/create/presenter';
 
 import { IntlField } from '../../../components';
 import { AdminFeatureTypesState } from '../../../state';
+
+import { FEATURE_VALUE_NAME_FIELD_KEY } from './presenter';
 
 export interface FieldsProps {
   featureTypes: AdminFeatureTypesState['entities'];
@@ -50,7 +51,7 @@ const FeatureTypeSelect = ({
   );
 };
 
-export const Fields = ({ featureTypes }: FieldsProps) => {
+const Fields = ({ featureTypes }: FieldsProps) => {
   const intl = useIntl();
   return (
     <>
@@ -67,3 +68,5 @@ export const Fields = ({ featureTypes }: FieldsProps) => {
     </>
   );
 };
+
+export default Fields;

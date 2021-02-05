@@ -1,16 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Fields } from '@eye8/admin/pages/banners/create/fields';
-import {
-  BANNER_TEXT_FIELD_KEY,
-  BANNER_LINK_TEXT_FIELD_KEY,
-  ViewProps as Props,
-} from '@eye8/admin/pages/banners/edit/presenter';
-
 import { ModalForm } from '../../../components';
+import { Fields } from '../create';
 
-export const AdminBannersEditView = ({
+import { BANNER_TEXT_FIELD_KEY, BANNER_LINK_TEXT_FIELD_KEY, ViewProps as Props } from './presenter';
+
+const AdminBannersEditView = ({
   isOpen,
   edit,
   close,
@@ -40,3 +36,5 @@ export const AdminBannersEditView = ({
     />
   );
 };
+
+export default AdminBannersEditView;

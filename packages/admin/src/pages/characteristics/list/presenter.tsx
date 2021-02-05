@@ -13,7 +13,7 @@ export interface ViewProps {
   isLoading: boolean;
 }
 
-export const AdminCharacteristicsListPresenter = ({
+const AdminCharacteristicsListPresenter = ({
   View,
   adminCharacteristicsState: { isListLoading, entities: characteristics, get: getCharacteristics, hasListLoaded },
 }: Props) => {
@@ -24,3 +24,5 @@ export const AdminCharacteristicsListPresenter = ({
 
   return <View isDataLoaded={hasListLoaded} isLoading={isListLoading} characteristics={characteristics} />;
 };
+
+export default AdminCharacteristicsListPresenter;

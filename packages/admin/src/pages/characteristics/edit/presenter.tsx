@@ -43,7 +43,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminCharacteristicsEditPresenter: React.FC<Props> = ({
+const AdminCharacteristicsEditPresenter: React.FC<Props> = ({
   View,
   history,
   service,
@@ -127,3 +127,5 @@ export const AdminCharacteristicsEditPresenter: React.FC<Props> = ({
     />
   );
 };
+
+export default AdminCharacteristicsEditPresenter;

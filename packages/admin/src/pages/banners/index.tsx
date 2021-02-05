@@ -1,17 +1,19 @@
 import React from 'react';
 
-import { AdminBannersCreateContainer } from '@eye8/admin/pages/banners/create/container';
-import { AdminBannersDeleteContainer } from '@eye8/admin/pages/banners/delete/container';
-import { AdminBannersEditContainer } from '@eye8/admin/pages/banners/edit/container';
-import { AdminBannersListContainer } from '@eye8/admin/pages/banners/list/container';
-
 import { Page } from '../../components';
 
-export const AdminBanners = () => (
+import AdminBannersCreate from './create';
+import AdminBannersDelete from './delete';
+import AdminBannersEdit from './edit';
+import AdminBannersList from './list';
+
+const AdminBanners = () => (
   <Page
-    ListComponent={AdminBannersListContainer}
-    CreateComponent={AdminBannersCreateContainer}
-    EditComponent={AdminBannersEditContainer}
-    DeleteComponent={AdminBannersDeleteContainer}
+    ListComponent={AdminBannersList}
+    CreateComponent={AdminBannersCreate}
+    EditComponent={AdminBannersEdit}
+    DeleteComponent={AdminBannersDelete}
   />
 );
+
+export default AdminBanners;

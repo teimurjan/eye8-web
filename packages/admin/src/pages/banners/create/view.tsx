@@ -1,16 +1,17 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Fields } from '@eye8/admin/pages/banners/create/fields';
+import { ModalForm } from '../../../components';
 import {
   BANNER_TEXT_FIELD_KEY,
   BANNER_LINK_TEXT_FIELD_KEY,
   ViewProps as Props,
-} from '@eye8/admin/pages/banners/create/presenter';
+} from '../create/presenter';
 
-import { ModalForm } from '../../../components';
 
-export const AdminBannersCreateView = ({ isOpen, create, close, error, validate, isCreating }: Props) => {
+import Fields from './fields';
+
+const AdminBannersCreateView = ({ isOpen, create, close, error, validate, isCreating }: Props) => {
   const intl = useIntl();
 
   return (
@@ -27,3 +28,5 @@ export const AdminBannersCreateView = ({ isOpen, create, close, error, validate,
     />
   );
 };
+
+export default AdminBannersCreateView;

@@ -1,12 +1,13 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Fields } from '@eye8/admin/pages/characteristic-values/create/fields';
-import { ViewProps as Props } from '@eye8/admin/pages/characteristic-values/create/presenter';
-
 import { ModalForm } from '../../../components';
 
-export const AdminCharacteristicValuesCreateView = ({
+import Fields from './fields';
+import { ViewProps as Props } from './presenter';
+
+
+const AdminCharacteristicValuesCreateView = ({
   isOpen,
   create,
   close,
@@ -33,3 +34,5 @@ export const AdminCharacteristicValuesCreateView = ({
     />
   );
 };
+
+export default AdminCharacteristicValuesCreateView;

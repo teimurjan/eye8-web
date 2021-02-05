@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { AdminFeatureValuesListPresenter } from '@eye8/admin/pages/feature-values/list/presenter';
-import { AdminFeatureValuesListView } from '@eye8/admin/pages/feature-values/list/view';
-
 import { useAdminFeatureValuesState } from '../../../state';
 
-export const AdminFeatureValuesListContainer = () => {
+import AdminFeatureValuesListPresenter from './presenter';
+import AdminFeatureValuesListView from './view';
+
+const AdminFeatureValuesListContainer = () => {
   const adminFeatureValuesState = useAdminFeatureValuesState();
 
   return (
@@ -15,3 +15,5 @@ export const AdminFeatureValuesListContainer = () => {
     />
   );
 };
+
+export default AdminFeatureValuesListContainer;

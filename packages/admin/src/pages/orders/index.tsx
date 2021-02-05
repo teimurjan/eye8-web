@@ -1,16 +1,18 @@
 import React from 'react';
 
-import { AdminOrdersDeleteContainer } from '@eye8/admin/pages/orders/delete/container';
-import { AdminOrdersEditContainer } from '@eye8/admin/pages/orders/edit/container';
-import { AdminOrdersListContainer } from '@eye8/admin/pages/orders/list/container';
-
 import { Page } from '../../components';
 
-export const AdminOrders = () => (
+import AdminOrdersDelete from './delete';
+import AdminOrdersEdit from './edit';
+import AdminOrdersList from './list';
+
+const AdminOrders = () => (
   <Page
-    ListComponent={AdminOrdersListContainer}
+    ListComponent={AdminOrdersList}
     CreateComponent={() => null}
-    EditComponent={AdminOrdersEditContainer}
-    DeleteComponent={AdminOrdersDeleteContainer}
+    EditComponent={AdminOrdersEdit}
+    DeleteComponent={AdminOrdersDelete}
   />
 );
+
+export default AdminOrders;

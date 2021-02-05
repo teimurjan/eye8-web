@@ -14,7 +14,7 @@ const getErrorMessageID = (e: Error) => {
   return 'errors.common';
 };
 
-export const AdminPromoCodesDeleteContainer = () => {
+const AdminPromoCodesDeleteContainer = () => {
   const { di } = useDI();
   const { remove: deletePromoCode } = useAdminPromoCodesState();
 
@@ -30,3 +30,5 @@ export const AdminPromoCodesDeleteContainer = () => {
     />
   );
 };
+
+export default AdminPromoCodesDeleteContainer;

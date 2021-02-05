@@ -1,12 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Fields } from '@eye8/admin/pages/categories/create/fields';
-import { CATEGORY_NAME_FIELD_KEY, ViewProps as Props } from '@eye8/admin/pages/categories/edit/presenter';
-
 import { ModalForm } from '../../../components';
+import { Fields } from '../create';
 
-export const AdminCategoriesEditView = ({
+import { CATEGORY_NAME_FIELD_KEY, ViewProps as Props } from './presenter';
+
+const AdminCategoriesEditView = ({
   isOpen,
   edit,
   close,
@@ -36,3 +36,5 @@ export const AdminCategoriesEditView = ({
     />
   );
 };
+
+export default AdminCategoriesEditView;

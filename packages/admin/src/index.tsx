@@ -13,22 +13,24 @@ import { useBoolean, useMedia, useProtectedResource } from '@eye8/shared/hooks';
 import { IconSize, mediaQueries } from '@eye8/shared/styles';
 
 import { Menu as AdminMenu } from './components';
-import { AdminBanners } from './pages/banners';
-import { AdminCategories } from './pages/categories';
-import { NewCategoryButton } from './pages/categories/list/view';
-import { AdminCharacteristicValues } from './pages/characteristic-values';
-import { AdminCharacteristics } from './pages/characteristics';
-import { AdminFeatureTypes } from './pages/feature-types';
-import { NewFeatureTypeButton } from './pages/feature-types/list/view';
-import { AdminFeatureValues } from './pages/feature-values';
-import { NewFeatureValueButton } from './pages/feature-values/list/view';
-import { AdminOrders } from './pages/orders';
-import { AdminProductTypes } from './pages/product-types';
-import { NewProductTypeButton } from './pages/product-types/list/view';
-import { AdminProducts } from './pages/products';
-import { NewProductButton } from './pages/products/list/view';
-import { AdminPromoCodes } from './pages/promo-codes';
-import { AdminRates } from './pages/rates';
+import {
+  AdminBanners,
+  AdminCategories,
+  AdminCharacteristicValues,
+  AdminCharacteristics,
+  AdminFeatureTypes,
+  AdminFeatureValues,
+  AdminOrders,
+  AdminProductTypes,
+  AdminProducts,
+  AdminPromoCodes,
+  AdminRates,
+  NewCategoryButton,
+  NewFeatureTypeButton,
+  NewFeatureValueButton,
+  NewProductTypeButton,
+  NewProductButton,
+} from './pages';
 import {
   AdminBannersStateProvider,
   AdminCategoriesStateProvider,
@@ -203,7 +205,7 @@ const Menu = () => {
   );
 };
 
-export const Admin = () => {
+const Admin = () => {
   const shouldShowAdmin = useProtectedResource(isUserSetAsManagerOrAdmin, isUserSetAsClient);
   const shouldShowFullAdmin = useProtectedResource(isUserSetAsAdmin);
 
@@ -264,3 +266,5 @@ export const Admin = () => {
     </AdminBannersStateProvider>
   ) : null;
 };
+
+export default Admin;

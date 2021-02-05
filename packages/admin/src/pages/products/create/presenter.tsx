@@ -41,7 +41,7 @@ export interface ViewProps {
   featureValuesLoading: boolean;
 }
 
-export const AdminProductsCreatePresenter: React.FC<Props> = ({
+const AdminProductsCreatePresenter: React.FC<Props> = ({
   history,
   adminFeatureValuesState: {
     get: getFeatureValues,
@@ -147,3 +147,5 @@ export const AdminProductsCreatePresenter: React.FC<Props> = ({
     />
   );
 };
+
+export default AdminProductsCreatePresenter;

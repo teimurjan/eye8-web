@@ -3,7 +3,6 @@ import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
 import { Checkbox, LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';
-import { ViewProps as Props } from '@eye8/admin/pages/products/list/presenter';
 import { noop } from '@eye8/shared/utils';
 
 import {
@@ -14,6 +13,8 @@ import {
   ProductProductTypeRenderer,
   ProductTypeSelect,
 } from '../../../components';
+
+import { ViewProps as Props } from './presenter';
 
 export const NewProductButton = () => {
   const intl = useIntl();
@@ -45,7 +46,7 @@ const renderNoData = () => <NoProductsAvialable />;
 
 type Product = Props['products'][0];
 
-export const AdminProductsListView = ({
+const AdminProductsListView = ({
   products,
   isLoading,
   isDataLoaded,
@@ -135,3 +136,5 @@ export const AdminProductsListView = ({
     </Section>
   );
 };
+
+export default AdminProductsListView;

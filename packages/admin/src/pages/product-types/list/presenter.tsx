@@ -22,7 +22,7 @@ export interface ViewProps {
   available: boolean;
 }
 
-export const AdminProductTypesListPresenter = ({
+const AdminProductTypesListPresenter = ({
   View,
   adminProductTypesState: { isListLoading, entities: productTypes, get: getProductTypes, hasListLoaded, meta },
 }: Props) => {
@@ -73,3 +73,5 @@ export const AdminProductTypesListPresenter = ({
     />
   );
 };
+
+export default AdminProductTypesListPresenter;

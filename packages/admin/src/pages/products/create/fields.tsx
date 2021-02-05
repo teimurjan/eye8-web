@@ -17,7 +17,6 @@ import {
   SelectTrigger,
 } from '@eye8/admin-ui';
 import { useFeatureValuesOfProductType } from '@eye8/admin/hooks';
-import { AdminFeatureValuesCreateContainer } from '@eye8/admin/pages/feature-values/create/container';
 import { FeatureTypeListRawIntlResponseItem } from '@eye8/api/feature-type';
 import { FeatureValueListRawIntlResponseItem } from '@eye8/api/feature-value';
 import { ProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
@@ -34,6 +33,7 @@ import {
 
 import { ColorDecoration, ProductTypeSelect } from '../../../components';
 import { AdminFeatureValuesState } from '../../../state';
+import AdminFeatureValuesCreate from '../../feature-values/create';
 
 const QuantityField = ({ input, meta }: FieldRenderProps<string>) => {
   const intl = useIntl();
@@ -195,7 +195,7 @@ const FeatureValuesSelect = ({ featureValues, featureValuesLoading, input, meta 
           />
         );
       })}
-      {isAddingFeatureValue && <AdminFeatureValuesCreateContainer close={() => setAddingFeatureValue(false)} />}
+      {isAddingFeatureValue && <AdminFeatureValuesCreate close={() => setAddingFeatureValue(false)} />}
       <HelpText type="is-danger">{showError ? intl.formatMessage({ id: meta.error }) : undefined}</HelpText>
     </React.Fragment>
   );
@@ -275,7 +275,7 @@ export interface FieldsProps {
   featureValuesLoading: boolean;
 }
 
-export const Fields: React.SFC<FieldsProps> = React.memo(
+const Fields: React.SFC<FieldsProps> = React.memo(
   ({ productTypes, featureValues, LoadMoreProductTypes, productTypesLoading, featureValuesLoading }) => {
     const featureValuesOfProductType = useFeatureValuesOfProductType({ productTypes, featureValues });
     return (
@@ -311,3 +311,5 @@ export const Fields: React.SFC<FieldsProps> = React.memo(
       featureValuesLoading: defaultCompare,
     }),
 );
+
+export default Fields;

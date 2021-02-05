@@ -1,28 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { CHARACTERISTIC_NAME_FIELD_KEY, ViewProps as Props } from '@eye8/admin/pages/characteristics/edit/presenter';
-
-import { IntlField } from '../../../components';
 import { ModalForm } from '../../../components';
+import { Fields } from '../create';
 
-const Fields = () => {
-  const intl = useIntl();
+import { ViewProps as Props } from './presenter';
 
-  return (
-    <IntlField
-      key_={CHARACTERISTIC_NAME_FIELD_KEY}
-      label={intl.formatMessage({
-        id: 'AdminCharacteristics.nameInput.label',
-      })}
-      placeholder={intl.formatMessage({
-        id: 'AdminCharacteristics.nameInput.placeholder',
-      })}
-    />
-  );
-};
-
-export const AdminCharacteristicsEditView = ({
+const AdminCharacteristicsEditView = ({
   isOpen,
   edit,
   close,
@@ -52,3 +36,5 @@ export const AdminCharacteristicsEditView = ({
     />
   );
 };
+
+export default AdminCharacteristicsEditView;

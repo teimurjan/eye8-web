@@ -2,7 +2,6 @@ import { History } from 'history';
 import React from 'react';
 
 import { useAdminPromoCodesFilters } from '@eye8/admin/hooks';
-import { getErrorMessageID } from '@eye8/admin/pages/promo-codes/create/presenter';
 import { ProductListResponseItem } from '@eye8/api/product';
 import { PromoCodeListResponseItem } from '@eye8/api/promo-code';
 import { ProductService } from '@eye8/service/product';
@@ -10,6 +9,7 @@ import { PromoCodeService } from '@eye8/service/promo-code';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 import { AdminPromoCodesState } from '../../../state';
+import { getErrorMessageID } from '../create';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
@@ -31,7 +31,7 @@ export interface ViewProps {
   initialValues: object;
 }
 
-export const AdminPromoCodesEditPresenter: React.FC<Props> = ({
+const AdminPromoCodesEditPresenter: React.FC<Props> = ({
   history,
   adminPromoCodesState: { set: setPromoCodeToState },
   service,
@@ -123,3 +123,5 @@ export const AdminPromoCodesEditPresenter: React.FC<Props> = ({
     />
   );
 };
+
+export default AdminPromoCodesEditPresenter;

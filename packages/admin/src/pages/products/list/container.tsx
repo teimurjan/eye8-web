@@ -1,13 +1,14 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 
-import { AdminProductsListPresenter } from '@eye8/admin/pages/products/list/presenter';
-import { AdminProductsListView } from '@eye8/admin/pages/products/list/view';
 import { useDI } from '@eye8/di';
 
 import { useAdminProductsState } from '../../../state';
 
-export const AdminProductsListContainer = () => {
+import AdminProductsListPresenter from './presenter';
+import AdminProductsListView from './view';
+
+const AdminProductsListContainer = () => {
   const adminProductsState = useAdminProductsState();
   const {
     di: {
@@ -26,3 +27,5 @@ export const AdminProductsListContainer = () => {
     />
   );
 };
+
+export default AdminProductsListContainer;

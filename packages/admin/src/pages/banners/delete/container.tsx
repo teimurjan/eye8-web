@@ -5,7 +5,7 @@ import { useDI } from '@eye8/di';
 
 import { DeleteModal } from '../../../components';
 
-export const AdminBannersDeleteContainer = () => {
+const AdminBannersDeleteContainer = () => {
   const { di } = useDI();
   const { remove: deleteBanner } = useAdminBannersState();
 
@@ -20,3 +20,5 @@ export const AdminBannersDeleteContainer = () => {
     />
   );
 };
+
+export default AdminBannersDeleteContainer;

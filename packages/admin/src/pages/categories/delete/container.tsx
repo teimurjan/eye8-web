@@ -17,7 +17,7 @@ const getErrorMessageID = (e: Error) => {
   return 'errors.common';
 };
 
-export const AdminCategoriesDeleteContainer = () => {
+const AdminCategoriesDeleteContainer = () => {
   const { di } = useDI();
   const { remove: deleteCategory } = useAdminCategoriesState();
 
@@ -33,3 +33,5 @@ export const AdminCategoriesDeleteContainer = () => {
     />
   );
 };
+
+export default AdminCategoriesDeleteContainer;

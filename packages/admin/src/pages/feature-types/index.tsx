@@ -1,17 +1,20 @@
 import React from 'react';
 
-import { AdminFeatureTypesCreateContainer } from '@eye8/admin/pages/feature-types/create/container';
-import { AdminFeatureTypesDeleteContainer } from '@eye8/admin/pages/feature-types/delete/container';
-import { AdminFeatureTypesEditContainer } from '@eye8/admin/pages/feature-types/edit/container';
-import { AdminFeatureTypesListContainer } from '@eye8/admin/pages/feature-types/list/container';
-
 import { Page } from '../../components';
 
-export const AdminFeatureTypes = () => (
+import AdminFeatureTypesCreate from './create';
+import AdminFeatureTypesDelete from './delete';
+import AdminFeatureTypesEdit from './edit';
+import AdminFeatureTypesList from './list';
+
+const AdminFeatureTypes = () => (
   <Page
-    ListComponent={AdminFeatureTypesListContainer}
-    CreateComponent={AdminFeatureTypesCreateContainer}
-    EditComponent={AdminFeatureTypesEditContainer}
-    DeleteComponent={AdminFeatureTypesDeleteContainer}
+    ListComponent={AdminFeatureTypesList}
+    CreateComponent={AdminFeatureTypesCreate}
+    EditComponent={AdminFeatureTypesEdit}
+    DeleteComponent={AdminFeatureTypesDelete}
   />
 );
+
+export default AdminFeatureTypes;
+export { NewFeatureTypeButton } from './list'

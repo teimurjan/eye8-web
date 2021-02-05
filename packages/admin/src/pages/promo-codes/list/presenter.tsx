@@ -17,7 +17,7 @@ export interface ViewProps {
   onDeletedChange: () => void;
 }
 
-export const AdminPromoCodesListPresenter = ({
+const AdminPromoCodesListPresenter = ({
   View,
   adminPromoCodesState: { isListLoading, entities: promoCodes, get: getPromoCodes, hasListLoaded },
 }: Props) => {
@@ -45,3 +45,5 @@ export const AdminPromoCodesListPresenter = ({
     />
   );
 };
+
+export default AdminPromoCodesListPresenter;

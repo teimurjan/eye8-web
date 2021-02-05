@@ -1,13 +1,14 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router';
 
-import { AdminOrdersEditPresenter } from '@eye8/admin/pages/orders/edit/presenter';
-import { AdminOrdersEditView } from '@eye8/admin/pages/orders/edit/view';
 import { useDI } from '@eye8/di';
 
 import { useAdminOrdersState } from '../../../state';
 
-export const AdminOrdersEditContainer = () => {
+import AdminOrdersEditPresenter from './presenter';
+import AdminOrdersEditView from './view';
+
+const AdminOrdersEditContainer = () => {
   const history = useHistory();
   const params = useParams<{ id: string }>();
 
@@ -24,3 +25,5 @@ export const AdminOrdersEditContainer = () => {
     />
   );
 };
+
+export default AdminOrdersEditContainer;

@@ -96,7 +96,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminProductTypesCreatePresenter: React.FC<Props> = ({
+const AdminProductTypesCreatePresenter: React.FC<Props> = ({
   history,
   adminCategoriesState: {
     get: getCategories,
@@ -236,3 +236,5 @@ export const AdminProductTypesCreatePresenter: React.FC<Props> = ({
     />
   );
 };
+
+export default AdminProductTypesCreatePresenter;

@@ -48,7 +48,7 @@ export interface ViewProps {
   featureValuesLoading: boolean;
 }
 
-export const AdminProductsEditPresenter: React.FC<Props> = ({
+const AdminProductsEditPresenter: React.FC<Props> = ({
   productId,
   adminFeatureValuesState: {
     get: getFeatureValues,
@@ -179,3 +179,5 @@ export const AdminProductsEditPresenter: React.FC<Props> = ({
     />
   );
 };
+
+export default AdminProductsEditPresenter;

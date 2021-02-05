@@ -5,7 +5,7 @@ import { useDI } from '@eye8/di';
 import { DeleteModal } from '../../../components';
 import { useAdminFeatureValuesState } from '../../../state';
 
-export const AdminFeatureValuesDeleteContainer = () => {
+const AdminFeatureValuesDeleteContainer = () => {
   const { di } = useDI();
   const { remove: deleteFeatureValue } = useAdminFeatureValuesState();
 
@@ -20,3 +20,5 @@ export const AdminFeatureValuesDeleteContainer = () => {
     />
   );
 };
+
+export default AdminFeatureValuesDeleteContainer;

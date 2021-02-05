@@ -13,7 +13,7 @@ export interface ViewProps {
   isLoading: boolean;
 }
 
-export const AdminCategoriesListPresenter = ({
+const AdminCategoriesListPresenter = ({
   View,
   adminCategoriesState: { isListLoading, entities, get, hasListLoaded },
 }: Props) => {
@@ -23,3 +23,5 @@ export const AdminCategoriesListPresenter = ({
 
   return <View isDataLoaded={hasListLoaded} isLoading={isListLoading} categories={entities} />;
 };
+
+export default AdminCategoriesListPresenter;

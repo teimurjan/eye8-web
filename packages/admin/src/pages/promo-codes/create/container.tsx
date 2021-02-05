@@ -1,13 +1,14 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 
-import { AdminPromoCodesCreatePresenter } from '@eye8/admin/pages/promo-codes/create/presenter';
-import { AdminPromoCodesCreateView } from '@eye8/admin/pages/promo-codes/create/view';
 import { useDI } from '@eye8/di';
 
 import { useAdminPromoCodesState } from '../../../state';
 
-export const AdminPromoCodesCreateContainer = () => {
+import AdminPromoCodesCreatePresenter from './presenter';
+import AdminPromoCodesCreateView from './view';
+
+const AdminPromoCodesCreateContainer = () => {
   const history = useHistory();
 
   const { di } = useDI();
@@ -22,3 +23,5 @@ export const AdminPromoCodesCreateContainer = () => {
     />
   );
 };
+
+export default AdminPromoCodesCreateContainer;

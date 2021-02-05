@@ -1,5 +1,4 @@
 /** @jsx jsx */
-
 import { jsx } from '@emotion/core';
 import React from 'react';
 import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
@@ -63,7 +62,7 @@ const NameField = ({ input, meta, disabled }: FieldRenderProps<string>) => {
   );
 };
 
-export const Fields: React.SFC = () => {
+const Fields: React.SFC = () => {
   return (
     <React.Fragment>
       <FinalFormField key="name" name="name" component={NameField} />
@@ -71,3 +70,5 @@ export const Fields: React.SFC = () => {
     </React.Fragment>
   );
 };
+
+export default Fields;

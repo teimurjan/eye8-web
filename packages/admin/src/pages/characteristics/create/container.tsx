@@ -1,13 +1,15 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 
-import { AdminCharacteristicsCreatePresenter } from '@eye8/admin/pages/characteristics/create/presenter';
-import { AdminCharacteristicsCreateView } from '@eye8/admin/pages/characteristics/create/view';
 import { useDI } from '@eye8/di';
 
 import { useAdminCharacteristicsState } from '../../../state';
 
-export const AdminCharacteristicsCreateContainer = () => {
+import AdminCharacteristicsCreatePresenter from './presenter';
+import AdminCharacteristicsCreateView from './view';
+
+
+const AdminCharacteristicsCreateContainer = () => {
   const history = useHistory();
 
   const { di } = useDI();
@@ -22,3 +24,5 @@ export const AdminCharacteristicsCreateContainer = () => {
     />
   );
 };
+
+export default AdminCharacteristicsCreateContainer;

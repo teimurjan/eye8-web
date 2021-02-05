@@ -47,7 +47,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminCharacteristicValuesEditPresenter: React.FC<Props> = ({
+const AdminCharacteristicValuesEditPresenter: React.FC<Props> = ({
   characteristicValueId,
 
   service,
@@ -152,3 +152,5 @@ export const AdminCharacteristicValuesEditPresenter: React.FC<Props> = ({
     />
   );
 };
+
+export default AdminCharacteristicValuesEditPresenter;

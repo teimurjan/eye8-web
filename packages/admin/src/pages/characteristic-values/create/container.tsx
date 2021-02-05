@@ -1,17 +1,14 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 
-import {
-  AdminCharacteristicValuesCreatePresenter,
-  Props as PresenterProps,
-} from '@eye8/admin/pages/characteristic-values/create/presenter';
-import { AdminCharacteristicValuesCreateView } from '@eye8/admin/pages/characteristic-values/create/view';
 import { useDI } from '@eye8/di';
 
-import { useAdminCharacteristicValuesState } from '../../../state';
-import { useAdminCharacteristicsState } from '../../../state';
+import { useAdminCharacteristicValuesState, useAdminCharacteristicsState } from '../../../state';
 
-export const AdminCharacteristicValuesCreateContainer = ({ close }: Partial<Pick<PresenterProps, 'close'>>) => {
+import AdminCharacteristicValuesCreatePresenter, { Props as PresenterProps } from './presenter';
+import AdminCharacteristicValuesCreateView from './view';
+
+const AdminCharacteristicValuesCreateContainer = ({ close }: Partial<Pick<PresenterProps, 'close'>>) => {
   const history = useHistory();
   const defaultClose = React.useCallback(() => history.push('/admin/characteristicValues'), [history]);
 
@@ -29,3 +26,5 @@ export const AdminCharacteristicValuesCreateContainer = ({ close }: Partial<Pick
     />
   );
 };
+
+export default AdminCharacteristicValuesCreateContainer;

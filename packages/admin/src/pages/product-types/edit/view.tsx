@@ -1,17 +1,17 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Fields } from '@eye8/admin/pages/product-types/create/fields';
+import { ModalForm } from '../../../components';
 import {
+  Fields,
   PRODUCT_TYPE_NAME_FIELD_KEY,
   PRODUCT_TYPE_DESCRIPTION_FIELD_KEY,
   PRODUCT_TYPE_SHORT_DESCRIPTION_FIELD_KEY,
-} from '@eye8/admin/pages/product-types/create/presenter';
-import { ViewProps as Props } from '@eye8/admin/pages/product-types/edit/presenter';
+} from '../create';
 
-import { ModalForm } from '../../../components';
+import { ViewProps as Props } from './presenter';
 
-export const AdminProductTypesEditView = ({
+const AdminProductTypesEditView = ({
   isOpen,
   edit,
   close,
@@ -54,3 +54,5 @@ export const AdminProductTypesEditView = ({
     />
   );
 };
+
+export default AdminProductTypesEditView;

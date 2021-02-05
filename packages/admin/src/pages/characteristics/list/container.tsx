@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { AdminCharacteristicsListPresenter } from '@eye8/admin/pages/characteristics/list/presenter';
-import { AdminCharacteristicsListView } from '@eye8/admin/pages/characteristics/list/view';
-
 import { useAdminCharacteristicsState } from '../../../state';
 
-export const AdminCharacteristicsListContainer = () => {
+import AdminCharacteristicsListPresenter from './presenter';
+import AdminCharacteristicsListView from './view';
+
+
+const AdminCharacteristicsListContainer = () => {
   const adminCharacteristicsState = useAdminCharacteristicsState();
 
   return (
@@ -15,3 +16,5 @@ export const AdminCharacteristicsListContainer = () => {
     />
   );
 };
+
+export default AdminCharacteristicsListContainer;

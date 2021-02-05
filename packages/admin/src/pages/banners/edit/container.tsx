@@ -1,12 +1,13 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router';
 
-import { AdminBannersEditPresenter } from '@eye8/admin/pages/banners/edit/presenter';
-import { AdminBannersEditView } from '@eye8/admin/pages/banners/edit/view';
 import { useAdminBannersState } from '@eye8/admin/state';
 import { useDI } from '@eye8/di';
 
-export const AdminBannersEditContainer = () => {
+import AdminBannersEditPresenter from './presenter';
+import AdminBannersEditView from './view';
+
+const AdminBannersEditContainer = () => {
   const history = useHistory();
   const params = useParams<{ id: string }>();
 
@@ -23,3 +24,5 @@ export const AdminBannersEditContainer = () => {
     />
   );
 };
+
+export default AdminBannersEditContainer;

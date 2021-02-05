@@ -1,14 +1,15 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router';
 
-import { AdminFeatureValuesEditPresenter } from '@eye8/admin/pages/feature-values/edit/presenter';
-import { AdminFeatureValuesEditView } from '@eye8/admin/pages/feature-values/edit/view';
 import { useDI } from '@eye8/di';
 
-import { useAdminFeatureTypesState } from '../../../state';
-import { useAdminFeatureValuesState } from '../../../state';
+import { useAdminFeatureTypesState, useAdminFeatureValuesState } from '../../../state';
 
-export const AdminFeatureValuesEditContainer = () => {
+import AdminFeatureValuesEditPresenter from './presenter';
+import AdminFeatureValuesEditView from './view';
+
+
+const AdminFeatureValuesEditContainer = () => {
   const history = useHistory();
   const params = useParams<{ id: string }>();
 
@@ -27,3 +28,5 @@ export const AdminFeatureValuesEditContainer = () => {
     />
   );
 };
+
+export default AdminFeatureValuesEditContainer;

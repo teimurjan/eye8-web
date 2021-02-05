@@ -1,16 +1,18 @@
 import React from 'react';
 
-import { AdminRatesCreateContainer } from '@eye8/admin/pages/rates/create/container';
-import { AdminRatesDeleteContainer } from '@eye8/admin/pages/rates/delete/container';
-import { AdminRatesListContainer } from '@eye8/admin/pages/rates/list/container';
-
 import { Page } from '../../components';
 
-export const AdminRates = () => (
+import AdminRatesCreate from './create';
+import AdminRatesDelete from './delete';
+import AdminRatesList from './list';
+
+const AdminRates = () => (
   <Page
-    ListComponent={AdminRatesListContainer}
-    CreateComponent={AdminRatesCreateContainer}
+    ListComponent={AdminRatesList}
+    CreateComponent={AdminRatesCreate}
     EditComponent={() => null}
-    DeleteComponent={AdminRatesDeleteContainer}
+    DeleteComponent={AdminRatesDelete}
   />
 );
+
+export default AdminRates;

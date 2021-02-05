@@ -1,20 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Fields } from '@eye8/admin/pages/promo-codes/create/fields';
-import { ViewProps as Props } from '@eye8/admin/pages/promo-codes/edit/presenter';
-
 import { ModalForm } from '../../../components';
+import { Fields } from '../create';
 
-export const AdminPromoCodesEditView = ({
-  isOpen,
-  edit,
-  close,
-  error,
-  isUpdating,
-  isLoading,
-  initialValues,
-}: Props) => {
+import { ViewProps as Props } from './presenter';
+
+const AdminPromoCodesEditView = ({ isOpen, edit, close, error, isUpdating, isLoading, initialValues }: Props) => {
   const intl = useIntl();
   return (
     <ModalForm
@@ -32,3 +24,5 @@ export const AdminPromoCodesEditView = ({
     />
   );
 };
+
+export default AdminPromoCodesEditView;

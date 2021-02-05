@@ -13,7 +13,7 @@ export interface ViewProps {
   isLoading: boolean;
 }
 
-export const AdminRatesListPresenter = ({
+const AdminRatesListPresenter = ({
   View,
   adminRatesState: { isListLoading, entities: rates, get: getRates, hasListLoaded },
 }: Props) => {
@@ -24,3 +24,5 @@ export const AdminRatesListPresenter = ({
 
   return <View isDataLoaded={hasListLoaded} isLoading={isListLoading} rates={rates} />;
 };
+
+export default AdminRatesListPresenter;

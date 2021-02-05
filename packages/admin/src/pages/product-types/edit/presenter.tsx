@@ -3,11 +3,6 @@ import React from 'react';
 import * as yup from 'yup';
 
 import { useAdminProductTypesFilters } from '@eye8/admin/hooks';
-import {
-  PRODUCT_TYPE_NAME_FIELD_KEY,
-  PRODUCT_TYPE_DESCRIPTION_FIELD_KEY,
-  PRODUCT_TYPE_SHORT_DESCRIPTION_FIELD_KEY,
-} from '@eye8/admin/pages/product-types/create/presenter';
 import { ProductTypeDetailRawIntlResponseItem } from '@eye8/api/product-type';
 import { ProductTypeService } from '@eye8/service/product-type';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
@@ -19,6 +14,11 @@ import {
   AdminProductTypesState,
   AdminCategoriesState,
 } from '../../../state';
+import {
+  PRODUCT_TYPE_NAME_FIELD_KEY,
+  PRODUCT_TYPE_DESCRIPTION_FIELD_KEY,
+  PRODUCT_TYPE_SHORT_DESCRIPTION_FIELD_KEY,
+} from '../create';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
@@ -97,7 +97,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminProductTypesEditPresenter: React.FC<Props> = ({
+const AdminProductTypesEditPresenter: React.FC<Props> = ({
   history,
   adminCategoriesState: {
     get: getCategories,
@@ -253,3 +253,5 @@ export const AdminProductTypesEditPresenter: React.FC<Props> = ({
     />
   );
 };
+
+export default AdminProductTypesEditPresenter;

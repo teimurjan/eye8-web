@@ -240,7 +240,7 @@ type FieldsProps = Pick<
   'promo_code_amount' | 'promo_code_discount' | 'promo_code_products' | 'promo_code_value'
 >;
 
-export const Fields = (promoCodeProps: FieldsProps) => {
+const Fields = (promoCodeProps: FieldsProps) => {
   const intl = useIntl();
 
   return (
@@ -260,3 +260,5 @@ export const Fields = (promoCodeProps: FieldsProps) => {
     </React.Fragment>
   );
 };
+
+export default Fields;

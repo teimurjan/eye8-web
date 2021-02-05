@@ -149,7 +149,7 @@ interface Props {
   isEdit?: boolean;
 }
 
-export const Fields: React.SFC<Props> = ({ isEdit }) => {
+const Fields: React.SFC<Props> = ({ isEdit }) => {
   return (
     <React.Fragment>
       <FinalFormField key="value" name="value" component={ValueField} disabled={isEdit} />
@@ -161,3 +161,5 @@ export const Fields: React.SFC<Props> = ({ isEdit }) => {
     </React.Fragment>
   );
 };
+
+export default Fields;

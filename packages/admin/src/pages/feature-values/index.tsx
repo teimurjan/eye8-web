@@ -1,17 +1,20 @@
 import React from 'react';
 
-import { AdminFeatureValuesCreateContainer } from '@eye8/admin/pages/feature-values/create/container';
-import { AdminFeatureValuesDeleteContainer } from '@eye8/admin/pages/feature-values/delete/container';
-import { AdminFeatureValuesEditContainer } from '@eye8/admin/pages/feature-values/edit/container';
-import { AdminFeatureValuesListContainer } from '@eye8/admin/pages/feature-values/list/container';
-
 import { Page } from '../../components';
 
-export const AdminFeatureValues = () => (
+import AdminFeatureValuesCreate from './create';
+import AdminFeatureValuesDelete from './delete';
+import AdminFeatureValuesEdit from './edit';
+import AdminFeatureValuesList from './list';
+
+const AdminFeatureValues = () => (
   <Page
-    ListComponent={AdminFeatureValuesListContainer}
-    CreateComponent={AdminFeatureValuesCreateContainer}
-    EditComponent={AdminFeatureValuesEditContainer}
-    DeleteComponent={AdminFeatureValuesDeleteContainer}
+    ListComponent={AdminFeatureValuesList}
+    CreateComponent={AdminFeatureValuesCreate}
+    EditComponent={AdminFeatureValuesEdit}
+    DeleteComponent={AdminFeatureValuesDelete}
   />
 );
+
+export default AdminFeatureValues;
+export { NewFeatureValueButton } from './list'

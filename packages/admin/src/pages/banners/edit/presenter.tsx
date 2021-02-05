@@ -63,7 +63,7 @@ const validator = new SchemaValidator(
   ),
 );
 
-export const AdminBannersEditPresenter: React.FC<Props> = ({
+const AdminBannersEditPresenter: React.FC<Props> = ({
   history,
   adminBannersState: { set: setBannerToState },
   service,
@@ -183,3 +183,5 @@ export const AdminBannersEditPresenter: React.FC<Props> = ({
     />
   );
 };
+
+export default AdminBannersEditPresenter;
