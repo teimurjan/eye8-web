@@ -95,7 +95,8 @@
   "scripts": {
     "build": "./bin/build.js",
     "start:dev": "./bin/start-dev.js",
-    "start": "./bin/start.js"
+    "start": "./bin/start.js",
+    "lint": "eslint packages"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json}": [

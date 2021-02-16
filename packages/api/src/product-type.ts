@@ -134,7 +134,6 @@ export default class implements ProductTypeAPI {
         `/api/categories/${categorySlug}/product_types${buildSearchString({
           page,
           sort_by: queryValueOfSortingType[sortingType],
-          products: 1,
           available: flagToSearchStringValue(available),
           characteristics: characteristicValuesIds,
         })}`,
@@ -203,7 +202,6 @@ export default class implements ProductTypeAPI {
           page: 1,
           sort_by: queryValueOfSortingType[SortingType.RECENT],
           limit: 8,
-          products: 1,
           available: 1,
         })}`,
         {
