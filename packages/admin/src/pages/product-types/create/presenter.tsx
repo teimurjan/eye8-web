@@ -2,7 +2,7 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { ProductTypeService } from '@eye8/service/product-type';
+import { ProductTypeService } from '@eye8/service';
 import { availableLocales, objectWithout, SchemaValidator } from '@eye8/shared/utils';
 import { StateCacheStorage } from '@eye8/storage/state-cache';
 

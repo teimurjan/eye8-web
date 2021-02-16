@@ -3,8 +3,8 @@ import pick from 'lodash/pick';
 import React from 'react';
 import * as yup from 'yup';
 
-import { OrderListResponseItem } from '@eye8/api/order';
-import { OrderService, PromoCodeInvalidError } from '@eye8/service/order';
+import { Order } from '@eye8/api';
+import { OrderService, PromoCodeNotFoundError } from '@eye8/service';
 import { PHONE_REGEX, SchemaValidator } from '@eye8/shared/utils';
 
 import { AdminOrdersState } from '../../../state';
@@ -18,10 +18,7 @@ export interface Props {
 }
 
 export interface ViewProps
-  extends Pick<
-    OrderListResponseItem,
-    'promo_code_amount' | 'promo_code_discount' | 'promo_code_products' | 'promo_code_value'
-  > {
+  extends Pick<Order, 'promo_code_amount' | 'promo_code_discount' | 'promo_code_products' | 'promo_code_value'> {
   isOpen: boolean;
   edit: (values: {
     user_name: string;
@@ -57,7 +54,7 @@ const validator = new SchemaValidator(
 );
 
 export const getErrorMessageID = (e: Error) => {
-  if (e instanceof PromoCodeInvalidError) {
+  if (e instanceof PromoCodeNotFoundError) {
     return 'AdminOrders.errors.promoCodeInvalid';
   }
 
@@ -72,7 +69,7 @@ const AdminOrdersEditPresenter: React.FC<Props> = ({
   orderId,
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
-  const [order, setOrder] = React.useState<OrderListResponseItem | undefined>(undefined);
+  const [order, setOrder] = React.useState<Order | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);

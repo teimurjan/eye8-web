@@ -4,16 +4,16 @@ import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 
 import { Table } from '@eye8/admin-ui';
-import { ProductListResponseItem } from '@eye8/api/product';
+import { Product } from '@eye8/api';
 import { Tooltip } from '@eye8/shared/components';
 import { formatMediaURL } from '@eye8/shared/utils';
 
 import { Renderer } from '../table';
 
-type BaseRenderer = Renderer<ProductListResponseItem>;
+type BaseRenderer = Renderer<Product>;
 
 interface ProductTypeLinkProps {
-  productType: ProductListResponseItem['product_type'];
+  productType: Product['product_type'];
 }
 
 const ProductTypeLink = ({ productType }: ProductTypeLinkProps) => {

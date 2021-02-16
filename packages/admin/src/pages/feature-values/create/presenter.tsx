@@ -1,7 +1,7 @@
 import React from 'react';
 import * as yup from 'yup';
 
-import { FeatureValueService } from '@eye8/service/feature-value';
+import { FeatureValueService } from '@eye8/service';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
 import { getFieldName, parseFieldName } from '../../../components';

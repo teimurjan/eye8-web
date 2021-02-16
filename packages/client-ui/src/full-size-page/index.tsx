@@ -6,7 +6,7 @@ import React from 'react';
 
 import { Title, Container } from '@eye8/client-ui';
 
-interface Props {
+export interface Props {
   background: string;
   color?: string;
   title: string;
@@ -14,7 +14,7 @@ interface Props {
   centered?: boolean;
 }
 
-export const FullSizePage = ({ title, color, background, children, centered }: Props) => {
+const FullSizePage = ({ title, color, background, children, centered }: Props) => {
   const theme = useTheme<ClientUITheme>();
 
   return (
@@ -47,3 +47,5 @@ export const FullSizePage = ({ title, color, background, children, centered }: P
     </div>
   );
 };
+
+export default FullSizePage;

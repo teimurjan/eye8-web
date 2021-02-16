@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { CategoryListResponseItem } from '@eye8/api/category';
+import { Category } from '@eye8/api';
 import { useDI } from '@eye8/di';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 export interface ContextValue {
-  categories: CategoryListResponseItem[];
+  categories: Category[];
   isLoading: boolean;
   error?: string;
 }
@@ -15,7 +15,7 @@ const Context = React.createContext<ContextValue | null>(null);
 export interface ProviderProps {
   children?: React.ReactNode;
   initialProps?: {
-    categories: { [key: string]: CategoryListResponseItem };
+    categories: { [key: string]: Category };
     categoriesOrder: number[];
     error?: string;
   };
@@ -28,7 +28,7 @@ export const CategoriesStateProvider: React.SFC<ProviderProps> = ({ children, in
     },
   } = useDI();
 
-  const [data, setData] = React.useState<{ entities: { [key: string]: CategoryListResponseItem }; order: number[] }>({
+  const [data, setData] = React.useState<{ entities: { [key: string]: Category }; order: number[] }>({
     entities: initialProps?.categories ?? {},
     order: initialProps?.categoriesOrder ?? [],
   });

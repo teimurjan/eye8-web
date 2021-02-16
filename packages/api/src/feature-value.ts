@@ -1,63 +1,33 @@
-import { APIClient } from '@eye8/api/client';
-import { FeatureTypeListRawIntlResponseItem, FeatureTypeListResponseItem } from '@eye8/api/feature-type';
 import { HeadersManager } from '@eye8/manager/headers';
 import { buildSearchString } from '@eye8/shared/utils';
 
-export interface FeatureValueListResponseItem {
-  id: number;
-  name: string;
-  feature_type: FeatureTypeListResponseItem;
-  created_on: string;
-  updated_on: string;
-}
+import { FeatureValue, APIClient } from './types';
 
-export interface FeatureValueListRawIntlResponseItem {
-  id: number;
-  name: {
-    [key: string]: string;
-  };
-  feature_type: FeatureTypeListRawIntlResponseItem;
-  created_on: string;
-  updated_on: string;
-}
-
-export interface FeatureValueListResponseData {
-  data: FeatureValueListResponseItem[];
-}
-
-export interface FeatureValueListRawIntlResponseData {
-  data: FeatureValueListRawIntlResponseItem[];
-}
-
-export interface FeatureValueRawIntlResponseData {
-  data: FeatureValueListRawIntlResponseItem;
-}
-
-export interface FeatureValueCreatePayload {
+export interface CreatePayload {
   names: {
     [key: string]: string;
   };
   feature_type_id: number;
 }
 
-export interface FeatureValueEditPayload {
+export interface EditPayload {
   names: {
     [key: string]: string;
   };
   feature_type_id: number;
 }
 
-export interface FeatureValueAPI {
-  getAll(): Promise<FeatureValueListResponseData>;
-  getAllRawIntl(): Promise<FeatureValueListRawIntlResponseData>;
+interface FeatureValueAPI {
+  getAll(): Promise<{ data: FeatureValue[] }>;
+  getAllRawIntl(): Promise<{ data: FeatureValue<true>[] }>;
   delete(id: number): Promise<{}>;
-  create(payload: FeatureValueCreatePayload): Promise<FeatureValueRawIntlResponseData>;
-  edit(id: number, payload: FeatureValueEditPayload): Promise<FeatureValueRawIntlResponseData>;
+  create(payload: CreatePayload): Promise<{ data: FeatureValue<true> }>;
+  edit(id: number, payload: EditPayload): Promise<{ data: FeatureValue<true> }>;
   status(id: number): Promise<{}>;
-  getOneRawIntl(id: number): Promise<FeatureValueRawIntlResponseData>;
+  getOneRawIntl(id: number): Promise<{ data: FeatureValue<true> }>;
 }
 
-export class FeatureValueNotFound extends Error {
+export class NotFoundError extends Error {
   constructor() {
     super('Feature value not found');
     Object.setPrototypeOf(this, new.target.prototype);
@@ -75,7 +45,7 @@ export default class implements FeatureValueAPI {
 
   public getAll: FeatureValueAPI['getAll'] = async () => {
     try {
-      const response = await this.client.get<FeatureValueListResponseData>('/api/feature_values', {
+      const response = await this.client.get<{ data: FeatureValue[] }>('/api/feature_values', {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -86,7 +56,7 @@ export default class implements FeatureValueAPI {
 
   public getAllRawIntl: FeatureValueAPI['getAllRawIntl'] = async () => {
     try {
-      const response = await this.client.get<FeatureValueListRawIntlResponseData>(
+      const response = await this.client.get<{ data: FeatureValue<true>[] }>(
         `/api/feature_values${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -107,7 +77,7 @@ export default class implements FeatureValueAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new FeatureValueNotFound();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -115,7 +85,7 @@ export default class implements FeatureValueAPI {
 
   public create: FeatureValueAPI['create'] = async (payload) => {
     try {
-      const response = await this.client.post<FeatureValueRawIntlResponseData>(`/api/feature_values`, payload, {
+      const response = await this.client.post<{ data: FeatureValue<true> }>(`/api/feature_values`, payload, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -126,7 +96,7 @@ export default class implements FeatureValueAPI {
 
   public edit: FeatureValueAPI['edit'] = async (id, payload) => {
     try {
-      const response = await this.client.put<FeatureValueRawIntlResponseData>(
+      const response = await this.client.put<{ data: FeatureValue<true> }>(
         `/api/feature_values/${id}${buildSearchString({ raw_intl: 1 })}`,
         payload,
         {
@@ -136,7 +106,7 @@ export default class implements FeatureValueAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new FeatureValueNotFound();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -150,7 +120,7 @@ export default class implements FeatureValueAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new FeatureValueNotFound();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -158,7 +128,7 @@ export default class implements FeatureValueAPI {
 
   public getOneRawIntl: FeatureValueAPI['getOneRawIntl'] = async (id) => {
     try {
-      const response = await this.client.get<FeatureValueRawIntlResponseData>(
+      const response = await this.client.get<{ data: FeatureValue<true> }>(
         `/api/feature_values/${id}${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -167,7 +137,7 @@ export default class implements FeatureValueAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new FeatureValueNotFound();
+        throw new NotFoundError();
       }
       throw e;
     }

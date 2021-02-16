@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { Table } from '@eye8/admin-ui';
-import { FeatureValueListRawIntlResponseItem } from '@eye8/api/feature-value';
+import { FeatureValue } from '@eye8/api';
 
 import { Renderer } from '../table';
 
-type BaseRenderer = Renderer<FeatureValueListRawIntlResponseItem>;
+type BaseRenderer = Renderer<FeatureValue<true>>;
 
 class FeatureValueTypeRenderer implements BaseRenderer {
   private locale: string;

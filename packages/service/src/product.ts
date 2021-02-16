@@ -1,59 +1,54 @@
 import { normalize, schema } from 'normalizr';
 
 import {
+  Product,
+  PaginationMeta,
   ProductAPI,
-  GetAllOptions,
-  ProductListResponseItem,
-  ProductListResponseMeta,
-  DeleteOptions,
+  ProductNotFoundError,
+  ProductGetAllOptions,
+  ProductDeleteOptions,
   ProductCreatePayload,
   ProductEditPayload,
-  GetOneOptions,
-  GetForProductTypeOptions,
-  ProductNotFoundError,
-} from '@eye8/api/product';
+  ProductGetOneOptions,
+  ProductGetForProductTypeOptions,
+} from '@eye8/api';
 
-class ProductNotExistsError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
+export { ProductNotFoundError };
 
 export interface ProductService {
   getAll(
-    options: GetAllOptions,
+    options: ProductGetAllOptions,
   ): Promise<{
     entities: {
       products: {
-        [key: string]: ProductListResponseItem;
+        [key: string]: Product;
       };
     };
     result: number[];
-    meta: ProductListResponseMeta;
+    meta: PaginationMeta;
   }>;
   getForCart(
     ids: number[],
   ): Promise<{
     entities: {
       products: {
-        [key: string]: ProductListResponseItem;
+        [key: string]: Product;
       };
     };
     result: number[];
   }>;
-  delete(id: number, options?: DeleteOptions): Promise<{}>;
-  create(payload: ProductCreatePayload): Promise<ProductListResponseItem>;
-  edit(id: number, payload: ProductEditPayload): Promise<ProductListResponseItem>;
-  exists(id: number, options?: GetOneOptions): Promise<boolean>;
-  getOne(id: number, options?: GetOneOptions): Promise<ProductListResponseItem | undefined>;
+  delete(id: number, options?: ProductDeleteOptions): Promise<{}>;
+  create(payload: ProductCreatePayload): Promise<Product>;
+  edit(id: number, payload: ProductEditPayload): Promise<Product>;
+  exists(id: number, options?: ProductGetOneOptions): Promise<boolean>;
+  getOne(id: number, options?: ProductGetOneOptions): Promise<Product | undefined>;
   getForProductType(
     productTypeID: number,
-    options?: GetForProductTypeOptions,
+    options?: ProductGetForProductTypeOptions,
   ): Promise<{
     entities: {
       products: {
-        [key: string]: ProductListResponseItem;
+        [key: string]: Product;
       };
     };
     result: number[];
@@ -63,7 +58,7 @@ export interface ProductService {
   ): Promise<{
     entities: {
       products: {
-        [key: string]: ProductListResponseItem;
+        [key: string]: Product;
       };
     };
     result: number[];
@@ -99,7 +94,7 @@ export default class implements ProductService {
       return this.API.delete(id, options);
     } catch (e) {
       if (e instanceof ProductNotFoundError) {
-        throw new ProductNotExistsError();
+        throw new ProductNotFoundError();
       }
 
       throw e;
@@ -115,7 +110,7 @@ export default class implements ProductService {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
       if (e instanceof ProductNotFoundError) {
-        throw new ProductNotExistsError();
+        throw new ProductNotFoundError();
       }
 
       throw e;

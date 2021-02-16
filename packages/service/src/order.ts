@@ -1,33 +1,22 @@
 import { normalize, schema } from 'normalizr';
 
 import {
+  Order,
+  PaginationMeta,
   OrderAPI,
-  OrderListResponseItem,
-  OrderListResponseMeta,
+  OrderPromoCodeEmptyError,
+  OrderNotFoundError,
   OrderCreatePayload,
   OrderEditPayload,
-  PromoCodeIsNotSetError,
-  OrderNotFoundError,
-} from '@eye8/api/order';
+} from '@eye8/api';
 
-export class OrderNotExistsError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
-export class PromoCodeInvalidError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
+export { OrderPromoCodeEmptyError, OrderNotFoundError };
 
 export interface OrderService {
   getAll(): Promise<{
     entities: {
       orders: {
-        [key: string]: OrderListResponseItem;
+        [key: string]: Order;
       };
     };
     result: number[];
@@ -38,17 +27,17 @@ export interface OrderService {
   ): Promise<{
     entities: {
       orders: {
-        [key: string]: OrderListResponseItem;
+        [key: string]: Order;
       };
     };
     result: number[];
-    meta: OrderListResponseMeta;
+    meta: PaginationMeta;
   }>;
-  create(payload: OrderCreatePayload): Promise<OrderListResponseItem>;
-  edit(id: number, payload: OrderEditPayload): Promise<OrderListResponseItem>;
+  create(payload: OrderCreatePayload): Promise<Order>;
+  edit(id: number, payload: OrderEditPayload): Promise<Order>;
   delete(id: number): Promise<{}>;
   exists(id: number): Promise<boolean>;
-  getOne(id: number): Promise<OrderListResponseItem | undefined>;
+  getOne(id: number): Promise<Order | undefined>;
 }
 
 export default class implements OrderService {
@@ -71,8 +60,8 @@ export default class implements OrderService {
     try {
       return (await this.API.create(payload)).data;
     } catch (e) {
-      if (e instanceof PromoCodeIsNotSetError) {
-        throw new PromoCodeInvalidError();
+      if (e instanceof OrderPromoCodeEmptyError) {
+        throw new OrderPromoCodeEmptyError();
       }
       throw e;
     }
@@ -83,10 +72,10 @@ export default class implements OrderService {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
       if (e instanceof OrderNotFoundError) {
-        throw new OrderNotExistsError();
+        throw new OrderNotFoundError();
       }
-      if (e instanceof PromoCodeIsNotSetError) {
-        throw new PromoCodeInvalidError();
+      if (e instanceof OrderPromoCodeEmptyError) {
+        throw new OrderPromoCodeEmptyError();
       }
       throw e;
     }
@@ -97,7 +86,7 @@ export default class implements OrderService {
       return await this.API.delete(id);
     } catch (e) {
       if (e instanceof OrderNotFoundError) {
-        throw new OrderNotExistsError();
+        throw new OrderNotFoundError();
       }
       throw e;
     }
@@ -120,7 +109,7 @@ export default class implements OrderService {
       return (await this.API.getOne(id)).data;
     } catch (e) {
       if (e instanceof OrderNotFoundError) {
-        throw new OrderNotExistsError();
+        throw new OrderNotFoundError();
       }
       throw e;
     }

@@ -4,7 +4,7 @@ import { useTheme } from 'emotion-theming';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { FullSizePage } from '@eye8/client-ui/full-size-page';
+import { FullSizePage } from '@eye8/client-ui';
 import { useDebounce } from '@eye8/shared/hooks';
 import { PAGE_LOADER_ID } from '@eye8/shared/utils';
 

@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { Table } from '@eye8/admin-ui';
-import { ProductListResponseItem } from '@eye8/api/product';
+import { Product } from '@eye8/api';
 
 import { Renderer } from '../table';
 
-type BaseRenderer = Renderer<ProductListResponseItem>;
+type BaseRenderer = Renderer<Product>;
 
 class ProductFeaturesRenderer implements BaseRenderer {
   public renderHeader: BaseRenderer['renderHeader'] = (title: string, { componentKey }) => (

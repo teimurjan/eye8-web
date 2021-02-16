@@ -1,10 +1,12 @@
 import React from 'react';
 
+import { Rate } from '@eye8/api';
 import { useDI } from '@eye8/di';
-import { GroupedRates } from '@eye8/service/rate';
 
 export interface ContextValue {
-  rates: GroupedRates;
+  rates: {
+    [key: string]: Rate[];
+  };
   isLoading: boolean;
   error?: string;
   fetchRates: (date?: string) => Promise<void>;
@@ -15,7 +17,9 @@ const Context = React.createContext<ContextValue | null>(null);
 export interface ProviderProps {
   children: React.ReactNode;
   initialProps?: {
-    rates: GroupedRates;
+    rates: {
+      [key: string]: Rate[];
+    };
     error?: string;
   };
 }
@@ -44,7 +48,13 @@ export const RatesStateProvider: React.SFC<ProviderProps> = ({ initialProps, chi
   };
 
   React.useEffect(() => {
-    return rateService.addChangeListener((_, rates) => setRates(rates as GroupedRates));
+    return rateService.addChangeListener((_, rates) =>
+      setRates(
+        rates as {
+          [key: string]: Rate[];
+        },
+      ),
+    );
   }, [rateService]);
 
   return (

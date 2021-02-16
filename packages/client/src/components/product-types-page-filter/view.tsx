@@ -3,7 +3,7 @@ import { jsx, css } from '@emotion/core';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { ProductTypeSortingType } from '@eye8/api/product-type';
+import { ProductTypeSortingType } from '@eye8/api';
 import { Filter, ScrollableContainer } from '@eye8/client-ui';
 import { mediaQueries } from '@eye8/shared/styles';
 

@@ -1,16 +1,16 @@
 import React from 'react';
 
 import { useDI } from '@eye8/di';
-import { CategoryHasChildrenError, CategoryHasProductTypesError } from '@eye8/service/category';
+import { CategoryDeletionWithChildrenError, CategoryDeletionWithProductTypesError } from '@eye8/service';
 
 import { DeleteModal } from '../../../components';
 import { useAdminCategoriesState } from '../../../state/categories';
 
 const getErrorMessageID = (e: Error) => {
-  if (e instanceof CategoryHasChildrenError) {
+  if (e instanceof CategoryDeletionWithChildrenError) {
     return 'AdminCategories.errors.hasChildren';
   }
-  if (e instanceof CategoryHasProductTypesError) {
+  if (e instanceof CategoryDeletionWithProductTypesError) {
     return 'AdminCategories.errors.hasProductTypes';
   }
 

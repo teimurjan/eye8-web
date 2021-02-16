@@ -3,7 +3,7 @@ import React from 'react';
 import { useDI, ContextValue as DependenciesContextValue } from '@eye8/di';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
-export interface EntityContextValue<Entity, AgregatedEntity, Meta = undefined, Params = {}> {
+export interface EntityContextValue<Entity, AgregatedEntity = Entity, Meta = undefined, Params = {}> {
   entities: AgregatedEntity[];
   isListLoading: boolean;
   hasListLoaded: boolean;

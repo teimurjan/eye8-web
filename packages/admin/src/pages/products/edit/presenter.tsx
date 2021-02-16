@@ -3,10 +3,8 @@ import React from 'react';
 import * as yup from 'yup';
 
 import { useAdminProductsFilters, useSelectProductTypes } from '@eye8/admin/hooks';
-import { ProductListResponseItem } from '@eye8/api/product';
-import { ProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
-import { ProductService } from '@eye8/service/product';
-import { ProductTypeService } from '@eye8/service/product-type';
+import { Product, TinyProductType } from '@eye8/api';
+import { ProductService, ProductTypeService } from '@eye8/service';
 import { SchemaValidator } from '@eye8/shared/utils';
 
 import { AdminProductsState, AdminFeatureValuesState } from '../../../state';
@@ -41,7 +39,7 @@ export interface ViewProps {
   close: () => void;
   validate?: (values: object) => object | Promise<object>;
   featureValues: AdminFeatureValuesState['entities'];
-  productTypes: ProductTypeListRawIntlMinifiedResponseItem[];
+  productTypes: TinyProductType<true>[];
   initialValues?: FormValues;
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
@@ -62,7 +60,7 @@ const AdminProductsEditPresenter: React.FC<Props> = ({
   View,
   close,
 }) => {
-  const [product, setProduct] = React.useState<ProductListResponseItem | undefined>(undefined);
+  const [product, setProduct] = React.useState<Product | undefined>(undefined);
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(true);

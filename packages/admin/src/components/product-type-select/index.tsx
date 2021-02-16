@@ -3,10 +3,10 @@ import { FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
 import { FormSelectField, SelectTrigger } from '@eye8/admin-ui';
-import { ProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
+import { TinyProductType } from '@eye8/api';
 
 interface Props {
-  productTypes: ProductTypeListRawIntlMinifiedResponseItem[];
+  productTypes: TinyProductType<true>[];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
   clearable?: boolean;

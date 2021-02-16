@@ -2,8 +2,8 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { CategoryListRawIntlResponseItem } from '@eye8/api/category';
-import { CategoryService } from '@eye8/service/category';
+import { Category } from '@eye8/api';
+import { CategoryService } from '@eye8/service';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
 import { getFieldName, parseFieldName } from '../../../components';
@@ -55,7 +55,7 @@ const AdminCategoriesEditPresenter: React.FC<Props> = ({
   categoryId,
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
-  const [category, setCategory] = React.useState<CategoryListRawIntlResponseItem | undefined>(undefined);
+  const [category, setCategory] = React.useState<Category<true> | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);

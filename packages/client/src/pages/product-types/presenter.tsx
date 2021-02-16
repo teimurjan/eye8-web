@@ -1,14 +1,14 @@
 import { NextRouter } from 'next/router';
 import React from 'react';
 
-import { CategoryListResponseItem } from '@eye8/api/category';
 import {
-  ProductTypeListResponseItem,
-  ProductTypeListResponseMeta,
+  Category,
+  ProductType,
+  PaginationMeta,
   ProductTypeSortingType,
-  queryValueOfSortingType,
-} from '@eye8/api/product-type';
-import { ProductTypeService } from '@eye8/service/product-type';
+  queryValueOfProductTypeSortingType,
+} from '@eye8/api';
+import { ProductTypeService } from '@eye8/service';
 import { agregateOrderedMapToArray, buildSearchString } from '@eye8/shared/utils';
 
 import { ProductTypeListViewProps, ProductTypesPageFilter } from '../../components';
@@ -18,9 +18,9 @@ export interface Props {
   productTypeService: ProductTypeService;
   router: NextRouter;
   initialProps: {
-    productTypes: { [key: string]: ProductTypeListResponseItem };
-    productTypesMeta: ProductTypeListResponseMeta;
-    category?: CategoryListResponseItem;
+    productTypes: { [key: string]: ProductType };
+    productTypesMeta: PaginationMeta;
+    category?: Category;
     productTypesOrder: number[];
     error?: string;
     categorySlug?: string;
@@ -38,11 +38,11 @@ export const getCharacteristicValuesIdsFromQuery = (query: NextRouter['query']) 
 const ProductTypesPagePresenter = ({ ListView, productTypeService, initialProps, router }: Props) => {
   const [error, setError] = React.useState<string | undefined>(initialProps?.error);
   const [isLoading, setLoading] = React.useState(false);
-  const [category, setCategory] = React.useState<CategoryListResponseItem | undefined>(initialProps?.category);
+  const [category, setCategory] = React.useState<Category | undefined>(initialProps?.category);
   const [productTypesData, setProductTypesData] = React.useState<{
-    entities: { [key: number]: ProductTypeListResponseItem };
+    entities: { [key: number]: ProductType };
     order: number[];
-    meta: ProductTypeListResponseMeta;
+    meta: PaginationMeta;
   }>({
     entities: initialProps?.productTypes ?? {},
     order: initialProps?.productTypesOrder ?? [],
@@ -94,7 +94,7 @@ const ProductTypesPagePresenter = ({ ListView, productTypeService, initialProps,
     }) => {
       const pageQueryValue = page || productTypesData.meta.page;
       const sortByQueryValue =
-        queryValueOfSortingType[typeof newSortingType === 'undefined' ? sortingType : newSortingType];
+        queryValueOfProductTypeSortingType[typeof newSortingType === 'undefined' ? sortingType : newSortingType];
       return buildSearchString({
         page: pageQueryValue,
         sort_by: sortByQueryValue,

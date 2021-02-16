@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { BannerListResponseItem } from '@eye8/api/banner';
-import { ProductTypeListResponseItem } from '@eye8/api/product-type';
-import { BannerService } from '@eye8/service/banner';
-import { ProductTypeService } from '@eye8/service/product-type';
+import { Banner } from '@eye8/api';
+import { ProductType } from '@eye8/api';
+import { BannerService } from '@eye8/service';
+import { ProductTypeService } from '@eye8/service';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 export interface Props {
@@ -11,8 +11,8 @@ export interface Props {
   bannerService: BannerService;
   productTypeService: ProductTypeService;
   initialProps?: {
-    banners: { [key: string]: BannerListResponseItem };
-    productTypes: { [key: string]: ProductTypeListResponseItem };
+    banners: { [key: string]: Banner };
+    productTypes: { [key: string]: ProductType };
     bannersOrder: number[];
     productTypesOrder: number[];
     error: string | undefined;
@@ -20,18 +20,18 @@ export interface Props {
 }
 
 export interface ViewProps {
-  banners: BannerListResponseItem[];
-  productTypes: ProductTypeListResponseItem[];
+  banners: Banner[];
+  productTypes: ProductType[];
   error?: string;
 }
 
 const HomePresenter: React.FC<Props> = ({ View, bannerService, productTypeService, initialProps }) => {
   const [bannersData, setBannersData] = React.useState<{
-    entities: { [key: number]: BannerListResponseItem };
+    entities: { [key: number]: Banner };
     order: number[];
   }>({ entities: initialProps?.banners ?? {}, order: initialProps?.bannersOrder ?? [] });
   const [productTypesData, setProductTypesData] = React.useState<{
-    entities: { [key: number]: ProductTypeListResponseItem };
+    entities: { [key: number]: ProductType };
     order: number[];
   }>({ entities: initialProps?.productTypes ?? {}, order: initialProps?.productTypesOrder ?? [] });
   const [error, setError] = React.useState<string | undefined>(initialProps ? initialProps.error : undefined);

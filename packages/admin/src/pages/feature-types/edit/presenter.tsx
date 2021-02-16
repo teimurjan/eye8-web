@@ -2,8 +2,8 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { FeatureTypeListRawIntlResponseItem } from '@eye8/api/feature-type';
-import { FeatureTypeService } from '@eye8/service/feature-type';
+import { FeatureType } from '@eye8/api';
+import { FeatureTypeService } from '@eye8/service';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
 import { getFieldName, parseFieldName } from '../../../components';
@@ -52,7 +52,7 @@ const AdminFeatureTypesEditPresenter: React.FC<Props> = ({
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
-  const [featureType, setFeatureType] = React.useState<FeatureTypeListRawIntlResponseItem | undefined>(undefined);
+  const [featureType, setFeatureType] = React.useState<FeatureType<true> | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
 

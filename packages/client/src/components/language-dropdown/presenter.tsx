@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IntlService } from '@eye8/service/intl';
+import { IntlService } from '@eye8/service';
 import { PopoverTriggerClickProps, PopoverPlacement, PopoverTriggerHoverProps } from '@eye8/shared/components';
 import { safeWindowOperation } from '@eye8/shared/utils';
 

@@ -3,7 +3,7 @@ import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
 import { Checkbox, Control, Field, FormCheckboxField, FormTextField, HelpText, Label } from '@eye8/admin-ui';
-import { ProductListResponseItem } from '@eye8/api/product';
+import { Product } from '@eye8/api';
 
 import { ProductsSelect } from '../../../components';
 
@@ -116,7 +116,7 @@ const DisableOnUseField = ({ input, meta }: FieldRenderProps<boolean>) => {
   );
 };
 
-const ProductsField = ({ input, meta }: FieldRenderProps<ProductListResponseItem[]>) => {
+const ProductsField = ({ input, meta }: FieldRenderProps<Product[]>) => {
   const intl = useIntl();
 
   const [isAllSet, setAllSet] = React.useState(input.value.length === 0);

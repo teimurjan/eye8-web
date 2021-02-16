@@ -68,7 +68,7 @@ RUN env \
   SHOP_NAME="$_SHOP_NAME" \
   INSTAGRAM_URL="$_INSTAGRAM_URL" \
   TIKTOK_URL="$_TIKTOK_URL" \
-  lerna run --scope "@eye8/app" build --stream
+  yarn build
 
 EXPOSE 3000
 
@@ -86,4 +86,4 @@ CMD env \
   SHOP_NAME="$_SHOP_NAME" \
   INSTAGRAM_URL="$_INSTAGRAM_URL" \
   TIKTOK_URL="$_TIKTOK_URL" \
-  lerna run --scope "@eye8/app" start:next --stream
+  yarn start

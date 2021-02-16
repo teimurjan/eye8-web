@@ -1,11 +1,11 @@
 import {
-  AuthAPI,
   LogInPayload,
   SignUpPayload,
-  EmailOrPasswordInvalidError,
   DuplicateEmailError,
+  EmailOrPasswordInvalidError,
   SignupNotFoundError,
-} from '@eye8/api/auth';
+  AuthAPI,
+} from '@eye8/api';
 import { decodeAccessToken, AuthorizedUser } from '@eye8/shared/state';
 import { AuthStorage } from '@eye8/storage/auth';
 import { StateCacheStorage } from '@eye8/storage/state-cache';
@@ -18,24 +18,7 @@ export interface AuthService {
   logOut(): void;
 }
 
-export class EmailExistsError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
-export class InvalidCredentialsError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
-export class InvalidSignupTokenError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
+export { DuplicateEmailError, EmailOrPasswordInvalidError, SignupNotFoundError };
 
 export default class implements AuthService {
   private API: AuthAPI;
@@ -57,7 +40,7 @@ export default class implements AuthService {
       return decodeAccessToken(accessToken);
     } catch (e) {
       if (e instanceof EmailOrPasswordInvalidError) {
-        throw new InvalidCredentialsError();
+        throw new EmailOrPasswordInvalidError();
       }
       throw e;
     }
@@ -68,7 +51,7 @@ export default class implements AuthService {
       await this.API.signUp(payload);
     } catch (e) {
       if (e instanceof DuplicateEmailError) {
-        throw new EmailExistsError();
+        throw new DuplicateEmailError();
       }
       throw e;
     }
@@ -79,7 +62,7 @@ export default class implements AuthService {
       await this.API.confirmSignup(token);
     } catch (e) {
       if (e instanceof SignupNotFoundError) {
-        throw new InvalidSignupTokenError();
+        throw new SignupNotFoundError();
       }
       throw e;
     }

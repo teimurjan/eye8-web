@@ -1,7 +1,7 @@
 import { NextRouter } from 'next/router';
 import React from 'react';
 
-import { AuthService, InvalidSignupTokenError } from '@eye8/service/auth';
+import { AuthService, SignupNotFoundError } from '@eye8/service';
 
 interface Props {
   View: React.ComponentType<ViewProps>;
@@ -32,7 +32,7 @@ const ConfirmSignupPresenter = ({ View, service, router }: Props) => {
           setError('ConfirmSignup.invalidToken');
         }
       } catch (e) {
-        if (e instanceof InvalidSignupTokenError) {
+        if (e instanceof SignupNotFoundError) {
           setError('ConfirmSignup.invalidToken');
         } else {
           setError('errors.common');

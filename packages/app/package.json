@@ -14,11 +14,11 @@
   },
   "homepage": "https://eye8.kg",
   "scripts": {
-    "start": "env DISABLE_SW=true ts-node --project tsconfig.server.json server/index.ts",
-    "start:next": "env NODE_ENV=production node dist/index.js",
-    "build:next": "next build",
+    "dev": "env DISABLE_SW=true ts-node --project tsconfig.server.json server/index.ts",
+    "start": "env NODE_ENV=production node dist/index.js",
+    "build:client": "next build",
     "build:server": "tsc --project tsconfig.server.json",
-    "build": "npm run build:next && npm run build:server"
+    "build": "npm run build:client && npm run build:server"
   },
   "dependencies": {
     "@eye8/admin": "0.0.0",

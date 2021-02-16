@@ -1,12 +1,8 @@
 import uniq from 'lodash/uniq';
 import React from 'react';
 
-import {
-  ProductTypeListRawIntlMinifiedResponseItem,
-  ProductTypeListResponseMeta,
-  ProductTypeSortingType,
-} from '@eye8/api/product-type';
-import { ProductTypeService } from '@eye8/service/product-type';
+import { TinyProductType, PaginationMeta, ProductTypeSortingType } from '@eye8/api';
+import { ProductTypeService } from '@eye8/service';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 interface Args {
@@ -16,12 +12,12 @@ interface Args {
 
 const useSelectProductTypes = ({ productTypeService, mandatoryProductTypeId }: Args) => {
   const [data, setData] = React.useState<{
-    entities: { [id: string]: ProductTypeListRawIntlMinifiedResponseItem };
+    entities: { [id: string]: TinyProductType<true> };
     order: number[];
   }>({ entities: {}, order: [] });
   const [isLoading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>(undefined);
-  const [meta, setMeta] = React.useState<ProductTypeListResponseMeta>({
+  const [meta, setMeta] = React.useState<PaginationMeta>({
     count: 0,
     pages_count: 0,
     page: 0,

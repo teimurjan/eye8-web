@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { useDI } from '@eye8/di';
-import { PromoCodeHasOrdersError } from '@eye8/service/promo-code';
+import { PromoCodeDeletionWithOrdersError } from '@eye8/service';
 
 import { DeleteModal } from '../../../components';
 import { useAdminPromoCodesState } from '../../../state';
 
 const getErrorMessageID = (e: Error) => {
-  if (e instanceof PromoCodeHasOrdersError) {
+  if (e instanceof PromoCodeDeletionWithOrdersError) {
     return 'AdminPromoCodes.errors.hasOrders';
   }
 

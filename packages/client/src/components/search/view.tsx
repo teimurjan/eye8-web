@@ -5,16 +5,17 @@ import React from 'react';
 import { Search as SearchIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
-import { Anchor, UnderlinedInput, LinkPassingProps, Subtitle, WithIcon } from '@eye8/client-ui';
+import { Anchor, UnderlinedInput, WithIcon } from '@eye8/client-ui';
 import { Popover, Drawer, LoaderLayout } from '@eye8/shared/components';
 import { useBoolean, useDebounce } from '@eye8/shared/hooks';
 import { IconSize, mediaQueries } from '@eye8/shared/styles';
-import { formatMediaURL } from '@eye8/shared/utils';
+
+import SearchProductTypeItem from '../search-product-type-item';
 
 import { ViewProps as Props } from './presenter';
 
 const inputCSS = css`
-  width: 400px !important;
+  width: 500px !important;
   max-width: 100%;
 
   @media ${mediaQueries.maxWidth768} {
@@ -63,31 +64,7 @@ const SearchView: React.FC<Props> = ({ productTypes, isLoading, error, onSearchV
     return (
       <React.Fragment>
         {productTypes.length > 0 &&
-          productTypes.map((productType) => (
-            <Popover.Item
-              Component={LinkPassingProps}
-              key={productType.id}
-              as={`/products/${productType.slug}`}
-              href="/products/[slug]"
-              css={css`
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: flex;
-                align-items: center;
-              `}
-            >
-              <img
-                alt={productType.name}
-                css={css`
-                  width: 50px;
-                  height: 50px;
-                  margin-right: 12px;
-                `}
-                src={formatMediaURL(productType.image)}
-              />{' '}
-              <Subtitle size={5}>{productType.name}</Subtitle>
-            </Popover.Item>
-          ))}
+          productTypes.map((productType) => <SearchProductTypeItem productType={productType} />)}
         {productTypes.length === 0 && (
           <Popover.Item Component="div">{intl.formatMessage({ id: 'common.noResults' })}</Popover.Item>
         )}

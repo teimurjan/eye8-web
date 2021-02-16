@@ -1,59 +1,9 @@
-import { APIClient } from '@eye8/api/client';
 import { HeadersManager } from '@eye8/manager/headers';
 import { buildSearchString } from '@eye8/shared/utils';
 
-export interface OrderItem {
-  id: number;
-  quantity: number;
-  product_price_per_item: number;
-  product_discount: number;
-  product?: {
-    id: number;
-    quantity: number;
-    product_type: {
-      id: number;
-      name: string;
-      slug: string;
-    };
-  };
-}
+import { Order, PaginationMeta, APIClient } from './types';
 
-// LIST
-export interface OrderListResponseItem {
-  id: number;
-  user_name: string;
-  user_phone_number: string;
-  user_address: string;
-  created_on: string;
-  updated_on: string;
-  is_deleted: boolean | null;
-  items: OrderItem[];
-  status: 'idle' | 'completed' | 'approved' | 'rejected';
-  promo_code_value?: string;
-  promo_code_products?: number[];
-  promo_code_discount?: number;
-  promo_code_amount?: number;
-}
-
-export interface OrderListResponseMeta {
-  count: number;
-  pages_count: number;
-  limit: number;
-  page: number;
-}
-
-export interface OrderListResponseData {
-  data: OrderListResponseItem[];
-  meta: OrderListResponseMeta;
-}
-
-// DETAIL
-export interface OrderResponseData {
-  data: OrderListResponseItem;
-}
-
-// PAYLOADS
-export interface OrderCreatePayload {
+export interface CreatePayload {
   user_name: string;
   user_phone_number: string;
   user_address: string;
@@ -64,7 +14,7 @@ export interface OrderCreatePayload {
   promo_code?: string;
 }
 
-export interface OrderEditPayload {
+export interface EditPayload {
   user_name: string;
   user_phone_number: string;
   user_address: string;
@@ -78,24 +28,23 @@ export interface OrderEditPayload {
   status: string;
   promo_code?: string;
 }
-
-export interface OrderAPI {
-  getAll(): Promise<OrderListResponseData>;
-  getForUser(userID: number, page: number): Promise<OrderListResponseData>;
-  create(payload: OrderCreatePayload): Promise<OrderResponseData>;
-  edit(orderID: number, payload: OrderEditPayload): Promise<OrderResponseData>;
-  getOne(orderID: number): Promise<OrderResponseData>;
+interface OrderAPI {
+  getAll(): Promise<{ data: Order[]; meta: PaginationMeta }>;
+  getForUser(userID: number, page: number): Promise<{ data: Order[]; meta: PaginationMeta }>;
+  create(payload: CreatePayload): Promise<{ data: Order }>;
+  edit(orderID: number, payload: EditPayload): Promise<{ data: Order }>;
+  getOne(orderID: number): Promise<{ data: Order }>;
   status(id: number): Promise<{}>;
   delete(id: number): Promise<{}>;
 }
 
-export class OrderNotFoundError extends Error {
+export class NotFoundError extends Error {
   constructor() {
     super('Order type not found');
     Object.setPrototypeOf(this, new.target.prototype);
   }
 }
-export class PromoCodeIsNotSetError extends Error {
+export class PromoCodeEmptyError extends Error {
   constructor() {
     super('Promo code invalid');
     Object.setPrototypeOf(this, new.target.prototype);
@@ -113,7 +62,7 @@ export default class implements OrderAPI {
 
   public getAll: OrderAPI['getAll'] = async () => {
     try {
-      const response = await this.client.get<OrderListResponseData>(`/api/orders`, {
+      const response = await this.client.get<{ data: Order[]; meta: PaginationMeta }>(`/api/orders`, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -124,13 +73,13 @@ export default class implements OrderAPI {
 
   public create: OrderAPI['create'] = async (data) => {
     try {
-      const response = await this.client.post<OrderResponseData>(`/api/orders`, data, {
+      const response = await this.client.post<{ data: Order }>(`/api/orders`, data, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
     } catch (e) {
       if (e.response.data.promo_code) {
-        throw new PromoCodeIsNotSetError();
+        throw new PromoCodeEmptyError();
       }
       throw e;
     }
@@ -138,16 +87,16 @@ export default class implements OrderAPI {
 
   public edit: OrderAPI['edit'] = async (orderID, data) => {
     try {
-      const response = await this.client.put<OrderResponseData>(`/api/orders/${orderID}`, data, {
+      const response = await this.client.put<{ data: Order }>(`/api/orders/${orderID}`, data, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new OrderNotFoundError();
+        throw new NotFoundError();
       }
       if (e.response.data.promo_code) {
-        throw new PromoCodeIsNotSetError();
+        throw new PromoCodeEmptyError();
       }
       throw e;
     }
@@ -155,7 +104,7 @@ export default class implements OrderAPI {
 
   public getForUser: OrderAPI['getForUser'] = async (userID, page) => {
     try {
-      const response = await this.client.get<OrderListResponseData>(
+      const response = await this.client.get<{ data: Order[]; meta: PaginationMeta }>(
         `/api/users/${userID}/orders${buildSearchString({ page, limit: 10 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -169,13 +118,13 @@ export default class implements OrderAPI {
 
   public getOne: OrderAPI['getOne'] = async (orderID) => {
     try {
-      const response = await this.client.get<OrderResponseData>(`/api/orders/${orderID}`, {
+      const response = await this.client.get<{ data: Order }>(`/api/orders/${orderID}`, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new OrderNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -189,7 +138,7 @@ export default class implements OrderAPI {
       return {};
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new OrderNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -203,7 +152,7 @@ export default class implements OrderAPI {
       return {};
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new OrderNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }

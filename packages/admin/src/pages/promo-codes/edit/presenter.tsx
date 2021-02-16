@@ -2,10 +2,10 @@ import { History } from 'history';
 import React from 'react';
 
 import { useAdminPromoCodesFilters } from '@eye8/admin/hooks';
-import { ProductListResponseItem } from '@eye8/api/product';
-import { PromoCodeListResponseItem } from '@eye8/api/promo-code';
-import { ProductService } from '@eye8/service/product';
-import { PromoCodeService } from '@eye8/service/promo-code';
+import { Product } from '@eye8/api';
+import { PromoCode } from '@eye8/api';
+import { ProductService } from '@eye8/service';
+import { PromoCodeService } from '@eye8/service';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 import { AdminPromoCodesState } from '../../../state';
@@ -22,7 +22,7 @@ export interface Props {
 
 export interface ViewProps {
   isOpen: boolean;
-  edit: (values: { isActive: boolean; disableOnUse: boolean; products: ProductListResponseItem[] }) => void;
+  edit: (values: { isActive: boolean; disableOnUse: boolean; products: Product[] }) => void;
   isUpdating: boolean;
   isLoading: boolean;
   error?: string;
@@ -44,9 +44,9 @@ const AdminPromoCodesEditPresenter: React.FC<Props> = ({
   } = useAdminPromoCodesFilters();
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
-  const [promoCode, setPromoCode] = React.useState<PromoCodeListResponseItem | undefined>(undefined);
+  const [promoCode, setPromoCode] = React.useState<PromoCode | undefined>(undefined);
   const [productsData, setProductsData] = React.useState<{
-    entities: { [key: string]: ProductListResponseItem };
+    entities: { [key: string]: Product };
     order: number[];
   }>({ entities: {}, order: [] });
   const [isLoading, setLoading] = React.useState(false);

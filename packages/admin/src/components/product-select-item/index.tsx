@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 
 import { Subtitle } from '@eye8/admin-ui';
-import { ProductListResponseItem } from '@eye8/api/product';
+import { Product } from '@eye8/api';
 import { IconWrapper } from '@eye8/shared/components';
 import { IconSize } from '@eye8/shared/styles';
 
@@ -15,7 +15,7 @@ import ProductSelect from '../product-select/container';
 interface Props {
   id?: number;
   name: string;
-  onChange: (product: ProductListResponseItem) => void;
+  onChange: (product: Product) => void;
   footer: React.ReactNode;
 }
 

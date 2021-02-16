@@ -2,7 +2,7 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { FeatureTypeService } from '@eye8/service/feature-type';
+import { FeatureTypeService } from '@eye8/service';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
 import { getFieldName, parseFieldName } from '../../../components';

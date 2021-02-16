@@ -1,75 +1,40 @@
-import { APIClient } from '@eye8/api/client';
 import { HeadersManager } from '@eye8/manager/headers';
 import { buildSearchString } from '@eye8/shared/utils';
 
-export interface CategoryListResponseItem {
-  id: number;
-  name: string;
-  parent_category_id: number | null;
-  slug: string;
-  created_on: string;
-  updated_on: string;
-}
+import { Category, APIClient } from './types';
 
-export interface CategoryListRawIntlResponseItem {
-  id: number;
-  name: {
-    [key: string]: string;
-  };
-  parent_category_id: number | null;
-  slug: string;
-  created_on: string;
-  updated_on: string;
-}
-
-export interface CategoryListResponseData {
-  data: CategoryListResponseItem[];
-}
-
-export interface CategoryDetailResponseData {
-  data: CategoryListResponseItem;
-}
-
-export interface CategoryListRawIntlResponseData {
-  data: CategoryListRawIntlResponseItem[];
-}
-
-export interface CategoryRawIntlResponseData {
-  data: CategoryListRawIntlResponseItem;
-}
-
-export interface CategoryCreatePayload {
+export interface CreatePayload {
   names: {
     [key: string]: string;
   };
   parent_category_id?: number;
 }
 
-export interface CategoryAPI {
-  getAll(): Promise<CategoryListResponseData>;
-  getAllRawIntl(): Promise<CategoryListRawIntlResponseData>;
+interface CategoryAPI {
+  getAll(): Promise<{ data: Category[] }>;
+  getAllRawIntl(): Promise<{ data: Category<true>[] }>;
   delete(id: number): Promise<{}>;
-  create(payload: CategoryCreatePayload): Promise<CategoryRawIntlResponseData>;
-  edit(id: number, payload: CategoryCreatePayload): Promise<CategoryRawIntlResponseData>;
+  create(payload: CreatePayload): Promise<{ data: Category<true> }>;
+  edit(id: number, payload: CreatePayload): Promise<{ data: Category<true> }>;
   status(id: number): Promise<{}>;
-  getOneRawIntl(id: number): Promise<CategoryRawIntlResponseData>;
-  getOne(id: number): Promise<CategoryDetailResponseData>;
-  getOneBySlug(slug: string): Promise<CategoryDetailResponseData>;
+  getOneRawIntl(id: number): Promise<{ data: Category<true> }>;
+  getOne(id: number): Promise<{ data: Category }>;
+  getOneBySlug(slug: string): Promise<{ data: Category }>;
 }
 
-export class CategoryNotFoundError extends Error {
+export class NotFoundError extends Error {
   constructor() {
     super('Category not found');
     Object.setPrototypeOf(this, new.target.prototype);
   }
 }
-export class CategoryWithChildrenNotDeletedError extends Error {
+export class DeletionWithChildrenError extends Error {
   constructor() {
     super('Category with children cannot be deleted');
     Object.setPrototypeOf(this, new.target.prototype);
   }
 }
-export class CategoryWithProductTypesNotDeletedError extends Error {
+export class DeletionWithProductTypesError extends Error {
   constructor() {
     super('Category with product types cannot be deleted');
     Object.setPrototypeOf(this, new.target.prototype);
@@ -87,7 +52,7 @@ export default class implements CategoryAPI {
 
   public getAll: CategoryAPI['getAll'] = async () => {
     try {
-      const response = await this.client.get<CategoryListResponseData>('/api/categories', {
+      const response = await this.client.get<{ data: Category[] }>('/api/categories', {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -98,7 +63,7 @@ export default class implements CategoryAPI {
 
   public getAllRawIntl: CategoryAPI['getAllRawIntl'] = async () => {
     try {
-      const response = await this.client.get<CategoryListRawIntlResponseData>(
+      const response = await this.client.get<{ data: Category<true>[] }>(
         `/api/categories${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -118,13 +83,13 @@ export default class implements CategoryAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new CategoryNotFoundError();
+        throw new NotFoundError();
       }
       if (e.response.data.children) {
-        throw new CategoryWithChildrenNotDeletedError();
+        throw new DeletionWithChildrenError();
       }
       if (e.response.data.product_types) {
-        throw new CategoryWithProductTypesNotDeletedError();
+        throw new DeletionWithProductTypesError();
       }
 
       throw e;
@@ -139,7 +104,7 @@ export default class implements CategoryAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new CategoryNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -147,7 +112,7 @@ export default class implements CategoryAPI {
 
   public create: CategoryAPI['create'] = async (payload) => {
     try {
-      const response = await this.client.post<CategoryRawIntlResponseData>(`/api/categories`, payload, {
+      const response = await this.client.post<{ data: Category<true> }>(`/api/categories`, payload, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -158,7 +123,7 @@ export default class implements CategoryAPI {
 
   public edit: CategoryAPI['edit'] = async (id, payload) => {
     try {
-      const response = await this.client.put<CategoryRawIntlResponseData>(
+      const response = await this.client.put<{ data: Category<true> }>(
         `/api/categories/${id}${buildSearchString({ raw_intl: 1 })}`,
         payload,
         {
@@ -168,7 +133,7 @@ export default class implements CategoryAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new CategoryNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -176,7 +141,7 @@ export default class implements CategoryAPI {
 
   public getOneRawIntl: CategoryAPI['getOneRawIntl'] = async (id) => {
     try {
-      const response = await this.client.get<CategoryRawIntlResponseData>(
+      const response = await this.client.get<{ data: Category<true> }>(
         `/api/categories/${id}${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -185,7 +150,7 @@ export default class implements CategoryAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new CategoryNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -193,13 +158,13 @@ export default class implements CategoryAPI {
 
   public getOneBySlug: CategoryAPI['getOneBySlug'] = async (slug) => {
     try {
-      const response = await this.client.get<CategoryDetailResponseData>(`/api/categories/${slug}`, {
+      const response = await this.client.get<{ data: Category }>(`/api/categories/${slug}`, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new CategoryNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }

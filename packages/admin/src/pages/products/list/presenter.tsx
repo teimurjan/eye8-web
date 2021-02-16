@@ -2,8 +2,8 @@ import { History } from 'history';
 import React from 'react';
 
 import { useAdminProductsFilters, useSelectProductTypes } from '@eye8/admin/hooks';
-import { ProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
-import { ProductTypeService } from '@eye8/service/product-type';
+import { TinyProductType } from '@eye8/api';
+import { ProductTypeService } from '@eye8/service';
 
 import { AdminProductsState } from '../../../state';
 
@@ -21,7 +21,7 @@ export interface ViewProps {
   isLoading: boolean;
   onPageChange: (page: number) => void;
   selectedProductTypeId?: number;
-  productTypes: ProductTypeListRawIntlMinifiedResponseItem[];
+  productTypes: TinyProductType<true>[];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
   onProductTypeChange: (id?: number) => void;

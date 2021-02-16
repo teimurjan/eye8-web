@@ -17,7 +17,7 @@ interface CharacteristicValuesSelectProps extends FieldRenderProps<string[]> {
 const CharacteristicValuesSelect = ({ characteristicValues, input, meta }: CharacteristicValuesSelectProps) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
-
+  
   return (
     <FormSelectField
       labelProps={{

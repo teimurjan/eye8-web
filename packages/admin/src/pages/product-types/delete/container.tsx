@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { useDI } from '@eye8/di';
-import { ProductTypeHasProductsError } from '@eye8/service/product-type';
+import { ProductTypeDeletionWithProductsError } from '@eye8/service';
 
 import { DeleteModal } from '../../../components';
 import { useAdminProductTypesState } from '../../../state';
 
 const getErrorMessageID = (e: Error) => {
-  if (e instanceof ProductTypeHasProductsError) {
+  if (e instanceof ProductTypeDeletionWithProductsError) {
     return 'AdminProductTypes.errors.hasProducts';
   }
 

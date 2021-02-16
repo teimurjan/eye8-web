@@ -1,41 +1,30 @@
 import { normalize, schema } from 'normalizr';
 
-import {
-  BannerAPI,
-  BannerNotFoundError,
-  BannerListResponseItem,
-  BannerListRawIntlResponseItem,
-  BannerCreatePayload,
-} from '@eye8/api/banner';
+import { BannerCreatePayload, BannerNotFoundError, Banner, BannerAPI } from '@eye8/api';
 
 export interface BannerService {
   getAll(): Promise<{
     entities: {
-      banners: { [key: string]: BannerListResponseItem };
+      banners: { [key: string]: Banner };
     };
     result: number[];
   }>;
   getAllRawIntl(): Promise<{
     entities: {
       banners: {
-        [key: string]: BannerListRawIntlResponseItem;
+        [key: string]: Banner<true>;
       };
     };
     result: number[];
   }>;
   delete(id: number): Promise<{}>;
-  create(payload: BannerCreatePayload): Promise<BannerListRawIntlResponseItem>;
+  create(payload: BannerCreatePayload): Promise<Banner<true>>;
   exists(id: number): Promise<boolean>;
-  getOneRawIntl(id: number): Promise<BannerListRawIntlResponseItem | undefined>;
-  edit(id: number, payload: BannerCreatePayload): Promise<BannerListRawIntlResponseItem>;
+  getOneRawIntl(id: number): Promise<Banner<true> | undefined>;
+  edit(id: number, payload: BannerCreatePayload): Promise<Banner<true>>;
 }
 
-class BannerNotExistsError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
+export { BannerNotFoundError };
 
 export default class implements BannerService {
   private API: BannerAPI;
@@ -58,7 +47,7 @@ export default class implements BannerService {
       return await this.API.delete(id);
     } catch (e) {
       if (e instanceof BannerNotFoundError) {
-        throw new BannerNotExistsError();
+        throw new BannerNotFoundError();
       }
 
       throw e;
@@ -75,7 +64,7 @@ export default class implements BannerService {
       return true;
     } catch (e) {
       if (e instanceof BannerNotFoundError) {
-        return false;
+        throw new BannerNotFoundError();
       }
 
       throw e;
@@ -87,7 +76,7 @@ export default class implements BannerService {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
       if (e instanceof BannerNotFoundError) {
-        throw new BannerNotExistsError();
+        throw new BannerNotFoundError();
       }
 
       throw e;

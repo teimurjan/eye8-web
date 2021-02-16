@@ -2,11 +2,8 @@ import reject from 'lodash/reject';
 import React from 'react';
 import * as yup from 'yup';
 
-import { ProductListResponseItem } from '@eye8/api/product';
-import { PromoCodeListResponseItem } from '@eye8/api/promo-code';
-import { OrderService, PromoCodeInvalidError } from '@eye8/service/order';
-import { ProductService } from '@eye8/service/product';
-import { PromoCodeService } from '@eye8/service/promo-code';
+import { Product, PromoCode } from '@eye8/api';
+import { OrderService, ProductService, PromoCodeService, PromoCodeNotFoundError } from '@eye8/service';
 import { getUserPropertySafe } from '@eye8/shared/helpers';
 import { useBoolean, useForceUpdate, useLazyInitialization, useMousetrap } from '@eye8/shared/hooks';
 import { UserState } from '@eye8/shared/state';
@@ -14,7 +11,7 @@ import { agregateOrderedMapToArray, SchemaValidator, isTrimmed, PHONE_REGEX } fr
 import { CartStorage } from '@eye8/storage/cart';
 
 export const getErrorMessageID = (e: Error) => {
-  if (e instanceof PromoCodeInvalidError) {
+  if (e instanceof PromoCodeNotFoundError) {
     return 'AdminOrders.errors.promoCodeInvalid';
   }
 
@@ -35,11 +32,11 @@ export interface ViewProps {
   open: () => void;
   close: () => void;
   toggle: () => void;
-  products: ProductListResponseItem[];
+  products: Product[];
   isLoading: boolean;
   error?: string;
-  addMore: (product: ProductListResponseItem) => void;
-  remove: (product: ProductListResponseItem) => void;
+  addMore: (product: Product) => void;
+  remove: (product: Product) => void;
   getProductCount: (id: number) => number;
   cartItemsCount: number;
   step: number;
@@ -48,7 +45,7 @@ export interface ViewProps {
   validator: SchemaValidator;
   initialValues: Partial<FormValues>;
   onSubmit: (values: FormValues) => Promise<void>;
-  promoCode?: PromoCodeListResponseItem;
+  promoCode?: PromoCode;
   onPromoCodeApply: (newPromoCode: string) => void;
 }
 
@@ -81,10 +78,10 @@ const CartPresenter: React.FC<Props> = ({
 
   const [step, setStep] = React.useState(0);
   const [isLoading, setLoading] = React.useState(true);
-  const [promoCode, setPromoCode] = React.useState<PromoCodeListResponseItem | undefined>(undefined);
+  const [promoCode, setPromoCode] = React.useState<PromoCode | undefined>(undefined);
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [data, setData] = React.useState<{
-    entities: { [key: number]: ProductListResponseItem };
+    entities: { [key: number]: Product };
     order: number[];
   }>({ entities: {}, order: [] });
   const { update } = useForceUpdate();
@@ -117,14 +114,14 @@ const CartPresenter: React.FC<Props> = ({
   }, [isOpen]);
 
   const addMore = React.useCallback(
-    (product: ProductListResponseItem) => {
+    (product: Product) => {
       storage.add(product);
     },
     [storage],
   );
 
   const remove = React.useCallback(
-    (product: ProductListResponseItem) => {
+    (product: Product) => {
       const newCount = storage.remove(product);
       if (newCount === 0) {
         setData({

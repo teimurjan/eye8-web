@@ -3,7 +3,7 @@ import React from 'react';
 import * as yup from 'yup';
 
 import { RateName } from '@eye8/client/components';
-import { RateService, RateLimitExceededError } from '@eye8/service/rate';
+import { RateService, RateCreationNotAllowedError } from '@eye8/service';
 import { SchemaValidator } from '@eye8/shared/utils';
 
 import { AdminRatesState } from '../../../state';
@@ -35,7 +35,7 @@ const validator = new SchemaValidator(
 );
 
 export const getErrorMessageID = (e: Error) => {
-  if (e instanceof RateLimitExceededError) {
+  if (e instanceof RateCreationNotAllowedError) {
     return 'AdminRates.errors.limitExceeded';
   }
 

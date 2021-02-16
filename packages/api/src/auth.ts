@@ -1,7 +1,7 @@
-import { APIClient } from '@eye8/api/client';
 import { HeadersManager } from '@eye8/manager/headers';
 
-export interface AuthResponseData {
+import { APIClient } from './types';
+export interface AuthTokens {
   access_token: string;
 }
 
@@ -16,7 +16,7 @@ export interface SignUpPayload {
   password: string;
 }
 
-export interface AuthAPI {
+interface AuthAPI {
   logIn(
     payload: LogInPayload,
   ): Promise<{
@@ -56,7 +56,7 @@ export default class implements AuthAPI {
 
   public logIn: AuthAPI['logIn'] = async ({ email, password }) => {
     try {
-      const response = await this.client.post<AuthResponseData>(
+      const response = await this.client.post<AuthTokens>(
         '/api/auth/login',
         {
           email,

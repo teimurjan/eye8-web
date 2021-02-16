@@ -1,14 +1,12 @@
-import { OrderItem } from '@eye8/api/order';
-import { ProductListResponseItem } from '@eye8/api/product';
-import { PromoCodeListResponseItem } from '@eye8/api/promo-code';
+import { OrderItem, Product, PromoCode } from '@eye8/api';
 import { isPromoCodeApplicableForProduct } from '@eye8/shared/helpers/promo-code';
 import { calculateDiscountedPrice } from '@eye8/shared/utils';
 
-type ValuableProductProps = Pick<ProductListResponseItem, 'id' | 'price' | 'discount'>;
-type ValuablePromoCodeProps = Pick<PromoCodeListResponseItem, 'products' | 'amount' | 'value' | 'discount'>;
+type OrderRelatedProduct = Pick<Product, 'id' | 'price' | 'discount'>;
+type OrderRelatedPromoCode = Pick<PromoCode, 'products' | 'amount' | 'value' | 'discount'>;
 type ProductCountGetter = (productId: number) => number;
 
-export const getOrderTotalPrice = (items: OrderItem[], promoCode?: ValuablePromoCodeProps) => {
+export const getOrderTotalPrice = (items: OrderItem[], promoCode?: OrderRelatedPromoCode) => {
   const products = items.map((item) => ({
     id: item.product ? item.product.id : NaN,
     price: item.product_price_per_item,
@@ -25,9 +23,9 @@ export const getOrderTotalPrice = (items: OrderItem[], promoCode?: ValuablePromo
 };
 
 export const getCartTotalPrice = (
-  products: ValuableProductProps[],
+  products: OrderRelatedProduct[],
   getProductCount: ProductCountGetter,
-  promoCode?: ValuablePromoCodeProps,
+  promoCode?: OrderRelatedPromoCode,
 ) => {
   if (promoCode && promoCode.products) {
     const promoCodeHasTarget_ = promoCode.products.length > 0;
@@ -42,9 +40,9 @@ export const getCartTotalPrice = (
 };
 
 const getTotalForTargetedPromoCode = (
-  products: ValuableProductProps[],
+  products: OrderRelatedProduct[],
   getProductCount: ProductCountGetter,
-  promoCode: ValuablePromoCodeProps,
+  promoCode: OrderRelatedPromoCode,
 ) => {
   return products.reduce((acc, product) => {
     const productCount = getProductCount(product.id);
@@ -62,9 +60,9 @@ const getTotalForTargetedPromoCode = (
 };
 
 const getTotalForUntargetedPromoCode = (
-  products: ValuableProductProps[],
+  products: OrderRelatedProduct[],
   getProductCount: ProductCountGetter,
-  promoCode: ValuablePromoCodeProps,
+  promoCode: OrderRelatedPromoCode,
 ) => {
   const total = getTotal(products, getProductCount);
   return Math.max(
@@ -73,7 +71,7 @@ const getTotalForUntargetedPromoCode = (
   );
 };
 
-const getTotal = (products: ValuableProductProps[], getProductCount: (productId: number) => number) => {
+const getTotal = (products: OrderRelatedProduct[], getProductCount: (productId: number) => number) => {
   return products.reduce((acc, product) => {
     const productCount = getProductCount(product.id);
     return acc + calculateDiscountedPrice(product.price, product.discount) * productCount;

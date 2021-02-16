@@ -4,14 +4,14 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 import { Button } from '@eye8/admin-ui';
-import { ProductListResponseItem } from '@eye8/api/product';
+import { Product } from '@eye8/api';
 
 import ProductsSelectItem from '../product-select-item';
 import ProductSelectContainer from '../product-select/container';
 
 interface Props {
-  products: ProductListResponseItem[];
-  onChange: (products: ProductListResponseItem[]) => void;
+  products: Product[];
+  onChange: (products: Product[]) => void;
   allowAddition?: boolean;
 }
 
@@ -19,21 +19,21 @@ const ProductsSelect = ({ products, onChange, allowAddition = true }: Props) => 
   const intl = useIntl();
 
   const setProduct = React.useCallback(
-    (product: ProductListResponseItem) => {
+    (product: Product) => {
       onChange(products.map((product_) => (product_.id === product.id ? product : product_)));
     },
     [onChange, products],
   );
 
   const removeProduct = React.useCallback(
-    (product: ProductListResponseItem) => {
+    (product: Product) => {
       onChange(products.filter((product_) => product_.id !== product.id));
     },
     [onChange, products],
   );
 
   const addProduct = React.useCallback(
-    (product: ProductListResponseItem) => {
+    (product: Product) => {
       onChange([...products, product]);
     },
     [onChange, products],

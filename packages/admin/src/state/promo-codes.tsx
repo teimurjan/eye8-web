@@ -1,14 +1,9 @@
 import React from 'react';
 
-import { PromoCodeListResponseItem } from '@eye8/api/promo-code';
+import { PromoCode } from '@eye8/api';
 import { makeEntityState, EntityContextValue } from '@eye8/shared/utils';
 
-export type ContextValue = EntityContextValue<
-  PromoCodeListResponseItem,
-  PromoCodeListResponseItem,
-  undefined,
-  { deleted: boolean }
->;
+export type ContextValue = EntityContextValue<PromoCode, PromoCode, undefined, { deleted: boolean }>;
 
 const Context = React.createContext<ContextValue | null>(null);
 

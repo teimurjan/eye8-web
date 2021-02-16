@@ -3,8 +3,8 @@ import React from 'react';
 import * as yup from 'yup';
 
 import { AdminBannersState } from '@eye8/admin/state';
-import { BannerListRawIntlResponseItem } from '@eye8/api/banner';
-import { BannerService } from '@eye8/service/banner';
+import { Banner } from '@eye8/api';
+import { BannerService } from '@eye8/service';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
 import { getFieldName, parseFieldName } from '../../../components';
@@ -71,7 +71,7 @@ const AdminBannersEditPresenter: React.FC<Props> = ({
   bannerId,
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
-  const [banner, setBanner] = React.useState<BannerListRawIntlResponseItem | undefined>(undefined);
+  const [banner, setBanner] = React.useState<Banner<true> | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);

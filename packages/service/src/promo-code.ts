@@ -1,52 +1,34 @@
 import { normalize, schema } from 'normalizr';
 
 import {
+  PromoCode,
   PromoCodeAPI,
-  PromoCodeListResponseItem,
-  PromoCodeCreatePayload,
-  PromoCodeEditPayload,
-  GetOneOptions,
   PromoCodeNotFoundError,
   PromoCodeValueDuplicatedError,
-  PromoCodeWithOrdersNotDeletedError,
-} from '@eye8/api/promo-code';
+  PromoCodeDeletionWithOrdersError,
+  PromoCodeCreatePayload,
+  PromoCodeEditPayload,
+  PromoCodeGetOneOptions,
+} from '@eye8/api';
 
-export class PromoCodeNotExistsError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
-export class PromoCodeValueAlreadyExistsError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
-export class PromoCodeHasOrdersError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
-
+export { PromoCodeNotFoundError, PromoCodeValueDuplicatedError, PromoCodeDeletionWithOrdersError };
 export interface PromoCodeService {
   getAll(
     deleted?: boolean,
   ): Promise<{
     entities: {
       promoCodes: {
-        [key: string]: PromoCodeListResponseItem;
+        [key: string]: PromoCode;
       };
     };
     result: number[];
   }>;
-  create(payload: PromoCodeCreatePayload): Promise<PromoCodeListResponseItem>;
-  edit(id: number, payload: PromoCodeEditPayload): Promise<PromoCodeListResponseItem>;
+  create(payload: PromoCodeCreatePayload): Promise<PromoCode>;
+  edit(id: number, payload: PromoCodeEditPayload): Promise<PromoCode>;
   delete(id: number, forever?: boolean): Promise<{}>;
   exists(id: number, deleted?: boolean): Promise<boolean>;
-  getOne(id: number, options?: GetOneOptions): Promise<PromoCodeListResponseItem | undefined>;
-  getByValue(value: string): Promise<PromoCodeListResponseItem | undefined>;
+  getOne(id: number, options?: PromoCodeGetOneOptions): Promise<PromoCode | undefined>;
+  getByValue(value: string): Promise<PromoCode | undefined>;
 }
 
 export default class implements PromoCodeService {
@@ -65,7 +47,7 @@ export default class implements PromoCodeService {
       return (await this.API.create(payload)).data;
     } catch (e) {
       if (e instanceof PromoCodeValueDuplicatedError) {
-        throw new PromoCodeValueAlreadyExistsError();
+        throw new PromoCodeValueDuplicatedError();
       }
       throw e;
     }
@@ -76,13 +58,13 @@ export default class implements PromoCodeService {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
       if (e instanceof PromoCodeNotFoundError) {
-        throw new PromoCodeNotExistsError();
+        throw new PromoCodeNotFoundError();
       }
       if (e instanceof PromoCodeValueDuplicatedError) {
-        throw new PromoCodeValueAlreadyExistsError();
+        throw new PromoCodeValueDuplicatedError();
       }
-      if (e instanceof PromoCodeWithOrdersNotDeletedError) {
-        throw new PromoCodeHasOrdersError();
+      if (e instanceof PromoCodeDeletionWithOrdersError) {
+        throw new PromoCodeDeletionWithOrdersError();
       }
       throw e;
     }
@@ -93,10 +75,10 @@ export default class implements PromoCodeService {
       return await this.API.delete(id, forever);
     } catch (e) {
       if (e instanceof PromoCodeNotFoundError) {
-        throw new PromoCodeNotExistsError();
+        throw new PromoCodeNotFoundError();
       }
-      if (e instanceof PromoCodeWithOrdersNotDeletedError) {
-        throw new PromoCodeHasOrdersError();
+      if (e instanceof PromoCodeDeletionWithOrdersError) {
+        throw new PromoCodeDeletionWithOrdersError();
       }
       throw e;
     }

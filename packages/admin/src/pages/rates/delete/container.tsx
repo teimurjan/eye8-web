@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { useDI } from '@eye8/di';
-import { RateHasOrdersError } from '@eye8/service/rate';
+import { RateNotFoundError } from '@eye8/service';
 
 import { DeleteModal } from '../../../components';
 import { useAdminRatesState } from '../../../state';
 
 const getErrorMessageID = (e: Error) => {
-  if (e instanceof RateHasOrdersError) {
+  if (e instanceof RateNotFoundError) {
     return 'AdminRates.errors.hasOrders';
   }
 

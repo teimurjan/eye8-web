@@ -2,7 +2,7 @@ import React from 'react';
 import * as yup from 'yup';
 
 import { AuthModalState } from '@eye8/client/state';
-import { EmailExistsError, AuthService } from '@eye8/service/auth';
+import { DuplicateEmailError, AuthService } from '@eye8/service';
 import { SchemaValidator } from '@eye8/shared/utils';
 
 export interface Props {
@@ -85,7 +85,7 @@ class SignUpPresenter extends React.Component<Props, State> {
 
       this.setSuccess();
     } catch (e) {
-      if (e instanceof EmailExistsError) {
+      if (e instanceof DuplicateEmailError) {
         this.setGlobalError('SignUpForm.errors.emailExists');
       } else {
         this.setGlobalError('errors.common');

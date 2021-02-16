@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import * as yup from 'yup';
 
 import { AuthModalState } from '@eye8/client/state';
-import { AuthService, InvalidCredentialsError } from '@eye8/service/auth';
+import { AuthService, EmailOrPasswordInvalidError } from '@eye8/service';
 import { useToast, ToastId } from '@eye8/shared/context/toast';
 import { isUserAdmin } from '@eye8/shared/helpers';
 import { UserState } from '@eye8/shared/state';
@@ -38,7 +38,7 @@ const validator = new SchemaValidator(
 );
 
 const getErrorMessageID = (e: Error) => {
-  if (e instanceof InvalidCredentialsError) {
+  if (e instanceof EmailOrPasswordInvalidError) {
     return 'LoginForm.errors.invalidCredentials';
   }
   return 'errors.common';

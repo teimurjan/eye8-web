@@ -2,8 +2,7 @@
 import { jsx, css } from '@emotion/core';
 import { useIntl } from 'react-intl';
 
-import { CategoryListResponseItem } from '@eye8/api/category';
-import { ProductTypeListResponseItem, ProductTypeListResponseMeta } from '@eye8/api/product-type';
+import { Category, ProductType, PaginationMeta } from '@eye8/api';
 import { ErrorLayout, NotFound, Pagination, Title, Container, Grid } from '@eye8/client-ui';
 import { LoaderLayout } from '@eye8/shared/components';
 import { mediaQueries } from '@eye8/shared/styles';
@@ -11,9 +10,9 @@ import { mediaQueries } from '@eye8/shared/styles';
 import ProductTypeCard from '../product-type-card';
 
 export interface Props {
-  productTypes: ProductTypeListResponseItem[];
-  category?: CategoryListResponseItem;
-  meta?: ProductTypeListResponseMeta;
+  productTypes: ProductType[];
+  category?: Category;
+  meta?: PaginationMeta;
   error?: string;
   isLoading: boolean;
   onPageChange?: (page: number) => void;

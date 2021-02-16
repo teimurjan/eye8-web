@@ -1,58 +1,31 @@
-import { APIClient } from '@eye8/api/client';
 import { HeadersManager } from '@eye8/manager/headers';
 import { buildSearchString } from '@eye8/shared/utils';
 
-export interface CharacteristicListResponseItem {
-  id: number;
-  name: string;
-  created_on: string;
-  updated_on: string;
-}
+import { Characteristic, APIClient } from './types';
 
-export interface CharacteristicListRawIntlResponseItem {
-  id: number;
-  name: {
-    [key: string]: string;
-  };
-  created_on: string;
-  updated_on: string;
-}
-
-export interface CharacteristicListResponseData {
-  data: CharacteristicListResponseItem[];
-}
-
-export interface CharacteristicListRawIntlResponseData {
-  data: CharacteristicListRawIntlResponseItem[];
-}
-
-export interface CharacteristicRawIntlResponseData {
-  data: CharacteristicListRawIntlResponseItem;
-}
-
-export interface CharacteristicCreatePayload {
+export interface CreatePayload {
   names: {
     [key: string]: string;
   };
 }
 
-export interface CharacteristicEditPayload {
+export interface EditPayload {
   names: {
     [key: string]: string;
   };
 }
 
-export interface CharacteristicAPI {
-  getAll(): Promise<CharacteristicListResponseData>;
-  getAllRawIntl(): Promise<CharacteristicListRawIntlResponseData>;
+interface CharacteristicAPI {
+  getAll(): Promise<{ data: Characteristic[] }>;
+  getAllRawIntl(): Promise<{ data: Characteristic<true>[] }>;
   delete(id: number): Promise<{}>;
-  create(payload: CharacteristicCreatePayload): Promise<CharacteristicRawIntlResponseData>;
-  edit(id: number, payload: CharacteristicEditPayload): Promise<CharacteristicRawIntlResponseData>;
+  create(payload: CreatePayload): Promise<{ data: Characteristic<true> }>;
+  edit(id: number, payload: EditPayload): Promise<{ data: Characteristic<true> }>;
   status(id: number): Promise<{}>;
-  getOneRawIntl(id: number): Promise<CharacteristicRawIntlResponseData>;
+  getOneRawIntl(id: number): Promise<{ data: Characteristic<true> }>;
 }
 
-export class CharacteristicNotFoundError extends Error {
+export class NotFoundError extends Error {
   constructor() {
     super('Characteristic not found');
     Object.setPrototypeOf(this, new.target.prototype);
@@ -70,7 +43,7 @@ export default class implements CharacteristicAPI {
 
   public getAll: CharacteristicAPI['getAll'] = async () => {
     try {
-      const response = await this.client.get<CharacteristicListResponseData>('/api/characteristics', {
+      const response = await this.client.get<{ data: Characteristic[] }>('/api/characteristics', {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -81,7 +54,7 @@ export default class implements CharacteristicAPI {
 
   public getAllRawIntl: CharacteristicAPI['getAllRawIntl'] = async () => {
     try {
-      const response = await this.client.get<CharacteristicListRawIntlResponseData>(
+      const response = await this.client.get<{ data: Characteristic<true>[] }>(
         `/api/characteristics${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -102,7 +75,7 @@ export default class implements CharacteristicAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new CharacteristicNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -110,7 +83,7 @@ export default class implements CharacteristicAPI {
 
   public create: CharacteristicAPI['create'] = async (payload) => {
     try {
-      const response = await this.client.post<CharacteristicRawIntlResponseData>(`/api/characteristics`, payload, {
+      const response = await this.client.post<{ data: Characteristic<true> }>(`/api/characteristics`, payload, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -121,7 +94,7 @@ export default class implements CharacteristicAPI {
 
   public edit: CharacteristicAPI['edit'] = async (id, payload) => {
     try {
-      const response = await this.client.put<CharacteristicRawIntlResponseData>(
+      const response = await this.client.put<{ data: Characteristic<true> }>(
         `/api/characteristics/${id}${buildSearchString({ raw_intl: 1 })}`,
         payload,
         {
@@ -131,7 +104,7 @@ export default class implements CharacteristicAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new CharacteristicNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -145,7 +118,7 @@ export default class implements CharacteristicAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new CharacteristicNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -153,7 +126,7 @@ export default class implements CharacteristicAPI {
 
   public getOneRawIntl: CharacteristicAPI['getOneRawIntl'] = async (id) => {
     try {
-      const response = await this.client.get<CharacteristicRawIntlResponseData>(
+      const response = await this.client.get<{ data: Characteristic<true> }>(
         `/api/characteristics/${id}${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -162,7 +135,7 @@ export default class implements CharacteristicAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new CharacteristicNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }

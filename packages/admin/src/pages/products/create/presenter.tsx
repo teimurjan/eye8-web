@@ -3,9 +3,9 @@ import React from 'react';
 import * as yup from 'yup';
 
 import { useSelectProductTypes } from '@eye8/admin/hooks';
-import { ProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
-import { ProductService } from '@eye8/service/product';
-import { ProductTypeService } from '@eye8/service/product-type';
+import { TinyProductType } from '@eye8/api';
+import { ProductService } from '@eye8/service';
+import { ProductTypeService } from '@eye8/service';
 import { SchemaValidator } from '@eye8/shared/utils';
 
 import { AdminProductsState, AdminFeatureValuesState } from '../../../state';
@@ -35,7 +35,7 @@ export interface ViewProps {
   close: () => void;
   validate?: (values: object) => object | Promise<object>;
   featureValues: AdminFeatureValuesState['entities'];
-  productTypes: ProductTypeListRawIntlMinifiedResponseItem[];
+  productTypes: TinyProductType<true>[];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
   featureValuesLoading: boolean;

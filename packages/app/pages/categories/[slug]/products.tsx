@@ -3,7 +3,7 @@ import url from 'url';
 import { GetServerSidePropsContext } from 'next';
 import React from 'react';
 
-import { sortingTypeOfQueryValue, ProductTypeSortingQueryValue } from '@eye8/api/product-type';
+import { ProductTypeSortingQueryValue, productTypeSortingTypeOfQueryValue } from '@eye8/api';
 import { Layout } from '@eye8/client/components';
 import { ProductTypes, getCharacteristicValuesIdsFromQuery } from '@eye8/client/pages';
 import { logTimeStart, logTimeFinish } from '@eye8/shared/utils';
@@ -52,7 +52,7 @@ export const getServerSideProps = async ({ params = {}, req }: GetServerSideProp
     const categorySlug = params.slug as string;
     const options = {
       page: parseInt(page as string, 10),
-      sortingType: sortingTypeOfQueryValue[sortBy as string],
+      sortingType: productTypeSortingTypeOfQueryValue[sortBy as string],
       characteristicValuesIds: getCharacteristicValuesIdsFromQuery(parsedUrl.query),
     };
     const { entities, meta, result } = await di.service.productType.getForCategory(categorySlug, options);

@@ -1,13 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosInstance, AxiosPromise, AxiosResponse } from 'axios';
 
-export interface APIClient {
-  get: <T>(...args: any[]) => Promise<{ data: T }>;
-  post: <T>(...args: any[]) => Promise<{ data: T }>;
-  put: <T>(...args: any[]) => Promise<{ data: T }>;
-  patch: <T>(...args: any[]) => Promise<{ data: T }>;
-  delete: <T>(...args: any[]) => Promise<{ data: T }>;
-  head: <T>(...args: any[]) => Promise<{ data: T }>;
-}
+import { APIClient } from './types';
 
 type ErrorHook = (error: any) => void;
 type RespondHook = <T>(promise: AxiosResponse<T>) => void;

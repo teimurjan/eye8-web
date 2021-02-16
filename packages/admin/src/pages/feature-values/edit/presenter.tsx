@@ -2,8 +2,8 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { FeatureValueListRawIntlResponseItem } from '@eye8/api/feature-value';
-import { FeatureValueService } from '@eye8/service/feature-value';
+import { FeatureValue } from '@eye8/api';
+import { FeatureValueService } from '@eye8/service';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
 import { getFieldName, parseFieldName } from '../../../components';
@@ -65,7 +65,7 @@ const AdminFeatureValuesEditPresenter: React.FC<Props> = ({
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
-  const [featureValue, setFeatureValue] = React.useState<undefined | FeatureValueListRawIntlResponseItem>(undefined);
+  const [featureValue, setFeatureValue] = React.useState<undefined | FeatureValue<true>>(undefined);
 
   React.useEffect(() => {
     (async () => {

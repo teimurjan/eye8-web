@@ -1,19 +1,18 @@
 import { normalize, schema } from 'normalizr';
 
 import {
-  CharacteristicValueAPI,
-  CharacteristicValueNotFoundError,
-  CharacteristicValueListResponseItem,
-  CharacteristicValueListRawIntlResponseItem,
   CharacteristicValueCreatePayload,
   CharacteristicValueEditPayload,
-} from '@eye8/api/characteristic-value';
+  CharacteristicValueNotFoundError,
+  CharacteristicValue,
+  CharacteristicValueAPI,
+} from '@eye8/api';
 
 export interface CharacteristicValueService {
   getAll(): Promise<{
     entities: {
       characteristicValues: {
-        [key: string]: CharacteristicValueListResponseItem;
+        [key: string]: CharacteristicValue;
       };
     };
     result: number[];
@@ -21,24 +20,19 @@ export interface CharacteristicValueService {
   getAllRawIntl(): Promise<{
     entities: {
       characteristicValues: {
-        [key: string]: CharacteristicValueListRawIntlResponseItem;
+        [key: string]: CharacteristicValue<true>;
       };
     };
     result: number[];
   }>;
   delete(id: number): Promise<{}>;
-  create(payload: CharacteristicValueCreatePayload): Promise<CharacteristicValueListRawIntlResponseItem>;
-  edit(id: number, payload: CharacteristicValueEditPayload): Promise<CharacteristicValueListRawIntlResponseItem>;
+  create(payload: CharacteristicValueCreatePayload): Promise<CharacteristicValue<true>>;
+  edit(id: number, payload: CharacteristicValueEditPayload): Promise<CharacteristicValue<true>>;
   exists(id: number): Promise<boolean>;
-  getOneRawIntl(id: number): Promise<CharacteristicValueListRawIntlResponseItem | undefined>;
+  getOneRawIntl(id: number): Promise<CharacteristicValue<true> | undefined>;
 }
 
-export class CharacteristicValueNotExistsError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
+export { CharacteristicValueNotFoundError };
 
 export default class implements CharacteristicValueService {
   private API: CharacteristicValueAPI;
@@ -61,7 +55,7 @@ export default class implements CharacteristicValueService {
       return this.API.delete(id);
     } catch (e) {
       if (e instanceof CharacteristicValueNotFoundError) {
-        throw new CharacteristicValueNotExistsError();
+        throw new CharacteristicValueNotFoundError();
       }
 
       throw e;
@@ -77,7 +71,7 @@ export default class implements CharacteristicValueService {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
       if (e instanceof CharacteristicValueNotFoundError) {
-        throw new CharacteristicValueNotExistsError();
+        throw new CharacteristicValueNotFoundError();
       }
 
       throw e;

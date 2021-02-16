@@ -1,19 +1,23 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
 import React from 'react';
-import { useIntl } from 'react-intl';
 
-import { Button } from '@eye8/client-ui';
 import { useDI } from '@eye8/di';
 import { useToast, ToastId } from '@eye8/shared/context/toast';
 import { safeWindowOperation } from '@eye8/shared/utils';
+import { VersionStorage } from '@eye8/storage/version';
 
 const CACHE_DATE = new Date(2020, 7, 21);
 const CACHE_VERSION = CACHE_DATE.getTime().toString();
 
-const CacheBuster = () => {
-  const intl = useIntl();
+interface Props {
+  versionStorage: VersionStorage;
+  View: React.ComponentType<ViewProps>;
+}
 
+export interface ViewProps {
+  bust: () => void;
+}
+
+const CacheBusterPresenter = ({ View }: Props) => {
   const {
     di: {
       storage: { version: versionStorage },
@@ -33,22 +37,7 @@ const CacheBuster = () => {
     if (currentVersion && currentVersion !== CACHE_VERSION) {
       toast({
         id: ToastId.CacheBuster,
-        children: (
-          <>
-            {intl.formatMessage({ id: 'cacheBuster.refresh' }, { shopName: process.env.SHOP_NAME })}
-            <br />
-            <Button
-              css={css`
-                margin: 5px 0;
-                text-transform: uppercase;
-              `}
-              onClick={bust}
-              size="small"
-            >
-              {intl.formatMessage({ id: 'cacheBuster.refresh.action' })}
-            </Button>
-          </>
-        ),
+        children: <View bust={bust} />,
         type: 'primary',
         onDismiss: () => {
           versionStorage.setVersion(CACHE_VERSION);
@@ -61,4 +50,4 @@ const CacheBuster = () => {
   return null;
 };
 
-export default CacheBuster;
+export default CacheBusterPresenter;

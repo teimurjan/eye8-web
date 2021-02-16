@@ -2,8 +2,8 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { ProductListResponseItem } from '@eye8/api/product';
-import { PromoCodeService, PromoCodeValueAlreadyExistsError, PromoCodeHasOrdersError } from '@eye8/service/promo-code';
+import { Product } from '@eye8/api';
+import { PromoCodeService, PromoCodeValueDuplicatedError, PromoCodeDeletionWithOrdersError } from '@eye8/service';
 import { SchemaValidator } from '@eye8/shared/utils';
 
 import { AdminPromoCodesState } from '../../../state';
@@ -23,7 +23,7 @@ export interface ViewProps {
     value: string;
     isActive: boolean;
     disableOnUse: boolean;
-    products: ProductListResponseItem[];
+    products: Product[];
   }) => void;
   isCreating: boolean;
   error?: string;
@@ -45,10 +45,10 @@ const validator = new SchemaValidator(
 );
 
 export const getErrorMessageID = (e: Error) => {
-  if (e instanceof PromoCodeValueAlreadyExistsError) {
+  if (e instanceof PromoCodeValueDuplicatedError) {
     return 'AdminPromoCodes.errors.valueAlreadyExists';
   }
-  if (e instanceof PromoCodeHasOrdersError) {
+  if (e instanceof PromoCodeDeletionWithOrdersError) {
     return 'AdminPromoCodes.errors.hasOrders';
   }
 

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { BannerListRawIntlResponseItem } from '@eye8/api/banner';
+import { Banner } from '@eye8/api';
 import { makeEntityState, EntityContextValue } from '@eye8/shared/utils';
 
-export type ContextValue = EntityContextValue<BannerListRawIntlResponseItem, BannerListRawIntlResponseItem>;
+export type ContextValue = EntityContextValue<Banner<true>>;
 
 const Context = React.createContext<ContextValue | null>(null);
 

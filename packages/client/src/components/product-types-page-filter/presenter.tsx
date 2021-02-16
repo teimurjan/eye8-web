@@ -1,10 +1,7 @@
 import React from 'react';
 
-import { CharacteristicListResponseItem } from '@eye8/api/characteristic';
-import { CharacteristicValueListResponseItem } from '@eye8/api/characteristic-value';
-import { ProductTypeSortingType } from '@eye8/api/product-type';
-import { CharacteristicService } from '@eye8/service/characteristic';
-import { CharacteristicValueService } from '@eye8/service/characteristic-value';
+import { Characteristic, CharacteristicValue, ProductTypeSortingType } from '@eye8/api';
+import { CharacteristicService, CharacteristicValueService } from '@eye8/service';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 export interface ViewProps
@@ -13,7 +10,7 @@ export interface ViewProps
     'sortingType' | 'onSortingTypeChange' | 'onCharacteristicValuesChange' | 'characteristicValuesIds' | 'disabled'
   > {
   groupedCharacteristics: {
-    [key: string]: { name: string; values: CharacteristicValueListResponseItem[] };
+    [key: string]: { name: string; values: CharacteristicValue[] };
   };
   isLoading: boolean;
   error: string | undefined;
@@ -42,13 +39,13 @@ const ProductTypesPageFilterPresenter = ({
 }: Props) => {
   const [characteristicsData, setCharacteristicsData] = React.useState<{
     entities: {
-      [key: string]: CharacteristicListResponseItem;
+      [key: string]: Characteristic;
     };
     order: number[];
   }>({ entities: {}, order: [] });
   const [characteristicValuesData, setCharacteristicValuesData] = React.useState<{
     entities: {
-      [key: string]: CharacteristicValueListResponseItem;
+      [key: string]: CharacteristicValue;
     };
     order: number[];
   }>({ entities: {}, order: [] });

@@ -17,9 +17,7 @@ import {
   SelectTrigger,
 } from '@eye8/admin-ui';
 import { useFeatureValuesOfProductType } from '@eye8/admin/hooks';
-import { FeatureTypeListRawIntlResponseItem } from '@eye8/api/feature-type';
-import { FeatureValueListRawIntlResponseItem } from '@eye8/api/feature-value';
-import { ProductTypeListRawIntlMinifiedResponseItem } from '@eye8/api/product-type';
+import { FeatureType, FeatureValue, TinyProductType } from '@eye8/api';
 import { IconWrapper, Popover } from '@eye8/shared/components';
 import { IconSize } from '@eye8/shared/styles';
 import {
@@ -123,7 +121,7 @@ const useGroupedFeatureValuesByFeatureType = (featureValues: FieldsProps['featur
         featureValues: [...existingFeatureValues, featureValue],
       },
     };
-  }, {} as { [key: string]: { featureType: FeatureTypeListRawIntlResponseItem; featureValues: FeatureValueListRawIntlResponseItem[] } });
+  }, {} as { [key: string]: { featureType: FeatureType<true>; featureValues: FeatureValue<true>[] } });
 };
 
 interface FeatureValuesSelectProps extends FieldRenderProps<string[]> {
@@ -268,7 +266,7 @@ const ImagesInput = React.memo<FieldRenderProps<Array<File | undefined>>>(
 );
 
 export interface FieldsProps {
-  productTypes: ProductTypeListRawIntlMinifiedResponseItem[];
+  productTypes: TinyProductType<true>[];
   featureValues: AdminFeatureValuesState['entities'];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;

@@ -1,17 +1,16 @@
 import React from 'react';
 
-import { useAuthModalState } from '@eye8/client/state';
 import { Modal } from '@eye8/shared/components';
 import { useLazyInitialization } from '@eye8/shared/hooks';
 
 import LoginForm from '../login-form';
 import SignUpForm from '../sign-up-form';
 
-const AuthModal = () => {
-  const authModalState = useAuthModalState();
+import { ViewProps } from './presenter';
 
-  const isLoginOpen = authModalState.modalType === 'login';
-  const isSignUpOpen = authModalState.modalType === 'signup';
+const AuthModalView = ({ modalType, close }: ViewProps) => {
+  const isLoginOpen = modalType === 'login';
+  const isSignUpOpen = modalType === 'signup';
   const { value: isOpen } = useLazyInitialization(isLoginOpen || isSignUpOpen, false);
 
   const children = React.useMemo(() => {
@@ -24,10 +23,10 @@ const AuthModal = () => {
   }, [isLoginOpen, isSignUpOpen]);
 
   return (
-    <Modal isOpen={isOpen} close={authModalState.close} fullScreen="mobile" fixed backdrop debounceChildrenOnClose>
+    <Modal isOpen={isOpen} close={close} fullScreen="mobile" fixed backdrop debounceChildrenOnClose>
       {children}
     </Modal>
   );
 };
 
-export default AuthModal;
+export default AuthModalView;

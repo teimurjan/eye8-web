@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { CategoryListRawIntlResponseItem } from '@eye8/api/category';
+import { Category } from '@eye8/api';
 import { makeEntityState, EntityContextValue } from '@eye8/shared/utils';
 
-export type ContextValue = EntityContextValue<CategoryListRawIntlResponseItem, CategoryListRawIntlResponseItem>;
+export type ContextValue = EntityContextValue<Category<true>>;
 
 const Context = React.createContext<ContextValue | null>(null);
 

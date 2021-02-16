@@ -1,32 +1,36 @@
 import React from 'react';
 
-import AuthAPI from '@eye8/api/auth';
-import BannerAPI from '@eye8/api/banner';
-import CategoryAPI from '@eye8/api/category';
-import CharacteristicAPI from '@eye8/api/characteristic';
-import CharacteristicValueAPI from '@eye8/api/characteristic-value';
-import APIClient from '@eye8/api/client';
-import FeatureTypeAPI from '@eye8/api/feature-type';
-import FeatureValueAPI from '@eye8/api/feature-value';
-import OrderAPI from '@eye8/api/order';
-import ProductAPI from '@eye8/api/product';
-import ProductTypeAPI from '@eye8/api/product-type';
-import PromoCodeAPI from '@eye8/api/promo-code';
-import RateAPI from '@eye8/api/rate';
+import {
+  AuthAPI,
+  BannerAPI,
+  CategoryAPI,
+  CharacteristicAPI,
+  CharacteristicValueAPI,
+  APIClient,
+  FeatureTypeAPI,
+  FeatureValueAPI,
+  OrderAPI,
+  ProductAPI,
+  ProductTypeAPI,
+  PromoCodeAPI,
+  RateAPI,
+} from '@eye8/api';
 import HeadersManager from '@eye8/manager/headers';
-import AuthService from '@eye8/service/auth';
-import BannerService from '@eye8/service/banner';
-import CategoryService from '@eye8/service/category';
-import CharacteristicService from '@eye8/service/characteristic';
-import CharacteristicValueService from '@eye8/service/characteristic-value';
-import FeatureTypeService from '@eye8/service/feature-type';
-import FeatureValueService from '@eye8/service/feature-value';
-import IntlService from '@eye8/service/intl';
-import OrderService from '@eye8/service/order';
-import ProductService from '@eye8/service/product';
-import ProductTypeService from '@eye8/service/product-type';
-import PromoCodeService from '@eye8/service/promo-code';
-import RateService from '@eye8/service/rate';
+import {
+  AuthService,
+  BannerService,
+  CategoryService,
+  CharacteristicService,
+  CharacteristicValueService,
+  FeatureTypeService,
+  FeatureValueService,
+  IntlService,
+  OrderService,
+  ProductService,
+  ProductTypeService,
+  PromoCodeService,
+  RateService,
+} from '@eye8/service';
 import { safeWindow } from '@eye8/shared/utils';
 import AuthStorage from '@eye8/storage/auth';
 import CartStorage from '@eye8/storage/cart';

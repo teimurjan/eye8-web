@@ -1,122 +1,108 @@
 import { normalize, schema } from 'normalizr';
 
 import {
+  ProductType,
+  TinyProductType,
+  PaginationMeta,
   ProductTypeAPI,
-  GetForCategoryOptions,
-  ProductTypeListResponseItem,
-  GetAllOptions,
-  SearchOptions,
-  ProductTypeListResponseMeta,
-  ProductTypeListRawIntlResponseItem,
-  GetOneOptions,
-  ProductTypeDetailResponseItem,
-  GetAllRawIntlMinifiedOptions,
-  DeleteOptions,
-  ProductTypeCreatePayload,
-  ProductTypeDetailRawIntlResponseItem,
-  ProductTypeEditPayload,
-  ProductTypeListRawIntlMinifiedResponseItem,
   ProductTypeNotFoundError,
-  ProductTypeWithProductsNotDeletedError,
-} from '@eye8/api/product-type';
+  ProductTypeDeletionWithProductsError,
+  ProductTypeGetForCategoryOptions,
+  ProductTypeGetAllOptions,
+  ProductTypeSearchOptions,
+  ProductTypeGetOneOptions,
+  ProductTypeGetAllRawIntlMinifiedOptions,
+  ProductTypeDeleteOptions,
+  ProductTypeCreatePayload,
+  ProductTypeEditPayload,
+} from '@eye8/api';
 
-export class ProductTypeNotExistsError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
-export class ProductTypeHasProductsError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
+export { ProductTypeNotFoundError, ProductTypeDeletionWithProductsError };
 
 export interface ProductTypeService {
   getForCategory(
     categorySlug: string,
-    options: GetForCategoryOptions,
+    options: ProductTypeGetForCategoryOptions,
   ): Promise<{
     entities: {
       productTypes?: {
-        [key: string]: ProductTypeListResponseItem;
+        [key: string]: ProductType;
       };
     };
     result: number[];
-    meta: ProductTypeListResponseMeta;
+    meta: PaginationMeta;
   }>;
   getAll(
-    options: GetAllOptions,
+    options: ProductTypeGetAllOptions,
   ): Promise<{
     entities: {
       productTypes: {
-        [key: string]: ProductTypeListResponseItem;
+        [key: string]: ProductType;
       };
     };
     result: number[];
   }>;
   search(
     query: string,
-    options?: SearchOptions,
+    options?: ProductTypeSearchOptions,
   ): Promise<{
     entities: {
       productTypes: {
-        [key: string]: ProductTypeListResponseItem;
+        [key: string]: ProductType;
       };
     };
     result: number[];
-    meta: ProductTypeListResponseMeta;
+    meta: PaginationMeta;
   }>;
   searchRawIntl(
     query: string,
-    options?: SearchOptions,
+    options?: ProductTypeSearchOptions,
   ): Promise<{
     entities: {
       productTypes: {
-        [key: string]: ProductTypeListRawIntlResponseItem;
+        [key: string]: ProductType<true>;
       };
     };
     result: number[];
-    meta: ProductTypeListResponseMeta;
+    meta: PaginationMeta;
   }>;
   getNewest(): Promise<{
     entities: {
       productTypes: {
-        [key: string]: ProductTypeListResponseItem;
+        [key: string]: ProductType;
       };
     };
     result: number[];
   }>;
-  getByID(id: number, options?: GetOneOptions): Promise<ProductTypeDetailResponseItem | null>;
-  getBySlug(slug: string): Promise<ProductTypeDetailResponseItem | null>;
+  getByID(id: number, options?: ProductTypeGetOneOptions): Promise<ProductType | null>;
+  getBySlug(slug: string): Promise<ProductType | null>;
   getAllRawIntl(
-    options: GetAllOptions,
+    options: ProductTypeGetAllOptions,
   ): Promise<{
     entities: {
       productTypes: {
-        [key: string]: ProductTypeListRawIntlResponseItem;
+        [key: string]: ProductType<true>;
       };
     };
     result: number[];
-    meta: ProductTypeListResponseMeta;
+    meta: PaginationMeta;
   }>;
   getAllRawIntlMinified(
-    options: GetAllRawIntlMinifiedOptions,
+    options: ProductTypeGetAllRawIntlMinifiedOptions,
   ): Promise<{
     entities: {
       productTypes: {
-        [key: string]: ProductTypeListRawIntlMinifiedResponseItem;
+        [key: string]: TinyProductType<true>;
       };
     };
     result: number[];
-    meta: ProductTypeListResponseMeta;
+    meta: PaginationMeta;
   }>;
-  delete(id: number, options?: DeleteOptions): Promise<void>;
-  create(payload: ProductTypeCreatePayload): Promise<ProductTypeDetailRawIntlResponseItem>;
-  edit(id: number, payload: ProductTypeEditPayload): Promise<ProductTypeDetailRawIntlResponseItem>;
-  exists(id: number, options?: GetOneOptions): Promise<boolean>;
-  getOneRawIntl(id: number, options?: GetOneOptions): Promise<ProductTypeDetailRawIntlResponseItem | undefined>;
+  delete(id: number, options?: ProductTypeDeleteOptions): Promise<void>;
+  create(payload: ProductTypeCreatePayload): Promise<ProductType<true>>;
+  edit(id: number, payload: ProductTypeEditPayload): Promise<ProductType<true>>;
+  exists(id: number, options?: ProductTypeGetOneOptions): Promise<boolean>;
+  getOneRawIntl(id: number, options?: ProductTypeGetOneOptions): Promise<ProductType<true> | undefined>;
 }
 
 export default class implements ProductTypeService {
@@ -215,10 +201,10 @@ export default class implements ProductTypeService {
       await this.API.delete(id, options);
     } catch (e) {
       if (e instanceof ProductTypeNotFoundError) {
-        throw new ProductTypeNotExistsError();
+        throw new ProductTypeNotFoundError();
       }
-      if (e instanceof ProductTypeWithProductsNotDeletedError) {
-        throw new ProductTypeHasProductsError();
+      if (e instanceof ProductTypeDeletionWithProductsError) {
+        throw new ProductTypeDeletionWithProductsError();
       }
 
       throw e;
@@ -234,7 +220,7 @@ export default class implements ProductTypeService {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
       if (e instanceof ProductTypeNotFoundError) {
-        throw new ProductTypeNotExistsError();
+        throw new ProductTypeNotFoundError();
       }
 
       throw e;

@@ -1,36 +1,33 @@
 import React from 'react';
 
-import { ProductListResponseItem } from '@eye8/api/product';
-import { ProductTypeListResponseItem } from '@eye8/api/product-type';
-import { ProductTypeService } from '@eye8/service/product-type';
+import { Product, ProductType } from '@eye8/api';
+import { ProductTypeService } from '@eye8/service';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 export interface Props {
   View: React.ComponentType<ViewProps>;
   productTypeService: ProductTypeService;
-  onChange: (product: ProductListResponseItem) => void;
+  onChange: (product: Product) => void;
   placeholder?: string;
   className?: string;
 }
 
 export interface ViewProps {
-  productTypes: ProductTypeListResponseItem[];
+  productTypes: ProductType[];
   error: string | undefined;
   isLoading: boolean;
   onSearchValueChange: (value: string) => Promise<void>;
-  selectProductType: (productType?: ProductTypeListResponseItem) => void;
-  selectedProductType?: ProductTypeListResponseItem;
+  selectProductType: (productType?: ProductType) => void;
+  selectedProductType?: ProductType;
   onChange: Props['onChange'];
   placeholder?: string;
   className?: string;
 }
 
 const ProductSelectPresenter = ({ productTypeService, onChange, View, placeholder, className }: Props) => {
-  const [selectedProductType, setSelectedProductType] = React.useState<ProductTypeListResponseItem | undefined>(
-    undefined,
-  );
+  const [selectedProductType, setSelectedProductType] = React.useState<ProductType | undefined>(undefined);
   const [data, setData] = React.useState<{
-    entities: { [key: number]: ProductTypeListResponseItem };
+    entities: { [key: number]: ProductType };
     order: number[];
   }>({
     entities: {},

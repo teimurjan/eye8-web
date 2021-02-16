@@ -5,15 +5,14 @@ import { useTheme } from 'emotion-theming';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { ProductTypeListResponseItem } from '@eye8/api/product-type';
+import { ProductType } from '@eye8/api';
 import { Button, HelpText, Image, LinkPassingProps, Tag, Title } from '@eye8/client-ui';
+import { useProductTypeSellingInfo } from '@eye8/client/hooks';
 import { mediaQueries } from '@eye8/shared/styles';
 import { formatMediaURL } from '@eye8/shared/utils';
 
-import { usePriceRangeText } from '../price';
-
 export interface Props {
-  productType: ProductTypeListResponseItem;
+  productType: ProductType;
 }
 
 const ProductTypeCard = ({ productType }: Props) => {
@@ -21,10 +20,7 @@ const ProductTypeCard = ({ productType }: Props) => {
   const intl = useIntl();
   const as = `/products/${productType.slug}`;
   const ref = React.useRef<HTMLAnchorElement>(null);
-  const { price, discount } = usePriceRangeText({ range: productType.products || [] });
-
-  const hasProducts = (productType.products?.length || 0) > 0;
-  const productInStock = productType.products?.some((product) => product.quantity > 0);
+  const { price, discount, hasProducts, productInStock } = useProductTypeSellingInfo(productType);
 
   const buttonTextIntlId = React.useMemo(() => {
     if (productInStock) {

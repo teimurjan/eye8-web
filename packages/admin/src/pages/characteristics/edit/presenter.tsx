@@ -2,8 +2,8 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { CharacteristicListRawIntlResponseItem } from '@eye8/api/characteristic';
-import { CharacteristicService } from '@eye8/service/characteristic';
+import { Characteristic } from '@eye8/api';
+import { CharacteristicService } from '@eye8/service';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
 import { getFieldName, parseFieldName } from '../../../components';
@@ -52,9 +52,7 @@ const AdminCharacteristicsEditPresenter: React.FC<Props> = ({
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);
-  const [characteristic, setCharacteristic] = React.useState<CharacteristicListRawIntlResponseItem | undefined>(
-    undefined,
-  );
+  const [characteristic, setCharacteristic] = React.useState<Characteristic<true> | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
 

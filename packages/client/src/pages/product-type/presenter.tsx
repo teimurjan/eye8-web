@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { ProductListResponseItem } from '@eye8/api/product';
-import { ProductTypeDetailResponseItem } from '@eye8/api/product-type';
-import { ProductService } from '@eye8/service/product';
-import { ProductTypeService } from '@eye8/service/product-type';
+import { Product } from '@eye8/api';
+import { ProductType } from '@eye8/api';
+import { ProductService } from '@eye8/service';
+import { ProductTypeService } from '@eye8/service';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 export interface Props {
@@ -12,17 +12,17 @@ export interface Props {
   productService: ProductService;
   id?: number;
   actionText: string;
-  action?: (product: ProductListResponseItem) => void;
+  action?: (product: Product) => void;
   initialProps?: {
-    productType: ProductTypeDetailResponseItem | null;
-    products: ProductListResponseItem[];
+    productType: ProductType | null;
+    products: Product[];
     error?: string;
   };
 }
 
 export interface ViewProps {
-  productType: ProductTypeDetailResponseItem | null;
-  products: ProductListResponseItem[];
+  productType: ProductType | null;
+  products: Product[];
   error: string | undefined;
   isLoading: boolean;
   action: Props['action'];
@@ -40,10 +40,10 @@ const ProductTypePagePresenter: React.FC<Props> = ({
 }) => {
   const [error, setError] = React.useState<string | undefined>(initialProps ? initialProps.error : undefined);
   const [isLoading, setLoading] = React.useState<boolean>(initialProps ? false : true);
-  const [productType, setProductType] = React.useState<null | ProductTypeDetailResponseItem>(
+  const [productType, setProductType] = React.useState<null | ProductType>(
     initialProps ? initialProps.productType : null,
   );
-  const [products, setProducts] = React.useState<ProductListResponseItem[]>(initialProps ? initialProps.products : []);
+  const [products, setProducts] = React.useState<Product[]>(initialProps ? initialProps.products : []);
 
   React.useEffect(() => {
     if (initialProps && !initialProps.productType) {

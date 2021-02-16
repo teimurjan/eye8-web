@@ -1,19 +1,18 @@
 import { normalize, schema } from 'normalizr';
 
 import {
-  CharacteristicAPI,
-  CharacteristicListResponseItem,
-  CharacteristicListRawIntlResponseItem,
   CharacteristicCreatePayload,
   CharacteristicEditPayload,
   CharacteristicNotFoundError,
-} from '@eye8/api/characteristic';
+  Characteristic,
+  CharacteristicAPI,
+} from '@eye8/api';
 
 export interface CharacteristicService {
   getAll(): Promise<{
     entities: {
       characteristics: {
-        [key: string]: CharacteristicListResponseItem;
+        [key: string]: Characteristic;
       };
     };
     result: number[];
@@ -21,24 +20,19 @@ export interface CharacteristicService {
   getAllRawIntl(): Promise<{
     entities: {
       characteristics: {
-        [key: string]: CharacteristicListRawIntlResponseItem;
+        [key: string]: Characteristic<true>;
       };
     };
     result: number[];
   }>;
   delete(id: number): Promise<{}>;
-  create(payload: CharacteristicCreatePayload): Promise<CharacteristicListRawIntlResponseItem>;
-  edit(id: number, payload: CharacteristicEditPayload): Promise<CharacteristicListRawIntlResponseItem>;
+  create(payload: CharacteristicCreatePayload): Promise<Characteristic<true>>;
+  edit(id: number, payload: CharacteristicEditPayload): Promise<Characteristic<true>>;
   exists(id: number): Promise<boolean>;
-  getOneRawIntl(id: number): Promise<CharacteristicListRawIntlResponseItem | undefined>;
+  getOneRawIntl(id: number): Promise<Characteristic<true> | undefined>;
 }
 
-export class CharacteristicNotExistsError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
+export { CharacteristicNotFoundError };
 
 export default class implements CharacteristicService {
   private API: CharacteristicAPI;
@@ -61,23 +55,23 @@ export default class implements CharacteristicService {
       return this.API.delete(id);
     } catch (e) {
       if (e instanceof CharacteristicNotFoundError) {
-        throw new CharacteristicNotExistsError();
+        throw new CharacteristicNotFoundError();
       }
 
       throw e;
     }
   };
 
-  public create: CharacteristicService['create'] = async (payload: CharacteristicCreatePayload) => {
+  public create: CharacteristicService['create'] = async (payload) => {
     return (await this.API.create(payload)).data;
   };
 
-  public edit: CharacteristicService['edit'] = async (id, payload: CharacteristicEditPayload) => {
+  public edit: CharacteristicService['edit'] = async (id, payload) => {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
       if (e instanceof CharacteristicNotFoundError) {
-        throw new CharacteristicNotExistsError();
+        throw new CharacteristicNotFoundError();
       }
 
       throw e;

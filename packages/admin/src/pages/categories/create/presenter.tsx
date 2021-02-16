@@ -2,7 +2,7 @@ import { History } from 'history';
 import React from 'react';
 import * as yup from 'yup';
 
-import { CategoryService } from '@eye8/service/category';
+import { CategoryService } from '@eye8/service';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
 import { getFieldName, parseFieldName } from '../../../components';

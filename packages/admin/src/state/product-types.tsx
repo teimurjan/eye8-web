@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { ProductTypeListRawIntlResponseItem, ProductTypeListResponseMeta } from '@eye8/api/product-type';
+import { ProductType, PaginationMeta } from '@eye8/api';
 import { makeEntityState, EntityContextValue } from '@eye8/shared/utils';
 
 export type ContextValue = EntityContextValue<
-  ProductTypeListRawIntlResponseItem,
-  ProductTypeListRawIntlResponseItem,
-  ProductTypeListResponseMeta,
+  ProductType<true>,
+  ProductType<true>,
+  PaginationMeta,
   { page: number; deleted?: boolean; available?: boolean; query?: string }
 >;
 

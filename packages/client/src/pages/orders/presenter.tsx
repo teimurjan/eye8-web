@@ -1,14 +1,14 @@
 import { History, Location } from 'history';
 import React from 'react';
 
-import { OrderListResponseItem, OrderListResponseMeta } from '@eye8/api/order';
-import { OrderService } from '@eye8/service/order';
+import { Order, PaginationMeta } from '@eye8/api';
+import { OrderService } from '@eye8/service';
 import { isUserAuthorized } from '@eye8/shared/helpers';
 import { AuthorizedUser } from '@eye8/shared/state';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 export interface ViewProps {
-  orders: OrderListResponseItem[];
+  orders: Order[];
   isLoading?: boolean;
   error?: string;
   currentPage: number;
@@ -27,9 +27,9 @@ interface Props {
 const OrdersPresenter: React.FC<Props> = ({ service, View, user, history, location }) => {
   const [isLoading, setLoading] = React.useState(true);
   const [ordersData, setOrdersData] = React.useState<{
-    entities: { [key: number]: OrderListResponseItem };
+    entities: { [key: number]: Order };
     order: number[];
-    meta: OrderListResponseMeta;
+    meta: PaginationMeta;
   }>({
     entities: {},
     order: [],

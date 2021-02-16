@@ -1,54 +1,9 @@
-import { APIClient } from '@eye8/api/client';
 import { HeadersManager } from '@eye8/manager/headers';
 import { buildSearchString } from '@eye8/shared/utils';
 
-export interface BannerListResponseItem {
-  id: number;
-  text: string;
-  link_text: string;
-  link: string | null;
-  text_color: string | null;
-  image: string;
-  text_top_offset: number | null;
-  text_left_offset: number | null;
-  text_right_offset: number | null;
-  text_bottom_offset: number | null;
-  created_on: string;
-  updated_on: string;
-}
+import { Banner, APIClient } from './types';
 
-export interface BannerListRawIntlResponseItem {
-  id: number;
-  text: {
-    [key: string]: string;
-  };
-  link_text: {
-    [key: string]: string;
-  };
-  link: string | null;
-  text_color: string | null;
-  image: string;
-  text_top_offset: number | null;
-  text_left_offset: number | null;
-  text_right_offset: number | null;
-  text_bottom_offset: number | null;
-  created_on: string;
-  updated_on: string;
-}
-
-export interface BannerListResponseData {
-  data: BannerListResponseItem[];
-}
-
-export interface BannerListRawIntlResponseData {
-  data: BannerListRawIntlResponseItem[];
-}
-
-export interface BannerRawIntlResponseData {
-  data: BannerListRawIntlResponseItem;
-}
-
-export interface BannerCreatePayload {
+export interface CreatePayload {
   texts: {
     [key: string]: string;
   };
@@ -64,17 +19,17 @@ export interface BannerCreatePayload {
   text_bottom_offset: number | null;
 }
 
-export interface BannerAPI {
-  getAll(): Promise<BannerListResponseData>;
-  getAllRawIntl(): Promise<BannerListRawIntlResponseData>;
+interface BannerAPI {
+  getAll(): Promise<{ data: Banner[] }>;
+  getAllRawIntl(): Promise<{ data: Banner<true>[] }>;
   delete(id: number): Promise<{}>;
-  create(payload: BannerCreatePayload): Promise<BannerRawIntlResponseData>;
-  edit(id: number, payload: BannerCreatePayload): Promise<BannerRawIntlResponseData>;
+  create(payload: CreatePayload): Promise<{ data: Banner<true> }>;
+  edit(id: number, payload: CreatePayload): Promise<{ data: Banner<true> }>;
   status(id: number): Promise<{}>;
-  getOneRawIntl(id: number): Promise<BannerRawIntlResponseData>;
+  getOneRawIntl(id: number): Promise<{ data: Banner<true> }>;
 }
 
-export class BannerNotFoundError extends Error {
+export class NotFoundError extends Error {
   constructor() {
     super('Banner not found');
     Object.setPrototypeOf(this, new.target.prototype);
@@ -92,7 +47,7 @@ export default class implements BannerAPI {
 
   public getAll: BannerAPI['getAll'] = async () => {
     try {
-      const response = await this.client.get<BannerListResponseData>('/api/banners', {
+      const response = await this.client.get<{ data: Banner[] }>('/api/banners', {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -103,7 +58,7 @@ export default class implements BannerAPI {
 
   public getAllRawIntl: BannerAPI['getAllRawIntl'] = async () => {
     try {
-      const response = await this.client.get<BannerListRawIntlResponseData>(
+      const response = await this.client.get<{ data: Banner<true>[] }>(
         `/api/banners${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -123,7 +78,7 @@ export default class implements BannerAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new BannerNotFoundError();
+        throw new NotFoundError();
       }
 
       throw e;
@@ -138,7 +93,7 @@ export default class implements BannerAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new BannerNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -149,7 +104,7 @@ export default class implements BannerAPI {
       const formData = new FormData();
       formData.append('json', JSON.stringify(json));
       formData.append('image', image);
-      const response = await this.client.post<BannerRawIntlResponseData>(`/api/banners`, formData, {
+      const response = await this.client.post<{ data: Banner<true> }>(`/api/banners`, formData, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -163,7 +118,7 @@ export default class implements BannerAPI {
       const formData = new FormData();
       formData.append('json', JSON.stringify(json));
       formData.append('image', image);
-      const response = await this.client.put<BannerRawIntlResponseData>(
+      const response = await this.client.put<{ data: Banner<true> }>(
         `/api/banners/${id}${buildSearchString({ raw_intl: 1 })}`,
         formData,
         {
@@ -173,7 +128,7 @@ export default class implements BannerAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new BannerNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -181,7 +136,7 @@ export default class implements BannerAPI {
 
   public getOneRawIntl: BannerAPI['getOneRawIntl'] = async (id) => {
     try {
-      const response = await this.client.get<BannerRawIntlResponseData>(
+      const response = await this.client.get<{ data: Banner<true> }>(
         `/api/banners/${id}${buildSearchString({ raw_intl: 1 })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -190,7 +145,7 @@ export default class implements BannerAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new BannerNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }

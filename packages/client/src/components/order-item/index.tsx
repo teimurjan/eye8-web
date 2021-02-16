@@ -5,7 +5,7 @@ import React from 'react';
 import { ExternalLink as ExternalLinkIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
-import { OrderListResponseItem } from '@eye8/api/order';
+import { Order } from '@eye8/api';
 import { Anchor, Tag } from '@eye8/client-ui';
 import { IconWrapper, Tooltip } from '@eye8/shared/components';
 import { IconSize } from '@eye8/shared/styles';
@@ -14,11 +14,11 @@ import { getOrderTotalPrice } from '@eye8/shared/utils';
 import { PriceText } from '../price';
 
 interface Props {
-  order: OrderListResponseItem;
+  order: Order;
   className?: string;
 }
 
-const OrderStatus = ({ status }: { status: OrderListResponseItem['status'] }) => {
+const OrderStatus = ({ status }: { status: Order['status'] }) => {
   const intl = useIntl();
 
   return status === 'rejected' || status === 'completed' ? (

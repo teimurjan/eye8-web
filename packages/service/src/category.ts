@@ -1,57 +1,39 @@
 import { normalize, schema } from 'normalizr';
 
 import {
-  CategoryNotFoundError,
-  CategoryWithChildrenNotDeletedError,
-  CategoryWithProductTypesNotDeletedError,
-  CategoryListResponseItem,
-  CategoryListRawIntlResponseItem,
   CategoryCreatePayload,
+  CategoryNotFoundError,
+  CategoryDeletionWithChildrenError,
+  CategoryDeletionWithProductTypesError,
+  Category,
   CategoryAPI,
-} from '@eye8/api/category';
+} from '@eye8/api';
 
 export interface CategoryService {
   getAll(): Promise<{
     entities: {
-      categories: { [key: string]: CategoryListResponseItem };
+      categories: { [key: string]: Category };
     };
     result: number[];
   }>;
   getAllRawIntl(): Promise<{
     entities: {
       categories: {
-        [key: string]: CategoryListRawIntlResponseItem;
+        [key: string]: Category<true>;
       };
     };
     result: number[];
   }>;
   delete(id: number): Promise<{}>;
-  create(payload: CategoryCreatePayload): Promise<CategoryListRawIntlResponseItem>;
+  create(payload: CategoryCreatePayload): Promise<Category<true>>;
   exists(id: number): Promise<boolean>;
-  getOneRawIntl(id: number): Promise<CategoryListRawIntlResponseItem | undefined>;
-  getOne(id: number): Promise<CategoryListResponseItem | undefined>;
-  getOneBySlug(slug: string): Promise<CategoryListResponseItem | undefined>;
-  edit(id: number, payload: CategoryCreatePayload): Promise<CategoryListRawIntlResponseItem>;
+  getOneRawIntl(id: number): Promise<Category<true> | undefined>;
+  getOne(id: number): Promise<Category | undefined>;
+  getOneBySlug(slug: string): Promise<Category | undefined>;
+  edit(id: number, payload: CategoryCreatePayload): Promise<Category<true>>;
 }
 
-export class CategoryNotExistsError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
-export class CategoryHasChildrenError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
-export class CategoryHasProductTypesError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
+export { CategoryNotFoundError, CategoryDeletionWithChildrenError, CategoryDeletionWithProductTypesError };
 
 export default class implements CategoryService {
   private API: CategoryAPI;
@@ -74,13 +56,13 @@ export default class implements CategoryService {
       return await this.API.delete(id);
     } catch (e) {
       if (e instanceof CategoryNotFoundError) {
-        throw new CategoryNotExistsError();
+        throw new CategoryNotFoundError();
       }
-      if (e instanceof CategoryWithChildrenNotDeletedError) {
-        throw new CategoryHasChildrenError();
+      if (e instanceof CategoryDeletionWithChildrenError) {
+        throw new CategoryDeletionWithChildrenError();
       }
-      if (e instanceof CategoryWithProductTypesNotDeletedError) {
-        throw new CategoryHasProductTypesError();
+      if (e instanceof CategoryDeletionWithProductTypesError) {
+        throw new CategoryDeletionWithProductTypesError();
       }
 
       throw e;
@@ -109,7 +91,7 @@ export default class implements CategoryService {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
       if (e instanceof CategoryNotFoundError) {
-        throw new CategoryNotExistsError();
+        throw new CategoryNotFoundError();
       }
 
       throw e;

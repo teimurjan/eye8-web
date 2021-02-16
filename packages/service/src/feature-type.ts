@@ -1,19 +1,18 @@
 import { normalize, schema } from 'normalizr';
 
 import {
-  FeatureTypeAPI,
-  FeatureTypeListResponseItem,
-  FeatureTypeListRawIntlResponseItem,
+  FeatureTypeNotFoundError,
   FeatureTypeCreatePayload,
   FeatureTypeEditPayload,
-  FeatureTypeNotFoundError,
-} from '@eye8/api/feature-type';
+  FeatureType,
+  FeatureTypeAPI,
+} from '@eye8/api';
 
 export interface FeatureTypeService {
   getAll(): Promise<{
     entities: {
       featureTypes: {
-        [key: string]: FeatureTypeListResponseItem;
+        [key: string]: FeatureType;
       };
     };
     result: number[];
@@ -21,24 +20,19 @@ export interface FeatureTypeService {
   getAllRawIntl(): Promise<{
     entities: {
       featureTypes: {
-        [key: string]: FeatureTypeListRawIntlResponseItem;
+        [key: string]: FeatureType<true>;
       };
     };
     result: number[];
   }>;
   delete(id: number): Promise<{}>;
-  create(payload: FeatureTypeCreatePayload): Promise<FeatureTypeListRawIntlResponseItem>;
-  edit(id: number, payload: FeatureTypeEditPayload): Promise<FeatureTypeListRawIntlResponseItem>;
+  create(payload: FeatureTypeCreatePayload): Promise<FeatureType<true>>;
+  edit(id: number, payload: FeatureTypeEditPayload): Promise<FeatureType<true>>;
   exists(id: number): Promise<boolean>;
-  getOneRawIntl(id: number): Promise<FeatureTypeListRawIntlResponseItem | undefined>;
+  getOneRawIntl(id: number): Promise<FeatureType<true> | undefined>;
 }
 
-export class FeatureTypeNotExistsError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
+export { FeatureTypeNotFoundError };
 
 export default class implements FeatureTypeService {
   private API: FeatureTypeAPI;
@@ -61,7 +55,7 @@ export default class implements FeatureTypeService {
       return this.API.delete(id);
     } catch (e) {
       if (e instanceof FeatureTypeNotFoundError) {
-        throw new FeatureTypeNotExistsError();
+        throw new FeatureTypeNotFoundError();
       }
 
       throw e;
@@ -77,7 +71,7 @@ export default class implements FeatureTypeService {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
       if (e instanceof FeatureTypeNotFoundError) {
-        throw new FeatureTypeNotExistsError();
+        throw new FeatureTypeNotFoundError();
       }
 
       throw e;

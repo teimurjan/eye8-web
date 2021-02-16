@@ -3,8 +3,8 @@ import React from 'react';
 import * as yup from 'yup';
 
 import { useAdminProductTypesFilters } from '@eye8/admin/hooks';
-import { ProductTypeDetailRawIntlResponseItem } from '@eye8/api/product-type';
-import { ProductTypeService } from '@eye8/service/product-type';
+import { ProductType } from '@eye8/api';
+import { ProductTypeService } from '@eye8/service';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
 import { LinksInputProps, getFieldName, parseFieldName } from '../../../components';
@@ -126,7 +126,7 @@ const AdminProductTypesEditPresenter: React.FC<Props> = ({
     filters: { deleted },
   } = useAdminProductTypesFilters();
   const [error, setError] = React.useState<string | undefined>(undefined);
-  const [productType, setProductType] = React.useState<ProductTypeDetailRawIntlResponseItem | undefined>(undefined);
+  const [productType, setProductType] = React.useState<ProductType<true> | undefined>(undefined);
   const [isUpdating, setUpdating] = React.useState(false);
   const [isLoading, setLoading] = React.useState(false);
   const [preloadingError, setPreloadingError] = React.useState<string | undefined>(undefined);

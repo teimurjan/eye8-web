@@ -1,19 +1,18 @@
 import { normalize, schema } from 'normalizr';
 
 import {
-  FeatureValueListResponseItem,
-  FeatureValueListRawIntlResponseItem,
+  FeatureValue,
+  FeatureValueAPI,
   FeatureValueCreatePayload,
   FeatureValueEditPayload,
-  FeatureValueAPI,
-  FeatureValueNotFound,
-} from '@eye8/api/feature-value';
+  FeatureValueNotFoundError,
+} from '@eye8/api';
 
 export interface FeatureValueService {
   getAll(): Promise<{
     entities: {
       featureValues: {
-        [key: string]: FeatureValueListResponseItem;
+        [key: string]: FeatureValue;
       };
     };
     result: number[];
@@ -21,24 +20,19 @@ export interface FeatureValueService {
   getAllRawIntl(): Promise<{
     entities: {
       featureValues: {
-        [key: string]: FeatureValueListRawIntlResponseItem;
+        [key: string]: FeatureValue<true>;
       };
     };
     result: number[];
   }>;
   delete(id: number): Promise<{}>;
-  create(payload: FeatureValueCreatePayload): Promise<FeatureValueListRawIntlResponseItem>;
-  edit(id: number, payload: FeatureValueEditPayload): Promise<FeatureValueListRawIntlResponseItem>;
+  create(payload: FeatureValueCreatePayload): Promise<FeatureValue<true>>;
+  edit(id: number, payload: FeatureValueEditPayload): Promise<FeatureValue<true>>;
   exists(id: number): Promise<boolean>;
-  getOneRawIntl(id: number): Promise<FeatureValueListRawIntlResponseItem | undefined>;
+  getOneRawIntl(id: number): Promise<FeatureValue<true> | undefined>;
 }
 
-export class FeatureValueNotExistsError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
+export { FeatureValueNotFoundError };
 
 export default class implements FeatureValueService {
   private API: FeatureValueAPI;
@@ -60,8 +54,8 @@ export default class implements FeatureValueService {
     try {
       return this.API.delete(id);
     } catch (e) {
-      if (e instanceof FeatureValueNotFound) {
-        throw new FeatureValueNotExistsError();
+      if (e instanceof FeatureValueNotFoundError) {
+        throw new FeatureValueNotFoundError();
       }
 
       throw e;
@@ -76,8 +70,8 @@ export default class implements FeatureValueService {
     try {
       return (await this.API.edit(id, payload)).data;
     } catch (e) {
-      if (e instanceof FeatureValueNotFound) {
-        throw new FeatureValueNotExistsError();
+      if (e instanceof FeatureValueNotFoundError) {
+        throw new FeatureValueNotFoundError();
       }
 
       throw e;
@@ -89,7 +83,7 @@ export default class implements FeatureValueService {
       await this.API.status(id);
       return true;
     } catch (e) {
-      if (e instanceof FeatureValueNotFound) {
+      if (e instanceof FeatureValueNotFoundError) {
         return false;
       }
 
@@ -101,7 +95,7 @@ export default class implements FeatureValueService {
     try {
       return (await this.API.getOneRawIntl(id)).data;
     } catch (e) {
-      if (e instanceof FeatureValueNotFound) {
+      if (e instanceof FeatureValueNotFoundError) {
         return undefined;
       }
 

@@ -24,4 +24,4 @@ RUN lerna bootstrap
 COPY tsconfig.json /app/tsconfig.json
 COPY @types /app/@types
 
-CMD env SERVER_API_URL=http://backend:5000 CLIENT_API_URL=http://localhost:5000 lerna run --scope "@eye8/app" start --stream
+CMD yarn start:dev

@@ -1,48 +1,9 @@
-import { APIClient } from '@eye8/api/client';
 import { HeadersManager } from '@eye8/manager/headers';
 import { flagToSearchStringValue, buildSearchString } from '@eye8/shared/utils';
 
-// LIST
-export interface ProductListResponseMeta {
-  count: number;
-  pages_count: number;
-  page: number;
-  limit: number;
-}
+import { Product, PaginationMeta, APIClient } from './types';
 
-export interface ProductListResponseItem {
-  id: number;
-  discount: number;
-  price: number;
-  quantity: number;
-  product_type: { category: number; feature_types: number[]; id: number; name: string; slug: string; image: string };
-  feature_values: Array<{
-    feature_type: { id: number; name: string };
-    id: number;
-    name: string;
-  }>;
-  images: string[];
-  created_on: string;
-  updated_on: string;
-}
-
-export interface ProductListResponseData {
-  data: ProductListResponseItem[];
-  meta: ProductListResponseMeta;
-}
-
-// DETAIL
-export interface ProductResponseData {
-  data: ProductListResponseItem;
-}
-
-// FOR PRODUCT TYPE
-export interface ProductForProductTypeResponseData {
-  data: ProductListResponseItem[];
-}
-
-// PAYLOADS
-export interface ProductCreatePayload {
+export interface CreatePayload {
   discount: number;
   price: number;
   quantity: number;
@@ -50,7 +11,7 @@ export interface ProductCreatePayload {
   images?: Array<File | string>;
 }
 
-export type ProductEditPayload = ProductCreatePayload;
+export type EditPayload = CreatePayload;
 
 export interface GetAllOptions {
   page: number;
@@ -70,22 +31,19 @@ export interface DeleteOptions {
   forever?: boolean;
 }
 
-export interface ProductAPI {
-  getAll(options: GetAllOptions): Promise<ProductListResponseData>;
-  getSome(ids: number[]): Promise<ProductListResponseData>;
-  getForCart(ids: number[]): Promise<ProductListResponseData>;
+interface ProductAPI {
+  getAll(options: GetAllOptions): Promise<{ data: Product[]; meta: PaginationMeta }>;
+  getSome(ids: number[]): Promise<{ data: Product[]; meta: PaginationMeta }>;
+  getForCart(ids: number[]): Promise<{ data: Product[]; meta: PaginationMeta }>;
   delete(id: number, options: DeleteOptions): Promise<{}>;
-  create(payload: ProductCreatePayload): Promise<ProductResponseData>;
-  edit(id: number, payload: ProductEditPayload): Promise<ProductResponseData>;
+  create(payload: CreatePayload): Promise<{ data: Product }>;
+  edit(id: number, payload: EditPayload): Promise<{ data: Product }>;
   status(id: number, options: GetOneOptions): Promise<{}>;
-  getOne(id: number, options: GetOneOptions): Promise<ProductResponseData>;
-  getForProductType(
-    productTypeID: number,
-    options: GetForProductTypeOptions,
-  ): Promise<ProductForProductTypeResponseData>;
+  getOne(id: number, options: GetOneOptions): Promise<{ data: Product }>;
+  getForProductType(productTypeID: number, options: GetForProductTypeOptions): Promise<{ data: Product[] }>;
 }
 
-export class ProductNotFoundError extends Error {
+export class NotFoundError extends Error {
   constructor() {
     super('Product type not found');
     Object.setPrototypeOf(this, new.target.prototype);
@@ -103,7 +61,7 @@ export default class implements ProductAPI {
 
   public getAll: ProductAPI['getAll'] = async ({ page, available = false, deleted = false }) => {
     try {
-      const response = await this.client.get<ProductListResponseData>(
+      const response = await this.client.get<{ data: Product[]; meta: PaginationMeta }>(
         `/api/products${buildSearchString({
           page,
           available: flagToSearchStringValue(available),
@@ -121,9 +79,12 @@ export default class implements ProductAPI {
 
   public getSome: ProductAPI['getSome'] = async (ids) => {
     try {
-      const response = await this.client.get<ProductListResponseData>(`/api/products${buildSearchString({ ids })}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.get<{ data: Product[]; meta: PaginationMeta }>(
+        `/api/products${buildSearchString({ ids })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       throw e;
@@ -132,9 +93,12 @@ export default class implements ProductAPI {
 
   public getForCart: ProductAPI['getForCart'] = async (ids) => {
     try {
-      const response = await this.client.get<ProductListResponseData>(`/api/products${buildSearchString({ ids })}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.get<{ data: Product[]; meta: PaginationMeta }>(
+        `/api/products${buildSearchString({ ids })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       throw e;
@@ -152,7 +116,7 @@ export default class implements ProductAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new ProductNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -165,7 +129,7 @@ export default class implements ProductAPI {
       if (images) {
         images.forEach((image) => formData.append('images', image));
       }
-      const response = await this.client.post<ProductResponseData>(`/api/products`, formData, {
+      const response = await this.client.post<{ data: Product }>(`/api/products`, formData, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
@@ -181,13 +145,13 @@ export default class implements ProductAPI {
       if (images) {
         images.forEach((image) => formData.append('images', image));
       }
-      const response = await this.client.put<ProductResponseData>(`/api/products/${id}`, formData, {
+      const response = await this.client.put<{ data: Product }>(`/api/products/${id}`, formData, {
         headers: this.headersManager.getHeaders(),
       });
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new ProductNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -204,7 +168,7 @@ export default class implements ProductAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new ProductNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }
@@ -212,7 +176,7 @@ export default class implements ProductAPI {
 
   public getOne: ProductAPI['getOne'] = async (id, { deleted = false }) => {
     try {
-      const response = await this.client.get<ProductResponseData>(
+      const response = await this.client.get<{ data: Product }>(
         `/api/products/${id}${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,
         {
           headers: this.headersManager.getHeaders(),
@@ -221,14 +185,14 @@ export default class implements ProductAPI {
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
-        throw new ProductNotFoundError();
+        throw new NotFoundError();
       }
       throw e;
     }
   };
 
   public getForProductType: ProductAPI['getForProductType'] = async (productTypeID, { available = false }) => {
-    const response = await this.client.get<ProductForProductTypeResponseData>(
+    const response = await this.client.get<{ data: Product[] }>(
       `/api/product_types/${productTypeID}/products${buildSearchString({
         available: flagToSearchStringValue(available),
       })}`,

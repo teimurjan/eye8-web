@@ -52,3 +52,5 @@ export { default as UnderlinedInput } from '@eye8/client-ui/underlined-input';
 export type { Props as UnderlinedInputProps } from '@eye8/client-ui/underlined-input';
 export { default as WithIcon } from '@eye8/client-ui/with-icon';
 export type { Props as WithIconProps } from '@eye8/client-ui/with-icon';
+export { default as FullSizePage } from '@eye8/client-ui/full-size-page';
+export type { Props as FullSizePageProps } from '@eye8/client-ui/full-size-page';

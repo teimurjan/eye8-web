@@ -1,46 +1,29 @@
 import { schema, normalize } from 'normalizr';
 
 import {
+  Rate,
   RateAPI,
-  RateListResponseItem,
-  RatesCreatePayload,
   RateNotFoundError,
-  RateWithOrdersNotDeletedError,
+  RateDeletionWithOrdersError,
   RateCreationNotAllowedError,
-} from '@eye8/api/rate';
+  RateCreatePayload,
+} from '@eye8/api';
 import { StateCacheStorage } from '@eye8/storage/state-cache';
 
-export interface GroupedRates {
-  [key: string]: RateListResponseItem[];
-}
+export { RateNotFoundError, RateDeletionWithOrdersError, RateCreationNotAllowedError };
 
 export interface RateService {
-  getAll(): Promise<{ entities: { rates: { [key: string]: RateListResponseItem } }; result: number[] }>;
+  getAll(): Promise<{ entities: { rates: { [key: string]: Rate } }; result: number[] }>;
   delete(id: number): Promise<void>;
   exists(id: number): Promise<boolean>;
-  create(payload: RatesCreatePayload): Promise<RateListResponseItem>;
-  getAllGrouped(): Promise<GroupedRates>;
-  getAllCached(): GroupedRates;
+  create(payload: RateCreatePayload): Promise<Rate>;
+  getAllGrouped(): Promise<{
+    [key: string]: Rate[];
+  }>;
+  getAllCached(): {
+    [key: string]: Rate[];
+  };
   addChangeListener: StateCacheStorage['addChangeListener'];
-}
-
-export class RateLimitExceededError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
-export class RateNotExistsError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
-}
-export class RateHasOrdersError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, new.target.prototype);
-  }
 }
 
 export default class implements RateService {
@@ -62,10 +45,10 @@ export default class implements RateService {
       await this.API.delete(id);
     } catch (e) {
       if (e instanceof RateNotFoundError) {
-        throw new RateNotExistsError();
+        throw new RateNotFoundError();
       }
-      if (e instanceof RateWithOrdersNotDeletedError) {
-        throw new RateHasOrdersError();
+      if (e instanceof RateDeletionWithOrdersError) {
+        throw new RateDeletionWithOrdersError();
       }
       throw e;
     }
@@ -89,7 +72,7 @@ export default class implements RateService {
       return rate.data;
     } catch (e) {
       if (e instanceof RateCreationNotAllowedError) {
-        throw new RateLimitExceededError();
+        throw new RateCreationNotAllowedError();
       }
       throw e;
     }
@@ -105,7 +88,9 @@ export default class implements RateService {
   };
 
   public getAllCached: RateService['getAllCached'] = () => {
-    return (this.storage.get('rates') || {}) as GroupedRates;
+    return (this.storage.get('rates') || {}) as {
+      [key: string]: Rate[];
+    };
   };
 
   public addChangeListener: RateService['addChangeListener'] = (listener) => {

@@ -3,8 +3,7 @@ import { css, jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
 import { useIntl } from 'react-intl';
 
-import { ProductListResponseItem } from '@eye8/api/product';
-import { PromoCodeListResponseItem } from '@eye8/api/promo-code';
+import { Product, PromoCode } from '@eye8/api';
 import { HelpText, Image, Subtitle, Title } from '@eye8/client-ui';
 import { isPromoCodeApplicableForProduct } from '@eye8/shared/helpers';
 
@@ -12,11 +11,11 @@ import Quantity from '../cart-item-quantity';
 import { PriceCrossedText, PriceText } from '../price';
 
 interface Props {
-  product: ProductListResponseItem;
+  product: Product;
   count: number;
   onRemoveClick: () => void;
   onAddClick: () => void;
-  promoCode?: PromoCodeListResponseItem;
+  promoCode?: PromoCode;
 }
 
 const CartItem = ({ product, count, onRemoveClick, onAddClick, promoCode }: Props) => {

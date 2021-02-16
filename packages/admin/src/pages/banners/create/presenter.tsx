@@ -3,7 +3,7 @@ import React from 'react';
 import * as yup from 'yup';
 
 import { AdminBannersState } from '@eye8/admin/state';
-import { BannerService } from '@eye8/service/banner';
+import { BannerService } from '@eye8/service';
 import { SchemaValidator, availableLocales } from '@eye8/shared/utils';
 
 import { getFieldName, parseFieldName } from '../../../components';
