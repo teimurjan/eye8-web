@@ -10,4 +10,4 @@ const DeleteModal = (props: Omit<PresenterProps, 'View'>) => (
   <ConnectedDeleteModalPresenter View={DeleteModalView} {...props} />
 );
 
-export default DeleteModal
+export default DeleteModal;

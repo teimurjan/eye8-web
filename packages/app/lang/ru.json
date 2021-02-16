@@ -104,6 +104,7 @@
   "AdminProductTypes.categoriesSelect.label": "Категории",
   "common.category": "Категория",
   "AdminProductTypes.create.title": "Создать тип продукта",
+  "AdminProductTypes.delete.info": "Удаление типа продукта повлечет удаление всех его продуктов.",
   "AdminProductTypes.nameInput.label": "Имя",
   "AdminProductTypes.nameInput.placeholder": "Введите имя",
   "AdminProductTypes.descriptionInput.label": "Описание",

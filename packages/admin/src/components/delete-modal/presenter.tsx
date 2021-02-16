@@ -24,6 +24,7 @@ export interface Props {
   checkExistence: (args: CheckExistenceDataArgs) => Promise<boolean>;
   getErrorMessageID?: (e: Error) => string;
   getBackPath: (args: BackPathArgs) => string;
+  info?: React.ReactNode;
 }
 
 export interface ViewProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -32,6 +33,7 @@ export interface ViewProps extends React.HTMLAttributes<HTMLDivElement> {
   onConfirm: () => void;
   isLoading?: boolean;
   error: string | undefined;
+  info: Props['info'];
 }
 
 const DEFAULT_SEARCH_PARAMS = { deleted: false };
@@ -44,6 +46,7 @@ const DeleteModalPresenter = ({
   getBackPath,
   checkExistence,
   getErrorMessageID,
+  info,
 }: Props & RouteComponentProps<{ id: string }>) => {
   const { deleted } = useSearchParams(DEFAULT_SEARCH_PARAMS);
 
@@ -83,7 +86,7 @@ const DeleteModalPresenter = ({
     }
   }, [close, deleteEntity, getErrorMessageID, id, deleted]);
 
-  return <View isOpen={!!id} onConfirm={remove} onClose={close} error={error} isLoading={isLoading} />;
+  return <View isOpen={!!id} onConfirm={remove} onClose={close} error={error} isLoading={isLoading} info={info} />;
 };
 
 export default DeleteModalPresenter;

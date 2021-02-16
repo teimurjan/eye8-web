@@ -5,7 +5,7 @@ import { Button, Message, Modal, ModalBackground, ModalCard, ModalContent } from
 
 import { ViewProps as Props } from './presenter';
 
-const DeleteModalView = ({ isOpen, onClose, onConfirm, isLoading = false, error, ...props }: Props) => {
+const DeleteModalView = ({ isOpen, onClose, onConfirm, isLoading = false, error, info, ...props }: Props) => {
   const intl = useIntl();
   const onConfirmClick = React.useCallback(() => onConfirm(), [onConfirm]);
 
@@ -27,6 +27,7 @@ const DeleteModalView = ({ isOpen, onClose, onConfirm, isLoading = false, error,
               <ModalCard.Title>{intl.formatMessage({ id: 'common.deleteApproval' })}</ModalCard.Title>
               <ModalCard.Close onClick={onClose} />
             </ModalCard.Head>
+            {info && <ModalCard.Body>{info}</ModalCard.Body>}
             <ModalCard.Foot>
               <Button color="is-primary" onClick={onConfirmClick} loading={isLoading} disabled={!!error}>
                 {intl.formatMessage({ id: 'common.yes' })}

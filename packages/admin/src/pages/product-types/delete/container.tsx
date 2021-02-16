@@ -1,4 +1,5 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 
 import { useDI } from '@eye8/di';
 import { ProductTypeDeletionWithProductsError } from '@eye8/service';
@@ -15,6 +16,7 @@ const getErrorMessageID = (e: Error) => {
 };
 
 const AdminProductTypesDeleteContainer = () => {
+  const intl = useIntl();
   const { di } = useDI();
   const { remove: deleteProductType } = useAdminProductTypesState();
 
@@ -27,6 +29,7 @@ const AdminProductTypesDeleteContainer = () => {
       }}
       checkExistence={({ id, deleted }) => di.service.productType.exists(id, { deleted })}
       getBackPath={() => `/admin/productTypes`}
+      info={intl.formatMessage({ id: 'AdminProductTypes.delete.info' })}
     />
   );
 };

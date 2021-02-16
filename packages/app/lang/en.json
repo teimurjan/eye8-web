@@ -104,6 +104,7 @@
   "AdminProductTypes.categoriesSelect.label": "Categories",
   "common.category": "Category",
   "AdminProductTypes.create.title": "Create product type",
+  "AdminProductTypes.delete.info": "Deletion of a product type will cause deletion of all its products.",
   "AdminProductTypes.nameInput.label": "Name",
   "AdminProductTypes.nameInput.placeholder": "Enter a name",
   "AdminProductTypes.descriptionInput.label": "Description",
