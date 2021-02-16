@@ -19,7 +19,15 @@ export interface Product {
   discount: number;
   price: number;
   quantity: number;
-  product_type: { category: number; feature_types: number[]; id: number; name: string; slug: string; image: string };
+  product_type: {
+    category: number;
+    feature_types: number[];
+    id: number;
+    name: string;
+    slug: string;
+    image: string;
+    is_deleted: boolean;
+  };
   feature_values: Array<{
     feature_type: { id: number; name: string };
     id: number;

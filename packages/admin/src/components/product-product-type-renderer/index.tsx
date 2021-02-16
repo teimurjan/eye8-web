@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { Table } from '@eye8/admin-ui';
 import { Product } from '@eye8/api';
 import { Tooltip } from '@eye8/shared/components';
-import { formatMediaURL } from '@eye8/shared/utils';
+import { buildSearchString, formatMediaURL } from '@eye8/shared/utils';
 
 import { Renderer } from '../table';
 
@@ -27,7 +27,7 @@ const ProductTypeLink = ({ productType }: ProductTypeLinkProps) => {
           css={css`
             vertical-align: middle;
           `}
-          to={`/admin/productTypes/edit/${productType.id}`}
+          to={`/admin/productTypes/edit/${productType.id}${buildSearchString({ deleted: productType.is_deleted })}`}
         >
           {productType.name}
         </Link>
