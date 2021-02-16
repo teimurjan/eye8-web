@@ -34,8 +34,11 @@
       "@eye8/di/*": ["packages/di/src/*"],
       "@eye8/service": ["packages/service/src"],
       "@eye8/service/*": ["packages/service/src/*"],
+      "@eye8/shared": ["packages/shared/src"],
       "@eye8/shared/*": ["packages/shared/src/*"],
+      "@eye8/storage": ["packages/storage/src"],
       "@eye8/storage/*": ["packages/storage/src/*"],
+      "@eye8/manager": ["packages/manager/src"],
       "@eye8/manager/*": ["packages/manager/src/*"]
     }
   }

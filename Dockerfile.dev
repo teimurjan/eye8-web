@@ -20,7 +20,7 @@ COPY packages/manager /app/packages/manager
 COPY packages/service /app/packages/service
 COPY packages/shared /app/packages/shared
 COPY packages/storage /app/packages/storage
-RUN lerna bootstrap
+RUN yarn install --frozen-lockfile
 
 COPY tsconfig.json /app/tsconfig.json
 COPY @types /app/@types

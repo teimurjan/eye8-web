@@ -9,6 +9,7 @@
       "@eye8/admin-ui/*": ["node_modules/@eye8/admin-ui/src/*"],
       "@eye8/api": ["node_modules/@eye8/api/src"],
       "@eye8/api/*": ["node_modules/@eye8/api/src/*"],
+      "@eye8/client": ["node_modules/@eye8/client/src"],
       "@eye8/client/*": ["node_modules/@eye8/client/src/*"],
       "@eye8/client-ui": ["node_modules/@eye8/client-ui/src"],
       "@eye8/client-ui/*": ["node_modules/@eye8/client-ui/src/*"],
@@ -16,8 +17,11 @@
       "@eye8/di/*": ["node_modules/@eye8/di/src/*"],
       "@eye8/service": ["node_modules/@eye8/service/src"],
       "@eye8/service/*": ["node_modules/@eye8/service/src/*"],
+      "@eye8/shared": ["node_modules/@eye8/shared/src"],
       "@eye8/shared/*": ["node_modules/@eye8/shared/src/*"],
+      "@eye8/storage": ["node_modules/@eye8/storage/src"],
       "@eye8/storage/*": ["node_modules/@eye8/storage/src/*"],
+      "@eye8/manager": ["node_modules/@eye8/manager/src"],
       "@eye8/manager/*": ["node_modules/@eye8/manager/src/*"]
     }
   }
