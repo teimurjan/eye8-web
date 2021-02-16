@@ -10,6 +10,7 @@ RUN yarn add lerna -g
 COPY package.json /app/package.json
 COPY yarn.lock /app/yarn.lock
 COPY lerna.json /app/lerna.json
+COPY bin /app/bin
 COPY packages/admin /app/packages/admin
 COPY packages/admin-ui /app/packages/admin-ui
 COPY packages/api /app/packages/api
