@@ -14,6 +14,9 @@ export interface CookieStorage extends Storage {
   [key: string]: any;
 }
 
+export const getCookieDomain = () =>
+  process.env.PUBLIC_URL ? `.${process.env.PUBLIC_URL.replace('https://', '').replace('www.', '')}` : undefined;
+
 export default class implements CookieStorage {
   get length() {
     return Object.keys(cookies.getAll()).length;
