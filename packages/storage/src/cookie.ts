@@ -22,7 +22,7 @@ export default class implements CookieStorage {
     return Object.keys(cookies.getAll()).length;
   }
 
-  private getStaticOptions = () => ({});
+  private getStaticOptions = () => ({ domain: getCookieDomain() });
 
   key = (i: number) => Object.keys(cookies.getAll())[i];
 
