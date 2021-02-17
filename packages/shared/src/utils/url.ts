@@ -14,4 +14,4 @@ export const formatMediaURL = (url: string) => (url.startsWith('/') ? `${process
 export const withPublicURL = (url: string) => `${process.env.PUBLIC_URL || ''}${url.startsWith('/') ? '' : '/'}${url}`;
 
 export const getCookieDomain = () =>
-  process.env.PUBLIC_URL ? `.${process.env.PUBLIC_URL.replace('https://', '')}` : undefined;
+  process.env.PUBLIC_URL ? `${process.env.PUBLIC_URL.replace('https://', '')}` : undefined;

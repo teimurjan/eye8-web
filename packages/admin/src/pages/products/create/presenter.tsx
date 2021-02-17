@@ -4,8 +4,7 @@ import * as yup from 'yup';
 
 import { useSelectProductTypes } from '@eye8/admin/hooks';
 import { TinyProductType } from '@eye8/api';
-import { ProductService } from '@eye8/service';
-import { ProductTypeService } from '@eye8/service';
+import { ProductService, ProductTypeService } from '@eye8/service';
 import { SchemaValidator } from '@eye8/shared/utils';
 
 import { AdminProductsState, AdminFeatureValuesState } from '../../../state';
