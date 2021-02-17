@@ -227,8 +227,8 @@ const AdminProductTypesEditPresenter: React.FC<Props> = ({
         ),
         instagram_links: productType.instagram_links.map((link) => ({ id: link.id, value: link.link })),
         categories: productType.categories.map(({ id }) => id.toString()),
-        feature_types: productType.feature_types.map((id) => id.toString()),
-        characteristic_values: productType.characteristic_values.map((id) => id.toString()),
+        feature_types: productType.feature_types.map(({ id }) => id.toString()),
+        characteristic_values: productType.characteristic_values.map(({ id }) => id.toString()),
         image: productType.image,
       } as ViewProps['initialValues'];
     }

@@ -1,6 +1,5 @@
 import Cookies, { CookieSetOptions, CookieGetOptions } from 'universal-cookie';
 
-import { getCookieDomain } from '@eye8/shared/utils';
 import { Storage } from '@eye8/storage/types';
 
 const cookies = new Cookies();
@@ -20,7 +19,7 @@ export default class implements CookieStorage {
     return Object.keys(cookies.getAll()).length;
   }
 
-  private getStaticOptions = () => ({ domain: getCookieDomain() });
+  private getStaticOptions = () => ({});
 
   key = (i: number) => Object.keys(cookies.getAll())[i];
 

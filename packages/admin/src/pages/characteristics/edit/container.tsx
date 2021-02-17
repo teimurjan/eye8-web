@@ -21,6 +21,7 @@ const AdminCharacteristicsEditContainer = () => {
       history={history}
       View={AdminCharacteristicsEditView}
       service={di.service.characteristic}
+      characteristicValueService={di.service.characteristicValue}
       adminCharacteristicsState={adminCharacteristicsState}
     />
   );

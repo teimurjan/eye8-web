@@ -20,6 +20,7 @@ export interface EditPayload {
 interface CharacteristicValueAPI {
   getAll(): Promise<{ data: CharacteristicValue[] }>;
   getAllRawIntl(): Promise<{ data: CharacteristicValue<true>[] }>;
+  getForCharacteristicRawIntl(characteristicId: number): Promise<{ data: CharacteristicValue<true>[] }>;
   delete(id: number): Promise<{}>;
   create(payload: CreatePayload): Promise<{ data: CharacteristicValue<true> }>;
   edit(id: number, payload: EditPayload): Promise<{ data: CharacteristicValue<true> }>;
@@ -48,6 +49,22 @@ export default class implements CharacteristicValueAPI {
       const response = await this.client.get<{ data: CharacteristicValue[] }>('/api/characteristic_values', {
         headers: this.headersManager.getHeaders(),
       });
+      return response.data;
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  public getForCharacteristicRawIntl: CharacteristicValueAPI['getForCharacteristicRawIntl'] = async (
+    characteristicId,
+  ) => {
+    try {
+      const response = await this.client.get<{ data: CharacteristicValue<true>[] }>(
+        `/api/characteristics/${characteristicId}/characteristic_values`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       throw e;

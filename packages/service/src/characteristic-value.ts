@@ -25,6 +25,16 @@ export interface CharacteristicValueService {
     };
     result: number[];
   }>;
+  getForCharacteristicRawIntl(
+    characteristicId: number,
+  ): Promise<{
+    entities: {
+      characteristicValues: {
+        [key: string]: CharacteristicValue<true>;
+      };
+    };
+    result: number[];
+  }>;
   delete(id: number): Promise<{}>;
   create(payload: CharacteristicValueCreatePayload): Promise<CharacteristicValue<true>>;
   edit(id: number, payload: CharacteristicValueEditPayload): Promise<CharacteristicValue<true>>;
@@ -42,6 +52,13 @@ export default class implements CharacteristicValueService {
 
   public getAll: CharacteristicValueService['getAll'] = async () => {
     const characteristicValues = await this.API.getAll();
+    return normalize(characteristicValues.data, [new schema.Entity('characteristicValues')]);
+  };
+
+  public getForCharacteristicRawIntl: CharacteristicValueService['getForCharacteristicRawIntl'] = async (
+    characteristicId,
+  ) => {
+    const characteristicValues = await this.API.getForCharacteristicRawIntl(characteristicId);
     return normalize(characteristicValues.data, [new schema.Entity('characteristicValues')]);
   };
 
