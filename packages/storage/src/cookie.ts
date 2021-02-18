@@ -22,11 +22,11 @@ export default class implements CookieStorage {
     return Object.keys(cookies.getAll()).length;
   }
 
-  private getStaticOptions = () => ({ domain: getCookieDomain() });
+  private getStaticOptions = () => ({ domain: getCookieDomain(), path: '/' });
 
   key = (i: number) => Object.keys(cookies.getAll())[i];
 
-  removeItem = (key: string, options: CookieSetOptions = { path: '/' }) => {
+  removeItem = (key: string, options: CookieSetOptions = {}) => {
     cookies.remove(key, { ...this.getStaticOptions(), ...options });
   };
 
@@ -39,7 +39,7 @@ export default class implements CookieStorage {
     return item ? item : null;
   };
 
-  setItem = (key: string, value: string, options: CookieSetOptions = { path: '/' }) => {
+  setItem = (key: string, value: string, options: CookieSetOptions = {}) => {
     cookies.set(key, value, { ...this.getStaticOptions(), ...options });
   };
 }

@@ -1,4 +1,3 @@
-import { safeWindow } from '@eye8/shared/utils';
 import { CookieStorage } from '@eye8/storage/cookie';
 
 export interface AuthStorage {
@@ -17,11 +16,8 @@ export default class implements AuthStorage {
     return this.storage.getItem('access_token');
   }
 
-  private getCookieOptions = () =>
-    process.env.NODE_ENV === 'production' ? { domain: safeWindow((w) => w.location.host, undefined) } : {};
-
   public setAccessToken(token: string) {
-    this.storage.setItem('access_token', token, this.getCookieOptions());
+    this.storage.setItem('access_token', token);
   }
 
   public clearAccessToken() {

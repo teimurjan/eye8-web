@@ -20,7 +20,7 @@ export default class implements ThemeStorage {
   public setTheme(theme: Theme) {
     const expires = new Date();
     expires.setTime(expires.getTime() + 180 * 24 * 3600 * 1000); // 180 days
-    this.storage.setItem('theme', theme, { expires, path: '/' });
+    this.storage.setItem('theme', theme, { expires });
   }
 
   public toggle() {

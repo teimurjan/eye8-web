@@ -19,10 +19,10 @@ export default class implements IntlStorage {
   public setLocale(locale: string) {
     const expires = new Date();
     expires.setFullYear(expires.getFullYear() + 1);
-    this.storage.setItem('locale', locale, { path: '/', expires });
+    this.storage.setItem('locale', locale, { expires });
   }
 
   public clearLocale() {
-    this.storage.removeItem('locale', { path: '/' });
+    this.storage.removeItem('locale');
   }
 }
