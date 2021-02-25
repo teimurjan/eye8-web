@@ -1,3 +1,4 @@
+import uniqBy from 'lodash/uniqBy';
 import React from 'react';
 import { Field as FinalFormField, FieldRenderProps, useFormState } from 'react-final-form';
 import { useIntl } from 'react-intl';
@@ -17,35 +18,42 @@ interface CharacteristicValuesSelectProps extends FieldRenderProps<string[]> {
 const CharacteristicValuesSelect = ({ characteristicValues, input, meta }: CharacteristicValuesSelectProps) => {
   const intl = useIntl();
   const showError = meta.touched && meta.error;
-  
+  const characteristics = uniqBy(
+    characteristicValues.map((characteristicValue) => characteristicValue.characteristic),
+    (characteristic) => characteristic.id,
+  );
+
   return (
-    <FormSelectField
-      labelProps={{
-        children: (
-          <>
-            {intl.formatMessage({
+    <>
+      {characteristics.map((characteristic) => (
+        <FormSelectField
+          key={characteristic.id}
+          labelProps={{
+            children: <>{characteristic.name[intl.locale]}</>,
+          }}
+          selectProps={{
+            ...input,
+            multiple: true,
+            options: characteristicValues
+              .filter((characteristicValue) => characteristicValue.characteristic.id === characteristic.id)
+              .map(({ id, name }) => ({
+                title: name[intl.locale],
+                value: id.toString(),
+              })),
+            TriggerComponent: SelectTrigger,
+            searchable: true,
+            clearable: true,
+            placeholder: intl.formatMessage({
               id: 'AdminProductTypes.characteristicValuesSelect.label',
-            })}
-          </>
-        ),
-      }}
-      selectProps={{
-        ...input,
-        multiple: true,
-        options: characteristicValues.map(({ id, name, characteristic }) => ({
-          title: `${characteristic.name[intl.locale]}: ${name[intl.locale]}`,
-          value: id.toString(),
-        })),
-        TriggerComponent: SelectTrigger,
-        searchable: true,
-        clearable: true,
-        placeholder: intl.formatMessage({ id: 'AdminProductTypes.characteristicValuesSelect.placeholder' }),
-      }}
-      helpTextProps={{
-        children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
-        type: 'is-danger',
-      }}
-    />
+            }),
+          }}
+          helpTextProps={{
+            children: showError ? intl.formatMessage({ id: meta.error }) : undefined,
+            type: 'is-danger',
+          }}
+        />
+      ))}
+    </>
   );
 };
 
