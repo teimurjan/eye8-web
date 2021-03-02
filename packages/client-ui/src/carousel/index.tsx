@@ -3,7 +3,7 @@ import { css, jsx } from '@emotion/core';
 import classNames from 'classnames';
 import React from 'react';
 import { ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon } from 'react-feather';
-import { useSwipeable, SwipeableOptions } from 'react-swipeable';
+import Slider from 'react-slick';
 
 import { Button } from '@eye8/client-ui';
 import { IconWrapper } from '@eye8/shared/components';
@@ -20,7 +20,6 @@ const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(({ chil
       className={classNames(className)}
       ref={ref}
       css={css`
-        flex: 0 0 100%;
         position: relative;
       `}
     >
@@ -32,113 +31,98 @@ const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(({ chil
 });
 
 export interface Props {
-  activeIndex: number;
-  fullWidth?: boolean;
+  activeIndex?: number;
   className?: string;
-  onEnter?: () => void;
-  onEntered?: () => void;
+  onChange?: (index: number) => void;
   children?: React.ReactNode;
-  controls?: React.ReactElement<CarouselControlsProps>;
-  swipeableOptions?: SwipeableOptions;
+  controls?: boolean;
+  autoPlay?: boolean;
+  autoPlaySpeed?: number;
 }
 
-const Carousel = ({
-  className,
-  children,
-  activeIndex,
-  fullWidth = false,
-  onEnter,
-  onEntered,
-  controls,
-  swipeableOptions,
-}: Props) => {
-  const swipeableHandlers = useSwipeable(swipeableOptions || {});
-  const width = React.useMemo(() => {
-    if (fullWidth) {
-      return '100%';
-    }
-    return undefined;
-  }, [fullWidth]);
+const Carousel = ({ className, children, activeIndex, onChange, controls, autoPlay, autoPlaySpeed = 10000 }: Props) => {
+  const sliderRef = React.useRef<Slider>(null);
 
   React.useEffect(() => {
-    onEnter && onEnter();
-    const timeoutID = setTimeout(() => {
-      onEntered && onEntered();
-    }, 500);
-
-    return () => clearTimeout(timeoutID);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (typeof activeIndex === 'number' && sliderRef && sliderRef.current) {
+      sliderRef.current.slickGoTo(activeIndex, true);
+    }
   }, [activeIndex]);
 
   return (
-    <div
+    <Slider
+      ref={(ref) => {
+        // @ts-ignore
+        sliderRef.current = ref;
+      }}
       className={className}
-      css={css`
-        overflow: hidden;
-        position: relative;
-      `}
+      touchThreshold={15}
+      beforeChange={(_, nextIndex) => onChange?.(nextIndex)}
+      nextArrow={<CarouselNextControl />}
+      prevArrow={<CarouselPrevControl />}
+      arrows={controls}
+      autoplay={autoPlay}
+      autoplaySpeed={autoPlaySpeed}
+      speed={750}
+      infinite
     >
-      <div
-        style={{ transform: `translateX(-${activeIndex * 100}%)`, width }}
-        css={css`
-          display: flex;
-          transition: transform 500ms ease-in-out;
-        `}
-        className="carousel"
-        {...(swipeableOptions ? swipeableHandlers : {})}
-      >
-        {children}
-      </div>
-      {controls}
-    </div>
+      {children}
+    </Slider>
   );
 };
 
-interface CarouselControlsProps {
-  onNextClick?: React.MouseEventHandler;
-  onPrevClick?: React.MouseEventHandler;
+interface CarouselControlProps {
+  onClick?: React.MouseEventHandler;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 const controlsCSS = css`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  z-index: 1 !important;
+  width: auto !important;
+  height: auto !important;
+
+  &:before {
+    display: none;
+  }
 
   @media ${mediaQueries.maxWidth768} {
     display: none !important;
   }
 `;
 
-Carousel.Controls = ({ onNextClick, onPrevClick }: CarouselControlsProps) => (
-  <>
-    <Button
-      css={css`
-        ${controlsCSS};
-        left: 20px;
-      `}
-      color="primary"
-      onClick={onPrevClick}
-      circled
-    >
+const CarouselPrevControl = ({ className, style, onClick }: CarouselControlProps) => (
+  <div
+    css={css`
+      ${controlsCSS};
+      left: 20px !important;
+    `}
+    className={className}
+    style={style}
+  >
+    <Button color="primary" onClick={onClick} circled>
       <IconWrapper>
         <ChevronLeftIcon size={IconSize.Medium} />
       </IconWrapper>
     </Button>
-    <Button
-      css={css`
-        ${controlsCSS};
-        right: 20px;
-      `}
-      color="primary"
-      onClick={onNextClick}
-      circled
-    >
+  </div>
+);
+
+const CarouselNextControl = ({ className, style, onClick }: CarouselControlProps) => (
+  <div
+    css={css`
+      ${controlsCSS};
+      right: 20px !important;
+    `}
+    className={className}
+    style={style}
+  >
+    <Button color="primary" onClick={onClick} circled>
       <IconWrapper>
         <ChevronRightIcon size={IconSize.Medium} />
       </IconWrapper>
     </Button>
-  </>
+  </div>
 );
 
 Carousel.Item = CarouselItem;

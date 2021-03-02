@@ -4,7 +4,7 @@ import { useTheme } from 'emotion-theming';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Container, LinkButton, Image, Title, InfiniteCarousel, Carousel } from '@eye8/client-ui';
+import { Container, LinkButton, Image, Title, Carousel } from '@eye8/client-ui';
 import { useLazyInitialization, useMedia } from '@eye8/shared/hooks';
 import { mediaQueries } from '@eye8/shared/styles';
 import { arePropsEqual, guessPageHref } from '@eye8/shared/utils';
@@ -56,12 +56,7 @@ interface BannerCarouselItemProps {
 const BannerCarouselItem = ({ banner, isMobile, dataKey }: BannerCarouselItemProps) => {
   const theme = useTheme<ClientUITheme>();
   return (
-    <Carousel.Item
-      css={css`
-        width: 100%;
-        overflow: hidden;
-      `}
-    >
+    <Carousel.Item>
       <Image alt={banner.text} src={banner.image} squared={false} />
       <div
         data-key={dataKey}
@@ -140,19 +135,17 @@ const HomeView = ({ banners, productTypes }: Props) => {
 
   return (
     <div>
-      <InfiniteCarousel
-        delay={10000}
+      <Carousel
+        controls
+        autoPlay
         css={css`
           text-align: center;
         `}
-        controls={<Carousel.Controls />}
-        fullWidth
-        swipeable
       >
         {banners.map((banner) => (
           <BannerCarouselItem key={banner.id} banner={banner} isMobile={lazyIsMobile} />
         ))}
-      </InfiniteCarousel>
+      </Carousel>
 
       <Container>
         <Title

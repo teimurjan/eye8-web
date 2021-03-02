@@ -15,9 +15,14 @@
   "homepage": "https://eye8.kg",
   "dependencies": {
     "@eye8/shared": "0.0.0",
-    "flexboxgrid2": "^7.2.1"
+    "flexboxgrid2": "^7.2.1",
+    "react-slick": "^0.28.0",
+    "slick-carousel": "^1.8.1"
   },
   "scripts": {
     "build": "rm -rf dist && tsc -p ./tsconfig.build.json"
+  },
+  "devDependencies": {
+    "@types/react-slick": "^0.23.4"
   }
 }

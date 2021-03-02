@@ -29,27 +29,12 @@ const ProductTypeImageCarousel = <T extends any = string>({
         width: 100%;
       `}
     >
-      <Carousel activeIndex={activeImageIndex}>
+      <Carousel onChange={onChange} activeIndex={activeImageIndex} controls={false}>
         {images.map((image) => {
           const { src, alt } = getImageProps(image);
           return (
             <Carousel.Item key={src}>
-              <div
-                css={css`
-                  display: flex !important;
-                  align-items: center;
-                  justify-content: center;
-                  width: 100%;
-                  height: 100%;
-
-                  img {
-                    width: 100%;
-                    height: 100%;
-                  }
-                `}
-              >
-                <img src={src} alt={alt} />
-              </div>
+              <img src={src} alt={alt} />
             </Carousel.Item>
           );
         })}
@@ -63,12 +48,11 @@ const ProductTypeImageCarousel = <T extends any = string>({
           margin-top: 5px;
         `}
       >
-        {images.map((image) => {
+        {images.map((image, index) => {
           const { src, alt } = getImageProps(image);
 
-          const currentImageIndex = images.indexOf(image);
-          const isActive = currentImageIndex === activeImageIndex;
-          const onImageClick = () => onChange(currentImageIndex);
+          const isActive = index === activeImageIndex;
+          const onImageClick = () => onChange(index);
 
           return (
             <div

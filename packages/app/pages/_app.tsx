@@ -37,7 +37,7 @@ export function reportWebVitals(metric: object) {
 if (process.env.NODE_ENV === 'development') {
   if (isWindowDefined()) {
     const whyDidYouRender = require('@welldone-software/why-did-you-render');
-    whyDidYouRender(React, { trackAllPureComponents: true });
+    whyDidYouRender(React, { trackAllPureComponents: true, collapseGroups: true });
   }
 }
 

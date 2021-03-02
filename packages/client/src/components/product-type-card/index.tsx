@@ -34,6 +34,8 @@ const ProductTypeCard = ({ productType }: Props) => {
     return 'ProductPage.sold';
   }, [hasProducts, productInStock]);
 
+  const image = formatMediaURL(productType.image ? productType.image : productType.products[0]?.images[0]);
+
   return (
     <LinkPassingProps
       ref={ref}
@@ -54,7 +56,7 @@ const ProductTypeCard = ({ productType }: Props) => {
       as={as}
       passHref
     >
-      <Image src={formatMediaURL(productType.image)} alt={productType.name} />
+      <Image src={image} alt={productType.name} />
       <div
         css={css`
           display: flex;

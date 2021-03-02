@@ -99,10 +99,12 @@ const CartPresenter: React.FC<Props> = ({
     (async () => {
       try {
         setLoading(true);
-        const ids = storage.getItems().map((item) => item.id);
+        const items = storage.getItems();
+        const ids = items.map((item) => item.id);
         if (ids.length > 0) {
           const { entities, result } = await productService.getForCart(ids);
           setData({ entities: entities.products, order: result });
+          storage.setItems(items.filter((item) => result.includes(item.id)));
         }
       } catch (e) {
         setError('errors.common');

@@ -184,12 +184,13 @@ export interface ProductType<
   slug: string;
   feature_types: Array<{ id: number; name: T; slug: string }>;
   characteristic_values: Array<{ id: number; name: T }>;
-  products?: Array<{
+  products: Array<{
     discount: number;
     feature_values: number[];
     id: number;
     price: number;
     quantity: number;
+    images: string[];
   }>;
   created_on: string;
   updated_on: string;

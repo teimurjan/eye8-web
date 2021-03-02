@@ -8,8 +8,6 @@ export { default as Carousel } from '@eye8/client-ui/carousel';
 export type { Props as CarouselProps } from '@eye8/client-ui/carousel';
 export { default as Container } from '@eye8/client-ui/container';
 export type { Props as ContainerProps } from '@eye8/client-ui/container';
-export { default as InfiniteCarousel } from '@eye8/client-ui/infinite-carousel';
-export type { Props as InfiniteCarouselProps } from '@eye8/client-ui/infinite-carousel';
 export { default as Divider } from '@eye8/client-ui/divider';
 export type { Props as DividerProps } from '@eye8/client-ui/divider';
 export { default as ErrorLayout } from '@eye8/client-ui/error-layout';

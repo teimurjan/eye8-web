@@ -1,9 +1,7 @@
 import React from 'react';
 
-import { Product } from '@eye8/api';
-import { ProductType } from '@eye8/api';
-import { ProductService } from '@eye8/service';
-import { ProductTypeService } from '@eye8/service';
+import { Product, ProductType } from '@eye8/api';
+import { ProductService, ProductTypeService } from '@eye8/service';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 export interface Props {

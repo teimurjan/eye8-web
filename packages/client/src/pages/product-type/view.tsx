@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
-import uniqBy from 'lodash/uniqBy';
 import Head from 'next/head';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -23,121 +22,23 @@ import { fadeInFromLeft, fadeInFromRight, fadeInFromBottom, easeOutCubic, mediaQ
 import { formatMediaURL } from '@eye8/shared/utils';
 
 import { ProductTypeImageCarousel, PriceCrossedText, InstagramPost } from '../../components';
+import { useProductTypePageInfo } from '../../hooks';
 
 import { ViewProps as Props } from './presenter';
-
-const getAllFeatureValuesGroupedByType = (
-  products: Props['products'],
-  allFeatureTypes: Array<Props['products'][0]['feature_values'][0]['feature_type']>,
-) =>
-  allFeatureTypes.reduce<{ [key: string]: Props['products'][0]['feature_values'] }>(
-    (acc, featureType) => ({
-      ...acc,
-      [featureType.id]: products.reduce(
-        (acc, product) =>
-          uniqBy(
-            [
-              ...acc,
-              ...product.feature_values.filter((featureValue) => featureValue.feature_type.id === featureType.id),
-            ],
-            'id',
-          ),
-        [] as Props['products'][0]['feature_values'],
-      ),
-    }),
-    {},
-  );
 
 const ProductTypePageView = ({ productType, products, error, isLoading, action, actionText }: Props) => {
   const intl = useIntl();
   const theme = useTheme<ClientUITheme>();
-  const [activeImageIndex, setActiveImageIndex] = React.useState(0);
 
-  const allImages = products.reduce(
-    (acc, product) => {
-      const productImages = product.images.map((image) => ({ productId: product.id, image }));
-      return [...acc, ...productImages];
-    },
-    [...(productType ? [{ productId: NaN, image: productType.image }] : [])],
-  );
-
-  const allFeatureTypes =
-    products.length > 0 ? products[0].feature_values.map((featureValue) => featureValue.feature_type) : [];
-
-  const allFeatureValuesGroupedByFeatureType = getAllFeatureValuesGroupedByType(products, allFeatureTypes);
-  const productsKey = products
-    .map((product) => product.id)
-    .sort()
-    .join('');
-  const initialFeatureValues = React.useMemo(
-    () => {
-      if (products.length > 0) {
-        const firstAvailableProduct = products.find((product) => product.quantity > 0);
-        return (firstAvailableProduct ?? products[0]).feature_values.reduce(
-          (acc, featureValue) => ({ ...acc, [featureValue.feature_type.id]: featureValue.id }),
-          {},
-        );
-      } else {
-        return {};
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [productsKey],
-  );
-  const [chosenFeatureValues, setChosenFeatureValues] = React.useState<{ [key: string]: number }>(initialFeatureValues);
-
-  React.useEffect(() => {
-    setChosenFeatureValues(initialFeatureValues);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialFeatureValues]);
-
-  const matchingProduct = products.find((product) =>
-    product.feature_values.every(
-      (featureValue) => chosenFeatureValues[featureValue.feature_type.id] === featureValue.id,
-    ),
-  );
-
-  React.useEffect(() => {
-    if (matchingProduct) {
-      if (matchingProduct.images[0]) {
-        setActiveImageIndex(allImages.findIndex((image) => image.productId === matchingProduct.id));
-      } else {
-        setActiveImageIndex(0);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [matchingProduct?.id]);
-
-  const onImageChange = React.useCallback(
-    (i: number) => {
-      setActiveImageIndex(i);
-      if (allImages[i]) {
-        const { productId } = allImages[i];
-        const product = products.find(({ id }) => id === productId) ?? products[0];
-
-        if (product) {
-          const chosenFeatureValues = product.feature_values.reduce((acc, featureValue) => {
-            return {
-              ...acc,
-              [featureValue.feature_type.id]: featureValue.id,
-            };
-          }, {});
-
-          setChosenFeatureValues(chosenFeatureValues);
-        } else {
-          setChosenFeatureValues(initialFeatureValues);
-        }
-      }
-    },
-    [allImages, products, initialFeatureValues],
-  );
-
-  const onFeatureValueChange = React.useCallback(
-    (featureTypeId: number, featureValueId?: number) => {
-      setChosenFeatureValues({ ...chosenFeatureValues, [featureTypeId]: featureValueId });
-    },
-    [chosenFeatureValues],
-  );
+  const {
+    images,
+    features,
+    activeImageIndex,
+    matchingProduct,
+    onImageChange,
+    onFeatureValueChange,
+    selectedFeatures,
+  } = useProductTypePageInfo(productType, products);
 
   const onActionClick = React.useCallback(() => {
     if (matchingProduct && action) {
@@ -154,7 +55,7 @@ const ProductTypePageView = ({ productType, products, error, isLoading, action, 
   }
 
   const getOptions = (featureType: Props['products'][0]['feature_values'][0]['feature_type']) =>
-    allFeatureValuesGroupedByFeatureType[featureType.id].map((featureValue) => ({
+    features[featureType.id].map((featureValue) => ({
       title: featureValue.name,
       value: featureValue.id.toString(),
     }));
@@ -199,6 +100,7 @@ const ProductTypePageView = ({ productType, products, error, isLoading, action, 
               display: flex;
               justify-content: flex-start;
               flex: 0 0 40%;
+              overflow: hidden;
               animation: ${fadeInFromLeft} 700ms ${easeOutCubic};
 
               @media ${mediaQueries.maxWidth768} {
@@ -208,7 +110,7 @@ const ProductTypePageView = ({ productType, products, error, isLoading, action, 
             `}
           >
             <ProductTypeImageCarousel
-              images={allImages}
+              images={images}
               getImageProps={(image) => ({ src: formatMediaURL(image.image), alt: image.productId.toString() })}
               activeImageIndex={activeImageIndex}
               onChange={onImageChange}
@@ -271,8 +173,8 @@ const ProductTypePageView = ({ productType, products, error, isLoading, action, 
                   <Subtitle size={3}>{intl.formatMessage({ id: 'ProductPage.notInStock' })}</Subtitle>
                 ))}
             </div>
-            {allFeatureTypes.map((featureType) => {
-              const chosenFeatureValue = chosenFeatureValues[featureType.id];
+            {productType.feature_types.map((featureType) => {
+              const chosenFeatureValue = selectedFeatures[featureType.id];
               return (
                 <Select
                   TriggerComponent={SelectTrigger}

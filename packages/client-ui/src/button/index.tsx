@@ -19,6 +19,7 @@ export interface Props {
   children: React.ReactNode;
   onClick?: React.MouseEventHandler;
   onMouseEnter?: React.MouseEventHandler;
+  style?: React.CSSProperties;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, Props>(
@@ -35,6 +36,7 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
       size,
       onClick,
       onMouseEnter,
+      style,
     },
     ref,
   ) => {
@@ -43,6 +45,7 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
     return (
       <button
         ref={ref}
+        style={style}
         onClick={onClick}
         data-active={active}
         disabled={loading}
