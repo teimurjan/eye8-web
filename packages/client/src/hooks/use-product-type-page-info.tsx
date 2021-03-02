@@ -52,8 +52,14 @@ const getInitiallySelectedFeatures = (products: Product[]) => {
   return {};
 };
 
-const getImageIndex = (matchingProduct: Product | undefined, images: Image[]) =>
-  matchingProduct ? images.findIndex(({ productId }) => matchingProduct.id === productId) : 0;
+const getImageIndex = (matchingProduct: Product | undefined, images: Image[]) => {
+  if (matchingProduct) {
+    const foundIndex = images.findIndex(({ productId }) => matchingProduct.id === productId);
+    return foundIndex !== -1 ? foundIndex : 0;
+  }
+
+  return 0;
+};
 
 const getMatchingProduct = (products: Product[], selectedFeatures: { [key: string]: number }) =>
   products.find((product) => {
@@ -71,6 +77,11 @@ const useProductTypePageInfo = (productType: ProductType | null, products: Produ
   const [activeImageIndex, setActiveImageIndex] = React.useState(getImageIndex(matchingProduct, images));
 
   React.useEffect(() => {
+    setSelectedFeatures(getInitiallySelectedFeatures(products));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productType?.id]);
+
+  React.useEffect(() => {
     setActiveImageIndex(getImageIndex(matchingProduct, images));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matchingProduct]);
@@ -79,6 +90,7 @@ const useProductTypePageInfo = (productType: ProductType | null, products: Produ
     (index: number) => {
       const { productId } = images[index];
       const product = products.find(({ id }) => id === productId);
+      console.log(index, matchingProduct, product);
 
       if (product && product.id !== matchingProduct?.id) {
         setSelectedFeatures(getProductFeatures(product));

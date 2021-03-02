@@ -57,7 +57,9 @@ const Carousel = ({ className, children, activeIndex, onChange, controls, autoPl
       }}
       className={className}
       touchThreshold={15}
-      beforeChange={(_, nextIndex) => onChange?.(nextIndex)}
+      beforeChange={(_, nextIndex) => {
+        onChange?.(nextIndex);
+      }}
       nextArrow={<CarouselNextControl />}
       prevArrow={<CarouselPrevControl />}
       arrows={controls}
