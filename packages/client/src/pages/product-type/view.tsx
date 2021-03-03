@@ -55,10 +55,10 @@ const ProductTypePageView = ({ productType, products, error, isLoading, action, 
   }
 
   const getOptions = (featureType: Props['products'][0]['feature_values'][0]['feature_type']) =>
-    features[featureType.id].map((featureValue) => ({
+    features[featureType.id]?.map((featureValue) => ({
       title: featureValue.name,
       value: featureValue.id.toString(),
-    }));
+    })) ?? [];
 
   return productType ? (
     <div
@@ -168,10 +168,9 @@ const ProductTypePageView = ({ productType, products, error, isLoading, action, 
               {matchingProduct && matchingProduct.quantity === 0 && (
                 <Subtitle size={3}>{intl.formatMessage({ id: 'ProductPage.sold' })}</Subtitle>
               )}
-              {products.length === 0 ||
-                (!matchingProduct && (
-                  <Subtitle size={3}>{intl.formatMessage({ id: 'ProductPage.notInStock' })}</Subtitle>
-                ))}
+              {(!matchingProduct || products.length === 0) && (
+                <Subtitle size={3}>{intl.formatMessage({ id: 'ProductPage.notInStock' })}</Subtitle>
+              )}
             </div>
             {productType.feature_types.map((featureType) => {
               const chosenFeatureValue = selectedFeatures[featureType.id];
