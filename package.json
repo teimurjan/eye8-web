@@ -14,7 +14,7 @@
   },
   "homepage": "https://eye8.kg",
   "dependencies": {
-    "@ckeditor/ckeditor5-build-classic": "^17.0.0",
+    "@ckeditor/ckeditor5-build-classic": "^27.1.0",
     "@ckeditor/ckeditor5-react": "^2.1.0",
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.5",
