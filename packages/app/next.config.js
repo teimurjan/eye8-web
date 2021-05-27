@@ -28,7 +28,6 @@ const env = {
   PUBLIC_URL: process.env.PUBLIC_URL,
   CLIENT_API_URL: process.env.CLIENT_API_URL,
   YM_ACCOUNT_ID: process.env.YM_ACCOUNT_ID,
-  FB_PIXEL_ID: process.env.FB_PIXEL_ID,
   FB_CLIENT_ACCESS_TOKEN: process.env.FB_CLIENT_ACCESS_TOKEN,
   SHOP_NAME: process.env.SHOP_NAME,
   SERVER_API_URL: process.env.SERVER_API_URL,
@@ -52,7 +51,7 @@ module.exports = withPWA(
                 include: [workspace],
                 exclude: /node_modules/,
                 use: options.defaultLoaders.babel,
-              }
+              },
             ],
           };
 

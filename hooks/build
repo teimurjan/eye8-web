@@ -5,7 +5,6 @@ docker build \
 --build-arg SENTRY_ORG="$SENTRY_ORG" \
 --build-arg SENTRY_PROJECT="$SENTRY_PROJECT" \
 --build-arg YM_ACCOUNT_ID="$YM_ACCOUNT_ID" \
---build-arg FB_PIXEL_ID="$FB_PIXEL_ID" \
 --build-arg FB_CLIENT_ACCESS_TOKEN="$FB_CLIENT_ACCESS_TOKEN" \
 --build-arg SHOP_NAME="$SHOP_NAME" \
 --build-arg RELEASE_VERSION="$DOCKER_TAG" \
