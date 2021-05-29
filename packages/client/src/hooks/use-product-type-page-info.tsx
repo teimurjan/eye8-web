@@ -90,7 +90,6 @@ const useProductTypePageInfo = (productType: ProductType | null, products: Produ
     (index: number) => {
       const { productId } = images[index];
       const product = products.find(({ id }) => id === productId);
-      console.log(index, matchingProduct, product);
 
       if (product && product.id !== matchingProduct?.id) {
         setSelectedFeatures(getProductFeatures(product));
