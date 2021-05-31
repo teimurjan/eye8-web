@@ -14,7 +14,7 @@
   },
   "homepage": "https://eye8.kg",
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "@eye8/manager": "0.0.0"
   },
   "scripts": {
