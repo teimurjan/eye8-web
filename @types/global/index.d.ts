@@ -67,15 +67,14 @@ interface Window {
   __MESSAGES__: Record<string, string>;
   __DATA__: { rates: object; categories: object };
   __LOCALE__: string;
+  __THEME__: string;
 }
 
 declare module 'http' {
   interface IncomingMessage {
-    __CUSTOM_DATA__: {
-      theme: string;
-      locale: string;
-      localeDataScript: string;
-    };
+    __THEME__: string;
+    __LOCALE__: string;
+    __LOCALE_DATA_SCRIPT__: string;
   }
 }
 

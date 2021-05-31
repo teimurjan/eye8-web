@@ -43,21 +43,22 @@ app
   .then(() => {
     const server = express();
 
-    const middlewares = [authMiddleware, localeMiddleware, themeMiddleware];
+    server.use(localeMiddleware);
+    server.use(themeMiddleware);
 
-    server.get('/admin(/*)?', ...middlewares, (req, res) => {
+    server.get('/admin(/*)?', authMiddleware, (req, res) => {
       return app.render(req, res, '/admin', req.query as ParsedUrlQuery);
     });
 
-    server.get('/profile(/*)?', ...middlewares, (req, res) => {
+    server.get('/profile(/*)?', authMiddleware, (req, res) => {
       return app.render(req, res, '/profile', req.query as ParsedUrlQuery);
     });
 
-    server.get(['/login', '/signup'], ...middlewares, (req, res) => {
+    server.get(['/login', '/signup'], authMiddleware, (req, res) => {
       return app.render(req, res, '/', req.query as ParsedUrlQuery);
     });
 
-    server.get('*', staticAssetsMiddleware, ...middlewares, (req, res) => {
+    server.get('*', staticAssetsMiddleware, authMiddleware, (req, res) => {
       const parsedUrl = parse(req.url, true);
       handleCache(req, res, parsedUrl);
     });
@@ -74,7 +75,7 @@ app
 const isAssetUrl = (url: string) => fs.existsSync(path.join(__dirname, '../public', url));
 const isNextUrl = (url: string) => url.indexOf('_next') !== -1;
 
-const getCacheKey = (req: Request) => `{"url":"${req.url}","locale":"${req.__CUSTOM_DATA__.locale}"}`;
+const getCacheKey = (req: Request) => `{"url":"${req.url}","locale":"${req.__LOCALE__}"}`;
 
 const XCACHE_KEY = 'X-Cache';
 const XCache = {

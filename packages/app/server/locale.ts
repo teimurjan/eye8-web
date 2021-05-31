@@ -49,9 +49,7 @@ export const getRequestLocale = (req: Request) => {
 
 export const localeMiddleware = (req: Request, res: Response, next: Function) => {
   const detectedLocale = getRequestLocale(req);
-  req.__CUSTOM_DATA__ = Object.assign(req.__CUSTOM_DATA__ || {}, {
-    locale: detectedLocale,
-    localeDataScript: getLocaleDataScript(detectedLocale),
-  });
+  req.__LOCALE__ = detectedLocale;
+  req.__LOCALE_DATA_SCRIPT__ = getLocaleDataScript(detectedLocale);
   next();
 };
