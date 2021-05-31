@@ -24,37 +24,42 @@ const ssrCache = new LRUCache({
 
 const handle = app.getRequestHandler();
 
+const staticAssetsMiddleware = (req: Request, res: Response, next: () => void) => {
+  const parsedUrl = parse(req.url, true);
+  const { pathname } = parsedUrl;
+
+  if (pathname === '/sw.js' || pathname?.startsWith('/workbox-')) {
+    const filePath = path.join(__dirname, '../public', pathname);
+    app.serveStatic(req, res, filePath);
+  } else if (isAssetUrl(req.url) || isNextUrl(req.url)) {
+    handle(req, res, parsedUrl);
+  } else {
+    next();
+  }
+};
+
 app
   .prepare()
   .then(() => {
     const server = express();
 
-    server.use(authMiddleware);
-    server.use(localeMiddleware);
-    server.use(themeMiddleware);
+    const middlewares = [authMiddleware, localeMiddleware, themeMiddleware];
 
-    server.get('/admin(/*)?', (req, res) => {
+    server.get('/admin(/*)?', ...middlewares, (req, res) => {
       return app.render(req, res, '/admin', req.query as ParsedUrlQuery);
     });
 
-    server.get('/profile(/*)?', (req, res) => {
+    server.get('/profile(/*)?', ...middlewares, (req, res) => {
       return app.render(req, res, '/profile', req.query as ParsedUrlQuery);
     });
 
-    server.get(['/login', '/signup'], (req, res) => {
+    server.get(['/login', '/signup'], ...middlewares, (req, res) => {
       return app.render(req, res, '/', req.query as ParsedUrlQuery);
     });
 
-    server.get('*', (req, res) => {
+    server.get('*', staticAssetsMiddleware, ...middlewares, (req, res) => {
       const parsedUrl = parse(req.url, true);
-      const { pathname } = parsedUrl;
-
-      if (pathname === '/sw.js' || pathname?.startsWith('/workbox-')) {
-        const filePath = path.join(__dirname, '../public', pathname);
-        app.serveStatic(req, res, filePath);
-      } else {
-        renderAndCache(req, res, parsedUrl);
-      }
+      handleCache(req, res, parsedUrl);
     });
 
     server.listen(port, () => {
@@ -69,13 +74,7 @@ app
 const isAssetUrl = (url: string) => fs.existsSync(path.join(__dirname, '../public', url));
 const isNextUrl = (url: string) => url.indexOf('_next') !== -1;
 
-const getCacheKey = (req: Request) => {
-  if (isAssetUrl(req.url) || isNextUrl(req.url)) {
-    return undefined;
-  }
-
-  return `{"url":"${req.url}","locale":"${req.__CUSTOM_DATA__.locale}"}`;
-};
+const getCacheKey = (req: Request) => `{"url":"${req.url}","locale":"${req.__CUSTOM_DATA__.locale}"}`;
 
 const XCACHE_KEY = 'X-Cache';
 const XCache = {
@@ -84,16 +83,15 @@ const XCache = {
   Miss: 'Miss',
 };
 
-const renderAndCache = (req: Request, res: Response, parsedUrl: UrlWithParsedQuery) => {
+const handleCache = (req: Request, res: Response, parsedUrl: UrlWithParsedQuery) => {
   const key = getCacheKey(req);
 
-  if (!key || dev) {
+  if (dev) {
     handle(req, res, parsedUrl);
     return;
   }
 
   if (ssrCache.has(key)) {
-    console.log(`Cache Hit: ${key}`);
     res.setHeader(XCACHE_KEY, XCache.Hit);
     res.end(ssrCache.get(key));
     return;
@@ -104,16 +102,13 @@ const renderAndCache = (req: Request, res: Response, parsedUrl: UrlWithParsedQue
     const _resEnd = res.end.bind(res);
     res.end = <T>(payload: T) => {
       if (res.statusCode !== 200) {
-        console.log(`Cache Skip: ${key}`);
         res.setHeader(XCACHE_KEY, XCache.Skip);
       } else {
-        console.log(`Cache Set: ${key}`);
         ssrCache.set(key, payload);
       }
       return _resEnd(payload);
     };
 
-    console.log(`Cache Miss: ${key}`);
     res.setHeader(XCACHE_KEY, XCache.Miss);
     app.render(req, res, req.path, req.query as ParsedUrlQuery);
   } catch (err) {
