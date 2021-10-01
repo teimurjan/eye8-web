@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import React from 'react';
 
 import { IconWrapper } from '@eye8/shared/components';

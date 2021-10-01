@@ -1,6 +1,6 @@
-import { ClassNames } from '@emotion/core';
+import { ClassNames } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
 import times from 'lodash/times';
 import React from 'react';
 
@@ -32,7 +32,7 @@ const mobileFontSizes = {
 };
 
 const Title = ({ children, size, tag = size, className }: Props) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <ClassNames>

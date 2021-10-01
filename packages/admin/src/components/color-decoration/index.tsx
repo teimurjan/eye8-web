@@ -1,13 +1,13 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import { Circle as CircleIcon } from 'react-feather';
 
 import { IconWrapper } from '@eye8/shared/components';
 import { IconSize } from '@eye8/shared/styles';
 
 const ColorDecoration = () => {
-  const theme = useTheme<AdminUITheme>();
+  const theme = useTheme() as AdminUITheme;
   return (
     <span>
       <IconWrapper

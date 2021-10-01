@@ -28,8 +28,8 @@ const staticAssetsMiddleware = (req: Request, res: Response, next: () => void) =
   const parsedUrl = parse(req.url, true);
   const { pathname } = parsedUrl;
 
-  if (pathname === '/sw.js' || pathname?.startsWith('/workbox-')) {
-    const filePath = path.join(__dirname, '../public', pathname);
+  if (pathname === '/sw.js' || /^\/(workbox|worker|fallback)-\w+\.js$/.test(pathname!)) {
+    const filePath = path.join(__dirname, '../public', pathname!)
     app.serveStatic(req, res, filePath);
   } else if (isAssetUrl(req.url) || isNextUrl(req.url)) {
     handle(req, res, parsedUrl);

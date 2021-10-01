@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+import { css, useTheme } from '@emotion/react';
 
 import { Carousel } from '@eye8/client-ui';
 import { mediaQueries } from '@eye8/shared/styles';
@@ -22,7 +20,7 @@ const ProductTypeImageCarousel = <T extends any = string>({
   onChange,
   getImageProps,
 }: Props<T>) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   return (
     <div
       css={css`
@@ -34,7 +32,13 @@ const ProductTypeImageCarousel = <T extends any = string>({
           const { src, alt } = getImageProps(image);
           return (
             <Carousel.Item key={src}>
-              <img src={src} alt={alt} />
+              <img
+                css={css`
+                  width: 100%;
+                `}
+                src={src}
+                alt={alt}
+              />
             </Carousel.Item>
           );
         })}
@@ -67,14 +71,6 @@ const ProductTypeImageCarousel = <T extends any = string>({
                 &.active,
                 &:hover {
                   border-color: ${theme.borderColor};
-                }
-
-                &:first-child {
-                  margin-left: 0;
-                }
-
-                &:last-child {
-                  margin-right: 0;
                 }
 
                 height: ${CONTROL_IMAGE_SIZE};

@@ -182,22 +182,25 @@ export interface ProductType<
   image: string;
   categories: Array<{ id: number; name: T; slug: string }>;
   slug: string;
-  feature_types: Array<{ id: number; name: T; slug: string }>;
+  feature_types: Array<{ id: number; name: T }>;
   characteristic_values: Array<{ id: number; name: T }>;
   products: Array<{
     discount: number;
-    feature_values: number[];
+    feature_values: Array<{ id: number; name: T }>;
     id: number;
     price: number;
     quantity: number;
     images: string[];
+    product_type: { id: number; name: T };
+    created_on: string;
+    updated_on: string;
   }>;
   created_on: string;
   updated_on: string;
   is_deleted: boolean | null;
 }
 
-export type TinyProductType<Raw extends boolean = false> = Pick<ProductType<Raw>, 'id' | 'name' | 'feature_types'>;
+export type TinyProductType<Raw extends boolean = false> = Pick<ProductType<Raw>, 'id' | 'name' | 'products'>;
 
 export interface PromoCode {
   id: number;

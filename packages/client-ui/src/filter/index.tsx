@@ -1,7 +1,7 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
@@ -34,7 +34,7 @@ export interface Props {
 
 const Filter = ({ className, title, children, disabled, onReset }: Props) => {
   const intl = useIntl();
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   const isMobile = useMedia([mediaQueries.maxWidth768], [true], false);
   const { value: lazyIsMobile, isInitialized } = useLazyInitialization(isMobile, false);
   const { value: isOpen, setNegative: close, setPositive: open } = useBoolean();
@@ -111,7 +111,7 @@ const Filter = ({ className, title, children, disabled, onReset }: Props) => {
 };
 
 const FilterItemGroup = ({ title, children }: FilterItemGroupProps) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <div
@@ -137,7 +137,7 @@ const FilterItemGroup = ({ title, children }: FilterItemGroupProps) => {
 const OUTER_CIRCLE_SIZE_PX = 20;
 const INNER_CIRCLE_SIZE_PX = 12;
 const FilterItem = ({ children, active, onClick, squared }: FilterItemProps) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <div

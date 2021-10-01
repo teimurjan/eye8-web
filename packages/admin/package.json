@@ -19,7 +19,8 @@
     "@eye8/service": "0.0.0",
     "@eye8/api": "0.0.0",
     "@eye8/storage": "0.0.0",
-    "@eye8/di": "0.0.0"
+    "@eye8/di": "0.0.0",
+    "antd": "^4.16.3"
   },
   "scripts": {
     "build": "rm -rf dist && rm -rf dist && tsc -p ./tsconfig.build.json"

@@ -1,7 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { css, useTheme } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
 import React from 'react';
 
 export enum Color {
@@ -14,7 +12,7 @@ export interface Props extends React.HTMLAttributes<HTMLHRElement> {
 }
 
 const Divider = ({ className, color }: Props) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   return (
     <hr
       className={classNames(color, className)}

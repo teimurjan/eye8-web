@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SyncLoader from 'react-spinners/SyncLoader';
@@ -43,7 +43,7 @@ const getCSS = (timeout: number, shouldShow: boolean) => (theme: AdminUITheme) =
 
 const Loader = ({ status, timeout, className, color, ...props }: LoaderProps) => {
   useModalScrollLock();
-  const theme = useTheme<AdminUITheme>();
+  const theme = useTheme() as AdminUITheme;
 
   const shouldShow = status === 'entering' || status === 'entered';
 

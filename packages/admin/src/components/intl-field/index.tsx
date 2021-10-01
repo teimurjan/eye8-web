@@ -25,7 +25,7 @@ export interface Props {
   key_: string;
   label: string;
   placeholder: string;
-  component?: React.SFC<FieldRenderProps<string> & IntlFieldRendererProps>;
+  component?: React.FC<FieldRenderProps<string> & IntlFieldRendererProps>;
 }
 
 const InnerIntlField: Props['component'] = ({ input, meta, label, placeholder, locale }) => {

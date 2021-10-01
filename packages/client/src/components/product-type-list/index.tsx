@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import { useIntl } from 'react-intl';
 
 import { Category, ProductType, PaginationMeta } from '@eye8/api';

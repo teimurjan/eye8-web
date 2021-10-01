@@ -6,7 +6,7 @@ const useFeatureValuesOfProductType = ({
   productTypes,
   featureValues,
 }: {
-  productTypes: TinyProductType<true>[];
+  productTypes: TinyProductType[];
   featureValues: FeatureValue<true>[];
 }) => {
   const {

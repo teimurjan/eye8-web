@@ -1,13 +1,11 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
+import { css, useTheme } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
-import React from 'react';
+import React, { ComponentType } from 'react';
 import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import { Modal } from '@eye8/shared/components';
-import { useClickOutside, useModalScrollLock, useMousetrap } from '@eye8/shared/hooks';
+import { useClickOutside, useDebounce, useModalScrollLock, useMousetrap } from '@eye8/shared/hooks';
 import { safeDocument } from '@eye8/shared/utils';
 
 type FromSide = 'top' | 'left' | 'bottom' | 'right';
@@ -174,7 +172,7 @@ export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   showClose?: boolean;
 }
 
-const Drawer = ({
+const Drawer: ComponentType<Props> = ({
   children,
   className,
   isOpen,
@@ -189,14 +187,17 @@ const Drawer = ({
   showClose = true,
   fixed,
   ...props
-}: Props) => {
-  const theme = useTheme<ClientUITheme>();
+}) => {
+  const theme = useTheme() as ClientUITheme;
   useModalScrollLock(isOpen, lockScroll);
 
   const ref = React.useRef<HTMLDivElement>(null);
 
-  useClickOutside([ref], close, isOpen);
-  useMousetrap('esc', close, isOpen);
+  // To prevent close on open
+  const debouncedIsOpen = useDebounce(isOpen, 500);
+
+  useClickOutside([ref], close, debouncedIsOpen);
+  useMousetrap('esc', close, debouncedIsOpen);
 
   const drawerRoot = safeDocument((d) => d.getElementById('drawerRoot'), null);
   const { drawerContentCSS, backdropCSS, modalCloseCSS } = getSlidingCSS(fromSide);

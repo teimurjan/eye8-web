@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 import { Search as SearchIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
@@ -39,7 +39,7 @@ const SearchTrigger = React.forwardRef<HTMLSpanElement>((props, ref) => {
 
 const SearchView: React.FC<Props> = ({ productTypes, isLoading, error, onSearchValueChange, isOpen, open, close }) => {
   const { value: drawerOpened, setPositive: setDrawerOpened, setNegative: setDrawerClosed } = useBoolean();
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   const intl = useIntl();
   const [searchValue, setSearchValue] = React.useState('');
   const onSearchChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(

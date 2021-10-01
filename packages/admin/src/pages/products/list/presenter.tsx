@@ -34,7 +34,6 @@ export interface ViewProps {
 const AdminProductsListPresenter = ({
   View,
   adminProductsState: { isListLoading, entities: products, get: getProducts, hasListLoaded, meta },
-  productTypeService,
 }: Props) => {
   const {
     filters: { available, productTypeId, deleted },
@@ -62,7 +61,6 @@ const AdminProductsListPresenter = ({
   }, [productTypeId, available, deleted]);
 
   const { productTypes, isLoading: productTypesLoading, loadMore: LoadMoreProductTypes } = useSelectProductTypes({
-    productTypeService,
     mandatoryProductTypeId: productTypeId,
   });
 

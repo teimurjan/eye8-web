@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { css, jsx, ClassNames } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css, ClassNames, useTheme } from '@emotion/react';
 import React from 'react';
 
 import { PopoverProps, Popover } from '@eye8/shared/components';
@@ -11,7 +10,7 @@ export interface TooltipContentProps {
 }
 
 const TooltipContent = React.forwardRef<HTMLDivElement, TooltipContentProps>(({ children }, ref) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <div
@@ -35,7 +34,7 @@ const TooltipContent = React.forwardRef<HTMLDivElement, TooltipContentProps>(({ 
 export type Props<T extends HTMLElement> = PopoverProps<T>;
 
 const Tooltip = <T extends HTMLElement>({ children, ...props }: Props<T>) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   const contentRef = React.useRef<HTMLDivElement>(null);
 
   return (

@@ -1,21 +1,12 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 
-import { useSearchParams } from '@eye8/admin/hooks';
-
 interface CheckExistenceDataArgs {
   id: number;
-  deleted: boolean;
 }
 
 interface DeleteArgs {
   id: number;
-  deleted: boolean;
-}
-
-interface BackPathArgs {
-  id: number;
-  deleted: boolean;
 }
 
 export interface Props {
@@ -23,7 +14,7 @@ export interface Props {
   deleteEntity: (args: DeleteArgs) => Promise<void>;
   checkExistence: (args: CheckExistenceDataArgs) => Promise<boolean>;
   getErrorMessageID?: (e: Error) => string;
-  getBackPath: (args: BackPathArgs) => string;
+  getBackPath: () => string;
   info?: React.ReactNode;
 }
 
@@ -36,8 +27,6 @@ export interface ViewProps extends React.HTMLAttributes<HTMLDivElement> {
   info: Props['info'];
 }
 
-const DEFAULT_SEARCH_PARAMS = { deleted: false };
-
 const DeleteModalPresenter = ({
   View,
   match,
@@ -48,12 +37,9 @@ const DeleteModalPresenter = ({
   getErrorMessageID,
   info,
 }: Props & RouteComponentProps<{ id: string }>) => {
-  const { deleted } = useSearchParams(DEFAULT_SEARCH_PARAMS);
-
   const id = parseInt(match.params.id, 10);
 
-  const backPath = React.useMemo(() => getBackPath({ id, deleted }), [id, getBackPath, deleted]);
-  const close = React.useCallback(() => history.push(backPath), [backPath, history]);
+  const close = React.useCallback(() => history.push(getBackPath()), [getBackPath, history]);
 
   const [error, setError] = React.useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -62,9 +48,9 @@ const DeleteModalPresenter = ({
     (async () => {
       try {
         setIsLoading(true);
-        const isExists = await checkExistence({ id, deleted });
+        const isExists = await checkExistence({ id });
         if (!isExists) {
-          setError('AdminCategories.notFound');
+          setError('errors.notFound');
         }
       } catch (e) {
         setError('errors.common');
@@ -72,19 +58,20 @@ const DeleteModalPresenter = ({
         setIsLoading(false);
       }
     })();
-  }, [close, id, checkExistence, deleted]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const remove = React.useCallback(async () => {
     try {
       setIsLoading(true);
-      await deleteEntity({ id, deleted });
+      await deleteEntity({ id });
       setIsLoading(false);
       close();
     } catch (e) {
       setIsLoading(false);
       setError(getErrorMessageID ? getErrorMessageID(e) : 'errors.common');
     }
-  }, [close, deleteEntity, getErrorMessageID, id, deleted]);
+  }, [close, deleteEntity, getErrorMessageID, id]);
 
   return <View isOpen={!!id} onConfirm={remove} onClose={close} error={error} isLoading={isLoading} info={info} />;
 };

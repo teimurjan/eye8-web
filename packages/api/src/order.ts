@@ -1,5 +1,5 @@
 import { HeadersManager } from '@eye8/manager/headers';
-import { buildSearchString } from '@eye8/shared/utils';
+import { buildSearchString, flagToSearchStringValue } from '@eye8/shared/utils';
 
 import { Order, PaginationMeta, APIClient } from './types';
 
@@ -29,13 +29,13 @@ export interface EditPayload {
   promo_code?: string;
 }
 interface OrderAPI {
-  getAll(): Promise<{ data: Order[]; meta: PaginationMeta }>;
+  getAll(deleted?: boolean): Promise<{ data: Order[]; meta: PaginationMeta }>;
   getForUser(userID: number, page: number): Promise<{ data: Order[]; meta: PaginationMeta }>;
   create(payload: CreatePayload): Promise<{ data: Order }>;
   edit(orderID: number, payload: EditPayload): Promise<{ data: Order }>;
-  getOne(orderID: number): Promise<{ data: Order }>;
-  status(id: number): Promise<{}>;
-  delete(id: number): Promise<{}>;
+  getOne(orderID: number, deleted?: boolean): Promise<{ data: Order }>;
+  status(id: number, deleted?: boolean): Promise<{}>;
+  delete(id: number, forever?: boolean): Promise<{}>;
 }
 
 export class NotFoundError extends Error {
@@ -60,11 +60,14 @@ export default class implements OrderAPI {
     this.headersManager = headersManager;
   }
 
-  public getAll: OrderAPI['getAll'] = async () => {
+  public getAll: OrderAPI['getAll'] = async (deleted) => {
     try {
-      const response = await this.client.get<{ data: Order[]; meta: PaginationMeta }>(`/api/orders`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.get<{ data: Order[]; meta: PaginationMeta }>(
+        `/api/orders${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       throw e;
@@ -116,11 +119,14 @@ export default class implements OrderAPI {
     }
   };
 
-  public getOne: OrderAPI['getOne'] = async (orderID) => {
+  public getOne: OrderAPI['getOne'] = async (orderID, deleted) => {
     try {
-      const response = await this.client.get<{ data: Order }>(`/api/orders/${orderID}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      const response = await this.client.get<{ data: Order }>(
+        `/api/orders/${orderID}${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return response.data;
     } catch (e) {
       if (e.response && e.response.status === 404) {
@@ -130,11 +136,14 @@ export default class implements OrderAPI {
     }
   };
 
-  public status: OrderAPI['status'] = async (orderID) => {
+  public status: OrderAPI['status'] = async (orderID, deleted) => {
     try {
-      await this.client.head(`/api/orders/${orderID}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      await this.client.head(
+        `/api/orders/${orderID}${buildSearchString({ deleted: flagToSearchStringValue(deleted) })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return {};
     } catch (e) {
       if (e.response && e.response.status === 404) {
@@ -144,11 +153,14 @@ export default class implements OrderAPI {
     }
   };
 
-  public delete: OrderAPI['delete'] = async (orderID) => {
+  public delete: OrderAPI['delete'] = async (orderID, forever) => {
     try {
-      await this.client.delete(`/api/orders/${orderID}`, {
-        headers: this.headersManager.getHeaders(),
-      });
+      await this.client.delete(
+        `/api/orders/${orderID}${buildSearchString({ forever: flagToSearchStringValue(forever) })}`,
+        {
+          headers: this.headersManager.getHeaders(),
+        },
+      );
       return {};
     } catch (e) {
       if (e.response && e.response.status === 404) {

@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 

@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css, useTheme  } from '@emotion/react';
 import { useIntl } from 'react-intl';
 
 import { Product, PromoCode } from '@eye8/api';
@@ -19,7 +18,7 @@ interface Props {
 }
 
 const CartItem = ({ product, count, onRemoveClick, onAddClick, promoCode }: Props) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   const intl = useIntl();
 
   const promoCodeApplicable = promoCode ? isPromoCodeApplicableForProduct(promoCode.products, product) : false;

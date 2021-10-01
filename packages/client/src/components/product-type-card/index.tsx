@@ -1,7 +1,7 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
@@ -16,7 +16,7 @@ export interface Props {
 }
 
 const ProductTypeCard = ({ productType }: Props) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   const intl = useIntl();
   const as = `/products/${productType.slug}`;
   const ref = React.useRef<HTMLAnchorElement>(null);

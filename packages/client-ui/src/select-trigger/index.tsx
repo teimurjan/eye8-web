@@ -1,7 +1,7 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 import { ChevronDown as ChevronDownIcon } from 'react-feather';
 
@@ -14,7 +14,7 @@ const RIGHT_PADDING_PX = 24;
 
 export default React.forwardRef<HTMLDivElement, SelectTriggerProps>(
   ({ selectedOptions, onFocus, onClick, isOpen, placeholder }, ref) => {
-    const theme = useTheme<ClientUITheme>();
+    const theme = useTheme() as ClientUITheme;
 
     return (
       <div

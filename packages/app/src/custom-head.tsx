@@ -22,13 +22,23 @@ const CustomHead = () => {
 
   return (
     <Head>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;700&display=swap"
+        rel="stylesheet"
+      ></link>
       <script async src="https://instagram.com/embed.js"></script>
-      <script type="text/javascript" dangerouslySetInnerHTML={{ __html: YM_SCRIPT }} />
-      <noscript
-        dangerouslySetInnerHTML={{
-          __html: `<div><img src="https://mc.yandex.ru/watch/${process.env.YM_ACCOUNT_ID}" style="position: absolute; left: -9999px" alt="" /></div>`,
-        }}
-      />
+      {process.env.NODE_ENV === 'production' && (
+        <>
+          <script type="text/javascript" dangerouslySetInnerHTML={{ __html: YM_SCRIPT }} />
+          <noscript
+            dangerouslySetInnerHTML={{
+              __html: `<div><img src="https://mc.yandex.ru/watch/${process.env.YM_ACCOUNT_ID}" style="position: absolute; left: -9999px" alt="" /></div>`,
+            }}
+          />
+        </>
+      )}
       <link rel="apple-touch-icon" sizes="152x152" href={withPublicURL('img/icons/icon-152x152.png')} />
       <link rel="icon" type="image/png" sizes="32x32" href={withPublicURL('favicon-32x32.png')} />
       <link rel="icon" type="image/png" sizes="16x16" href={withPublicURL('favicon-16x16.png')} />

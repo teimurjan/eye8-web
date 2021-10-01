@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
@@ -54,7 +54,7 @@ interface BannerCarouselItemProps {
 }
 
 const BannerCarouselItem = ({ banner, isMobile, dataKey }: BannerCarouselItemProps) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   return (
     <Carousel.Item>
       <Image alt={banner.text} src={banner.image} squared={false} />

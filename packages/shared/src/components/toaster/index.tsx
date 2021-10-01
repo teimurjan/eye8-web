@@ -1,4 +1,4 @@
-import { ClassNames } from '@emotion/core';
+import { ClassNames } from '@emotion/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';

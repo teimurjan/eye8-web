@@ -1,2 +1,1 @@
-export { default } from './container';
-export { NewFeatureValueButton } from './view';
+export { default } from './AdminFeatureValuesList';

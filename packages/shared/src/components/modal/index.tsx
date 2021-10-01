@@ -1,8 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { css, useTheme } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
-import React from 'react';
+import React, { ComponentType } from 'react';
 import ReactDOM from 'react-dom';
 import { X as XIcon } from 'react-feather';
 import { CSSTransition } from 'react-transition-group';
@@ -47,7 +45,7 @@ interface ModalBackgroundProps extends React.HTMLProps<HTMLDivElement> {
 }
 
 const ModalBackground = ({ fixed, ...props }: ModalBackgroundProps) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <div
@@ -188,7 +186,7 @@ export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   fullScreen?: 'desktop' | 'always' | 'mobile';
 }
 
-const Modal = ({
+const Modal: ComponentType<Props> & { Close: typeof ModalClose; Background: typeof ModalBackground } = ({
   children,
   className,
   isOpen,
@@ -204,14 +202,17 @@ const Modal = ({
   debounceChildrenOnClose = false,
   fullScreen,
   ...props
-}: Props) => {
-  const theme = useTheme<ClientUITheme>();
+}) => {
+  const theme = useTheme() as ClientUITheme;
   useModalScrollLock(isOpen, lockScroll);
 
   const ref = React.useRef<HTMLDivElement>(null);
 
-  useClickOutside([ref], close, isOpen);
-  useMousetrap('esc', close, isOpen);
+  // To prevent close on open
+  const debouncedIsOpen = useDebounce(isOpen, 500);
+
+  useClickOutside([ref], close, debouncedIsOpen);
+  useMousetrap('esc', close, debouncedIsOpen);
 
   const modalRoot = safeDocument((d) => d.getElementById('modalRoot'), null);
 

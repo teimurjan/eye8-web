@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css, useTheme } from '@emotion/react';
 import React from 'react';
 
 import { usePreventedDefault } from '@eye8/shared/hooks';
@@ -13,7 +12,7 @@ export interface Props {
 }
 
 const IconLink = ({ onClick, icon, className, href }: Props) => {
-  const theme = useTheme<AdminUITheme>();
+  const theme = useTheme() as AdminUITheme;
   const preventedOnClick = usePreventedDefault(onClick);
 
   return (

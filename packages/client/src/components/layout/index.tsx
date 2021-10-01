@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import React from 'react';
 
 import { NAVBAR_HEIGHT_PX, NAVBAR_HEIGHT_MOBILE_PX } from '@eye8/client-ui';

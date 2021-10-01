@@ -17,4 +17,3 @@ const AdminFeatureTypes = () => (
 );
 
 export default AdminFeatureTypes;
-export { NewFeatureTypeButton } from './list'

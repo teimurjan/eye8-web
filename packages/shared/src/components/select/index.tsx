@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 import { Check as CheckIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
@@ -41,7 +41,7 @@ export type TriggerComponentType<T extends HTMLElement> = React.ComponentType<
 >;
 
 const SelectOptionCheckedFlag = () => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <IconWrapper
@@ -56,7 +56,7 @@ const SelectOptionCheckedFlag = () => {
 };
 
 const SelectOption = ({ className, children, selected, value, onClick }: OptionProps) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <Popover.Item

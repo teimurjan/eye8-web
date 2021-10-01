@@ -1,7 +1,7 @@
-/** @jsx jsx */
 
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 
@@ -10,7 +10,7 @@ export interface Props extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const LoaderLayout = ({ color, ...props }: Props) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <div

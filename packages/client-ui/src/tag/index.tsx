@@ -1,7 +1,7 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
 import React from 'react';
 
 import { mediaQueries } from '@eye8/shared/styles';
@@ -11,7 +11,7 @@ export interface Props extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 export default React.forwardRef<HTMLSpanElement, Props>(({ children, className, color, ...props }, ref) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   return (
     <small
       ref={ref}

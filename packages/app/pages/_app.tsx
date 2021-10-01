@@ -1,6 +1,4 @@
-import { CacheProvider } from '@emotion/core';
 import * as Sentry from '@sentry/node';
-import { cache } from 'emotion';
 import { AppProps } from 'next/app';
 import React from 'react';
 import { createIntl, createIntlCache, RawIntlProvider } from 'react-intl';
@@ -27,8 +25,12 @@ import RequestInterceptor from '../src/request-interceptor';
 import ScrollRestorationWrapper from '../src/scroll-restoration';
 import ThemeProvider from '../src/theme-provider';
 
-import '@eye8/admin-ui/index.sass';
-import '@eye8/client-ui/index.sass';
+// client css
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import 'flexboxgrid2/flexboxgrid2.css';
+// admin css
+import 'antd/dist/antd.css';
 
 export function reportWebVitals(metric: object) {
   logPerformance(metric);
@@ -70,37 +72,35 @@ const CustomNextApp = ({ Component, pageProps }: AppProps) => {
 
   return (
     <ToastsProvider>
-      <CacheProvider value={cache}>
-        <DIProvider value={{ di }}>
-          <RequestInterceptor>
-            <ThemeProvider>
-              <RawIntlProvider value={intl}>
-                <RatesStateProvider initialProps={data.rates as RatesStateProviderProps['initialProps']}>
-                  <UserStateProvider>
-                    <CategoriesStateProvider
-                      initialProps={data.categories as CategoriesStateProviderProps['initialProps']}
-                    >
-                      <AuthModalStateProvider>
-                        <EntryPoint>
-                          <ScrollRestorationWrapper>
-                            <CustomHead />
-                            <GlobalStyles />
-                            <PageProgressBar />
-                            <Component {...pageProps} />
-                            <Toaster />
-                            <AuthModal />
-                            <CacheBuster />
-                          </ScrollRestorationWrapper>
-                        </EntryPoint>
-                      </AuthModalStateProvider>
-                    </CategoriesStateProvider>
-                  </UserStateProvider>
-                </RatesStateProvider>
-              </RawIntlProvider>
-            </ThemeProvider>
-          </RequestInterceptor>
-        </DIProvider>
-      </CacheProvider>
+      <DIProvider value={{ di }}>
+        <RequestInterceptor>
+          <ThemeProvider>
+            <RawIntlProvider value={intl}>
+              <RatesStateProvider initialProps={data.rates as RatesStateProviderProps['initialProps']}>
+                <UserStateProvider>
+                  <CategoriesStateProvider
+                    initialProps={data.categories as CategoriesStateProviderProps['initialProps']}
+                  >
+                    <AuthModalStateProvider>
+                      <EntryPoint>
+                        <ScrollRestorationWrapper>
+                          <CustomHead />
+                          <GlobalStyles />
+                          <PageProgressBar />
+                          <Component {...pageProps} />
+                          <Toaster />
+                          <AuthModal />
+                          <CacheBuster />
+                        </ScrollRestorationWrapper>
+                      </EntryPoint>
+                    </AuthModalStateProvider>
+                  </CategoriesStateProvider>
+                </UserStateProvider>
+              </RatesStateProvider>
+            </RawIntlProvider>
+          </ThemeProvider>
+        </RequestInterceptor>
+      </DIProvider>
     </ToastsProvider>
   );
 };

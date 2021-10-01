@@ -1,7 +1,6 @@
+import { Modal, Alert } from 'antd';
 import React from 'react';
 import { useIntl } from 'react-intl';
-
-import { Button, Message, Modal, ModalBackground, ModalCard, ModalContent } from '@eye8/admin-ui';
 
 import { ViewProps as Props } from './presenter';
 
@@ -10,35 +9,25 @@ const DeleteModalView = ({ isOpen, onClose, onConfirm, isLoading = false, error,
   const onConfirmClick = React.useCallback(() => onConfirm(), [onConfirm]);
 
   return (
-    <Modal isOpen={isOpen} {...props}>
-      <ModalBackground onClick={onClose} />
-      <ModalContent>
-        {error ? (
-          <Message color="is-danger">
-            <Message.Header>
-              {intl.formatMessage({ id: 'common.error' })}
-              <ModalCard.Close onClick={onClose} />
-            </Message.Header>
-            <Message.Body>{intl.formatMessage({ id: error })}</Message.Body>
-          </Message>
-        ) : (
-          <ModalCard>
-            <ModalCard.Head>
-              <ModalCard.Title>{intl.formatMessage({ id: 'common.deleteApproval' })}</ModalCard.Title>
-              <ModalCard.Close onClick={onClose} />
-            </ModalCard.Head>
-            {info && <ModalCard.Body>{info}</ModalCard.Body>}
-            <ModalCard.Foot>
-              <Button color="is-primary" onClick={onConfirmClick} loading={isLoading} disabled={!!error}>
-                {intl.formatMessage({ id: 'common.yes' })}
-              </Button>
-              <Button color="is-danger" onClick={onClose}>
-                {intl.formatMessage({ id: 'common.no' })}
-              </Button>
-            </ModalCard.Foot>
-          </ModalCard>
-        )}
-      </ModalContent>
+    <Modal
+      title={intl.formatMessage({ id: 'common.deleteApproval' })}
+      visible={isOpen}
+      onOk={onConfirmClick}
+      okButtonProps={{ loading: isLoading }}
+      onCancel={onClose}
+      okText={intl.formatMessage({ id: 'common.yes' })}
+      cancelText={intl.formatMessage({ id: 'common.no' })}
+      {...props}
+    >
+      {error ? (
+        <Alert
+          message={intl.formatMessage({ id: 'common.error' })}
+          description={intl.formatMessage({ id: error })}
+          type="error"
+        />
+      ) : (
+        info
+      )}
     </Modal>
   );
 };

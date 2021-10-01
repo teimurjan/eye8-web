@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import classNames from 'classnames';
 import React from 'react';
 import InstagramEmbed from 'react-instagram-embed';

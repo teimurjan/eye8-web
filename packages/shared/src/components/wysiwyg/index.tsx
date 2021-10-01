@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { Global, css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+import { Global, css, useTheme } from '@emotion/react';
 import React from 'react';
 
 import { LoaderLayout } from '@eye8/shared/components';
@@ -27,10 +25,10 @@ const CKEditorLazy = React.lazy(async () => {
 });
 
 const Wysiwyg = ({ onChange, onBlur, onFocus, initialValue, placeholder, hasError }: Props) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
-    <div className="content">
+    <>
       <Global
         styles={css`
           .ck.ck-content {
@@ -67,7 +65,7 @@ const Wysiwyg = ({ onChange, onBlur, onFocus, initialValue, placeholder, hasErro
           onFocus={onFocus}
         />
       </React.Suspense>
-    </div>
+    </>
   );
 };
 

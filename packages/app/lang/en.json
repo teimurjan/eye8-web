@@ -338,5 +338,6 @@
   "common.reset": "Reset",
   "AdminProducts.features": "Features",
   "common.clickToEdit": "Click to edit",
-  "AdminRates.errors.limitExceeded": "Creation limit exceeded"
+  "AdminRates.errors.limitExceeded": "Creation limit exceeded",
+  "errors.notFound": "Not found"
 }

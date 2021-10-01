@@ -87,12 +87,12 @@ export interface ProductTypeService {
     result: number[];
     meta: PaginationMeta;
   }>;
-  getAllRawIntlMinified(
+  getAllMinified(
     options: ProductTypeGetAllRawIntlMinifiedOptions,
   ): Promise<{
     entities: {
       productTypes: {
-        [key: string]: TinyProductType<true>;
+        [key: string]: TinyProductType;
       };
     };
     result: number[];
@@ -151,8 +151,8 @@ export default class implements ProductTypeService {
     };
   };
 
-  public getAllRawIntlMinified: ProductTypeService['getAllRawIntlMinified'] = async (options) => {
-    const productTypes = await this.API.getAllRawIntlMinified(options);
+  public getAllMinified: ProductTypeService['getAllMinified'] = async (options) => {
+    const productTypes = await this.API.getAllMinified(options);
     return {
       ...normalize(productTypes.data, [new schema.Entity('productTypes')]),
       meta: productTypes.meta,

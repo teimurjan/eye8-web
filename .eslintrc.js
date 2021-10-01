@@ -2,6 +2,7 @@ module.exports = {
   extends: 'react-app',
   plugins: ['import'],
   rules: {
+    '@typescript-eslint/no-redeclare': 'off',
     'no-duplicate-imports': 'error',
     'import/order': [
       'error',

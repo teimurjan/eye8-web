@@ -2,17 +2,21 @@ import uniq from 'lodash/uniq';
 import React from 'react';
 
 import { TinyProductType, PaginationMeta, ProductTypeSortingType } from '@eye8/api';
-import { ProductTypeService } from '@eye8/service';
+import { useDI } from '@eye8/di';
 import { agregateOrderedMapToArray } from '@eye8/shared/utils';
 
 interface Args {
-  productTypeService: ProductTypeService;
   mandatoryProductTypeId?: number;
 }
 
-const useSelectProductTypes = ({ productTypeService, mandatoryProductTypeId }: Args) => {
+const useSelectProductTypes = ({ mandatoryProductTypeId }: Args) => {
+  const {
+    di: {
+      service: { productType: productTypeService },
+    },
+  } = useDI();
   const [data, setData] = React.useState<{
-    entities: { [id: string]: TinyProductType<true> };
+    entities: { [id: string]: TinyProductType };
     order: number[];
   }>({ entities: {}, order: [] });
   const [isLoading, setLoading] = React.useState(false);
@@ -28,7 +32,7 @@ const useSelectProductTypes = ({ productTypeService, mandatoryProductTypeId }: A
     async (page: number) => {
       try {
         setLoading(true);
-        const { entities, result, meta } = await productTypeService.getAllRawIntlMinified({
+        const { entities, result, meta } = await productTypeService.getAllMinified({
           page,
           sortingType: ProductTypeSortingType.RECENT,
         });
@@ -50,10 +54,10 @@ const useSelectProductTypes = ({ productTypeService, mandatoryProductTypeId }: A
 
   React.useEffect(() => {
     (async () => {
-      if (mandatoryProductTypeId && !data.entities[mandatoryProductTypeId] && meta.page > 0) {
+      if (mandatoryProductTypeId && !data.entities[mandatoryProductTypeId]) {
         try {
           setLoading(true);
-          const productType = await productTypeService.getOneRawIntl(mandatoryProductTypeId);
+          const productType = await productTypeService.getByID(mandatoryProductTypeId);
           if (productType) {
             setData({
               entities: { ...data.entities, [productType.id]: productType },
@@ -68,7 +72,7 @@ const useSelectProductTypes = ({ productTypeService, mandatoryProductTypeId }: A
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mandatoryProductTypeId, meta.page]);
+  }, [typeof mandatoryProductTypeId !== 'undefined']);
 
   const loadMore = React.useCallback(() => {
     if (meta.page < meta.pages_count && !isLoading) {

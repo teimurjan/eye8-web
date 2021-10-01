@@ -1,2 +1,1 @@
-export { default } from './container';
-export { default as Fields } from './fields';
+export { default } from './AdminCharacteristicsCreate';

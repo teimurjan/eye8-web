@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { jsx, css, Global } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css, Global } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
@@ -12,7 +12,7 @@ import { ViewProps as Props } from './presenter';
 
 const ConfirmSignupView = ({ isLoading, error }: Props) => {
   const intl = useIntl();
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   const { content, color } = React.useMemo(() => {
     if (isLoading) {

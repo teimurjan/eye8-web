@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import { useIntl } from 'react-intl';
 
 import { Checkbox, LinkButton, NoDataAvailable, Section } from '@eye8/admin-ui';

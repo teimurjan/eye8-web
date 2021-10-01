@@ -50,7 +50,6 @@ const AdminProductsCreatePresenter: React.FC<Props> = ({
   },
   adminProductsState: { get: getProducts },
   productService,
-  productTypeService,
   View,
 }) => {
   const [error, setError] = React.useState<string | undefined>(undefined);
@@ -61,9 +60,7 @@ const AdminProductsCreatePresenter: React.FC<Props> = ({
     isLoading: productTypesLoading,
     error: productTypesError,
     loadMore: LoadMoreProductTypes,
-  } = useSelectProductTypes({
-    productTypeService,
-  });
+  } = useSelectProductTypes({});
 
   const validator = new SchemaValidator(
     yup.object().shape({

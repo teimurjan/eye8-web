@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import { Eye as EyeIcon, EyeOff as EyeOffIcon } from 'react-feather';
 
 import { UnderlinedInput, UnderlinedInputProps } from '@eye8/client-ui';
@@ -11,7 +11,7 @@ import { IconSize } from '@eye8/shared/styles';
 export type Props = UnderlinedInputProps;
 
 const PasswordInput = (props: UnderlinedInputProps) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   const { value: visible, toggle } = useBoolean();
 
   return (

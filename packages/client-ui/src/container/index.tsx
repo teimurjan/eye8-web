@@ -1,13 +1,13 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { css } from '@emotion/react';
 import React from 'react';
 
 import { mediaQueries } from '@eye8/shared/styles';
 
 export interface Props extends React.HTMLProps<HTMLDivElement> {}
 
-const Container = ({ children }: Props) => (
+const Container = ({ className, children }: Props) => (
   <div
+    className={className}
     css={css`
       flex-grow: 1;
       margin: 0 auto;

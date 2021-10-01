@@ -1,7 +1,7 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
 import React from 'react';
 
 import { Title } from '@eye8/client-ui';
@@ -122,7 +122,7 @@ const StoryTitle: React.FC = ({ children }) => (
 );
 
 const StoryDescription: React.FC = ({ children }) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   return (
     <p
       css={css`

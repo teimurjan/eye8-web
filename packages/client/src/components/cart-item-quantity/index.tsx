@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import { Plus as PlusIcon, Minus as MinusIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
@@ -15,7 +15,7 @@ interface Props {
   onRemoveClick: () => void;
 }
 
-const Quantity = ({ count, allowedCount, onAddClick, onRemoveClick }: Props) => {
+const CartItemQuantity = ({ count, allowedCount, onAddClick, onRemoveClick }: Props) => {
   const intl = useIntl();
 
   return (
@@ -58,4 +58,4 @@ const Quantity = ({ count, allowedCount, onAddClick, onRemoveClick }: Props) => 
   );
 };
 
-export default Quantity;
+export default CartItemQuantity;

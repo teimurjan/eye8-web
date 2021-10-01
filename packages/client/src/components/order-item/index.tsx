@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 import { ExternalLink as ExternalLinkIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
@@ -52,7 +52,7 @@ const OrderStatus = ({ status }: { status: Order['status'] }) => {
 };
 
 const OrderItem: React.FC<Props> = ({ order, className }) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   const intl = useIntl();
   const total = getOrderTotalPrice(
     order.items,

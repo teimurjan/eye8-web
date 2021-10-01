@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 import InputMask from 'react-input-mask';
 
@@ -47,7 +47,7 @@ export default React.forwardRef<HTMLInputElement, Props>(
     ref,
   ) => {
     const innerRef = React.useRef<HTMLInputElement>(null);
-    const theme = useTheme<ClientUITheme>();
+    const theme = useTheme() as ClientUITheme;
     const { value: isFocused, setNegative: blur, setPositive: focus } = useBoolean();
 
     // Debounce error so it does not disappear till the closing transition is finished

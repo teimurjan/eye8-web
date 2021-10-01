@@ -1,7 +1,7 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -58,7 +58,7 @@ const Anchor = React.forwardRef<HTMLAnchorElement, Props>(
     },
     ref,
   ) => {
-    const theme = useTheme<ClientUITheme>();
+    const theme = useTheme() as ClientUITheme;
     const router = useRouter();
 
     const modifiedOnClick = React.useCallback(

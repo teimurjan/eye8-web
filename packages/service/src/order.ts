@@ -13,7 +13,9 @@ import {
 export { OrderPromoCodeEmptyError, OrderNotFoundError };
 
 export interface OrderService {
-  getAll(): Promise<{
+  getAll(
+    deleted?: boolean,
+  ): Promise<{
     entities: {
       orders: {
         [key: string]: Order;
@@ -35,9 +37,9 @@ export interface OrderService {
   }>;
   create(payload: OrderCreatePayload): Promise<Order>;
   edit(id: number, payload: OrderEditPayload): Promise<Order>;
-  delete(id: number): Promise<{}>;
-  exists(id: number): Promise<boolean>;
-  getOne(id: number): Promise<Order | undefined>;
+  delete(id: number, forever?: boolean): Promise<{}>;
+  exists(id: number, deleted?: boolean): Promise<boolean>;
+  getOne(id: number, deleted?: boolean): Promise<Order | undefined>;
 }
 
 export default class implements OrderService {
@@ -46,8 +48,8 @@ export default class implements OrderService {
     this.API = API;
   }
 
-  public getAll: OrderService['getAll'] = async () => {
-    const orders = await this.API.getAll();
+  public getAll: OrderService['getAll'] = async (deleted) => {
+    const orders = await this.API.getAll(deleted);
     return normalize(orders.data, [new schema.Entity('orders')]);
   };
 
@@ -81,9 +83,9 @@ export default class implements OrderService {
     }
   };
 
-  public delete: OrderService['delete'] = async (id) => {
+  public delete: OrderService['delete'] = async (id, forever) => {
     try {
-      return await this.API.delete(id);
+      return await this.API.delete(id, forever);
     } catch (e) {
       if (e instanceof OrderNotFoundError) {
         throw new OrderNotFoundError();
@@ -92,9 +94,9 @@ export default class implements OrderService {
     }
   };
 
-  public exists: OrderService['exists'] = async (id) => {
+  public exists: OrderService['exists'] = async (id, deleted) => {
     try {
-      await this.API.status(id);
+      await this.API.status(id, deleted);
       return true;
     } catch (e) {
       if (e instanceof OrderNotFoundError) {
@@ -104,9 +106,9 @@ export default class implements OrderService {
     }
   };
 
-  public getOne: OrderService['getOne'] = async (id) => {
+  public getOne: OrderService['getOne'] = async (id, deleted) => {
     try {
-      return (await this.API.getOne(id)).data;
+      return (await this.API.getOne(id, deleted)).data;
     } catch (e) {
       if (e instanceof OrderNotFoundError) {
         throw new OrderNotFoundError();

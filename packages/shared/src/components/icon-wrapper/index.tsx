@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import React from 'react';
 
 export interface Props extends React.HTMLProps<HTMLSpanElement> {

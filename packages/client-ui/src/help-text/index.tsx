@@ -1,7 +1,7 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 
 enum Color {
@@ -15,7 +15,7 @@ export interface Props extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const HelpText = ({ children, className, color = Color.Gray, ...props }: Props) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   return (
     <small
       css={css`

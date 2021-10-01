@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Field as FinalFormField, FieldRenderProps } from 'react-final-form';
 import { useIntl } from 'react-intl';
 
 import { Checkbox, Control, Field, FormCheckboxField, FormTextField, HelpText, Label } from '@eye8/admin-ui';
 import { Product } from '@eye8/api';
 
-import { ProductsSelect } from '../../../components';
+import { ProductSelect } from '../../../components';
 
 const DiscountField = ({ input, meta, disabled }: FieldRenderProps<string>) => {
   const intl = useIntl();
@@ -123,6 +123,22 @@ const ProductsField = ({ input, meta }: FieldRenderProps<Product[]>) => {
 
   const showError = meta.touched && meta.error;
 
+  const onProductChange = useCallback(
+    (product: Product | undefined, index: number) => {
+      if (Number.isNaN(index)) {
+        const newValue = [...input.value, product];
+        input.onChange(newValue);
+      } else if (!product) {
+        const newValue = input.value.filter((_, i) => i !== index);
+        input.onChange(newValue);
+      } else {
+        const newValue = input.value.map((product_, i) => (i === index ? product : product_));
+        input.onChange(newValue);
+      }
+    },
+    [input],
+  );
+
   return (
     <Field>
       <Label>{intl.formatMessage({ id: 'AdminPromoCodes.products' })}</Label>
@@ -138,7 +154,11 @@ const ProductsField = ({ input, meta }: FieldRenderProps<Product[]>) => {
         />
       </Control>
 
-      <ProductsSelect products={input.value || []} onChange={input.onChange} allowAddition={!isAllSet} />
+      {input.value.map((product, i) => (
+        <ProductSelect value={product} onChange={(product) => onProductChange(product, i)} />
+      ))}
+
+      {!isAllSet && <ProductSelect value={undefined} onChange={(product) => onProductChange(product, NaN)} />}
 
       <HelpText type="is-danger">{showError ? intl.formatMessage({ id: meta.error }) : undefined}</HelpText>
     </Field>

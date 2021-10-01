@@ -1,8 +1,8 @@
-/** @jsx jsx */
-import { css, jsx, ClassNames } from '@emotion/core';
+
+import { css, ClassNames } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import { Placement, State as PopperState } from '@popperjs/core';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { usePopper } from 'react-popper';
@@ -290,7 +290,7 @@ export interface PopoverContentProps {
 }
 
 const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(({ children, className, style }, ref) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <div
@@ -328,7 +328,7 @@ const PopoverItem = <T extends object = {}>({
   color = Color.Default,
   ...props
 }: PopoverItemProps<T> & T) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <ClassNames>

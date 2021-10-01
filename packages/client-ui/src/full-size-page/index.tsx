@@ -1,7 +1,7 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 
 import { Title, Container } from '@eye8/client-ui';
@@ -15,7 +15,7 @@ export interface Props {
 }
 
 const FullSizePage = ({ title, color, background, children, centered }: Props) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <div

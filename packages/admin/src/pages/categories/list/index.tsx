@@ -1,2 +1,1 @@
-export { default } from './container';
-export { NewCategoryButton } from './view'
+export { default } from './AdminCategoriesList';

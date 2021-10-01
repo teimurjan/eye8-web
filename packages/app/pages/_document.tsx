@@ -1,4 +1,3 @@
-import { extractCritical } from 'emotion-server';
 import Document, { Head, Main, Html, NextScript, DocumentProps, DocumentContext } from 'next/document';
 import React from 'react';
 
@@ -10,14 +9,12 @@ import { getRequestCustomData } from '../src/request-custom-data';
 
 type Props = DocumentProps & Then<ReturnType<typeof getInitialProps>>;
 
-const CustomNextDocument = ({ ids, css, locale, localeDataScript, messages, data }: Props) => {
+const CustomNextDocument = ({ locale, localeDataScript, messages, data }: Props) => {
   const polyfill = `https://cdn.polyfill.io/v3/polyfill.min.js?features=Intl.~locale.${locale}`;
 
   return (
     <Html>
-      <Head>
-        <style data-emotion-css={ids.join(' ')} dangerouslySetInnerHTML={{ __html: css }} />
-      </Head>
+      <Head />
       <body>
         <Main />
         <script src={polyfill} />
@@ -68,14 +65,12 @@ const getInitialProps = async (ctx: DocumentContext) => {
       return app;
     },
   });
-  const styles = extractCritical(page.html);
 
   const props = await Document.getInitialProps(ctx);
 
   return {
     ...props,
     ...page,
-    ...styles,
     locale,
     localeDataScript,
     theme,

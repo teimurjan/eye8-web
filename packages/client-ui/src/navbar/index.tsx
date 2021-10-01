@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 
 import { mediaQueries } from '@eye8/shared/styles';
@@ -13,7 +13,7 @@ export const NAVBAR_HEIGHT_PX = 100;
 export const NAVBAR_HEIGHT_MOBILE_PX = 92;
 
 const Navbar = ({ children, className, ...props }: Props) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <nav

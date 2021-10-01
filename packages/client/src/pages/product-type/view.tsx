@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+import { css, useTheme } from '@emotion/react';
 import Head from 'next/head';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -28,17 +26,10 @@ import { ViewProps as Props } from './presenter';
 
 const ProductTypePageView = ({ productType, products, error, isLoading, action, actionText }: Props) => {
   const intl = useIntl();
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
-  const {
-    images,
-    features,
-    activeImageIndex,
-    matchingProduct,
-    onImageChange,
-    onFeatureValueChange,
-    selectedFeatures,
-  } = useProductTypePageInfo(productType, products);
+  const { images, features, activeImageIndex, matchingProduct, onImageChange, onFeatureValueChange, selectedFeatures } =
+    useProductTypePageInfo(productType, products);
 
   const onActionClick = React.useCallback(() => {
     if (matchingProduct && action) {
@@ -297,7 +288,6 @@ const ProductTypePageView = ({ productType, products, error, isLoading, action, 
                 color: ${theme.textColor};
               }
             `}
-            className="content"
             dangerouslySetInnerHTML={{ __html: productType.description }}
           />
         </Container>

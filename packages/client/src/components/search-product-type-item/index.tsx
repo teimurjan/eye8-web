@@ -1,7 +1,7 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
 
 import { ProductType } from '@eye8/api';
 import { LinkPassingProps, Subtitle } from '@eye8/client-ui';
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const SearchProductTypeItem = ({ productType }: Props) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   const { price, productInStock } = useProductTypeSellingInfo(productType);
 
   return (

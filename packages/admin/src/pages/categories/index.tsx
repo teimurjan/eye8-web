@@ -17,4 +17,3 @@ const AdminCategories = () => (
 );
 
 export default AdminCategories;
-export { NewCategoryButton } from './list';

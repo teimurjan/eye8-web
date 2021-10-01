@@ -1,11 +1,11 @@
 export { default as AdminBanners } from './banners';
-export { default as AdminCategories, NewCategoryButton } from './categories';
+export { default as AdminCategories } from './categories';
 export { default as AdminCharacteristicValues } from './characteristic-values';
 export { default as AdminCharacteristics } from './characteristics';
-export { default as AdminFeatureTypes, NewFeatureTypeButton } from './feature-types';
-export { default as AdminFeatureValues, NewFeatureValueButton } from './feature-values';
+export { default as AdminFeatureTypes } from './feature-types';
+export { default as AdminFeatureValues } from './feature-values';
 export { default as AdminOrders } from './orders';
-export { default as AdminProductTypes, NewProductTypeButton } from './product-types';
-export { default as AdminProducts, NewProductButton } from './products';
+export { default as AdminProductTypes } from './product-types';
+export { default as AdminProducts } from './products';
 export { default as AdminPromoCodes } from './promo-codes';
 export { default as AdminRates } from './rates';

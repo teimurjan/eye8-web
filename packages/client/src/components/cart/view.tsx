@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 import { ArrowLeft as ArrowLeftIcon, ShoppingBag as ShoppingBagIcon } from 'react-feather';
 import { Form, Field as FinalFormField, FieldRenderProps, FormRenderProps } from 'react-final-form';
@@ -263,7 +263,7 @@ const ThirdStep: React.FC<Props> = () => {
 
 const CartView: React.FC<Props> = (props) => {
   const { isOpen, open, close, step, cartItemsCount, goToPrevStep } = props;
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   return (
     <React.Fragment>
       <div

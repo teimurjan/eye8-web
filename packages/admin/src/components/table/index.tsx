@@ -1,7 +1,7 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
 import React from 'react';
 import { Trash as TrashIcon, Edit2 as Edit2Icon } from 'react-feather';
 import { useIntl } from 'react-intl';
@@ -87,7 +87,7 @@ interface PriceTooltipTriggerProps {
 
 const PriceTooltipTrigger = React.forwardRef<HTMLTableCellElement, PriceTooltipTriggerProps>(
   ({ onMouseEnter, price }, ref) => {
-    const theme = useTheme<AdminUITheme>();
+    const theme = useTheme() as AdminUITheme;
     return (
       <Table.Cell
         css={css`

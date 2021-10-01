@@ -7,6 +7,10 @@ export type ContextValue = EntityContextValue<Order>;
 
 const Context = React.createContext<ContextValue | null>(null);
 
-export const AdminOrdersStateProvider = makeEntityState(Context, (d) => d.di.service.order.getAll(), 'orders');
+export const AdminOrdersStateProvider = makeEntityState(
+  Context,
+  (d, params = { deleted: false }) => d.di.service.order.getAll(params.deleted),
+  'orders',
+);
 
 export const useAdminOrdersState = () => React.useContext(Context) as ContextValue;

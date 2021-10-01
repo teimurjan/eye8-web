@@ -17,4 +17,3 @@ const AdminFeatureValues = () => (
 );
 
 export default AdminFeatureValues;
-export { NewFeatureValueButton } from './list'

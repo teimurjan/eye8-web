@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import React from 'react';
 
 import { useMedia } from '@eye8/shared/hooks';

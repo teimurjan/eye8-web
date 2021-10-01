@@ -1,12 +1,12 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import { NProgress } from '@tanem/react-nprogress';
-import { useTheme } from 'emotion-theming';
 
 import { useRouteChangeStatus, RouteChangeStatus } from '@eye8/shared/hooks';
 
 const PageProgressBar = () => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   const status = useRouteChangeStatus();
   return (
     <NProgress isAnimating={status === RouteChangeStatus.Loading}>

@@ -338,5 +338,6 @@
   "common.reset": "Сбросить",
   "AdminProducts.features": "Характеристики",
   "common.clickToEdit": "Нажми чтобы редактировать",
-  "AdminRates.errors.limitExceeded": "Лимит созданий превышен"
+  "AdminRates.errors.limitExceeded": "Лимит созданий превышен",
+  "errors.notFound": "Не найдено"
 }

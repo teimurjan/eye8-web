@@ -1,7 +1,7 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
 import React from 'react';
 
 enum Size {
@@ -55,7 +55,7 @@ const useDimensions = (size: Size) => {
 };
 
 const Toggle = ({ size = Size.Default, color = Color.Default, onChange, initialChecked, className }: Props) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   const { switchWidthPx, switchHeightPx, dotOffsetLeftPx, dotOffsetBottomPx, dotSizePx } = useDimensions(size);
   const [checked, setChecked] = React.useState(initialChecked);
   return (

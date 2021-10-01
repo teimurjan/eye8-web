@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 import { ChevronDown as ChevronDownIcon, X as XIcon } from 'react-feather';
 
@@ -18,7 +18,7 @@ export default React.forwardRef<HTMLDivElement, SelectTriggerProps>(
     { isOpen, searchQuery, onClick = noop, onFocus, placeholder, change, clearable, onSearch, selectedOptions },
     ref,
   ) => {
-    const theme = useTheme<AdminUITheme>();
+    const theme = useTheme() as AdminUITheme;
     const { value: isFocused, setPositive: focus, setNegative: blur } = useBoolean();
     const inputRef = React.useRef<HTMLInputElement>(null);
 

@@ -92,9 +92,9 @@ interface ProductTypeAPI {
   getNewest(): Promise<{ data: ProductType[] }>;
   getByID(id: number, options: GetOneOptions): Promise<{ data: ProductType }>;
   getBySlug(slug: string): Promise<{ data: ProductType }>;
-  getAllRawIntlMinified(
+  getAllMinified(
     options: GetAllRawIntlMinifiedOptions,
-  ): Promise<{ data: TinyProductType<true>[]; meta: PaginationMeta }>;
+  ): Promise<{ data: TinyProductType[]; meta: PaginationMeta }>;
   getAllRawIntl(options: GetAllOptions): Promise<{ data: ProductType<true>[]; meta: PaginationMeta }>;
   delete(id: number, options: DeleteOptions): Promise<{}>;
   create(payload: CreatePayload): Promise<{ data: ProductType<true> }>;
@@ -245,12 +245,11 @@ export default class implements ProductTypeAPI {
     }
   };
 
-  public getAllRawIntlMinified: ProductTypeAPI['getAllRawIntlMinified'] = async ({ page, sortingType, available }) => {
+  public getAllMinified: ProductTypeAPI['getAllMinified'] = async ({ page, sortingType, available }) => {
     try {
-      const response = await this.client.get<{ data: TinyProductType<true>[]; meta: PaginationMeta }>(
+      const response = await this.client.get<{ data: TinyProductType[]; meta: PaginationMeta }>(
         `/api/product_types${buildSearchString({
-          fields: ['id', 'name', 'feature_types'],
-          raw_intl: 1,
+          fields: ['id', 'name', 'products'],
           page,
           limit: typeof page !== 'undefined' ? 10 : undefined,
           sort_by: sortingType ? queryValueOfSortingType[sortingType] : undefined,

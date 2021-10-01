@@ -8,7 +8,6 @@ const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 const withSourceMaps = require('@zeit/next-source-maps');
 const withManifest = require('next-manifest');
 const withPWA = require('next-pwa');
-const runtimeCaching = require('next-pwa/cache');
 const { resolveTsAliases } = require('resolve-ts-aliases');
 
 const generateRobotsTxt = () =>
@@ -82,9 +81,6 @@ module.exports = withPWA(
 
           config.module.rules.push({
             test: /\.svg$/,
-            issuer: {
-              test: /\.(js|ts)x?$/,
-            },
             use: ['@svgr/webpack'],
           });
 
@@ -93,9 +89,8 @@ module.exports = withPWA(
           return config;
         },
         pwa: {
-          disable: process.env.DISABLE_SW === 'true',
+          disable: process.env.NODE_ENV !== 'production',
           dest: 'public',
-          runtimeCaching,
         },
         manifest: {
           output: path.resolve('./public'),

@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import times from 'lodash/times';
 
 import { Button } from '@eye8/client-ui';

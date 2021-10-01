@@ -1,7 +1,7 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 import { X as XIcon } from 'react-feather';
 
@@ -15,7 +15,7 @@ export interface Props extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Message = ({ color = 'default', size = 'default', onCloseClick, children, className, ...props }: Props) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <div

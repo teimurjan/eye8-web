@@ -1,7 +1,7 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
 import React from 'react';
 
 import { mediaQueries } from '@eye8/shared/styles';
@@ -40,7 +40,7 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
     },
     ref,
   ) => {
-    const theme = useTheme<ClientUITheme>();
+    const theme = useTheme() as ClientUITheme;
 
     return (
       <button

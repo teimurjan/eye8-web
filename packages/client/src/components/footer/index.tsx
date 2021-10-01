@@ -1,6 +1,6 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+
+import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import { Instagram as InstagramIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
@@ -57,7 +57,7 @@ export const getFooterHeight = () => {
 
 const FooterView = () => {
   const intl = useIntl();
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <footer

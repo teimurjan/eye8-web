@@ -1,12 +1,10 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { useTheme } from 'emotion-theming';
+import { css, useTheme } from '@emotion/react';
 import Link from 'next/link';
 import React from 'react';
 import { Zap as ZapIcon, Menu as MenuIcon, Globe as GlobeIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
 
-import { Container, Anchor, Divider, Menu, Navbar } from '@eye8/client-ui';
+import { Container, Anchor, Menu, Navbar } from '@eye8/client-ui';
 import { LogoSVG } from '@eye8/client/svg';
 import { IconWrapper, Popover, PopoverTriggerHoverProps, Drawer } from '@eye8/shared/components';
 import { isUserAdminOrManager } from '@eye8/shared/helpers';
@@ -34,7 +32,7 @@ const CategoriesTrigger = React.forwardRef<HTMLAnchorElement, PopoverTriggerHove
 
 const DesktopNav = () => {
   const intl = useIntl();
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <>
@@ -59,7 +57,7 @@ const DesktopNav = () => {
 
 const MobileNav = () => {
   const intl = useIntl();
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   return (
     <Menu
@@ -97,7 +95,7 @@ interface PreHeaderItemProps extends PopoverTriggerHoverProps {
 
 const PreHeaderItem = React.forwardRef<HTMLDivElement, PreHeaderItemProps>(
   ({ children, className, onClick, onMouseEnter }, ref) => {
-    const theme = useTheme<ClientUITheme>();
+    const theme = useTheme() as ClientUITheme;
 
     return (
       <div
@@ -147,57 +145,69 @@ interface PreHeaderProps {
 
 const PreHeader = ({ user }: PreHeaderProps) => {
   const intl = useIntl();
+  const theme = useTheme() as ClientUITheme;
 
   return (
-    <Container>
-      <div
-        css={css`
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-          padding: 5px 0;
-        `}
-      >
-        <PreHeaderItem
+    <div
+      css={css`
+        border-bottom: 1px solid ${theme.borderLightGrayColor};
+      `}
+    >
+      <Container>
+        <div
           css={css`
-            margin-right: auto;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 5px 0;
           `}
         >
-          {shouldUseThemeToggle() && <ThemeToggle />}
-        </PreHeaderItem>
-        {isUserAdminOrManager(user) && (
-          <Link href="/admin">
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a
-              css={css`
-                display: flex;
-              `}
-            >
-              <PreHeaderItem
+          <PreHeaderItem
+            css={css`
+              margin-right: auto;
+            `}
+          >
+            {shouldUseThemeToggle() && <ThemeToggle />}
+          </PreHeaderItem>
+          {isUserAdminOrManager(user) && (
+            <Link href="/admin">
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <a
                 css={css`
-                  margin-right: 15px;
+                  display: flex;
                 `}
               >
-                {intl.formatMessage({ id: 'Header.admin' })}
-                <IconWrapper
+                <PreHeaderItem
                   css={css`
-                    margin-left: 5px;
+                    margin-right: 15px;
                   `}
                 >
-                  <ZapIcon size={IconSize.Small} />
-                </IconWrapper>
-              </PreHeaderItem>
-            </a>
-          </Link>
-        )}
-        <LanguageDropdown openOnHover placement="bottom-end" offset={[0, 0]} TriggerComponent={LanguagePreHeaderItem} />
-      </div>
-    </Container>
+                  {intl.formatMessage({ id: 'Header.admin' })}
+                  <IconWrapper
+                    css={css`
+                      margin-left: 5px;
+                    `}
+                  >
+                    <ZapIcon size={IconSize.Small} />
+                  </IconWrapper>
+                </PreHeaderItem>
+              </a>
+            </Link>
+          )}
+          <LanguageDropdown
+            openOnHover
+            placement="bottom-end"
+            offset={[0, 0]}
+            TriggerComponent={LanguagePreHeaderItem}
+          />
+        </div>
+      </Container>
+    </div>
   );
 };
 
 const HeaderView = ({ user }: Props) => {
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
 
   const isMobile = useMedia([mediaQueries.maxWidth768], [true], false);
   const { value: lazyIsMobile, isInitialized } = useLazyInitialization(isMobile, false);
@@ -212,12 +222,6 @@ const HeaderView = ({ user }: Props) => {
         `}
       >
         <PreHeader user={user} />
-        <Divider
-          css={css`
-            margin: 0;
-          `}
-          color={Divider.Color.lightGray}
-        />
         <Container>
           <div
             css={css`
@@ -259,7 +263,8 @@ const HeaderView = ({ user }: Props) => {
                   background: transparent !important;
                   display: inline-block;
                   max-width: 80px;
-                  max-height: 70px !important;
+                  max-height: 60px !important;
+                  margin-top: 7.5px;
 
                   @media ${mediaQueries.maxWidth768} {
                     max-height: 55px !important;

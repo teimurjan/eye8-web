@@ -1,7 +1,7 @@
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import classNames from 'classnames';
-import { useTheme } from 'emotion-theming';
+import { useTheme } from '@emotion/react';
 import React from 'react';
 import { AlertTriangle as AlertTriangleIcon } from 'react-feather';
 import { useIntl } from 'react-intl';
@@ -21,7 +21,7 @@ export interface Props {
 const Image = ({ src, alt, className, squared = true }: Props) => {
   const intl = useIntl();
   const imageRef = React.useRef<HTMLImageElement>(null);
-  const theme = useTheme<ClientUITheme>();
+  const theme = useTheme() as ClientUITheme;
   const { value: isLoaded, setPositive: setLoaded } = useBoolean(false);
   const { value: hasError, setPositive: setErrored } = useBoolean(false);
 

@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
+
+import { css } from '@emotion/react';
 import difference from 'lodash/difference';
 import React from 'react';
 import { Trash as TrashIcon } from 'react-feather';
@@ -266,7 +266,7 @@ const ImagesInput = React.memo<FieldRenderProps<Array<File | undefined>>>(
 );
 
 export interface FieldsProps {
-  productTypes: TinyProductType<true>[];
+  productTypes: TinyProductType[];
   featureValues: AdminFeatureValuesState['entities'];
   LoadMoreProductTypes: () => void;
   productTypesLoading: boolean;
